@@ -464,7 +464,6 @@ namespace EzBusiness_BL_Service
              var itemCodes = _EmployeeMgmtRepo.GetBranchCodeList(CmpyCode,DivCode)
                                         .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
                                         .ToList();  
-
             return InsertFirstElementDDL(itemCodes);
         }
 
