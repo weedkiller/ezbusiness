@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "LoanApplicatnReportDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*@Scripts.Render("~/bundles/jquery")*@
+
+<script src="~/Scripts/Application/LoanApplictnreport.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+
+@*<style>
+        .portal-drivers {
+            overflow-x: scroll;
+            /*max-width: 40%;*/
+            display: block;
+            /*white-space: nowrap;*/
+        }
+    </style>*@
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 15px">
+    </div>
+</div>
+
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Loan Application Report</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="span4">
+                            <div class="form-group">
+                                <span style="color:red;float: left;padding: 0 5px 0 0;">*</span>
+                                <label for="exampleInputPassword1">From Date</label>
+                                <div class="controls">
+                                    @*<input type="date" required name="" id="fnlfdatetxt" placeholder="" class="form-control">*@
+                                    <input id="fnlfdatetxt" class="form-control datepicker" name="fnlfdatetxt" />
+                                    <span class="add-on calendercls"><i class="icon-calendar"></i></span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="span4">
+                            <div class="form-group">
+                                <span style="color:red;float: left;padding: 0 5px 0 0;">*</span>
+                                <label for="exampleInputPassword1">To Date</label>
+                                <div class="controls">
+                                    <input id="fnltdatetxt" class="form-control datepicker" name="fnltdatetxt" />
+                                    @*<input type="date" required name="" id="fnltdatetxt" placeholder="" class="form-control">*@
+                                    <span class="add-on calendercls"><i class="icon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="span4">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">EmpCode</label>
+                                <div class="controls">
+                                    <input type="text" required name="" id="empcodetxt" placeholder="" class="form-control">
+                                    <span class="add-on calendercls"><i class="icon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="span4">
+                            <div class="form-group">
+
+                                <label for="exampleInputPassword1">EmpName</label>
+                                <div class="controls">
+                                    <input type="text" required name="" id="empnametxt" placeholder="" class="form-control">
+                                    <span class="add-on calendercls"><i class="icon-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span4" style="margin-top:2%;">
+                        <button type="button" class="btn btn-primary truebtn" id="lanbtnSearchData">
+                            <i class="icon-zoom-out"> Search</i>
+                        </button>
+                        <button type="button" class="btn btn-warning btnexport truebtn" id="btncancel">
+                            <i class="icon-cancel"> Cancel</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div style="display:none" id="displayloandetails">
+    <div class="row-fluid">
+        <!-- <h3>Contractor Information</h3> -->
+        <div class="span12">
+            <div class="widget-content nopadding">
+                <table class="table table-bordered" id="LoanApplicationreport">
+                    <thead>
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>Employee Code</th>
+                            <th>Employee Name</th>
+                            <th>Loan Application Code</th>
+                            <th>LoanAmount</th>
+                            <th>NoOfInstalments</th>
+                            <th>Instalment</th>
+                            <th>Deduction</th>
+                            <th>EntryDate</th>
+                            <th>Balance</th>
+                            <th>Remarks</th>
+                            <th>Status</th>
+                            <th>AutoDeductionYN</th>
+                            <th>DeductionStartDate</th>
+                            <th>Act_code</th>
+                            <th>LoanType</th>
+                            <th>ApprovalYN</th>
+                            <th>AppliedAmt</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            debugger;
+            EzdtePk('#fnlfdatetxt,#fnltdatetxt');
+            loandata.initialize();
+            });
+</script>
+
+
+

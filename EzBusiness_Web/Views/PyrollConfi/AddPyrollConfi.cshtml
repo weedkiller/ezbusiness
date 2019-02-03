@@ -1,0 +1,167 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.PyrollConfi_Vm
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        debugger;
+        $('input[name="LOCK"]').val("N");
+        EzcheckedFn("input[name='LOCK']", "[name*='LOCK']");
+        //EzsetDatetxt();
+        EzdtePk('#TO_DATE1,#FROM_DATE1');
+        //EzGetMonthName("#FINMONTH", "#hdnFINMONTH", new Date());
+        //EzGetYear("#FINYEAR", "#hdnFINYEAR", new Date());
+
+        //$("#FROM_DATE").change(function () {
+        //    dt = new Date($("#FROM_DATE").val());
+        //    EzGetMonthName("#FINMONTH", "#hdnFINMONTH", dt);
+        //    EzGetYear("#FINYEAR", "#hdnFINYEAR", dt);
+           
+        //});
+
+
+        EzGetMonthName("#FINMONTH", "#hdnFINMONTH", new Date(Ezsetdtpkdate($("#FROM_DATE1").val())));
+        EzGetYear("#FINYEAR", "#hdnFINYEAR", new Date(Ezsetdtpkdate($("#FROM_DATE1").val())));
+
+        $('#FROM_DATE1').datetimepicker().on('dp.change', function (event) {
+            dt = new Date(Ezsetdtpkdate($("#FROM_DATE1").val()));
+            EzGetMonthName("#FINMONTH", "#hdnFINMONTH", dt);
+            EzGetYear("#FINYEAR", "#hdnFINYEAR", dt);
+        });
+        
+   
+
+    });
+
+   
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+                                <div class="form-body">
+
+                                    @Html.HiddenFor(m=>m.NOOFDAYS)
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">PRCNF001_CODE</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.PRCNF001_CODE, new { @class = "form-control", @placeholder = "Code",@readonly="readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">SRNO</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.SRNO, new { @class = "form-control", @placeholder = "Sr No" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">FROM_DATE</label>
+                                                <div class="col-md-8 input-field">
+                                                    <input id="FROM_DATE1" class="form-control datepicker" name="FROM_DATE1" />
+                                                    @Html.HiddenFor(m => m.FROM_DATE)
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">TO_DATE</label>
+                                                <div class="col-md-8 input-field">
+                                                    <input id="TO_DATE1" class="form-control datepicker" name="TO_DATE1" />
+                                                    @Html.HiddenFor(m => m.TO_DATE)
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">FINYEAR</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.FINYEAR, new { @class = "form-control", @placeholder = "Fin Year", @disabled = "disabled" }) @*, @disabled = "disabled"*@
+                                                    <input type="hidden" id="hdnFINYEAR" value="" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">FINMONTH</label>
+                                                <div class="col-md-8 input-field">
+                                                   @Html.TextBoxFor(m => m.FINMONTH, new { @class = "form-control", @placeholder = "Fin Month", @disabled = "disabled" })
+                                                    <input type="hidden" id="hdnFINMONTH" value="" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Lock</label>
+                                                <div class="col-md-8 input-field">
+                                                  
+                                                    @*@Html.HiddenFor(m=> m.LOCK ,new {@class= "checkbox1" })*@
+
+                                                    <div class="col-md-9 input-field checkbox1">
+                                                        <label>
+                                                            @Html.CheckBox("LOCK", false)
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                  
+                                    <div class="clearfix"></div>
+                                </div>
+
+                            </div><br />
+                            <!-- END FORM-->
+
+                          
+                            <!-- <button>Hey, click me!</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

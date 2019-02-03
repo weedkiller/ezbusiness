@@ -1,0 +1,341 @@
+﻿@model EzBusiness_ViewModels.Models.Login.LoginVM
+
+@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "Login";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Preview page of Metronic Admin Theme #4 for " name="description" />
+    <meta content="" name="author" />
+    <link rel="shortcut icon" href="~/Content/assets/files/images/favicon.ico" />
+
+    <link href="~/Content/assets/files/styleLogin.css" rel="stylesheet" />
+    <link href="~/Content/assets/files/Login.css" rel="stylesheet" />
+    @*<link href="~/Content/css/Home.css" rel="stylesheet" />*@
+    @*<link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/Content/assets/files/bootstrap-glyphicons.css" rel="stylesheet" />*@
+    <link href="~/Content/assets/files/animated.css" rel="stylesheet" />
+    <link href="~/Styles/bootstrap-glyphicons.css" rel="stylesheet" />
+    <link href="~/Styles/bootstrap.min.css" rel="stylesheet" />
+    @* ---fancy textbox--- *@
+    <link href="~/Content/css/fancy-textbox.css" rel="stylesheet" />
+    <script src="~/Content/assets/js/jquery.fancy-textbox.js"></script>
+</head>
+<!-- END HEAD -->
+@*<script type="text/javascript">
+        $(document).ready(function () {
+            $('input').ftext();
+        });
+    </script>*@
+<body class="login">
+    <div style="height:5px;background-color:#615F63  ">
+
+    </div>
+    <nav class="navbar navbar-inverse" style="background-color: #B73439 !important; border:none; height: 74px;border-radius: unset;">
+        <h3 class="navh3">HR & Payroll</h3>
+    </nav>
+
+    <input type="hidden" value="@ViewBag.HomeUrl" id="rootUrl" />
+
+
+    <div class="container-fluid body-content">
+        <header class="home padding-150" id="header">
+            <div class="container">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="background-color:#fff !important">
+                        <div class="row" style="position:fixed;">
+                            <div class="col-md-4 col-md-offset-3">
+                                <div class="id3">
+                                    @Html.TextBoxFor(model => model.user_name, new { @class = "inpt", @type = "text", @autocomplete = "off", @placeholder = "Username", })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-md-offset-3">
+                                <div class="id3">
+                                    @Html.TextBoxFor(model => model.PassW, new { @class = "inpt", @type = "password", @autocomplete = "off", @placeholder = "Password" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-md-offset-3">
+                                <div class="id3">
+                                    @Html.DropDownList("CmpyCode", new SelectList(Enumerable.Empty<SelectListItem>(), "CmpyCode", "Name"), "Select Company Code", htmlAttributes: new { @class = "selct", id = "CmpyCode", @placeholder = "Company Code" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-md-offset-3" id="DivisionCode1">
+                                <div class="id3">
+                                    @Html.DropDownList("DivisionCode", new SelectList(Enumerable.Empty<SelectListItem>(), "DivisionCode", "DivisionName"), "Select Division Code", htmlAttributes: new { @class = "selct", id = "DivisionCode", @placeholder = "Division Code" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-md-offset-3" id="BranchCode1">
+                                <div class="id3">
+                                    @Html.DropDownList("BranchCode", new SelectList(Enumerable.Empty<SelectListItem>(), "Code", "Name"), "Select Branch Code", htmlAttributes: new { @class = "selct", id = "BranchCode", @placeholder = "Branch Code" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-md-offset-3" id="DepartmentCode1">
+
+                                <div class="id3">
+                                    @Html.DropDownList("DepartmentCode", new SelectList(Enumerable.Empty<SelectListItem>(), "DepartmentCode", "DepartmentName"), "Select Department Code", htmlAttributes: new { @class = "selct", id = "DepartmentCode", @placeholder = "Department Code" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-md-offset-3">
+                                <button type="submit" ID="Login" class="sb-frap">
+                                    <span> Login</span>
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    @*<div class="panel-footer">
+                            <div style="clear:both; height:10px;"></div>
+
+                            <button type="submit" ID="Login">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-lock" style="font-weight: bold; "> Login</span></span>
+                            </button>
+                        </div>*@
+                </div>
+            </div>
+        </header>
+    </div>
+
+
+
+    @*<footer class="footer">
+            <div class="footerContainer" style="margin-left: initial;">
+                <div class="copyright-section wow zoomIn animated" data-wow-offset="10" data-wow-delay="0.5s">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <a id="CR1" class="copyRights1" href="javascript:__doPostBack(&#39;CR1&#39;,&#39;&#39;)">   &copy;   2018 Ezware Financial DashBoard</a>
+                            <a id="CR2" class="copyRights2" href="http://ezwaretechnologies.com/">EzWare Technologies L.L.C</a>
+                            <a id="CR3" class="copyRights3" href="http://ezwaretechnologies.com/contact-us/">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>*@
+
+    @section Scripts{
+        <script>
+        var inputObject = {};
+        var input = document.querySelectorAll('.e-input-group .e-input,.e-float-input.e-input-group input');
+        var inputIcon = document.querySelectorAll('.e-input-group-icon');
+        var focusFn = function (index) {
+            return function () {
+                getParentNode(input[index]).classList.add('e-input-focus');
+            };
+        };
+
+        var blurFn = function (index) {
+            return function () {
+                getParentNode(input[index]).classList.remove('e-input-focus');
+            };
+        };
+
+        var mouseupFn = function () {
+            var ele = this;
+            setTimeout(function () { ele.classList.remove('e-input-btn-ripple'); }, 500);
+        };
+
+        for (var i = 0; i < input.length; i++) {
+            //Focus Event binding for input component
+            input[i].addEventListener('focus', focusFn(i));
+            //Blur Event binding for input component
+            input[i].addEventListener('blur', blurFn(i));
+        }
+        for (var j = 0; j < inputIcon.length; j++) {
+            inputIcon[j].addEventListener('mousedown', function () {
+                this.classList.add('e-input-btn-ripple');
+            });
+            inputIcon[j].addEventListener('mouseup', mouseupFn);
+        }
+        function getParentNode(element) {
+            var parentNode = element.parentNode;
+            if (parentNode.classList.contains('e-input-in-wrap')) {
+                return parentNode.parentNode;
+            }
+            return parentNode;
+        }
+        </script>
+    }
+
+    @section Meta{
+        <meta name="description" content="This sample covers the major features of the text box component, such as floating labels and placeholders, integrated icons, validation states, sizing, types, and more." />
+    }
+
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")*@
+    @*<script src="~/Scripts/jquery-3.3.1.js"></script>*@
+    @*<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <script src="~/Scripts/bootstrap.bundle.min.js"></script>*@
+    <!-- Core plugin JavaScript-->
+    @*<script src="~/Scripts/jquery.easing.1.3.js"></script>*@
+
+
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#DivisionCode1').hide();
+            $('#BranchCode1').hide();
+            $('#DepartmentCode1').hide();
+            $.ajax({
+                    url:'@Url.Action("CompanyCode")',
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: JSON,
+                    success: function (result) {
+                            $('#CmpyCode').empty();
+                            $("[name*='CmpyCode']").append('<option value="0" selected="">Select Company Code</option>');
+                            var ary = [];
+                            ary = result;
+                            for (var i = 0; i < ary.length; i++) {
+                                $("[name*='CmpyCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                            }
+                            $("[name*='CmpyCode']").val(0);
+                    }
+                });
+        $("#CmpyCode").change(function () {
+            if ($('#CmpyCode option:selected').val() == "0") {
+                $('#DivisionCode1').hide();
+                $('#BranchCode1').hide();
+                $('#DepartmentCode1').hide();
+                $('#BranchCode').empty();
+                $('#DepartmentCode').empty();
+            }
+            else
+            {
+
+                $('#BranchCode1').hide();
+                $('#DepartmentCode1').hide();
+                $('#BranchCode').empty();
+                $('#DepartmentCode').empty();
+                $.get("/DivisionCode", { CmpyCode: $("#CmpyCode").val() }).done(function (response) {
+                    $('#DivisionCode').empty();
+                    $("[name*='DivisionCode']").append('<option value="0" selected="">Select Division Code</option>');
+                    var ary = [];
+                    debugger;
+                    ary = response;
+                    if (ary.length >= 1) {
+                        $('#DivisionCode1').show();
+                    }
+                    for (var i = 0; i < ary.length; i++) {
+                        $("[name*='DivisionCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                    }
+                    $("[name*='DivisionCode']").val(0);
+                });
+            }
+        });
+
+        $("#DivisionCode").change(function () {
+                if ($('#DivisionCode option:selected').val() == "0") {
+                    $('#BranchCode1').hide();
+                    $('#DepartmentCode1').hide();
+                }
+                else
+                {
+
+                    $('#DepartmentCode1').hide();
+                    $('#DepartmentCode').empty();
+                    $.get("/BranchCode", { CmpyCode: $("#CmpyCode").val(), DivCode: $("#DivisionCode").val() }).done(function (response) {
+                        $('#BranchCode').empty();
+                    $("[name*='BranchCode']").append('<option value="0" selected="">Select Branch Code</option>');
+                    var ary = [];
+                    ary = response;
+                    if (ary.length >= 1) {
+                        $('#BranchCode1').show();
+                    }
+                    for (var i = 0; i < ary.length; i++) {
+                        $("[name*='BranchCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                    }
+                    $("[name*='BranchCode']").val(0);
+                    });
+                }
+        });
+        $("#BranchCode").change(function () {
+            debugger;
+
+            if ($('#BranchCode option:selected').val() == "0") {
+                $('#DepartmentCode1').hide();
+            }
+            else
+            {
+
+
+                $.get("/DepartmentCode", { CmpyCode: $("#CmpyCode").val(), DivCode: $("#DivisionCode").val(), Branchcode: $("#BranchCode").val() }).done(function (response) {
+                    $('#DepartmentCode').empty();
+                    $("[name*='DepartmentCode']").append('<option value="0" selected="">Select Department Code</option>');
+                    var ary = [];
+                    debugger;
+                    ary = response;
+                    if (ary.length >= 1)
+                    {
+                        $('#DepartmentCode1').show();
+                    }
+                    for (var i = 0; i < ary.length; i++) {
+                        $("[name*='DepartmentCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                    }
+                    $("[name*='DepartmentCode']").val(0);
+                });
+            }
+        });
+
+
+
+        var user_name = $("[name*='user_name']");
+        var PassW = $("[name*='PassW']");
+        var CmpyCode = $("[name*='CmpyCode']  option:selected");
+        var DivCode = $("[name*='DivisionCode'] option:selected");
+        var BraCode = $("[name*='BranchCode'] option:selected");
+        var DepCode = $("[name*='DepartmentCode']  option:selected");
+
+        $("#Login").click(function () {
+            debugger;
+        var ILogin = {
+            user_name: $("[name*='user_name']").val(),
+            PassW: $("[name*='PassW']").val(),
+            CmpyCode: $("[name*='CmpyCode']  option:selected").val(),
+            DivCode: $("[name*='DivisionCode'] option:selected").val(),
+            BraCode: $("[name*='BranchCode'] option:selected").val(),
+            DepCode: $("[name*='DepartmentCode']  option:selected").val(),
+
+        };
+
+
+        $.get("/InLogin1", ILogin).done(function (response) {
+            var ary = [];
+            debugger;
+            ary = response;
+
+            if(ary.IsLogInFlag==true)
+            {
+                window.location.href = "/Index";
+            }
+
+        });
+        });
+        });
+
+        function pageLoad() {
+            $('.anStyle').ftext();
+        }
+    </script>
+
+
+
+
+</body>
+</html>

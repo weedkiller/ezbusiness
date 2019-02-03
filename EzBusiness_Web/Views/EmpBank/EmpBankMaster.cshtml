@@ -1,0 +1,423 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.EmpBankVM
+@{
+    ViewBag.Title = "EmpBankMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/EzComNDW.js"></script>
+<style>
+    .top-buffer {
+        margin-top: 15px;
+    }
+
+    .fixed-width {
+        width: 100px;
+        float: left;
+    }
+
+    .fluid.row-fluid {
+        margin-right: 100px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .customSpace {
+        content: " ";
+        display: inline-block;
+        width: 40px;
+    }
+
+    div.scroll {
+        width: 300px;
+        height: 500px;
+        overflow: scroll;
+    }
+
+    .contro {
+        width: 13em;
+    }
+</style>
+
+
+<script>
+    var jq2 = $.noConflict(true);
+    jq2(document).ready(function () {
+        debugger;
+        EzAuthentication("/EmpBankMaster");
+        EzdtePk('#Entry_Date1');
+        var lvHtml = $("#POContainer").html();
+        jq2("#POListContainer1").hide();
+        function GetLeaveList() {
+            jq2.get("/EmpBank/GetEmpBankMasterList", function (response) {
+                jq2("#POListContainer").html(response);
+            });
+        }
+        jq2(".alert-close").click(function () {
+          //  alert("Edit");
+            jq2("#editshow").hide();
+        });
+        jq2("#btnNew").click(function () {
+            var n = EzAuthenticationBtn("/EmpBankMaster", "NewIt");
+            if (n == 1) {
+                jq2("#editshow").hide();
+                jq2.get("EmpBank/AddEmpBankMaster", function (response) {
+                    jq2("#POContainer").html(response);
+                });
+                jq2(this).prop("disabled", true);
+                EzbtnNewAc();
+                jq2("#POListContainer1").hide();
+            }
+        });
+
+        $("#btnEdit").click(function () {
+            debugger;
+            var n = EzAuthenticationBtn("/EmpBankMaster", "ViewIt");
+            if (n == 1) {
+                $("#editshow").show();
+
+                $(this).prop("disabled", true);
+                EzbtnEditAc();
+                $("#POListContainer1").show();
+                GetLeaveList();
+            }
+        });
+
+        $("#btnCancel").click(function () {
+            debugger;
+            $("#POContainer").html(lvHtml);
+            EzbtnCancelAc();
+            EzdtePk('#Entry_Date1');
+            $("#POListContainer1").hide();
+            $("#editshow").hide();
+        });
+        jq2("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/EmpBankMaster", "DeleteIt");
+            if (n == 1) {
+                jq2("#editshow").hide();
+                if (confirm("Are you Sure?")) {
+                    var PRBM003_CODE = $("[name*='PRBM003_CODE']").val();
+                    jq2.getJSON("/DeleteEmpBnk", { PRBM003_CODE: PRBM003_CODE }).done(function (data) {
+                        if (data.DeleteFlag) {
+                            GetLeaveList();
+                            jq2("#btnCancel").trigger("click");
+                        } else {
+                            Ezerrormsg("#ErrorMessage", "Unable to Delete");
+                        }
+                    });
+                }
+            }
+        });
+
+        jq2("#btnSave").click(function () {
+            debugger;
+            var n = EzAuthenticationBtn("/EmpBankMaster", "EditIt");
+            jq2("#editshow").hide();
+            var opMode = jq2("#hdnOperationMode").val();
+            if (opMode == "Add") {
+                // Code for Adding Purchase order
+                var EmpBnk = {
+                    EditFlag: false,
+                    PRBM003_CODE: $("[name='PRBM003_CODE']").val(),
+                    EmpCode: $("[name='EmpCode']").val(),
+                    Entry_Date: Ezsetdtpkdate($("[name*='Entry_Date']").val()),
+                    PRBM001_code: $("[name='PRBM001_code'] option:selected").val(),
+                    PRBM002_code: $("[name='PRBM002_code'] option:selected").val(),
+                    Account_no: $("[name='Account_no']").val(),
+                    EBAN_no: $("[name='EBAN_no']").val(),
+                    Remarks: $("[name='Remarks']").val(),                    
+                };
+
+               
+
+                var validationResult = ValidateForm(EmpBnk);
+                if (validationResult.formValid) {
+                    $.post("/SaveEmpBnk", EmpBnk).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            EzbtnsaveAc("#POContainer");
+                            GetLeaveList();
+                        } else {
+                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                        }
+                    });
+
+                } else {
+                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                }
+            } else if (opMode == "Edit" && n==1) {
+                // Code for Adding Purchase order
+                var EmpBnk = {
+                    EditFlag: true,
+                    PRBM003_CODE: $("[name='PRBM003_CODE']").val(),
+                    EmpCode: $("[name='EmpCode']").val(),
+                    Entry_Date: Ezsetdtpkdate($("[name*='Entry_Date']").val()),
+                    PRBM001_code: $("[name='PRBM001_code'] option:selected").val(),
+                    PRBM002_code: $("[name='PRBM002_code'] option:selected").val(),
+                    Account_no: $("[name='Account_no']").val(),
+                    EBAN_no: $("[name='EBAN_no']").val(),
+                    Remarks: $("[name='Remarks']").val(),
+                };
+
+                var validationResult = ValidateForm(EmpBnk);
+                if (validationResult.formValid) {
+                    $.post("/SaveEmpBnk", EmpBnk).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            EzbtnsaveAc("#POContainer");
+                            GetLeaveList();
+                        } else {
+                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                        }
+                    });
+
+                } else {
+                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                }
+            }
+
+
+        });
+
+        function ValidateForm(EmpBnk) {
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+            if (EmpBnk.EditFlag == false) {
+                if (EmpBnk.PRBM003_CODE == "") {
+                    response.ErrorMessage += "Code";
+                }
+            } else if (EmpBnk.EditFlag == true) {
+                if (EmpBnk.PRBM003_CODE=="") {
+                    response.ErrorMessage += " Code,";
+                }
+            }
+
+            if (EmpBnk.EmpCode == '0')
+            {
+                response.ErrorMessage += " Emp Code,";
+            }
+
+            if (EmpBnk.PRBM001_code == '0') {
+                response.ErrorMessage += " PRBM001_code ,";
+            }
+
+            if (EmpBnk.PRBM002_code == '0') {
+                response.ErrorMessage += " PRBM002_code ,";
+            }
+
+            if (EmpBnk.Account_no == '') {
+                response.ErrorMessage += " Account_no ,";
+            }
+
+            if (EmpBnk.EBAN_no == '') {
+                response.ErrorMessage += " EBAN_no ,";
+            }
+          
+
+            if (response.ErrorMessage.length == 0) {
+              
+                response.formValid = true;
+            }
+
+            return response;
+        }
+
+
+        function parseDate(s) {
+            var b = s.split(/\D/);
+            return new Date(b[0], --b[1], b[2]);
+        }
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+        $(document).on("click", "#POList tbody tr", function () {
+            debugger;
+            var operationMode = $("#hdnOperationMode").val();
+            if (operationMode == "Edit") {
+                $("#POList > tbody").children().removeClass("active");
+                $(this).addClass("active");
+                var PRBM003_CODE = $(this).find("#hdnprbmCode").val();
+                $.get("EditEmpBankMaster", { PRBM003_CODE: PRBM003_CODE }).done(function (response) {
+                    $("#POContainer").html(response);
+                    $("#btnDelete").prop("disabled", false);
+                });
+            }
+        });
+
+    });
+
+</script>
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 15px">
+        <ol class="breadcrumb">
+            <li class="active strong1">
+                <strong>Bank Master</strong>
+            </li>
+        </ol>
+        <div class="title-action">
+            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
+            <button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>
+
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+        </div>
+    </div>
+
+</div><hr />
+<div class="row">
+   
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <label class="row" id="ErrorMessage" style="display:none"></label>
+                <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="POContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">PRBM003_CODE</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input type="text" class="form-control" name="" required placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Emp</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <select class="form-control" name="">
+                                                                <option value="">---Select---</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>                              
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">PRBM001_code</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <select class="form-control" name="">
+                                                                <option value="">---Select---</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">PRBM002_code</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <select class="form-control" name="">
+                                                                <option value="">---Select---</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Account_no</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input type="text" class="form-control" name="" required placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">EBAN_no</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input type="text" class="form-control" name="" required placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Remarks</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input type="text" class="form-control" name="" required placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Entry_Date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" disabled="disabled" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/row-->
+                                            <!--/row-->
+
+                                          
+
+
+                                        </div>
+                                    </div><br />
+                                    <!-- END FORM-->
+                                    <!-- <button>Hey, click me!</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="editshow" role="dialog">
+        <div class="modal-dialog m1" data-keyboard="false">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Ez Business System</h4>
+                    <button type="button" style="float: right;margin-top: -26px;" class="btn btn-danger alert-close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container scroll" id="POListContainer">
+                        @Html.Action("GetEmpBankMasterList", "EmpBank")
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.Humanresourcepayroll.Leave_App_VW>
+
+<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+    Ezsidetbl('#LVList', '#LVList tfoot th', false);
+
+</script>
+   
+
+
+
+<table id="LVList" class="table table-bordered table-hover editlist">
+    <thead>
+        <tr>
+            <th>LANo</th>
+            <th>Emp Code</th>
+            <th>Emp Name</th>
+      
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sm in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnPRLR001_CODE", sm.PRLR001_CODE)
+                    @sm.PRLR001_CODE
+                </td>                
+                <td>
+                    @sm.EmpCode
+                </td>
+                <td>
+                    @sm.EmpName
+                </td>
+              
+            </tr>
+        }
+    </tbody>
+</table>

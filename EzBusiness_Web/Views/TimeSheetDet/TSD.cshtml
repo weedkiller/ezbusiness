@@ -1,0 +1,200 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.TimeSheetDetailVM 
+
+@{
+   
+    var counter = 1;
+}
+
+@*<script src="~/Scripts/jquery-3.1.1.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/bootstrap-select.min.js"></script>*@
+<script src="~/Scripts/EzComNDW.js"></script>
+
+
+<script>
+   
+    $(function () {
+        
+        EzAuthentication("/TSD");
+        EzdtePkMMyy('#DateINMonth');
+        debugger;
+        var Eary = [];
+        Eary.push('#Dates');
+        EzsetTodayDte(Eary);
+        $('#DateINMonth').datetimepicker().on('dp.change', function (event) {
+            debugger;
+            var dt = $("#DateINMonth").val();
+            dt = dt + "-" +'01';
+                //var now = new Date(parseInt(dte.substr(6)));
+                //var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+            $('#Dates').val(dt);
+        });
+
+        // $('#Dates').val(dt);
+
+
+        $("#EmpCode").change(function () {
+            debugger;
+            $("#tblUnits > tbody tr").empty();
+            $("#tblUnits > tbody tr").remove();
+            var e1 = $("#EmpCode option:selected").val();
+            if (e1 != '0')
+                {
+                    var date1 = $('#Dates').val();
+                    $.get("/GetTSDList", { EmpCode: e1, date1: date1 }).done(function (response) {
+                        var ary = [];
+                        ary = response;
+                        counter = 1;
+                        if (ary.length == 0) {
+                            Swal.queue([{
+                                type: 'error',
+                                title: 'Oops...',
+                                text: 'Employee Not Joining this Month  !',
+                                allowOutsideClick: false,
+                                showLoaderOnConfirm: true,
+                            }])
+                            return;
+                        }
+                        for (var i = 0; i < ary.length; i++) {
+                            var tr1 = "<tr>";
+                            //var td ="<td><div class='form-group'>" + counter + "</div></td>"
+                            //var td1="<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='EmpCode" + counter + "'></div></td>"
+                            var td11 = "<td><div class='grid-group'><input type='text' class='grid-control' name='EmpCode" + counter + "'></div></td>";
+                            var td1 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Tmonth" + counter + "'></div></td>";
+                            var td2 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Tyear" + counter + "'></div></td>";
+                            var td3 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='SrNo" + counter + "'></div></td>";
+                            var td12 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='ReportingEmp" + counter + "'></div></td>";
+                            var td4 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='Dates" + counter + "'></div></td>";
+                            var td5 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='Attendance" + counter + "'></div></td>";
+                            var td6 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Nhrs" + counter + "'></div></td>";
+                            var td7 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='ExtraHrs" + counter + "'></div></td>";
+                            var td8 = "<td><div class='grid-group'><input type='number'  Readonly='true' class='grid-control' name='FOThrs" + counter + "'></div></td>";
+                            var td9 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Hhrs" + counter + "'></div></td>";
+                            var td10 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Ohrs" + counter + "'></div></td></tr>";
+                            //var td4 = "<td><div class='grid-group'><input type='number' class='grid-control' name='AMOUNT" + counter + "'></div></td></tr>";
+                            $("#tblUnits").append(tr1 + td11 + td1 + td2 + td3 + td12 + td4 + td5 + td6 + td7 + td8 + td9 + td10);
+                            var tr = $("#tblUnits tbody tr");
+                            tr.find("[name='EmpCode" + counter + "']").val(ary[i].EmpCode);
+
+                            tr.find("[name='Tmonth" + counter + "']").val(ary[i].Tmonth);
+                            tr.find("[name='Tyear" + counter + "']").val(ary[i].Tyear);
+                            tr.find("[name='SrNo" + counter + "']").val(counter);
+                            tr.find("[name='ReportingEmp" + counter + "']").val(ary[i].ReportingEmp);
+                            tr.find("[name='Dates" + counter + "']").val(EzdatefrmtRes(ary[i].Dates));
+                            tr.find("[name='Attendance" + counter + "']").val(ary[i].Attendance);
+                            tr.find("[name='Nhrs" + counter + "']").val(ary[i].Nhrs);
+                            tr.find("[name='ExtraHrs" + counter + "']").val(ary[i].ExtraHrs);
+                            tr.find("[name='FOThrs" + counter + "']").val(ary[i].FOThrs);
+                            tr.find("[name='Hhrs" + counter + "']").val(ary[i].Hhrs);
+                            tr.find("[name='Ohrs" + counter + "']").val(ary[i].Ohrs);
+                            //tr.find("[name='Amount" + counter + "']").val(ary[i].Amount);
+                           // tr.clone(true, true).insertAfter(tr);
+                            counter++;
+                        }
+                    });
+            }
+        });
+
+    });
+
+</script>
+
+
+
+<br />
+<ol class="breadcrumb">
+    <li class="active strong1">
+        <strong>TimeSheetDetail</strong>
+    </li>
+</ol>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        @*<button class="btn btn-primary" id="btnAdd" style="float:right">Add</button>
+            <button class="btn btn-yahoo" id="btnSave" style="float:right">Save</button>
+            <button class="btn btn-danger" id="btnCancel" style="float:right">Cancel</button>*@
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-3">Month & Year</label>
+                    <div class="col-md-8 input-field">
+                        <input  id="DateINMonth" class="form-control datepicker" name="DateINMonth">
+                         @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.HiddenFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })                       
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-3">EmpCode</label>
+                    <div class="col-md-8">
+                        @*<select class="form-control" name="EmpCode" id="EmpCode">
+                            <option value="">---Select---</option>
+                        </select>*@
+                        @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+          <br />  
+
+            <table class="table table-bordered table-hover" id="tblUnits" >
+                <thead>
+                    <tr class="tr">
+                        <th>
+                            @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @data_live_search = "true" })*@
+                            @Html.DisplayNameFor(model => model.EmpCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tmonth)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Tyear)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SrNo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ReportingEmp)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Dates)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Attendance)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nhrs)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ExtraHrs)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FOThrs)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Hhrs)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Ohrs)
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        
+                    </tr>                   
+                </tbody>
+            </table>
+            @Html.Hidden("Counter", counter)
+        </div>
+   
+</div>
+
+

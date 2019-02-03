@@ -1,0 +1,396 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.OTVM
+
+@{
+    ViewBag.Title = "OTPayroll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var counter = 1;
+}
+
+@*<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />*@
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        EzAuthentication("/OTPayroll");
+        // EzsetDatetxt();
+        EzdtePk('#Att_Date1');
+        var dt1 = new Date().getToday();
+        $("#tablePODetails tbody tr").find('td:eq(1)').find("[name*='Dates']").prop("value", dt1);       
+        $("#Dates").val(dt1);      
+        var arr = [];
+        counter = 1;
+
+        $("#EmpCode").change(function () {
+            debugger;
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+        });
+        $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
+            arr.pop($(this).find("[name*='Datest']").val());
+            counter--;
+            $(this).closest("tr").remove();
+        });
+
+        $("#btnadd").click(function () {
+            var n = EzAuthenticationBtn("/OTPayroll", "NewIt");
+            if (n == 1) {
+                var e1 = $("#EmpCode option:selected").val();
+                var dt2 = Ezsetdtpkdate($("#Att_Date1").val());
+                var e1 = $("#EmpCode option:selected").val();
+                duplicates = false;
+                var value = $("#Att_Date1").val();
+                if (e1 != '0' && Att_Date != '') {
+                    if (arr.indexOf(value) == -1) {
+                        arr.push(value);
+                    }
+                    else {
+                        alert("Already Exit Date");
+                        duplicates = true;
+                    }
+                    if (e1 != '0' && duplicates == false && Att_Date != '') {
+                        $.get("/GetOTDet", { EmpCode: e1, dte: dt2 }).done(function (response) {
+                            debugger;
+                            var ary = [];
+                            ary = response;
+                            if (ary.length == 0) {
+                                arr.pop(dt2);
+                                alert("Timesheet does not exist");
+                                duplicates = false
+                            }
+                            else {
+                                $("#btnSave").prop("disabled", false);
+                                $("#btnCancel").prop("disabled", false);
+                            }
+
+                            for (var i = 0; i < ary.length; i++) {
+                                 var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+                                var dy = new Date(Ezdatefrmt1(ary[i].Att_Date));
+                                dy = (weekday[dy.getDay()]);
+                                var Readonly1 = "Readonly = 'true'";
+                                var Readonly2 = '';
+                                var Readonly3 = "Readonly = 'true'";
+                                if (ary[i].ATT == 'H' || ary[i].ATT == 'W') {
+                                    Readonly1 = '';
+                                    Readonly2 = "Readonly = 'true'";
+                                }
+                                if (dy == "Friday") {
+                                    Readonly1 = "Readonly = 'true'";
+                                    Readonly3 = "";
+                                    Readonly2 = "Readonly = 'true'";
+                                }
+                                var tr1 = "<tr>";
+                                var td = "<td><div class='form-group'>" + counter + "</div></td>"
+                                var td1 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='Datest" + counter + "'></div></td>"
+                                var tdA = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='Att" + counter + "'></div></td>"
+                                var td2 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='Nhrs" + counter + "'></div></td>";
+                                var td3 = "<td><div class='form-group'><input type='number' " + Readonly2 + " class='form-control' name='Ohrs" + counter + "'></div></td>";
+                                var td4 = "<td><div class='form-group'><input type='number' " + Readonly3 + " class='form-control' name='FOThrs" + counter + "'></div></td>";
+                                var td5 = "<td><div class='form-group'><input type='number' " + Readonly1 + " class='form-control' name='Hhrs" + counter + "'></div></td>";
+                                var td6 = "<td><div class='form-group'><input type='number' " + Readonly1 + " class='form-control' name='ExtraHrs" + counter + "'></div></td>";
+                                var td7 = "<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
+                                var td12 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='ReportingEmp" + counter + "'></div></td>";
+                                $("#tablePODetails").append(tr1 + td + td12 + td1 + tdA + td2 + td3 + td4 + td5 + td6 + td7);
+
+                                var tr = $("#tablePODetails tbody tr");
+                                tr.find("[name='Datest" + counter + "']").val(EzdatefrmtRes(ary[i].Att_Date));
+                                tr.find("[name='Att" + counter + "']").val(ary[i].ATT);
+                                tr.find("[name='Nhrs" + counter + "']").val(ary[i].NHrs);
+                                tr.find("[name='FOThrs" + counter + "']").val(ary[i].FOTHrs);
+                                tr.find("[name='Ohrs" + counter + "']").val(ary[i].OTHrs);
+                                tr.find("[name='Hhrs" + counter + "']").val(ary[i].HOTHrs);
+                                tr.find("[name='ExtraHrs" + counter + "']").val(ary[i].ExtraHrs);
+                                tr.find("[name='ReportingEmp" + counter + "']").val(ary[i].ReportingEmp);
+                                counter++;
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+        $("#btnCancel").click(function () {
+            arr.length = 0;
+            counter = 1;                    
+            $('#EmpCode option:selected').val() == "0"
+            arr = [];
+            $("#tablePODetails tbody tr").empty();
+            $("#Dates").val(dt1);
+            $("#btnSave").prop("disabled", true);
+            Ezerrormsg("#ErrorMessage", "");
+        });
+        $("#btnSave").click(function () {
+            var OTPayroll = {
+
+                EmpCode: $("#EmpCode option:selected").val(),
+                OTExtraDetailnews: [],
+            };
+            
+            $("#tablePODetails tbody tr").each(function (index, item) {
+                debugger
+               
+                var Datesttxt = Ezsetdtpkdate($(this).find("[name*='Datest']").val());
+               
+                var FOThrstxt = $(this).find("[name*='FOThrs']").val();
+                var Ohrstxt = $(this).find("[name*='Ohrs']").val();
+                var Hhrstxt = $(this).find("[name*='Hhrs']").val();
+                var ExtraHrstxt = $(this).find("[name*='ExtraHrs']").val();               
+                if ((Datesttxt != "0")) {
+                    var OTExtraDetail = {
+                        Att_Date: Datesttxt,
+                        FOThrs: FOThrstxt,
+                        Ohrs: Ohrstxt,
+                        Hhrs: Hhrstxt,
+                        ExtraHrs: ExtraHrstxt,
+                    };
+                    OTPayroll.OTExtraDetailnews.push(OTExtraDetail);
+                }
+            });
+
+            var validationResult = ValidateForm(OTPayroll);
+            if (validationResult.formValid) {
+                $.post("/SaveOTPayroll", OTPayroll).done(function (response) {
+                    if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                        $("#POContainer").html("<div class='row'><div class='col-lg-12 col-sm-12'><div class='alert alert-danger'><strong>Saved Successfully</strong></div></div></div>");
+                       
+                        $("#btnSave").prop("disabled", true);
+                        $("#btnCancel").prop("disabled", false);
+                        
+                        EzdtePk('#Att_Date1');
+                        $("#tablePODetails tbody tr").empty();
+                        arr.length = 0;                        
+                        
+                        $('#EmpCode option:selected').val() == "0"
+                       
+                        counter = 1;
+                        arr = [];
+                        
+                    } else {
+                        
+                        Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                    }
+                });
+
+            } else {
+               
+                Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+            }
+
+            function ValidateForm(OTPayroll) {
+                var response = {
+                    ErrorMessage: "",
+                    formValid: false
+                };               
+                if (!OTPayroll.EmpCode) {
+                    response.ErrorMessage += "Select Empcode,";
+                }
+                if (OTPayroll.OTExtraDetailnews.length == 0) {
+                    response.ErrorMessage += "Enter at least one record ,";
+                }                             
+                if (response.ErrorMessage.length == 0) {
+                    response.formValid = true;
+                }
+
+                return response;
+            }
+
+            function parseDate(s) {
+                var b = s.split(/\D/);
+                return new Date(b[0], --b[1], b[2]);
+            }
+
+            $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                console.log(thrownError);
+            });
+        });
+        });                               
+   
+    Date.prototype.getToday = function () {
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        return today;
+    }
+</script>
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 15px">
+        <ol class="breadcrumb">
+            <li class="active strong1">
+                <strong>OT Payroll</strong>
+            </li>
+        </ol>
+        <div class="title-action">
+          
+            @**@
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+          
+            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+        </div>
+    </div>
+
+</div><hr />
+<!-- Row end -->
+<!-- Row start -->
+<div class="row">
+    <!--updated code-->
+    <div id="POContainer">
+
+    </div>
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <div class="tabbable-line boxless tabbable-reversed" id="SMAContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="SMAContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <!--/span-->
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Employee</label>
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Date</label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input id="Att_Date1" class="form-control datepicker" name="Att_Date1">
+                                                            @Html.HiddenFor(m => m.Att_Date)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-primary btn1" id="btnadd"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Add</button>
+                                                       </div>
+                                                    </div>
+                                                        <!--/span-->
+                                                    </div>
+                                                    <!--/row-->
+
+                                                </div>
+                                            </div><br />
+                                    <!-- END FORM-->
+                                    <div class="">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="home" class="tab-pane fade in active">
+                                                <br /><br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div style="overflow-x:auto;">
+                                                            <table class="table table-bordered table-sm" id="tablePODetails">
+                                                                <thead>
+                                                                    <tr>
+                                                                      <th>Sr No</th>
+                                                                        <th>Reporting Emp</th>
+                                                                        <th>Date</th>
+                                                                        <th>Att Type</th>
+                                                                        <th>N HRS</th>
+                                                                        <th>O HRS</th>
+                                                                        <th>FO THRS</th>
+                                                                        <th>HHRS</th>
+                                                                        <th>Extra THRS</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @*<tr>
+                                                                       
+                                                                        <td>
+                                                                            <div class="grid-group">
+
+                                                                                @Html.TextBox(string.Concat("counter", counter), null, new { @class = "grid-control", @Type = "number", @disabled = "disabled" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                
+                                                                                @Html.TextBox(string.Concat("Dates", counter), null, new { @class = "grid-control", @Type = "Date",@disabled= "disabled" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("Nhrs", counter), null, new { @class = "grid-control", @type = "number" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("Ohrs", counter), null, new { @class = "grid-control", @type = "number" })
+                                                                            </div>
+                                                                        </td>
+
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("FOThrs", counter), null, new { @class = "grid-control" , @type = "number" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("Hhrs", counter), null, new { @class = "grid-control", @type = "number" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("ExtraHrs", counter), null, new { @class = "grid-control" , @type = "number" })
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>*@
+                                                                    
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- <button>Hey, click me!</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   
+
+    
+
+
+
+
+
+
+   
+</div>
+

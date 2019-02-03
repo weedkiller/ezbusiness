@@ -1,0 +1,41 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.Humanresourcepayroll.Employee_VM>
+    
+@{
+    var a = 1;
+
+}
+
+<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+    <script>
+        debugger;
+         
+        Ezsidetbl("#POList", "#POList tfoot th", true);
+        //a++;
+     
+    </script>
+
+<table id="POList" class="table table-bordered table-hover editlist">
+    <thead>
+        <tr>
+            <th>Emp Code</th>
+            <th>Emp Name</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var po in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnMRCode", po.EmpCode)
+                    @po.EmpCode
+                </td>
+                <td>
+                    @po.Empname
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

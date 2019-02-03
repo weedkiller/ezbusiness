@@ -1,0 +1,285 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.SalaryProcessDetailsVM
+
+@{
+    var counter = 1;
+
+}
+
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<link href="~/Scripts/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+@*<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+@*<link href="~/Scripts/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />*@
+
+<script src="~/Scripts/EzComNDW.js"></script>
+
+@*<script src="~/Scripts/datatables/dataTables.rowReorder.min.js"></script>*@
+<script>
+
+        $(function () {
+            EzdtePkMMyy('#DateINMonth');
+            var dt = $('#DateINMonth').val();
+            var currdat = $('#DateINMonth').val();
+           
+            $.get("/SalaryProcess/GetSalaryProcessId", function (response) {
+           
+                //get & set code
+                if (response != null) {
+                    $('input[name="Code"]').val(response);
+                }
+                $("#SMAListContainer").html(response);
+            });
+            $('#DateINMonth').datetimepicker().on('dp.change', function (event) {
+                debugger;
+                dt = $("#DateINMonth").val();
+                currdat = $("#DateINMonth").val();
+                dt = dt + "-" + '01';
+                $('#CurrentDate').val(dt);
+            });
+           
+            //calculate salary Process
+            $.fn.dataTable.ext.errorMode = 'none';
+            $("#btncalculate").click(function () {
+                
+                var currmonthyear = dt;
+                
+                var CurrentDate = currmonthyear;
+                   // Code=$("#Code").val()
+                //}
+                    $.get("GetTimeSheetDetailsByMonth",{CurrentDate:CurrentDate}).done(function (obj) {
+                        debugger;
+                        var arr = [];
+                        arr = obj;
+                        if (arr.data.length > 0) {
+                        $('#empContaint').show();
+                        $('#salrcontainer').hide();
+                        $('#spnmonth').text(currdat);
+                            // $("#tabletimeDetails").empty().append(d);
+                        $("#tabletimeDetails td").remove();
+                        for (var i = 0; i <= arr.data.length; i++) {
+                           
+                            $('#tabletimeDetails').append("<tr><td>"+arr.data[i].Sno+"</td><td>"+arr.data[i].EmpCode + "</td><td>" + arr.data[i].EmpName + "</td></tr>");
+                        }
+                    }
+                    else {
+                        $('#empContaint').hide();
+                        $('#salrcontainer').show();
+
+                        var newrow=
+                            {
+                              CurrentDate: currmonthyear,
+                              Code:$("#Code").val()
+                            }
+                        var t = $('#tableslryDetails').DataTable({
+                            "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
+                            "order": [[1, 'asc']],
+                            "scrollX": true,
+                            "language":
+                            {
+                                "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
+                            },
+                            "dom": 'lBfrtip',
+                            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                            "buttons": [
+                                      'excel',
+                                      'pdf'
+                            ],
+                            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                                var oSettings = this.fnSettings();
+                                $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+                                return nRow;
+                            },
+                            "processing": true,
+                            "serverSide": true,
+                            "ajax":
+                            {
+                                "async": false,
+                                "cache": false,
+                                "type": "POST",
+                                "url": '/GetCalculatedSalary',
+                                "dataType": "json",
+                                "data": newrow,                     
+                            },
+                            "destroy": true,
+                            "columns": [
+                                 { "data": null },
+                               { "data": "EmpCode" },
+                               { "data": "EmpName" },
+                               { "data": "WorkingDay" },
+                               { "data": "Present" },
+                               { "data": "Leaves" },
+                               { "data": "Absent" },
+                               { "data": "SickLeaves" },
+                               { "data": "WeeklyOff" },
+                               { "data": "Holiday" },
+                               { "data": "NormalOTHrs" },
+                               { "data": "HolidayOTHrs" },
+                               { "data": "WeeklyOffOTHrs" },
+                               { "data": "ExtraOTHrs" },
+                               { "data": "Salary" },
+                               { "data": "MonthlyAddition" },
+                               { "data": "TotalDeduction" },
+                               { "data": "LoanDeduction" },
+                               { "data": "TotalEarning" },
+                               { "data": "NetSalary" },
+
+
+                            ]
+                        });
+                        t.on('order.dt search.dt', function () {
+                            t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                                cell.innerHTML = i + 1;
+                            });
+                        }).draw();
+                    }
+                });
+         
+            });
+        });
+        
+        
+        $(".chckheader").click(function () {
+           
+            if (jq(this).prop('checked')) {
+
+                jq('#tableslryDetails tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
+            }
+            else {
+                jq('#tableslryDetails tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
+            }
+        });
+
+</script>
+<div class="row">
+    <div class="custom-form-wrapper">
+        <!-- BEGIN FORM-->
+        <div class="form-horizontal">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">CODE</label>
+                            <div class="col-md-8 input-field">
+                                @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @placeholder = "Code" })       
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                    @*<div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Group</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="">
+                                        <option value="">---Select---</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>*@
+                    <!--/span-->
+                </div>
+                <!--/row-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Date</label>
+                            <div class="col-md-8 input-field">
+                                @*<input type="month" id="DateINMonth" class="date1 date-picker" >*@
+                                <input id="DateINMonth" class="form-control datepicker" name="DateINMonth" autocomplete="false">
+
+                                @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @*@Html.TextBoxFor(m => m.CurrentDate, new { @class = "form-control", @placeholder = "Code" })*@
+                                @Html.HiddenFor(m => m.CurrentDate)
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                    <div class="col-md-6">
+                        <button class="btn btn-warning" id="btncalculate" type="text" style="width:10em">Calculate</button>
+                    </div>
+                    <!--/span-->
+                </div>
+            </div>
+        </div><br />
+        <!-- END FORM-->
+        <div class="">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+            </ul>
+            <div class="tab-content" style="display:none" id="salrcontainer">
+                <div id="home" class="tab-pane fade in active">
+                    <br /><br />
+                    <div class="row"  >
+                        <div class="col-md-12">
+                            <div style="overflow-x:auto;">
+                             
+                                <table class="table table-bordered" id="tableslryDetails">
+                                    <thead>
+                                        <tr> 
+                                            <th>Sr No</th>
+                                            @*<th></th>*@
+                                            <th>Emp_Code</th>
+                                            <th>Employee Name</th>
+                                            <th>Working Days</th>
+                                            <th>Present</th>
+                                            <th>Absent</th>
+                                            <th>Leaves</th>
+                                            <th>Sick Leaves</th>
+                                            <th>Weekly Off</th>
+                                            <th>Holiday</th>
+                                            <th>NOT Hrs</th>              
+                                            <th>HOT Hrs</th>
+                                            <th>WOT hrs</th>
+                                            <th>Extra OT Hrs</th>
+                                            <th>Basic Salary</th>
+                                            <th>Monthly Addition</th>
+                                            <th>Monthly Deduction</th>
+                                            <th>Loan Deduction</th>
+                                            <th>Total Earning</th>                         
+                                            <th>Net Salary</th>
+                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                @Html.Hidden("hdnCounter", (++counter))
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="tab-content" style="display:none;text-align:center" id="empContaint">
+                <label class="id2">Timesheet Not Generated for following Employee in Month  <span style="color:red" id="spnmonth"></span> </label>
+                <div id="home" class="tab-pane fade in active">
+                    <br /><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="overflow-x:auto;">
+
+                                <table class="table table-bordered id3" id="tabletimeDetails">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No</th>
+                                            <th>Emp_Code</th>
+                                            <th>Employee Name</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                @Html.Hidden("hdnCounter", (++counter))
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- <button>Hey, click me!</button> -->
+    </div>
+</div>
+

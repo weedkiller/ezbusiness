@@ -1,0 +1,324 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.SalarMpayrollVM
+
+@{
+    var counter = 1;
+
+
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        $('.selectpicker').selectpicker('refresh');
+
+        EzdtePk('#Entery_date1,#Effect_From1');
+        Ezsetzerotxt();
+        debugger;
+        //var rowCount = $('#tablePODetails tr').length;
+        //if (rowCount = 2) {
+
+        //}
+
+        $("#EMPCODE").change(function () {
+            //$("#tablePODetails > tbody tr:last").empty();
+            //$("#tablePODetails > tbody tr:last").remove();
+            var e1 = $("#EMPCODE option:selected").val();
+            if (e1 != '0') {
+
+
+                $.get("/GetSalGrid").done(function (response) {
+                    var ary = [];
+                    ary = response;
+                    $("#tablePODetails > tbody tr").empty();
+                    $("#tablePODetails > tbody tr").remove();
+                    counter = 1;
+                    for (var i = 0; i < ary.length; i++) {
+                        var tr1 = "<tr>";
+                        var td = "<td><div class='form-group'>" + counter + "</div></td>"
+                        var td1 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='Code" + counter + "'></div></td>"
+                        //var td2 = "<td><div class='form-group'><input type='number' class='form-control' name='Name" + counter + "'></div></td>";
+                        var td2 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='Name" + counter + "'></div></td>";
+                        var td3 = "<td><div class='form-group'><input type='number' class='form-control' name='Accountcode" + counter + "'></div></td>";
+                        var td4 = "<td><div class='form-group'><input type='number' class='form-control' name='AMOUNT" + counter + "'></div></td></tr>";
+                        $("#tablePODetails").append(tr1 + td + td1 + td2 + td3 + td4);
+                        var tr = $("#tablePODetails tbody tr");
+                        tr.find("[name='Code" + counter + "']").val(ary[i].Code);
+                        tr.find("[name='Name" + counter + "']").val(ary[i].Name);
+                        tr.find("[name='Accountcode" + counter + "']").val(ary[i].Accountcode);
+                        tr.find("[name='AMOUNT" + counter + "']").val('0.00');
+
+                        $("[name*='TOTAL']").val('0.00');
+                        //tr.find("[name='Amount" + counter + "']").val(ary[i].Amount);
+                        // tr.clone(true, true).insertAfter(tr);
+                        
+                        counter++;
+                    }
+                    Ezsetzerotxt();
+                });
+
+
+            }
+
+        });
+
+
+
+
+
+            //$('#Entery_date').val(new Date().getToday());
+            //$('#Effect_From').val(new Date().getToday());
+
+
+            $("#tablePODetails").on("change", "[name*='AMOUNT']", function () {
+                sumOfColumns();
+            });
+
+            function sumOfColumns() {
+                debugger;
+                var sum = 0.0;
+                var sum1 = 0.0;
+
+                $("#tablePODetails > tbody  > tr").each(function () {
+                    var amount = parseFloat($(this).find("[name*='AMOUNT']").val());
+                    sum += isNaN(amount) ? 0 : amount;
+                    $(this).find("[name*='AMOUNT']").val('' + amount);
+                    sum1 = sum * 12;
+
+                });
+                //var amount = 0;
+                //$("#tablePODetails").each(function () {
+                //    amount += $(this).val() == null ? 0 : parseInt($(this).val());
+                //});
+                //just update the total to sum
+                $("[name*='TOTAL']").val(sum);
+                //$("[name*='ContractAmountYearly']").val(sum1);
+            }
+
+
+        });
+    
+</script>
+
+<div class="row">
+    <!--updated code-->
+
+    @*<div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>*@
+            <div class="panel-body" style="margin-left:10px;">
+                <div class="tabbable-line boxless tabbable-reversed" id="SMAContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="SMAContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">PRSM001_CODE</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.PRSM001_CODE, new { @class = "form-control"})
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Employee</label>
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(m => m.EMPCODE, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <!--/row-->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Entery_date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="Entery_date1" class="form-control datepicker" name="Entery_date1" />
+                                                            @*@Html.HiddenFor(m => m.Entery_date)*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Effect_From</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="Effect_From1" class="form-control datepicker" name="Effect_From1" />
+                                                            @*@Html.HiddenFor(m => m.Effect_From)*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+
+                                            <div class="row">
+                                                @*<div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Gross Amount(Monthly)</label>
+                                                            <div class="col-md-8 input-field">
+                                                                <input type="text" class="form-control" name="" required placeholder="" maxlength="50">
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                                <!--/span-->
+                                                @*<div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Gross Amount (Yearly)</label>
+                                                            <div class="col-md-8 input-field">
+                                                                <input type="text" class="form-control" name="" required placeholder="" maxlength="50">
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                                <!--/span-->
+                                            </div>
+                                        </div>
+                                    </div><br />
+                                    <!-- END FORM-->
+                                    <div class="">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="home" class="tab-pane fade in active">
+                                                <br /><br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div style="overflow-x:auto;">
+                                                            <table class="table table-bordered table-sm" id="tablePODetails">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Sr No</th>
+                                                                        <th>Code</th>
+                                                                        <th>Name</th>
+                                                                        <th>Account Code</th>
+                                                                        <th>Amount</th>
+                                                                    </tr>
+                                                                  </thead>
+                                                                  <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                1
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("Code", counter), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("Name", counter), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("Accountcode", counter), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("AMOUNT", counter), null, new { @class = "grid-control", @Type = "Number" })
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    @*@*<tr>
+                                                                        <th></th>
+                                                                        <th class="id1">Total</th>
+                                                                        <th class="id1"></th>
+                                                                        <th class="id1"></th>
+                                                                        <th class="id1"></th>
+                                                                    </tr>*@*
+                                                                </tbody>
+
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <th></th>
+                                                                        <th class="id1">Total</th>
+                                                                        <th class="id1"></th>
+                                                                        <th class="id1"></th>
+                                                                        <th class="id1">@Html.TextBox(string.Concat("TOTAL", counter), null, new { @class = "grid-control",@readonly="readonly" })</th>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- <button>Hey, click me!</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+
+    <script>
+            $(document).ready(function(){
+                $(".alert-close").click(function () {
+                    $("#editshow").hide();
+                });
+            });
+    </script>
+
+    @*<div class="modal" id="editshow" role="dialog">
+        <div class="modal-dialog m1" data-keyboard="false" style="width: 350px;height: auto;margin-left:800px;margin-top:50px;">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Ez Business System</h4>
+                    <button type="button" style="float: right;margin-top: -26px;" class="btn btn-danger alert-close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container scroll" id="SMAListContainer">
+                        @Html.Action("GetSryList", "SalaryM")
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>*@
+
+
+
+
+
+
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+
+
+
+
+
+

@@ -1,0 +1,669 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.Humanresourcepayroll.HolidayVM>
+
+@{
+    ViewBag.Title = "Holiday Master";
+    var counter = 1;
+}
+
+
+@*@Scripts.Render("~/bundles/jquery")
+
+
+<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>*@
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        EzAuthentication("/HolidayMaster");
+        var n = EzAuthenticationBtn("/HolidayMaster", "ViewIt");
+        if(n==1){
+            Ezsidetbl("#tblUnits", "#tblUnits tfoot th", true);
+            $('#tblUnits').show();
+
+        } else {
+            $('#tblUnits').hide();
+        }
+    });
+</script>
+
+
+<script>
+
+
+    var Hol = [];
+    var drec = new Array();
+    $(function () {
+
+        $("#tblUnits1").hide();
+        
+        /*Add Record*/
+        $("#btnAdd").click(function () {
+            var n = EzAuthenticationBtn("/HolidayMaster", "NewIt");
+            if(n==1){
+            EzMasterAdd("#btnAdd", "#btnCancel", "#btnSave");
+
+            
+            $("[name*='Edit']").prop('disabled', true)
+            $("[name*='Delete']").prop('disabled', true)
+            $("#tblUnits1 tbody tr").css("background", "");
+            $("#tblUnits1").show();
+
+            $("#tblUnits1 tbody tr").find("[name*='txtDates']").val(new Date().getToday());
+
+            $("#tbldiv").hide();
+
+            }
+        });
+        var counter = $("#Counter").val();
+        /*Add Table Change Event*/
+        $("#tblUnits1").on("change", "[name*='txtHRPH001_CODE']", function () {
+            var tr = $(this).closest('tr');
+
+            drec = [];
+            $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtHRPH001_CODE']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'txtHRPH001_CODE']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name *= 'txtHRPH001_CODE']").val(), drec) >= 0)
+            {
+                var dr = tr.find("[name *= 'txtHRPH001_CODE']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtHRPH001_CODE']").focus();
+
+                tr.find("[name *= 'txtHRPH001_CODE']").val('');
+                alert("Already Exist Date '" + dr + "'");
+                //tr.find("[name *= 'txtDates']").val(new Date().getToday());
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tableMetaSettings tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
+                    $(this).closest('tr').next('tr').find("[name*='txtDates']").val(new Date().getToday());                    
+                    $(this).closest('tr').next('tr').find("[name*='txtHRPH001_CODE']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtLEAVE_TYPECODE']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtDescription']").val('');
+
+                    trLast.find("[name *= 'txtHRPH001_CODE']").attr({
+                        "name": ("txtHRPH001_CODE" + counter)
+                    });
+
+                    trLast.find("[name *= 'txtDates']").attr({
+                        "name": ("txtDates" + counter)
+                    });
+                    trLast.find("[name *= 'txtLEAVE_TYPECODE']").attr({
+                        "name": ("txtLEAVE_TYPECODE" + counter)
+                    });
+                    trLast.find("[name *= 'txtDescription']").attr({
+                        "name": ("txtDescription" + counter)
+                    });
+                    trLast.find(":first").text(counter);
+                }
+            }
+            counter++;
+        });
+
+
+
+
+        $("#tblUnits1").on("change", "[name*='txtDates']", function () {
+            debugger;
+            var tr = $(this).closest('tr');
+
+            drec = [];
+            $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtDates']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'txtDates']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name *= 'txtDates']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtDates']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtDates']").focus();
+
+               // tr.find("[name *= 'txtHRPH001_CODE']").val('');
+                alert("Already Exist Date '" + dr + "'");
+                tr.find("[name *= 'txtDates']").val(new Date().getToday());
+
+            }
+            else {
+                tr.css("background", "");
+                
+            }
+            counter++;
+        });
+
+        /*Name Tab Event*/
+       // EztableTabEve("#tblUnits1", "[name*='txtDates']", "[name *= 'txtLEAVE_TYPECODE']", "Please Enter Date", 'T',"");
+        EztableTabEve("#tblUnits1", "[name*='txtLEAVE_TYPECODE']", "[name *= 'txtDescription']", "Please Enter Code", 'T',"");
+       // EztableTabEve("#tblUnits1", "[name*='txtHRPH001_CODE']", "[name *= 'txtDates']", "Please Enter Code", 'T',"");
+        EztableLstEnt("#tblUnits1", "[name*='txtDescription']", "[name *= 'txtHRPH001_CODE']","T","");
+        EztableLstTabBlk("#tblUnits1", "[name*='txtDescription']", "[name *= 'txtHRPH001_CODE']","T","");
+        
+        /*Refresh */
+        $("#btnCancel").click(function () {
+            if ($("#tblUnits1 > tbody > tr").length > 1) {
+                $("#tblUnits1 tbody tr td:last-child").remove();
+            }
+            $("#tblUnits1 tbody").find("tr:gt(0)").remove();
+
+            $("[name*='txtDates']").val('');
+            $("[name*='txtLEAVE_TYPECODE']").val('');
+            $("[name*='txtDescription']").val('');
+            $("#tblUnits1").hide();
+           
+            EzMasterCancel("#btnAdd", "#btnCancel", "#btnSave");
+            $("[name*='Edit']").prop('disabled', false);
+            $("[name*='Delete']").prop('disabled', false);
+            $("#tbldiv").show();
+        });
+        /*Save Unit Table */
+        $("#btnSave").click(function () {
+            debugger;
+            var HolidayMaster = {
+               HolidayDetailnew: []
+            };
+            $("#tblUnits1 tbody tr").each(function (index, item) {
+                var HlDates = $(this).find("[name*='txtDates']").val();
+                var HlLEAVE_TYPECODE = $(this).find("[name*='txtLEAVE_TYPECODE'] option:selected").val();
+                var HlDescription = $(this).find("[name*='txtDescription']").val();
+                var HLHRPH001_CODE = $(this).find("[name*='txtHRPH001_CODE']").val();
+                if ((HlDates != '') && (HlLEAVE_TYPECODE != '' && HLHRPH001_CODE !='')) {
+                    var HolidayDetail = {
+                        HRPH001_CODE:HLHRPH001_CODE,
+                        Dates: HlDates,
+                        LEAVE_TYPECODE: HlLEAVE_TYPECODE,
+                        Description: HlDescription,
+                        COUNTRY: 0,
+
+                    };
+                    HolidayMaster.HolidayDetailnew.push(HolidayDetail);
+                }
+            });
+            var validationResult = ValidateForm(HolidayMaster);
+            if (validationResult.formValid) {
+                $.post("/Holiday/SaveHoliday", HolidayMaster).done(function (response) {
+                if (response.Drecord == null)
+                {
+                    response.Drecord = 0;
+                    $("#tbldiv").show();
+                }
+
+                $("#tblUnits1 tbody tr").each(function (index, item) {
+                    var tr = $(this).closest("tr");
+                    var DateAdd = $(tr).find("[name*='txtDates']").val().trim();
+                    var LEAVE_TYPECODEAdd = $(tr).find("[name*='txtLEAVE_TYPECODE'] option:selected").val();
+                    var DescriptionAdd = $(tr).find("[name*='txtDescription']").val().trim();
+                    var HLHRPH001_CODEAdd = $(tr).find("[name*='txtHRPH001_CODE']").val();
+
+                    if(response.Drecord.length>0)
+                    {
+                        var ary1 = [];
+                        ary1 = response.Drecord;
+                        if ($.inArray(DateAdd, ary1) < 0 && DateAdd != '' && HLHRPH001_CODEAdd != '') {
+                                $(this).closest('tr').remove();
+                                var counter = $("#Counter").val();
+                                var firstRow = $('#tblUnits tbody tr:first');
+
+                                var newRow = "<tr><td>" + HLHRPH001_CODEAdd + "</td><td>" + DateAdd + "</td><td>" + LEAVE_TYPECODEAdd +
+                                    "</td><td>" + DescriptionAdd + "</td> ";
+                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                    "'></td></tr>";
+                                $(firstRow).after(newRow);
+                            }
+                        else if (HLHRPH001_CODEAdd != '') {
+                                $(this).closest('tr').css("background", "red");
+                            }
+                            else {
+                                $(this).closest('tr').css("background", "");
+                            }
+                    }
+                    else {
+                        $("#tblUnits1 tbody").find("tr:not(:last)").remove();
+                        $("[name*='txtDates']").val('');
+                        $("[name*='txtLEAVE_TYPECODE']").val('');
+                        $("[name*='txtDescription']").val('');
+                        $("[name*='txtHRPH001_CODE']").val('');
+                        
+                        $("#tblUnits1").hide();
+                        //$("#btnAdd").prop("disabled", false);
+                        //$("#btnCancel").prop("disabled", true);
+                        //$("#btnSave").prop("disabled", true);
+                        EzMasterAdd("#btnAdd", "#btnCancel", "#btnSave");
+                        if (DateAdd != '' && HLHRPH001_CODEAdd != '' && LEAVE_TYPECODEAdd != '') {
+                        var counter = $("#Counter").val();
+                        var firstRow = $('#tblUnits tbody tr:first');
+                        var newRow = "<tr><td>" + HLHRPH001_CODEAdd + "</td><td>" + DateAdd + "</td><td>" + LEAVE_TYPECODEAdd +
+                                  "</td><td>" + DescriptionAdd + "</td> ";
+                        newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                            "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                            "'></td></tr>";
+                        //newRow += "</tr>";
+                        $(firstRow).after(newRow);
+                        }
+                        $("[name*='Edit']").prop('disabled', false)
+                        $("[name*='Delete']").prop('disabled', false)
+
+                    }
+                });
+            });
+
+            }
+            else {
+                //$("#ErrorMessage").show();
+                //$("#ErrorMessage").find("strong").text(validationResult.ErrorMessage);
+                Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+        }
+        });
+
+        function ValidateForm(HolidayMaster) {
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+            //var dupr = false;
+            //$("#tblUnits1 tbody tr").each(function (index, item) {
+            //    var tr = $(this).closest('tr');
+            //    if ($.inArray(tr.find("[name *= 'txtCode']").val(), drec) >= 0 && tr.find("[name *= 'txtCode']").val() !='') {
+            //        tr.css("background", "red");
+            //        tr.find("[name *= 'txtCode']").focus();
+            //        dupr = true;
+            //    }
+            //    else {
+            //        tr.css("background", "");
+            //    }
+            //});
+
+            //if (dupr == true) {
+            //    response.ErrorMessage += "Please Enter Unique Status code Details";
+            //}
+            if (HolidayMaster.HolidayDetailnew.length == 0) {
+                response.ErrorMessage += "Please Enter atleast One Status code Details";
+            }
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+
+            return response;
+        }
+        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+        });
+
+      
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
+            $(this).closest("tr").remove();
+        });
+
+        $("#tblUnits").on("click", "[name^='Edit']", function () {
+            var n = EzAuthenticationBtn("/HolidayMaster", "EditIt");
+            if(n==1){
+            var counter = $("#Counter").val();
+            var hdnEditMode = $(this).parent().find('input:hidden:first');
+            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+            var tr = $(this).closest("tr");            
+            var index = $(this).attr("name").substring(4);
+            var HRPH001_CODETd = $(tr).find("td:eq(0)");
+            var DateTd = $(tr).find("td:eq(1)");
+            var LEAVE_TYPECODETd = $(tr).find("td:eq(2)");
+            var DescriptionTd = $(tr).find("td:eq(3)");
+            //var unitTypeTd = $(tr).find("td:eq(3)");
+            var editButton = $(this);
+
+            if (hdnEditMode.val() == "true") {
+                var HlDates = $(tr).find("[name*='txtDates']").val().trim();
+                var HlLEAVE_TYPECODE = $(tr).find("[name*='txtLEAVE_TYPECODE'] option:selected").val();
+                var HlDescription = $(tr).find("[name*='txtDescription']").val().trim();
+                var HLHRPH001_CODE = $(tr).find("[name*='txtHRPH001_CODE']").val();
+                var HolidayMaster = {
+                    CmpyCode: hdnCmpyCode,
+                    Dates: HlDates,
+                    LEAVE_TYPECODE: HlLEAVE_TYPECODE,
+                    Description: HlDescription,
+                    HRPH001_CODE: HLHRPH001_CODE,
+                    COUNTRY: 0,
+
+                    EditFlag: true
+                };
+
+                $.post("/Holiday/SaveHoliday", HolidayMaster).done(function (response) {
+                    HRPH001_CODETd.text(response.HRPH001_CODE);
+                    DateTd.text(response.Dates);
+                    LEAVE_TYPECODETd.text(response.LEAVE_TYPECODE);
+                    DescriptionTd.text(response.Description);
+                    hdnEditMode.val("false");
+                    //editButton.text("Edit");
+                    editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
+                    editButton.attr('title', 'Edit');
+                    //tr.find("[name^='Delete']").text("Delete");
+                    tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
+                    tr.find("[name^='Delete']").attr('title', 'Delete');
+                    tableDis("F");
+                });
+                $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                    console.log(thrownError);
+                });
+            } else {
+                var HRPH001_CODE = $(tr).find("td:eq(0)").text();                
+
+                HRPH001_CODETd.html("" + HRPH001_CODE.trim() + "<input type='hidden' name='txtHRPH001_CODE"+ index +"'  id='txtHRPH001_CODE" + index + "' value='" + HRPH001_CODE.trim() + "' />");
+
+                var Date1 = Ezdatefrmt1($(tr).find("td:eq(1)").text().trim());
+                $('#hldte').val($(tr).find("td:eq(1)").text().trim());
+                DateTd.html("<input type='date' name='txtDates" + index + "' value='" + Date1 + "' />");
+
+                var LEAVE_TYPECODE = $(tr).find("td:eq(2)").text();
+                $('#hltyp').val(LEAVE_TYPECODE.trim());
+                //LEAVE_TYPECODETd.html("<input type='text' name='txtLEAVE_TYPECODE" + index + "' value='" + LEAVE_TYPECODE.trim() + "' />");
+                LEAVE_TYPECODETd.html("<select class='form-control' id='txtLEAVE_TYPECODE' name='txtLEAVE_TYPECODE'> <option value='H'>Holiday</option></select>");
+
+                var Description = $(tr).find("td:eq(3)").text();
+                $('#hlDesc').val(Description.trim());
+                DescriptionTd.html("<input type='text' name='txtDescription" + index + "' value='" + Description.trim() + "' />");
+
+
+                
+
+                //$(this).text("update");
+                $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
+
+                $(this).attr('title', 'Update');
+                hdnEditMode.val("true");
+
+                tableDis("T");
+                $(this).attr("disabled", false);
+                tr.find("[name^='Delete']").prop("disabled", false);
+                //tr.find("[name^='Delete']").text("Cancel");
+                tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>')
+                tr.find("[name^='Delete']").attr('title', 'Cancel');
+            }
+            }
+        });
+
+        $("#tblUnits").on("click", "[name^='Delete']", function () {
+            var n = EzAuthenticationBtn("/HolidayMaster", "DeleteIt");
+            if (n == 1) {
+                var tr = $(this).closest("tr");
+                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+                var codeTd = $(tr).find("td:eq(0)");
+
+                var hdnMode = $(this).parent().find('input:hidden:first');
+                var code = "";
+                if (hdnMode.val() == "false") {
+                    code = $(tr).find("td:eq(1)").text().trim();
+                    $.getJSON("/DeleteHoliday", { date1: code }).done(function (data) {
+                        if (data.DeleteFlag) {
+                            tr.remove();
+                        }
+                    });
+                }
+                else {
+                    //var nameTd = $(tr).find("td:eq(1)");
+                    //var unicodenameTd = $(tr).find("td:eq(2)");
+                    var HRPH001_CODETd = $(tr).find("td:eq(0)");
+                    var DateTd = $(tr).find("td:eq(1)");
+                    var LEAVE_TYPECODETd = $(tr).find("td:eq(2)");
+                    var DescriptionTd = $(tr).find("td:eq(3)");
+
+                    var DatesEdit = $('#hldte').val();//$(tr).find("[name*='txtDates']").val().trim();
+                    var LEAVE_TYPECODEEdit = $('#hltyp').val();// $(tr).find("[name*='txtLEAVE_TYPECODE'] option:selected").val().trim();
+                    var DescriptionEdit = $('#hlDesc').val();// $(tr).find("[name*='txtDescription']").val().trim();
+
+
+                    var hdnEditMode = $(this).parent().find('input:hidden:first');
+
+                    DateTd.html(DatesEdit);
+                    LEAVE_TYPECODETd.html(LEAVE_TYPECODEEdit);
+                    DescriptionTd.html(DescriptionEdit)
+
+                    //var unicodename = $(tr).find("td:eq(2)").text();
+                    //unicodenameTd.html(unicodenameEdit);
+
+                    //tr.find("[name^='Edit']").text("Edit");
+                    tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
+                    tr.find("[name^='Edit']").attr('title', 'Edit');
+
+                    //$(this).text("Delete");
+                    $(this).html('<span class="glyphicon glyphicon-trash"></span>')
+                    $(this).attr('title', 'Delete');
+                    hdnEditMode.val("false");
+
+                    tableDis("F");
+                }
+
+            }
+        });
+
+        $("#datepicker1").val(new Date().getToday());
+    });
+    var k = 0;
+    function tableDis(k) {
+        if(k=="T")
+        {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", true);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", true);
+            $("#btnAdd").prop('disabled', true);
+        }
+        else
+        {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
+            $("#btnAdd").prop('disabled', false);
+
+        }
+    }
+    Date.prototype.getToday = function () {
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        return today;
+    }
+    function datefrmt(dte) {
+        var now = new Date(dte);
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        return today;
+    }
+</script>
+
+<script>
+$(document).ready(function(){
+    //$('[data-toggle="tooltip"]').tooltip();    
+    $(".edit").attr('title', 'Edit');
+    $(".delete").attr('title', 'Delete');
+});
+</script>
+
+<br />
+<ol class="breadcrumb">
+    <li class="active strong1">
+        <strong>Holiday Master</strong>
+    </li>
+</ol>
+<div class="title-action">
+    <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
+
+    <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+
+
+    <button class="btn btn-warning btn1" id="btnCancel" disabled><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+
+    <input type="hidden" id="hdnOperationMode" value="" />
+
+
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label col-md-3">Date</label>
+            <div class="col-md-9 input-field">
+                <input type="date" required name="" id="datepicker1" placeholder="" class="date1" style="width:188px">
+            </div>
+        </div>
+    </div>
+    @*<div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn1" id="btnadd"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Add</button>
+            </div>
+        </div>*@
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        @*<button class="btn btn-primary" id="btnAdd" style="float:right">Add</button>
+            <button class="btn btn-yahoo" id="btnSave" style="float:right">Save</button>
+            <button class="btn btn-danger" id="btnCancel" style="float:right">Cancel</button>*@
+
+        <!--comment-->
+        <input id="hldte" type="hidden" />
+        <input id="hltyp" type="hidden" />
+        <input id="hlDesc" type="hidden" />
+        <label class="row" id="ErrorMessage" style="display:none"></label>
+
+        <table class="table table-bordered table-sm" id="tblUnits1">
+            <thead>
+                <tr class="tr">
+                    <th>
+                        @Html.DisplayNameFor(model => model.HRPH001_CODE)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Dates)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LEAVE_TYPECODE)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtHRPH001_CODE", counter), null, new { @class = "grid-control" })
+                        </div>                   
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtDates", counter), null, new { @class = "grid-control", Type = "Date" })
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                           @* @Html.TextBox(string.Concat("txtLEAVE_TYPECODE", counter), null, new { @class = "grid-control" })*@
+                            @Html.DropDownList(string.Concat("txtLEAVE_TYPECODE", counter), new List<SelectListItem> { new SelectListItem { Text = "Holiday", Value = "H" }, }, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtDescription", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+        <!--//comment table-->
+
+
+        <div id="tbldiv">
+
+
+            <table class="table table-bordered" id="tblUnits">
+                <thead>
+                    <tr class="tr">
+                        <th>
+                            @Html.DisplayNameFor(model => model.HRPH001_CODE)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Dates)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LEAVE_TYPECODE)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HRPH001_CODE)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Dates)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LEAVE_TYPECODE)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+
+                            <td>
+                                <button class="btn btn-primary" data-toggle="tooltip" title="edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span> @*Edit*@</button>
+                                <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span> @*Delete*@</button>
+                                <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                                @Html.HiddenFor(m => item.CmpyCode)
+                            </td>
+                        </tr>
+                        counter++;
+                    }
+                </tbody>
+
+            </table>
+
+
+        </div>
+        @Html.Hidden("Counter", counter)
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

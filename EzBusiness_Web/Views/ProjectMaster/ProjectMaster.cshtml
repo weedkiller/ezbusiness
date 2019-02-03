@@ -1,0 +1,611 @@
+﻿@model IEnumerable <EzBusiness_ViewModels.Models.Humanresourcepayroll.ProjectMasterVM>
+
+@{
+    ViewBag.Title = "ProjectMaster";
+    var counter = 1;
+}
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    EzAuthentication("/ProjectMaster");
+    var n = EzAuthenticationBtn("/ProjectMaster", "ViewIt");
+    if (n == 1) {
+        Ezsidetbl('#tblUnits', '#tblUnits tfoot th', true);
+        $('#tblUnits').show();
+
+    } else {
+        $('#tblUnits').hide();
+    }
+</script>
+
+
+<script>
+    var Pjms = [];   
+    $(function () {
+       // GetUnitTypes();
+        $("#tblUnits1").hide();
+       // GetUnitTypes();
+        $("#btnAdd").click(function () {
+            var n = EzAuthenticationBtn("/ProjectMaster", "NewIt");
+            if (n == 1) {
+                $("#tbldiv").hide();
+                $("#btnAdd").prop('disabled', true)
+                $("#btnCancel").prop("disabled", false);
+                $("#btnSave").prop("disabled", false);
+                $("[name*='Edit']").prop('disabled', true)
+                $("[name*='Delete']").prop('disabled', true)
+                $("#tblUnits1 tbody tr").css("background", "");
+                $("#tblUnits1").show();
+            }
+        });
+        var counter = $("#Counter").val();
+        /*Add Table Change Event*/
+        $("#tblUnits1").on("change", "[name*='txtCode']", function () {
+            var tr = $(this).closest('tr');
+            debugger;
+            drec = [];
+            $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name*= 'txtCode']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name*= 'txtCode']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name*= 'txtCode']").val(), drec) >= 0)
+            {
+                var dr = tr.find("[name *= 'txtCode']").val();
+                tr.css("background", "red");
+                tr.find("[name*= 'txtCode']").focus();
+                alert("Already Exist Code '" + dr + "'");
+                tr.find("[name*= 'txtCode']").val('');
+
+            }
+            else {
+                debugger;
+                counter=1;
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tableMetaSettings tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
+                  
+                    var trLast1 = $("#tblUnits1 tbody tr:last");
+                    trLast1.find("[name *= 'txtCode']").val('')
+                    trLast1.find("[name *= 'txtName']").val('')
+
+                    trLast.find("[name *= 'txtCode']").attr({
+                        "name": ("txtCode" + counter)
+                    });
+                    trLast.find("[name *= 'txtName']").attr({
+                        "name": ("txtName" + counter)
+                    });
+
+
+                    trLast.find(":first").text(counter);
+                    
+                }
+               
+            }
+           
+        });
+
+        EztableTabEve("#tblUnits1", "[name*='txtName']", "[name *= 'txtActive']", "Please Enter Name", 'T', "");
+        EztableTabEve("#tblUnits1", "[name*='txtCode']", "[name *= 'txtName']", "Please Enter Code", 'T', "");
+        EztableLstEnt("#tblUnits1", "[name*='txtActive']", "[name *= 'txtCode']", 'T', "");
+        /*Name Tab Event*/
+
+        /*Refresh */
+        $("#btnCancel").click(function () {
+            if ($("#tblUnits1 > tbody > tr").length > 1) {
+                $("#tblUnits1 tbody tr td:last-child").remove();
+            }
+            $("#tblUnits1 tbody").find("tr:gt(0)").remove();
+            $("#tbldiv").show();
+            $("[name*='txtCode']").val('');
+            $("[name*='txtName']").val('');
+            $("[name*='txtActive']").val('');
+            $("#tblUnits1").hide();
+            $("#btnAdd").prop("disabled", false);
+            $("#btnCancel").prop("disabled", true);
+            $("#btnSave").prop("disabled", true);
+            $("[name*='Edit']").prop('disabled', false);
+            $("[name*='Delete']").prop('disabled', false);
+            Ezerrormsg("#ErrorMessage", "");
+        });
+        /*Save Unit Table */
+        $("#btnSave").click(function () {
+           var ProjectMaster=  {
+               ProjectNew: []
+            };
+           $("#tblUnits1 tbody tr").each(function (index, item) {
+               debugger;
+                var StsCode = $(this).find("[name*='txtCode']").val();
+                var StsName = $(this).find("[name*='txtName']").val();                
+                var StsActive = $(this).find("[name*='txtActive'] option:Selected").val();
+                //('[name="txtActive"]:radio:checked').val()
+                //if (StsActive == '0') {
+                //    StsActive = 'No'
+                //} else {
+                //    StsActive = 'Yes'
+                //}
+                if ((StsCode != "") && (StsName != "")) {
+                    var ProjectDetail = {
+                        Code: StsCode,
+                        Name: StsName,
+                        Active: StsActive
+                    };
+                    ProjectMaster.ProjectNew.push(ProjectDetail);
+                }
+            });
+            var validationResult = ValidateForm(ProjectMaster);
+            if (validationResult.formValid) {
+                $.post("/ProjectMaster/SavePjms", ProjectMaster).done(function (response) {
+                if (response.Drecord == null)
+                {
+                    $("#tbldiv").show();
+                    response.Drecord = 0;
+                }
+                $("#tblUnits1 tbody tr").each(function (index, item) {
+                    var tr = $(this).closest("tr");
+                    var codeAdd = $(tr).find("[name*='txtCode']").val().trim();
+                    var nameAdd = $(tr).find("[name*='txtName']").val().trim();
+                    var activeAdd = $(tr).find("[name*='txtActive'] option:Selected").val();
+                   
+                    if(response.Drecord.length>0)
+                    {
+                        var ary1 = [];
+                        ary1 = response.Drecord;
+                        if ($.inArray(codeAdd, ary1) < 0 && codeAdd != '' && nameAdd !='') {
+                                $(this).closest('tr').remove();
+                                var counter = $("#Counter").val();
+                                var firstRow = $('#tblUnits tbody tr:first');
+
+                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
+                                    "</td><td>" + activeAdd + "</td> ";
+                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                    "'></td></tr>";
+                                $(firstRow).after(newRow);
+                            }
+                            else if (codeAdd != '') {
+                                $(this).closest('tr').css("background", "red");
+                            }
+                            else {
+                                $(this).closest('tr').css("background", "");
+                            }
+                    }
+                    else {
+                        if (activeAdd == '0') {
+                            activeAdd = 'No'
+                        } else {
+                            activeAdd = 'Yes'
+                        }
+
+                        $("#tblUnits1 tbody").find("tr:not(:last)").remove();
+                        $("[name*='txtCode']").val('');
+                        $("[name*='txtName']").val('');
+                        //$("[name*='txtActive']").val('');
+
+                        $("[name*='txtActive'] option:Selected").val(0);
+
+                       
+
+                        $("#tblUnits1").hide();
+                        $("#btnAdd").prop("disabled", false);
+                        $("#btnCancel").prop("disabled", true);
+                        $("#btnSave").prop("disabled", true);
+                        if (codeAdd != '' && nameAdd !='') {
+                        var counter = $("#Counter").val();
+                        var firstRow = $('#tblUnits tbody tr:first');
+                        var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
+                            "</td><td>" + activeAdd + "</td> ";
+                        newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                            "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                            "'></td></tr>";
+                        //newRow += "</tr>";
+                        $(firstRow).after(newRow);
+                        }
+                        $("[name*='Edit']").prop('disabled', false)
+                        $("[name*='Delete']").prop('disabled', false)
+
+                    }
+                });
+                });
+            }
+            else {
+                //$("#ErrorMessage").show().find("strong").text("Eneter");
+                Ezerrormsg("#ErrorMessage", "Enter Record");
+        }
+        });
+
+        function ValidateForm(ProjectMaster) {
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+          
+            if (ProjectMaster.ProjectNew.length == 0) {
+                response.ErrorMessage += "Please Enter atleast One BankBranch code Details";
+            }
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+
+            return response;
+        }
+        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+        });
+
+        $("#tblUnits").on("click", "[name^='Add']", function () {
+            var counter = $("#Counter").val();
+            var hdnAddMode = $(this).parent().find('input:hidden:first');
+            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+            var editButton = $(this).parent().find("[name='Add" + counter + "']");
+            var tr = $(this).closest("tr");
+            var index = $(this).attr("name").substring(4);
+            var codeTd = $(tr).find("td:eq(0)");
+            var nameTd = $(tr).find("td:eq(1)");
+            var activeTd = $(tr).find("td:eq(2)");
+            //var unitTypeTd = $(tr).find("td:eq(3)");
+
+            if (hdnAddMode.val() == "true") {
+                var codeAdd = $(tr).find("[name*='txtCode']").val().trim();
+                var nameAdd = $(tr).find("[name*='txtName']").val().trim();
+                var activeAdd = $(tr).find("[name*='txtActive'] option:Selected").val().trim();
+                if (activeAdd == '0') {
+                    activeAdd = 'No'
+                } else {
+                    activeAdd = 'Yes'
+                }
+                //var uniTypeAdd = $(tr).find("select option:selected").val().trim();
+
+                var Pjms = {
+                    CmpyCode: hdnCmpyCode,
+                    Code: StsCode,
+                    Name: StsName,
+                    Active: StsActive,
+                    EditFlag: false
+                };
+                if (codeAdd && hdnCmpyCode) {
+                    $.post("/ProjectMaster/SavePjms", Pjms).done(function (response) {
+                        console.log(response);
+                        codeTd.text(response.Code);
+                        nameTd.text(response.Name);
+                        
+
+                        activeTd.text(response.Active);
+                        if (response.Active == '0') {
+                            response.Active = 'No'
+                        } else {
+                            response.Active = 'Yes'
+                        }
+                        //unitTypeTd.text(response.UnitType);
+                        hdnAddMode.val("false");
+                        editButton.attr("name", ("Edit" + counter)).text("Edit");
+                        hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
+                        $("#btnAdd").prop('disabled', false);
+                    });
+                } else {
+                    alert("Please Enter Record");
+                }
+            }
+        });
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
+            $(this).closest("tr").remove();
+            $("#btnAdd").prop('disabled', false);
+        });
+
+        $("#tblUnits").on("click", "[name^='Edit']", function () {
+            var n = EzAuthenticationBtn("/ProjectMaster", "EditIt");
+            debugger;
+            if (n == 1) {
+                var counter = $("#Counter").val();
+                var hdnEditMode = $(this).parent().find('input:hidden:first');
+                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+                var tr = $(this).closest("tr");
+                var hdnCode = $(tr).find("td:eq(0)").text().trim();
+                var index = $(this).attr("name").substring(4);
+                var nameTd = $(tr).find("td:eq(1)");
+                var activeTd = $(tr).find("td:eq(2)");
+                //var unitTypeTd = $(tr).find("td:eq(3)");
+                var editButton = $(this);
+
+                if (hdnEditMode.val() == "true") {
+                    var nameEdit = $(tr).find("[name*='txtName']").val().trim();
+                    var activeEdit = $(tr).find("[name*=txtActive] option:Selected").val().trim();
+                    //if (activeEdit == '0') {
+                    //    activeEdit = 'No'
+                    //} else {
+                    //    activeEdit = 'Yes'
+                    //}
+                    //var uniTypeEdit = $(tr).find("select option:selected").val().trim();
+                    var Pjms = {
+                        CmpyCode: hdnCmpyCode,
+                        Code: hdnCode,
+                        Name: nameEdit,
+                        Active: activeEdit,
+                        EditFlag: true
+                    };
+
+                    $.post("/ProjectMaster/SavePjms", Pjms).done(function (response) {
+                        nameTd.text(response.Name);
+
+                        debugger;
+
+                        if (response.Active == '0') {
+                            response.Active = 'No'
+                        } else {
+                            response.Active = 'Yes'
+                        }
+                        activeTd.text(response.Active);
+                       
+
+                        //unitTypeTd.text(response.UnitType);
+                        hdnEditMode.val("false");
+                        //editButton.text("Edit");
+                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>')
+
+                        //tr.find("[name^='Delete']").text("Delete");
+                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>')
+                        tableDis("F");
+                    });
+                    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                        console.log(thrownError);
+                    });
+                } else {
+                    var name = $(tr).find("td:eq(1)").text();
+                    nameTd.html("<input type='text' name='txtName" + index + "' value='" + name.trim() + "' />");
+
+                    var active = $(tr).find("td:eq(2)").text();
+
+                    $('#Ecode1').val(name.trim());
+                    $('#EAct1').val(active.trim());
+                    
+
+                    if (active.trim() == 'Yes') {
+                        active = '1'
+                    } else {
+                        active = '0'
+                    }
+                   
+                   // activeTd.html("<input type='text' name='txtActive" + index + "' value='" + active.trim() + "' />");
+
+                    activeTd.html("<select class='grid-control' id='txtActive" + index + "' name='txtActive" + index + "'><option value='1'>YES</option><option value='0'>NO</option></select>")
+                    activeTd.find("select").val(active);
+                    //tr.find("[name*=txtActive] option:Selected").val(active);
+                    //$(this).text("Update");
+                    $(this).html('<span class="glyphicon glyphicon-upload"></span>')
+                    hdnEditMode.val("true");
+
+                    tableDis("T");
+                    $(this).attr("disabled", false);
+                    tr.find("[name^='Delete']").prop("disabled", false);
+
+                    //tr.find("[name^='Delete']").text("Cancel");
+                    tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>');
+                    tr.find("[name^='Delete']").attr('title', 'Cancel');
+
+                }
+            }
+        });
+
+        $("#tblUnits").on("click", "[name^='Delete']", function () {
+            var n = EzAuthenticationBtn("/ProjectMaster", "DeleteIt");
+            if (n == 1) {
+                var tr = $(this).closest("tr");
+                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+                var codeTd = $(tr).find("td:eq(0)");
+                var hdnMode = $(this).parent().find('input:hidden:first');
+                var code = "";
+                if (hdnMode.val() == "false") {
+                    code = $(tr).find("td:eq(0)").text().trim();
+                    $.getJSON("/DeletePjms", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
+                        if (data.DeleteFlag) {
+                            tr.remove();
+                        }
+                    });
+                }
+                else {
+                    var nameTd = $(tr).find("td:eq(1)");
+                    var activeTd = $(tr).find("td:eq(2)");
+                    var nameEdit = $('#Ecode1').val();// $(tr).find("[name*='txtName']").val().trim();
+                    debugger;
+                     var activeEdit =$('#EAct1').val();// $(tr).find("[name*='txtActive'] option:Selected").val();
+
+                    if (activeEdit == '0') {
+                        activeEdit = 'No'
+                    } else {
+                        activeEdit = 'Yes'
+                    }
+
+                    var hdnEditMode = $(this).parent().find('input:hidden:first');
+                    nameTd.html(nameEdit);
+
+                   // var active = $(tr).find("td:eq(2)").text();
+                    activeTd.html(activeEdit);
+
+                    //tr.find("[name^='Edit']").text("Edit");
+                    tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
+                    tr.find("[name^='Edit']").attr('title', 'Edit');
+                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
+                    $(this).attr('title', 'Delete');
+                    //$(this).text("Delete");
+                    hdnEditMode.val("false");
+
+                    tableDis("F");
+                }
+
+            }
+        });
+    });
+    var k = 0;
+    function tableDis(k) {
+        if(k=="T")
+        {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", true);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", true);
+            $("#btnAdd").prop('disabled', true);
+        }
+        else
+        {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
+            $("#btnAdd").prop('disabled', false);
+
+        }
+    }
+
+</script>
+
+<script>
+$(document).ready(function(){
+    //$('[data-toggle="tooltip"]').tooltip();
+    $(".edit").attr('title', 'Edit');
+    $(".delete").attr('title', 'Delete');
+});
+</script>
+
+<br />
+<ol class="breadcrumb">
+    <li class="active strong1">
+        <strong>Project Master</strong>
+    </li>
+</ol>
+<div class="title-action">
+    <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
+
+    <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+    <button class="btn btn-warning btn1" id="btnCancel" disabled><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+
+    <input type="hidden" id="hdnOperationMode" value="" />
+
+</div>
+<label class="row" id="ErrorMessage" style="color:red;">
+    <strong></strong>
+</label>
+<div class="panel panel-default">
+    <div class="panel-body">
+        @*<button class="btn btn-primary" id="btnAdd" style="float:right">Add</button>
+            <button class="btn btn-yahoo" id="btnSave" style="float:right">Save</button>
+            <button class="btn btn-danger" id="btnCancel" style="float:right">Cancel</button>*@
+        <input type="hidden" id="Ecode1"/>
+        <input type="hidden" id="EAct1" />
+        <table class="table table-bordered table-sm" id="tblUnits1">
+            <thead>
+                <tr class="tr">
+                    <th>
+                        @Html.DisplayNameFor(model => model.Code)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Active)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtCode", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtName", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            <div class="col-md-9 input-field">
+                                @*<input id="Active" name="Yes" value="1" type="radio"> Yes 
+                                <input id="Active" name="No" value="0" type="radio"> No*@
+                                @Html.DropDownList(string.Concat("txtActive", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
+                                @*@Html.RadioButton(string.Concat("txtActive", counter), "1", new {@class= "radioActive", @checked = "checked" }) Yes
+                                @Html.RadioButton(string.Concat("txtActive", counter), "0", new { @class = "radioActive" }) No*@
+                                
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+        <div id="tbldiv">
+            <table class="table" id="tblUnits" >
+                <thead>
+                    <tr class="tr">
+                        <th>
+                            @Html.DisplayNameFor(model => model.Code)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Active)
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @*<tr>
+                            <td>
+                                @Html.TextBox(string.Concat("Code"), null, new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.TextBox(string.Concat("Name"), null, new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.TextBox(string.Concat("UniCodeName"), null, new { @class = "form-control" })
+                            </td>
+                        </tr>*@
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Code)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Active)
+                            </td>
+
+                            <td>
+                                <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
+                                <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                                @Html.HiddenFor(m => item.CmpyCode)
+                            </td>
+                        </tr>
+                        counter++;
+                    }
+                </tbody>
+
+            </table>
+            @Html.Hidden("Counter", counter)
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.Humanresourcepayroll.DutyResumeVM>
+<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+    Ezsidetbl('#DRList', '#DRList tfoot th',false);
+    </script>
+<table id="DRList" class="table table-bordered table-hover editlist">
+    <thead>
+        <tr>
+            <th>Duty Resume No</th>
+            <th>Emp Code</th>
+            <th>ResumeDate</th>
+            <th>LsNo</th>
+            <th>StartDate</th>
+            <th>EndDate</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sm in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnCmpycode", sm.Cmpycode)
+                    @Html.Hidden("hdnDrNo", sm.PRDR001_CODE)
+                    @sm.PRDR001_CODE
+                </td>
+                <td>
+                    @sm.EmpCode
+                </td>
+                <td>
+                    @sm.ResumeDate
+                </td>
+                <td>
+                    @sm.PRLR001_CODE
+                </td>
+                <td>
+                    @sm.ResumeDate
+                </td>
+                <td>
+                    @sm.EndDate
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

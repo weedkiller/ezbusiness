@@ -1,0 +1,405 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.EmpShiftVM
+
+
+@{
+    ViewBag.Title = "EmpShiftMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        EzAuthentication("/EmpShiftMaster");
+        Ezsetzerotxt();        
+        var lvHtml = $("#POContainer").html();
+        $("#POListContainer1").hide();
+        function GetLeaveList() {
+            $.get("/EmpShift/GetEmpShiftMasterList", function (response) {
+                $("#POListContainer").html(response);
+            });
+        }
+        $(".alert-close").click(function () {
+            $("#editshow").hide();
+        });
+        $("#btnNew").click(function () {
+            var n = EzAuthenticationBtn("/EmpShiftMaster", "NewIt");
+            if (n == 1) {
+                $("#editshow").hide();
+                $.get("EmpShift/AddEmpShiftMaster", function (response) {
+                    $("#POContainer").html(response);
+                });
+                $(this).prop("disabled", true);
+                EzbtnNewAc();
+                $("#POListContainer1").hide();
+            }
+        });
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/EmpShiftMaster", "ViewIt");
+            if (n == 1) {
+                $(this).prop("disabled", true);
+                $("#POListContainer1").show();
+                EzbtnEditAc();
+                GetLeaveList();
+                $("#editshow").show();
+            }
+        });
+        $("#btnCancel").click(function () {          
+            $("#POContainer").html(lvHtml);           
+            $("#POListContainer1").hide();
+            EzbtnCancelAc();
+            $("#editshow").hide();
+        });
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/EmpShiftMaster", "DeleteIt");
+            if (n == 1) {
+                $("#editshow").hide();
+                if (confirm("Are you Sure?")) {
+                    var PRSFT003_code = $("[name*='PRSFT003_code']").val();
+                    $.getJSON("/DeleteEmpShift", { PRSFT003_code: PRSFT003_code }).done(function (data) {
+                        if (data.DeleteFlag) {
+                            GetLeaveList();
+                            $("#btnCancel").trigger("click");
+                        } else {
+                            Ezerrormsg("#ErrorMessage", "Unable to Delete");
+                        }
+                    });
+                }
+            }
+        });
+        $("#btnSave").click(function () {
+            var n = EzAuthenticationBtn("/EmpShiftMaster", "EditIt");
+            $("#editshow").hide();
+            var opMode = $("#hdnOperationMode").val();
+            if (opMode == "Add") {
+                // Code for Adding Purchase order
+                var Sft = {
+                    EditFlag: false,
+                    PRSFT003_code: $("[name='PRSFT003_code']").val(),               
+                    EmpCode: $("[name='EmpCode'] option:selected").val(),                    
+                    PRSFT001_code: $("[name='PRSFT001_code'] option:selected").val(),
+                    PRSFT002_code: $("[name='PRSFT002_code'] option:selected").val(),
+                    SNO: $("[name='SNO']").val(),
+                    Remarks: $("[name='Remarks']").val(),
+                };
+                var validationResult = ValidateForm(Sft);
+                if (validationResult.formValid){
+                    $.post("/SaveEmpShift", Sft).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {                           
+                            EzbtnsaveAc("#POContainer");
+                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            GetLeaveList();
+                        } else {                         
+                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                        }
+                    });
+                } else {                    
+                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                }
+            } else if (opMode == "Edit" && n==1) {
+                var Sft = {
+                    EditFlag: true,
+                    PRSFT003_code:$("[name='PRSFT003_code']").val(),
+                    EmpCode:$("[name='EmpCode'] option:selected").val(),
+                    PRSFT001_code: $("[name='PRSFT001_code'] option:selected").val(),
+                    PRSFT002_code: $("[name='PRSFT002_code'] option:selected").val(),
+                    SNO: $("[name='SNO']").val(),
+                    Remarks: $("[name='Remarks']").val(),
+                };
+                var validationResult = ValidateForm(Sft);
+                if (validationResult.formValid) {
+                    $.post("/SaveEmpShift", Sft).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {                          
+                            EzbtnsaveAc("#POContainer");
+                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            GetLeaveList();
+                        } else {                            
+                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                        }
+                    });
+                } else {                   
+                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                }
+            }
+        });
+
+        function ValidateForm(Sft) {
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+            if (Sft.EditFlag == false) {
+                if (Sft.PRSFT003_code == "") {
+                    response.ErrorMessage += "PRSFT003 Code ,";
+                }
+            } else if (Sft.EditFlag == true) {
+                if (!Sft.PRSFT003_code) {
+                    response.ErrorMessage += "PRSFT003 Code ,";
+                }
+            }
+            if (Sft.EmpCode == 0) {
+                response.ErrorMessage += "Emp Code ,";
+            }
+            if (Sft.PRSFT002_code == 0) {
+                response.ErrorMessage += "PRSFT002 Code ,";
+            }
+            if (Sft.PRSFT001_code == 0) {
+                response.ErrorMessage += "PRSFT001 Code ,";
+            }
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;                
+            } else {
+                response.ErrorMessage = "* Mandatory Fields " + response.ErrorMessage
+            }
+            return response;
+        }
+        function parseDate(s) {
+            var b = s.split(/\D/);
+            return new Date(b[0], --b[1], b[2]);
+        }
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+        $(document).on("click", "#POList tbody tr", function () {
+            var operationMode = $("#hdnOperationMode").val();
+            if (operationMode == "Edit") {
+                $("#POList > tbody").children().removeClass("active");
+                $(this).addClass("active");
+                var PRSFT003_code = $(this).find("#hdnprbmCode").val();
+                $.get("EditEmpShiftMaster", { PRSFT003_code: PRSFT003_code }).done(function (response) {
+                    $("#POContainer").html(response);
+                    $("#btnDelete").prop("disabled", false);
+                });
+            }
+        });
+
+    });
+
+</script>
+<style>
+    .top-buffer {
+        margin-top: 15px;
+    }
+
+    .fixed-width {
+        width: 100px;
+        float: left;
+    }
+
+    .fluid.row-fluid {
+        margin-right: 100px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .customSpace {
+        content: " ";
+        display: inline-block;
+        width: 40px;
+    }
+
+    div.scroll {
+        width: 300px;
+        height: 500px;
+        overflow: scroll;
+    }
+
+    .contro {
+        width: 13em;
+    }
+</style>
+@*<script>
+    var jq2 = $.noConflict(true);
+    jq2(document).ready(function () {
+        //$("#editshow").hide();
+
+        jq2("#btnNew").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnDelete").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnCancel").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnSave").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnEdit").click(function () {
+            jq2("#editshow").show();
+        });
+    });
+</script>*@
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 15px">
+        <ol class="breadcrumb">
+            <li class="active strong1">
+                <strong>Employee Shift Master</strong>
+            </li>
+        </ol>
+        <div class="title-action">
+            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
+            <button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>
+
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+        </div>
+    </div>
+
+</div><hr />
+<!-- Row start -->
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <label class="row" id="ErrorMessage" style="display:none"></label>
+                <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="POContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">PRSFT003_code</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input type="text" class="form-control" name="" required placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Emp</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <select class="form-control" name="">
+                                                                <option value="">---Select---</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">PRSFT001_code</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <select class="form-control" name="">
+                                                                <option value="">---Select---</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">PRSFT002_code</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <select class="form-control" name="">
+                                                                <option value="">---Select---</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">SNO</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input type="number" class="form-control" name="" required placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                               
+
+                                           
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Remarks</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input type="text" class="form-control" name="" required placeholder="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                           
+                                            <!--/row-->
+                                            <!--/row-->
+
+
+
+
+                                        </div>
+                                    </div><br />
+                                    <!-- END FORM-->
+                                    <!-- <button>Hey, click me!</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+ 
+
+    <div class="modal" id="editshow" role="dialog">
+        <div class="modal-dialog m1" data-keyboard="false">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Ez Business System</h4>
+                    <button type="button" style="float: right;margin-top: -26px;" class="btn btn-danger alert-close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container scroll" id="POListContainer">
+                        @Html.Action("GetEmpShiftMasterList", "EmpShift")
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+</div>
+
+
+
+</div>

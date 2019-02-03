@@ -1,0 +1,43 @@
+﻿@model IEnumerable <EzBusiness_ViewModels.Models.Humanresourcepayroll.MonthlyAdddedVM>
+
+
+
+<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+        Ezsidetbl('#POList', '#POList tfoot th',false);
+</script>
+
+<table id="POList" class="table table-bordered table-hover editlist">
+    <thead>
+        <tr>
+            <th>PRADN001_CODE</th>
+            <th>Entry_Date</th>
+            <th>TMonth</th>
+            <th>TYear</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var po in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnPRADN001_CODE", po.PRADN001_CODE)
+                    @po.PRADN001_CODE
+                </td>
+                <td>
+                    @po.Entry_Date
+                </td>
+                <td>
+                    @po.TMonth
+                </td>
+                <td>
+                    @po.TYear
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+

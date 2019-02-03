@@ -1,0 +1,357 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.ShiftMasterVM
+
+@{
+    var counter = 1;
+
+}
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.selectpicker').selectpicker('refresh');
+       // EzsetDatetxt();
+        /*Retrive Data  */
+       
+        var tablePODetails = $("#tablePODetails tbody tr");
+        var index1 = 1;
+        tablePODetails.each(function (index, item) {
+            debugger;
+            
+            $("[name*='PRSFT002_code" + (index + 1) + "']").val($("[name*='hdnPRSFT002_code" + (index + 1) + "']").val());
+            $("[name*='PRSFT001_code" + (index + 1) + "']").val($("[name*='hdnPRSFT001_code" + (index + 1) + "']").val());
+            $("[name*='Enttry_Date" + (index + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnEnttry_Date" + (index + 1) + "']").val()));
+            $("[name*='Effect_Date" + (index + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnEffect_Date" + (index + 1) + "']").val()));
+            //$("[name*='ApprovalYN" + (index + 1) + "']").val($("[name*='hdnApprovalYN" + (index + 1) + "']").val());
+            // option:selected
+            $("#SelectAproved" + (index + 1) + "").val($("[name*='hdnApprovalYN" + (index + 1) + "']").val());
+            index1 = index + 1;            
+        });                   
+            EzdtePk('#Enttry_Date' + index1 + ',#Effect_Date' + index1 + '');        
+        counter = 1;
+        drec = [];
+        /* Add new row & find duplicate data in table  */
+        $("#tablePODetails").on("change", "[name*='PRSFT002_code']", function () {
+            tbldtpicker();
+            $(".datepicker").datetimepicker("destroy");
+            var tr = $(this).closest("tr");
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
+                var ab = $(this).find("[name *= 'PRSFT002_code']").val();
+                drec.push(ab);
+            });
+            drec.splice($.inArray(tr.find("[name *= 'PRSFT002_code']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name *= 'PRSFT002_code']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'PRSFT002_code']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'PRSFT002_code']").focus();
+                alert("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'PRSFT002_code']").val('');
+            }
+            else {
+                tr.css("background", "");
+
+                if (tr.is(":last-child")) {
+                    debugger;
+                    tr.clone(true, true).insertAfter(tr);
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                        .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                    var trLast = $("#tableMetaSettings tr:last");
+
+                    var trLast1 = $("#tablePODetails tbody tr:last");
+                    trLast1.find("[name *= 'PRSFT002_code']").val('')
+                    trLast1.find("[name *= 'ShiftName']").val('')
+
+                    trLast.find("[name *= 'PRSFT002_code']").attr({
+                        "name": ("PRSFT002_code" + counter)
+                    });
+                    trLast.find("[name *= 'ShiftName']").attr({
+                        "name": ("ShiftName" + counter)
+                    });
+
+
+                    trLast.find(":first").text(counter);
+                }
+            }
+            counter++;
+        });
+
+
+       
+        /*Delete Data  */
+        $("#tablePODetails tbody tr").on("click", "[name*='btnDelete']", function () {
+            var tr = $(this).closest("tr");
+            var PRSR002_CODE = $("#tablePODetails tbody tr").find("[name *= 'PRSFT002_code']").val();
+            if (confirm("Are you Sure?")) {
+                var PRSR001_CODE = $("[name*='prbm001_code']").val();
+                $.getJSON("/UseShiftAlloc", { PRSFT001_code: PRSR001_CODE, PRSFT002_code: PRSR002_CODE }).done(function (data) {
+                    if (data.DeleteFlag == 0) {
+                        drec.pop($(this).find("[name*='PRSFT001_code']").val());
+                        counter--;
+                        tr.remove();
+                    } else {
+                        alert("Already Record found Employee Bank'" + PRSR002_CODE + "'");
+                        tr.css("background", "red");
+                    }
+                });
+            }
+        });
+
+        EztableLstEnt("#tablePODetails", "[name*='ShiftName']", "[name *= 'PRSFT002_code']","T","");
+        EztableTabEve("#tablePODetails", "[name*='PRSFT002_code']", "[name *= 'Effect_Date']", "Please Enter Code", 'T', "");
+
+
+
+        
+        ///*Bank_branch_name Enter Event*/
+        //$("#tablePODetails").on("keypress", "[name *= 'ShiftName']", function (e) {
+        //    debugger;
+        //    if (e.keyCode == 13) {
+        //        $(this).closest('tr').next('tr').find("[name *= 'PRSR002_CODE']").focus();
+        //        return false;
+        //    }
+        //});
+        ///*Code Tab Event*/
+        //$("#tablePODetails").on("keydown", "[name*='PRSR002_CODE']", function (e) {
+        //    debugger;
+        //    var keyCode = e.keyCode || e.which;
+        //    if (keyCode == 9) {
+        //        e.preventDefault();
+        //        var tr = $(this).closest('tr');
+        //        var ab = tr.find("[name *= 'PRSFT001_code']").val();
+        //        if (ab != '') {
+        //            tr.find("[name *= 'ShiftMaster']").focus();
+        //            tr.css("background", "");
+        //        }
+        //        else {
+        //            tr.css("background", "red");
+        //            tr.find("[name *= 'PRSFT001_code']").focus();
+        //            alert("Please Enter Code");
+        //        }
+        //    }
+        //});
+
+        $('body').on('click', '.datepicker', function () {
+            debugger;
+            // var myDate = new Date(2012, 2, 11);
+
+            // $('#startdate').datetimepicker("setDate", myDate);
+            $('.datepicker').datetimepicker({
+                // defaultDate: new Date(),
+                format: 'DD/MM/YYYY',
+                showClose: true,
+                showClear: true,
+                toolbarPlacement: 'top'
+            });
+
+        });
+    });
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+                                <div class="form-body">
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Code</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.PRSFT001_code, new { @class = "form-control", @placeholder = "Code", @disabled = "disabled" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Country</label>
+                                                <div class="col-md-8 input-field">
+
+                                                    @Html.DropDownListFor(m => m.country, Model.CountryList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Shift Name</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.ShiftName, new { @class = "form-control", @placeholder = "Code" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Start Time</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.StTime, new { @class = "form-control", @placeholder = "Code", @Type = "time" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">End Time</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.EdTime, new { @class = "form-control", @placeholder = "Code",@Type= "time" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- END FORM-->
+
+                                  
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a data-toggle="tab" href="#home">Allocation Details</a></li>
+
+                                            </ul>
+
+                                    <div class="tab-content">
+                                        @*<div id="home" class="tab-pane fade in active">*@
+                                        <br /><br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div style="overflow-x:auto;">
+
+                                                    @*<div style="overflow-x:auto;">*@
+                                                    <table class="table table-bordered table-sm" id="tablePODetails">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sr No</th>
+                                                                <th>Shift Allocation Code</th>
+
+                                                                <th>Entyr Date</th>
+                                                                <th>Effective Date</th>
+                                                                <th>Approved</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in Model.Shift)
+                                                            {
+
+                                                            <tr>
+                                                                <td>
+                                                                    @Html.Label(counter.ToString())
+                                                                </td>
+                                                                <td>
+
+                                                                    @Html.TextBox(string.Concat("PRSFT002_code", counter), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnPRSFT002_code", counter), item.PRSFT002_code)
+
+                                                                </td>
+
+                                                                <td>
+
+                                                                    @Html.TextBox(string.Concat("Effect_Date", counter), null, new { @class = "grid-control datepicker" })
+                                                                    @Html.Hidden(string.Concat("hdnEffect_Date", counter), item.Effect_Date)
+
+                                                                </td>
+                                                                <td>
+
+                                                                    @Html.TextBox(string.Concat("Enttry_Date", counter), null, new { @class = "grid-control datepicker" })
+                                                                    @Html.Hidden(string.Concat("hdnEnttry_Date", counter), item.Enttry_Date)
+
+                                                                </td>
+                                                                <td>
+                                                                    @*<select name="" id="SelectAproved" value="">
+                                            <option value="Y">YES</option>
+                                            <option value="N">NO</option>
+                                        </select>*@
+                                                                    @Html.DropDownList(string.Concat("SelectAproved", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "Y" }, new SelectListItem { Text = "NO", Value = "N" }, }, new { @class = "grid-control" })
+
+                                                                    @*@Html.DropDownList(string.Concat("ApprovalYN ", counter), null, new { @class = "grid-control" })*@
+                                                                    @Html.Hidden(string.Concat("hdnApprovalYN", counter), item.ApprovalYN)
+
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                </td>
+                                                            </tr>
+                                                                counter++;
+                                                            }
+
+                                                            <tr>
+
+                                                                <td>
+
+                                                                    @Html.Label(counter.ToString())
+
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("PRSFT002_code", counter), null, new { @class = "grid-control" })
+                                                                    </div>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("Effect_Date", counter), "", "", new { @class = "grid-control datepicker" })
+                                                                    </div>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("Enttry_Date", counter), "", "", new { @class = "grid-control datepicker" })
+                                                                    </div>
+
+                                                                </td>
+                                                                <td>
+
+                                                                    @Html.DropDownList(string.Concat("SelectAproved", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "Y" }, new SelectListItem { Text = "NO", Value = "N" }, }, new { @class = "grid-control" })
+
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+
+
+
+                                                    </table>
+                                                </div>
+
+
+
+
+                                                @Html.Hidden("hdnCounter", (++counter))
+                                                @*</div>*@
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    
+</script>

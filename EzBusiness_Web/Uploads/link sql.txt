@@ -1,0 +1,4 @@
+select  a.JoiningDate,a.EmpType,a.LastRetDate,a.BalLeave ,
+b.basic,b.hra,b.da,b.trans,b.car,b.tele,b.allowance1,b.allowance2,b.allowance3,b.total
+from MEM001 a,PRSMS001 b
+where a.EmpCode='EMP-0001'  and a.EmpCode=b.EmpCode and  b.Effect_From=(select max(Effect_From)  from PRSMS001 where EMPCODE=a.EmpCode)

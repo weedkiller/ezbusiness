@@ -1,0 +1,319 @@
+﻿@model EzBusiness_ViewModels.Models.MenuItem.MenuItemRUVM
+
+
+@{
+    var counter = 1;
+
+
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+    $(function () {
+        $('.selectpicker').selectpicker('refresh');
+    });
+</script>
+
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+
+
+        <div class="panel-body" style="margin-left:10px;">
+            <div class="tabbable-line boxless tabbable-reversed" id="LVContainer">
+                <div class="custom-form-wrapper">
+                    <div id="LVContainer">
+                        <div class="row">
+                            <div class="custom-form-wrapper">
+                                <!-- BEGIN FORM-->
+                                <div class="form-horizontal">
+                                    <div class="form-body">
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">User Name</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.TextBoxFor(m => m.user_name, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-2">Password</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.TextBoxFor(m => m.passwords, new { @class = "form-control", @Type = "password" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-2">Employee</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        <!--/row-->
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Role</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.DropDownListFor(m => m.Utype, new List<SelectListItem> { new SelectListItem { Text = "Select", Value = "0" }, new SelectListItem { Text = "Admin", Value = "A" }, new SelectListItem { Text = "User", Value = "U" } }, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ul class="nav nav-tabs">
+                                            <li class="active b1"><a data-toggle="tab" href="#Form">Form</a></li>
+                                            <li class="b1"><a data-toggle="tab" href="#Report">Report</a></li>
+                                            
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="Form" class="tab-pane fade in active">
+
+                                                <div class="row">
+
+                                                    <table class="table table-bordered table-sm" id="tablePODetails">
+                                                        <thead>
+                                                            <tr>
+                                                                @*<th align="center">Module</th>*@
+                                                                <td align="center"><b>Menu Name</b></td>
+                                                                <td align="center"><b>All</b></td>
+                                                                <td align="center"><b>Create</b></td>
+                                                                <td align="center"><b>View</b></td>
+                                                                <td align="center"><b>Edit</b></td>
+                                                                <td align="center"><b>Delete</b></td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            @*@{ Html.RenderAction("GetCheckMenu", "UserRights", "GetCheckMenu"); }*@
+
+                                                            @{ Html.RenderAction("GetMenuTreeRightF", "UserRights"); }
+
+                                                        </tbody>
+
+
+
+
+
+                                                    </table>
+                                                </div>
+
+                                                </div>
+                                            <div id="Report" class="tab-pane fade">
+                                                <div class="row">
+
+                                                    <table class="table table-bordered table-sm" id="tablePODetails2">
+                                                        <thead>
+                                                            <tr>
+                                                                @*<th align="center">Module</th>*@
+                                                                <td align="center"><b>Menu Name</b></td>
+
+                                                                <td align="center"><b>View</b></td>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            @*@{ Html.RenderAction("GetCheckMenu", "UserRights", "GetCheckMenu"); }*@
+
+                                                            @{ Html.RenderAction("GetMenuTreeRightR", "UserRights"); }
+
+                                                        </tbody>
+
+
+
+
+
+                                                    </table>
+                                                </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+                                    </div>
+                                    </div>
+                            </div><br />
+                            <!-- END FORM-->
+                            <!-- <button>Hey, click me!</button> -->
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- Purchase Request List Start-->
+
+
+<script>
+    $(document).ready(function () {
+        $(".alert-close").click(function () {
+            $("#editshow").hide();
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#tablePODetails").on("change", "[name*='SelAll']", function () {
+            debugger;
+            var tr = $(this).closest("tr");
+            if (tr.find("[name *= 'SelAll']").val() == 0) {
+                tr.find("[name *= 'ViewIt']").prop('checked', true);
+                tr.find("[name *= 'NewIt']").prop('checked', true);
+                tr.find("[name *= 'EditIt']").prop('checked', true);
+                tr.find("[name *= 'DeleteIt']").prop('checked', true);
+                tr.find("[name *= 'SelAll']").val(1);
+                tr.find("[name *= 'ViewIt']").val(1);
+                tr.find("[name *= 'NewIt']").val(1);
+                tr.find("[name *= 'EditIt']").val(1);
+                tr.find("[name *= 'DeleteIt']").val(1);
+                tr.find("[name *= 'selectedRole']").val(1);
+            }else{
+            tr.find("[name *= 'ViewIt']").prop('checked', false);
+            tr.find("[name *= 'NewIt']").prop('checked', false);
+            tr.find("[name *= 'EditIt']").prop('checked', false);
+            tr.find("[name *= 'DeleteIt']").prop('checked', false);
+            tr.find("[name *= 'SelAll']").val(0);
+            tr.find("[name *= 'ViewIt']").val(0);
+            tr.find("[name *= 'NewIt']").val(0);
+            tr.find("[name *= 'EditIt']").val(0);
+            tr.find("[name *= 'DeleteIt']").val(0);
+            tr.find("[name *= 'selectedRole']").val(0);
+            }
+        });
+
+        $("#tablePODetails").on("change", "[name*='DeleteIt']", function () {
+            var tr = $(this).closest("tr");
+            if (tr.find("[name *= 'DeleteIt']").val() == 0) {
+               // tr.find("[name *= 'selectedRole']").val(1);
+                tr.find("[name *= 'DeleteIt']").val(1);
+                tr.find("[name *= 'DeleteIt']").prop('checked', true);
+                tr.find("[name *= 'ViewIt']").val(1);
+                tr.find("[name *= 'ViewIt']").prop('checked', true);
+            }
+            else
+            {
+                tr.find("[name *= 'DeleteIt']").val(0);
+                tr.find("[name *= 'DeleteIt']").prop('checked', false);
+                tr.find("[name *= 'ViewIt']").val(0);
+                tr.find("[name *= 'ViewIt']").prop('checked', false);
+               // tr.find("[name *= 'selectedRole']").val(0);
+            }
+        });
+
+        $("#tablePODetails").on("change", "[name*='EditIt']", function () {
+            var tr = $(this).closest("tr");
+            if (tr.find("[name *= 'EditIt']").val() == 0) {
+//tr.find("[name *= 'selectedRole']").val(1);
+                tr.find("[name *= 'EditIt']").val(1);
+                tr.find("[name *= 'EditIt']").prop('checked', true);
+                tr.find("[name *= 'ViewIt']").val(1);
+                tr.find("[name *= 'ViewIt']").prop('checked', true);
+            }
+            else {
+                tr.find("[name *= 'EditIt']").val(0);
+                tr.find("[name *= 'EditIt']").prop('checked', false);
+                tr.find("[name *= 'ViewIt']").val(0);
+                tr.find("[name *= 'ViewIt']").prop('checked', false);
+               // tr.find("[name *= 'selectedRole']").val(0);
+            }
+        });
+        $("#tablePODetails").on("change", "[name*='NewIt']", function () {
+            var tr = $(this).closest("tr");
+            debugger;
+            if (tr.find("[name *= 'NewIt']").val() == 0) {
+               
+                tr.find("[name *= 'NewIt']").val(1);
+                tr.find("[name *= 'NewIt']").prop('checked', true);
+                tr.find("[name *= 'ViewIt']").val(1);
+                tr.find("[name *= 'ViewIt']").prop('checked', true);
+               // tr.find("[name *= 'selectedRole']").val(1);
+            }
+            else {
+                tr.find("[name *= 'NewIt']").val(0);
+                tr.find("[name *= 'NewIt']").prop('checked', false);
+               
+                tr.find("[name *= 'ViewIt']").val(0);
+                tr.find("[name *= 'ViewIt']").prop('checked', false);
+                //tr.find("[name *= 'selectedRole']").val(0);
+            }
+        });
+        $("#tablePODetails").on("change", "[name*='ViewIt']", function () {
+            var tr = $(this).closest("tr");
+            if (tr.find("[name *= 'ViewIt']").val() == 0) {
+               // tr.find("[name *= 'selectedRole']").val(1);
+                tr.find("[name *= 'ViewIt']").val(1);
+                tr.find("[name *= 'ViewIt']").prop('checked', true);
+            }
+            else {
+                tr.find("[name *= 'ViewIt']").val(0);
+                tr.find("[name *= 'ViewIt']").prop('checked', false);
+                // tr.find("[name *= 'selectedRole']").val(0);
+
+                tr.find("[name *= 'NewIt']").val(0);
+                tr.find("[name *= 'NewIt']").prop('checked', false);
+                tr.find("[name *= 'EditIt']").val(0);
+                tr.find("[name *= 'EditIt']").prop('checked', false);
+                tr.find("[name *= 'DeleteIt']").val(0);
+                tr.find("[name *= 'DeleteIt']").prop('checked', false);
+            }
+        });
+
+
+
+        $("#tablePODetails2").on("change", "[name*='ViewIt']", function () {
+            var tr = $(this).closest("tr");
+            if (tr.find("[name *= 'ViewIt']").val() == 0) {
+                tr.find("[name *= 'selectedRole']").val(1);
+                tr.find("[name *= 'ViewIt']").val(1);
+                tr.find("[name *= 'ViewIt']").prop('checked', true);
+            }
+            else {
+                tr.find("[name *= 'ViewIt']").val(0);
+                tr.find("[name *= 'ViewIt']").prop('checked', false);
+                tr.find("[name *= 'selectedRole']").val(0);
+            }          
+        });
+                                       
+        $('#Utype').change(function () {
+            var uty = $("#Utype option:selected").val();                        
+                $('table [type="checkbox"]').each(function (i, chk) {
+                    if (chk.checked && uty == 'U') {
+                        chk.disabled = false;
+                    } else {
+                        chk.checked = true;
+                        chk.value = 1;
+                        chk.disabled = true;
+                    }
+                });                                           
+            });
+    });
+</script>
+
+<!-- Purchase Request List End -->
+<!-- Row end -->

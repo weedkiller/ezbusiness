@@ -1,0 +1,1163 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.Employee_VM
+@{
+    var counter = 1;
+    var counter1 = 1;
+    var counter2 = 1;
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+  
+    $(function () {
+
+        $('#user_img').attr("src", $('#photpath').val());
+        var dte='';      
+        EzdtePkEdit('#JoiningDate1', "#JoiningDate");
+        EzdtePkEdit('#DOB1', "#DOB");
+        EzdtePkEdit('#LastRetDate1', "#LastRetDate");
+        EzdtePkEdit('#ContactDate1', "#ContactDate");
+        EzdtePkEdit('#AbscondingDate1', "#AbscondingDate");
+
+       // ezValidateNumbers("#tablePODetails1", "[name*='ObtainedYear']");
+        debugger;
+
+        $('.selectpicker').selectpicker('refresh');
+
+        EzcheckedFnEdit('input[name="LeaveStatus"]', "[name*='LeaveStatus']", 'input[name="LeaveStatus"]:hidden');
+        EzcheckedFnEdit('input[name="SupervisorYN"]', "[name*='SupervisorYN']", 'input[name="SupervisorYN"]:hidden');
+        EzcheckedFnEditS('input[name="PhysicallyDisabledYN"]', "[name*='PhysicallyDisabledYN']", 'input[name="PhysicallyDisabledYN"]:hidden', "input[name='PhysicallyDisabled']");
+        EzcheckedFnEditD('input[name="AbscondingYN"]', "[name*='AbscondingYN']", 'input[name="AbscondingYN"]:hidden', "input[name='AbscondingDate']");
+
+        EzcheckedFnE('input[name="LeaveStatus"]', "[name*='LeaveStatus']");
+        EzcheckedFnE('input[name="SupervisorYN"]', "[name*='SupervisorYN']");
+        EzcheckedFnES('input[name="PhysicallyDisabledYN"]', "[name*='PhysicallyDisabledYN']", "input[name='PhysicallyDisabled']");
+        EzcheckedFnED('input[name="AbscondingYN"]', "[name*='AbscondingYN']", "input[name='AbscondingDate']");
+      
+        $('#DivisionCode').change(function () {
+            debugger;
+            var divcode = $('#DivisionCode option:selected').val();
+            $.get("EmployeeMaster/GetBranchCodeList1", { divcode: divcode }).done(function (response) {
+                $('#BranchCode').empty();
+                $('#DepartmentCode').empty();
+                var ary = [];
+                ary = response;
+                for (var i = 0; i < ary.length; i++) {
+                    $('#BranchCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                }
+                $('#DepartmentCode').append('<option value="0" selected="">-Select-</option>');
+                $('#BranchCode').val(0);
+                $('#DepartmentCode').val(0);
+                $('.selectpicker').selectpicker('refresh');
+            });
+        });
+        $('#BranchCode').change(function () {
+            debugger;
+            var divcode = $('#DivisionCode option:selected').val();
+            var Brancode = $('#BranchCode option:selected').val();
+            $.get("EmployeeMaster/GetDepartmentList", { divcode: divcode, Brancode: Brancode }).done(function (response) {
+                $('#DepartmentCode').empty();
+                var ary = [];
+                ary = response;
+                for (var i = 0; i < ary.length; i++) {
+                    $('#DepartmentCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                }
+                $('#DepartmentCode').val(0);
+                $('.selectpicker').selectpicker('refresh');
+            });
+        });
+
+        $('#BankCode').change(function () {
+            debugger;
+            var BanCode = $('#BankCode option:selected').val();
+
+            $.get("EmployeeMaster/GetBankBranchList", { BankCode: BanCode }).done(function (response) {
+                $('#BankBranchCode').empty();
+                var ary = [];
+                ary = response;
+                for (var i = 0; i < ary.length; i++) {
+                    $('#BankBranchCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                }
+                $('#BankBranchCode').val(0);
+                $('.selectpicker').selectpicker('refresh');
+            });
+        });
+
+      
+         var Eary = [];
+        Eary.push('input[name="AbscondingDate"]');
+        Eary.push('input[name="RetirementDate"]');
+        EzDisabledT(Eary);
+
+      
+        var counter = parseInt($("#hdnCounter").val());
+        var counter1 = parseInt($("#hdnCounter1").val());
+        var counter2 = parseInt($("#hdnCounter2").val());
+      
+
+        EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
+        EzTableRowDel("#tablePODetails1", "[name*='btnDelete']");
+        EzTableRowDel("#tablePODetails2", "[name*='btnDelete']");
+
+        $("#tablePODetails1").on("change", "[name*='Degree']", function () {
+            debugger;
+            var tr = $(this).closest("tr");
+         
+            var docode = tr.find("[name*='Degree']").val();
+            var doName = tr.find("[name*='Degree'] option:selected").text();
+            tr.find("[name*='DegreeName']").val(docode);
+
+        });
+        $("#tablePODetails2").on("change", "[name*='DocCode']", function () {
+            debugger;
+            tbldtpicker();
+            $(".datepicker").datetimepicker("destroy");
+            var tr = $(this).closest("tr");
+            var docode = tr.find("[name*='DocCode']").val();
+            var doName = tr.find("[name*='DocCode'] option:selected").text();
+            tr.find("[name *= 'StartDate']").val(EzdtePk("[name *= 'StartDate']"));
+            tr.find("[name *= 'EndDate']").val(EzdtePk("[name *= 'EndDate']"));
+            if (tr.is(":last-child")) {
+                tr.clone(true, true).insertAfter(tr);
+                tr.find("[name*='DocCode']").val(docode);
+                tr.find("[name*='DocName']").val(doName);
+                $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                    .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
+                var trLast = $("#tableMetaSettings tr:last")
+                trLast.find("[name *= 'DocCode']").attr({
+                    "name": ("DocCode" + counter)
+                });
+                trLast.find("[name *= 'DocName']").attr({
+                    "name": ("DocName" + counter)
+                });
+                trLast.find("[name *= 'DocNo']").attr({
+                    "name": ("DocNo" + counter)
+                });
+                trLast.find("[name *= 'IssuePlace']").attr({
+                    "name": ("IssuePlace" + counter)
+                });
+                trLast.find("[name *= 'DocStatus']").attr({
+                    "name": ("DocStatus" + counter)
+                });
+
+                trLast.find("[name *= 'StartDate']").attr({
+                    "name": ("StartDate" + counter)
+                });
+                trLast.find("[name *= 'EndDate']").attr({
+                    "name": ("EndDate" + counter)
+                });
+                trLast.find("[name *= 'Description']").attr({
+                    "name": ("Description" + counter)
+                });
+
+                trLast.find(":first").text(counter);
+            }
+            counter++;
+        });
+        $("#tablePODetails2").on("change", "[name*='DocumentPath']", function () {
+           
+            debugger;
+            if (window.FormData != undefined) {
+                //var FileUpload = $('#File').get(0);
+                var files = $("[name*='DocumentPath']").get(0).files;
+                var fileData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                $.ajax({
+                    url: "/EmployeeMaster/UploadDoc",
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+
+                    data: fileData,
+                    success: function (response) {
+                        debugger;
+                        //code after success
+                        //  alert(response);
+                        //  $("#user_img").val(response);
+                        $('input[name*="DocumentPath"]').val('/Uploads/' + response);
+
+                    },
+                    error: function (er) {
+                        alert(er);
+                    }
+                });
+            }
+        });
+        
+        $("#tablePODetails1").on("change", "[name*='Institution']", function () {
+            debugger;
+            tbldtpicker();
+            $(".datepicker").datetimepicker("destroy");
+            var tr = $(this).closest("tr");
+            tr.find("[name *= 'ObtainedYear']").val(EzdtePkyyyy("[name *= 'ObtainedYear']"));
+            if (tr.is(":last-child")) {
+
+                tr.clone(true, true).insertAfter(tr);
+                $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tablePODetails1 tbody tr:nth-last-child(2)");
+                var trLast = $("#tableMetaSettings tr:last")
+                $("#tablePODetails1 tbody tr:last").find("[name*='Institution']").val('');
+                trLast.find("[name *= 'Institution']").attr({
+                    "name": ("Institution" + counter2)
+                });
+                trLast.find("[name *= 'Location']").attr({
+                    "name": ("Location" + counter2)
+                });
+                trLast.find("[name *= 'Degree']").attr({
+                    "name": ("Degree" + counter2)
+                });
+                trLast.find("[name *= 'ObtainedYear']").attr({
+                    "name": ("ObtainedYear" + counter2)
+                });
+                trLast.find("[name *= 'Specification']").attr({
+                    "name": ("Specification" + counter2)
+                });
+                counter2++;
+
+            }
+        });
+        $("#tablePODetails").on("change", "[name*='NomineeName']", function () {
+            debugger;
+            tbldtpicker();
+            $(".datepicker").datetimepicker("destroy");
+            var tr = $(this).closest("tr");
+            tr.find("[name *= 'NomineeDOB']").val(EzdtePk("[name *= 'NomineeDOB']"));
+            
+            if (tr.is(":last-child")) {
+                tr.clone(true, true).insertAfter(tr);
+                $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter1 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                var trLast = $("#tableMetaSettings tr:last")
+                $("#tablePODetails tbody tr:last").find("[name*='NomineeName']").val('');
+                trLast.find("[name *= 'NomineeName']").attr({
+                    "name": ("NomineeName" + counter1)
+                });
+                trLast.find("[name *= 'NomineeAddress']").attr({
+                    "name": ("NomineeAddress" + counter1)
+                });
+                trLast.find("[name *= 'NomineeRelation']").attr({
+                    "name": ("NomineeRelation" + counter1)
+                });
+                trLast.find("[name *= 'NomineeDOB']").attr({
+                    "name": ("NomineeDOB" + counter1)
+                });
+                
+
+                counter1++;
+            }
+        });
+        var tablePODetails2 = $("#tablePODetails2 tbody tr");
+        tablePODetails2.each(function (index, item) {
+            debugger;
+            //Date.prototype.getToday1 = Ezsetdtpkdate($("[name*='hdnStartDate" + (index + 1) + "']").val());
+            //Date.prototype.getToday2 = Ezsetdtpkdate($("[name*='hdnEndDate" + (index + 1) + "']").val());
+
+            $("[name*='DocCode" + (index + 1) + "']").val($("[name*='hdnDocCode" + (index + 1) + "']").val());
+            $("[name*='DocName" + (index + 1) + "']").val($("[name*='hdnDocName" + (index + 1) + "']").val());
+            $("[name*='DocNo" + (index + 1) + "']").val($("[name*='hdnDocNo" + (index + 1) + "']").val());
+            $("[name*='DocStatus" + (index + 1) + "']").val($("[name*='hdnDocStatus" + (index + 1) + "']").val());
+            $("[name*='StartDate" + (index + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnStartDate" + (index + 1) + "']").val()));
+            $("[name*='EndDate" + (index + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnEndDate" + (index + 1) + "']").val()));
+            $("[name*='Description" + (index + 1) + "']").val($("[name*='hdnDescription" + (index + 1) + "']").val());
+            $("[name*='IssuePlace" + (index + 1) + "']").val($("[name*='hdnIssuePlace" + (index + 1) + "']").val());
+           // $("[name*='DocumentPath" + (index + 1) + "']").val($("[name*='hdnDocumentPath" + (index + 1) + "']").val());
+           
+        });
+        var tablePODetails1 = $("#tablePODetails1 tbody tr");
+        tablePODetails1.each(function (index, item) {
+            debugger;
+            $("[name*='Institution" + (index + 1) + "']").val($("[name*='hdnInstitution" + (index + 1) + "']").val());
+            $("[name*='Location" + (index + 1) + "']").val($("[name*='hdnLocation" + (index + 1) + "']").val());
+            $("[name*='Degree" + (index + 1) + "']").val($("[name*='hdnDegree" + (index + 1) + "']").val());
+            $("[name*='DegreeName" + (index + 1) + "']").val($("[name*='hdnDegreeName" + (index + 1) + "']").val());
+            $("[name*='ObtainedYear" + (index + 1) + "']").val($("[name*='hdnObtainedYear" + (index + 1) + "']").val());
+            $("[name*='Specification" + (index + 1) + "']").val($("[name*='hdnSpecification" + (index + 1) + "']").val());
+        });
+        var tablePODetails = $("#tablePODetails tbody tr");
+        tablePODetails.each(function (index, item) {
+            debugger;          
+            //Date.prototype.getToday = Ezsetdtpkdate($("[name*='hdnNomineeDOB" + (index + 1) + "']").val());
+            $("[name*='NomineeName" + (index + 1) + "']").val($("[name*='hdnNomineeName" + (index + 1) + "']").val());
+            $("[name*='NomineeAddress" + (index + 1) + "']").val($("[name*='hdnNomineeAddress" + (index + 1) + "']").val());
+            $("[name*='NomineeRelation" + (index + 1) + "']").val($("[name*='hdnNomineeRelation" + (index + 1) + "']").val());
+            $("[name*='NomineeDOB" + (index + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnNomineeDOB" + (index + 1) + "']").val()));
+
+        });
+
+        $('body').on('click', '.datepicker', function () {
+            debugger;
+            // var myDate = new Date(2012, 2, 11);
+
+            // $('#startdate').datetimepicker("setDate", myDate);
+            $('.datepicker').datetimepicker({
+                // defaultDate: new Date(),
+                format: 'DD/MM/YYYY',
+                showClose: true,
+                showClear: true,
+                toolbarPlacement: 'top'
+            });
+
+        });
+       // alert($('#hdnDocumentPath').val());
+      
+    });
+  
+</script>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+                        @Html.HiddenFor(m => m.LeaveStatus)
+                        @Html.HiddenFor(m => m.AbscondingYN)
+                        @Html.HiddenFor(m => m.SupervisorYN)
+                        @Html.HiddenFor(m => m.PhysicallyDisabledYN)
+                        @Html.HiddenFor(model => model.FirstSetDate)
+                        @Html.HiddenFor(model => model.LeaveSettlementDate)
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+                                <div class="form-body">
+                                    <div class="col-md-4" style="float:right">
+                                        <div class="form-group" style="float: right;">
+                                            <div class="input-field" style="margin-right:67px;">
+                                                <img id="user_img" height="100" width="90" style="border:1px solid silver;" />
+                                                <div>
+                                                    <div class="clearfix" style="height: 10px;"></div>
+                                                    @Html.HiddenFor(model => model.photpath)
+                                                    @Html.TextBoxFor(m => m.sourcephoto, new { type = "file", multiple = "multiple" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-8 row" style="float: left; text-align: left;">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Emp Code</label>
+                                                <div class="col-md-7 input-field">
+                                                    @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @disabled = "disabled" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Joining Date</label>
+                                                <div class="col-md-9 input-field">
+                                                    <input id="JoiningDate1" class="form-control datepicker" name="JoiningDate1" />
+                                                    @Html.HiddenFor(m => m.JoiningDate)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Salutaion</label>
+                                                <div class="col-md-7 input-field">
+                                                    @Html.DropDownListFor(m => m.Salutaion, Model.SalutaionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Emp Name</label>
+                                                <div class="col-md-9 input-field">
+                                                    @Html.TextBoxFor(m => m.Empname, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Contact No.</label>
+                                                <div class="col-md-7 input-field">
+                                                    @Html.TextBoxFor(m => m.ContactNo, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Gender</label>
+                                                <div class="col-md-9 input-field">
+                                                    <label class="radio-inline" checked="checked">
+                                                        @Html.RadioButtonFor(m => m.Sex, "M", new { @checked = "checked" }) Male
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        @Html.RadioButtonFor(m => m.Sex, "F") Female
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">On Leave</label>
+                                                <div class="col-md-7 input-field">
+                                                    <div class="icheck-inline checkbox1">
+                                                        <label>
+                                                            @Html.CheckBox("LeaveStatus", false)
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Date Of Birth</label>
+                                                <div class="col-md-9 input-field">
+                                                    <input id="DOB1" class="form-control datepicker" name="DOB1" />
+                                                    @Html.HiddenFor(m => m.DOB)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Email Id</label>
+                                                <div class="col-md-7 input-field">
+                                                    @Html.TextBoxFor(m => m.EMail, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Location</label>
+                                                <div class="col-md-9 input-field">
+                                                    @Html.DropDownListFor(m => m.LocCode, Model.LocationList, new { @class = "form-control dropdown-control selectpicker", @data_live_search = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <!--/row-->
+                                    <div class="col-md-4" style="float:right">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Last Resume</label>
+                                                <div class="col-md-8 input-field">
+                                                    <input id="LastRetDate1" class="form-control datepicker" name="LastRetDate1" />
+                                                    @Html.HiddenFor(m => m.LastRetDate)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Status</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.DropDownListFor(m => m.WorkingStatus, Model.WorkingStatusList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-8 row" style="float: left; text-align: left;">
+
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-5">Permanent Address</label>
+                                                <div class="col-md-7 input-field">
+                                                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @placeholder = "Permanent Address" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Local Address</label>
+                                                <div class="col-md-9 input-field">
+                                                    @Html.TextAreaFor(m => m.AddressLocal, new { @class = "form-control", @placeholder = "Local Address" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                            </div><br />
+                            <!-- END FORM-->
+
+                            <div class="">
+                                <ul class="nav nav-tabs">
+                                    <li class="active b1"><a data-toggle="tab" href="#home">General</a></li>
+                                    <li class="b1"><a data-toggle="tab" href="#menu1">Additional Information</a></li>
+                                    <li class="b1"><a data-toggle="tab" href="#menu2">Documents</a></li>
+                                    <li class="b1"><a data-toggle="tab" href="#menu3">Nominee Information</a></li>
+                                    <li class="b1"><a data-toggle="tab" href="#menu4">Education</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="home" class="tab-pane fade in active">
+                                        <br /><br />
+                                        <div class="form-horizontal">
+                                            <div class="form-body">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Group</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Bank</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.BankCode, Model.BankList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Branch Code</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.BranchCode, Model.BranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Bank Branch</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.BankBranchCode, Model.BankBranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/row-->
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Department</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.DepartmentCode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
+
+
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Bank Acct</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.TextBoxFor(m => m.BankAccNo, new { @class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
+                                                </div>
+
+                                                <!--/row-->
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Project</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Marital Status</label>
+                                                            <div class="col-md-9 input-field radiobtn1">
+
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(m => m.MaritalStatus, "S", new { @checked = "checked" }) Married
+                                                                </label>
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(m => m.MaritalStatus, "D")  Unmarried
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
+                                                    <!--/span-->
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Reporting To</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.ReportingEmp, Model.ReportingEmpList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Profession</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.ProfCode, Model.ProfList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Blood Group</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.BloodGroup, Model.BloodGroupList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Physically Disabled</label>
+                                                            <div class="col-md-1 icheck-inline checkbox1">
+                                                                @Html.CheckBox("PhysicallyDisabledYN", false)
+                                                            </div>
+                                                            <div class="col-md-8 input-field">
+                                                                @Html.TextBoxFor(m => m.PhysicallyDisabled, new { @style = "width: 40%;display:none", @class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Weekly Off 1</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.Week_off1, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Pay Rule</label>
+                                                            <div class="col-md-8 input-field">
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(m => m.wagesby, "M", new { @checked = "checked" }) Monthly
+                                                                </label>
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(m => m.wagesby, "D") Daily
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Weekly Off 2</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.Week_off2, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="menu1" class="tab-pane fade">
+                                        <br /><br />
+                                        <div class="form-horizontal">
+                                            <div class="form-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Contact Date</label>
+                                                            <div class="col-md-9 input-field">
+                                                                <input id="ContactDate1" class="form-control datepicker" name="ContactDate1" />
+                                                                @Html.HiddenFor(m => m.ContactDate)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Ticket Type</label>
+                                                            <div class="col-md-8 input-field">
+
+
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(m => m.TicketType, "E", new { @checked = "checked" }) Economy
+                                                                </label>
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(m => m.TicketType, "B") Business
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/row-->
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Absconding</label>
+                                                            <div class="col-md-9 input-field checkbox1">
+                                                                <label>
+                                                                    @Html.CheckBox("AbscondingYN", false)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Supervisor</label>
+                                                            <div class="col-md-9 input-field checkbox1">
+                                                                <label>
+                                                                    @Html.CheckBox("SupervisorYN", false)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--/span-->
+                                                </div>
+
+                                                <!--/row-->
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Absconding Date</label>
+                                                            <div class="col-md-9 input-field checkbox1">
+                                                                <input id="AbscondingDate1" class="form-control datepicker" name="AbscondingDate1" />
+                                                                @Html.HiddenFor(m => m.AbscondingDate)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">No. of Tickets</label>
+                                                            <div class="col-md-8 input-field">
+
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(m => m.TicketNo, "O", new { @checked = "checked" })  1 YR - Tkt
+                                                                </label>
+                                                                <label class="radio-inline">
+                                                                    @Html.RadioButtonFor(m => m.TicketNo, "T")  2 YR - TKT
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Nationality</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.Nationality, Model.NationalityList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Contract</label>
+                                                            <div class="col-md-8 input-field">
+                                                                @Html.RadioButtonFor(m => m.Contract, "S", new { @checked = "checked" }) Single
+                                                                @Html.RadioButtonFor(m => m.Contract, "F") Family
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Language Known</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.TextBoxFor(m => m.LanguageKnown, new { @class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Employee type</label>
+                                                            <div class="col-md-8 input-field">
+                                                                @Html.RadioButtonFor(m => m.EmpType, "SS", new { @checked = "checked" }) staff
+
+                                                                @Html.RadioButtonFor(m => m.EmpType, "OS") Labour
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Visa Location</label>
+                                                            <div class="col-md-9 input-field">
+                                                                @Html.DropDownListFor(m => m.VisaLocation, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div id="menu2" class="tab-pane fade">
+                                        <br /><br />
+                                        <div style="overflow-x:auto;">
+                                            <table class="table table-bordered table-sm" id="tablePODetails2">
+                                                <thead>
+                                                    <tr class="id2">
+                                                        <th>Doc Code</th>
+                                                        <th>Document Name</th>
+                                                        <th>Document No.</th>
+                                                        <th>Issue Place</th>
+                                                        <th>Document Status</th>
+                                                        <th>Issue Date</th>
+                                                        <th>Expiry Date</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                   
+                                                    @foreach (var item in Model.EmployeeDetailnews)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.DropDownList(string.Concat("DocCode", counter), Model.DocList, new { @class = "form-control" })
+                                                                    @Html.Hidden(string.Concat("hdnDocCode", counter), item.DocCode)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("DocName", counter), null, new { @class = "grid-control", @disabled = "disabled" })
+                                                                    @Html.Hidden(string.Concat("hdnDocName", counter), item.DocName)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("DocNo", counter), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnDocNo", counter), item.DocNo)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("IssuePlace", counter), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnIssuePlace", counter), item.IssuePlace)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("DocStatus", counter), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnDocStatus", counter), item.DocStatus)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("StartDate", counter), null, new { @class = "grid-control datepicker" })
+                                                                    @Html.Hidden(string.Concat("hdnStartDate", counter), item.StartDate)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("EndDate", counter), null, new { @class = "grid-control datepicker" })
+                                                                    @Html.Hidden(string.Concat("hdnEndDate", counter), item.EndDate)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("Description", counter), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnDescription", counter), item.Description)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @*@Html.ActionLink("View",Convert.ToString(item.SourceFile), new { @target = "_blank" })*@
+                                                                   
+                                                                    @Html.TextBox(string.Concat("DocumentPath", counter), item.DocumentPath, new { @class = "grid-control", type = "File", multiple = "multiple",@Title=item.DocumentPath })
+                                                                    @Html.Hidden(string.Concat("hdnDocumentPath", counter), item.DocumentPath)
+                                                                    @Html.ActionLink(string.Concat("Download File"), "Download", new { parentPartId = item.DocumentPath })
+                                                                  
+                                                                </div>
+                                                            </td>
+                                                           
+                                                             <td>
+                                                                <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                            </td>
+                                                        </tr>
+                                                        counter++;
+                                                    }
+                                                    <tr>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.DropDownList(string.Concat("DocCode", counter), Model.DocList, new { @class = "form-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("DocName", counter), null, new { @class = "grid-control", @disabled = "disabled" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("DocNo", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("IssuePlace", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("DocStatus", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("StartDate", counter), null, new { @class = "grid-control datepicker" })
+
+
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("EndDate", counter), null, new { @class = "grid-control datepicker" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("Description", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.Hidden(string.Concat("DocumentPath", counter), null, new { @class = "grid-control" })
+                                                                @Html.TextBox(string.Concat("DocumentPath", counter), null, new { @class = "grid-control", type = "File", multiple = "multiple" })
+                                                              
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            @Html.Hidden("hdnCounter", (++counter))
+                                        </div>
+                                    </div>
+                                    <div id="menu3" class="tab-pane fade">
+                                        <br /><br />
+                                        <div style="overflow-x:auto;">
+                                            <table class="table table-bordered table-sm" id="tablePODetails">
+                                                <thead>
+                                                    <tr class="id2">
+                                                        <th>Sr No.</th>
+                                                        <th>Name Of the Nominee</th>
+                                                        <th>Address</th>
+                                                        <th>Nominee's Relation With</th>
+                                                        <th>Date Of Birth</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.EmployeeNomineenews)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.Label(counter1.ToString())
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("NomineeName", counter1), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnNomineeName", counter1), item.NomineeName)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("NomineeAddress", counter1), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnNomineeAddress", counter1), item.NomineeAddress)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("NomineeRelation", counter1), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnNomineeRelation", counter1), item.NomineeRelation)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("NomineeDOB", counter1), null, new { @class = "grid-control datepicker" })
+                                                                    @Html.Hidden(string.Concat("hdnNomineeDOB", counter1), item.NomineeDOB)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                            </td>
+                                                        </tr>
+                                                        counter++;
+                                                    }
+                                                    <tr>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.Label(counter.ToString())
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("NomineeName", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("NomineeAddress", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("NomineeRelation", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("NomineeDOB", counter), null, new { @class = "grid-control datepicker" })
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="menu4" class="tab-pane fade">
+                                        <br /><br />
+                                        <div style="overflow-x:auto;">
+                                            <table class="table table-bordered table-sm" id="tablePODetails1">
+                                                <thead>
+                                                    <tr class="id2">
+                                                        <th style="width:10%">Sr. No.</th>
+                                                        <th>Institution Attended</th>
+                                                        <th>Location</th>
+                                                        <th>Education</th>
+                                                        <th>Degree Name</th>
+                                                        <th>Year Obtained</th>
+                                                        <th>Specialization</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.EducationDetailnews)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.Label(counter2.ToString())
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("Institution", counter2), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnInstitution", counter2), item.Institution)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("Location", counter2), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnLocation", counter2), item.Location)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.DropDownList(string.Concat("Degree", counter2), Model.DegreeList, new { @class = "form-control" })
+                                                                    @Html.Hidden(string.Concat("hdnDegree", counter2), item.Degree)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("DegreeName", counter2), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnDegreeName", counter2), item.DegreeName)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control datepicker" })
+                                                                    @Html.Hidden(string.Concat("hdnObtainedYear", counter2), item.ObtainedYear)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("Specification", counter2), null, new { @class = "grid-control" })
+                                                                    @Html.Hidden(string.Concat("hdnSpecification", counter2), item.Specification)
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                            </td>
+                                                        </tr>
+                                                        counter++;
+                                                    }
+                                                    <tr>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.Label(counter.ToString())
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("Institution", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("Location", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.DropDownList(string.Concat("Degree", counter), Model.DegreeList, new { @class = "form-control" })
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("DegreeName", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @*<input id="ObtainedYear1" class="grid-control datepicker" name="ObtainedYear1" />*@
+                                                                @Html.TextBox(string.Concat("ObtainedYear", counter), null, new { @class = "grid-control datepicker"})
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("Specification", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <button>Hey, click me!</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,328 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.Leave_App_VW
+
+
+@{
+    var counter = 1;
+
+
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    
+    $(function () {
+        
+        var arr1 = [];
+        //EzsetDatetxt();
+        $('.selectpicker').selectpicker('refresh');
+        debugger;
+        EzdtePk('#Entry_Dates1,#StartDate1,#EndDate1,#JoiningDate1');
+        halfday();
+        Ezsetzerotxt();     
+        var Ideary = [];
+        Ideary.push("#LeaveType");
+        Ideary.push('input[name="JoiningDate1"]');
+        Ideary.push('input[name="Entry_Dates1"]');       
+        EzDisabledT(Ideary);
+
+        function halfday(){
+            debugger;
+            var start = new Date(Ezsetdtpkdate($("[name*='StartDate1']").val()));
+            var end = new Date(Ezsetdtpkdate($("[name*='EndDate1']").val()));
+            var diff = new Date(end - start);
+            // get days
+            var days = diff / 1000 / 60 / 60 / 24;
+            if (days <= 0){
+                days = 0;
+            }
+            $('#LeaveDays').val(days + 1);
+            var a = $('#LeaveDays').val();
+            if ($("#LeaveType").val() == 'HF') {               
+                $('#LeaveDays').val(a * .5);
+            }
+            else{
+                $('#LeaveDays').val(a);
+            }
+        }
+        $("#LeaveType").change(function () {            
+            var Emp = $("#EmpCode option:selected").val();
+            arr1 = Emp.split('$');             
+            var leaveTyp = $("#LeaveType").val().trim();
+            var joiningdte = Ezsetdtpkdate($("[name*='JoiningDate1']").val());
+            halfday();
+            $.get("/LeaveApplication/GetBalanceLeave", { EmpCode: arr1[0], LeaveType: leaveTyp, joiningdte: joiningdte }).done(function (response){
+                arr1=response;              
+                $('input[name="TotalBalance"]').val(response);              
+            });
+        });      
+        $("#EmpCode").change(function () {
+            debugger;
+            var Emp = $("#EmpCode option:selected").val();
+            $.get("/LeaveApplication/GetJoiningdate", { EmpCode: Emp }).done(function (response) {
+                //var date1 = new Date(parseInt(response.substr(6)));              
+                $('#JoiningDate1').val(EzdatefrmtRes(response));
+                //EzdtePkEdit("#JoiningDate1", '#JoiningDate');                             
+            });                                               
+            $.get("/LeaveApplication/GetLeaveAppDetailList", { Empcode: arr1[0] }).done(function (response)
+             {
+                 var ab = [];
+                 ab = response;
+                 $("#LeaveType").attr("disabled", false);
+                 var ary = [];
+                 ary = response;
+                 $("#tablePODetails > tbody tr:last").empty();
+                 $("#tablePODetails > tbody tr:last").remove();
+                 counter = 1;
+                 for (var i = 0; i < ary.length; i++) {
+                     var tr1 = "<tr>";
+                     var td = "<td><div class='form-group'>" + counter + "</div></td>"
+                     var td1 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='PRLR001_CODE" + counter + "'></div></td>"
+                     var td2 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' Type = 'Date' name='StartDate" + counter + "'></div></td>";
+                     var td3 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' Type = 'Date' name='EndDate" + counter + "'></div></td>";
+                     var td4 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control'   name='LeaveDays" + counter + "'></div></td></tr>";
+                     $("#tablePODetails").append(tr1 + td + td1 + td2 + td3+td4);
+                     var tr = $("#tablePODetails tbody tr");
+                     tr.find("[name='PRLR001_CODE" + counter + "']").val(ary[i].PRLR001_CODE);
+                     tr.find("[name='StartDate" + counter + "']").val(Ezdatefrmt1(ary[i].StartDate));
+                     tr.find("[name='EndDate" + counter + "']").val(Ezdatefrmt1(ary[i].EndDate));
+                     tr.find("[name='LeaveDays" + counter + "']").val(ary[i].LeaveDays);
+                     // tr.clone(true, true).insertAfter(tr);
+                     counter++;
+                 }
+             });
+            
+
+            
+            
+           
+        });
+              
+        //$('#StartDate1').change(function () {
+         
+        //    halfday();
+        //});
+        //$('#EndDate1').change(function () {
+            
+        //    halfday();
+        //});
+
+        $('#StartDate1').datetimepicker().on('dp.change', function (event) {
+           
+            halfday();
+        });
+
+        $('#EndDate1').datetimepicker().on('dp.change', function (event) {
+          
+            halfday();
+        });
+
+    });       
+</script>
+
+ <!-- ... -->
+
+<script type="text/javascript">
+    //$(function () {
+    //    $("#Entry_Dates").datepicker();
+    //});
+</script>
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+      
+            @*@Html.HiddenFor(model => model.TotalBalance)*@
+            @*@Html.HiddenFor(model => model.TotalSanctioned)*@
+            @Html.HiddenFor(model => model.TotalApplied)
+
+            <div class="panel-body" style="margin-left:10px;">
+                <div class="tabbable-line boxless tabbable-reversed" id="LVContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="LVContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">LA No.</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.PRLR001_CODE, new { @class = "form-control", @disabled = "disabled" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="Entry_Dates1" class="form-control datepicker" name="Entry_Dates1"/>
+
+                                                            @*@Html.HiddenFor(m => m.Entry_Dates )*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <!--/row-->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Employee</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Start Date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="StartDate1" class="form-control datepicker" name="StartDate1"/>
+                                                            @*@Html.HiddenFor(m => m.StartDate, new { htmlAttributes = new { @Type= "date1" } })*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+
+                                           
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Joining Date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="JoiningDate1" class="form-control datepicker"  name="JoiningDate1"/>
+                                                            @*@Html.HiddenFor(m => m.JoiningDate, new { htmlAttributes = new { @class = "date1"} } )*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">End Date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="EndDate1" class="form-control datepicker" name="EndDate1"/>
+                                                            @*@Html.HiddenFor(m => m.EndDate, new { htmlAttributes = new { @class = "date1" } })*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Leave Type</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.DropDownListFor(m => m.LeaveType, Model.LeaveTypeList, new {  @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Balance</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.TotalBalance, new { @class = "form-control" ,@disabled= "disabled" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!--/span-->
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Leave Days</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.LeaveDays, new { @class = "form-control", @disabled = "disabled" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                               
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Approval</label>
+                                                        <div class="col-md-8 input-field radiobtn1">
+                                                            <label>
+                                                                @Html.RadioButtonFor(m => m.ApprovalYN, "Y", new { @checked = "checked" }) Yes
+                                                            </label>
+                                                            &nbsp;
+                                                            <label>
+                                                                @Html.RadioButtonFor(m => m.ApprovalYN, "N") No
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Sanction Days</label>
+                                                        <div class="col-md-8 input-field">
+                                                           @Html.TextBoxFor(m => m.TotalSanctioned, new { @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Remark</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextAreaFor(m => m.Remarks, new { @class = "form-control", @placeholder = "Remark" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+
+                                        </div>
+                                    </div><br />
+                                    <!-- END FORM-->
+                                  
+                                    <!-- <button>Hey, click me!</button> -->
+
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- Purchase Request List Start-->
+
+
+    <script>
+            $(document).ready(function(){
+                $(".alert-close").click(function () {
+                    $("#editshow").hide();
+                });
+            });
+    </script>
+
+
+
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+</div>
+
+
+
+
+

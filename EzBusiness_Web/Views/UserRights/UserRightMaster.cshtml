@@ -1,0 +1,512 @@
+﻿@model EzBusiness_ViewModels.Models.MenuItem.MenuItemRUVM
+
+@{
+    ViewBag.Title = "UserRightMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@*<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />*@
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+
+        EzAuthentication("/UserRights");
+        var lvHtml = $("#LVContainer").html();
+        $("#LVListContainer1").hide();
+        function GetLeaveList() {
+            $.get("/UserRights/GetUserRightMasterList", function (response) {
+                $("#LVListContainer").html(response);
+            });
+        }
+        $("#btnNew").click(function () {
+            var n = EzAuthenticationBtn("/UserRights", "NewIt");
+            if (n == 1){
+            $.get("UserRights/AddUserRightMaster", function (response) {
+                $("#LVContainer").html(response);
+            });
+            $(this).prop("disabled", true);
+           
+            EzbtnNewAc();
+            $("#LVListContainer1").hide();
+            }
+        });
+
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/UserRights", "ViewIt");
+            if (n == 1) {
+                Ezsetzerotxt();
+                $(this).prop("disabled", true);
+                EzbtnEditAc();
+                $("#LVListContainer1").show();
+                GetLeaveList();
+            }
+
+        });
+
+        $("#btnCancel").click(function () {
+            $("#LVContainer").html(lvHtml);
+            EzbtnCancelAc();
+            $("#LVListContainer1").hide();
+            Ezsetzerotxt();
+            EzsetDatetxt();
+          
+        });
+        debugger;
+        
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/UserRights", "DeleteIt");
+            if (n == 1) {
+                if (confirm("Are you Sure?")) {
+                    debugger;
+                    var user_name = $("[name*='user_name']").val();
+
+
+                    $.getJSON("/DeleteUserRight", { user_name: user_name }).done(function (data) {
+                        if (data.DeleteFlag) {
+                            GetLeaveList();
+                            $("#btnCancel").trigger("click");
+                        } else {
+                            $("#ErrorMessage").show().find("strong").text("Unable to Delete");
+                        }
+                    });
+                }
+            }
+        });
+        $("#btnSave").click(function () {
+            debugger;
+            var n = EzAuthenticationBtn("/UserRights", "EditIt");
+            var opMode = $("#hdnOperationMode").val();
+            if (opMode == "Add") {
+                // Code for Adding Purchase order
+                var Users = {
+                    EditFlag: false,
+                    user_name: $("[name*='user_name']").val(),
+                    EmpCode: $("#EmpCode option:selected").val(),
+                    Utype: $("#Utype option:selected").val(),
+                    passwords: $("[name*='passwords']").val(),
+                    UserRightsnews:[],
+                };
+                $("#tablePODetails tbody tr").each(function (index, item) {
+                    var SelAllTxt = $(this).find("[name*='SelAll']").val();
+                    var NewItTxt = $(this).find("[name*='NewIt']").val();
+                    var ViewItTxt = $(this).find("[name*='ViewIt']").val();
+                    var EditItTxt = $(this).find("[name*='EditIt']").val();
+                    var DeleteItTxt = $(this).find("[name*='DeleteIt']").val();                    
+                    if (SelAllTxt == 1 || NewItTxt == 1 || ViewItTxt == 1 || EditItTxt == 1 || DeleteItTxt == 1) {
+                        var frmnmeTxt = $(this).find("[name*='selectedName']").val().trim();
+                        var frmid = $(this).find("[name*='selectedName']").attr("id").trim();
+                        var UserRightsDetail = {
+                            FormName: frmnmeTxt,
+                            FormId: frmid,
+                            SelAll: SelAllTxt,
+                            NewIt: NewItTxt,
+                            ViewIt: ViewItTxt,
+                            EditIt: EditItTxt,
+                            DeleteIt: DeleteItTxt,
+                        };
+                        Users.UserRightsnews.push(UserRightsDetail);
+                    }
+                });
+                $("#tablePODetails2 tbody tr").each(function (index, item) {
+                    var ViewItTxt = $(this).find("[name*='ViewIt']").val();
+                    if (ViewItTxt == 1) {
+                        var SelAllTxt = 0;
+                        var NewItTxt = 0;                           
+                        var EditItTxt = 0;
+                        var DeleteItTxt = 0;
+                        var frmnmeTxt = $(this).find("[name*='selectedName']").val().trim();
+                        var frmid = $(this).find("[name*='selectedName']").attr("id").trim();
+                        var UserRightsDetail = {
+                            FormName: frmnmeTxt,
+                            FormId: frmid,
+                            SelAll: SelAllTxt,
+                            NewIt: NewItTxt,
+                            ViewIt: ViewItTxt,
+                            EditIt: EditItTxt,
+                            DeleteIt: DeleteItTxt,
+                        };
+                        Users.UserRightsnews.push(UserRightsDetail);
+                    }
+                });                         
+            
+                var validationResult = ValidateForm(Users);
+                if (validationResult.formValid) {
+                    $.post("/SaveUserRight", Users).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            //$("#LVContainer").html("<div class='row'><div class='col-lg-12 col-sm-12'><div class='alert alert-danger'><strong>Saved Successfully</strong></div></div></div>");
+                            //$("#btnEdit").prop("disabled", false);
+                            //$("#btnDelete").prop("disabled", true);
+                            //$("#btnNew").prop("disabled", false);
+                            //$("#btnSave").prop("disabled", true);
+                            //$("#hdnOperationMode").val("");
+                            EzbtnsaveAc("#LVContainer");
+                            Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                            GetLeaveList();
+                        } else {
+                            Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                        }
+                    });
+
+                } else {
+                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    //$("#ErrorMessage").show();
+                    //$("#ErrorMessage").find("strong").text(validationResult.ErrorMessage);
+                }
+            } else if (opMode == "Edit" && n == 1) {
+                // Code for Adding Purchase order             
+                    var Users = {
+                        EditFlag: true,
+                        user_name: $("[name*='user_name']").val(),
+                        EmpCode: $("#EmpCode option:selected").val(),
+                        Utype: $("#Utype option:selected").val(),
+                        passwords: $("[name*='passwords']").val(),
+                        UserRightsnews:[],
+                    };
+                    $("#tablePODetails tbody tr").each(function (index, item) {                       
+                            var SelAllTxt = $(this).find("[name*='SelAll']").val();
+                            var NewItTxt = $(this).find("[name*='NewIt']").val();
+                            var ViewItTxt = $(this).find("[name*='ViewIt']").val();
+                            var EditItTxt = $(this).find("[name*='EditIt']").val();
+                            var DeleteItTxt = $(this).find("[name*='DeleteIt']").val();
+                            if (SelAllTxt == 1 || NewItTxt == 1 || ViewItTxt == 1 || EditItTxt == 1 || DeleteItTxt==1)
+                            {                              
+                            var frmnmeTxt = $(this).find("[name*='selectedName']").val().trim();
+                            var frmid = $(this).find("[name*='selectedName']").attr("id").trim();
+                            var UserRightsDetail = {
+                                FormName: frmnmeTxt,
+                                FormId: frmid,
+                                SelAll: SelAllTxt,
+                                NewIt: NewItTxt,
+                                ViewIt: ViewItTxt,
+                                EditIt: EditItTxt,
+                                DeleteIt: DeleteItTxt,
+                            };
+                            Users.UserRightsnews.push(UserRightsDetail);
+                        }
+                    });
+                    $("#tablePODetails2 tbody tr").each(function (index, item) {
+                        var ViewItTxt = $(this).find("[name*='ViewIt']").val();
+                        if (ViewItTxt == 1) {
+                            var SelAllTxt = 0;
+                            var NewItTxt = 0;                           
+                            var EditItTxt = 0;
+                            var DeleteItTxt = 0;
+                            var frmnmeTxt = $(this).find("[name*='selectedName']").val().trim();
+                            var frmid = $(this).find("[name*='selectedName']").attr("id").trim();
+                            var UserRightsDetail = {
+                                FormName: frmnmeTxt,
+                                FormId: frmid,
+                                SelAll: SelAllTxt,
+                                NewIt: NewItTxt,
+                                ViewIt: ViewItTxt,
+                                EditIt: EditItTxt,
+                                DeleteIt: DeleteItTxt,
+                            };
+                            Users.UserRightsnews.push(UserRightsDetail);
+                        }
+                    });
+                var validationResult = ValidateForm(Users);
+                if (validationResult.formValid) {
+                    $.post("/SaveUserRight", Users).done(function (response) {
+                        var arr = [];
+                        arr = response;
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            //$("#LVContainer").html("<div class='row'><div class='col-lg-12 col-sm-12'><div class='alert alert-danger'><strong>Saved Successfully</strong></div></div></div>");
+                            //$("#btnEdit").prop("disabled", false);
+                            //$("#btnDelete").prop("disabled", true);
+                            //$("#btnNew").prop("disabled", false);
+                            //$("#btnSave").prop("disabled", true);
+                            //$("#hdnOperationMode").val("");
+                            EzbtnsaveAc("#LVContainer");
+                            Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                            GetLeaveList();
+                        } else {
+                            Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                        }
+                    });
+
+                } else {
+                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                }
+            }
+
+
+        });
+
+        function ValidateForm(Users) {
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+            if (Users.EditFlag == "Add") {
+                if (Users.user_name == "") {
+                    response.ErrorMessage += "user_name,";
+                }
+            } else if (Users.EditFlag == "Edit") {
+                if (Users.user_name) {
+                    response.ErrorMessage += "user_name,";
+                }
+            }
+            if (Users.passwords == "")
+            {
+                response.ErrorMessage += "Password,";
+            }
+
+            if (Users.Utype == "0") {
+                response.ErrorMessage += "Select User Role,";
+            }
+
+            if (Users.UserRightsnews.length == "0") {
+                response.ErrorMessage += "Check Rights.";
+            }
+
+
+            if (Users.EmpCode == "0") {
+                response.ErrorMessage += "EmpCode are mandatory Fields.";
+            }
+
+            //if (LeaveApp.LeaveType == "0") {
+            //    response.ErrorMessage += "LeaveType are mandatory Fields.";
+            //}
+            //if (LeaveApp.StartDate > LeaveApp.EndDate) {
+            //    response.ErrorMessage += "Start Date Less than End Date.";
+            //}
+
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+
+            return response;
+        }
+
+        function parseDate(s) {
+            var b = s.split(/\D/);
+            return new Date(b[0], --b[1], b[2]);
+        }
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+        $(document).on("click", "#LVList tbody tr", function () {
+            var operationMode = $("#hdnOperationMode").val();
+            if (operationMode == "Edit") {
+                $("#LVList > tbody").children().removeClass("active");
+                $(this).addClass("active");
+                var user_name = $(this).find("#hdnuser_name").val();
+                $.get("EditUserRightMaster", { Username: user_name }).done(function (response) {
+                    $("#LVContainer").html(response);
+                    $("#btnDelete").prop("disabled", false);
+                });
+            }
+        });
+    });
+</script>
+<style>
+    .top-buffer {
+        margin-top: 15px;
+    }
+
+    .fixed-width {
+        width: 100px;
+        float: left;
+    }
+
+    .fluid.row-fluid {
+        margin-right: 100px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .customSpace {
+        content: " ";
+        display: inline-block;
+        width: 40px;
+    }
+
+    div.scroll {
+        width: 300px;
+        height: 500px;
+        overflow: scroll;
+    }
+</style>
+<script>
+    var jq2 = $.noConflict(true);
+    jq2(document).ready(function () {
+        //$("#editshow").hide();
+
+        jq2("#btnNew").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnDelete").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnCancel").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnSave").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnEdit").click(function () {
+            jq2("#editshow").show();
+        });
+    });
+</script>
+
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 15px">
+        <ol class="breadcrumb">
+            <li class="active strong1">
+                <strong>User Rights</strong>
+            </li>
+
+
+        </ol>
+
+        <div class="title-action">
+            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
+            <button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>
+
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+        </div>
+    </div>
+
+</div><hr />
+<!-- Row end -->
+<!-- Row start -->
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+
+                <label class="row" id="ErrorMessage" style="color:red;">
+                    <strong></strong>
+                </label>
+
+                <div class="tabbable-line boxless tabbable-reversed" id="LVContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="LVContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">User Name</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input type="text" class="form-control" name="" required placeholder="" maxlength="50">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-2">Password</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input type="password" class="form-control" placeholder="" pattern="*">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-2">Employee</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <select class="form-control" name="">
+                                                                <option value="">---Select---</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <!--/row-->
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Role</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <select class="form-control" name="">
+                                                                <option value="">---Select---</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            <div class="row">
+
+                                                <div style="padding: 10px;">
+                                                  
+                                                    -
+                                                </div>
+
+                                               
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+            $(document).ready(function(){
+                $(".alert-close").click(function () {
+                    $("#editshow").hide();
+                });
+            });
+    </script>
+
+
+    <div class="modal" id="editshow" role="dialog">
+        <div class="modal-dialog m1" data-keyboard="false">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Ez Business System</h4>
+                    <button type="button" style="float: right;margin-top: -26px;" class="btn btn-danger alert-close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container scroll" id="LVListContainer">
+                        @Html.Action("GetUserRightMasterList", "UserRights")
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

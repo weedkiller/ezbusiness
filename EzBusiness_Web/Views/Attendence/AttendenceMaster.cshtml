@@ -1,0 +1,257 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.Humanresourcepayroll.AttendenceVM>
+@{
+    ViewBag.Title = "AttendenceMaster";
+    var counter = 1;
+}
+
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        EzAuthentication("/AttendenceMaster");
+        var n = EzAuthenticationBtn("/AttendenceMaster", "ViewIt");
+        if (n == 1) {
+            Ezsidetbl("#tblUnits", "#tblUnits tfoot th", true);
+            $('#tblUnits').show();
+
+        } else {
+            $('#tblUnits').hide();
+        }       
+    });
+</script>
+
+
+<script>
+    var Atens = [];
+
+    var countrycodes = [];
+    $(function () {
+        GetCountryCodes();
+        $("#btnAdd").click(function () {
+            var n = EzAuthenticationBtn("/AttendenceMaster", "NewIt");
+            if (n == 1) {           
+             var counter = $("#Counter").val();
+            var firstRow = $('#tblUnits tr:first');
+            var cmpyCode = $('#tblUnits tr:last').find("[name='item.CmpyCode']").val();
+            var newRow = "<tr><td><input type='text' name='txtCode" + counter + "'></td><td><input type='text' name='txtLeaveName" + counter +
+                "'></td><td>";
+            newRow += GetCountryCodeDDL(counter);
+            newRow += " <td><button class='btn btn-primary' name='Add" + counter + "'>Save</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                "'>Delete</button><input type='hidden' name='AddMode" + counter + "' value='true'><input name='item.CmpyCode' type='hidden' value='" + cmpyCode +
+                "'></td></tr>";
+            $(firstRow).after(newRow);
+
+            $("#btnAdd").prop('disabled', true);
+            }
+        });
+
+        $("#tblUnits").on("click", "[name^='Add']", function () {
+            debugger;
+            var counter = $("#Counter").val();
+            var hdnAddMode = $(this).parent().find('input:hidden:first');
+            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+            var editButton = $(this).parent().find("[name='Add" + counter + "']");
+            var tr = $(this).closest("tr");
+            var index = $(this).attr("name").substring(4);
+            var codeTd = $(tr).find("td:eq(0)");
+            var leavenameTd = $(tr).find("td:eq(1)");
+            var countrycodeTd = $(tr).find("td:eq(2)");
+
+            if (hdnAddMode.val() == "true") {
+                var codeAdd = $(tr).find("[name*='txtCode']").val().trim();
+                var leavenameAdd = $(tr).find("[name*='txtLeaveName']").val().trim();
+                var countrycodeAdd = $(tr).find("select option:selected").val().trim();
+
+                var Atens = {
+                    CmpyCode: hdnCmpyCode,
+                    Code: codeAdd,
+                    LeaveName: leavenameAdd,
+                    CountryCode: countrycodeAdd,
+
+
+
+                    EditFlag: false
+                };
+                if (codeAdd && hdnCmpyCode) {
+                    $.post("/Attendence/SaveAtens", Atens).done(function (response) {
+                        console.log(response);
+                        codeTd.text(response.Code);
+                        leavenameTd.text(response.LeaveName);
+                        countrycodeTd.text(response.CountryCode);
+                        hdnAddMode.val("false");
+                        editButton.attr("name", ("Edit" + counter)).text("Edit");
+                        hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
+                        $("#btnAdd").prop('disabled', false);
+                    });
+                } else {
+                    alert();
+                }
+            }
+        });
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
+            $(this).closest("tr").remove();
+            $("#btnAdd").prop('disabled', false);
+        });
+
+
+        $("#tblUnits").on("click", "[name^='Edit']", function () {
+            var n = EzAuthenticationBtn("/AttendenceMaster", "EditIt");
+            if (n == 1) {
+                var counter = $("#Counter").val();
+                var hdnEditMode = $(this).parent().find('input:hidden:first');
+                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+                var tr = $(this).closest("tr");
+                var hdnCode = $(tr).find("td:eq(0)").text().trim();
+                var index = $(this).attr("name").substring(4);
+                var leavenameTd = $(tr).find("td:eq(1)");
+                var countrycodeTd = $(tr).find("td:eq(2)");
+                var editButton = $(this);
+
+                if (hdnEditMode.val() == "true") {
+                    var leavenameEdit = $(tr).find("[name*='txtLeaveName']").val().trim();
+                    var countrycodeEdit = $(tr).find("select option:selected").val().trim();
+                    var Atens = {
+                        CmpyCode: hdnCmpyCode,
+                        Code: hdnCode,
+                        LeaveName: leavenameEdit,
+                        CountryCode: countrycodeEdit,
+                        EditFlag: true
+                    };
+
+                    $.post("/Attendence/SaveAtens", Atens).done(function (response) {
+                        leavenameTd.text(response.LeaveName);
+                        countrycodeTd.text(response.CountryCode);
+                        hdnEditMode.val("false");
+                        editButton.text("Edit");
+                        $("#btnAdd").prop('disabled', false);
+                    });
+                    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                        console.log(thrownError);
+                    });
+                } else {
+                    var leavename = $(tr).find("td:eq(1)").text();
+                    leavenameTd.html("<input type='text' name='txtLeaveName" + index + "' value='" + leavename.trim() + "' />");
+
+                    var countrycode = $(tr).find("td:eq(2)").text().trim();
+                    countrycodeTd.html(GetCountryCodeDDL(index));
+                    countrycodeTd.find("select").val(countrycode);
+                    $(this).text("Update");
+                    hdnEditMode.val("true");
+                    $("#btnAdd").prop('disabled', true);
+
+                }
+            }
+        });
+
+        $("#tblUnits").on("click", "[name^='Delete']", function () {
+            var n = EzAuthenticationBtn("/AttendenceMaster", "DeleteIt");
+            if (n == 1) { 
+                var tr = $(this).closest("tr");
+                // var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+                var codeTd = $(tr).find("td:eq(0)");
+                var hdnMode = $(this).parent().find('input:hidden:first');
+                var code = "";
+                if (hdnMode.val() == "false") {
+                    code = $(tr).find("td:eq(0)").text().trim();
+                    $.getJSON("/DeleteAtens", { Code: code}).done(function (data) {
+                        if (data.DeleteFlag) {
+                            tr.remove();
+                        }
+                    });
+                }
+                else
+                {
+                    tr.remove();
+                    $("#btnAdd").prop('disabled', false);
+                }
+
+            }
+            });
+        
+    });
+
+    function GetCountryCodeDDL(index) {
+
+        if (countrycodes.length > 0) {
+            var ddlCountryCode = "<select class='form-control' name='ddlCountryCode" + index + "'>";
+            for (var i in countrycodes) {
+                ddlCountryCode += "<option value='" + countrycodes[i].Code + "'>" + countrycodes[i].Name + "</option>";
+            }
+            ddlCountryCode += "</select>";
+        }
+        return ddlCountryCode;
+    }
+
+    function GetCountryCodes() {
+
+        $.ajax({
+            url: "/Country2",
+            dataType: "json",
+            success: function (data) {
+                countrycodes = data;
+            },
+            error: function () {
+                alert('error occurred');
+            }
+        });
+        return countrycodes;
+    }
+</script>
+
+
+<br />
+<ol class="breadcrumb">
+    <li class="active">
+        <strong>Leave Master</strong>
+    </li>
+</ol>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <button class="btn btn-primary" id="btnAdd" style="float:right">Add</button>
+
+        <table class="table" id="tblUnits" >
+            <thead>
+                <tr class="tr">
+                    <th>
+                        @Html.DisplayNameFor(model => model.Code)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LeaveName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CountryCode)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LeaveName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CountryCode)
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" name="@string.Concat("Edit",counter)">Edit</button>
+                            <button class="btn btn-danger" name="@string.Concat("Delete",counter)">Delete</button>
+                            <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                            @Html.HiddenFor(m => item.CmpyCode)
+                        </td>
+                    </tr>
+                    counter++;
+                }
+            </tbody>
+        </table>
+        @Html.Hidden("Counter", counter)
+    </div>
+</div>

@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Treeview";
+}
+
+<h2>Treeview</h2>
+
+@helper GetTreeView(List<EzBusiness_ViewModels.Models.MenuItem.MenuItemsVM> treeMenu, string parentID)
+{
+foreach (var i in treeMenu.Where(a => a.ParentFormID.Equals(parentID)))
+{
+        <li>
+            @{var submenu = treeMenu.Where(a => a.ParentFormID.Equals(i.FormID)).Count();}
+            @if (submenu > 0)
+            {
+                <span class="collapse collapsible">&nbsp;</span>
+            }
+            else
+            {
+                <span style="width:15px; display:inline-block">&nbsp;</span>
+            }
+            <span>
+                <a href="@i.NavURL">@i.FormName</a>
+                @*<a href="#">@i.FormName</a>*@
+
+            </span>
+            @if (submenu > 0)
+            {
+                <ul>
+                    @TreeviewMenu.GetTreeView(treeMenu, i.FormID)
+                    @* Recursive  Call for Populate Sub items here*@
+                </ul>
+            }
+        </li>
+                }
+}
+

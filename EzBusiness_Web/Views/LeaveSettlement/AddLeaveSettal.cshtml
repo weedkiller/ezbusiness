@@ -1,0 +1,418 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.LeaveSettlementVM
+
+@{
+    var counter = 1;
+
+
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+    $(function () {
+        $('.selectpicker').selectpicker('refresh');
+        //EzsetDatetxt();
+        EzdtePk('#Entry_Date1,#LLSdate1,#DR_Date1,#LStartDate1,#LendDate1,#salary_effect_date1,#JoiningDate1');
+        Ezsetzerotxt();
+        var arr1 = [];
+
+          
+        arr1.push("#LeaveType");
+        arr1.push('input[name="JoiningDate1"]');
+        arr1.push('input[name="Entry_Dates1"]');
+        EzDisabledT(arr1);
+        arr1 = [];
+        $("#PRLR001_CODE").change(function () {
+            debugger;
+            var LCode = $("#PRLR001_CODE option:selected").val();
+            if (LCode != '0')
+            {
+                var lvsdte=Ezsetdtpkdate($("#Entry_Date1").val());
+                $.get("/LeaveSettlement/GetLeaveDetails", { PRLR001_CODE: LCode, lvsdte: lvsdte }).done(function (response) {                    
+                    arr1 = response;
+                    debugger;
+                    $('#LStartDate1').val(EzdatefrmtRes(arr1[0].LLSdate));
+                    $('#LendDate1').val(EzdatefrmtRes(arr1[0].LendDate));
+                    $('#JoiningDate1').val(EzdatefrmtRes(arr1[0].JoiningDate));
+             //   ('#Empcode').attr("readonly", false);
+                $('#Total_LE_Days').val(arr1[0].Total_LE_Days);
+                $('#LB_CF_Days').val(arr1[0].LB_CF_Days);
+                $('#Sanctioned_Days').val(arr1[0].Sanctioned_Days);
+              
+                $('#Empcode').attr("disabled", false);
+                $("[name*='Empcode']").val(arr1[0].Empcode.trim());
+
+
+                $('.selectpicker').selectpicker('refresh');
+                $('#Empcode').attr("disabled", true);
+          
+                $('#Total_days').val(arr1[0].Total_days);
+                $('#Total_worked_Days').val(arr1[0].Total_worked_Days);
+                $('#Leave_Salary').val(arr1[0].Leave_Salary);
+                $('#Actual_Salary').val(arr1[0].Actual_Salary);
+                $('#salary_effect_date1').val(EzdatefrmtRes(arr1[0].salary_effect_date));
+                             
+                arr1 = [];
+                arr1.push('#Total_days');
+                arr1.push('#Total_worked_Days');
+                arr1.push('#Leave_Salary');
+                arr1.push('#Actual_Salary');
+                arr1.push('#salary_effect_date1');
+
+                arr1.push('#LLSdate1');
+                arr1.push('#JoiningDate1');
+                arr1.push('#DR_Date1');
+                arr1.push('#LStartDate1');
+                arr1.push('#LendDate1');
+
+                arr1.push('#Total_LE_Days');
+                arr1.push('#LB_CF_Days');
+                arr1.push('#Sanctioned_Days');
+
+                EzDisabledT(arr1);             
+            });
+            }
+            else {
+                cleardata();
+            }
+        });
+        
+    });
+
+   
+
+    function cleardata(){     
+        $('#Total_LE_Days').val('');
+        $('#LB_CF_Days').val('');
+        $('#Sanctioned_Days').val('');     
+        $('.selectpicker').selectpicker('refresh');
+    }
+
+    
+</script>
+<div class="col-md-12 no-padding navbar-expand-lg">
+
+ 
+
+    <div class="panel-body" style="margin-left:10px;">
+        <div class="tabbable-line boxless tabbable-reversed" id="LVContainer">
+            <div class="custom-form-wrapper">
+                <div id="LVContainer">
+                    <div class="row">
+                        <!--updated code-->
+
+                        <div class="col-md-12 no-padding navbar-expand-lg">
+
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Record No.</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.PRLS001_CODE, new { @class = "form-control", @disabled = "disabled",@readonly="readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-4">
+
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Entry Date</label>
+                                                        <div class="col-md-8">
+                                                            <input id="Entry_Date1" name="Entry_Date1" class="form-control datepicker" />
+                                                            @*@Html.HiddenFor(m => m.Entry_Date)*@
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Leave Application</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.DropDownListFor(m => m.PRLR001_CODE, Model.LeaveList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Employee Code</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.DropDownListFor(m => m.Empcode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <!--/row-->
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Last Settlement Date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="LLSdate1" class="form-control datepicker" name="LLSdate1"/>
+                                                            @*@Html.HiddenFor(m => m.LLSdate)*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-4">
+
+                                                </div>
+
+                                                <!--/span-->
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Joining Date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="JoiningDate1" class="form-control datepicker" name="JoiningDate1"/>
+                                                            @*@Html.HiddenFor(m => m.JoiningDate)*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <hr />
+
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Duty Resume Date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="DR_Date1" class="form-control datepicker" name="DR_Date1"/>
+                                                            @*@Html.HiddenFor(m => m.DR_Date)*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Start Date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="LStartDate1" class="form-control datepicker" name="LStartDate1"/>
+                                                            @*@Html.HiddenFor(m => m.LStartDate)*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">End Date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="LendDate1" class="form-control datepicker" name="LendDate1"/>
+                                                            @*@Html.HiddenFor(m => m.LendDate)*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Sanctioned Days</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Sanctioned_Days, new { @class = "form-control" ,@Type="Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Total Days</label>
+                                                        <div class="col-md-8 input-field">
+                                                           @Html.TextBoxFor(m => m.Total_days, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Total worked Days</label>
+                                                        <div class="col-md-8 input-field">
+                                                           @Html.TextBoxFor(m => m.Total_worked_Days, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Total Leave Days</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Total_LE_Days, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Opening Balance of leave</label>
+                                                        <div class="col-md-8 input-field">
+                                                           @Html.TextBoxFor(m => m.LB_CF_Days, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Leave Salary</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Leave_Salary, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Addition Amount</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Addition_amt, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Deduction Amount</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Deduction_Amt, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Ticket Amount</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Ticket_amt, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Ticket Paid</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Ticket_Paid, new { @class = "form-control", @Type = "Text" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Pending Salary</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Pending_Salary, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Advance Salary</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Advance_Salary, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Advance_Paid</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Advance_Paid, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Actual_Salary</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Actual_Salary, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">salary effect date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="salary_effect_date1" class="form-control datepicker" name="salary_effect_date1" />
+                                                          @*@Html.HiddenFor(m => m.salary_effect_date)*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Net Pay</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Net_Pay, new { @class = "form-control", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!--/row-->
+
+
+
+
+                                        </div>
+                                    </div><br />
+                                    <!-- END FORM-->
+                                    <!-- <button>Hey, click me!</button> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Purchase Request List Start-->
+
+
+                        <script>
+                            $(document).ready(function () {
+                                $(".alert-close").click(function () {
+                                    $("#editshow").hide();
+                                });
+                            });
+                        </script>
+                        <!-- Purchase Request List End -->
+                        <!-- Row end -->
+                    </div>
+                    </div>
+</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,209 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.BankMasterVM
+@{
+    var counter = 1;
+    
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+
+<script>
+    $(function () {
+        debugger;
+        $('.selectpicker').selectpicker('refresh');
+        counter = 1;
+        drec = [];
+        /* delete grid record */
+        $("#tablePODetails").on("click", "[name*='btnDelete']", function () {           
+            drec.pop($(this).find("[name*='Datest']").val());
+            counter--;
+            $(this).closest("tr").remove();
+        });
+
+        /* Add new row & find duplicate data in table  */
+        $("#tablePODetails").on("change", "[name*='PRBM002_code']", function () {
+            debugger;
+            var tr = $(this).closest("tr");           
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'PRBM002_code']").val();
+                drec.push(ab);
+            });          
+            drec.splice($.inArray(tr.find("[name *= 'PRBM002_code']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name *= 'PRBM002_code']").val(), drec) >= 0)
+            {
+                var dr = tr.find("[name *= 'PRBM002_code']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'PRBM002_code']").focus();
+                alert("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'PRBM002_code']").val('');
+                                
+            }
+            else {
+                tr.css("background", "");  
+
+                if (tr.is(":last-child")) {
+                    debugger;
+                    tr.clone(true, true).insertAfter(tr);
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                        .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                    var trLast = $("#tableMetaSettings tr:last");
+           
+                    var trLast1 = $("#tablePODetails tbody tr:last");
+
+                    trLast1.find("[name *= 'PRBM002_code']").val('')
+                    trLast1.find("[name *= 'Bank_branch_name']").val('')
+
+                    trLast.find("[name *= 'PRBM002_code']").attr({
+                        "name": ("PRBM002_code" + counter)
+                    });
+                    trLast.find("[name *= 'Bank_branch_name']").attr({
+                        "name": ("Bank_branch_name" + counter)
+                    });
+               
+
+                    trLast.find(":first").text(counter);
+                }
+                counter++;
+            }
+        });
+
+        /*Bank_branch_name Enter Event*/
+        $("#tablePODetails").on("keypress", "[name *= 'Bank_branch_name']", function (e) {
+            debugger;
+            if (e.keyCode == 13) {
+                $(this).closest('tr').next('tr').find("[name *= 'PRBM002_code']").focus();
+                return false;
+            }
+        });
+        /*Code Tab Event*/
+        $("#tablePODetails").on("keydown", "[name*='PRBM002_code']", function (e) {
+            debugger;
+            var keyCode = e.keyCode || e.which;
+            if (keyCode == 9) {
+                e.preventDefault();
+                var tr = $(this).closest('tr');
+                var ab = tr.find("[name *= 'PRBM002_code']").val();
+                if (ab != '') {
+                    tr.find("[name *= 'Bank_branch_name']").focus();
+                    tr.css("background", "");
+                }
+                else {
+                    tr.css("background", "red");
+                    tr.find("[name *= 'PRBM002_code']").focus();
+                    alert("Please Enter Code");
+                }
+            }
+        });
+        
+    });
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+                       
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+                                <div class="form-body">
+                                   
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Code</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.prbm001_code, new { @class = "form-control", @placeholder = "Code",@readonly="readonly"})
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Country</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.DropDownListFor(m => m.country, Model.CountryList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Bank Name</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.Bank_name, new { @class = "form-control", @placeholder = "Bank Name" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Reference</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.Reference, new { @class = "form-control", @placeholder = "Reference" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    
+                                    <div class="clearfix"></div>
+                                </div>
+
+                            </div><br />
+                            <!-- END FORM-->
+
+                            <div class="">
+                                
+                            
+                                       
+                                       
+                                <table class="table table-bordered table-sm" id="tablePODetails">
+                                    <thead>
+                                        <tr>
+                                            <th>Bank Branch Code</th>
+                                            <th>Bank Branch</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="grid-group">
+                                                   @Html.TextBox(string.Concat("PRBM002_code", counter), null, new { @class = "grid-control" })
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="grid-group">
+                                                    @Html.TextBox(string.Concat("Bank_branch_name", counter), null, new { @class = "grid-control" })
+                                                </div>
+                                            </td>
+
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                        @Html.Hidden("hdnCounter", (++counter))
+                                        @*</div>*@
+                                   
+                            </div>
+                            <!-- <button>Hey, click me!</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

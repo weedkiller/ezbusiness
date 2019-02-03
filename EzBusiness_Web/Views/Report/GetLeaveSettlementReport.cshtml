@@ -1,0 +1,129 @@
+﻿@model EzBusiness_EF_Entity.LeaveSettlement
+
+@{
+    ViewBag.Title = "GetLeaveSettlementReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*@Scripts.Render("~/bundles/jquery")*@
+
+<script src="~/Scripts/Application/LeaveSettlementDetails.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+
+@*<style>
+        .portal-drivers {
+            overflow-x: scroll;
+            /*max-width: 40%;*/
+            display: block;
+            /*white-space: nowrap;*/
+        }
+    </style>*@
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 15px">
+    </div>
+</div>
+
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Leave Settlement Report</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <div class="row-fluid">
+                    <div class="span4">
+                        <div class="form-group">
+                            <span style="color:red;float: left;padding: 0 5px 0 0;">*</span>
+                            <label for="exampleInputPassword1">From Date</label>
+                            <div class="controls">
+                                <input id="fdatetxt" class="form-control datepicker" name="fdatetxt" />
+                                @*<input type="date" required name="" id="fdatetxt" placeholder="" class="form-control">*@
+                                <span class="add-on calendercls"><i class="icon-calendar"></i></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="form-group">
+                            <span style="color:red;float: left;padding: 0 5px 0 0;">*</span>
+                            <label for="exampleInputPassword1">To Date</label>
+                            <div class="controls">
+                                <input id="tdatetxt" class="form-control datepicker" name="tdatetxt" />
+                                @*<input type="date" required name="" id="tdatetxt" placeholder="" class="form-control">*@
+                                <span class="add-on calendercls"><i class="icon-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row-fluid">
+                    <div class="span4" style="margin-top:2%;">
+                        <button type="button" class="btn btn-primary truebtn" id="btnSearchData">
+                            <i class="icon-zoom-out"> Search</i>
+                        </button>
+                        <button type="button" class="btn btn-warning btnexport truebtn">
+                            <i class="icon-cancel"> Cancel</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div style="display:none" id="displayleaveset">
+    <div class="row-fluid">
+        <!-- <h3>Contractor Information</h3> -->
+        <div class="span12">
+            <div class="widget-content nopadding">
+                <table class="table table-bordered" id="LeaveSetreport">
+                    <thead>
+                        <tr>
+                            <th>Sr.No</th>
+                            <th>Employee Code</th>
+                            <th>LStartDate</th>
+                            <th>LendDate</th>
+                            <th>Sanctioned_Days</th>
+                            <th>Total_days</th>
+                            <th>Total_worked_Days</th>
+                            <th>Total_LE_Days</th>
+                            <th>LB_CF_Days</th>
+                            <th>Leave_Salary</th>
+                            <th>Addition_amt</th>
+                            <th>Deduction_Amt</th>
+                            <th>Ticket_amt</th>
+                            <th>Ticket_Paid</th>
+                            <th>Pending_Salary</th>
+                            <th>Advance_Salary</th>
+                            <th>Advance_Paid</th>
+                            <th>Actual_Salary</th>
+                            <th>Net_Pay</th>
+                            <th>salary_effect_date</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            debugger;
+            EzdtePk('#fdatetxt,#tdatetxt');
+            LeaveSet.initialize();
+            });
+</script>
+
+
+
+
+

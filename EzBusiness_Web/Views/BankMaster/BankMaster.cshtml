@@ -1,0 +1,466 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.BankMasterVM
+
+@{
+    ViewBag.Title = "Bank Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+
+
+        EzAuthentication("/BankMaster");
+        var lvHtml = $("#POContainer").html();
+        $("#POListContainer1").hide();
+        function GetLeaveList() {           
+            $.get("/BankMaster/GetBnkList", function (response) {
+                $("#POListContainer").html(response);
+            });
+        }
+        $("#btnNew").click(function () {
+            var n = EzAuthenticationBtn("/BankMaster", "NewIt");
+            if (n == 1) {           
+            $.get("/BankMaster/AddBankDetail", function (response) {
+                $("#POContainer").html(response);
+            });
+            $(this).prop("disabled", true);
+            //$("#btnEdit").prop("disabled", true);
+            //$("#btnDelete").prop("disabled", true);
+            //$("#hdnOperationMode").val("Add");
+            //$("#btnSave").prop("disabled", false);
+            EzbtnNewAc();
+            $("#POListContainer1").hide();
+            $("#editshow").hide();
+            }
+        });
+        $(".alert-close").click(function () {
+            $("#editshow").hide();
+        });
+
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/BankMaster", "ViewIt");
+            if (n == 1) {
+                $(this).prop("disabled", true);
+                EzbtnEditAc();
+                //$("#btnNew").prop("disabled", true);
+                //$("#POContainer").html();
+                //$("#hdnOperationMode").val("Edit");
+                //$("#btnSave").prop("disabled", false);
+                $("#POListContainer1").show();
+                GetLeaveList();
+                $("#editshow").show();
+            }
+        });
+
+        $("#btnCancel").click(function () {
+            $("#editshow").hide();
+            $("#POContainer").html(lvHtml);
+            EzbtnCancelAc();
+            //$("#btnNew").prop("disabled", false);
+            //$("#btnEdit").prop("disabled", false);
+            //$("#btnDelete").prop("disabled", true);
+            //$("#hdnOperationMode").val("");
+            $("#btnSave").prop("disabled", true);
+            $("#POListContainer1").hide();
+        });
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/BankMaster", "DeleteIt");
+            if (n == 1) {
+                $("#editshow").hide();
+                if (confirm("Are you Sure?")) {
+                    var PRSR001_CODE = $("[name*='prbm001_code']").val();
+                    $.getJSON("/DeleteBnk", { PRBM001_code: PRSR001_CODE }).done(function (data) {
+                        if (data.DeleteFlag) {
+                            GetLeaveList();
+                            $("#btnCancel").trigger("click");
+                        } else {
+                            //$("#ErrorMessage").show().find("strong").text("Unable to Delete");
+                            Ezerrormsg("#ErrorMessage", "Unable to Delete");
+                        }
+                    });
+                }
+            }
+        });
+
+        $("#btnSave").click(function () {
+            $("#editshow").hide();
+            debugger;
+            var opMode = $("#hdnOperationMode").val();
+            var n = EzAuthenticationBtn("/BankMaster", "EditIt");
+
+            if (opMode == "Add") {
+                // Code for Adding Purchase order
+                var Bnk = {
+                    EditFlag: false,
+                    prbm001_code: $("[name='prbm001_code']").val(),
+                    Bank_name:$("[name='Bank_name']").val(),
+                    Reference: $("[name*='Reference']").val(),
+                    country: $("#country option:selected").val(),                   
+                    Branch: [],
+                };
+
+                $("#tablePODetails tbody tr").each(function (index, item) {
+                    debugger
+
+                    var BkbrCodetxt = $(this).find("[name*='PRBM002_code']").val();
+
+                    var Bkbrtxt = $(this).find("[name*='Bank_branch_name']").val();
+                    
+                    if ((BkbrCodetxt != "")) {
+                        var BranchM = {
+                            PRBM002_code: BkbrCodetxt,
+                            Bank_branch_name: Bkbrtxt,
+                            
+                        };
+                        Bnk.Branch.push(BranchM);
+                    }
+                });
+
+                var validationResult = ValidateForm(Bnk);
+                if (validationResult.formValid) {
+                    $.post("/SaveBnk", Bnk).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            //$("#POContainer").html("<div class='row'><div class='col-lg-12 col-sm-12'><div class='alert alert-danger'><strong>Saved Successfully</strong></div></div></div>");
+                            //$("#btnEdit").prop("disabled", false);
+                            //$("#btnDelete").prop("disabled", true);
+                            //$("#btnNew").prop("disabled", false);
+                            //$("#btnSave").prop("disabled", true);
+                            //$("#hdnOperationMode").val("");
+                            EzbtnsaveAc("#POContainer");
+                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            GetLeaveList();
+                        } else {
+                            
+                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                        }
+                    });
+
+                } else {
+                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    
+                }
+            } else if (opMode == "Edit" &&  n==1) {
+                // Code for Adding Purchase order
+                var Bnk = {
+                    EditFlag: true,
+                    prbm001_code: $("[name='prbm001_code']").val(),
+                    Bank_name: $("[name='Bank_name']").val(),
+                    Reference: $("[name*='Reference']").val(),
+                    country: $("#country option:selected").val(),
+                    Branch: [],
+                };
+
+                $("#tablePODetails tbody tr").each(function (index, item) {
+                    debugger
+
+                    var BkbrCodetxt = $(this).find("[name*='PRBM002_code']").val();
+
+                    var Bkbrtxt = $(this).find("[name*='Bank_branch_name']").val();
+
+                    if ((BkbrCodetxt != "")) {
+                        var BranchM = {
+                            PRBM002_code: BkbrCodetxt,
+                            Bank_branch_name: Bkbrtxt,
+
+                        };
+                        Bnk.Branch.push(BranchM);
+                    }
+                });
+
+
+                var validationResult = ValidateForm(Bnk);
+                if (validationResult.formValid) {
+                    $.post("/SaveBnk", Bnk).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            //$("#POContainer").html("<div class='row'><div class='col-lg-12 col-sm-12'><div class='alert alert-danger'><strong>Saved Successfully</strong></div></div></div>");
+                            //$("#btnEdit").prop("disabled", false);
+                            //$("#btnDelete").prop("disabled", true);
+                            //$("#btnNew").prop("disabled", false);
+                            //$("#btnSave").prop("disabled", true);
+                            //$("#hdnOperationMode").val("");
+                            EzbtnsaveAc("#POContainer");
+                            GetLeaveList();
+                        } else {
+                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                        }
+                    });
+
+                } else {
+                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                }
+            }
+
+
+        });
+
+        function ValidateForm(Bnk) {
+            debugger;
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+            if (!Bnk.EditFlag) {
+                if (Bnk.prbm001_code == "") {
+                    response.ErrorMessage += "** Bank CODE is Mondatory Fields.\n";                   
+                }
+            } else if (Bnk.EditFlag ) {
+                if (Bnk.prbm001_code=="") {
+                    response.ErrorMessage += "** Bank Branch CODE is Mondatory Fields.";
+                }
+            }
+            if (Bnk.country=="0") {
+                response.ErrorMessage += "**Country  is mandatory Fields.";
+            }
+            if (Bnk.Branch.length == 0)
+                response.ErrorMessage +="Please Add Bank Branch/Branches"
+
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+
+            return response;
+        }
+
+        function parseDate(s) {
+            var b = s.split(/\D/);
+            return new Date(b[0], --b[1], b[2]);
+        }
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+        $(document).on("click", "#POList tbody tr", function () {
+            var operationMode = $("#hdnOperationMode").val();
+            if (operationMode == "Edit") {
+                $("#POList > tbody").children().removeClass("active");
+                $(this).addClass("active");
+                var PRSR001_CODE = $(this).find("#hdnprbmCode").val();
+                $.get("EditBankMaster", { PRBM001_code: PRSR001_CODE }).done(function (response) {
+                    $("#POContainer").html(response);
+                    $("#btnDelete").prop("disabled", false);
+                });
+            }
+        });
+
+    });
+
+</script>
+<style>
+    .top-buffer {
+        margin-top: 15px;
+    }
+
+    .fixed-width {
+        width: 100px;
+        float: left;
+    }
+
+    .fluid.row-fluid {
+        margin-right: 100px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .customSpace {
+        content: " ";
+        display: inline-block;
+        width: 40px;
+    }
+
+    div.scroll {
+        width: 300px;
+        height: 500px;
+        overflow: scroll;
+    }
+
+    .contro {
+        width: 13em;
+    }
+</style>
+@*<script>
+    var jq2 = $.noConflict(true);
+    jq2(document).ready(function () {
+        //$("#editshow").hide();
+
+        jq2("#btnNew").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnDelete").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnCancel").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnSave").click(function () {
+            jq2("#editshow").hide();
+        });
+        jq2("#btnEdit").click(function () {
+            jq2("#editshow").show();
+        });
+    });
+</script>*@
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 15px">
+        <ol class="breadcrumb">
+            <li class="active strong1">
+                <strong>Bank Master</strong>
+            </li>
+        </ol>
+        <div class="title-action">
+            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
+            <button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>
+
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+        </div>
+    </div>
+
+</div><hr />
+<!-- Row start -->
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <div class="panel-body" style="margin-left:10px;">
+                    <label class="row" id="ErrorMessage" style="color:red;">
+                        <strong></strong>
+                    </label>
+                    <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+                        <div class="custom-form-wrapper">
+                            <div id="POContainer">
+                                <div class="row">
+                                    <div class="custom-form-wrapper">
+                                        <!-- BEGIN FORM-->
+                                        <div class="form-horizontal">
+                                            <div class="form-body">
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4">Code</label>
+                                                            <div class="col-md-8 input-field">
+                                                                <input type="text" class="form-control" name="" required placeholder="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4">Country</label>
+                                                            <div class="col-md-8 input-field">
+                                                                <select class="form-control" name="">
+                                                                    <option value="">---Select---</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4">Bank Name</label>
+                                                            <div class="col-md-8 input-field">
+                                                                <input type="text" class="form-control" name="" required placeholder="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4">Reference</label>
+                                                            <div class="col-md-8 input-field">
+                                                                <input type="text" class="form-control" name="" required placeholder="" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <table class="table table-bordered table-sm" id="tablePODetails">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Bank Branch Code</th>
+                                                            <th>Bank Branch</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    <input type="text" class="grid-control" name="" required placeholder="" maxlength="50" />
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    <input type="text" class="grid-control" name="" required placeholder="" maxlength="50" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><br />
+                                        <!-- END FORM-->
+                                        <!-- <button>Hey, click me!</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+
+   
+
+    <div class="modal" id="editshow" role="dialog">
+        <div class="modal-dialog m1" data-keyboard="false">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Ez Business System</h4>
+                    <button type="button" style="float: right;margin-top: -26px;" class="btn btn-danger alert-close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container scroll" id="POListContainer">
+                        @Html.Action("GetBnkList", "BankMaster")
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+</div>
+
+    </div>

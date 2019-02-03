@@ -1,0 +1,228 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.MonthlyAdddedVM
+
+@{
+    var counter = 1;
+
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        debugger;
+        $('.selectpicker').selectpicker('refresh');
+        var counter1 = 1;
+        EzdtePk('#Entry_Date1');
+        /* Add new row & find duplicate data in table  */
+        $("#tablePODetails").on("change", "[name*='EmpCode']", function () {
+            var PRADN001_CODE = $("[name *= 'PRADN001_CODE']").val();
+            if (PRADN001_CODE == '') {
+                alert("Please Enter PRADN001_CODE")
+                var trLast1 = $("#tablePODetails tbody tr:last");
+                trLast1.find("[name *= 'EmpCode']").val('0')
+                // end();
+                return;
+            }
+            debugger;
+            var tr = $(this).closest("tr");
+            drec = [];
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'EmpCode']").val();
+                drec.push(ab);
+            });
+            drec.splice($.inArray(tr.find("[name *= 'EmpCode']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name *= 'EmpCode']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'EmpCode']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'EmpCode']").focus();
+                alert("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'EmpCode']").val('0');
+
+            }
+            else {
+                tr.css("background", "");
+
+                if (tr.is(":last-child")) {
+                    debugger;
+                    tr.clone(true, true).insertAfter(tr);
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter1 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                        .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                    var trLast = $("#tableMetaSettings tr:last");
+
+                    var trLast1 = $("#tablePODetails tbody tr:last");
+
+                    trLast1.find("[name *= 'EmpCode']").val('0')
+                    trLast1.find("[name *= 'ADN_Amount']").val('')
+                    trLast1.find("[name *= 'ADN_Act_code']").val('')                    
+                    trLast1.find("[name *= 'Remarks']").val('')
+
+                    trLast.find("[name *= 'EmpCode']").attr({
+                        "name": ("EmpCode" + counter1)
+                    });
+                    trLast.find("[name *= 'ADN_Amount']").attr({
+                        "name": ("ADN_Amount" + counter1)
+                    });
+
+                    trLast.find("[name *= 'ADN_Act_code']").attr({
+                        "name": ("ADN_Act_code" + counter1)
+                    });
+                    trLast.find("[name *= 'T_type']").attr({
+                        "name": ("T_type" + counter1)
+                    });
+                    trLast.find("[name *= 'Remarks']").attr({
+                        "name": ("Remarks" + counter1)
+                    });
+
+                    trLast.find(":first").text(counter1);
+                }
+                counter1++;
+            }
+        });
+
+        EzGriddel("#tablePODetails", "[name*='btnDelete']");
+        EztableLstEnt("#tablePODetails", "[name *= 'Remarks']", "[name *= 'EmpCode']","T","");
+        EztableLstTabBlk("#tablePODetails", "[name *= 'Remarks']", "[name *= 'EmpCode']","T","");
+      
+        EztableTabEve("#tablePODetails", "[name*='ADN_Amount']", "[name *= 'ADN_Act_code']", "Please Enter ADN_Amount",'N',"0");
+        EztableTabEve("#tablePODetails", "[name*='ADN_Act_code']", "[name *= 'T_type']", "Please Enter ADN_Act_code",'T',"");
+      
+      //  EzsetDatetxt();
+        EzGetMonthName("#TMonth", "#hdnTMonth", new Date(Ezsetdtpkdate($("#Entry_Date1").val())));
+        EzGetYear("#TYear", "#hdnTYear", new Date(Ezsetdtpkdate($("#Entry_Date1").val())));
+
+        $('#Entry_Date1').datetimepicker().on('dp.change', function (event) {
+            dt = new Date(Ezsetdtpkdate($("#Entry_Date1").val()));
+            EzGetMonthName("#TMonth", "#hdnTMonth", dt);
+            EzGetYear("#TYear", "#hdnTYear", dt);
+        });
+    });
+    
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+                                <div class="form-body">
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">PRADN001_CODE</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.PRADN001_CODE, new { @class = "form-control", @placeholder = "Code",@readonly="readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Entry_Date</label>
+                                                <div class="col-md-8 input-field">
+                                                    <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" />
+                                                    @Html.HiddenFor(m => m.Entry_Date)
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">TYear</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.TYear, new { @class = "form-control", @disabled = "disabled" })
+                                                    <input type="hidden" id="hdnTYear" value="" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">TMonth</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.TMonth, new { @class = "form-control", @disabled = "disabled" })
+                                                    <input type="hidden" id="hdnTMonth" value="" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!--/row-->
+                                    <!--/row-->
+
+                                    <table class="table table-bordered table-sm" id="tablePODetails">
+                                        <thead>
+                                            <tr>
+                                                <th>EmpCode</th>
+                                                <th>ADN_Amount</th>
+                                                <th>ADN_Act_code</th>
+                                                <th>T_type</th>
+                                                <th>Remarks</th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="grid-group">
+                                                        @Html.DropDownList(string.Concat("EmpCode", counter), Model.EmpNameList, new { @class = "form-control" })
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="grid-group">
+                                                        @Html.TextBox(string.Concat("ADN_Amount", counter), null, new { @class = "grid-control",@Type="Number" })
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="grid-group">
+                                                        @Html.TextBox(string.Concat("ADN_Act_code", counter), null, new { @class = "grid-control" })
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="grid-group">
+                                                        <select  class="form-control" id="T_type" name="T_type">
+                                                            <option value="A">Addition</option>
+                                                            <option value="D">Deduction</option>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="grid-group">
+                                                        @Html.TextBox(string.Concat("Remarks", counter), null, new { @class = "grid-control" })
+                                                    </div>
+                                                </td>
+
+
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

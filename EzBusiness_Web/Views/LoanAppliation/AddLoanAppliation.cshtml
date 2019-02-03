@@ -1,0 +1,256 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.LoanAppliationVM
+
+@{
+    var counter = 1;
+
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        debugger;
+        Ezsetzerotxt();
+
+       
+
+        $('.selectpicker').selectpicker('refresh');
+        $('input[name="ApprovalYN"]').val("N");
+        $('input[name="AutoDeductionYN"]').val("N");        
+        var ot = [];     
+        ot.push("#Instalment");
+        ot.push("#Deduction");
+        Ezdivfn("#LoanAmount", "#LoanAmount", "#NoOfInstalments", ot);     
+        Ezdivfn("#NoOfInstalments", "#LoanAmount", "#NoOfInstalments", ot);      
+        var Eary = [];
+       // Eary.push('#Entry_Date1');
+        //Eary.push('#Entry_Date');
+        //Eary.push('#DeductionStartDate');
+        //EzsetTodayDte(Eary);
+        Eary = [];
+        Eary.push('#Instalment');
+        Eary.push('#Deduction');
+        EzReadonlyT(Eary);             
+        EzcheckedFn('input[name="ApprovalYN"]', "[name*='ApprovalYN']");
+        EzcheckedFn('input[name="AutoDeductionYN"]', "[name*='AutoDeductionYN']");
+
+        EzTxttabEve("#PRLA001_CODE", "#Entry_Date", "Please Enter Code","T");
+        EzTxttabEve('#LoanAmount', '#NoOfInstalments', 'Enter Loan Amount', "N");
+        EzTxttabEve('#NoOfInstalments', '#Balance', 'Enter No of Installment', "N");
+        
+        EzdtePk('#Entry_Date1,#DeductionStartDate1');            
+    });
+   
+</script>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+                              
+
+                                     
+
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">PRLA001_CODE</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.PRLA001_CODE, new { @class = "form-control", @placeholder = "Code" ,@readonly="readonly"})
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Entry_Date</label>
+                                                        <div class="col-md-8 input-field">
+                                                            
+                                                                <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1"/>                                                           
+                                                            
+                                                            @*@Html.HiddenFor(m => m.Entry_Date, new { htmlAttributes = new { @class = "date1" } } )*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Emp</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">LoanAmount</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.LoanAmount, new { @class = "form-control", @placeholder = "LoanAmount", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">NoOfInstalments</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.NoOfInstalments, new { @class = "form-control", @placeholder = "NoOfInstalments", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Instalment</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Instalment, new { @class = "form-control", @placeholder = "Instalment", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Deduction</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Deduction, new { @class = "form-control", @placeholder = "Deduction", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Balance</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Balance, new { @class = "form-control", @placeholder = "Balance", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Remarks</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control", @placeholder = "Remarks" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Status</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @*<select class="form-control" name="Status" id="Status">
+                                            <option value="Y">Yes</option>
+                                            <option value="N">No</option>
+
+                                        </select>*@
+                                                            @Html.RadioButtonFor(m => m.Status, "Y", new { @checked = "checked" }) Yes
+
+                                                            @Html.RadioButtonFor(m => m.Status, "N") No
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">AutoDeductionYN</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <div class="icheck-inline checkbox1">
+                                                                <label>
+                                                                    @Html.CheckBox("AutoDeductionYN", false)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">DeductionStartDate</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <input id="DeductionStartDate1"  class="form-control datepicker" name="DeductionStartDate1" />
+                                                            @*@Html.HiddenFor(m => m.DeductionStartDate, new { htmlAttributes = new { @class = "date1" } })*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Act_code</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.Act_code, new { @class = "form-control", @placeholder = "Act_code" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">LoanType</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.DropDownListFor(m => m.LoanType, Model.LoanTypeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">ApprovalYN</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <div class="icheck-inline checkbox1">
+                                                                <label>
+                                                                    @Html.CheckBox("ApprovalYN", false)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">AppliedAmt</label>
+                                                        <div class="col-md-8 input-field">
+                                                            @Html.TextBoxFor(m => m.AppliedAmt, new { @class = "form-control", @placeholder = "Code", @Type = "Number" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div><br />
+                                    <!-- END FORM-->
+                                    <!-- <button>Hey, click me!</button> -->
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

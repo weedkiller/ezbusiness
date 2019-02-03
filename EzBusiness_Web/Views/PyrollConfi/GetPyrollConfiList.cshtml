@@ -1,0 +1,54 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.Humanresourcepayroll.PyrollConfi_Vm>
+
+
+
+@{
+    var a = 1;
+
+}
+
+<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>
+   <script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    Ezsidetbl("#POList", "#POList tfoot th",true);       
+</script>
+
+<table id="POList" class="table table-bordered table-hover editlist">
+    <thead>
+        <tr>
+            <th>PRCNF001_CODE</th>
+            <th>FINYEAR</th>
+            <th>FINMONTH</th>
+            <th>FROM_DATE</th>
+            <th>TO_DATE</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var po in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnPRCNF001_CODE", po.PRCNF001_CODE)
+                    @po.PRCNF001_CODE
+                </td>
+                <td>
+                    @po.FINYEAR
+                </td>
+
+                <td>
+                    @po.FINMONTH
+                </td>
+                <td>
+                    @po.FROM_DATE
+                </td>
+                <td>
+                    @po.TO_DATE
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+

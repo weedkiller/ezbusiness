@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Treeview";
+
+}
+
+<h2>Treeview</h2>
+
+
+
+
+<ul>
+
+    @helper GetTreeView(List<EzBusiness_ViewModels.Models.MenuItem.MenuItemsVM> treeMenu, string parentID)
+    {
+
+foreach (var i in treeMenu.Where(a => a.ParentFormID.Equals(parentID)))
+{
+        @*<li>*@
+    var submenu = treeMenu.Where(a => a.ParentFormID.Equals(i.FormID)).Count();
+    var subm = i.FormName;
+    if (submenu > 0 && subm != "Master" && subm != "Report")
+    {
+        <tr>
+            <td colspan="2" align="center">
+
+                <span class="collapse collapsible">&nbsp;</span>
+                <b>@i.FormName</b>
+            </td>
+            <td align="center" style="display:none;"><input type="checkbox" name="ViewIt" id=@i.FormID checked="checked" value="1" class="chcktbl" /></td>
+            <td align="center" style="display:none;"><input type="text" readonly="readonly" name="selectedName" id=@i.FormID value="@i.FormName" /></td>                             
+        </tr>
+
+    }
+    else if (submenu > 0 && subm == "Master")
+    {
+            <tr>
+                <td>
+                    <span style="width:15px; display:inline-block">&nbsp;</span>
+                    @i.FormName
+                </td>
+
+               
+                <td align="center"><input type="checkbox" name="ViewIt" id=@i.FormID checked="checked" value="1" class="chcktbl" /></td>
+                <td align="center" style="display:none;"><input type="text" readonly="readonly" name="selectedName" id=@i.FormID value="@i.FormName" /></td>                             
+            </tr>
+
+    }
+
+
+    else
+    {
+            <tr>
+                <td>
+                    <span style="width:30px; display:inline-block">&nbsp;</span>
+                    @i.FormName
+
+                </td>
+                
+                <td align="center"><input type="checkbox" name="ViewIt" id=@i.FormID checked="checked" value="1" class = "chcktbl"/></td>                             
+                <td align="center" style="display:none;"><input type="text" readonly="readonly" name="selectedName" id=@i.FormID value="@i.FormName" /></td>
+            </tr>
+            @*<span style="width:15px; display:inline-block">&nbsp;</span>*@
+    }
+    if (submenu > 0)
+    {
+            <ul>
+
+                @TreeviewMenuRightsRep.GetTreeView(treeMenu, i.FormID)
+                @* Recursive  Call for Populate Sub items here*@
+            </ul>
+    }
+}
+}
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
