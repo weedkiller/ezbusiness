@@ -89,6 +89,7 @@
                "sorting": true,
                "columns": [
                     {
+
                         "data": "srno",
                         "defaultContent":"" // WHICH IS CHANGED TO SR NO 
                     },
