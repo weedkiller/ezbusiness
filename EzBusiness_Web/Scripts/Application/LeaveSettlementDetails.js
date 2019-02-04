@@ -24,6 +24,7 @@
             Tdate: Tdate
         }
         debugger;
+        $('#LeaveSetreport').empty();
         var empdt = $('#LeaveSetreport').DataTable({
             "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
             "order": [[1, 'asc']],
@@ -63,7 +64,11 @@
             "destroy": true,
             "sorting": true,
             "columns": [
-                { "data": null },
+                {
+
+                    "data": "srno",
+                    "defaultContent": "" // WHICH IS CHANGED TO SR NO 
+                },
                { "data": "Empcode" },
                { "data": "LStartDate",
                "render": function (data) {
@@ -107,5 +112,17 @@
                 empdt.cell(cell).invalidate('dom');
             });
         }).draw();
+        $("select option").filter(function () {
+            debugger;
+            //may want to use $.trim in here
+            //return $(this).text() == text1;
+            if ($(this).text() == "All") {
+                var tabledata = $('#LeaveSetreport').dataTable();
+                //Get the total rows
+                k = tabledata.fnSettings().fnRecordsTotal();
+                $(this).val(k);
+            }
+        });
+
     }
 }
