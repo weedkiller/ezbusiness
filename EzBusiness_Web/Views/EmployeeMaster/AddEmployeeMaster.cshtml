@@ -32,16 +32,7 @@
     $(function () {
 
         EzdtePk('#JoiningDate1,#DOB1,#LastRetDate1,#ContactDate1,#AbscondingDate1');
-    
-    //   EzdtePk('#StartDate,#EndDate');
-        // EzdtePk('.datepicker');
-       // EzdtePk('.datepicker');
-      // EzdtePkyyyy('#ObtainedYear1');
-
-        //$.get("/GetLastEmpCode", function (response) {
-        //    $('#empcodetxt').val(response);
-        //});
-       
+             
         $('#ContactNo').keypress(function (event) {
             debugger;
             var keycode = event.which;
@@ -356,7 +347,7 @@
         });
 
        
-        $('body').on('click', '.datepicker', function () {
+        $('body').on('focusin', '.datepicker', function () {
             debugger;
            // var myDate = new Date(2012, 2, 11);
 
@@ -370,9 +361,25 @@
             });
 
         });
+        $('body').on('focusin', '.dt3', function () {
+            debugger;
+            // var myDate = new Date(2012, 2, 11);
+
+            // $('#startdate').datetimepicker("setDate", myDate);
+            $('.dt3').datetimepicker({
+                // defaultDate: new Date(),
+                format: 'YYYY',
+                showClose: true,
+                showClear: true,
+                toolbarPlacement: 'top'
+            });
+
+        });
     });
 
- 
+    EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
+    EzdtePkyyyy('#ObtainedYear1');
+    //$(".datepicker").datetimepicker("destroy");
 
 </script>
 
@@ -1053,7 +1060,7 @@
                                                         <div class="grid-group">
                                                             @*<input id="ObtainedYear1" class="grid-control datepicker" name="ObtainedYear1" />*@
                                                             
-                                                            @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control datepicker" })
+                                                            @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control datepicker dt3" })
                                                         </div>
                                                     </td>
                                                     <td>

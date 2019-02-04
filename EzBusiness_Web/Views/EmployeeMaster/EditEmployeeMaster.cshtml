@@ -253,6 +253,7 @@
             }
         });
         var tablePODetails2 = $("#tablePODetails2 tbody tr");
+        var index3 = 1;
         tablePODetails2.each(function (index, item) {
             debugger;
             //Date.prototype.getToday1 = Ezsetdtpkdate($("[name*='hdnStartDate" + (index + 1) + "']").val());
@@ -268,8 +269,12 @@
             $("[name*='IssuePlace" + (index + 1) + "']").val($("[name*='hdnIssuePlace" + (index + 1) + "']").val());
            // $("[name*='DocumentPath" + (index + 1) + "']").val($("[name*='hdnDocumentPath" + (index + 1) + "']").val());
            
+            index3 = index + 1;
         });
+        EzdtePk('#StartDate' + index3 + ',#StartDate' + index3 + '');
+        EzdtePk('#EndDate' + index3 + ',#EndDate' + index3 + '');
         var tablePODetails1 = $("#tablePODetails1 tbody tr");
+        var index2 = 1;
         tablePODetails1.each(function (index, item) {
             debugger;
             $("[name*='Institution" + (index + 1) + "']").val($("[name*='hdnInstitution" + (index + 1) + "']").val());
@@ -278,8 +283,11 @@
             $("[name*='DegreeName" + (index + 1) + "']").val($("[name*='hdnDegreeName" + (index + 1) + "']").val());
             $("[name*='ObtainedYear" + (index + 1) + "']").val($("[name*='hdnObtainedYear" + (index + 1) + "']").val());
             $("[name*='Specification" + (index + 1) + "']").val($("[name*='hdnSpecification" + (index + 1) + "']").val());
+            index2 = index + 1;
         });
+        EzdtePkyyyy('#ObtainedYear' + index2 + ',#ObtainedYear' + index2 + '');
         var tablePODetails = $("#tablePODetails tbody tr");
+        var index1 = 1;
         tablePODetails.each(function (index, item) {
             debugger;          
             //Date.prototype.getToday = Ezsetdtpkdate($("[name*='hdnNomineeDOB" + (index + 1) + "']").val());
@@ -288,9 +296,11 @@
             $("[name*='NomineeRelation" + (index + 1) + "']").val($("[name*='hdnNomineeRelation" + (index + 1) + "']").val());
             $("[name*='NomineeDOB" + (index + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnNomineeDOB" + (index + 1) + "']").val()));
 
+            index1 = index + 1;
         });
+        EzdtePk('#NomineeDOB' + index1 + ',#NomineeDOB' + index1 + '');
 
-        $('body').on('click', '.datepicker', function () {
+        $('body').on('focusin', '.datepicker', function () {
             debugger;
             // var myDate = new Date(2012, 2, 11);
 
@@ -298,6 +308,20 @@
             $('.datepicker').datetimepicker({
                 // defaultDate: new Date(),
                 format: 'DD/MM/YYYY',
+                showClose: true,
+                showClear: true,
+                toolbarPlacement: 'top'
+            });
+
+        });
+        $('body').on('focusin', '.dt3', function () {
+            debugger;
+            // var myDate = new Date(2012, 2, 11);
+
+            // $('#startdate').datetimepicker("setDate", myDate);
+            $('.dt3').datetimepicker({
+                // defaultDate: new Date(),
+                format: 'YYYY',
                 showClose: true,
                 showClear: true,
                 toolbarPlacement: 'top'
@@ -819,7 +843,7 @@
                                         <div style="overflow-x:auto;">
                                             <table class="table table-bordered table-sm" id="tablePODetails2">
                                                 <thead>
-                                                    <tr class="id2">
+                                                    <tr >
                                                         <th>Doc Code</th>
                                                         <th>Document Name</th>
                                                         <th>Document No.</th>
@@ -962,7 +986,7 @@
                                         <div style="overflow-x:auto;">
                                             <table class="table table-bordered table-sm" id="tablePODetails">
                                                 <thead>
-                                                    <tr class="id2">
+                                                    <tr >
                                                         <th>Sr No.</th>
                                                         <th>Name Of the Nominee</th>
                                                         <th>Address</th>
@@ -1046,7 +1070,7 @@
                                         <div style="overflow-x:auto;">
                                             <table class="table table-bordered table-sm" id="tablePODetails1">
                                                 <thead>
-                                                    <tr class="id2">
+                                                    <tr >
                                                         <th style="width:10%">Sr. No.</th>
                                                         <th>Institution Attended</th>
                                                         <th>Location</th>
@@ -1054,6 +1078,7 @@
                                                         <th>Degree Name</th>
                                                         <th>Year Obtained</th>
                                                         <th>Specialization</th>
+                                                        <th>Documents</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -1091,7 +1116,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control datepicker" })
+                                                                    @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control datepicker dt3" })
                                                                     @Html.Hidden(string.Concat("hdnObtainedYear", counter2), item.ObtainedYear)
                                                                 </div>
                                                             </td>
@@ -1137,7 +1162,7 @@
                                                         <td>
                                                             <div class="grid-group">
                                                                 @*<input id="ObtainedYear1" class="grid-control datepicker" name="ObtainedYear1" />*@
-                                                                @Html.TextBox(string.Concat("ObtainedYear", counter), null, new { @class = "grid-control datepicker"})
+                                                                @Html.TextBox(string.Concat("ObtainedYear", counter), null, new { @class = "grid-control datepicker dt3"})
                                                             </div>
                                                         </td>
                                                         <td>
