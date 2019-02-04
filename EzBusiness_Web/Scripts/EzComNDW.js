@@ -10,9 +10,8 @@ function ezValidateNumbers(tableid, ids) {
     });
 }
 
-
 function EzHeadTxtvalid(ide, tbl, tblid, errmsg, typH,typ) {
-    debugger;
+   
     if ($(ide).val() == typH) {
         alert(errmsg);
         var trLast1 = $(tbl);
@@ -22,8 +21,7 @@ function EzHeadTxtvalid(ide, tbl, tblid, errmsg, typH,typ) {
     }
 }
 
-function EzAuthentication(Rpath) {
-    debugger;
+function EzAuthentication(Rpath) {   
     $.getJSON("/AuthCheck", { rpath1: Rpath }).done(function (data) {
         if (data.Urights == false) {
             Swal.queue([{
@@ -38,11 +36,9 @@ function EzAuthentication(Rpath) {
             }])
         }              
     });
-
 }
 
-function EzAuthenticationBtn(Rpath, btnR) {
-    
+function EzAuthenticationBtn(Rpath, btnR) {    
     var a = 0;
      $.ajax({
          url: "/GetUserRightAuth",
@@ -74,7 +70,6 @@ function EzAuthenticationBtn(Rpath, btnR) {
               }                                   
          }
      });
-
      return a;
 }
 
@@ -105,16 +100,14 @@ function EzsetNtxt(Ideary) {
         n--;
     }
 }
-
 //Set Date Text
 function EzsetDatetxt() {
-    debugger;
+   
     $('input[Type="date"]').val(new Date().getToday());
 }
-
 //Set Today Date
 function EzsetTodayDte(Ideary) {
-    debugger;
+   
     var n = Ideary.length;
     while (n > 0) {
         $(Ideary[n - 1]).val(new Date().getToday());
@@ -129,8 +122,6 @@ Date.prototype.getToday = function () {
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
     return today;
 }
-
-
 //set Readonly Prop
 function EzReadonlyT(Ideary) {
     var n = Ideary.length;
@@ -147,8 +138,7 @@ function EzReadonlyF(Ideary) {
     }
 }
 //New Entry Check
-function EzcheckedFn(Idinp, Idnme) {
-    debugger;
+function EzcheckedFn(Idinp, Idnme) {   
     $(Idinp).change(function () {
         if ($(Idnme).is(":checked") == true) {
             $(Idinp).val("Y");
@@ -159,8 +149,7 @@ function EzcheckedFn(Idinp, Idnme) {
     });
 }
 
-function EzcheckedFnD(Idinp, Idnme, Idtxt) {
-    debugger;
+function EzcheckedFnD(Idinp, Idnme, Idtxt) {   
     $(Idinp).change(function () {
         if ($(Idnme).is(":checked") == true) {
             $(Idinp).val("Y");
@@ -173,7 +162,7 @@ function EzcheckedFnD(Idinp, Idnme, Idtxt) {
     });
 }
 function EzcheckedFnS(Idinp, Idnme, Idtxt) {
-    debugger;
+   
     $(Idinp).change(function () {
         if ($(Idnme).is(":checked") == true) {
             $(Idinp).val("Y");
@@ -185,7 +174,6 @@ function EzcheckedFnS(Idinp, Idnme, Idtxt) {
         }
     });
 }
-
 //Edit Entry Check
 function EzcheckedFnE(Idinp, Idnme) {
     $(Idinp).change(function () {
@@ -215,9 +203,9 @@ function EzcheckedFnES(Idinp, Idnme, Idtxt) {
     });
 }
 function EzcheckedFnED(Idinp, Idnme, Idtxt) {
-    debugger;
+   
     $(Idinp).change(function () {
-        debugger;
+       
         if ($(Idinp).val() == "Y") {
             $(Idinp).val("N");
             $(Idnme).removeAttr("checked", "checked");
@@ -231,13 +219,10 @@ function EzcheckedFnED(Idinp, Idnme, Idtxt) {
     });
 }
 //Retrive Entry Check
-function EzcheckedFnEdit(Idinp, Idnme, Idhid) {
-    debugger;
-    if ($(Idhid).val() == "Y") {
-        debugger;
+function EzcheckedFnEdit(Idinp, Idnme, Idhid) {   
+    if ($(Idhid).val() == "Y") {       
         $(Idinp).val("Y");
         $(Idnme).attr("checked", "checked");
-
     }
     else {
         $(Idinp).val("N");
@@ -256,8 +241,7 @@ function EzcheckedFnEditS(Idinp, Idnme, Idhid, Idtxt) {
         $(Idtxt).hide();
     }
 }
-function EzcheckedFnEditD(Idinp, Idnme, Idhid, Idtxt) {
-    debugger;
+function EzcheckedFnEditD(Idinp, Idnme, Idhid, Idtxt) {   
     if ($(Idhid).val() == "Y") {
         $(Idinp).val("Y");
         $(Idnme).attr("checked", "checked");
@@ -305,7 +289,7 @@ function EzbtnsaveAc(Idsucc) {
 }
 //error msg
 function Ezerrormsg(idl, msg) {
-    debugger;
+   
     $(idl).show();
     $(idl).text(msg);
     $(idl).css("color", "red");
@@ -333,7 +317,6 @@ function EzGetMonthName(Mname, hdnMNum, dte) {
     $(Mname).val(EzmonthNames[dte.getMonth()]);
     $(hdnMNum).val(dte.getMonth()+1);
 }
-
 //Get Month Name1
 function EzGetMonthName1(Mname, dte) {
     $(Mname).val(EzmonthNames[dte.getMonth()]);
@@ -344,7 +327,6 @@ function EzGetYear(Year1, hdnYear2, dte) {
     $(Year1).val(dte.getFullYear());
     $(hdnYear2).val(dte.getFullYear());
 }
-
 //Get Year1
 function EzGetYear1(Year1, dte) {
 
@@ -353,7 +335,7 @@ function EzGetYear1(Year1, dte) {
 //divide parm Ist change Event, Ist amt, IInd Amt ,output in array
 function Ezdivfn(idch, idA1, idA2, ot) {
     $(idch).change(function () {
-        debugger;
+       
         var res = 0;
         var lAmt = $(idA1).val();
         var lNoIns = $(idA2).val();
@@ -376,7 +358,7 @@ function EzDropTabEve(Ide, IdeSel, fIde, errmsg) {
         var keyCode = e.keyCode || e.which;
         if (keyCode == 9) {
             e.preventDefault();
-            debugger;
+           
             var ab = $(IdeSel).val();
             if (ab != '0') {
                 $(fIde).focus();
@@ -392,7 +374,7 @@ function EzDropTabEve(Ide, IdeSel, fIde, errmsg) {
 //drop Change event
 function EzDropChaEve(Ide, IdeSel, fIde, errmsg) {
     $(Ide).change(function () {
-        debugger;
+       
         var ab = $(IdeSel).val();
         if (ab != '0') {
             $(fIde).focus();
@@ -418,7 +400,7 @@ function EzTxttabEve(Ide, fIde, errmsg, typ) {
             else {
                 ab = $(Ide).val();
             }
-            debugger;
+           
             if (ab != 0) {
                 $(fIde).focus();
                 $(fIde).select();
@@ -433,8 +415,6 @@ function EzTxttabEve(Ide, fIde, errmsg, typ) {
 }
 //Side Grid with searching
 function Ezsidetbl(ide, idef, lk) {
-  // var jq = $.noConflict(true);
-
     $(document).ready(function () {
         // Setup - add a text input to each footer cell
         $(idef).each(function () {
@@ -466,6 +446,7 @@ function Ezsidetbl(ide, idef, lk) {
 
     });
 }
+/*tbl class date formate DD/MM/YYYY get current */
 function EzdtePk(date1) {    
     $(date1).datetimepicker({
         defaultDate: new Date(),
@@ -475,7 +456,7 @@ function EzdtePk(date1) {
         toolbarPlacement: 'top'
     });
 }
-
+/*tbl class date formate DD/MM/YYYY get input */
 function tbldtpicker() {
     $('.datepicker').datetimepicker({
         // defaultDate: new Date(),
@@ -485,17 +466,16 @@ function tbldtpicker() {
         toolbarPlacement: 'top'
     });
 }
-
+/*tbl date formate yyyy  */
 function tbldtpickerYY() {
-    $('.datepicker').datetimepicker({
-        // defaultDate: new Date(),
+    $('.datepicker').datetimepicker({      
         format: 'YYYY',
         showClose: true,
         showClear: true,
         toolbarPlacement: 'top'
     });
 }
-
+/* date formate MMMM-YYYY get current date */
 function EzdtePkMMyy(date1) {
     $(date1).datetimepicker({
         defaultDate: new Date(),
@@ -506,7 +486,7 @@ function EzdtePkMMyy(date1) {
 
     });
 }
-
+/* date formate yyyy get current date */
 function EzdtePkyyyy(date1) {
     $(date1).datetimepicker({
         defaultDate: new Date(),
@@ -517,9 +497,8 @@ function EzdtePkyyyy(date1) {
 
     });
 }
-
-function EzdtePkMMyyEdit(date1, dtval) {
-    debugger;
+/* date formate MMMM-yyyy get input date */
+function EzdtePkMMyyEdit(date1, dtval) {   
     $(date1).datetimepicker({
         defaultDate: new Date($(dtval).val()),
         format: 'MMMM-YYYY',
@@ -528,9 +507,8 @@ function EzdtePkMMyyEdit(date1, dtval) {
         toolbarPlacement: 'top'
     });
 }
-
-function EzdtePkEdit(date1, dtval) {
-    debugger;
+/* date formate DD/MM/yyyy get input date */
+function EzdtePkEdit(date1, dtval) {   
     $(date1).datetimepicker({
         defaultDate: new Date($(dtval).val()),
         format: 'DD/MM/YYYY',
@@ -539,7 +517,7 @@ function EzdtePkEdit(date1, dtval) {
         toolbarPlacement: 'top'
     });
 }
-
+/* date formate dd/MM/yyyy set Table*/
 function EzdteTblPkEdit(dtval) {
     var now = new Date(dtval);
     var day = ("0" + now.getDate()).slice(-2);
@@ -547,8 +525,7 @@ function EzdteTblPkEdit(dtval) {
     var today = (day) + "/" + (month) + "/" + now.getFullYear();
     return today;
 }
-
-
+/* date formate yy/mm/dd */
 function Ezsetdtpkdate(date1) {   
     var d = new Date(date1.split("/").reverse().join("-"));
     var dd = d.getDate();
@@ -557,9 +534,8 @@ function Ezsetdtpkdate(date1) {
     var newdate = yy + "/" + mm + "/" + dd;
     return newdate;
 }
-//Date Format
-function Ezdatefrmt1(dte) {
-    
+/*json date format yyyy-MM-dd*/
+function Ezdatefrmt1(dte) {    
     var now = new Date(parseInt(dte.substr(6)));
     var now = new Date(now);
     var day = ("0" + now.getDate()).slice(-2);
@@ -567,6 +543,7 @@ function Ezdatefrmt1(dte) {
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
     return today;
 }
+/* date format yyyy-MM-dd */
 function Ezdatefrmt(dte) {       
     var now = new Date(dte);
     var day = ("0" + now.getDate()).slice(-2);
@@ -574,7 +551,7 @@ function Ezdatefrmt(dte) {
     var today = now.getFullYear() + "-" + (month) + "-" + (day);
     return today;
 }
-
+/*json date format dd/MM/yyyy*/
 function EzdatefrmtRes(dte) { 
     var now = new Date(parseInt(dte.substr(6)));
      var now = new Date(now);
@@ -586,7 +563,7 @@ function EzdatefrmtRes(dte) {
 //Table Number  N & Text T Tab Event
 function EztableTabEve(tbl, ide, idf, errmsg, typ, vtyp) {
     $(tbl).on("keydown", ide, function (e) {
-        debugger;
+       
         var keyCode = e.keyCode || e.which;
         if (keyCode == 9) {
             e.preventDefault();
@@ -609,10 +586,10 @@ function EztableTabEve(tbl, ide, idf, errmsg, typ, vtyp) {
         }
     });
 }
-
+/*Lenght decide table inside input */
 function EztableTabEveOne(tbl, ide, idf, errmsg, typ, vtyp,lent) {
     $(tbl).on("keydown", ide, function (e) {
-        debugger;
+       
         var keyCode = e.keyCode || e.which;
         if (keyCode == 9) {
             e.preventDefault();
@@ -639,7 +616,7 @@ function EztableTabEveOne(tbl, ide, idf, errmsg, typ, vtyp,lent) {
 /*Last Column Enter Event*/
 function EztableLstEnt(tbl, ide, idf, errmsg, typ, vtyp) {
     $(tbl).on("keypress", ide, function (e) {
-        debugger;
+       
         if (e.keyCode == 13) {
             var tr = $(this).closest('tr');
             var ab = '';
@@ -664,9 +641,9 @@ function EztableLstEnt(tbl, ide, idf, errmsg, typ, vtyp) {
 }
 
 function EztableLstTabBlk(tbl, ide, idf, errmsg, typ, vtyp) {
-    debugger;
+   
     $(tbl).on("keydown", ide, function (e) {
-        debugger;
+       
         var keyCode = e.keyCode || e.which;
         if (keyCode == 9) {
             e.preventDefault();
@@ -694,7 +671,7 @@ function EztableLstTabBlk(tbl, ide, idf, errmsg, typ, vtyp) {
 /*Last Column Tab Event*/
 function EztableLstTab(tbl, ide, idf) {
     $(tbl).on("keypress", ide, function (e) {
-        debugger;
+       
         var keyCode = e.keyCode || e.which;
         if (keyCode == 9) {
             e.preventDefault();
@@ -704,8 +681,7 @@ function EztableLstTab(tbl, ide, idf) {
 }
 /* delete grid record */
 function EzGriddel(tbl, btndel) {
-    $(tbl).on("click", btndel, function () {
-        debugger;
+    $(tbl).on("click", btndel, function () {       
         //  drec.pop($(this).find(ide).val());
         // counter1--;
         $(this).closest("tr").remove();
@@ -716,18 +692,40 @@ function EzTableRowDel(tbl, btndel) {
         $(this).closest("tr").remove();
     });
 }
-
+/*Master Add*/
 function EzMasterAdd(btnadd, btncan, btnsave) {
     $(btnadd).prop('disabled', true)
     $(btncan).prop("disabled", false);
     $(btnsave).prop("disabled", false);
 }
-
+/*Master Cancel*/
 function EzMasterCancel(btnadd, btncan, btnsave) {
     $(btnadd).prop("disabled", false);
     $(btncan).prop("disabled", true);
     $(btnsave).prop("disabled", true);
 }
+
+function Ezprop(Ideary, propvalue, tf) {
+    debugger;
+    var n = Ideary.length;
+    while (n > 0) {
+        $(Ideary[n - 1]).prop(propvalue, tf);
+        n--;
+    }
+}
+function Ezattr(Ideary, propvalue, tf) {
+    debugger;
+    var n = Ideary.length;
+    while (n > 0) {
+        $(Ideary[n - 1]).attr(propvalue, tf);
+        n--;
+    }
+}
+
+
+
+
+
 
 
 

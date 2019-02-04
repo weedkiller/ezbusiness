@@ -34,13 +34,24 @@
             var n = EzAuthenticationBtn("/Loan", "NewIt");
             if (n == 1) {
                 $("#tbldiv").hide();
-                $("#btnAdd").prop('disabled', true)
-                $("#btnCancel").prop("disabled", false);
-                $("#btnSave").prop("disabled", false);
-                $("[name*='Edit']").prop('disabled', true)
-                $("[name*='Delete']").prop('disabled', true)
+                //$("#btnAdd").prop('disabled', true)
+                //$("#btnCancel").prop("disabled", false);
+                //$("#btnSave").prop("disabled", false);
+                var abk = [];
+                abk.push('#btnAdd');
+                abk.push("[name*='Edit']");
+                abk.push("[name*='Delete']");
+                Ezprop(abk, "disabled", true);
+                abk = [];
+                abk.push('#btnCancel');
+                abk.push('#btnSave');
+                Ezprop(abk,"disabled", false);
+                //EzMasterAdd('#btnAdd', '#btnCancel', '#btnSave');
+                //$("[name*='Edit']").prop('disabled', true)
+                //$("[name*='Delete']").prop('disabled', true)
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
+                Ezerrormsg("#ErrorMessage", "");
             }
 
         });
@@ -106,11 +117,21 @@
             $("[name*='txtName']").val('');
             $("[name*='txtAct_code']").val('');
             $("#tblUnits1").hide();
-            $("#btnAdd").prop("disabled", false);
-            $("#btnCancel").prop("disabled", true);
-            $("#btnSave").prop("disabled", true);
-            $("[name*='Edit']").prop('disabled', false);
-            $("[name*='Delete']").prop('disabled', false);
+            var abk1 = [];
+            abk1.push("#btnCancel");
+            abk1.push("#btnSave")
+            Ezprop(abk1, "disabled", true);
+            abk1 = [];
+            abk1.push('#btnAdd');
+            abk1.push("[name*='Edit']");
+            abk1.push("[name*='Delete']");
+            Ezprop(abk1, "disabled", false);
+
+            //$("#btnAdd").prop("disabled", false);
+            //$("#btnCancel").prop("disabled", true);
+            //$("#btnSave").prop("disabled", true);
+            //$("[name*='Edit']").prop('disabled', false);
+            //$("[name*='Delete']").prop('disabled', false);
             Ezerrormsg("#ErrorMessage", "");
         });
         /*Save Unit Table */
@@ -195,10 +216,11 @@
                 });
                 });
             }
-            else {
-                //$("#ErrorMessage").show().find("strong").text("Eneter");
-                Ezerrormsg("#ErrorMessage", "Enter Record");
-        }
+            Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+        //    else {
+        //        //$("#ErrorMessage").show().find("strong").text("Eneter");
+                
+        //}
         });
 
         function ValidateForm(LoanMaster) {
@@ -272,8 +294,11 @@
                         hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
                         $("#btnAdd").prop('disabled', false);
                     });
+                    Ezerrormsg("#ErrorMessage", "");
                 } else {
-                    alert("Please Enter Record");
+                    //alert("Please Enter Record");
+                    //$("#ErrorMessage").show().find("strong").text(validationResult.ErrorMessage);
+                    Ezerrormsg("#ErrorMessage", "Enter Valid Data");
                 }
             }
         });
@@ -281,10 +306,10 @@
             console.log(thrownError);
         });
 
-        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
-            $(this).closest("tr").remove();
-            $("#btnAdd").prop('disabled', false);
-        });
+        //$("#tblUnits").on("click", "[name^='DeleteNew']", function () {
+        //    $(this).closest("tr").remove();
+        //    $("#btnAdd").prop('disabled', false);
+        //});
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/Loan", "EditIt");
@@ -352,21 +377,58 @@
             }
         });
 
-        $("#tblUnits").on("click", "[name^='Delete']", function () {
+        $("#tblUnits").on("click", "[name^='Delete']", function (e, data) {
             var n = EzAuthenticationBtn("/Loan", "DeleteIt");
             if (n == 1) {
+                debugger;
                 var tr = $(this).closest("tr");
                 var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
                 var codeTd = $(tr).find("td:eq(0)");
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var code = "";
-                if (hdnMode.val() == "false") {
-                    code = $(tr).find("td:eq(0)").text().trim();
-                    $.getJSON("/DeleteLons", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            tr.remove();
+              
+                if (hdnMode.val() == "false" ) {                    
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            code = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeleteLons", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    tr.remove();
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your file has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {                           
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your imaginary file is safe :)',
+                              'error'
+                            )
                         }
-                    });
+                    })
+                           
+                                          
                 }
                 else {
                     var nameTd = $(tr).find("td:eq(1)");
@@ -392,6 +454,9 @@
             }
 
         });
+
+
+       
     });
     var k = 0;
     function tableDis(k) {
@@ -533,7 +598,7 @@ $(document).ready(function(){
 
                             <td>
                                 <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
+                                <button class="btn btn-danger delete" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
                                 <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
                                 @Html.HiddenFor(m => item.CmpyCode)
                             </td>
