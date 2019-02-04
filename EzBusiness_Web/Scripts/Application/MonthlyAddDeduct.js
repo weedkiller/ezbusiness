@@ -78,7 +78,10 @@
             "destroy": true,
             "sorting": true,
             "columns": [
-               { "data": null },
+                 {
+                     "data": "srno",
+                     "defaultContent": "" // WHICH IS CHANGED TO SR NO 
+                 },
                { "data": "EmpCode" },
                { "data": "EmpName" },
                { "data": "PRADN001_CODE" },
@@ -100,7 +103,17 @@
                 fnldt.cell(cell).invalidate('dom');
             });
         }).draw();
-
+        $("select option").filter(function () {
+            debugger;
+            //may want to use $.trim in here
+            //return $(this).text() == text1;
+            if ($(this).text() == "All") {
+                var tabledata = $('#monthlyadddeductreport').dataTable();
+                //Get the total rows
+                k = tabledata.fnSettings().fnRecordsTotal();
+                $(this).val(k);
+            }
+        });
     },
 
     ValidateReports: function (fdate, Tdate) {

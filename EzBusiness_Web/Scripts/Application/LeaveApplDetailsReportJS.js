@@ -64,7 +64,10 @@
             "destroy": true,
             "sorting": true,
             "columns": [
-                { "data": null },
+                {
+                    "data": "srno",
+                    "defaultContent": "" // WHICH IS CHANGED TO SR NO 
+                },
                { "data": "EmpCode" },
                {
                    "data": "JoiningDate",
@@ -100,5 +103,16 @@
                 empdt.cell(cell).invalidate('dom');
             });
         }).draw();
+        $("select option").filter(function () {
+            debugger;
+            //may want to use $.trim in here
+            //return $(this).text() == text1;
+            if ($(this).text() == "All") {
+                var tabledata = $('#Leavereport').dataTable();
+                //Get the total rows
+                k = tabledata.fnSettings().fnRecordsTotal();
+                $(this).val(k);
+            }
+        });
     }
 }

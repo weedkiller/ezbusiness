@@ -1,8 +1,10 @@
-﻿var Empreport={
+﻿//var k=-1;
+//var ln= "[[10, 25, 50, 100], [10, 25, 50, 100, 200]] "  ;
+var Empreport = {
  
    initialize: function()
    {
-
+       
        $('input[Type="date"]').val(new Date().getToday());
       // var jq = $.noConflict(true);
     $.fn.dataTable.ext.errorMode = 'none';
@@ -12,9 +14,12 @@
    Attachevent:function()
    {
        $("#btnSearchData").click(function () {
-          // alert("");
-      
+                              
+          $('select').val('10');
            Empreport.EmpReportDetails();
+          
+          
+          
        })
         $("#fnlbtnSearchData").click(function () {
           // alert("");
@@ -42,6 +47,7 @@
        var Tdate = $("#tdatetxt").val();
        var empCode = $("#empcodetxt").val();
        var empname = $("#empnametxt").val();
+       var i = 0;
        var newrow = {
            Fdate: fdate,
            Tdate: Tdate,
@@ -51,22 +57,22 @@
         debugger;      
            var empdt = $('#Employeereport').DataTable({
                "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
-               "order": [[1, 'asc']],
+               "order": [[0, 'asc']],
                "scrollX": true,
                "language":
                {
                    "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
                },
-               "dom": 'lBfrtip',
-               "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+               "dom": 'Blfrtip',
+             
                "buttons": [
                          'excel',
-                         {
-                             extend:'pdfHtml5',
-                             orientation:'landscape',
-                             pageSize: 'LEGAL'
-
-                         }
+                            {
+                                extend: 'pdfHtml5',
+                                orientation: 'landscape',
+                                pageSize: 'LEGAL'
+                              
+                            }
                ],
                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                    var oSettings = this.fnSettings();
@@ -75,6 +81,7 @@
                },
                "processing": true,
                "serverSide": true,
+               //"stateSave": true,
                "ajax":
                {
                    "async": false,
@@ -84,21 +91,20 @@
                    "dataType": 'json',
                    "data": newrow,
                    //"contentType": "application/json; charset=utf-8",                     
-               },
+               },             
                "destroy": true,
                "sorting": true,
+               "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                "columns": [
                     {
-
                         "data": "srno",
                         "defaultContent":"" // WHICH IS CHANGED TO SR NO 
                     },
                   { "data": "EmpCode" },
                   { "data": "Empname" },
-                  { "data": "EmpType" },
-                 
+                  { "data": "EmpType" },                 
                   { "data": "EMail" },
-                   {
+                  {
                        "data": "JoiningDate",
                        "render": function (data) {
                            return (Ezdatefrmt1(data));
@@ -116,12 +122,26 @@
 
                ]
            });
-           empdt.on('order.dt search.dt', function () {
+       empdt.on('order.dt search.dt', function () {
+           debugger;
                empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
                    cell.innerHTML = i + 1;
-                   empdt.cell(cell).invalidate('dom');
+                    empdt.cell(cell).invalidate('dom');
                });
            }).draw();
+
+       $("select option").filter(function () {
+           debugger;
+           //may want to use $.trim in here
+           //return $(this).text() == text1;
+           if ($(this).text() == "All") {
+               var tabledata = $('#Employeereport').dataTable();
+               //Get the total rows
+               k = tabledata.fnSettings().fnRecordsTotal();
+               $(this).val(k);
+           }         
+       });
+     
     },
    FinalReportDetails: function ()
    {
