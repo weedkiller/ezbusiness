@@ -3,13 +3,6 @@
     ViewBag.Title = "VisaLocationMaster";
     var counter = 1;
 }
-
-
-@*@Scripts.Render("~/bundles/jquery")*@
-
-
-@*<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>*@
-
 <script src="~/Scripts/EzComNDW.js"></script>
 
 <script>
@@ -25,33 +18,20 @@
         }
     });
 </script>
-
-
-
-
 <script>
     var Vls = [];
     $(function () {
-        $("#tblUnits1").hide();
-       // GetUnitTypes();
+        $("#tblUnits1").hide();       
         $("#btnAdd").click(function () {
             var n = EzAuthenticationBtn("/VisaLocation", "NewIt");
             if (n == 1) {
                 $("#tbldiv").hide();
                 var abk = [];
-                abk.push('#btnAdd');
-                abk.push("[name*='Edit']");
-                abk.push("[name*='Delete']");
+                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
                 Ezprop(abk, "disabled", true);
                 abk = [];
-                abk.push('#btnCancel');
-                abk.push('#btnSave');
-                Ezprop(abk, "disabled", false);
-                //$("#btnAdd").prop('disabled', true)
-                //$("#btnCancel").prop("disabled", false);
-                //$("#btnSave").prop("disabled", false);
-                //$("[name*='Edit']").prop('disabled', true)
-                //$("[name*='Delete']").prop('disabled', true)
+                abk.push('#btnCancel', '#btnSave');
+                Ezprop(abk, "disabled", false);                
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
                 Ezerrormsg("#ErrorMessage", "");
@@ -119,29 +99,21 @@
         $("#btnCancel").click(function () {
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
-            }
+            }           
             $("#tblUnits1 tbody").find("tr:gt(0)").remove();
-            $("#tbldiv").show();
-            $("[name*='txtCode']").val('');
-            $("[name*='txtName']").val('');
-           // $("[name*='txtUniCodeName']").val('');
-            $("[name*='txtCompanyMolID']").val('');
+            $("#tbldiv").show();            
             $("#tblUnits1").hide();
             var abk1 = [];
-            abk1.push("#btnCancel");
-            abk1.push("#btnSave")
+            abk1.push("[name*='txtCode']", "[name*='txtName']", "[name*='txtCompanyMolID']");
+            Ezsettxtclr(abk1);
+            abk1 = [];
+            abk1.push("#btnCancel", "#btnSave");
             Ezprop(abk1, "disabled", true);
             abk1 = [];
-            abk1.push('#btnAdd');
-            abk1.push("[name*='Edit']");
-            abk1.push("[name*='Delete']");
+            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
             Ezprop(abk1, "disabled", false);
             Ezerrormsg("#ErrorMessage", "");
-            //$("#btnAdd").prop("disabled", false);
-            //$("#btnCancel").prop("disabled", true);
-            //$("#btnSave").prop("disabled", true);
-            //$("[name*='Edit']").prop('disabled', false);
-            //$("[name*='Delete']").prop('disabled', false);
+           
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
@@ -151,14 +123,12 @@
            $("#tblUnits1 tbody tr").each(function (index, item) {
                debugger;
                 var StsCode = $(this).find("[name*='txtCode']").val();
-                var StsName = $(this).find("[name*='txtName']").val();
-               // var StsUniCodeName = $(this).find("[name*='txtUniCodeName']").val();
+                var StsName = $(this).find("[name*='txtName']").val();              
                 var StsCompanyMolID = $(this).find("[name*='txtCompanyMolID']").val();
                 if ((StsCode != "") && (StsName != "")) {
                     var VisaDetail = {
                         Code: StsCode,
-                        Name: StsName,
-                      //  UniCodeName: StsUniCodeName,
+                        Name: StsName,                      
                         CompanyMolID: StsCompanyMolID
                     };
                     VisaMaster.VisaLocNew.push(VisaDetail);
@@ -175,8 +145,7 @@
                 $("#tblUnits1 tbody tr").each(function (index, item) {
                     var tr = $(this).closest("tr");
                     var codeAdd = $(tr).find("[name*='txtCode']").val().trim();
-                    var nameAdd = $(tr).find("[name*='txtName']").val().trim();
-                   // var unicodenameAdd = $(tr).find("[name*='txtUniCodeName']").val().trim();
+                    var nameAdd = $(tr).find("[name*='txtName']").val().trim();                 
                     var companyMolIDAdd = $(tr).find("[name*='txtCompanyMolID']").val().trim();
                     if(response.Drecord.length>0)
                     {
@@ -202,16 +171,8 @@
                             }
                     }
                     else {
-                        $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                        $("[name*='txtCode']").val('');
-                        $("[name*='txtName']").val('');
-                       // $("[name*='txtUniCodeName']").val('');
-                        $("[name*='txtCompanyMolID']").val('');
-
-                        $("#tblUnits1").hide();
-                        $("#btnAdd").prop("disabled", false);
-                        $("#btnCancel").prop("disabled", true);
-                        $("#btnSave").prop("disabled", true);
+                        $("#tblUnits1 tbody").find("tr:not(:last)").remove();                                             
+                        Ezerrormsg("#ErrorMessage", "");
                         if (codeAdd != '' && nameAdd !='') {
                         var counter = $("#Counter").val();
                         var firstRow = $('#tblUnits tbody tr:first');
@@ -219,21 +180,31 @@
                             "</td><td>" + companyMolIDAdd + "</td>";
                         newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
                             "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                            "'></td></tr>";
-                        //newRow += "</tr>";
+                            "'></td></tr>";                        
                         $(firstRow).after(newRow);
+                        var abk1 = [];
+                        abk1.push("[name*='txtCode']", "[name*='txtName']", "[name*='txtCompanyMolID']");
+                        Ezsettxtclr(abk1);
+                        abk1.push("#btnCancel", "#btnSave");
+                        Ezprop(abk1, "disabled", true);
+                        abk1 = [];
+                        abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+                        Ezprop(abk1, "disabled", false);
+
+                        EzAlertSave();
                         }
-                        $("[name*='Edit']").prop('disabled', false)
-                        $("[name*='Delete']").prop('disabled', false)
+                       
 
                     }
                 });
-                });
-                $("#ErrorMessage").show().find("strong").text(validationResult.ErrorMessage);
+                }               
+                );
             }
             else {
-                $("#ErrorMessage").show().find("strong").text(validationResult.ErrorMessage);
-        }
+                EzAlerterr();
+            }
+                //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+      
         });
 
         function ValidateForm(VisaMaster) {
@@ -255,59 +226,49 @@
             $(this).closest("tr").remove();
         });
 
-        $("#tblUnits").on("click", "[name^='Add']", function () {
-            var counter = $("#Counter").val();
-            var hdnAddMode = $(this).parent().find('input:hidden:first');
-            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-            var editButton = $(this).parent().find("[name='Add" + counter + "']");
-            var tr = $(this).closest("tr");
-            var index = $(this).attr("name").substring(4);
-            var codeTd = $(tr).find("td:eq(0)");
-            var nameTd = $(tr).find("td:eq(1)");
-          //  var unicodenameTd = $(tr).find("td:eq(2)");
-            var companyMolIDTd = $(tr).find("td:eq(2)");
-            //var unitTypeTd = $(tr).find("td:eq(3)");
+        //$("#tblUnits").on("click", "[name^='Add']", function () {
+        //    var counter = $("#Counter").val();
+        //    var hdnAddMode = $(this).parent().find('input:hidden:first');
+        //    var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+        //    var editButton = $(this).parent().find("[name='Add" + counter + "']");
+        //    var tr = $(this).closest("tr");
+        //    var index = $(this).attr("name").substring(4);
+        //    var codeTd = $(tr).find("td:eq(0)");
+        //    var nameTd = $(tr).find("td:eq(1)");        
+        //    var companyMolIDTd = $(tr).find("td:eq(2)");            
+        //    if (hdnAddMode.val() == "true") {
+        //        var codeAdd = $(tr).find("[name*='txtCode']").val().trim();
+        //        var nameAdd = $(tr).find("[name*='txtName']").val().trim();             
+        //        var companyMolIDAdd = $(tr).find("[name*='txtCompanyMolID']").val().trim();                
+        //        var Vls = {
+        //            CmpyCode: hdnCmpyCode,
+        //            Code: codeAdd,
+        //            Name: nameAdd,                
+        //            CompanyMolID: companyMolIDAdd,
+        //            EditFlag: false
+        //        };
+        //        if (codeAdd && hdnCmpyCode) {
+        //            $.post("/VisaLocation/SaveVls", Vls).done(function (response) {
+        //                console.log(response);
+        //                codeTd.text(response.Code);
+        //                nameTd.text(response.Name);                       
+        //                companyMolIDTd.text(response.CompanyMolID);                        
+        //                hdnAddMode.val("false");
+        //                editButton.attr("name", ("Edit" + counter)).text("Edit");
+        //                hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
+        //                $("#btnAdd").prop('disabled', false);
+        //            });
+        //            Ezerrormsg("#ErrorMessage", "");
+        //        } else {
 
-            if (hdnAddMode.val() == "true") {
-                var codeAdd = $(tr).find("[name*='txtCode']").val().trim();
-                var nameAdd = $(tr).find("[name*='txtName']").val().trim();
-              //  var unicodenameAdd = $(tr).find("[name*='txtUniCodeName']").val().trim();
-                var companyMolIDAdd = $(tr).find("[name*='txtCompanyMolID']").val().trim();
-                //var uniTypeAdd = $(tr).find("select option:selected").val().trim();
-
-                var Vls = {
-                    CmpyCode: hdnCmpyCode,
-                    Code: codeAdd,
-                    Name: nameAdd,
-                //    UniCodeName: unicodenameAdd,
-                    CompanyMolID: companyMolIDAdd,
-                    EditFlag: false
-                };
-                if (codeAdd && hdnCmpyCode) {
-                    $.post("/VisaLocation/SaveVls", Vls).done(function (response) {
-                        console.log(response);
-                        codeTd.text(response.Code);
-                        nameTd.text(response.Name);
-                       // unicodenameTd.text(response.UniCodeName);
-                        companyMolIDTd.text(response.CompanyMolID);
-                        //unitTypeTd.text(response.UnitType);
-                        hdnAddMode.val("false");
-                        editButton.attr("name", ("Edit" + counter)).text("Edit");
-                        hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
-                        $("#btnAdd").prop('disabled', false);
-                    });
-                } else {
-                    alert();
-                }
-            }
-        });
+        //            Ezerrormsg("#ErrorMessage", "Enter Valid Data");
+        //        }
+        //    }
+        //});
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
-        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
-            $(this).closest("tr").remove();
-        });
-
+        
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/VisaLocation", "EditIt");
             if (n == 1) {
@@ -317,41 +278,31 @@
                 var tr = $(this).closest("tr");
                 var hdnCode = $(tr).find("td:eq(0)").text().trim();
                 var index = $(this).attr("name").substring(4);
-                var nameTd = $(tr).find("td:eq(1)");
-                // var unicodenameTd = $(tr).find("td:eq(2)");
-                var companyMolIDTd = $(tr).find("td:eq(2)");
-                //var unitTypeTd = $(tr).find("td:eq(3)");
+                var nameTd = $(tr).find("td:eq(1)");              
+                var companyMolIDTd = $(tr).find("td:eq(2)");                
                 var editButton = $(this);
 
                 if (hdnEditMode.val() == "true") {
-                    var nameEdit = $(tr).find("[name*='txtName']").val().trim();
-                    // var unicodenameEdit = $(tr).find("[name*='txtUniCodeName']").val().trim();
-                    var companyMolIDEdit = $(tr).find("[name*='txtCompanyMolID']").val().trim();
-                    //var uniTypeEdit = $(tr).find("select option:selected").val().trim();
+                    var nameEdit = $(tr).find("[name*='txtName']").val().trim();                  
+                    var companyMolIDEdit = $(tr).find("[name*='txtCompanyMolID']").val().trim();                   
                     var Vls = {
                         CmpyCode: hdnCmpyCode,
                         Code: hdnCode,
-                        Name: nameEdit,
-                        // UniCodeName: unicodenameEdit,
+                        Name: nameEdit,                        
                         CompanyMolID: companyMolIDEdit,
-
-
                         EditFlag: true
                     };
 
                     $.post("/VisaLocation/SaveVls", Vls).done(function (response) {
-                        nameTd.text(response.Name);
-                        // unicodenameTd.text(response.UniCodeName);
-                        companyMolIDTd.text(response.CompanyMolID);
-                        //unitTypeTd.text(response.UnitType);
-                        hdnEditMode.val("false");
-                        //editButton.text("Edit");
+                        nameTd.text(response.Name);                        
+                        companyMolIDTd.text(response.CompanyMolID);                        
+                        hdnEditMode.val("false");                       
                         editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
                         editButton.attr('title', 'Edit');
                         tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
-                        tr.find("[name^='Delete']").attr('title', 'Delete');
-                        //tr.find("[name^='Delete']").text("Delete");
+                        tr.find("[name^='Delete']").attr('title', 'Delete');                       
                         tableDis("F");
+                        EzAlertUpd(hdnCode);
                     });
                     $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                         console.log(thrownError);
@@ -359,11 +310,7 @@
                 } else {
                     var name = $(tr).find("td:eq(1)").text();
                     $('#inpname').val(name.trim());
-                    nameTd.html("<input type='text' name='txtName" + index + "' value='" + name.trim() + "' />");
-                    
-                    //var unicodename = $(tr).find("td:eq(2)").text();
-                    //unicodenameTd.html("<input type='text' name='txtUniCodeName" + index + "' value='" + unicodename.trim() + "' />");
-
+                    nameTd.html("<input type='text' name='txtName" + index + "' value='" + name.trim() + "' />");                    
                     var companyMolID = $(tr).find("td:eq(2)").text();
                     $('#inpcmpmi').val(companyMolID.trim());
                     companyMolIDTd.html("<input type='text' name='txtCompanyMolID" + index + "' value='" + companyMolID.trim() + "' />");
@@ -392,37 +339,64 @@
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var code = "";
                 if (hdnMode.val() == "false") {
-                    code = $(tr).find("td:eq(0)").text().trim();
-                    $.getJSON("/DeleteVls", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            tr.remove();
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            code = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeleteVls", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    tr.remove();
+                                }
+                                else {
+                                    EzAlertdele(code);
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    });
+                    })                                     
                 }
                 else {
-                    var nameTd = $(tr).find("td:eq(1)");
-                    // var unicodenameTd = $(tr).find("td:eq(2)");
+                    var nameTd = $(tr).find("td:eq(1)");                  
                     var companyMolIDTd = $(tr).find("td:eq(2)");
-                    var nameEdit = $('#inpname').val(); //$(tr).find("[name*='txtName']").val().trim();
-                    // var unicodenameEdit = $(tr).find("[name*='txtUniCodeName']").val().trim();
-                    var companyMolIDEdit = $('#inpcmpmi').val();// $(tr).find("[name*='txtCompanyMolID']").val().trim();
+                    var nameEdit = $('#inpname').val(); 
+                    var companyMolIDEdit = $('#inpcmpmi').val();
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
                     nameTd.html(nameEdit);
-
-                    //var unicodename = $(tr).find("td:eq(2)").text();
-                    //unicodenameTd.html(unicodenameEdit);
-
                     var companyMolID = $(tr).find("td:eq(2)").text();
-                    companyMolIDTd.html(companyMolIDEdit);
-
-                    //tr.find("[name^='Edit']").text("Edit");
+                    companyMolIDTd.html(companyMolIDEdit);                   
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
                     $(this).html('<span class="glyphicon glyphicon-trash"></span>');
-                    $(this).attr('title', 'Delete');
-                    //$(this).text("Delete");
+                    $(this).attr('title', 'Delete');                    
                     hdnEditMode.val("false");
-
                     tableDis("F");
                 }
 
@@ -442,15 +416,13 @@
             $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
             $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
             $("#btnAdd").prop('disabled', false);
-
         }
     }
 
 </script>
 
 <script>
-$(document).ready(function(){
-    //$('[data-toggle="tooltip"]').tooltip();
+$(document).ready(function(){   
     $(".edit").attr('title', 'Edit');
     $(".delete").attr('title', 'Delete');
 });
@@ -475,10 +447,7 @@ $(document).ready(function(){
 
 </div>
 <div class="panel panel-default">
-    <div class="panel-body">
-        @*<button class="btn btn-primary" id="btnAdd" style="float:right">Add</button>
-            <button class="btn btn-yahoo" id="btnSave" style="float:right">Save</button>
-            <button class="btn btn-danger" id="btnCancel" style="float:right">Cancel</button>*@
+    <div class="panel-body">      
         <input id="inpname" type="hidden" />
         <input id="inpcmpmi" type="hidden" />
         <label class="row" id="ErrorMessage" style="color:red;">
@@ -492,10 +461,7 @@ $(document).ready(function(){
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    @*<th>
-                        @Html.DisplayNameFor(model => model.UniCodeName)
-                    </th>*@
+                    </th>                   
                     <th>
                         @Html.DisplayNameFor(model => model.CompanyMolID)
                     </th>
@@ -515,12 +481,7 @@ $(document).ready(function(){
                         <div class="grid-group">
                             @Html.TextBox(string.Concat("txtName", counter), null, new { @class = "grid-control" })
                         </div>
-                    </td>
-                    @*<td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtUniCodeName", counter), null, new { @class = "grid-control" })
-                        </div>
-                    </td>*@
+                    </td>                    
                     <td>
                         <div class="grid-group">
                             @Html.TextBox(string.Concat("txtCompanyMolID", counter), null, new { @class = "grid-control" })
@@ -539,10 +500,7 @@ $(document).ready(function(){
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Name)
-                        </th>
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.UniCodeName)
-                        </th>*@
+                        </th>                    
                         <th>
                             @Html.DisplayNameFor(model => model.CompanyMolID)
                         </th>
@@ -551,19 +509,7 @@ $(document).ready(function(){
                     </tr>
                 </thead>
 
-                <tbody>
-
-                    @*<tr>
-                            <td>
-                                @Html.TextBox(string.Concat("Code"), null, new { @class = "form-control" })
-                            </td>
-                            <td>
-                                @Html.TextBox(string.Concat("Name"), null, new { @class = "form-control" })
-                            </td>
-                            <td>
-                                @Html.TextBox(string.Concat("UniCodeName"), null, new { @class = "form-control" })
-                            </td>
-                        </tr>*@
+                <tbody>                   
                     @foreach (var item in Model)
                     {
                         <tr>
@@ -574,9 +520,7 @@ $(document).ready(function(){
                             <td>
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
-                            @*<td>
-                                @Html.DisplayFor(modelItem => item.UniCodeName)
-                            </td>*@
+                           
                             <td>
                                 @Html.DisplayFor(modelItem => item.CompanyMolID)
                             </td>

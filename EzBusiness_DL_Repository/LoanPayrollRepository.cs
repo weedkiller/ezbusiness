@@ -22,7 +22,8 @@ namespace EzBusiness_DL_Repository
         public bool DeleteLons(string Code, string CmpyCode, string username)
         {
             int Lons = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRLM001 where CmpyCode='" + CmpyCode + "' and PRLM001_CODE='" + Code + "'");
-            if (Lons != 0)
+            int lonA = _EzBusinessHelper.ExecuteScalar("select count(*) from  PRLA001 where LoanType='" + Code + "' and cmpycode='" + CmpyCode + "' ");
+            if (Lons != 0 && lonA==0)
             {
 
                 _EzBusinessHelper.ActivityLog(CmpyCode, username, "Delete Loan Application", Code, Environment.MachineName);
