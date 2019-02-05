@@ -9,7 +9,26 @@ function ezValidateNumbers(tableid, ids) {
         $(ids).focus();
     });
 }
-
+//function EZMessgDeleteBtn()
+//{
+//    debugger;
+//   // var retunresult = "";
+//    const swalWithBootstrapButtons = Swal.mixin({
+//        confirmButtonClass: 'btn btn-success',
+//        cancelButtonClass: 'btn btn-danger',
+//        buttonsStyling: false,
+//    })
+//    swalWithBootstrapButtons.fire({
+//        title: 'Are you sure?',
+//        text: "You won't be able to revert this!",
+//        type: 'warning',
+//        showCancelButton: true,
+//        confirmButtonText: 'Yes, delete it!',
+//        cancelButtonText: 'No, cancel!',
+//        reverseButtons: true
+//    })
+  
+//}
 function EzHeadTxtvalid(ide, tbl, tblid, errmsg, typH,typ) {
    
     if ($(ide).val() == typH) {
