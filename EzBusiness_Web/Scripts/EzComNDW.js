@@ -56,7 +56,43 @@ function EzAuthentication(Rpath) {
         }              
     });
 }
+function EzAlertdele(code) {
+    Swal.queue([{
+        type: 'error',
+        title: 'Oops...',
+        text: 'Already use ' + code + ' code!',
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+    }])
+}
+function EzAlerterr() {
+    Swal.queue([{
+        type: 'error',
+        title: 'Oops...',
+        text: 'Enter Valid Data!',
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+    }])
+}
+function EzAlertUpd(code) {
+    Swal.queue([{
+        type: 'success',
+        title: 'Success..',
+        text: 'Updated ' + code + ' code!',
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+    }])
+}
 
+function EzAlertSave() {
+    Swal.queue([{
+        type: 'success',
+        title: 'Success..',
+        text: 'Save code!',
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+    }])
+}
 function EzAuthenticationBtn(Rpath, btnR) {    
     var a = 0;
      $.ajax({
@@ -111,7 +147,13 @@ function Ezsetzerotxt() {
         $(this).select();
     });
 }
-
+function Ezsettxtclr(Ideary) {
+    var n = Ideary.length;
+    while (n > 0) {
+        $(Ideary[n - 1]).val('');
+        n--;
+    }
+}
 function EzsetNtxt(Ideary) {
     var n = Ideary.length;
     while (n > 0) {

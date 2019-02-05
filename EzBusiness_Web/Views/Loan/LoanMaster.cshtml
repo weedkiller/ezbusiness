@@ -3,12 +3,6 @@
     ViewBag.Title = "LoanMaster";
     var counter = 1;
 }
-
-
-@*@Scripts.Render("~/bundles/jquery")*@
-
-
-@*<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>*@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     EzAuthentication("/Loan");
@@ -21,39 +15,24 @@
         $('#tblUnits').hide();
     }
 </script>
-
-
 <script>
     var Lons = [];
-    $(function () {
-       // GetUnitTypes();
-        $("#tblUnits1").hide();
-        // GetUnitTypes();
-
+    $(function () {     
+        $("#tblUnits1").hide();    
         $("#btnAdd").click(function () {
             var n = EzAuthenticationBtn("/Loan", "NewIt");
             if (n == 1) {
-                $("#tbldiv").hide();
-                //$("#btnAdd").prop('disabled', true)
-                //$("#btnCancel").prop("disabled", false);
-                //$("#btnSave").prop("disabled", false);
+                $("#tbldiv").hide();              
                 var abk = [];
-                abk.push('#btnAdd');
-                abk.push("[name*='Edit']");
-                abk.push("[name*='Delete']");
+                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");               
                 Ezprop(abk, "disabled", true);
                 abk = [];
-                abk.push('#btnCancel');
-                abk.push('#btnSave');
-                Ezprop(abk,"disabled", false);
-                //EzMasterAdd('#btnAdd', '#btnCancel', '#btnSave');
-                //$("[name*='Edit']").prop('disabled', true)
-                //$("[name*='Delete']").prop('disabled', true)
+                abk.push('#btnCancel', '#btnSave');               
+                Ezprop(abk,"disabled", false);             
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
                 Ezerrormsg("#ErrorMessage", "");
             }
-
         });
         var counter = $("#Counter").val();
         /*Add Table Change Event*/
@@ -113,25 +92,17 @@
             }
             $("#tblUnits1 tbody").find("tr:gt(0)").remove();
             $("#tbldiv").show();
-            $("[name*='txtPRLM001_CODE']").val('');
-            $("[name*='txtName']").val('');
-            $("[name*='txtAct_code']").val('');
+           
             $("#tblUnits1").hide();
             var abk1 = [];
-            abk1.push("#btnCancel");
-            abk1.push("#btnSave")
+            abk1.push("[name*='txtPRLM001_CODE']", "[name*='txtName']", "[name*='txtAct_code']");
+            Ezsettxtclr(abk1);
+            abk1 = [];
+            abk1.push("#btnCancel", "#btnSave");            
             Ezprop(abk1, "disabled", true);
             abk1 = [];
-            abk1.push('#btnAdd');
-            abk1.push("[name*='Edit']");
-            abk1.push("[name*='Delete']");
-            Ezprop(abk1, "disabled", false);
-
-            //$("#btnAdd").prop("disabled", false);
-            //$("#btnCancel").prop("disabled", true);
-            //$("#btnSave").prop("disabled", true);
-            //$("[name*='Edit']").prop('disabled', false);
-            //$("[name*='Delete']").prop('disabled', false);
+            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");           
+            Ezprop(abk1, "disabled", false);           
             Ezerrormsg("#ErrorMessage", "");
         });
         /*Save Unit Table */
@@ -190,59 +161,42 @@
                     }
                     else {
                         $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                        $("[name*='txtPRLM001_CODE']").val('');
-                        $("[name*='txtName']").val('');
-                        $("[name*='txtAct_code']").val('');
-
-                        $("#tblUnits1").hide();
-                        $("#btnAdd").prop("disabled", false);
-                        $("#btnCancel").prop("disabled", true);
-                        $("#btnSave").prop("disabled", true);
+                        var abk1 = [];                      
+                        abk1.push("[name*='txtPRLM001_CODE']", "[name*='txtName']", "[name*='txtAct_code']");
+                        Ezsettxtclr(abk1);
+                        $("#tblUnits1").hide();                                              
                         if (codeAdd != '' && nameAdd !='') {
                         var counter = $("#Counter").val();
                         var firstRow = $('#tblUnits tbody tr:first');
                         var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
                             "</td><td>" + unicodenameAdd + "</td> ";
                         newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                         "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                         "'></td></tr>";
-                        //newRow += "</tr>";
+                            "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                            "'></td></tr>";                       
                         $(firstRow).after(newRow);
                         }
-                        $("[name*='Edit']").prop('disabled', false)
-                        $("[name*='Delete']").prop('disabled', false)
+                        abk1 = [];
+                        abk1.push("#btnCancel", "#btnSave");
+                        Ezprop(abk1, "disabled", true);
+                        abk1 = [];
+                        abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+                        Ezprop(abk1, "disabled", false);
+                        EzAlertSave();
                     }
                 });
                 });
             }
-            Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
-        //    else {
-        //        //$("#ErrorMessage").show().find("strong").text("Eneter");
-                
-        //}
+            else {
+                EzAlerterr();
+            }
+            //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);       
         });
 
         function ValidateForm(LoanMaster) {
             var response = {
                 ErrorMessage: "",
                 formValid: false
-            };
-            //var dupr = false;
-            //$("#tblUnits1 tbody tr").each(function (index, item) {
-            //    var tr = $(this).closest('tr');
-            //    if ($.inArray(tr.find("[name *= 'txtPRLM001_CODE']").val(), drec) >= 0 && tr.find("[name *= 'txtPRLM001_CODE']").val() !='') {
-            //        tr.css("background", "red");
-            //        tr.find("[name *= 'txtPRLM001_CODE']").focus();
-            //        dupr = true;
-            //    }
-            //    else {
-            //        tr.css("background", "");
-            //    }
-            //});
-
-            //if (dupr == true) {
-            //    response.ErrorMessage += "Please Enter Unique Status code Details";
-            //}
+            };           
             if (LoanMaster.LoanNew.length == 0) {
                 response.ErrorMessage += "Please Enter atleast One BankBranch code Details";
             }
@@ -256,60 +210,50 @@
             $(this).closest("tr").remove();
         });
 
-        $("#tblUnits").on("click", "[name^='Add']", function () {
-            var counter = $("#Counter").val();
-            var hdnAddMode = $(this).parent().find('input:hidden:first');
-            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-            var editButton = $(this).parent().find("[name='Add" + counter + "']");
-            var tr = $(this).closest("tr");
-            var index = $(this).attr("name").substring(4);
-            var codeTd = $(tr).find("td:eq(0)");
-            var nameTd = $(tr).find("td:eq(1)");
-            var unicodenameTd = $(tr).find("td:eq(2)");
-            //var unitTypeTd = $(tr).find("td:eq(3)");
-
-            if (hdnAddMode.val() == "true") {
-                var codeAdd = $(tr).find("[name*='txtPRLM001_CODE']").val().trim();
-                var nameAdd = $(tr).find("[name*='txtName']").val().trim();
-                var unicodenameAdd = $(tr).find("[name*='txtAct_code']").val().trim();
-                //var uniTypeAdd = $(tr).find("select option:selected").val().trim();
-
-                var Lons = {
-                    CmpyCode: hdnCmpyCode,
-                    PRLM001_CODE: StsCode,
-                    Name: StsName,
-                    Act_code: StsUniCodeName,
-                    EditFlag: false
-                };
-                if (codeAdd && hdnCmpyCode) {
-                    $.post("/Loan/SaveLons", Lons).done(function (response) {
-                        console.log(response);
-                        codeTd.text(response.PRLM001_CODE);
-                        nameTd.text(response.Name);
-                        unicodenameTd.text(response.Act_code);
-                        //unitTypeTd.text(response.UnitType);
-                        hdnAddMode.val("false");
-                        editButton.attr("name", ("Edit" + counter)).text("Edit");
-                        hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
-                        $("#btnAdd").prop('disabled', false);
-                    });
-                    Ezerrormsg("#ErrorMessage", "");
-                } else {
-                    //alert("Please Enter Record");
-                    //$("#ErrorMessage").show().find("strong").text(validationResult.ErrorMessage);
-                    Ezerrormsg("#ErrorMessage", "Enter Valid Data");
-                }
-            }
-        });
+        //$("#tblUnits").on("click", "[name^='Add']", function () {
+        //    var counter = $("#Counter").val();
+        //    var hdnAddMode = $(this).parent().find('input:hidden:first');
+        //    var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+        //    var editButton = $(this).parent().find("[name='Add" + counter + "']");
+        //    var tr = $(this).closest("tr");
+        //    var index = $(this).attr("name").substring(4);
+        //    var codeTd = $(tr).find("td:eq(0)");
+        //    var nameTd = $(tr).find("td:eq(1)");
+        //    var unicodenameTd = $(tr).find("td:eq(2)");         
+        //    if (hdnAddMode.val() == "true") {
+        //        var codeAdd = $(tr).find("[name*='txtPRLM001_CODE']").val().trim();
+        //        var nameAdd = $(tr).find("[name*='txtName']").val().trim();
+        //        var unicodenameAdd = $(tr).find("[name*='txtAct_code']").val().trim();              
+        //        var Lons = {
+        //            CmpyCode: hdnCmpyCode,
+        //            PRLM001_CODE: StsCode,
+        //            Name: StsName,
+        //            Act_code: StsUniCodeName,
+        //            EditFlag: false
+        //        };
+        //        if (codeAdd && hdnCmpyCode) {
+        //            $.post("/Loan/SaveLons", Lons).done(function (response) {
+        //                console.log(response);
+        //                codeTd.text(response.PRLM001_CODE);
+        //                nameTd.text(response.Name);
+        //                unicodenameTd.text(response.Act_code);
+                       
+        //                hdnAddMode.val("false");
+        //                editButton.attr("name", ("Edit" + counter)).text("Edit");
+        //                hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
+        //                $("#btnAdd").prop('disabled', false);
+        //            });
+        //            Ezerrormsg("#ErrorMessage", "");
+        //        } else {
+                   
+        //            Ezerrormsg("#ErrorMessage", "Enter Valid Data");
+        //        }
+        //    }
+        //});
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
-
-        //$("#tblUnits").on("click", "[name^='DeleteNew']", function () {
-        //    $(this).closest("tr").remove();
-        //    $("#btnAdd").prop('disabled', false);
-        //});
-
+       
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/Loan", "EditIt");
             if (n == 1) {
@@ -320,14 +264,12 @@
                 var hdnCode = $(tr).find("td:eq(0)").text().trim();
                 var index = $(this).attr("name").substring(4);
                 var nameTd = $(tr).find("td:eq(1)");
-                var unicodenameTd = $(tr).find("td:eq(2)");
-                //var unitTypeTd = $(tr).find("td:eq(3)");
+                var unicodenameTd = $(tr).find("td:eq(2)");              
                 var editButton = $(this);
 
                 if (hdnEditMode.val() == "true") {
                     var nameEdit = $(tr).find("[name*='txtName']").val().trim();
-                    var unicodenameEdit = $(tr).find("[name*='txtAct_code']").val().trim();
-                    //var uniTypeEdit = $(tr).find("select option:selected").val().trim();
+                    var unicodenameEdit = $(tr).find("[name*='txtAct_code']").val().trim();                   
                     var Lons = {
                         CmpyCode: hdnCmpyCode,
                         PRLM001_CODE: hdnCode,
@@ -338,15 +280,12 @@
 
                     $.post("/Loan/SaveLons", Lons).done(function (response) {
                         nameTd.text(response.Name);
-                        unicodenameTd.text(response.Act_code);
-                        //unitTypeTd.text(response.UnitType);
-                        hdnEditMode.val("false");
-                        //editButton.text("Edit");
-                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>')
-
-                        //tr.find("[name^='Delete']").text("Delete");
-                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>')
+                        unicodenameTd.text(response.Act_code);                       
+                        hdnEditMode.val("false");                       
+                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
+                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                         tableDis("F");
+                        EzAlertUpd(hdnCode);
                     });
                     $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                         console.log(thrownError);
@@ -355,23 +294,16 @@
                     var name = $(tr).find("td:eq(1)").text();
                     $('#inpNme').val(name.trim());
                     nameTd.html("<input type='text' name='txtName" + index + "' value='" + name.trim() + "' />");
-
                     var unicodename = $(tr).find("td:eq(2)").text();
                     $('#inpAct').val(unicodename.trim());
-                    unicodenameTd.html("<input type='text' name='txtAct_code" + index + "' value='" + unicodename.trim() + "' />");
-
-                    //$(this).text("Update");
+                    unicodenameTd.html("<input type='text' name='txtAct_code" + index + "' value='" + unicodename.trim() + "' />");                    
                     $(this).html('<span class="glyphicon glyphicon-upload"></span>')
                     hdnEditMode.val("true");
-
                     tableDis("T");
                     $(this).attr("disabled", false);
-                    tr.find("[name^='Delete']").prop("disabled", false);
-
-                    //tr.find("[name^='Delete']").text("Cancel");
+                    tr.find("[name^='Delete']").prop("disabled", false);                   
                     tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>');
                     tr.find("[name^='Delete']").attr('title', 'Cancel');
-
                 }
             }
         });
@@ -407,12 +339,13 @@
                             $.getJSON("/DeleteLons", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
                                     tr.remove();
-                                
+                                } else {
+                                    EzAlertdele(code);
                                 }
                             });
                             swalWithBootstrapButtons.fire(
                               'Deleted!',
-                              'Your file has been deleted.',
+                              'Your Code has been deleted.',
                               'success'
                             )
 
@@ -422,7 +355,7 @@
                         ) {                           
                             swalWithBootstrapButtons.fire(
                               'Cancelled',
-                              'Your imaginary file is safe :)',
+                              'Your Code is safe :)',
                               'error'
                             )
                         }
@@ -439,41 +372,19 @@
                     nameTd.html(nameEdit);
 
                     var unicodename = $(tr).find("td:eq(2)").text();
-                    unicodenameTd.html(unicodenameEdit);
-
-                    //tr.find("[name^='Edit']").text("Edit");
+                    unicodenameTd.html(unicodenameEdit);                   
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
                     $(this).html('<span class="glyphicon glyphicon-trash"></span>');
-                    $(this).attr('title', 'Delete');
-                    //$(this).text("Delete");
+                    $(this).attr('title', 'Delete');                    
                     hdnEditMode.val("false");
-
                     tableDis("F");
                 }
             }
 
         });
 
-        function reloadtable(tableId, urlData)
-        {
-            debugger;
-            //var table = $('#tblUnits').DataTable();
-            //table.ajax.reload();
-            $.getJSON(urlData, null, function (json) {
-                table = $(tableId).dataTable();
-                oSettings = table.fnSettings();
 
-                table.fnClearTable(this);
-
-                for (var i = 0; i < json.aaData.length; i++) {
-                    table.oApi._fnAddData(oSettings, json.aaData[i]);
-                }
-
-                oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
-                table.fnDraw();
-            });
-        }
        
     });
     var k = 0;
@@ -489,15 +400,12 @@
             $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
             $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
             $("#btnAdd").prop('disabled', false);
-
         }
     }
-
 </script>
 
 <script>
-$(document).ready(function(){
-    //$('[data-toggle="tooltip"]').tooltip();
+$(document).ready(function(){    
     $(".edit").attr('title', 'Edit');
     $(".delete").attr('title', 'Delete');
 });
@@ -511,13 +419,8 @@ $(document).ready(function(){
 </ol>
 <div class="title-action">
     <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
-
     <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-
-
-
     <button class="btn btn-warning btn1" id="btnCancel" disabled><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
     <input type="hidden" id="hdnOperationMode" value="" />
 
 </div>
@@ -525,10 +428,7 @@ $(document).ready(function(){
     <strong></strong>
 </label>
 <div class="panel panel-default">
-    <div class="panel-body">
-        @*<button class="btn btn-primary" id="btnAdd" style="float:right">Add</button>
-            <button class="btn btn-yahoo" id="btnSave" style="float:right">Save</button>
-            <button class="btn btn-danger" id="btnCancel" style="float:right">Cancel</button>*@
+    <div class="panel-body">       
         <input id="inpNme" type="hidden"/>
         <input id="inpAct" type="hidden" />
         <table class="table table-bordered table-sm" id="tblUnits1">
@@ -587,19 +487,7 @@ $(document).ready(function(){
                     </tr>
                 </thead>
 
-                <tbody>
-
-                    @*<tr>
-                            <td>
-                                @Html.TextBox(string.Concat("Code"), null, new { @class = "form-control" })
-                            </td>
-                            <td>
-                                @Html.TextBox(string.Concat("Name"), null, new { @class = "form-control" })
-                            </td>
-                            <td>
-                                @Html.TextBox(string.Concat("UniCodeName"), null, new { @class = "form-control" })
-                            </td>
-                        </tr>*@
+                <tbody>                   
                     @foreach (var item in Model)
                     {
                         <tr>

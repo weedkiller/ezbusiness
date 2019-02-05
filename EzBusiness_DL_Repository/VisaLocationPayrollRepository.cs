@@ -22,7 +22,8 @@ namespace EzBusiness_DL_Repository
         public bool DeleteVls(string Code, string CmpyCode, string UserName)
         {
             int Vls = _EzBusinessHelper.ExecuteScalar("Select count(*) from VLOC001 where CmpyCode='" + CmpyCode + "' and Code='" + Code + "'");
-            if (Vls != 0)
+            int EmpV = _EzBusinessHelper.ExecuteScalar("select count(*)  from MEM001 where VisaLocation='" + Code + "' and cmpycode='" + CmpyCode + "'");
+            if (Vls != 0 && EmpV==0)
             {
                 _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete Visa Location", Code, Environment.MachineName);
 
@@ -44,8 +45,7 @@ namespace EzBusiness_DL_Repository
                 {
                     CmpyCode = dr["CmpyCode"].ToString(),
                     Code = dr["Code"].ToString(),
-                    Name = dr["Name"].ToString(),
-                  //  UniCodeName = dr["Name"].ToString(),
+                    Name = dr["Name"].ToString(),                
                     CompanyMolID = dr["CompanyMolID"].ToString(),
 
                 });
@@ -66,8 +66,7 @@ namespace EzBusiness_DL_Repository
                     {
                         CmpyCode = m.CmpyCode,
                         Code = m.Code,
-                        Name = m.Name,
-                        //UniCodeName = m.UniCodeName,
+                        Name = m.Name,                      
                         CompanyMolID = m.CompanyMolID
                         
                     }).ToList());
@@ -82,8 +81,7 @@ namespace EzBusiness_DL_Repository
                             StringBuilder sb = new StringBuilder();
                             sb.Append("'" + Vls.CmpyCode + "',");
                             sb.Append("'" + ObjList[n - 1].Code + "',");
-                            sb.Append("'" + ObjList[n - 1].Name + "',");
-                           // sb.Append("'" + ObjList[n - 1].UniCodeName + "',");
+                            sb.Append("'" + ObjList[n - 1].Name + "',");                          
                             sb.Append("'" + ObjList[n - 1].CompanyMolID + "')");
                             _EzBusinessHelper.ExecuteNonQuery("insert into VLOC001(CmpyCode,Code,Name,CompanyMolID) values(" + sb.ToString() + "");
 
