@@ -705,7 +705,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<DutyResume> data = _reportdetail.GetDutyResumeDetails(list[0].CmpyCode, emp1.Fdate, emp1.Tdate);
+                    List<DutyResume> data = _reportdetail.GetDutyResumeDetails(list[0].CmpyCode, emp1.Fdate, emp1.Tdate,emp1.EmpCode,emp1.EmpName);
                     // Total record count.
                     int totalRecords = data.Count;
 

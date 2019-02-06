@@ -24,6 +24,8 @@ namespace EzBusiness_EF_Entity
 
         public string COUNTRY  { get; set; }
 
+        public int srno { get; set; }
+
 
 
     }

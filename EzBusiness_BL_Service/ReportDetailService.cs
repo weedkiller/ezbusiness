@@ -135,35 +135,40 @@ namespace EzBusiness_BL_Service
                 {
                     case "0":
                         // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.SrNo).ToList()
+                                                                                                 : data.OrderBy(p => p.SrNo).ToList();
+                        break;
+                    case "1":
+                        // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EmpCode).ToList()
                                                                                                  : data.OrderBy(p => p.EmpCode).ToList();
                         break;
 
-                    case "1":
+                    case "2":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EmpName).ToList()
                                                                                                  : data.OrderBy(p => p.EmpName).ToList();
                         break;
 
-                    case "2":
+                    case "3":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.PRFSET001_code).ToList()
                                                                                                  : data.OrderBy(p => p.PRFSET001_code).ToList();
                         break;
 
-                    case "3":
+                    case "4":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.SalType).ToList()
                                                                                                  : data.OrderBy(p => p.SalType).ToList();
                         break;
 
-                    case "4":
+                    case "5":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.JoiningDate).ToList()
                                                                                                    : data.OrderBy(p => p.JoiningDate).ToList();
                         break;
 
-                    case "5":
+                    case "6":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.DateofRelease).ToList()
                                                                                                    : data.OrderBy(p => p.DateofRelease).ToList();
@@ -385,17 +390,22 @@ namespace EzBusiness_BL_Service
                 {
                     case "0":
                         // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.srno).ToList()
+                                                                                                 : data.OrderBy(p => p.srno).ToList();
+                        break;
+                    case "1":
+                        // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.HRPH001_CODE).ToList()
                                                                                                  : data.OrderBy(p => p.HRPH001_CODE).ToList();
                         break;
 
-                    case "1":
+                    case "2":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.LEAVE_TYPEYCODE).ToList()
                                                                                                  : data.OrderBy(p => p.LEAVE_TYPEYCODE).ToList();
                         break;
 
-                    case "2":
+                    case "3":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Description).ToList()
                                                                                                  : data.OrderBy(p => p.Description).ToList();
@@ -765,9 +775,9 @@ namespace EzBusiness_BL_Service
 
         }
 
-        public List<DutyResume> GetDutyResumeDetails(string CmpyCode, DateTime Fromdate, DateTime Todate)
+        public List<DutyResume> GetDutyResumeDetails(string CmpyCode, DateTime Fromdate, DateTime Todate,string EmpCode,string EmpName)
         {
-            return _reportdetail.GetDutyResumeReportDetails(CmpyCode, Fromdate, Todate);
+            return _reportdetail.GetDutyResumeReportDetails(CmpyCode, Fromdate, Todate,EmpCode,EmpName);
         }
 
         public List<DutyResume> EmpReportDutyResumeColumnWithOrder(string order, string orderDir, List<DutyResume> data)
