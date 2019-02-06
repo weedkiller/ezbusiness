@@ -23,7 +23,7 @@ namespace EzBusiness_EF_Entity
         public string Excess_Days_plus_minus { get; set; }
         public string Approve_Days_in_full { get; set; }
         public string Approve_Days_in_Half { get; set; }
-
+        public Int32 SrNo { get; set; }
         public DateTime Fdate { get; set; }
         public DateTime Tdate { get; set; }
 
