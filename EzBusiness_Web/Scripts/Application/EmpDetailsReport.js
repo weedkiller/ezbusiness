@@ -29,12 +29,12 @@ var Empreport = {
         $("#btncancel").click(function () {
           //$("#fdatetxt").val("");
           //$("#tdatetxt").val("");
-            EzdtePk('#fdatetxt,#tdatetxt');
+            Ezdteformtcur('#fdatetxt,#tdatetxt', 'DD/MM/YYYY');
         })
         $("#fnlbtncancel").click(function () {
             //$("#fnlfdatetxt").val("");
             //$("#fnltdatetxt").val("");
-            EzdtePk('#fnltdatetxt,#fnltdatetxt');
+            Ezdteformtcur('#fnltdatetxt,#fnltdatetxt','DD/MM/YYYY');
            $("#empcodetxt").val("");
            $("#empnametxt").val("");
         });
