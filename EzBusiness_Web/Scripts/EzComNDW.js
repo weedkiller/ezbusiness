@@ -539,6 +539,41 @@ function tbldtpickerYY() {
         toolbarPlacement: 'top'
     });
 }
+
+/*new date function base on format curent date*/
+/* DD/MM/YYYY , YYYY , MMMM-YYYY  */
+function Ezdteformtcur(date1,frmt) {
+    $(date1).datetimepicker({
+        defaultDate: new Date(),
+        format: frmt,
+        showClose: true,
+        showClear: true,
+        toolbarPlacement: 'top',
+
+    });
+}
+/*tbl date formate yyyy  */
+/* DD/MM/YYYY , YYYY , MMMM-YYYY  */
+function tbldtpicker(date1, frmt) {
+    $(date1).datetimepicker({      
+        format: frmt,
+        showClose: true,
+        showClear: true,
+        toolbarPlacement: 'top',
+
+    });
+}
+/* date formate MMMM-yyyy get input date */
+function EzdtePkEdit(date1, dtval, frmt) {
+    $(date1).datetimepicker({
+        defaultDate: new Date($(dtval).val()),
+        format: frmt,
+        showClose: true,
+        showClear: true,
+        toolbarPlacement: 'top'
+    });
+}
+
 /* date formate MMMM-YYYY get current date */
 function EzdtePkMMyy(date1) {
     $(date1).datetimepicker({
@@ -572,15 +607,15 @@ function EzdtePkMMyyEdit(date1, dtval) {
     });
 }
 /* date formate DD/MM/yyyy get input date */
-function EzdtePkEdit(date1, dtval) {   
-    $(date1).datetimepicker({
-        defaultDate: new Date($(dtval).val()),
-        format: 'DD/MM/YYYY',
-        showClose: true,
-        showClear: true,
-        toolbarPlacement: 'top'
-    });
-}
+//function EzdtePkEdit(date1, dtval) {   
+//    $(date1).datetimepicker({
+//        defaultDate: new Date($(dtval).val()),
+//        format: 'DD/MM/YYYY',
+//        showClose: true,
+//        showClear: true,
+//        toolbarPlacement: 'top'
+//    });
+//}
 /* date formate dd/MM/yyyy set Table*/
 function EzdteTblPkEdit(dtval) {
     debugger;
@@ -619,7 +654,7 @@ function EzdatefrmtRes(dte) {
     return today;
 }
 
-/*json date format yyyy-MM-dd*/
+/*json date format dd-MMM-yyyy*/
 function EzdatefrmtRes1(dte) {
     var now = new Date(parseInt(dte.substr(6)));
     var now = new Date(now);
