@@ -107,14 +107,15 @@ var Empreport = {
                   {
                        "data": "JoiningDate",
                        "render": function (data) {
-                           return (EzdatefrmtRes(data));
+                           return (EzdatefrmtRes1(data));
                        }
+
                    },
                   { "data": "ContactNo" },
                   { "data": "Nationality" },
                   { "data": "DOB",
                    "render": function (data) {
-                       return (EzdatefrmtRes(data));
+                       return (EzdatefrmtRes1(data));
                       }},
                   { "data": "ReportingEmp" },
                   { "data": "BloodGroup" },
