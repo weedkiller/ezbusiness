@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,23 +16,32 @@ namespace EzBusiness_EF_Entity
         public string EmpType { get; set; }
         public string DivisionCode { get; set; }
         public string ProfCode { get; set; }
-        public string JoiningDate { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime JoiningDate { get; set; }
         public string Sex { get; set; }
        
         public string Address { get; set; }
-        public Nullable<System.DateTime> FirstSetDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime FirstSetDate { get; set; }
        
         public string LeaveStatus { get; set; }
         public string WorkingStatus { get; set; }
-        public Nullable<System.DateTime> LastRetDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime LastRetDate { get; set; }
       
       
       
        
         public string VisaLocation { get; set; }
         public string Nationality { get; set; }
-      
-        public Nullable<System.DateTime> DOB { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime DOB { get; set; }
       
         public string VisaStatus { get; set; }
         public string WorkLocation { get; set; }
@@ -60,19 +70,26 @@ namespace EzBusiness_EF_Entity
         public string BranchCode { get; set; }
 
         public string BankBranchCode { get; set; }
-        
-       
-        
-        public Nullable<System.DateTime> ContactDate { get; set; }
+
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime ContactDate { get; set; }
         public string AbscondingYN { get; set; }
-        public Nullable<System.DateTime> AbscondingDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime AbscondingDate { get; set; }
        
         public string TicketType { get; set; }
         public string TicketNo { get; set; }
         public string Contract { get; set; }
         public string SupervisorYN { get; set; }
         public string LanguageKnown { get; set; }
-        public Nullable<System.DateTime> LeaveSettlementDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime LeaveSettlementDate { get; set; }
        
        
         public string GroupCode { get; set; }
@@ -89,9 +106,12 @@ namespace EzBusiness_EF_Entity
         public string Week_off1 { get; set; }
         public string Week_off2 { get; set; }
 
-        public string SrNo { get; set; }
-
+        public Int32 SrNo { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Fdate { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Tdate { get; set; }
 
     }

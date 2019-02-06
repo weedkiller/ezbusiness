@@ -561,6 +561,7 @@ function EzdtePkEdit(date1, dtval) {
 }
 /* date formate dd/MM/yyyy set Table*/
 function EzdteTblPkEdit(dtval) {
+    debugger;
     var now = new Date(dtval);
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);

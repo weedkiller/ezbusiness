@@ -54,10 +54,10 @@ var Empreport = {
            EmpName: empname,
            EmpCode: empCode
        }
-        debugger;      
+        
            var empdt = $('#Employeereport').DataTable({
                "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
-               "order": [[0, 'asc']],
+              "order": [[0, 'asc']],
                "scrollX": true,
                "language":
                {
@@ -74,11 +74,11 @@ var Empreport = {
                               
                             }
                ],
-               "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                   var oSettings = this.fnSettings();
-                   $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-                   return nRow;
-               },
+               //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
+               //    var oSettings = this.fnSettings();
+               //    $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+               //    return nRow;
+               //},
                "processing": true,
                "serverSide": true,
                //"stateSave": true,
@@ -97,8 +97,8 @@ var Empreport = {
                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                "columns": [
                     {
-                        "data": "srno",
-                        "defaultContent":"" // WHICH IS CHANGED TO SR NO 
+                        "data": "SrNo",
+                        
                     },
                   { "data": "EmpCode" },
                   { "data": "Empname" },
@@ -107,14 +107,14 @@ var Empreport = {
                   {
                        "data": "JoiningDate",
                        "render": function (data) {
-                           return (Ezdatefrmt1(data));
+                           return (EzdatefrmtRes(data));
                        }
                    },
                   { "data": "ContactNo" },
                   { "data": "Nationality" },
                   { "data": "DOB",
                    "render": function (data) {
-                          return (Ezdatefrmt1(data));
+                       return (EzdatefrmtRes(data));
                       }},
                   { "data": "ReportingEmp" },
                   { "data": "BloodGroup" },
@@ -122,13 +122,13 @@ var Empreport = {
 
                ]
            });
-       empdt.on('order.dt search.dt', function () {
-           debugger;
-               empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                   cell.innerHTML = i + 1;
-                    empdt.cell(cell).invalidate('dom');
-               });
-           }).draw();
+       //empdt.on('order.dt search.dt', function () {
+       //    debugger;
+       //        empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+       //            cell.innerHTML = i + 1;
+       //             empdt.cell(cell).invalidate('dom');
+       //        });
+       //    }).draw();
 
        $("select option").filter(function () {
            debugger;
@@ -158,7 +158,7 @@ var Empreport = {
            EmpName: empname,
            EmpCode: empCode
        }
-      // debugger;
+       debugger;
      
            var fnldt = $('#finalsettlmentreport').DataTable({
 
@@ -208,25 +208,25 @@ var Empreport = {
                   {
                       "data": "JoiningDate",
                       "render": function (data) {
-                          return (Ezdatefrmt1(data));
+                          return (EzdteTblPkEdit(data));
                       }
                   },
                   {
                       "data": "Dates",
                       "render": function (data) {
-                          return (Ezdatefrmt1(data));
+                          return (EzdteTblPkEdit(data));
                       }
                   },
                   {
                       "data": "SettledDate",
                       "render": function (data) {
-                          return (Ezdatefrmt1(data));
+                          return (EzdteTblPkEdit(data));
                       }
                   },
                   {
                       "data": "DateofRelease",
                       "render": function (data) {
-                          return (Ezdatefrmt1(data));
+                          return (EzdteTblPkEdit(data));
                       }
                   },
                   { "data": "NoOfDaysSuspended" },

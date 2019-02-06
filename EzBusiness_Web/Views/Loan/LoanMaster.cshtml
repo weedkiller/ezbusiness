@@ -5,15 +5,17 @@
 }
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
-    EzAuthentication("/Loan");
-    var n = EzAuthenticationBtn("/Loan", "ViewIt");
-    if(n==1){
-        Ezsidetbl('#tblUnits', '#tblUnits tfoot th', true);      
-        $('#tblUnits').show();
+    $(function () {
+        EzAuthentication("/Loan");
+        var n = EzAuthenticationBtn("/Loan", "ViewIt");
+        if (n == 1) {
+            Ezsidetbl('#tblUnits', '#tblUnits tfoot th', true);
+            $('#tblUnits').show();
 
-    } else {        
-        $('#tblUnits').hide();
-    }
+        } else {
+            $('#tblUnits').hide();
+        }
+    });
 </script>
 <script>
     var Lons = [];
@@ -107,6 +109,7 @@
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
+            debugger;
            var LoanMaster=  {
                LoanNew: []
             };
@@ -159,7 +162,7 @@
                                 $(this).closest('tr').css("background", "");
                             }
                     }
-                    else {
+                    else {                                             
                         $("#tblUnits1 tbody").find("tr:not(:last)").remove();
                         var abk1 = [];                      
                         abk1.push("[name*='txtPRLM001_CODE']", "[name*='txtName']", "[name*='txtAct_code']");
@@ -182,6 +185,8 @@
                         abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
                         Ezprop(abk1, "disabled", false);
                         EzAlertSave();
+
+                        $(".dataTables_empty").replaceWith("");                                               
                     }
                 });
                 });
@@ -210,46 +215,7 @@
             $(this).closest("tr").remove();
         });
 
-        //$("#tblUnits").on("click", "[name^='Add']", function () {
-        //    var counter = $("#Counter").val();
-        //    var hdnAddMode = $(this).parent().find('input:hidden:first');
-        //    var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-        //    var editButton = $(this).parent().find("[name='Add" + counter + "']");
-        //    var tr = $(this).closest("tr");
-        //    var index = $(this).attr("name").substring(4);
-        //    var codeTd = $(tr).find("td:eq(0)");
-        //    var nameTd = $(tr).find("td:eq(1)");
-        //    var unicodenameTd = $(tr).find("td:eq(2)");         
-        //    if (hdnAddMode.val() == "true") {
-        //        var codeAdd = $(tr).find("[name*='txtPRLM001_CODE']").val().trim();
-        //        var nameAdd = $(tr).find("[name*='txtName']").val().trim();
-        //        var unicodenameAdd = $(tr).find("[name*='txtAct_code']").val().trim();              
-        //        var Lons = {
-        //            CmpyCode: hdnCmpyCode,
-        //            PRLM001_CODE: StsCode,
-        //            Name: StsName,
-        //            Act_code: StsUniCodeName,
-        //            EditFlag: false
-        //        };
-        //        if (codeAdd && hdnCmpyCode) {
-        //            $.post("/Loan/SaveLons", Lons).done(function (response) {
-        //                console.log(response);
-        //                codeTd.text(response.PRLM001_CODE);
-        //                nameTd.text(response.Name);
-        //                unicodenameTd.text(response.Act_code);
-                       
-        //                hdnAddMode.val("false");
-        //                editButton.attr("name", ("Edit" + counter)).text("Edit");
-        //                hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
-        //                $("#btnAdd").prop('disabled', false);
-        //            });
-        //            Ezerrormsg("#ErrorMessage", "");
-        //        } else {
-                   
-        //            Ezerrormsg("#ErrorMessage", "Enter Valid Data");
-        //        }
-        //    }
-        //});
+       
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
@@ -338,7 +304,15 @@
                             code = $(tr).find("td:eq(0)").text().trim();
                             $.getJSON("/DeleteLons", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    tr.remove();
+                                    debugger;
+                                    if ($('#tblUnits tbody tr').length == 2) {
+                                        //$(".dataTables_empty").replaceWith("No data available in table");
+                                        var firstRow = $('#tblUnits tbody tr:first');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";                                       
+                                        $(firstRow).after(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
+                                    tr.remove();                                  
                                 } else {
                                     EzAlertdele(code);
                                 }
@@ -402,6 +376,8 @@
             $("#btnAdd").prop('disabled', false);
         }
     }
+
+   
 </script>
 
 <script>
@@ -431,7 +407,7 @@ $(document).ready(function(){
     <div class="panel-body">       
         <input id="inpNme" type="hidden"/>
         <input id="inpAct" type="hidden" />
-        <table class="table table-bordered table-sm" id="tblUnits1">
+        <table class="table table-bordered" id="tblUnits1">
             <thead>
                 <tr class="tr">
                     <th>

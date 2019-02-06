@@ -4,11 +4,6 @@
     var counter = 1;
 }
 
-
-@*@Scripts.Render("~/bundles/jquery")*@
-
-
-@*<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>*@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
@@ -23,41 +18,6 @@
         }
     });
 </script>
-
-@*<script>
-    var jq = $.noConflict();
-
-    jq(document).ready(function () {
-        // Setup - add a text input to each footer cell
-        jq('#tblUnits tfoot th').each(function () {
-            var title = jq(this).text();
-            jq(this).html('<input type="text" placeholder="Search ' + title + '" />');
-        });
-
-        // DataTable
-        var tableInstance = jq('#tblUnits').DataTable({
-            "paging": true,
-            "ordering": true,
-            "info": true
-        });
-
-        $("#tblUnits_length").hide();
-
-        tableInstance.columns().every(function () {
-            var that = this;
-            jq('input', this.footer()).on('keydown', function (ev) {
-                if (ev.keyCode == 13) { //only on enter keypress (code 13)
-                    that
-                        .search(this.value)
-                        .draw();
-                }
-            });
-        });
-
-
-    });
-</script>*@
-
 <script>
     var Sts = [];
     $(function () {
@@ -67,11 +27,12 @@
             var n = EzAuthenticationBtn("/State", "NewIt");
             if (n == 1) {
                 $("#tbldiv").hide();
-                $("#btnAdd").prop('disabled', true)
-                $("#btnCancel").prop("disabled", false);
-                $("#btnSave").prop("disabled", false);
-                $("[name*='Edit']").prop('disabled', true)
-                $("[name*='Delete']").prop('disabled', true)
+                var abk = [];
+                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
+                Ezprop(abk, "disabled", true);
+                abk = [];
+                abk.push('#btnCancel', '#btnSave');
+                Ezprop(abk, "disabled", false);               
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
 
@@ -122,24 +83,7 @@
         });
 
         /*Name Tab Event*/
-        //$("#tblUnits1").on("keydown", "[name*='txtName']", function (e) {
-        //    debugger;
-        //    var keyCode = e.keyCode || e.which;
-        //    if (keyCode == 9) {
-        //        e.preventDefault();
-        //        var tr = $(this).closest('tr');
-        //        var ab = tr.find("[name *= 'txtName']").val();
-        //        if (ab != '') {
-        //            tr.find("[name *= 'txtUniCodeName']").focus();
-        //            tr.css("background", "");
-        //        }
-        //        else {
-        //            tr.css("background", "red");
-        //            tr.find("[name *= 'txtName']").focus();
-        //            alert("Please Enter Name");
-        //        }
-        //    }
-        //});
+        
         /*Code Tab Event*/
 
         /*Code Tab Event*/
@@ -147,24 +91,7 @@
         /*Enter Event*/
         EztableLstEnt("#tblUnits1", "[name*='txtName']", "[name *= 'txtCode']","T","");
 
-        //$("#tblUnits1").on("keydown", "[name*='txtCode']", function (e) {
-        //    debugger;
-        //    var keyCode = e.keyCode || e.which;
-        //    if (keyCode == 9) {
-        //        e.preventDefault();
-        //        var tr = $(this).closest('tr');
-        //        var ab = tr.find("[name *= 'txtCode']").val();
-        //        if (ab != '') {
-        //            tr.find("[name *= 'txtName']").focus();
-        //            tr.css("background", "");
-        //        }
-        //        else {
-        //            tr.css("background", "red");
-        //            tr.find("[name *= 'txtCode']").focus();
-        //            alert("Please Enter Code");
-        //        }
-        //    }
-        //});
+        
         
         /*Refresh */
         $("#btnCancel").click(function () {
@@ -173,15 +100,16 @@
             }
             $("#tblUnits1 tbody").find("tr:gt(0)").remove();
             $("#tbldiv").show();
-            $("[name*='txtCode']").val('');
-            $("[name*='txtName']").val('');
-            $("[name*='txtUniCodeName']").val('');
-            $("#tblUnits1").hide();
-            $("#btnAdd").prop("disabled", false);
-            $("#btnCancel").prop("disabled", true);
-            $("#btnSave").prop("disabled", true);
-            $("[name*='Edit']").prop('disabled', false);
-            $("[name*='Delete']").prop('disabled', false);
+            var abk1 = [];
+            abk1.push("[name*='txtCode']", "[name*='txtName']", "[name*='txtCompanyMolID']");
+            Ezsettxtclr(abk1);
+            abk1 = [];
+            abk1.push("#btnCancel", "#btnSave");
+            Ezprop(abk1, "disabled", true);
+            abk1 = [];
+            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+            Ezprop(abk1, "disabled", false);          
+            $("#tblUnits1").hide();          
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
@@ -236,15 +164,8 @@
                             }
                     }
                     else {
-                        $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                        $("[name*='txtCode']").val('');
-                        $("[name*='txtName']").val('');
-                        
-
-                        $("#tblUnits1").hide();
-                        $("#btnAdd").prop("disabled", false);
-                        $("#btnCancel").prop("disabled", true);
-                        $("#btnSave").prop("disabled", true);
+                        $("#tblUnits1 tbody").find("tr:not(:last)").remove();                                             
+                        $("#tblUnits1").hide();                      
                         if (codeAdd != '' && nameAdd !='') {
                         var counter = $("#Counter").val();
                         var firstRow = $('#tblUnits tbody tr:first');
@@ -256,39 +177,32 @@
                         //newRow += "</tr>";
                         $(firstRow).after(newRow);
                         }
-                        $("[name*='Edit']").prop('disabled', false)
-                        $("[name*='Delete']").prop('disabled', false)
-
-                    }
+                        var abk1 = [];
+                        abk1.push("[name*='txtCode']", "[name*='txtName']");
+                        Ezsettxtclr(abk1);
+                        abk1 = [];
+                        abk1.push("#btnCancel", "#btnSave");
+                        Ezprop(abk1, "disabled", true);
+                        abk1 = [];
+                        abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+                        Ezprop(abk1, "disabled", false);
+                        EzAlertSave();
+                        $(".dataTables_empty").replaceWith("");
+                        }                        
+                   
                 });
                 });
             }
             else {
-                $("#ErrorMessage").show().find("strong").text(ErrorMessage);
-        }
+                EzAlerterr();
+            }
         });
 
         function ValidateForm(StateMaster) {
             var response = {
                 ErrorMessage: "",
                 formValid: false
-            };
-            //var dupr = false;
-            //$("#tblUnits1 tbody tr").each(function (index, item) {
-            //    var tr = $(this).closest('tr');
-            //    if ($.inArray(tr.find("[name *= 'txtCode']").val(), drec) >= 0 && tr.find("[name *= 'txtCode']").val() !='') {
-            //        tr.css("background", "red");
-            //        tr.find("[name *= 'txtCode']").focus();
-            //        dupr = true;
-            //    }
-            //    else {
-            //        tr.css("background", "");
-            //    }
-            //});
-
-            //if (dupr == true) {
-            //    response.ErrorMessage += "Please Enter Unique Status code Details";
-            //}
+            };           
             if (StateMaster.StateNew.length == 0) {
                 response.ErrorMessage += "Please Enter atleast One State code Details";
             }
@@ -298,56 +212,12 @@
 
             return response;
         }
-        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
-            $(this).closest("tr").remove();
-        });
-
-        $("#tblUnits").on("click", "[name^='Add']", function () {
-            var counter = $("#Counter").val();
-            var hdnAddMode = $(this).parent().find('input:hidden:first');
-            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-            var editButton = $(this).parent().find("[name='Add" + counter + "']");
-            var tr = $(this).closest("tr");
-            var index = $(this).attr("name").substring(4);
-            var codeTd = $(tr).find("td:eq(0)");
-            var nameTd = $(tr).find("td:eq(1)");            
-            //var unitTypeTd = $(tr).find("td:eq(3)");
-
-            if (hdnAddMode.val() == "true") {
-                var codeAdd = $(tr).find("[name*='txtCode']").val().trim();
-                var nameAdd = $(tr).find("[name*='txtName']").val().trim();                
-                //var uniTypeAdd = $(tr).find("select option:selected").val().trim();
-
-                var Sts = {
-                    CmpyCode: hdnCmpyCode,
-                    Code: codeAdd,
-                    Name: nameAdd,                    
-                    EditFlag: false
-                };
-                if (codeAdd && hdnCmpyCode) {
-                    $.post("/State/SaveSts", Sts).done(function (response) {
-                        console.log(response);
-                        codeTd.text(response.Code);
-                        nameTd.text(response.Name);                        
-                        //unitTypeTd.text(response.UnitType);
-                        hdnAddMode.val("false");
-                        editButton.attr("name", ("Edit" + counter)).text("Edit");
-                        hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
-                        $("#btnAdd").prop('disabled', false);
-                    });
-                } else {
-                    alert();
-                }
-            }
-        });
+               
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
 
-        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
-            $(this).closest("tr").remove();
-            $("#btnAdd").prop('disabled', false);
-        });
+       
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/State", "EditIt");
@@ -358,32 +228,27 @@
                 var tr = $(this).closest("tr");
                 var hdnCode = $(tr).find("td:eq(0)").text().trim();
                 var index = $(this).attr("name").substring(4);
-                var nameTd = $(tr).find("td:eq(1)");
-                //var unitTypeTd = $(tr).find("td:eq(3)");
+                var nameTd = $(tr).find("td:eq(1)");              
                 var editButton = $(this);
 
                 if (hdnEditMode.val() == "true") {
-                    var nameEdit = $(tr).find("[name*='txtName']").val().trim();
-                    //var uniTypeEdit = $(tr).find("select option:selected").val().trim();
+                    var nameEdit = $(tr).find("[name*='txtName']").val().trim();                  
                     var Sts = {
                         CmpyCode: hdnCmpyCode,
                         Code: hdnCode,
                         Name: nameEdit,
-
                         EditFlag: true
                     };
 
                     $.post("/State/SaveSts", Sts).done(function (response) {
-                        nameTd.text(response.Name);
-                        //unitTypeTd.text(response.UnitType);
-                        hdnEditMode.val("false");
-                        //editButton.text("Edit");
+                        nameTd.text(response.Name);                       
+                        hdnEditMode.val("false");                        
                         editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
                         editButton.attr('title', 'Edit');
                         tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
-                        tr.find("[name^='Delete']").attr('title', 'Delete');
-                        //tr.find("[name^='Delete']").text("Delete");
+                        tr.find("[name^='Delete']").attr('title', 'Delete');                        
                         tableDis("F");
+                        EzAlertUpd(hdnCode);
                     });
                     $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                         console.log(thrownError);
@@ -417,25 +282,65 @@
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var code = "";
                 if (hdnMode.val() == "false") {
-                    code = $(tr).find("td:eq(0)").text().trim();
-                    $.getJSON("/DeleteSts", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            tr.remove();
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            code = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeleteSts", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    if ($('#tblUnits tbody tr').length == 2) {
+                                        //$(".dataTables_empty").replaceWith("No data available in table");
+                                        var firstRow = $('#tblUnits tbody tr:first');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                        $(firstRow).after(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
+                                    tr.remove();
+                                }
+                                else {
+                                    EzAlertdele(code);
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    });
+                    })                   
                 }
                 else {
                     var nameTd = $(tr).find("td:eq(1)");
-                    var nameEdit = $('#inpname').val();//$(tr).find("[name*='txtName']").val().trim();
+                    var nameEdit = $('#inpname').val();
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
-                    nameTd.html(nameEdit);
-
-
-                    //tr.find("[name^='Edit']").text("Edit");
+                    nameTd.html(nameEdit);                    
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
-                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
-                    //$(this).text("Delete");
+                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');                    
                     $(this).attr('title', 'Delete');
                     hdnEditMode.val("false");
 
@@ -464,8 +369,7 @@
 
 </script>
 <script>
-    $(document).ready(function(){
-        //$('[data-toggle="tooltip"]').tooltip();
+    $(document).ready(function(){        
         $(".edit").attr('title', 'Edit');
         $(".delete").attr('title', 'Delete');
     });

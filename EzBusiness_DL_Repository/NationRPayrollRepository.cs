@@ -45,11 +45,7 @@ namespace EzBusiness_DL_Repository
                     Cmpycode = dr["CmpyCode"].ToString(),
                     Code = dr["Code"].ToString(),
                     Name = dr["Name"].ToString(),
-                    UniCodeName = dr["UniCodeName"].ToString(),
-
-
-
-
+                   
                 });
 
             }
@@ -69,7 +65,7 @@ namespace EzBusiness_DL_Repository
                         CmpyCode = m.CmpyCode,
                         Code = m.Code,
                         Name = m.Name,
-                        UniCodeName = m.UniCodeName
+                       
                     }).ToList());
                     int n = 0;
                     n = ObjList.Count;
@@ -83,7 +79,7 @@ namespace EzBusiness_DL_Repository
                             sb.Append("'" + Nrs.CmpyCode + "',");
                             sb.Append("'" + ObjList[n - 1].Code + "',");
                             sb.Append("'" + ObjList[n - 1].Name + "',");
-                            sb.Append("'" + ObjList[n - 1].UniCodeName + "')");
+                            sb.Append("'')");
                             _EzBusinessHelper.ExecuteNonQuery("insert into MNAT019(CmpyCode,Code,Name,UniCodeName) values(" + sb.ToString() + "");
                             Nrs.SaveFlag = true;
                             Nrs.ErrorMessage = string.Empty;
@@ -130,7 +126,7 @@ namespace EzBusiness_DL_Repository
                 var NrsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MNAT019 where CmpyCode='" + Nrs.CmpyCode + "' and Code='" + Nrs.Code + "'");
                 if (NrsEdit != 0)
                 {
-                    _EzBusinessHelper.ExecuteNonQuery("update MNAT019 set CmpyCode='" + Nrs.CmpyCode + "',Code='" + Nrs.Code + "',Name='" + Nrs.Name + "',UniCodeName='" + Nrs.UniCodeName + "' where CmpyCode='" + Nrs.CmpyCode + "' and Code='" + Nrs.Code + "'");
+                    _EzBusinessHelper.ExecuteNonQuery("update MNAT019 set CmpyCode='" + Nrs.CmpyCode + "',Code='" + Nrs.Code + "',Name='" + Nrs.Name + "' where CmpyCode='" + Nrs.CmpyCode + "' and Code='" + Nrs.Code + "'");
                     Nrs.SaveFlag = true;
                     Nrs.ErrorMessage = string.Empty;
                 }

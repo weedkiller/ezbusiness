@@ -182,19 +182,19 @@
                             "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
                             "'></td></tr>";                        
                         $(firstRow).after(newRow);
+                        }
                         var abk1 = [];
                         abk1.push("[name*='txtCode']", "[name*='txtName']", "[name*='txtCompanyMolID']");
                         Ezsettxtclr(abk1);
+                        abk1 = [];
                         abk1.push("#btnCancel", "#btnSave");
                         Ezprop(abk1, "disabled", true);
                         abk1 = [];
                         abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
                         Ezprop(abk1, "disabled", false);
-
                         EzAlertSave();
-                        }
-                       
-
+                        $(".dataTables_empty").replaceWith("");
+                                           
                     }
                 });
                 }               
@@ -202,9 +202,7 @@
             }
             else {
                 EzAlerterr();
-            }
-                //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
-      
+            }                     
         });
 
         function ValidateForm(VisaMaster) {
@@ -225,46 +223,7 @@
         $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
             $(this).closest("tr").remove();
         });
-
-        //$("#tblUnits").on("click", "[name^='Add']", function () {
-        //    var counter = $("#Counter").val();
-        //    var hdnAddMode = $(this).parent().find('input:hidden:first');
-        //    var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-        //    var editButton = $(this).parent().find("[name='Add" + counter + "']");
-        //    var tr = $(this).closest("tr");
-        //    var index = $(this).attr("name").substring(4);
-        //    var codeTd = $(tr).find("td:eq(0)");
-        //    var nameTd = $(tr).find("td:eq(1)");        
-        //    var companyMolIDTd = $(tr).find("td:eq(2)");            
-        //    if (hdnAddMode.val() == "true") {
-        //        var codeAdd = $(tr).find("[name*='txtCode']").val().trim();
-        //        var nameAdd = $(tr).find("[name*='txtName']").val().trim();             
-        //        var companyMolIDAdd = $(tr).find("[name*='txtCompanyMolID']").val().trim();                
-        //        var Vls = {
-        //            CmpyCode: hdnCmpyCode,
-        //            Code: codeAdd,
-        //            Name: nameAdd,                
-        //            CompanyMolID: companyMolIDAdd,
-        //            EditFlag: false
-        //        };
-        //        if (codeAdd && hdnCmpyCode) {
-        //            $.post("/VisaLocation/SaveVls", Vls).done(function (response) {
-        //                console.log(response);
-        //                codeTd.text(response.Code);
-        //                nameTd.text(response.Name);                       
-        //                companyMolIDTd.text(response.CompanyMolID);                        
-        //                hdnAddMode.val("false");
-        //                editButton.attr("name", ("Edit" + counter)).text("Edit");
-        //                hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
-        //                $("#btnAdd").prop('disabled', false);
-        //            });
-        //            Ezerrormsg("#ErrorMessage", "");
-        //        } else {
-
-        //            Ezerrormsg("#ErrorMessage", "Enter Valid Data");
-        //        }
-        //    }
-        //});
+        
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
@@ -359,6 +318,13 @@
                             code = $(tr).find("td:eq(0)").text().trim();
                             $.getJSON("/DeleteVls", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
+                                    if ($('#tblUnits tbody tr').length == 2) {
+                                        //$(".dataTables_empty").replaceWith("No data available in table");
+                                        var firstRow = $('#tblUnits tbody tr:first');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                        $(firstRow).after(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
                                     tr.remove();
                                 }
                                 else {

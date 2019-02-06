@@ -37,9 +37,9 @@ namespace EzBusiness_DL_Repository
                 {
                     EmpCode = dr["EmpCode"].ToString(),
                     Empname = dr["Empname"].ToString(),
-                    SrNo = dr["srno"].ToString(),
+                    SrNo = Convert.ToInt32(dr["srno"].ToString()),
                     EmpType =dr["EmpType"].ToString(),
-                    JoiningDate =dr["joiningDate"].ToString(),
+                    JoiningDate = Convert.ToDateTime(dr["joiningDate"].ToString()),
                     EMail =dr["Email"].ToString(),
                     ContactNo = dr["ContactNo"].ToString(),
                     Nationality =dr["Nationality"].ToString(),

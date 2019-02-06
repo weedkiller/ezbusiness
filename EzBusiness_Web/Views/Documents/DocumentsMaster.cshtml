@@ -3,44 +3,33 @@
     ViewBag.Title = "DocumentsMaster";
     var counter = 1;
 }
-
-
-
-@*@Scripts.Render("~/bundles/jquery")*@
-
-
-@*<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>*@
 <script src="~/Scripts/EzComNDW.js"></script>
-<script>
+<script>   
     $(function () {
         EzAuthentication("/Documents");
         var n = EzAuthenticationBtn("/DutyResume", "ViewIt");
         if (n == 1) {
-            Ezsidetbl("#tblUnits1", "#tblUnits1 tfoot th", true);
+            Ezsidetbl("#tblUnits", "#tblUnits tfoot th", true);
             $('#tblUnits').show();
-
         } else {
             $('#tblUnits').hide();
         }
     });
 </script>
-
-
-
 <script>
     var Doks = [];
     $(function () {
-        $("#tblUnits1").hide();
-       // GetUnitTypes();
+        $("#tblUnits1").hide();      
         $("#btnAdd").click(function () {
             var n = EzAuthenticationBtn("/DutyResume", "NewIt");
             if (n == 1) {
                 $("#tbldiv").hide();
-                $("#btnAdd").prop('disabled', true)
-                $("#btnCancel").prop("disabled", false);
-                $("#btnSave").prop("disabled", false);
-                $("[name*='Edit']").prop('disabled', true)
-                $("[name*='Delete']").prop('disabled', true)
+                var abk = [];
+                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
+                Ezprop(abk, "disabled", true);
+                abk = [];
+                abk.push('#btnCancel', '#btnSave');
+                Ezprop(abk, "disabled", false);                
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
             }
@@ -108,15 +97,16 @@
             }
             $("#tblUnits1 tbody").find("tr:gt(0)").remove();
 
-            $("[name*='txtDocCode']").val('');
-            $("[name*='txtDocName']").val('');
-          //  $("[name*='txtUniCodeName']").val('');
-            $("#tblUnits1").hide();
-            $("#btnAdd").prop("disabled", false);
-            $("#btnCancel").prop("disabled", true);
-            $("#btnSave").prop("disabled", true);
-            $("[name*='Edit']").prop('disabled', false);
-            $("[name*='Delete']").prop('disabled', false);
+            var abk1 = [];
+            abk1.push("[name*='txtDocCode']", "[name*='txtDocName']");
+            Ezsettxtclr(abk1);
+            abk1 = [];
+            abk1.push("#btnCancel", "#btnSave");
+            Ezprop(abk1, "disabled", true);
+            abk1 = [];
+            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+            Ezprop(abk1, "disabled", false);
+            $("#tblUnits1").hide();          
             $("#tbldiv").show();
         });
         /*Save Unit Table */
@@ -128,12 +118,12 @@
             $("#tblUnits1 tbody tr").each(function (index, item) {
                 var StsCode = $(this).find("[name*='txtDocCode']").val();
                 var StsName = $(this).find("[name*='txtDocName']").val();
-               // var StsUniCodeName = $(this).find("[name*='txtUniCodeName']").val();
+               
                 if ((StsCode != "") && (StsName != "")) {
                     var DocumentsDetail = {
                         DocCode: StsCode,
                         DocName: StsName,
-                       // UniCodeName: StsUniCodeName
+                   
                     };
                     Doks.DocumentsDetailnew.push(DocumentsDetail);
                 }
@@ -151,7 +141,7 @@
                         var tr = $(this).closest("tr");
                         var codeAdd = $(tr).find("[name*='txtDocCode']").val().trim();
                         var nameAdd = $(tr).find("[name*='txtDocName']").val().trim();
-                      //  var unicodenameAdd = $(tr).find("[name*='txtUniCodeName']").val().trim();
+                      
                         if (response.Drecord.length > 0) {
                             var ary1 = [];
                             ary1 = response.Drecord;
@@ -163,7 +153,7 @@
                                 var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
                                     "</td> ";
                                 newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "' value='true'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
                                     "'></td></tr>";
                                 $(firstRow).after(newRow);
                             }
@@ -181,29 +171,32 @@
                            
 
                             $("#tblUnits1").hide();
-                            $("#btnAdd").prop("disabled", false);
-                            $("#btnCancel").prop("disabled", true);
-                            $("#btnSave").prop("disabled", true);
+                         
                             if (codeAdd != '' && nameAdd != '') {
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
                                 var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
                                     "</td> ";
                                 newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                    "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='true'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                    "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
                                     "'></td></tr>";
                                 //newRow += "</tr>";
                                 $(firstRow).after(newRow);
                             }
-                            $("[name*='Edit']").prop('disabled', false)
-                            $("[name*='Delete']").prop('disabled', false)
-
+                            abk1 = [];
+                            abk1.push("#btnCancel", "#btnSave");
+                            Ezprop(abk1, "disabled", true);
+                            abk1 = [];
+                            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+                            Ezprop(abk1, "disabled", false);
+                            EzAlertSave();
+                            $(".dataTables_empty").replaceWith("");                           
                         }
                     });
                 });
             }
             else {
-                $("#ErrorMessage").show().find("strong").text(ErrorMessage);
+                EzAlerterr();
             }
         });
 
@@ -212,22 +205,7 @@
                 ErrorMessage: "",
                 formValid: false
             };
-            //var dupr = false;
-            //$("#tblUnits1 tbody tr").each(function (index, item) {
-            //    var tr = $(this).closest('tr');
-            //    if ($.inArray(tr.find("[name *= 'txtDocCode']").val(), drec) >= 0 && tr.find("[name *= 'txtDocCode']").val() !='') {
-            //        tr.css("background", "red");
-            //        tr.find("[name *= 'txtDocCode']").focus();
-            //        dupr = true;
-            //    }
-            //    else {
-            //        tr.css("background", "");
-            //    }
-            //});
-
-            //if (dupr == true) {
-            //    response.ErrorMessage += "Please Enter Unique Status code Details";
-            //}
+         
             if (Doks.DocumentsDetailnew.length == 0) {
                 response.ErrorMessage += "Please Enter atleast One Status code Details";
             }
@@ -241,55 +219,12 @@
             $(this).closest("tr").remove();
         });
 
-        $("#tblUnits").on("click", "[name^='Add']", function () {
-            var counter = $("#Counter").val();
-            var hdnAddMode = $(this).parent().find('input:hidden:first');
-            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-            var editButton = $(this).parent().find("[name='Add" + counter + "']");
-            var tr = $(this).closest("tr");
-            var index = $(this).attr("name").substring(4);
-            var doccodeTd = $(tr).find("td:eq(0)");
-            var docnameTd = $(tr).find("td:eq(1)");
-           
-            //var unitTypeTd = $(tr).find("td:eq(3)");
-
-            if (hdnAddMode.val() == "true") {
-                var doccodeAdd = $(tr).find("[name*='txtDocCode']").val().trim();
-                var docnameAdd = $(tr).find("[name*='txtDocName']").val().trim();
-               
-
-                var Doks = {
-                    CmpyCode: hdnCmpyCode,
-                    DocCode: doccodeAdd,
-                    DocName: docnameAdd,
-                   
-                    EditFlag: false
-                };
-                if (doccodeAdd && hdnCmpyCode) {
-                    $.post("/Documents/SaveDoks", Doks).done(function (response) {
-                        console.log(response);
-                        doccodeTd.text(response.DocCode);
-                        docnameTd.text(response.DocName);
-                      
-                       
-                        hdnAddMode.val("false");
-                        editButton.attr("name", ("Edit" + counter)).text("Edit");
-                        hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
-                        $("#btnAdd").prop('disabled', false);
-                    });
-                } else {
-                    alert();
-                }
-            }
-        });
+      
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
 
-        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
-            $(this).closest("tr").remove();
-        });
-
+      
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/DutyResume", "EditIt");
             if (n == 1) {
@@ -316,14 +251,14 @@
                     $.post("/Documents/SaveDoks", Doks).done(function (response) {
                         docnameTd.text(response.DocName);
 
-                        hdnEditMode.val("false");
-                        //editButton.text("Edit");
+                        hdnEditMode.val("false");                        
                         editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
                         editButton.attr('title', 'Edit');
                         tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                         tr.find("[name^='Delete']").attr('title', 'Delete');
-                        //tr.find("[name^='Delete']").text("Delete");
+                        
                         tableDis("F");
+                        EzAlertUpd(hdnDocCode);
                     });
                     $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                         console.log(thrownError);
@@ -360,29 +295,65 @@
                 var doccode = "";
                 if (hdnMode.val() == "false") {
 
-                    doccode = $(tr).find("td:eq(0)").text().trim();
-                    $.getJSON("/DeleteDoks", { DocCode: doccode, CmpyCode: hdnCmpyCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            tr.remove();
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            doccode = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeleteDoks", { DocCode: doccode, CmpyCode: hdnCmpyCode }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    debugger;
+                                    if ($('#tblUnits tbody tr').length == 2) {
+                                        var firstRow = $('#tblUnits tbody tr:first');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                        $(firstRow).after(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
+                                    tr.remove();
+                                } else {
+                                    EzAlertdele(doccode);
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    });
+                    })
+                   
                 }
                 else {
                     var nameTd = $(tr).find("td:eq(1)");
-                    //var unicodenameTd = $(tr).find("td:eq(2)");
-                    var nameEdit = $('#inpdocname').val(); //$(tr).find("[name*='txtDocName']").val().trim();
-                    //var unicodenameEdit = $(tr).find("[name*='txtUniCodeName']").val().trim();
+                   
+                    var nameEdit = $('#inpdocname').val(); 
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
-                    nameTd.html(nameEdit);
-
-                    //var unicodename = $(tr).find("td:eq(2)").text();
-                    //unicodenameTd.html(unicodenameEdit);
-
-                    //tr.find("[name^='Edit']").text("Edit");
+                    nameTd.html(nameEdit);                    
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
-                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
-                    //$(this).text("Delete");
+                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');                   
                     $(this).attr('title', 'Delete');
                     hdnEditMode.val("false");
 

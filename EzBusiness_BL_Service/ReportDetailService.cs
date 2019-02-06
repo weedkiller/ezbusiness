@@ -48,35 +48,39 @@ namespace EzBusiness_BL_Service
                 {
                     case "0":
                         // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.SrNo).ToList()
+                                                                                                 : data.OrderBy(p => p.SrNo).ToList();
+                        break;
+                    case "1":
+                        // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EmpCode).ToList()
                                                                                                  : data.OrderBy(p => p.EmpCode).ToList();
                         break;
-
-                    case "1":
+                    case "2":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Empname).ToList()
                                                                                                  : data.OrderBy(p => p.Empname).ToList();
                         break;
 
-                    case "2":
+                    case "3":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EmpType).ToList()
                                                                                                  : data.OrderBy(p => p.EmpType).ToList();
                         break;
 
-                    case "3":
+                    case "4":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EMail).ToList()
                                                                                                  : data.OrderBy(p => p.EMail).ToList();
                         break;
 
-                    case "4":
+                    case "5":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.JoiningDate).ToList()
                                                                                                    : data.OrderBy(p => p.JoiningDate).ToList();
                         break;
 
-                    case "5":
+                    case "6":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.BloodGroup).ToList()
                                                                                                    : data.OrderBy(p => p.BloodGroup).ToList();

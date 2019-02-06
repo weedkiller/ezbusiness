@@ -104,26 +104,7 @@ namespace EzBusiness_DL_Repository
                         }
                         n = n - 1;
                     }
-                    //int Lons1 = _EzBusinessHelper.ExecuteScalar("Select count(*) from ML031 where CmpyCode='" + Lons.CmpyCode + "' and Code='" + Lons.Code + "'");
-
-
-
-                    //if (Lons1 == 0)
-                    //{
-                    //    StringBuilder sb = new StringBuilder();
-                    //    sb.Append("'" + Lons.CmpyCode + "',");
-                    //    sb.Append("'" + Lons.Code + "',");
-                    //    sb.Append("'" + Lons.Name + "',");
-                    //    sb.Append("'" + Lons.UniCodeName + "')");
-                    //    _EzBusinessHelper.ExecuteNonQuery("insert into ML031(CmpyCode,Code,Name,UniCodeName) values(" + sb.ToString() + "");
-                    //    Lons.SaveFlag = true;
-                    //    Lons.ErrorMessage = string.Empty;
-                    //}
-                    //else
-                    //{
-                    //    Lons.SaveFlag = false;
-                    //    Lons.ErrorMessage = "Duplicate Record";
-                    //}
+                 
                     return Lons;
                 }
                 var LonsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRLM001 where CmpyCode='" + Lons.CmpyCode + "' and COUNTRY ='" + Lons.COUNTRY + "' and PRLM001_CODE='" + Lons.PRLM001_CODE + "'and Flag=0");
