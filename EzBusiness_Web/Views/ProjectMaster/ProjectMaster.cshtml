@@ -17,8 +17,6 @@
         $('#tblUnits').hide();
     }
 </script>
-
-
 <script>
     var Pjms = [];   
     $(function () {
@@ -51,7 +49,6 @@
             });
 
             drec.splice($.inArray(tr.find("[name*= 'txtCode']").val(), drec), 1);
-
             if ($.inArray(tr.find("[name*= 'txtCode']").val(), drec) >= 0)
             {
                 var dr = tr.find("[name *= 'txtCode']").val();
@@ -59,7 +56,6 @@
                 tr.find("[name*= 'txtCode']").focus();
                 alert("Already Exist Code '" + dr + "'");
                 tr.find("[name*= 'txtCode']").val('');
-
             }
             else {
                 debugger;
@@ -69,9 +65,9 @@
                     tr.clone(true, true).insertAfter(tr);
                     var trLast = $("#tableMetaSettings tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                  
+                               .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");                  
                     var trLast1 = $("#tblUnits1 tbody tr:last");
+
                     trLast1.find("[name *= 'txtCode']").val('')
                     trLast1.find("[name *= 'txtName']").val('')
 
@@ -81,7 +77,6 @@
                     trLast.find("[name *= 'txtName']").attr({
                         "name": ("txtName" + counter)
                     });
-
 
                     trLast.find(":first").text(counter);
                     
@@ -209,14 +204,14 @@
                         }
                         $("[name*='Edit']").prop('disabled', false)
                         $("[name*='Delete']").prop('disabled', false)
-
+                        EzAlertSave();
                     }
                 });
                 });
             }
             else {
-                //$("#ErrorMessage").show().find("strong").text("Eneter");
-                Ezerrormsg("#ErrorMessage", "Enter Record");
+                //$("#ErrorMessage").show().find("strong").text("Eneter")  
+                EzAlerterr();
         }
         });
 
@@ -232,7 +227,6 @@
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
             }
-
             return response;
         }
         $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
