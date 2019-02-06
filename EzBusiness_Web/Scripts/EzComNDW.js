@@ -135,6 +135,9 @@ function ValidateEmail(email) {
 }
 var EzmonthNames = ["January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December"];
+
+var EzMMNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 // Type Number Zero
 function Ezsetzerotxt() {
     $('input[Type="Number"]').val("0.00");
@@ -596,15 +599,8 @@ function Ezsetdtpkdate(date1) {
     var newdate = yy + "/" + mm + "/" + dd;
     return newdate;
 }
-/*json date format yyyy-MM-dd*/
-function Ezdatefrmt1(dte) {    
-    var now = new Date(parseInt(dte.substr(6)));
-    var now = new Date(now);
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-    var today = now.getFullYear() + "-" + (month) + "-" + (day);
-    return today;
-}
+
+
 /* date format yyyy-MM-dd */
 function Ezdatefrmt(dte) {       
     var now = new Date(dte);
@@ -622,6 +618,17 @@ function EzdatefrmtRes(dte) {
     var today = (day) + "/" + (month) + "/" + now.getFullYear();
     return today;
 }
+
+/*json date format yyyy-MM-dd*/
+function EzdatefrmtRes1(dte) {
+    var now = new Date(parseInt(dte.substr(6)));
+    var now = new Date(now);
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = (day) + "-" + EzMMNames[month - 1] + "-" + now.getFullYear();
+    return today;
+}
+
 //Table Number  N & Text T Tab Event
 function EztableTabEve(tbl, ide, idf, errmsg, typ, vtyp) {
     $(tbl).on("keydown", ide, function (e) {
