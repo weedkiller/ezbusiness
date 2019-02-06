@@ -17,9 +17,6 @@ var Empreport = {
                               
           $('select').val('10');
            Empreport.EmpReportDetails();
-          
-          
-          
        })
         $("#fnlbtnSearchData").click(function () {
           // alert("");
@@ -57,13 +54,13 @@ var Empreport = {
         debugger;      
            var empdt = $('#Employeereport').DataTable({
                "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
-               "order": [[0, 'asc']],
+               "order": [[1, 'asc']],
                "scrollX": true,
                "language":
                {
                    "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
                },
-               "dom": 'Blfrtip',
+               "dom": 'lBfrtip',
              
                "buttons": [
                          'excel',
@@ -71,7 +68,9 @@ var Empreport = {
                                 extend: 'pdfHtml5',
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL'
-                              
+                                //columnText: function (dt, idx, title) {
+                                //    return idx=idx +1;
+                                //}
                             }
                ],
                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -97,8 +96,8 @@ var Empreport = {
                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                "columns": [
                     {
-                        "data": "srno",
-                        "defaultContent":"" // WHICH IS CHANGED TO SR NO 
+                      "data": "srno",
+                      "defaultContent":'' // WHICH IS CHANGED TO SR NO 
                     },
                   { "data": "EmpCode" },
                   { "data": "Empname" },
@@ -124,9 +123,11 @@ var Empreport = {
            });
        empdt.on('order.dt search.dt', function () {
            debugger;
-               empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                   cell.innerHTML = i + 1;
-                    empdt.cell(cell).invalidate('dom');
+          
+           empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {              
+                 cell.innerHTML = i + 1;
+
+                // empdt.cell(cell).invalidate('dom');
                });
            }).draw();
 
