@@ -26,7 +26,7 @@
         var empdt = $('#DutyResumereport').DataTable({
 
             "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
-            "order": [[1, 'asc']],
+            "order": [[0, 'asc']],
             "scrollX": true,
             "language":
             {
@@ -43,11 +43,6 @@
 
                        }
             ],
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                var oSettings = this.fnSettings();
-                $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-                return nRow;
-            },
             "processing": true,
             "serverSide": true,
             "ajax":
@@ -64,8 +59,7 @@
             "sorting": true,
             "columns": [
                {
-                   "data": "srno",
-                   "defaultContent": "" // WHICH IS CHANGED TO SR NO 
+                   "data": "SrNo" 
                },
                {
                    "data": "EmpCode"
@@ -73,7 +67,7 @@
                {
                    "data": "ResumeDate",
                    "render":function(data){
-                       return (Ezdatefrmt1(data));
+                       return (ezdatefrmtRes1(data));
                    }
                },
                { "data": "Actual_Leave_Type" },
@@ -84,12 +78,7 @@
                { "data": "Approve_Days_in_Half" },
             ]
         });
-        empdt.on('order.dt search.dt', function () {
-            empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-                empdt.cell(cell).invalidate('dom');
-            });
-        }).draw();
+
         $("select option").filter(function () {
             debugger;
             //may want to use $.trim in here

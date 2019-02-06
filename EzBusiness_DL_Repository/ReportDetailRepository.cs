@@ -373,6 +373,7 @@ namespace EzBusiness_DL_Repository
                     Excess_Days_plus_minus = (dr["Excess_Days_plus_minus"].ToString()),
                     Approve_Days_in_full = dr["Approve_Days_in_full"].ToString(),
                     Approve_Days_in_Half = dr["Approve_Days_in_Half"].ToString(),
+                    SrNo=Convert.ToInt32(dr["SrNo"].ToString())
                 });
             }
             return objList;

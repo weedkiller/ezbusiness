@@ -782,41 +782,46 @@ namespace EzBusiness_BL_Service
                 {
                     case "0":
                         // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.SrNo).ToList()
+                                                                                                 : data.OrderBy(p => p.SrNo).ToList();
+                        break;
+                    case "1":
+                        // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EmpCode).ToList()
                                                                                                  : data.OrderBy(p => p.EmpCode).ToList();
                         break;
 
-                    case "1":
+                    case "2":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.ResumeDate).ToList()
                                                                                                  : data.OrderBy(p => p.ResumeDate).ToList();
                         break;
 
-                    case "2":
+                    case "3":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Actual_Leave_Type).ToList()
                                                                                                  : data.OrderBy(p => p.Actual_Leave_Type).ToList();
                         break;
 
-                    case "3":
+                    case "4":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Duty_Rm_type).ToList()
                                                                                                  : data.OrderBy(p => p.Duty_Rm_type).ToList();
                         break;
 
-                    case "4":
+                    case "5":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Approve_Days).ToList()
                                                                                                    : data.OrderBy(p => p.Approve_Days).ToList();
                         break;
 
-                    case "5":
+                    case "6":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Excess_Days_plus_minus).ToList()
                                                                                                    : data.OrderBy(p => p.Excess_Days_plus_minus).ToList();
                         break;
 
-                    case "6":
+                    case "7":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Approve_Days_in_full).ToList()
                                                                                                    : data.OrderBy(p => p.Approve_Days_in_full).ToList();
