@@ -10,11 +10,12 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>   
     $(function () {
-
         EzAuthentication("/FinalSettalment");
         Ezsetzerotxt();
         //EzsetDatetxt();
-        EzdtePk('#Dates1,#SettledDate1,#JoiningDate1,#DateofRelease1,#LLSDate1,#DutyResume1');
+        debugger;
+        EzdtePk('#Dates1,#JoiningDate1,#DateofRelease1,#LLSDate1,#DutyResume1');
+       
         var lvHtml = $("#LVContainer").html();
         $("#LVListContainer1").hide();
         function GetLeaveList() {
@@ -61,22 +62,67 @@
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/FinalSettalment", "DeleteIt");
             if (n == 1) {
-                if (confirm("Are you Sure?")) {
-                    var PRSR001_CODE = $("[name*='PRFSET001_code']").val();
-                    $.getJSON("/DeleteLeaveSettal", { PRSR001_CODE: PRSR001_CODE }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            GetLeaveList();
-                            $("#btnCancel").trigger("click");
-                        } else {
-                            Ezerrormsg("#ErrorMessage", "Unable to Delete");
-                        }
-                    });
-                }
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var PRSR001_CODE = $("[name*='PRFSET001_code']").val();
+                        $.getJSON("/DeleteFinalSettalment", { PRFSET001_code: PRSR001_CODE }).done(function (data) {
+                            debugger;
+                                if (data.DeleteFlag) {
+                                    GetLeaveList();
+                                    $("#btnCancel").trigger("click");
+                                } else {
+                                    EzAlertdele(PRSR001_CODE);
+                                }
+                            });         
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+
+                //if (confirm("Are you Sure?")) {
+                //    var PRSR001_CODE = $("[name*='PRFSET001_code']").val();
+                //    $.getJSON("/DeleteLeaveSettal", { PRSR001_CODE: PRSR001_CODE }).done(function (data) {
+                //        if (data.DeleteFlag) {
+                //            GetLeaveList();
+                //            $("#btnCancel").trigger("click");
+                //        } else {
+                //            Ezerrormsg("#ErrorMessage", "Unable to Delete");
+                //        }
+                //    });
+                //}
                 $("#editshow").hide();
             }
         });
 
         $("#btnSave").click(function () {
+          
             var n = EzAuthenticationBtn("/FinalSettalment", "EditIt");
             $("#editshow").hide();
             debugger;
@@ -90,7 +136,7 @@
                     EmpCode: $("[name*='EmpCode'] option:selected").val(),
                     Dates: Ezsetdtpkdate($("[name*='Dates1']").val()),
                     Reason: $("[name*='Reason']").val(),
-                    SettledDate: Ezsetdtpkdate($("[name*='SettledDate1']").val()),
+                  //  SettledDate: Ezsetdtpkdate($("[name*='SettledDate1']").val()),
                     JoiningDate: Ezsetdtpkdate($("[name*='JoiningDate1']").val()),
                     DateofRelease: Ezsetdtpkdate($("[name*='DateofRelease1']").val()),
                     NoOfDaysSuspended: $("[name*='NoOfDaysSuspended']").val(),

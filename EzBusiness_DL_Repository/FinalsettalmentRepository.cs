@@ -21,7 +21,7 @@ namespace EzBusiness_DL_Repository
 
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
         DropListFillFun drop = new DropListFillFun();
-        public bool DeleteFinalSettalment(string Code, string CmpyCode, string username)
+        public bool DeleteFinalSettalment(string CmpyCode,string Code, string username)
         {
             int Lons = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRFSET001 where CmpyCode='" + CmpyCode + "' and PRFSET001_code='" + Code + "'");
             if (Lons != 0)

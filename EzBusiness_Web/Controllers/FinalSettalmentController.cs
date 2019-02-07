@@ -72,7 +72,7 @@ namespace EzBusiness_Web.Controllers
             }
         }
         [Route("DeleteFinalSettalment")]
-        public ActionResult DeleteFinalSettalment(string CmpyCode, string PRFSET001_code)
+        public ActionResult DeleteFinalSettalment(string PRFSET001_code)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)

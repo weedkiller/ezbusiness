@@ -88,7 +88,7 @@ function EzAlertSave() {
     Swal.queue([{
         type: 'success',
         title: 'Success..',
-        text: 'Save code!',
+        text: 'Save Successfully!',
         allowOutsideClick: false,
         showLoaderOnConfirm: true,
     }])
@@ -511,7 +511,8 @@ function Ezsidetbl(ide, idef, lk) {
     });
 }
 /*tbl class date formate DD/MM/YYYY get current */
-function EzdtePk(date1) {    
+function EzdtePk(date1) {
+    debugger;
     $(date1).datetimepicker({
         defaultDate: new Date(),
         format: 'DD/MM/YYYY',
