@@ -14,5 +14,7 @@ namespace EzBusiness_EF_Entity
 
         public string Name { get; set; }
         public string Act_code { get; set; }
+
+        public Int32 srno { get; set; }
     }
 }

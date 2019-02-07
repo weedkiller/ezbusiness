@@ -24,11 +24,11 @@ namespace EzBusiness_DL_Interface
 
         List<Profession> GetProfessionReprtDetails(string CmpyCode, string profCode, string ProfName);
 
-        List<LeaveApplication> GetLeaveReportDetails(string CmpyCode, DateTime Fromdate, DateTime Todate);
-        List<LeaveSettlement> GetLeaveSettlemenntReportDetails(string CmpyCode, DateTime Fromdate, DateTime Todate);
+        List<LeaveApplication> GetLeaveReportDetails(string CmpyCode, DateTime Fromdate, DateTime Todate,string EmpCode,string EmpName);
+        List<LeaveSettlement> GetLeaveSettlemenntReportDetails(string CmpyCode, DateTime Fromdate, DateTime Todate,string EmpCode,string EmpName);
 
         List<DutyResume> GetDutyResumeReportDetails(string CmpyCode, DateTime Fromdate, DateTime Todate,string EmpCode,string EmpName);
-        List<ShiftMaster> GetShiftMasterDetails(string CmpyCode, DateTime Fromdate, DateTime Todate);
+        List<ShiftMaster> GetShiftMasterDetails(string CmpyCode, string ShiftCode);
 
     }
 }

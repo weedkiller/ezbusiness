@@ -19,15 +19,19 @@
         $("#displayleaveapp").show();
         var fdate = Ezsetdtpkdate($("#fdatetxt").val());
         var Tdate = Ezsetdtpkdate($("#tdatetxt").val());
+        var empCode = $("#empcodetxt").val();
+        var empname = $("#empnametxt").val();
         var newrow = {
             Fdate: fdate,
-            Tdate: Tdate
+            Tdate: Tdate,
+            EmpName: empname,
+            EmpCode: empCode
         }
         debugger;
         var empdt = $('#Leavereport').DataTable({
 
             "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
-            "order": [[1, 'asc']],
+            "order": [[0, 'asc']],
             "scrollX": true,
             "language":
             {
@@ -44,11 +48,7 @@
 
                        }
             ],
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                var oSettings = this.fnSettings();
-                $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-                return nRow;
-            },
+      
             "processing": true,
             "serverSide": true,
             "ajax":
@@ -66,25 +66,26 @@
             "columns": [
                 {
                     "data": "srno",
-                    "defaultContent": "" // WHICH IS CHANGED TO SR NO 
+                  
                 },
                { "data": "EmpCode" },
+               {"data":"EmpName"},
                {
                    "data": "JoiningDate",
                    "render": function (data) {
-                       return (Ezdatefrmt1(data));
+                       return (EzdatefrmtRes1(data));
                    }
                },
                {
                    "data": "StartDate",
                    "render": function (data) {
-                       return (Ezdatefrmt1(data));
+                       return (EzdatefrmtRes1(data));
                    }
                },
                {
                    "data": "EndDate",
                    "render": function (data) {
-                       return (Ezdatefrmt1(data));
+                       return (EzdatefrmtRes1(data));
                    }
                },
                { "data": "TotalBalance" },
@@ -97,12 +98,6 @@
 
             ]
         });
-        empdt.on('order.dt search.dt', function () {
-            empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-                empdt.cell(cell).invalidate('dom');
-            });
-        }).draw();
         $("select option").filter(function () {
             debugger;
             //may want to use $.trim in here

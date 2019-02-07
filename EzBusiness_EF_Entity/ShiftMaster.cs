@@ -8,7 +8,7 @@ namespace EzBusiness_EF_Entity
 {
     public partial   class ShiftMaster
     {
-
+        public Int32 srno { get; set; }
         public string PRSFT001_code { get; set; }
         public string country { get; set; }
         public string division { get; set; }

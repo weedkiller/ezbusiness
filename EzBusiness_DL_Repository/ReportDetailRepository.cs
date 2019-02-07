@@ -129,6 +129,7 @@ namespace EzBusiness_DL_Repository
                 {
                     objList.Add(new MonthlyAdddedDet()
                     {
+                        srno=Convert.ToInt32(dr["Srno"].ToString()),
                         EmpCode = dr["EmpCode"].ToString(),
                         EmpName = dr["EmpName"].ToString(),
                         PRADN001_CODE = dr["PRADN001_CODE"].ToString(),
@@ -165,6 +166,7 @@ namespace EzBusiness_DL_Repository
                 {
                     objList.Add(new LoanAppliation()
                     {
+                        SrNo = Convert.ToInt32(dr["SrNo"].ToString()),
                         EmpCode = dr["EmpCode"].ToString(),
                         EmpName = dr["EmpName"].ToString(),
                         PRLA001_CODE = dr["PRLA001_CODE"].ToString(),
@@ -240,6 +242,7 @@ namespace EzBusiness_DL_Repository
                 {
                     objList.Add(new Loan()
                     {
+                        srno=Convert.ToInt32(dr["SrNo"].ToString()),
                         PRLM001_CODE = dr["PRLM001_CODE"].ToString(),
                         COUNTRY = dr["COUNTRY"].ToString(),
                         Name = dr["Name"].ToString(),
@@ -271,6 +274,7 @@ namespace EzBusiness_DL_Repository
                 {
                     objList.Add(new Profession()
                     {
+                        srno=Convert.ToInt32(dr["SrNo"].ToString()),
                         ProfCode = dr["ProfCode"].ToString(),
                         ProfName = dr["ProfName"].ToString(),
                         UniCodeName = dr["UniCodeName"].ToString(),
@@ -282,12 +286,14 @@ namespace EzBusiness_DL_Repository
             }
             return objList;
         }
-        public List<LeaveApplication> GetLeaveReportDetails(string CmpyCode, DateTime Fromdate, DateTime Todate)
+        public List<LeaveApplication> GetLeaveReportDetails(string CmpyCode, DateTime Fromdate, DateTime Todate,string EmpCode,string EmpName)
         {
             string fdate = Fromdate.ToString("yyyy-MM-dd");
             string Tdate = Todate.ToString("yyyy-MM-dd");
             SqlParameter[] param = {new SqlParameter("@fdate", fdate),
                                     new SqlParameter("@Tdate", Tdate),
+                                    new SqlParameter("@EmpCode",EmpCode),
+                                    new SqlParameter("@EmpName",EmpName),
                                      new SqlParameter("@CompyCode",CmpyCode)};
             ds = _EzBusinessHelper.ExecuteDataSet("usp_GetLeaveAppReportDetails", CommandType.StoredProcedure, param);
             dt = ds.Tables[0];
@@ -297,7 +303,9 @@ namespace EzBusiness_DL_Repository
             {
                 objList.Add(new LeaveApplication()
                 {
+                    srno=Convert.ToInt32(dr["SrNo"].ToString()),
                     EmpCode = dr["EmpCode"].ToString(),
+                    EmpName=dr["Empname"].ToString(),
                     JoiningDate = Convert.ToDateTime(dr["joiningDate"].ToString()),
                     StartDate = Convert.ToDateTime(dr["joiningDate"].ToString()),
                     EndDate = Convert.ToDateTime(dr["joiningDate"].ToString()),
@@ -312,12 +320,14 @@ namespace EzBusiness_DL_Repository
             return objList;
         }
 
-        public List<LeaveSettlement> GetLeaveSettlemenntReportDetails(string CmpyCode, DateTime Fromdate, DateTime Todate)
+        public List<LeaveSettlement> GetLeaveSettlemenntReportDetails(string CmpyCode, DateTime Fromdate, DateTime Todate,string EmpCode,string EmpName)
         {
             string fdate = Fromdate.ToString("yyyy-MM-dd");
             string Tdate = Todate.ToString("yyyy-MM-dd");
             SqlParameter[] param = {new SqlParameter("@fdate", fdate),
                                     new SqlParameter("@Tdate", Tdate),
+                                    new SqlParameter("@EmpCode",EmpCode),
+                                    new SqlParameter("@EmpName",EmpName),
                                      new SqlParameter("@CompyCode",CmpyCode)};
             ds = _EzBusinessHelper.ExecuteDataSet("usp_GetLeaveSetReportDetails", CommandType.StoredProcedure, param);
             dt = ds.Tables[0];
@@ -328,6 +338,8 @@ namespace EzBusiness_DL_Repository
                 objList.Add(new LeaveSettlement()
                 {
                     Empcode = dr["Empcode"].ToString(),
+                    EmpName = dr["Empname"].ToString(),
+                    srno=Convert.ToInt32(dr["SrNo"].ToString()),                   
                     LStartDate = Convert.ToDateTime(dr["LStartDate"].ToString()),
                     LendDate = Convert.ToDateTime(dr["LendDate"].ToString()),
                     Sanctioned_Days = Convert.ToDecimal(dr["Sanctioned_Days"].ToString()),
@@ -384,29 +396,33 @@ namespace EzBusiness_DL_Repository
             return objList;
         }
 
-        public List<ShiftMaster> GetShiftMasterDetails(string CmpyCode, DateTime Fromdate, DateTime Todate)
+        public List<ShiftMaster> GetShiftMasterDetails(string CmpyCode, string ShiftCode)
         {
-            string fdate = Fromdate.ToString("yyyy-MM-dd");
-            string Tdate = Todate.ToString("yyyy-MM-dd");
-            SqlParameter[] param = {new SqlParameter("@fdate", fdate),
-                                    new SqlParameter("@Tdate", Tdate),
+            List<ShiftMaster> objList=null;
+          //  string fdate = Fromdate.ToString("yyyy-MM-dd");
+           // string Tdate = Todate.ToString("yyyy-MM-dd");
+            SqlParameter[] param = {new SqlParameter("@ShiftCode", ShiftCode),
+                                   
                                      new SqlParameter("@CompyCode",CmpyCode)};
-            ds = _EzBusinessHelper.ExecuteDataSet("usp_GetEmpReportDetails", CommandType.StoredProcedure, param);
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<ShiftMaster> objList = new List<ShiftMaster>();
-            foreach (DataRow dr in drc)
+            ds = _EzBusinessHelper.ExecuteDataSet("usp_GetShiftMasterDetails", CommandType.StoredProcedure, param);
+            if (ds.Tables.Count > 0)
             {
-                objList.Add(new ShiftMaster()
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                 objList = new List<ShiftMaster>();
+                foreach (DataRow dr in drc)
                 {
+                    objList.Add(new ShiftMaster()
+                    {
+                        srno = Convert.ToInt32(dr["SrNo"].ToString()),
+                        ShiftName = dr["ShiftName"].ToString(),
+                        country = dr["country"].ToString(),
+                        division = dr["division"].ToString(),
+                        StTime = dr["StTime"].ToString(),
+                        EdTime = dr["EdTime"].ToString(),
 
-                    ShiftName = dr["ShiftName"].ToString(),
-                    country = dr["country"].ToString(),
-                    division = dr["division"].ToString(),
-                    StTime = dr["StTime"].ToString(),
-                    EdTime = dr["EdTime"].ToString(),
-
-                });
+                    });
+                }
             }
             return objList;
         }

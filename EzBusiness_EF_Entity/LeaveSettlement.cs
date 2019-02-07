@@ -15,6 +15,8 @@ namespace EzBusiness_EF_Entity
         public string PRLR001_CODE { get; set; }
         public string Empcode { get; set; }
        
+        public string EmpName { get; set; }
+
         public DateTime? Entry_Date { get; set; }
        
         public DateTime? LLSdate { get; set; }
@@ -44,5 +46,6 @@ namespace EzBusiness_EF_Entity
         public decimal? Net_Pay { get; set; }
         public DateTime Fdate { get; set; }
         public DateTime Tdate { get; set; }
+        public Int32 srno { get; set; }
     }
 }

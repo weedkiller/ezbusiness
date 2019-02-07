@@ -19,15 +19,20 @@
         $("#displayleaveset").show();
         var fdate = Ezsetdtpkdate($("#fdatetxt").val());
         var Tdate = Ezsetdtpkdate($("#tdatetxt").val());
+        var empCode = $("#empcodetxt").val();
+        var empname = $("#empnametxt").val();
+        var i = 0;
         var newrow = {
             Fdate: fdate,
-            Tdate: Tdate
+            Tdate: Tdate,
+            EmpName: empname,
+            EmpCode: empCode
         }
         debugger;
         $('#LeaveSetreport').empty();
-        var empdt = $('#LeaveSetreport').DataTable({
-            "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
-            "order": [[1, 'asc']],
+        var empdt = $('#LeaveSettreport').DataTable({
+            "ColumnDefs": [{ "Width": "5%", "targets":[0], "searchable": false, "orderable": false }],
+            "order": [[0, 'asc']],
             "scrollX": true,
             "language":
             {
@@ -44,11 +49,7 @@
 
                          }
             ],
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                var oSettings = this.fnSettings();
-                $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-                return nRow;
-            },
+          
             "processing": true,
             "serverSide": true,
             "ajax":
@@ -62,23 +63,22 @@
                 //"contentType": "application/json; charset=utf-8",                     
             },
             "destroy": true,
-            "sorting": true,
             "columns": [
                 {
 
                     "data": "srno",
-                    "defaultContent": "" // WHICH IS CHANGED TO SR NO 
                 },
                { "data": "Empcode" },
+               {"data":"EmpName"},
                { "data": "LStartDate",
                "render": function (data) {
-                   return (Ezdatefrmt1(data));
+                   return (EzdatefrmtRes1(data));
                }
                },
                {
                    "data": "LendDate",
                    "render": function (data) {
-                       return (Ezdatefrmt1(data));
+                       return (EzdatefrmtRes1(data));
                    }
                },
                { "data": "Sanctioned_Days" },
@@ -99,19 +99,14 @@
                {
                    "data": "salary_effect_date",
                    "render": function (data) {
-                       return (Ezdatefrmt1(data));
+                       return (EzdatefrmtRes1(data));
                    }
                },
 
 
             ]
         });
-        empdt.on('order.dt search.dt', function () {
-            empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-                empdt.cell(cell).invalidate('dom');
-            });
-        }).draw();
+       
         $("select option").filter(function () {
             debugger;
             //may want to use $.trim in here
