@@ -3,27 +3,25 @@
     ViewBag.Title = "DepartmentMaster";
     var counter = 1;
 }
-
-@*@Scripts.Render("~/bundles/jquery")*@
-
-
-
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
-    EzAuthentication("/Department");
-    var n = EzAuthenticationBtn("/Department", "ViewIt");
-    if (n == 1) {
-        Ezsidetbl("#tblUnits", "#tblUnits tfoot th", true);
-        $('#tblUnits').show();
+    $(function () {
+        EzAuthentication("/Department");
+        var n = EzAuthenticationBtn("/Department", "ViewIt");
+        if (n == 1) {
+            Ezsidetbl("#tblUnits", "#tblUnits tfoot th", true);
+            $('#tblUnits').show();
 
-    } else {
-        $('#tblUnits').hide();
-    }
+        } else {
+            $('#tblUnits').hide();
+        }
+    });
 </script>
 
 
 <script>
     var Deps = [];
+    
     var paydeductons = [];
     var paydeductons1 = [];
        $(function () {
@@ -43,14 +41,14 @@
                     var newRow2;
                     newRow2 += GetPayDeductOnDDL1(counter);
                     $("#tbldiv").hide();
-                    $("#btnAdd").prop('disabled', true)
-                    $("#btnCancel").prop("disabled", false);
-                    $("#btnSave").prop("disabled", false);
-                    $("[name*='Edit']").prop('disabled', true)
-                    $("[name*='Delete']").prop('disabled', true)
+                    var abk = [];
+                    abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
+                    Ezprop(abk, "disabled", true);
+                    abk = [];
+                    abk.push('#btnCancel', '#btnSave');
+                    Ezprop(abk, "disabled", false);
                     $("#tblUnits1 tbody tr").css("background", "");
-                    $("#tblUnits1").show();
-                    // $("#ddlPayDeductOn3").hide();
+                    $("#tblUnits1").show();                   
                 }
         });
         var counter = $("#Counter").val();
@@ -108,21 +106,9 @@
        
            /*DivisionCode Tab Event*/
         EztableTabEve("#tblUnits1", "[name*='ddlPayDeductOn1']", "[name *= 'ddlPayDeductOn2']", "Please Enter DivisionCode", "T","0");
-
-        
         
            /*BranchCode Tab Event*/
         EztableLstTabBlk("#tblUnits1", "[name*='ddlPayDeductOn2']", "[name *= 'txtDepartmentCode']", "Please Enter Branch Code", "T","0");
-
-
-
-
-
-
-
-
-
-
 
         EztableLstEnt("#tblUnits1", "[name*='ddlPayDeductOn2']", "[name *= 'txtDepartmentCode']", "Please Enter Branch Code", "T", "0");
       
@@ -177,15 +163,16 @@
             }
             $("#tblUnits1 tbody").find("tr:gt(0)").remove();
 
-            $("[name*='txtDepartmentCode']").val('');
-            $("[name*='txtDepartmentName']").val('');
-          
-            $("#tblUnits1").hide();
-            $("#btnAdd").prop("disabled", false);
-            $("#btnCancel").prop("disabled", true);
-            $("#btnSave").prop("disabled", true);
-            $("[name*='Edit']").prop('disabled', false);
-            $("[name*='Delete']").prop('disabled', false);
+            var abk1 = [];
+            abk1.push("[name*='txtDepartmentCode']", "[name*='txtDepartmentName']", "[name*='ddlPayDeductOn1']", "[name*='ddlPayDeductOn2']");
+            Ezsettxtclr(abk1);
+            abk1 = [];
+            abk1.push("#btnCancel", "#btnSave");
+            Ezprop(abk1, "disabled", true);
+            abk1 = [];
+            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+            Ezprop(abk1, "disabled", false);                  
+            $("#tblUnits1").hide();           
             Ezerrormsg("#ErrorMessage", "");
         });
         /*Save Unit Table */
@@ -255,15 +242,11 @@
                         }
                         else {
                             $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                            $("[name*='txtDepartmentCode']").val('');
-                            $("[name*='txtDepartmentName']").val('');
-                            $("[name*='ddlPayDeductOn1']").val('');
-                            $("[name*='ddlPayDeductOn2']").val('');
-                           // $("[name*='txtUniCodeName']").val('');
-                            $("#tblUnits1").hide();
-                            $("#btnAdd").prop("disabled", false);
-                            $("#btnCancel").prop("disabled", true);
-                            $("#btnSave").prop("disabled", true);
+
+                            var abk1 = [];
+                            abk1.push("[name*='txtDepartmentCode']", "[name*='txtDepartmentName']", "[name*='ddlPayDeductOn1']", "[name*='ddlPayDeductOn2']");
+                            Ezsettxtclr(abk1);                          
+                            $("#tblUnits1").hide();                           
                             if (codeAdd != '' && nameAdd != '') {
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
@@ -271,12 +254,18 @@
                                     "</td><td>" + DivCodeAdd + "</td><td>" + BranchCodeAdd + "</td> ";
                                 newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
                                     "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                    "'></td></tr>";
-                                //newRow += "</tr>";
+                                    "'></td></tr>";                              
                                 $(firstRow).after(newRow);
                             }
-                            $("[name*='Edit']").prop('disabled', false)
-                            $("[name*='Delete']").prop('disabled', false)
+                            abk1 = [];
+                            abk1.push("#btnCancel", "#btnSave");
+                            Ezprop(abk1, "disabled", true);
+                            abk1 = [];
+                            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+                            Ezprop(abk1, "disabled", false);
+                            EzAlertSave();
+
+                            $(".dataTables_empty").replaceWith("");
 
                         }
                     });
@@ -305,61 +294,11 @@
         $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
             $(this).closest("tr").remove();
         });
-        $("#tblUnits").on("click", "[name^='Add']", function () {
-            debugger;
-            var counter = $("#Counter").val();
-            var hdnAddMode = $(this).parent().find('input:hidden:first');
-            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-
-            var editButton = $(this).parent().find("[name='Add" + counter + "']");
-            var tr = $(this).closest("tr");
-            var index = $(this).attr("name").substring(4);
-            var departmentcodeTd = $(tr).find("td:eq(0)");
-           var DivisionCodeTd = $(tr).find("td:eq(1)");
-            var descriptionTd = $(tr).find("td:eq(2)");
-           var BranchCodeTd = $(tr).find("td:eq(3)");
-           // var unicodenameTd = $(tr).find("td:eq(2)");
-           // var paydeductonTd = $(tr).find("td:eq(4)");
-            if (hdnAddMode.val() == "true") {
-                var departmentcodeAdd = $(tr).find("[name*='txtDepartmentCode']").val().trim();
-                var departmentnameAdd = $(tr).find("[name*='txtDepartmentName']").val().trim();
-                var DivisionCodeAdd = $(tr).find("select option:selected").val().trim();
-                var DivisionCode = $(this).find("[name*='ddlPayDeductOn1']").val();
-                var DivisionCode = $(this).find("[name*='ddlPayDeductOn2']").val();
-               // var unicodenameAdd = $(tr).find("[name*='txtUniCodeName']").val().trim();
-                var Deps = {
-                    CmpyCode: hdnCmpyCode,
-                    DepartmentCode: departmentcodeAdd,
-                    DepartmentName: departmentnameAdd,
-                    DivisionCode:DivisionCodeAdd,
-                    BranchCode:BranchCodeAdd,
-                    //PayDeductOn: paydeductonAdd,
-                    EditFlag: false
-                };
-                if (departmentcodeAdd && hdnCmpyCode) {
-                    $.post("/Department/SaveDeps", Deps).done(function (response) {
-                        console.log(response);
-                        departmentcodeTd.text(response.DepartmentCode);
-                        departmentnameTd.text(response.DepartmentName);
-                        DivisionCodeTd.text(response.DivisionCode);
-                        BranchCodeTd.text(response.BranchCode);
-                       // paydeductonTd.text(response.PayDeductOn);
-                      //  unicodenameTd.text(response.UniCodeName);
-                        hdnAddMode.val("false");
-                        editButton.attr("name", ("Edit" + counter)).text("Edit");
-                        hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
-                    });
-                } else {
-                    alert();
-                }
-            }
-        });
+      
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
-        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
-            $(this).closest("tr").remove();
-        });
+      
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/Department", "EditIt");
             if (n == 1){
@@ -372,14 +311,12 @@
             var departmentnameTd = $(tr).find("td:eq(1)");
             var paydeductonTd = $(tr).find("td:eq(2)");
             var paydeductonTd1 = $(tr).find("td:eq(3)");
-          //  var unicodenameTd = $(tr).find("td:eq(4)");
+         
             var editButton = $(this);
             if (hdnEditMode.val() == "true") {              
                 var departmentnameEdit = $(tr).find("[name*='txtDepartmentName']").val();
                 var DivisionCodeEdit = $(tr).find("[name*='ddlPayDeductOn1']").val();
-                var BranchCodeEdit = $(tr).find("[name*='ddlPayDeductOn2']").val();
-                //  var unicodenameEdit = $(tr).find("[name*='txtUniCodeName']").val();
-
+                var BranchCodeEdit = $(tr).find("[name*='ddlPayDeductOn2']").val();              
                 if ((departmentnameEdit != "") && (DivisionCodeEdit != "") && (BranchCodeEdit != ""))
                 {
                     var Deps = {
@@ -387,8 +324,7 @@
                         DepartmentCode: hdnDepartmentCode,
                         DepartmentName: departmentnameEdit,
                         DivisionCode: DivisionCodeEdit,
-                        BranchCode: BranchCodeEdit,
-                        //  UniCodeName: unicodenameEdit,
+                        BranchCode: BranchCodeEdit,                      
                         EditFlag: true
                     };
                 }
@@ -397,14 +333,14 @@
                 $.post("/Department/SaveDeps", Deps).done(function (response) {
                     departmentnameTd.text(response.DepartmentName);
                     paydeductonTd.text(response.DivisionCode);
-                    paydeductonTd1.text(response.BranchCode);
-                   // unicodenameTd.text(response.UniCodeName);              
+                    paydeductonTd1.text(response.BranchCode);                               
                     hdnEditMode.val("false");                  
                     editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
                     editButton.attr('title', 'Edit');
                     tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                     tr.find("[name^='Delete']").attr('title', 'Delete');
                     tableDis("F");
+                    EzAlertUpd(hdnDepartmentCode);
                 });
 
 
@@ -422,9 +358,7 @@
                 var paydeducton2 = $(tr).find("td:eq(3)").text().trim();
                 $('#brcode').val(paydeducton);
                 paydeductonTd1.html(GetPayDeductOnDDL2(paydeducton2));
-                paydeductonTd1.find("select").val(paydeducton2);
-               // var unicodename = $(tr).find("td:eq(4)").text();
-               // unicodenameTd.html("<input type='text' name='txtUniCodeName" + index + "' value='" + unicodename.trim() + "' />");   
+                paydeductonTd1.find("select").val(paydeducton2);                           
                 $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
                 $(this).attr('title', 'Update');
                 hdnEditMode.val("true");
@@ -446,32 +380,67 @@
                 var code = "";
                 if (hdnMode.val() == "false") {
                     code = $(tr).find("td:eq(0)").text().trim();
-                    $.getJSON("/DeleteDeps", { DepartmentCode: code, CmpyCode: hdnCmpyCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            tr.remove();
-                        }
-                    });
-                }
-                else {
-                    //  var nameTd = $(tr).find("td:eq(1)");
-                    ////  var unicodenameTd = $(tr).find("td:eq(2)");
-                    //  var nameEdit = $(tr).find("[name*='txtDepartmentName']").val().trim();
-                    ////  var unicodenameEdit = $(tr).find("[name*='txtUniCodeName']").val().trim();
-                    //  var hdnEditMode = $(this).parent().find('input:hidden:first');
-                    //  nameTd.html(nameEdit);
-                    //var unicodename = $(tr).find("td:eq(2)").text();
-                    //unicodenameTd.html(unicodenameEdit);
 
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            code = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeleteDeps", { DepartmentCode: code, CmpyCode: hdnCmpyCode }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    debugger;
+                                    tr.remove();
+                                    if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
+                                        //$(".dataTables_empty").replaceWith("No data available in table");
+                                        var firstRow = $('#tblUnits tbody');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                        $(firstRow).append(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
+
+                                } else {
+                                    EzAlertdele(code);
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
+                        }
+                    })
+
+                    
+                }
+                else {                  
                     var departmentnameTd = $(tr).find("td:eq(1)");
                     var paydeductonTd = $(tr).find("td:eq(2)");
                     var paydeductonTd1 = $(tr).find("td:eq(3)");
-
-
-
-                    var departmentnameEdit = $('#Depname').val(); //$(tr).find("[name*='txtDepartmentName']").val().trim();
-                    var paydeductonEdit = $('#divcode').val();// $(tr).find("[name*='ddlPayDeductOn1']").val().trim();
-                    var paydeducton1Edit = $('#brcode').val(); //$(tr).find("[name*='ddlPayDeductOn2']").val().trim();
-
+                    var departmentnameEdit = $('#Depname').val(); 
+                    var paydeductonEdit = $('#divcode').val();
+                    var paydeducton1Edit = $('#brcode').val();
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
                     departmentnameTd.html(departmentnameEdit);
                     paydeductonTd.html(paydeductonEdit);
@@ -559,12 +528,7 @@
         return ddlPayDeductOn;
        }
 
-    ////function setValue() {
-    ////    debugger;
-    ////    var mySelect = $("#mySelect").value;
-    ////    mySelect.paydeducton2[mySelect.selectedIndex].text = mySelect.value;
-    ////    //Don't know what to put here
-    ////}
+    
     /*Code For Change Event On Dropdown*/
     function GetPayDeductOnDDL2(paydeducton2) {
         debugger;
@@ -619,9 +583,7 @@ $(document).ready(function(){
                         <th>
                             @Html.DisplayNameFor(model => model.BranchCode)
                         </th>
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.UniCodeName)
-                        </th>*@
+                     
                     </tr>
                 </thead>
                 <tbody>
@@ -648,16 +610,10 @@ $(document).ready(function(){
                             <div class="grid-group">
                                 <select class="grid-control" name="ddlPayDeductOn2" id="ddlPayDeductOn2">                                
                                 </select>
-                                @*<select class="grid-control" name="ddlPayDeductOn3" id="ddlPayDeductOn3">
-                                  
-                                </select>*@
+                             
                             </div>
                         </td>
-                        @*<td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("txtUniCodeName", counter), null, new { @class = "grid-control" })
-                            </div>
-                        </td>*@
+                       
                     </tr>
                 </tbody>
             </table>
@@ -677,9 +633,7 @@ $(document).ready(function(){
                             <th>
                                 @Html.DisplayNameFor(model => model.BranchCode)
                             </th>
-                            @*<th>
-                                @Html.DisplayNameFor(model => model.UniCodeName)
-                            </th>*@
+                           
                             <th>Action</th>
 
                         </tr>
@@ -700,9 +654,7 @@ $(document).ready(function(){
                                 <td>
                                     @Html.DisplayFor(modelItem => item.BranchCode)
                                 </td>
-                                @*<td>
-                                    @Html.DisplayFor(modelItem => item.UniCodeName)
-                                </td>*@
+                               
 
                                 <td>
                                     <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>

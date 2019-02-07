@@ -3,8 +3,6 @@
     ViewBag.Title = "AttendenceMaster";
     var counter = 1;
 }
-
-
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
@@ -19,8 +17,6 @@
         }       
     });
 </script>
-
-
 <script>
     var Atens = [];
 
@@ -29,16 +25,20 @@
         GetCountryCodes();
         $("#btnAdd").click(function () {
             var n = EzAuthenticationBtn("/AttendenceMaster", "NewIt");
-            if (n == 1) {           
+            if (n == 1) {
+                tableDis("T");
              var counter = $("#Counter").val();
             var firstRow = $('#tblUnits tr:first');
             var cmpyCode = $('#tblUnits tr:last').find("[name='item.CmpyCode']").val();
             var newRow = "<tr><td><input type='text' name='txtCode" + counter + "'></td><td><input type='text' name='txtLeaveName" + counter +
                 "'></td><td>";
             newRow += GetCountryCodeDDL(counter);
-            newRow += " <td><button class='btn btn-primary' name='Add" + counter + "'>Save</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                "'>Delete</button><input type='hidden' name='AddMode" + counter + "' value='true'><input name='item.CmpyCode' type='hidden' value='" + cmpyCode +
-                "'></td></tr>";
+            //newRow += " <td><button class='btn btn-primary' name='Add" + counter + "'>Save</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+            //    "'>Delete</button><input type='hidden' name='AddMode" + counter + "' value='true'><input name='item.CmpyCode' type='hidden' value='" + cmpyCode +
+                //    "'></td></tr>";
+            newRow += "<td><button class='btn btn-primary' title='Add' name='Add" + counter + "'><span class='glyphicon glyphicon-saved'></span></button>&nbsp;<button title='Cancel' class='btn btn-danger' name='NewDelete" + counter +
+              "'><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='AddMode" + counter + "' value='true'><input name='item.CmpyCode' type='hidden' value='" + cmpyCode +
+              "'></td></tr>";
             $(firstRow).after(newRow);
 
             $("#btnAdd").prop('disabled', true);
@@ -67,9 +67,6 @@
                     Code: codeAdd,
                     LeaveName: leavenameAdd,
                     CountryCode: countrycodeAdd,
-
-
-
                     EditFlag: false
                 };
                 if (codeAdd && hdnCmpyCode) {
@@ -79,23 +76,113 @@
                         leavenameTd.text(response.LeaveName);
                         countrycodeTd.text(response.CountryCode);
                         hdnAddMode.val("false");
-                        editButton.attr("name", ("Edit" + counter)).text("Edit");
-                        hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
-                        $("#btnAdd").prop('disabled', false);
+                        // editButton.attr("name", ("Edit" + counter)).text("Edit");
+                        tableDis("F");
+                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
+                        editButton.attr('title', 'Edit');
+                        hdnAddMode.attr("name", ("AddMode" + counter)).val("false");
+                        tr.find("[name^='NewDelete']").html('<span class="glyphicon glyphicon-trash"></span>');
+                        tr.find("[name^='NewDelete']").attr('title', 'Delete');
+
+                        EzAlertSave();
                     });
-                } else {
-                    alert();
                 }
+                else { EzAlerterr(); }
             }
         });
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
 
-        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
-            $(this).closest("tr").remove();
-            $("#btnAdd").prop('disabled', false);
+        $("#tblUnits").on("click", "[name*='NewDelete']", function () {
+            tableDis("F");
+            var tr = $(this).closest("tr");
+            var hdnAddMode = $(this).parent().find('input:hidden:first');
+            if (hdnAddMode.val() == "false") {
+                //$(this).closest("tr").remove();
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        code = $(tr).find("td:eq(0)").text().trim();
+                        $.getJSON("/DeleteAtens", { Code: code }).done(function (data) {
+                            if (data.DeleteFlag) {
+                                debugger;
+                                tr.remove();
+                                if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
+                                    //$(".dataTables_empty").replaceWith("No data available in table");
+                                    var firstRow = $('#tblUnits tbody');
+                                    var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                    $(firstRow).append(newRow);
+                                    $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                }
+
+                            } else {
+                                EzAlertdele(code);
+                            }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+            }
+            else if ($(tr).find("[name*='txtCode']").val().trim() == "") {
+                $(this).closest("tr").remove();
+            }
+            else {
+
+                var leavename = $(tr).find("td:eq(1)").text();
+                leavenameTd.html("<input type='text' name='txtLeaveName" + index + "' value='" + leavename.trim() + "' />");
+
+                var countrycode = $(tr).find("td:eq(2)").text().trim();
+                countrycodeTd.html(GetCountryCodeDDL(index));
+                countrycodeTd.find("select").val(countrycode);
+
+                var hdnEditMode = $(this).parent().find('input:hidden:first');
+                nameTd.html(nameEdit);
+                tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
+
+                tr.find("[name^='Edit']").attr('title', 'Edit');
+                $(this).html('<span class="glyphicon glyphicon-trash"></span>');
+                //$(this).text("Delete");
+                $(this).attr('title', 'Delete');
+                hdnEditMode.val("false");
+
+                tableDis("F");
+                tr.find("[name^='Add']").html('<span class="glyphicon glyphicon-pencil"></span>');
+            }
+
         });
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
 
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
@@ -126,52 +213,124 @@
                         leavenameTd.text(response.LeaveName);
                         countrycodeTd.text(response.CountryCode);
                         hdnEditMode.val("false");
-                        editButton.text("Edit");
-                        $("#btnAdd").prop('disabled', false);
+                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
+                        editButton.attr('title', 'Edit');
+                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
+                        tr.find("[name^='Delete']").attr('title', 'Delete');
+                        tableDis("F");
+                        hdnEditMode.val("false");                        
+                        EzAlertUpd(hdnCode);
                     });
                     $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                         console.log(thrownError);
                     });
                 } else {
                     var leavename = $(tr).find("td:eq(1)").text();
+                    $('#hdname').val(leavename.trim());
                     leavenameTd.html("<input type='text' name='txtLeaveName" + index + "' value='" + leavename.trim() + "' />");
 
                     var countrycode = $(tr).find("td:eq(2)").text().trim();
+                    $('#hdccode').val(countrycode.trim());
                     countrycodeTd.html(GetCountryCodeDDL(index));
                     countrycodeTd.find("select").val(countrycode);
-                    $(this).text("Update");
+                    $(this).html('<span class="glyphicon glyphicon-upload"></span>');
                     hdnEditMode.val("true");
-                    $("#btnAdd").prop('disabled', true);
+                    tableDis("T");
+                    $(this).attr("disabled", false);
+                    tr.find("[name^='Delete']").prop("disabled", false);                    
+                    tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>');
+                    tr.find("[name^='Delete']").attr('title', 'Cancel');
 
                 }
             }
         });
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
+            debugger;
             var n = EzAuthenticationBtn("/AttendenceMaster", "DeleteIt");
-            if (n == 1) { 
-                var tr = $(this).closest("tr");
-                // var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-                var codeTd = $(tr).find("td:eq(0)");
+            if (n == 1) {
+                var tr = $(this).closest("tr");               
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var code = "";
                 if (hdnMode.val() == "false") {
-                    code = $(tr).find("td:eq(0)").text().trim();
-                    $.getJSON("/DeleteAtens", { Code: code}).done(function (data) {
-                        if (data.DeleteFlag) {
-                            tr.remove();
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            code = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeleteAtens", { Code: code }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    debugger;
+                                    tr.remove();
+                                    if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
+                                        //$(".dataTables_empty").replaceWith("No data available in table");
+                                        var firstRow = $('#tblUnits tbody');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                        $(firstRow).append(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
+
+                                } else {
+                                    EzAlertdele(code);
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    });
+                    })
                 }
                 else
                 {
-                    tr.remove();
-                    $("#btnAdd").prop('disabled', false);
-                }
+                    if ($(tr).find("td:eq(0)").text().trim() != '') {
+                        var nameTd = $(tr).find("td:eq(1)");
+                        var countTd = $(tr).find("td:eq(2)");
+                        var nameEdit = $('#hdname').val();// $(tr).find("[name*='txtName']").val().trim();
+                        var CountryEdit = $('#hdccode').val();
+                        var hdnEditMode = $(this).parent().find('input:hidden:first');
+                        nameTd.html(nameEdit);
+                        countTd.html(CountryEdit);
+                        tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
 
+                        tr.find("[name^='Edit']").attr('title', 'Edit');
+                        $(this).html('<span class="glyphicon glyphicon-trash"></span>');
+                        //$(this).text("Delete");
+                        $(this).attr('title', 'Delete');
+                        hdnEditMode.val("false");
+                    }
+                    else {
+                        tr.remove();
+                    }
+                    tableDis("F");
+                    tr.find("[name^='Add']").html('<span class="glyphicon glyphicon-pencil"></span>');
+                }
             }
             });
-        
+
     });
 
     function GetCountryCodeDDL(index) {
@@ -200,6 +359,27 @@
         });
         return countrycodes;
     }
+var k = 0;
+    function tableDis(k) {
+        if (k == "T") {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", true);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", true);
+            $("#btnAdd").prop('disabled', true);
+        }
+        else {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
+            $("#btnAdd").prop('disabled', false);
+
+        }
+    }
+</script>
+<script>
+$(document).ready(function(){
+    //$('[data-toggle="tooltip"]').tooltip();
+    $(".edit").attr('title', 'Edit');
+    $(".delete").attr('title', 'Delete');
+});
 </script>
 
 
@@ -212,7 +392,8 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <button class="btn btn-primary" id="btnAdd" style="float:right">Add</button>
-
+        <input type="hidden" id="hdname" />
+        <input type="hidden" id="hdccode" />
         <table class="table" id="tblUnits" >
             <thead>
                 <tr class="tr">
@@ -242,8 +423,8 @@
                             @Html.DisplayFor(modelItem => item.CountryCode)
                         </td>
                         <td>
-                            <button class="btn btn-primary" name="@string.Concat("Edit",counter)">Edit</button>
-                            <button class="btn btn-danger" name="@string.Concat("Delete",counter)">Delete</button>
+                            <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
+                            <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
                             <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
                             @Html.HiddenFor(m => item.CmpyCode)
                         </td>

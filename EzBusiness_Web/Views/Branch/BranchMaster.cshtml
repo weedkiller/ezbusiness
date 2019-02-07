@@ -4,9 +4,6 @@
     ViewBag.Title = "BranchMaster";
     var counter = 0;
 }
-
-
-
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     EzAuthentication("/Branch");
@@ -19,9 +16,6 @@
         $('#tblUnits').hide();
     }
 </script>
-
-
-
 <script>
     var Deps = [];
     var paydeductons = [];
@@ -40,11 +34,12 @@
                     var newRow1;
                     newRow1 += GetPayDeductOnDDL(counter);
                     $("#tbldiv").hide();
-                    $("#btnAdd").prop('disabled', true)
-                    $("#btnCancel").prop("disabled", false);
-                    $("#btnSave").prop("disabled", false);
-                    $("[name*='Edit']").prop('disabled', true);
-                    $("[name*='Delete']").prop('disabled', true);
+                    var abk = [];
+                    abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
+                    Ezprop(abk, "disabled", true);
+                    abk = [];
+                    abk.push('#btnCancel', '#btnSave');
+                    Ezprop(abk, "disabled", false);                   
                     $("#tblUnits1 tbody tr").css("background", "");
                     $("#tblUnits1").show();
                 }
@@ -103,25 +98,7 @@
         
         EztableLstEnt("#tblUnits1", "[name*='ddlPayDeductOn']", "[name*='txtCode']", "Please Enter DivisionCode", "T", "0")
         EztableLstTab("#tblUnits1", "[name*='ddlPayDeductOn']", "[name*='txtCode']", "Please Enter DivisionCode", "T", "0")
-      
-        
-        /*Change  Event*/
-        //$("#tblUnits1").on("change", "[name*='ddlPayDeductOn1']", function () {
-        //    debugger;
-
-        //    var tr = $(this).closest("tr");
-        //    var Divddl = tr.find("[name*='ddlPayDeductOn1']").val();
-        //    var DP = tr.find("[name*='ddlPayDeductOn2']").val();
-           
-        //});
-
-        ///*Change  Event*/
-        //$("#tblUnits").on("change", "[name*='ddlPayDeductOn1']", function () {
-        //    var tr = $(this).closest("tr");
-        //    var Divddl = tr.find("[name*='ddlPayDeductOn1']").val();
-
-           
-        //});
+                    
         /*Refresh */
         $("#btnCancel").click(function () {
             $("#tbldiv").show();
@@ -129,16 +106,17 @@
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
             $("#tblUnits1 tbody").find("tr:gt(0)").remove();
-
-            $("[name*='txtDepartmentCode']").val('');
-            $("[name*='txtDepartmentName']").val('');
-
+         
             $("#tblUnits1").hide();
-            $("#btnAdd").prop("disabled", false);
-            $("#btnCancel").prop("disabled", true);
-            $("#btnSave").prop("disabled", true);
-            $("[name*='Edit']").prop('disabled', false);
-            $("[name*='Delete']").prop('disabled', false);
+            var abk1 = [];
+            abk1.push("[name*='txtCode']", "[name*='txtName']", "[name*='ddlPayDeductOn1']");
+            Ezsettxtclr(abk1);
+            abk1 = [];
+            abk1.push("#btnCancel", "#btnSave");
+            Ezprop(abk1, "disabled", true);
+            abk1 = [];
+            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+            Ezprop(abk1, "disabled", false);
             Ezerrormsg("#ErrorMessage", "");
         });
         /*Save Unit Table */
@@ -158,7 +136,6 @@
                         Code: StsCode,
                         Name: StsName,
                         DivCode:StsDivisionCode,                       
-
                     };
                     Brc.BranchDdetailnew.push(BranchDetail);
 
@@ -203,13 +180,10 @@
                         }
                         else {
                             $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                            $("[name*='txtCode']").val('');
-                            $("[name*='txtName']").val('');
-                            $("[name*='ddlPayDeductOn1']").val('');                           
-                            $("#tblUnits1").hide();
-                            $("#btnAdd").prop("disabled", false);
-                            $("#btnCancel").prop("disabled", true);
-                            $("#btnSave").prop("disabled", true);
+                            var abk1 = [];
+                            abk1.push("[name*='txtCode']", "[name*='txtName']", "[name*='ddlPayDeductOn1']");
+                            Ezsettxtclr(abk1);                                                   
+                            $("#tblUnits1").hide();                            
                             if (codeAdd != '' && nameAdd != '') {
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
@@ -221,9 +195,14 @@
                                 //newRow += "</tr>";
                                 $(firstRow).after(newRow);
                             }
-                            $("[name*='Edit']").prop('disabled', false)
-                            $("[name*='Delete']").prop('disabled', false)
-
+                            abk1 = [];
+                            abk1.push("#btnCancel", "#btnSave");
+                            Ezprop(abk1, "disabled", true);
+                            abk1 = [];
+                            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+                            Ezprop(abk1, "disabled", false);
+                            EzAlertSave();
+                            $(".dataTables_empty").replaceWith("");
                         }
                     });
 
@@ -231,7 +210,7 @@
                 });
             }
             else {
-                Ezerrormsg("#ErrorMessage", "Please Enter atleast One Branch code Details");
+                EzAlerterr();
             }
         });
         function ValidateForm(Brc) {
@@ -252,51 +231,11 @@
         $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
             $(this).closest("tr").remove();
         });
-        $("#tblUnits").on("click", "[name^='Add']", function () {
-            debugger;
-            var counter = $("#Counter").val();
-            var hdnAddMode = $(this).parent().find('input:hidden:first');
-            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-            var editButton = $(this).parent().find("[name='Add" + counter + "']");
-            var tr = $(this).closest("tr");
-            var index = $(this).attr("name").substring(4);
-            var BranchcodeTd = $(tr).find("td:eq(0)");
-           var DivCodeTd = $(tr).find("td:eq(1)");
-            var descriptionTd = $(tr).find("td:eq(2)");
-           var BranchCodeTd = $(tr).find("td:eq(3)");          
-            if (hdnAddMode.val() == "true") {
-                var CodeAdd = $(tr).find("[name*='txtCode']").val().trim();
-                var NameAdd = $(tr).find("[name*='txtName']").val().trim();
-                var DivCodeAdd = $(tr).find("select option:selected").val().trim();     
-                var Deps = {
-                    CmpyCode: hdnCmpyCode,
-                    Code: CodeAdd,
-                    Name: NameAdd,
-                    DivCode: DivCodeAdd,                   
-                    EditFlag: false
-                };
-                if (CodeAdd && hdnCmpyCode) {
-                    $.post("/Branch/SaveBrnc", Branch).done(function (response) {
-                        console.log(response);
-                        BranchcodeTd.text(response.Branchcode);
-                        departmentnameTd.text(response.DepartmentName);
-                        DivisionCodeTd.text(response.DivisionCode);
-                        BranchCodeTd.text(response.BranchCode);                      
-                        hdnAddMode.val("false");
-                        editButton.attr("name", ("Edit" + counter)).text("Edit");
-                        hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
-                    });
-                } else {
-                    alert("Please Enter Record");
-                }
-            }
-        });
+       
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
-        //$("#tblUnits").on("click", "[name^='DeleteNew']", function () {
-        //    $(this).closest("tr").remove();
-        //});
+       
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             debugger;
             var n = EzAuthenticationBtn("/Branch", "EditIt");
@@ -330,6 +269,7 @@
                         tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                         tr.find("[name^='Delete']").attr('title', 'Delete');
                         tableDis("F");
+                        EzAlertUpd(hdnCode);
                     });
                     $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                         console.log(thrownError);
@@ -364,19 +304,63 @@
                 var code = "";
                 if (hdnMode.val() == "false") {
                     code = $(tr).find("td:eq(0)").text().trim();
-                    $.getJSON("/DeleteBrs", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            tr.remove();
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            code = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeleteBrs", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    debugger;
+                                    tr.remove();
+                                    if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
+                                        //$(".dataTables_empty").replaceWith("No data available in table");
+                                        var firstRow = $('#tblUnits tbody');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                        $(firstRow).append(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
+
+                                } else {
+                                    EzAlertdele(code);
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    });
+                    })
+                    
                 }
                 else {
                     var NameTd = $(this).closest("tr").find("td:eq(1)");
                     var paydeductonTd = $(this).closest("tr").find("td:eq(2)");
-                    var NameEdit = $('#Brname').val();//$(this).closest("tr").find("[name*='txtName']").val().trim();
-                    var paydeductonEdit = $('#divname').val();// $(this).closest("tr").find("[name*='ddlPayDeductOn1']").val().trim();
-
-
+                    var NameEdit = $('#Brname').val();
+                    var paydeductonEdit = $('#divname').val();
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
                     NameTd.html(NameEdit);
                     paydeductonTd.html(paydeductonEdit);

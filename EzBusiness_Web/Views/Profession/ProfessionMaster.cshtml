@@ -3,12 +3,6 @@
     ViewBag.Title = "ProfessionMaster";
     var counter = 1;
 }
-
-
-
-
-
-@*<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>*@
 <script src="~/Scripts/EzComNDW.js"></script>
 
 <script>
@@ -28,19 +22,20 @@
     var Pros = [];
 
     var drec = new Array();
-    //var types = [];
+  
     $(function () {
         $("#tblUnits1").hide();
-        //GetTypes();
+     
         $("#btnAdd").click(function () {
             var n = EzAuthenticationBtn("/Profession", "NewIt");
             if(n==1){
-            $("#tbldiv").hide();
-            $("#btnAdd").prop('disabled', true)
-            $("#btnCancel").prop("disabled", false);
-            $("#btnSave").prop("disabled", false);
-            $("[name*='Edit']").prop('disabled', true)
-            $("[name*='Delete']").prop('disabled', true)
+                $("#tbldiv").hide();
+                var abk = [];
+                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
+                Ezprop(abk, "disabled", true);
+                abk = [];
+                abk.push('#btnCancel', '#btnSave');
+                Ezprop(abk, "disabled", false);           
             $("#tblUnits1 tbody tr").css("background", "");
             $("#tblUnits1").show();
             }
@@ -102,21 +97,20 @@
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
-
             $("#tblUnits1 tbody").find("tr:gt(0)").remove();
-
-            $("[name*='txtProfCode']").val('');
-            $("[name*='txtProfName']").val('');
-            $("[name*='txtUniCodeName']").val('');
-            $("#tblUnits1").hide();
-            $("#btnAdd").prop("disabled", false);
-            $("#btnCancel").prop("disabled", true);
-            $("#btnSave").prop("disabled", true);
-            $("[name*='Edit']").prop('disabled', false);
-            $("[name*='Delete']").prop('disabled', false);
+            var abk1 = [];
+            abk1.push("[name*='txtProfCode']", "[name*='txtProfName']");
+            Ezsettxtclr(abk1);
+            abk1 = [];
+            abk1.push("#btnCancel", "#btnSave");
+            Ezprop(abk1, "disabled", true);
+            abk1 = [];
+            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+            Ezprop(abk1, "disabled", false);
+            Ezerrormsg("#ErrorMessage", "");            
+            $("#tblUnits1").hide();           
             $("#tbldiv").show();
             Ezerrormsg("#ErrorMessage", " ");
-
         });
         /*Save Unit Table */
 
@@ -143,10 +137,8 @@
             if (validationResult.formValid) {
                 $.post("/Profession/SavePros", Pros).done(function (response) {
                     if (response.Drecord == null) {
-
                         response.Drecord = 0;
                         $("#tbldiv").show();
-
                     }
                     $("#tblUnits1 tbody tr").each(function (index, item) {
                         var tr = $(this).closest("tr");
@@ -177,27 +169,32 @@
                         }
                         else {
                             $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                            $("[name*='txtProfCode']").val('');
-                            $("[name*='txtProfName']").val('');
-                         
-
-                            $("#tblUnits1").hide();
-                            $("#btnAdd").prop("disabled", false);
-                            $("#btnCancel").prop("disabled", true);
-                            $("#btnSave").prop("disabled", true);
+                            //$("[name*='txtProfCode']").val('');
+                            //$("[name*='txtProfName']").val('');
+                            var abk1 = [];
+                            abk1.push("[name*='txtProfCode']", "[name*='txtProfName']");
+                            Ezsettxtclr(abk1);
+                            $("#tblUnits1").hide();                          
                             if (codeAdd != '' && nameAdd != '') {
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
                                 var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
                                     "</td> ";
                                 newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                    "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='False'><input name='item.CmpyCode' type='hidden' value='False" + response.CmpyCode +
+                                    "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='False" + response.CmpyCode +
                                     "'></td></tr>";
                                 //newRow += "</tr>";
                                 $(firstRow).after(newRow);
                             }
-                            $("[name*='Edit']").prop('disabled', false)
-                            $("[name*='Delete']").prop('disabled', false)
+                            abk1 = [];
+                            abk1.push("#btnCancel", "#btnSave");
+                            Ezprop(abk1, "disabled", true);
+                            abk1 = [];
+                            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+                            Ezprop(abk1, "disabled", false);
+                            EzAlertSave();
+
+                            $(".dataTables_empty").replaceWith("");
 
                         }
                     });
@@ -207,7 +204,7 @@
 
             else {
                 //$("#ErrorMessage").show().find("strong").text(ErrorMessage);
-                Ezerrormsg("#ErrorMessage", "Enter Record");
+                EzAlerterr();
             }
         });
 
@@ -229,55 +226,12 @@
             $(this).closest("tr").remove();
         });
 
-        $("#tblUnits").on("click", "[name^='Add']", function () {
-            var counter = $("#Counter").val();
-            var hdnAddMode = $(this).parent().find('input:hidden:first');
-            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-            var editButton = $(this).parent().find("[name='Add" + counter + "']");
-            var tr = $(this).closest("tr");
-            var index = $(this).attr("name").substring(4);
-            var profcodeTd = $(tr).find("td:eq(0)");
-            var profnameTd = $(tr).find("td:eq(1)");
-           
-
-            if (hdnAddMode.val() == "true") {
-
-                var profcodeAdd = $(tr).find("[name*='txtProfCode']").val().trim();
-                var profnameAdd = $(tr).find("[name*='txtProfName']").val().trim();
-              
-               
-
-                var Pros = {
-                    CmpyCode: hdnCmpyCode,
-                    ProfCode: profcodeAdd,
-                    ProfName: profnameAdd,
-                  
-
-
-                    EditFlag: false
-                };
-                if (profcodeAdd && hdnCmpyCode) {
-                    $.post("/Profession/SavePros", Pros).done(function (response) {
-                        console.log(response);
-                        profcodeTd.text(response.ProfCode);
-                        profnameTd.text(response.ProfName);                     
-                        hdnAddMode.val("false");
-                        editButton.attr("name", ("Edit" + counter)).text("Edit");
-                        hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
-                        $("#btnAdd").prop('disabled', false);
-                    });
-                } else {
-                    alert();
-                }
-            }
-        });
+      
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
 
-        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
-            $(this).closest("tr").remove();
-        });
+       
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/Profession", "EditIt");
@@ -310,7 +264,7 @@
                     tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                     tr.find("[name^='Delete']").attr('title', 'Delete');
                     tableDis("F");
-                   
+                    EzAlertUpd(hdnProfCode);
                 });
                 $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                     console.log(thrownError);
@@ -340,14 +294,66 @@
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var profcode = "";
 
-
+                debugger;
                 if (hdnMode.val() == "false") {
-                    profcode = $(tr).find("td:eq(0)").text().trim();
-                    $.getJSON("/DeletePros", { ProfCode: profcode, CmpyCode: hdnCmpyCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            tr.remove();
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            profcode = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeletePros", { ProfCode: profcode, CmpyCode: hdnCmpyCode }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    debugger;
+                                    tr.remove();
+                                    if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
+                                        //$(".dataTables_empty").replaceWith("No data available in table");
+                                        var firstRow = $('#tblUnits tbody');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                        $(firstRow).append(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
+
+                                } else {
+                                    EzAlertdele(code);
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    });
+                    })
+
+                    //profcode = $(tr).find("td:eq(0)").text().trim();
+                    //$.getJSON("/DeletePros", { ProfCode: profcode, CmpyCode: hdnCmpyCode }).done(function (data) {
+                    //    if (data.DeleteFlag) {
+                    //        tr.remove();
+                    //    }
+                    //});
                 }
 
                 else {

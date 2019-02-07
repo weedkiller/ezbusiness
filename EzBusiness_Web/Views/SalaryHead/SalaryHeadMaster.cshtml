@@ -3,15 +3,9 @@
     ViewBag.Title = "SalaryHeadMaster";
     var counter = 1;
 }
-
-
-
 <script src="~/Scripts/EzComNDW.js"></script>
-
-
 <script>
-    $(function () {
-       
+    $(function () {       
         EzAuthentication("/SalaryHead");
         var n = EzAuthenticationBtn("/SalaryHead", "ViewIt");
         if (n == 1) {
@@ -90,9 +84,11 @@
                         hdnAddMode.attr("name", ("AddMode" + counter)).val("false");
                         tr.find("[name^='NewDelete']").html('<span class="glyphicon glyphicon-trash"></span>');
                         tr.find("[name^='NewDelete']").attr('title', 'Delete');
+
+                        EzAlertSave();
                     });
                 }
-                else { alert("Enter Data");}
+                else { EzAlerterr(); }
             }
             else {
 
@@ -116,9 +112,59 @@
             var tr = $(this).closest("tr");
             var hdnAddMode = $(this).parent().find('input:hidden:first');
             if (hdnAddMode.val() == "false" ) {
-                $(this).closest("tr").remove();
+                //$(this).closest("tr").remove();
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        code = $(tr).find("td:eq(0)").text().trim();
+                        $.getJSON("/DeleteSals", { Code: code }).done(function (data) {
+                            if (data.DeleteFlag) {
+                                debugger;
+                                tr.remove();
+                                if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
+                                    //$(".dataTables_empty").replaceWith("No data available in table");
+                                    var firstRow = $('#tblUnits tbody');
+                                    var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                    $(firstRow).append(newRow);
+                                    $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                }
+
+                            } else {
+                                EzAlertdele(code);
+                            }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
             }
-            else if($(tr).find("[name*='txtName']").val().trim()=="")
+            else if ($(tr).find("[name*='txtCode']").val().trim() == "")
             {
                 $(this).closest("tr").remove();
             }
@@ -158,44 +204,19 @@
                 var tr = $(this).closest("tr");
                 var hdnCode = $(tr).find("td:eq(0)").text().trim();
                 var index = $(this).attr("name").substring(4);
-                var nameTd = $(tr).find("td:eq(1)");
-                //var descriptionTd = $(tr).find("td:eq(2)");
-                //var amttypeTd = $(tr).find("td:eq(3)");
-                //var paydeductonTd = $(tr).find("td:eq(4)");
-                //var snoTd = $(tr).find("td:eq(5)");
-
+                var nameTd = $(tr).find("td:eq(1)");              
                 var editButton = $(this);
-
-
                 if (hdnEditMode.val() == "true") {
-                    var nameEdit = $(tr).find("[name*='txtName']").val().trim();
-                    //var descriptionEdit = $(tr).find("[name*='txtDescription']").val().trim();
-                    //var amttypeEdit = $(tr).find("[name*='txtAmtType']:checked").val().trim();
-
-                    //var paydeductonEdit = $(tr).find("select option:selected").val().trim();
-                    //var snoEdit = $(tr).find("[name*='txtSNo']").val().trim();
-
-
+                    var nameEdit = $(tr).find("[name*='txtName']").val().trim();                   
                     var Sals = {
                         CmpyCode: hdnCmpyCode,
                         Code: hdnCode,
-                        Name: nameEdit,
-                        //Description: descriptionEdit,
-                        //AmtType: amttypeEdit,
-                        //PayDeductOn: paydeductonEdit,
-                        //SNo: snoEdit,
-
+                        Name: nameEdit,                        
                         EditFlag: true
                     };
                     if (nameEdit) {
-
-
                         $.post("/SalaryHead/SaveSals", Sals).done(function (response) {
-                            nameTd.text(response.Name);
-                            //descriptionTd.text(response.Description);
-                            //amttypeTd.text(response.AmtType);
-                            //paydeductonTd.text(response.PayDeductOn);
-                            //snoTd.text(response.SNo);
+                            nameTd.text(response.Name);                           
                             editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
                             editButton.attr('title', 'Edit');
                             tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
@@ -204,10 +225,11 @@
                             hdnEditMode.val("false");
 
                             tableDis("F");
+                            EzAlertUpd(hdnCode);
                         });
                     }
                     else {
-                        alert("Please Enter Data");
+                        EzAlerterr();
                     }
                     $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                         console.log(thrownError);
@@ -216,10 +238,7 @@
                     debugger;
                     var name1 = $(tr).find("td:eq(1)").text();
                     $('#hdname').val(name1.trim());
-                    nameTd.html("<input type='text' name='txtName" + index + "' value='" + name1.trim() + "' />");
-
-                    
-
+                    nameTd.html("<input type='text' name='txtName" + index + "' value='" + name1.trim() + "' />");                    
                     $(this).html('<span class="glyphicon glyphicon-upload"></span>');
                     hdnEditMode.val("true");
                     tableDis("T");
@@ -251,12 +270,63 @@
 
 
             if (hdnMode.val() == "false") {
-                code = $(tr).find("td:eq(0)").text().trim();
-                $.getJSON("/DeleteSals", { code: code }).done(function (data) {
-                    if (data.DeleteFlag) {
-                        tr.remove();
+
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        code = $(tr).find("td:eq(0)").text().trim();
+                        $.getJSON("/DeleteSals", { Code: code }).done(function (data) {
+                            if (data.DeleteFlag) {
+                                debugger;
+                                tr.remove();
+                                if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
+                                    //$(".dataTables_empty").replaceWith("No data available in table");
+                                    var firstRow = $('#tblUnits tbody');
+                                    var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                    $(firstRow).append(newRow);
+                                    $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                }
+
+                            } else {
+                                EzAlertdele(code);
+                            }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
                     }
-                });
+                })
+                //code = $(tr).find("td:eq(0)").text().trim();
+                //$.getJSON("/DeleteSals", { code: code }).done(function (data) {
+                //    if (data.DeleteFlag) {
+                //        tr.remove();
+                //    }
+                //});
             }
 
             else {
