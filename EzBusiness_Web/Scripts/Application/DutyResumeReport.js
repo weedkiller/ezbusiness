@@ -18,9 +18,14 @@
         $("#displayDutyResume").show();
         var fdate = Ezsetdtpkdate($("#fdatetxt").val());
         var Tdate = Ezsetdtpkdate($("#tdatetxt").val());
+        var empCode = $("#empcodetxt").val();
+        var empname = $("#empnametxt").val();
+     
         var newrow = {
             Fdate: fdate,
-            Tdate: Tdate
+            Tdate: Tdate,
+            EmpName: empname,
+            EmpCode: empCode
         }
         debugger;
         var empdt = $('#DutyResumereport').DataTable({
@@ -64,10 +69,11 @@
                {
                    "data": "EmpCode"
                },
+               {"data":"EmpName"},
                {
                    "data": "ResumeDate",
                    "render":function(data){
-                       return (ezdatefrmtRes1(data));
+                       return (EzdatefrmtRes1(data));
                    }
                },
                { "data": "Actual_Leave_Type" },

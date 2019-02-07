@@ -164,7 +164,7 @@ var Empreport = {
            var fnldt = $('#finalsettlmentreport').DataTable({
 
                "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
-               "order": [[1, 'asc']],
+               "order": [[0, 'asc']],
                "scrollX": true,
                "language":
                {
@@ -181,11 +181,6 @@ var Empreport = {
 
                            }
                ],
-               "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                   var oSettings = this.fnSettings();
-                   $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-                   return nRow;
-               },
                "processing": true,
                "serverSide": true,
                "ajax":
@@ -201,7 +196,7 @@ var Empreport = {
                "destroy": true,
                "sorting": true,
                "columns": [
-                   { "data": null },
+                   { "data": "SrNo" },
                   { "data": "EmpCode" },
                   { "data": "EmpName" },
                   { "data": "PRFSET001_code" },
@@ -209,25 +204,25 @@ var Empreport = {
                   {
                       "data": "JoiningDate",
                       "render": function (data) {
-                          return (EzdteTblPkEdit(data));
+                          return (EzdatefrmtRes1(data));
                       }
                   },
                   {
                       "data": "Dates",
                       "render": function (data) {
-                          return (EzdteTblPkEdit(data));
+                          return (EzdatefrmtRes1(data));
                       }
                   },
                   {
                       "data": "SettledDate",
                       "render": function (data) {
-                          return (EzdteTblPkEdit(data));
+                          return (EzdatefrmtRes1(data));
                       }
                   },
                   {
                       "data": "DateofRelease",
                       "render": function (data) {
-                          return (EzdteTblPkEdit(data));
+                          return (EzdatefrmtRes1(data));
                       }
                   },
                   { "data": "NoOfDaysSuspended" },
@@ -251,12 +246,12 @@ var Empreport = {
                   { "data": "LeaveBF" },
                ]
            });
-           fnldt.on('order.dt search.dt', function () {
-               fnldt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                   cell.innerHTML = i + 1;
-                   fnldt.cell(cell).invalidate('dom');
-               });
-           }).draw();
+           //fnldt.on('order.dt search.dt', function () {
+           //    fnldt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+           //        cell.innerHTML = i + 1;
+           //        fnldt.cell(cell).invalidate('dom');
+           //    });
+           //}).draw();
      
     },
 

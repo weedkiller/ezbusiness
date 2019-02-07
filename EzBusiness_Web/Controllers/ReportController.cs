@@ -517,7 +517,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<LeaveApplication> data = _reportdetail.GetLeaveAppDetails(list[0].CmpyCode, emp1.Fdate, emp1.Tdate);
+                    List<LeaveApplication> data = _reportdetail.GetLeaveAppDetails(list[0].CmpyCode, emp1.Fdate, emp1.Tdate,emp1.EmpCode,emp1.EmpName);
                     // Total record count.
                     int totalRecords = data.Count;
 
@@ -607,7 +607,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<LeaveSettlement> data = _reportdetail.GetLeaveSettlemenntReportDetails(list[0].CmpyCode, emp2.Fdate, emp2.Tdate);
+                    List<LeaveSettlement> data = _reportdetail.GetLeaveSettlemenntReportDetails(list[0].CmpyCode, emp2.Fdate, emp2.Tdate,emp2.Empcode,emp2.EmpName);
                     // Total record count.
                     int totalRecords = data.Count;
 
@@ -705,7 +705,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<DutyResume> data = _reportdetail.GetDutyResumeDetails(list[0].CmpyCode, emp1.Fdate, emp1.Tdate);
+                    List<DutyResume> data = _reportdetail.GetDutyResumeDetails(list[0].CmpyCode, emp1.Fdate, emp1.Tdate,emp1.EmpCode,emp1.EmpName);
                     // Total record count.
                     int totalRecords = data.Count;
 
@@ -794,7 +794,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<ShiftMaster> data = _reportdetail.GetShiftMasterDetails(list[0].CmpyCode, emp1.Fdate, emp1.Tdate);
+                    List<ShiftMaster> data = _reportdetail.GetShiftMasterDetails(list[0].CmpyCode, emp1.PRSFT001_code);
                     // Total record count.
                     int totalRecords = data.Count;
 

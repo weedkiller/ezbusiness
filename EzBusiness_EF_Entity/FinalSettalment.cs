@@ -73,6 +73,8 @@ namespace EzBusiness_EF_Entity
 
         public DateTime Fdate { get; set; }
         public DateTime Tdate { get; set; }
+
+        public Int32 SrNo { get; set; }
     }
 
 

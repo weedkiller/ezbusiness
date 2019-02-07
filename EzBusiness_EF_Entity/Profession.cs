@@ -15,5 +15,7 @@ namespace EzBusiness_EF_Entity
         public string UniCodeName { get; set; }
 
         public string ProfType { get; set; }
+
+        public Int32 srno { get; set; }
     }
 }
