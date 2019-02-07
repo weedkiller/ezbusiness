@@ -5,11 +5,6 @@
     var counter = 1;
 }
 
-
-@*@Scripts.Render("~/bundles/jquery")
-
-
-<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>*@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
@@ -24,30 +19,30 @@
         }
     });
 </script>
-
-
 <script>
-
-
     var Hol = [];
     var drec = new Array();
     $(function () {
-
         $("#tblUnits1").hide();
-        
+        Ezdteformtcur('#txtDates1', 'DD/MM/YYYY');
         /*Add Record*/
         $("#btnAdd").click(function () {
             var n = EzAuthenticationBtn("/HolidayMaster", "NewIt");
-            if(n==1){
-            EzMasterAdd("#btnAdd", "#btnCancel", "#btnSave");
+            if (n == 1) {
+               
+                var abk = [];
+                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
+                Ezprop(abk, "disabled", true);
+                abk = [];
+                abk.push('#btnCancel', '#btnSave');
+                Ezprop(abk, "disabled", false);
 
-            
-            $("[name*='Edit']").prop('disabled', true)
-            $("[name*='Delete']").prop('disabled', true)
             $("#tblUnits1 tbody tr").css("background", "");
             $("#tblUnits1").show();
 
-            $("#tblUnits1 tbody tr").find("[name*='txtDates']").val(new Date().getToday());
+                // $("#tblUnits1 tbody tr").find("[name*='txtDates']").val(new Date().getToday());
+           // tbldtpicker('.datepicker','DD/MM/YYYY');
+            //$(".datepicker").datetimepicker("destroy");
 
             $("#tbldiv").hide();
 
@@ -85,7 +80,7 @@
                     var trLast = $("#tableMetaSettings tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtDates']").val(new Date().getToday());                    
+                    $(this).closest('tr').next('tr').find("[name*='txtDates']").val(new Date().getToday());
                     $(this).closest('tr').next('tr').find("[name*='txtHRPH001_CODE']").val('');
                     $(this).closest('tr').next('tr').find("[name*='txtLEAVE_TYPECODE']").val('');
                     $(this).closest('tr').next('tr').find("[name*='txtDescription']").val('');
@@ -132,12 +127,13 @@
 
                // tr.find("[name *= 'txtHRPH001_CODE']").val('');
                 alert("Already Exist Date '" + dr + "'");
-                tr.find("[name *= 'txtDates']").val(new Date().getToday());
+                //  tr.find("[name *= 'txtDates']").val(new Date().getToday());
+                tbldtpicker('.datepicker', 'DD/MM/YYYY');
 
             }
             else {
                 tr.css("background", "");
-                
+
             }
             counter++;
         });
@@ -148,22 +144,24 @@
        // EztableTabEve("#tblUnits1", "[name*='txtHRPH001_CODE']", "[name *= 'txtDates']", "Please Enter Code", 'T',"");
         EztableLstEnt("#tblUnits1", "[name*='txtDescription']", "[name *= 'txtHRPH001_CODE']","T","");
         EztableLstTabBlk("#tblUnits1", "[name*='txtDescription']", "[name *= 'txtHRPH001_CODE']","T","");
-        
+
         /*Refresh */
         $("#btnCancel").click(function () {
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
             $("#tblUnits1 tbody").find("tr:gt(0)").remove();
-
-            $("[name*='txtDates']").val('');
-            $("[name*='txtLEAVE_TYPECODE']").val('');
-            $("[name*='txtDescription']").val('');
             $("#tblUnits1").hide();
-           
-            EzMasterCancel("#btnAdd", "#btnCancel", "#btnSave");
-            $("[name*='Edit']").prop('disabled', false);
-            $("[name*='Delete']").prop('disabled', false);
+            var abk1 = [];
+            abk1.push("[name*='txtDates']", "[name*='txtLEAVE_TYPECODE']", "[name*='txtDescription']");
+            Ezsettxtclr(abk1);
+            abk1 = [];
+            abk1.push("#btnCancel", "#btnSave");
+            Ezprop(abk1, "disabled", true);
+            abk1 = [];
+            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+            Ezprop(abk1, "disabled", false);
+            Ezerrormsg("#ErrorMessage", "");
             $("#tbldiv").show();
         });
         /*Save Unit Table */
@@ -230,16 +228,10 @@
                     }
                     else {
                         $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                        $("[name*='txtDates']").val('');
-                        $("[name*='txtLEAVE_TYPECODE']").val('');
-                        $("[name*='txtDescription']").val('');
-                        $("[name*='txtHRPH001_CODE']").val('');
-                        
+                        var abk1 = [];
+                        abk1.push("[name*='txtDates']", "[name*='txtLEAVE_TYPECODE']", "[name*='txtDescription']", "[name*='txtHRPH001_CODE']");
                         $("#tblUnits1").hide();
-                        //$("#btnAdd").prop("disabled", false);
-                        //$("#btnCancel").prop("disabled", true);
-                        //$("#btnSave").prop("disabled", true);
-                        EzMasterAdd("#btnAdd", "#btnCancel", "#btnSave");
+
                         if (DateAdd != '' && HLHRPH001_CODEAdd != '' && LEAVE_TYPECODEAdd != '') {
                         var counter = $("#Counter").val();
                         var firstRow = $('#tblUnits tbody tr:first');
@@ -251,8 +243,14 @@
                         //newRow += "</tr>";
                         $(firstRow).after(newRow);
                         }
-                        $("[name*='Edit']").prop('disabled', false)
-                        $("[name*='Delete']").prop('disabled', false)
+                        abk1 = [];
+                        abk1.push("#btnCancel", "#btnSave");
+                        Ezprop(abk1, "disabled", true);
+                        abk1 = [];
+                        abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+                        Ezprop(abk1, "disabled", false);
+                        EzAlertSave();
+                        $(".dataTables_empty").replaceWith("");
 
                     }
                 });
@@ -260,9 +258,7 @@
 
             }
             else {
-                //$("#ErrorMessage").show();
-                //$("#ErrorMessage").find("strong").text(validationResult.ErrorMessage);
-                Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                EzAlerterr();
         }
         });
 
@@ -271,22 +267,6 @@
                 ErrorMessage: "",
                 formValid: false
             };
-            //var dupr = false;
-            //$("#tblUnits1 tbody tr").each(function (index, item) {
-            //    var tr = $(this).closest('tr');
-            //    if ($.inArray(tr.find("[name *= 'txtCode']").val(), drec) >= 0 && tr.find("[name *= 'txtCode']").val() !='') {
-            //        tr.css("background", "red");
-            //        tr.find("[name *= 'txtCode']").focus();
-            //        dupr = true;
-            //    }
-            //    else {
-            //        tr.css("background", "");
-            //    }
-            //});
-
-            //if (dupr == true) {
-            //    response.ErrorMessage += "Please Enter Unique Status code Details";
-            //}
             if (HolidayMaster.HolidayDetailnew.length == 0) {
                 response.ErrorMessage += "Please Enter atleast One Status code Details";
             }
@@ -300,14 +280,11 @@
             $(this).closest("tr").remove();
         });
 
-      
+
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
 
-        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
-            $(this).closest("tr").remove();
-        });
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/HolidayMaster", "EditIt");
@@ -315,7 +292,7 @@
             var counter = $("#Counter").val();
             var hdnEditMode = $(this).parent().find('input:hidden:first');
             var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-            var tr = $(this).closest("tr");            
+            var tr = $(this).closest("tr");
             var index = $(this).attr("name").substring(4);
             var HRPH001_CODETd = $(tr).find("td:eq(0)");
             var DateTd = $(tr).find("td:eq(1)");
@@ -353,18 +330,19 @@
                     tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                     tr.find("[name^='Delete']").attr('title', 'Delete');
                     tableDis("F");
+                    EzAlertUpd(HlLEAVE_TYPECODE);
                 });
                 $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                     console.log(thrownError);
                 });
             } else {
-                var HRPH001_CODE = $(tr).find("td:eq(0)").text();                
+                var HRPH001_CODE = $(tr).find("td:eq(0)").text();
 
                 HRPH001_CODETd.html("" + HRPH001_CODE.trim() + "<input type='hidden' name='txtHRPH001_CODE"+ index +"'  id='txtHRPH001_CODE" + index + "' value='" + HRPH001_CODE.trim() + "' />");
 
                 var Date1 = Ezdatefrmt1($(tr).find("td:eq(1)").text().trim());
                 $('#hldte').val($(tr).find("td:eq(1)").text().trim());
-                DateTd.html("<input type='date' name='txtDates" + index + "' value='" + Date1 + "' />");
+                DateTd.html("<input class='grid-control datepicker' name='txtDates" + index + "' value='" + Date1 + "' />");
 
                 var LEAVE_TYPECODE = $(tr).find("td:eq(2)").text();
                 $('#hltyp').val(LEAVE_TYPECODE.trim());
@@ -374,9 +352,6 @@
                 var Description = $(tr).find("td:eq(3)").text();
                 $('#hlDesc').val(Description.trim());
                 DescriptionTd.html("<input type='text' name='txtDescription" + index + "' value='" + Description.trim() + "' />");
-
-
-                
 
                 //$(this).text("update");
                 $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
@@ -404,24 +379,68 @@
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var code = "";
                 if (hdnMode.val() == "false") {
-                    code = $(tr).find("td:eq(1)").text().trim();
-                    $.getJSON("/DeleteHoliday", { date1: code }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            tr.remove();
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            code = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeleteHoliday", { date1: code }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    debugger;
+                                    tr.remove();
+                                    if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
+                                        //$(".dataTables_empty").replaceWith("No data available in table");
+                                        var firstRow = $('#tblUnits tbody');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                        $(firstRow).append(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
+
+                                } else {
+                                    EzAlertdele(code);
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    });
+                    })
+
                 }
                 else {
-                    //var nameTd = $(tr).find("td:eq(1)");
-                    //var unicodenameTd = $(tr).find("td:eq(2)");
                     var HRPH001_CODETd = $(tr).find("td:eq(0)");
                     var DateTd = $(tr).find("td:eq(1)");
                     var LEAVE_TYPECODETd = $(tr).find("td:eq(2)");
                     var DescriptionTd = $(tr).find("td:eq(3)");
 
-                    var DatesEdit = $('#hldte').val();//$(tr).find("[name*='txtDates']").val().trim();
-                    var LEAVE_TYPECODEEdit = $('#hltyp').val();// $(tr).find("[name*='txtLEAVE_TYPECODE'] option:selected").val().trim();
-                    var DescriptionEdit = $('#hlDesc').val();// $(tr).find("[name*='txtDescription']").val().trim();
+                    var DatesEdit = $('#hldte').val();
+                    var LEAVE_TYPECODEEdit = $('#hltyp').val();
+                    var DescriptionEdit = $('#hlDesc').val();
 
 
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
@@ -430,14 +449,11 @@
                     LEAVE_TYPECODETd.html(LEAVE_TYPECODEEdit);
                     DescriptionTd.html(DescriptionEdit)
 
-                    //var unicodename = $(tr).find("td:eq(2)").text();
-                    //unicodenameTd.html(unicodenameEdit);
 
-                    //tr.find("[name^='Edit']").text("Edit");
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
 
-                    //$(this).text("Delete");
+
                     $(this).html('<span class="glyphicon glyphicon-trash"></span>')
                     $(this).attr('title', 'Delete');
                     hdnEditMode.val("false");
@@ -448,7 +464,7 @@
             }
         });
 
-        $("#datepicker1").val(new Date().getToday());
+        //$("#datepicker1").val(new Date().getToday());
     });
     var k = 0;
     function tableDis(k) {
@@ -481,11 +497,15 @@
         var today = now.getFullYear() + "-" + (month) + "-" + (day);
         return today;
     }
+
+    
+
+    Ezdteformtcur('#datepicker1', 'DD/MM/YYYY');
 </script>
 
+
 <script>
-$(document).ready(function(){
-    //$('[data-toggle="tooltip"]').tooltip();    
+$(document).ready(function(){    
     $(".edit").attr('title', 'Edit');
     $(".delete").attr('title', 'Delete');
 });
@@ -515,7 +535,8 @@ $(document).ready(function(){
         <div class="form-group">
             <label class="control-label col-md-3">Date</label>
             <div class="col-md-9 input-field">
-                <input type="date" required name="" id="datepicker1" placeholder="" class="date1" style="width:188px">
+                @*<input type="date" required name="" id="datepicker1" placeholder="" class="date1" style="width:188px">*@
+                <input id="datepicker1" class="form-control datepicker" name="AbscondingDate1" />
             </div>
         </div>
     </div>
@@ -566,7 +587,7 @@ $(document).ready(function(){
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtDates", counter), null, new { @class = "grid-control", Type = "Date" })
+                            @Html.TextBox(string.Concat("txtDates", counter), null, new { @class = "grid-control datepicker"})
 
                         </div>
                     </td>
@@ -651,6 +672,17 @@ $(document).ready(function(){
 
 
 
+<script>
+  
+    $('body').on('focusin', '.datepicker', function () {
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            showClose: true,
+            showClear: true,
+            toolbarPlacement: 'top'
+        });
+    });
+</script>
 
 
 

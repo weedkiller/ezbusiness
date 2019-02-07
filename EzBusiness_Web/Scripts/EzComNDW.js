@@ -694,7 +694,7 @@ function EztableTabEve(tbl, ide, idf, errmsg, typ, vtyp) {
 /*Lenght decide table inside input */
 function EztableTabEveOne(tbl, ide, idf, errmsg, typ, vtyp,lent) {
     $(tbl).on("keydown", ide, function (e) {
-       
+        debugger;
         var keyCode = e.keyCode || e.which;
         if (keyCode == 9) {
             e.preventDefault();
@@ -710,6 +710,7 @@ function EztableTabEveOne(tbl, ide, idf, errmsg, typ, vtyp,lent) {
                 tr.css("background", "");
             }
             else {
+                tr.find(ide).val(ab.slice(0, 1 - ab.length));
                 tr.css("background", "red");
                 tr.find(ide).focus();
                 alert(errmsg);

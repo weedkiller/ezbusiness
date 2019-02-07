@@ -193,8 +193,7 @@
             }
             else {
                 EzAlerterr();
-            }
-            //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);       
+            }                
         });
 
         function ValidateForm(LoanMaster) {
@@ -301,18 +300,19 @@
                         reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
-                            code = $(tr).find("td:eq(0)").text().trim();
+                            code = $(tr).find("td:eq(0)").text().trim();                          
                             $.getJSON("/DeleteLons", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
                                     debugger;
-                                    if ($('#tblUnits tbody tr').length == 2) {
+                                      tr.remove();                                  
+                                    if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
                                         //$(".dataTables_empty").replaceWith("No data available in table");
-                                        var firstRow = $('#tblUnits tbody tr:first');
+                                        var firstRow = $('#tblUnits tbody');
                                         var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";                                       
-                                        $(firstRow).after(newRow);
+                                        $(firstRow).append(newRow);
                                         $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
                                     }
-                                    tr.remove();                                  
+                                                                  
                                 } else {
                                     EzAlertdele(code);
                                 }
