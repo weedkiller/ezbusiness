@@ -20,6 +20,6 @@ namespace EzBusiness_BL_Interface
         Finalsettalment_VM SaveFinalSettalment(Finalsettalment_VM Fins);             
         List<FinalSettI> GetFinalSetI(string CmpyCode, string EmpCode);
         List<FinalSetII> GetFinalSetII(string Cmpycode, string Empcode, DateTime joiingdte, DateTime Reldate, float deducdays, string F1_type, float basicper, DateTime LLSdate, float Ldeducdays, string emptyp, float bleave, float Lbasic, float Housing, float Food, float Tele, float Transport, float Other_Allow);
-        bool DeleteFinalSettalment(string Code, string CmpyCode, string UserName);
+        bool DeleteFinalSettalment(string CmpyCode, string Code, string UserName);
     }
 }

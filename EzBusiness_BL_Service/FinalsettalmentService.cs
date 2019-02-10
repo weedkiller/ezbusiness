@@ -22,9 +22,9 @@ namespace EzBusiness_BL_Service
             _FinRepo = new FinalsettalmentRepository();
             _CodeRep = new CodeGenRepository();
         }
-        public bool DeleteFinalSettalment(string Code, string CmpyCode, string UserName)
+        public bool DeleteFinalSettalment(string CmpyCode, string Code, string UserName)
         {
-            return _FinRepo.DeleteFinalSettalment(Code, CmpyCode, UserName);
+            return _FinRepo.DeleteFinalSettalment(CmpyCode,Code,UserName);
         }
 
         public List<SelectListItem> GetEmpCodes(string CmpyCode,string typ)

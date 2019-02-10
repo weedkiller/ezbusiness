@@ -63,21 +63,69 @@
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/LeaveApplication", "DeleteIt");
             if (n == 1) {
-                if (confirm("Are you Sure?")) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
 
-                    var PRLR001_CODE = $("[name*='PRLR001_CODE']").val();
-                    var oldLeavedays = $("[name*='oldLeavedays']").val();
-                    var EmpCode = $("[name*='EmpCode']").val();
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
 
-                    $.getJSON("/DeleteLeaveApp", { PRLR001_CODE: PRLR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            GetLeaveList();
-                            $("#btnCancel").trigger("click");
-                        } else {
-                            $("#ErrorMessage").show().find("strong").text("Unable to Delete");
-                        }
-                    });
-                }
+                        //code = $(tr).find("td:eq(0)").text().trim();
+                        var PRLR001_CODE = $("[name*='PRLR001_CODE']").val();
+                        var oldLeavedays = $("[name*='oldLeavedays']").val();
+                        var EmpCode = $("[name*='EmpCode']").val();
+                        $.getJSON("/DeleteLeaveApp", { PRLR001_CODE: PRLR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
+                            if (data.DeleteFlag)
+                            {
+                                GetLeaveList();
+                                 $("#btnCancel").trigger("click");
+                            }
+                            //else {
+                            //       $("#ErrorMessage").show().find("strong").text("Unable to Delete");
+                            //     }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                //if (confirm("Are you Sure?")) {
+
+                //    var PRLR001_CODE = $("[name*='PRLR001_CODE']").val();
+                //    var oldLeavedays = $("[name*='oldLeavedays']").val();
+                //    var EmpCode = $("[name*='EmpCode']").val();
+
+                //    $.getJSON("/DeleteLeaveApp", { PRLR001_CODE: PRLR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
+                //        if (data.DeleteFlag) {
+                //            GetLeaveList();
+                //            $("#btnCancel").trigger("click");
+                //        } else {
+                //            $("#ErrorMessage").show().find("strong").text("Unable to Delete");
+                //        }
+                //    });
+                //}
                 $("#editshow").hide();
             }
         });

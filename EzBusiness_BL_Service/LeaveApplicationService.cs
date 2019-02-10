@@ -25,6 +25,8 @@ namespace EzBusiness_BL_Service
             _LeaveAppRepo = new LeaveApplicationRepository();
             _CodeRep = new CodeGenRepository();
         }
+
+
         public bool DeleteLeaveApp(string Cmpycode, string PRLR001_CODE, string oldLeavedays, string EmpCode, string UserName)
         {
 
