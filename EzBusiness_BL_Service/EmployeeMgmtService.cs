@@ -379,7 +379,7 @@ namespace EzBusiness_BL_Service
         public List<SelectListItem> GetTDSTypesList(string CmpyCode)
         {
             var itemCodes = _EmployeeMgmtRepo.GetTDSTypesList(CmpyCode)
-                                       .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
+                                       .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat( m.Name) })//m.Code, "-",
                                        .ToList();
 
             return InsertFirstElementDDL(itemCodes);
@@ -388,7 +388,7 @@ namespace EzBusiness_BL_Service
         public List<SelectListItem> GetVisaLocationList(string CmpyCode)
         {
             var itemCodes = _EmployeeMgmtRepo.GetVisaLocationList(CmpyCode)
-                                         .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
+                                         .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat( m.Name) })//m.Code, "-",
                                          .ToList();
 
             return InsertFirstElementDDL(itemCodes);
@@ -397,7 +397,7 @@ namespace EzBusiness_BL_Service
         public List<SelectListItem> GetWeekdaysList(string CmpyCode)
         {
             var itemCodes = _EmployeeMgmtRepo.GetWeekdaysList(CmpyCode)
-                                         .Select(m => new SelectListItem { Value = m.DayCode, Text = string.Concat(m.DayCode, "-", m.DayName) })
+                                         .Select(m => new SelectListItem { Value = m.DayCode, Text = string.Concat( m.DayName) }) //m.DayCode, "-",
                                          .ToList();
 
             return InsertFirstElementDDL(itemCodes);
@@ -426,7 +426,7 @@ namespace EzBusiness_BL_Service
         public List<SelectListItem> GetSalution()
         {
             var itemCodes = _EmployeeMgmtRepo.GetSalution()
-                                      .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
+                                      .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Name) }) //m.Code, "-", 
                                       .ToList();
 
             return InsertFirstElementDDL(itemCodes);

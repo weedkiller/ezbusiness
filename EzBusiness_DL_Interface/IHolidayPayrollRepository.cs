@@ -19,7 +19,7 @@ namespace EzBusiness_DL_Interface
         List<HolidayVM> GetAtensH(string CmpyCode,  DateTime date);
 
 
-        bool DeleteHoliday(string CmpyCode, DateTime date, string UserName);
+        bool DeleteHoliday(string CmpyCode, string HRPH001_CODE, string UserName);
 
         HolidayVM SaveHoliday(HolidayVM Hol);
 

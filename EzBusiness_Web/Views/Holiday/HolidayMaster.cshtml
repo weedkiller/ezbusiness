@@ -24,12 +24,12 @@
     var drec = new Array();
     $(function () {
         $("#tblUnits1").hide();
-        Ezdteformtcur('#txtDates1', 'DD/MM/YYYY');
+        Ezdteformtcur('#datepicker1', 'DD/MM/YYYY');
+
         /*Add Record*/
         $("#btnAdd").click(function () {
             var n = EzAuthenticationBtn("/HolidayMaster", "NewIt");
-            if (n == 1) {
-               
+            if (n == 1) {               
                 var abk = [];
                 abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
                 Ezprop(abk, "disabled", true);
@@ -38,28 +38,27 @@
                 Ezprop(abk, "disabled", false);
 
             $("#tblUnits1 tbody tr").css("background", "");
-            $("#tblUnits1").show();
-
-                // $("#tblUnits1 tbody tr").find("[name*='txtDates']").val(new Date().getToday());
-           // tbldtpicker('.datepicker','DD/MM/YYYY');
-            //$(".datepicker").datetimepicker("destroy");
-
+            $("#tblUnits1").show();               
             $("#tbldiv").hide();
 
             }
         });
         var counter = $("#Counter").val();
         /*Add Table Change Event*/
+       // tbldtpicker();
         $("#tblUnits1").on("change", "[name*='txtHRPH001_CODE']", function () {
+            debugger;
+            tbldtpicker();
+          //  if(counter>2){
+                $(".datepicker").datetimepicker("destroy");
+           // }
             var tr = $(this).closest('tr');
-
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
                 var ab = $(this).find("[name *= 'txtHRPH001_CODE']").val();
                 drec.push(ab);
             });
-
             drec.splice($.inArray(tr.find("[name *= 'txtHRPH001_CODE']").val(), drec), 1);
 
             if ($.inArray(tr.find("[name *= 'txtHRPH001_CODE']").val(), drec) >= 0)
@@ -69,18 +68,16 @@
                 tr.find("[name *= 'txtHRPH001_CODE']").focus();
 
                 tr.find("[name *= 'txtHRPH001_CODE']").val('');
-                alert("Already Exist Date '" + dr + "'");
-                //tr.find("[name *= 'txtDates']").val(new Date().getToday());
-
+                alert("Already Exist Date '" + dr + "'");                
             }
             else {
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
-                    tr.clone(true, true).insertAfter(tr);
+                    tr.clone(true, true).insertAfter(tr);                                
                     var trLast = $("#tableMetaSettings tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtDates']").val(new Date().getToday());
+                    $(this).closest('tr').next('tr').find("[name*='txtDates']").val();
                     $(this).closest('tr').next('tr').find("[name*='txtHRPH001_CODE']").val('');
                     $(this).closest('tr').next('tr').find("[name*='txtLEAVE_TYPECODE']").val('');
                     $(this).closest('tr').next('tr').find("[name*='txtDescription']").val('');
@@ -100,8 +97,9 @@
                     });
                     trLast.find(":first").text(counter);
                 }
-            }
+            }                                      
             counter++;
+            
         });
 
 
@@ -128,7 +126,7 @@
                // tr.find("[name *= 'txtHRPH001_CODE']").val('');
                 alert("Already Exist Date '" + dr + "'");
                 //  tr.find("[name *= 'txtDates']").val(new Date().getToday());
-                tbldtpicker('.datepicker', 'DD/MM/YYYY');
+               // tbldtpicker('.datepicker', 'DD/MM/YYYY');
 
             }
             else {
@@ -171,7 +169,7 @@
                HolidayDetailnew: []
             };
             $("#tblUnits1 tbody tr").each(function (index, item) {
-                var HlDates = $(this).find("[name*='txtDates']").val();
+                var HlDates = Ezsetdtpkdate($(this).find("[name*='txtDates']").val());
                 var HlLEAVE_TYPECODE = $(this).find("[name*='txtLEAVE_TYPECODE'] option:selected").val();
                 var HlDescription = $(this).find("[name*='txtDescription']").val();
                 var HLHRPH001_CODE = $(this).find("[name*='txtHRPH001_CODE']").val();
@@ -302,7 +300,7 @@
             var editButton = $(this);
 
             if (hdnEditMode.val() == "true") {
-                var HlDates = $(tr).find("[name*='txtDates']").val().trim();
+                var HlDates = Ezsetdtpkdate($(tr).find("[name*='txtDates']").val().trim());
                 var HlLEAVE_TYPECODE = $(tr).find("[name*='txtLEAVE_TYPECODE'] option:selected").val();
                 var HlDescription = $(tr).find("[name*='txtDescription']").val().trim();
                 var HLHRPH001_CODE = $(tr).find("[name*='txtHRPH001_CODE']").val();
@@ -340,7 +338,7 @@
 
                 HRPH001_CODETd.html("" + HRPH001_CODE.trim() + "<input type='hidden' name='txtHRPH001_CODE"+ index +"'  id='txtHRPH001_CODE" + index + "' value='" + HRPH001_CODE.trim() + "' />");
 
-                var Date1 = Ezdatefrmt1($(tr).find("td:eq(1)").text().trim());
+                var Date1 = EzdteTblPkEdit($(tr).find("td:eq(1)").text().trim());
                 $('#hldte').val($(tr).find("td:eq(1)").text().trim());
                 DateTd.html("<input class='grid-control datepicker' name='txtDates" + index + "' value='" + Date1 + "' />");
 
@@ -397,7 +395,7 @@
                     }).then((result) => {
                         if (result.value) {
                             code = $(tr).find("td:eq(0)").text().trim();
-                            $.getJSON("/DeleteHoliday", { date1: code }).done(function (data) {
+                            $.getJSON("/DeleteHoliday", { HRPH001_CODE: code }).done(function (data) {
                                 if (data.DeleteFlag) {
                                     debugger;
                                     tr.remove();
@@ -482,25 +480,15 @@
 
         }
     }
-    Date.prototype.getToday = function () {
-        var now = new Date();
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-
-        var today = now.getFullYear() + "-" + (month) + "-" + (day);
-        return today;
-    }
-    function datefrmt(dte) {
-        var now = new Date(dte);
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-        var today = now.getFullYear() + "-" + (month) + "-" + (day);
-        return today;
-    }
-
-    
-
-    Ezdteformtcur('#datepicker1', 'DD/MM/YYYY');
+         
+    $('body').on('focusin', '.datepicker', function () {
+        $('.datepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            showClose: true,
+            showClear: true,
+            toolbarPlacement: 'top'
+        });
+    });
 </script>
 
 
@@ -536,7 +524,7 @@ $(document).ready(function(){
             <label class="control-label col-md-3">Date</label>
             <div class="col-md-9 input-field">
                 @*<input type="date" required name="" id="datepicker1" placeholder="" class="date1" style="width:188px">*@
-                <input id="datepicker1" class="form-control datepicker" name="AbscondingDate1" />
+                <input id="datepicker1" class="form-control datepicker" name="datepicker1" />
             </div>
         </div>
     </div>
@@ -587,8 +575,7 @@ $(document).ready(function(){
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtDates", counter), null, new { @class = "grid-control datepicker"})
-
+                            @Html.TextBox(string.Concat("txtDates", counter), null, new { @class = "grid-control datepicker" })
                         </div>
                     </td>
                     <td>
@@ -670,19 +657,15 @@ $(document).ready(function(){
 </div>
 
 
+<style>
+ table {
+   position: relative !important;
+}
+.bootstrap-datetimepicker-widget li {
+   display: block !important;
+}
+</style>
 
-
-<script>
-  
-    $('body').on('focusin', '.datepicker', function () {
-        $('.datepicker').datetimepicker({
-            format: 'DD/MM/YYYY',
-            showClose: true,
-            showClear: true,
-            toolbarPlacement: 'top'
-        });
-    });
-</script>
 
 
 

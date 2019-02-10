@@ -1142,16 +1142,14 @@ namespace EzBusiness_DL_Repository
                     sb.Append("SupervisorYN,");
                     sb.Append("LanguageKnown,");
                   //  sb.Append("LeaveSettlementDate,");
-
                     sb.Append("GroupCode,");
                     sb.Append("LocCode,");
                     sb.Append("photpath,");
                     sb.Append("Week_off1,");
                     sb.Append("Week_off2,");
                     sb.Append("wagesby,");
-                   
+                    
                     sb.Append("BranchCode)");
-
                     sb.Append(" values(");
                     //'---
                     sb.Append("'" + Emp.Cmpycode + "',");
@@ -1202,7 +1200,7 @@ namespace EzBusiness_DL_Repository
                     sb.Append("'" + Emp.Week_off1 + "',");
                     sb.Append("'" + Emp.Week_off2 + "',");
                     sb.Append("'" + Emp.wagesby + "',");
-                    sb.Append("'" + Emp.BankBranchCode + "',");
+                    
                     sb.Append("'" + Emp.BranchCode + "')");
 
                     _EzBusinessHelper.ExecuteNonQuery("insert into MEM001" + sb + "");
