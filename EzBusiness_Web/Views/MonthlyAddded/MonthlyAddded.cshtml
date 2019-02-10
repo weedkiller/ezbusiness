@@ -65,23 +65,69 @@
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/MonthlyAddded", "DeleteIt");
             if (n == 1) {
-                debugger;
                 $("#editshow").hide();
-                if (confirm("Are you Sure?")) {
-                    var PRADN001_CODE = $("[name*='PRADN001_CODE']").val();
-                    $.getJSON("/DeleteMonthly", { PRADN001_CODE: PRADN001_CODE }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            debugger;
-                            GetLeaveList();
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
 
-                            $("#btnCancel").trigger("click");
-                            Ezerrormsg("#ErrorMessage", "Record Deleted");
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var PRADN001_CODE = $("[name*='PRADN001_CODE']").val();
+                            $.getJSON("/DeleteMonthly", { PRADN001_CODE: PRADN001_CODE }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    debugger;
+                                    GetLeaveList();
 
-                        } else {
-                            Ezerrormsg("#ErrorMessage", "Deletion failed");
-                        }
-                    });
-                }
+                                    $("#btnCancel").trigger("click");
+                                  //  Ezerrormsg("#ErrorMessage", "Record Deleted");
+
+                                } else {
+                                    EzAlertdele(PRADN001_CODE);
+                                }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                //debugger;
+                //$("#editshow").hide();
+                //if (confirm("Are you Sure?")) {
+                //    var PRADN001_CODE = $("[name*='PRADN001_CODE']").val();
+                //    $.getJSON("/DeleteMonthly", { PRADN001_CODE: PRADN001_CODE }).done(function (data) {
+                //        if (data.DeleteFlag) {
+                //            debugger;
+                //            GetLeaveList();
+
+                //            $("#btnCancel").trigger("click");
+                //            Ezerrormsg("#ErrorMessage", "Record Deleted");
+
+                //        } else {
+                //            Ezerrormsg("#ErrorMessage", "Deletion failed");
+                //        }
+                //    });
+                //}
             }
         });
 
