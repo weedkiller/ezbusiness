@@ -59,19 +59,63 @@
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/LoanAppliation", "DeleteIt");
             if (n == 1) {
-                $("#editshow").hide();
-                if (confirm("Are you Sure?")) {
-                    var PRLA001_CODE = $("[name*='PRLA001_CODE']").val();
-                    $.getJSON("/DeleteLoanApp", { PRLA001_CODE: PRLA001_CODE }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            GetLeaveList();
-                            $("#btnCancel").trigger("click");
-                            Ezerrormsg("#ErrorMessage", "Record Deleted");
-                        } else {
-                            Ezerrormsg("#ErrorMessage", "Deletion failed");
-                        }
-                    });
-                }
+
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var PRLA001_CODE = $("[name*='PRLA001_CODE']").val();
+                            $.getJSON("/DeleteLoanApp", { PRLA001_CODE: PRLA001_CODE }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    GetLeaveList();
+                                    $("#btnCancel").trigger("click");
+                                   
+                                } else {
+                                    EzAlertdele(PRLA001_CODE);
+                                }
+                            });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                //$("#editshow").hide();
+                //if (confirm("Are you Sure?")) {
+                //    var PRLA001_CODE = $("[name*='PRLA001_CODE']").val();
+                //    $.getJSON("/DeleteLoanApp", { PRLA001_CODE: PRLA001_CODE }).done(function (data) {
+                //        if (data.DeleteFlag) {
+                //            GetLeaveList();
+                //            $("#btnCancel").trigger("click");
+                //            Ezerrormsg("#ErrorMessage", "Record Deleted");
+                //        } else {
+                //            Ezerrormsg("#ErrorMessage", "Deletion failed");
+                //        }
+                //    });
+                //}
             }
         });
 

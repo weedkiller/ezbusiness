@@ -304,7 +304,7 @@ namespace EzBusiness_DL_Repository
 
         public DateTime GetJoiningdate(string CmpyCode, string EmpCode)
         {
-            DateTime Joindt = _EzBusinessHelper.ExecuteScalarDte("SELECT JoiningDate FROM MEM001 WHERE EmpCode='" + EmpCode + "' and  CmpyCode = '" + CmpyCode + "'  And WorkingStatus = 'Y'");
+            DateTime Joindt = _EzBusinessHelper.ExecuteScalarDte("SELECT JoiningDate FROM MEM001 WHERE EmpCode='" + EmpCode + "' and  CmpyCode = '" + CmpyCode + "' ");// And WorkingStatus = 'Y'
             return Joindt;
         }
     }

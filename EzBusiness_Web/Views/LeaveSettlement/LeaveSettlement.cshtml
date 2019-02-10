@@ -64,20 +64,62 @@
             var n = EzAuthenticationBtn("/LeaveSettlement", "DeleteIt");
             if (n == 1) {
                 $("#editshow").hide();
-                if (confirm("Are you Sure?")) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
 
-                    var PRLS001_CODE = $("[name*='PRLS001_CODE']").val();
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var PRLS001_CODE = $("[name*='PRLS001_CODE']").val();
+                            $.getJSON("/DeleteLeaveSettal", { PRSR001_CODE: PRLS001_CODE }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    GetLeaveList();
+                                    $("#btnCancel").trigger("click");
+                                } else {
+                                    EzAlertdele(PRLS001_CODE);
+                                }
+                            });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                //if (confirm("Are you Sure?")) {
+
+                //    var PRLS001_CODE = $("[name*='PRLS001_CODE']").val();
 
 
-                    $.getJSON("/DeleteLeaveSettal", { PRSR001_CODE: PRLS001_CODE }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            GetLeaveList();
-                            $("#btnCancel").trigger("click");
-                        } else {
-                            Ezerrormsg("#ErrorMessage", "Deletion failed");
-                        }
-                    });
-                }
+                //    $.getJSON("/DeleteLeaveSettal", { PRSR001_CODE: PRLS001_CODE }).done(function (data) {
+                //        if (data.DeleteFlag) {
+                //            GetLeaveList();
+                //            $("#btnCancel").trigger("click");
+                //        } else {
+                //            Ezerrormsg("#ErrorMessage", "Deletion failed");
+                //        }
+                //    });
+                //}
             }
         });
 
