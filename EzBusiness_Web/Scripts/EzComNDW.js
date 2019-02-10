@@ -532,7 +532,7 @@ function tbldtpicker() {
 }
 /*tbl date formate yyyy  */
 function tbldtpickerYY() {
-    $('.datepicker').datetimepicker({      
+    $('.dt3').datetimepicker({      
         format: 'YYYY',
         showClose: true,
         showClear: true,
@@ -554,15 +554,15 @@ function Ezdteformtcur(date1,frmt) {
 }
 /*tbl date formate yyyy  */
 /* DD/MM/YYYY , YYYY , MMMM-YYYY  */
-function tbldtpicker(date1, frmt) {
-    $(date1).datetimepicker({      
-        format: frmt,
-        showClose: true,
-        showClear: true,
-        toolbarPlacement: 'top',
+//function tbldtpicker(date1, frmt) {
+//    $(date1).datetimepicker({      
+//        format: frmt,
+//        showClose: true,
+//        showClear: true,
+//        toolbarPlacement: 'top',
 
-    });
-}
+//    });
+//}
 /* date formate MMMM-yyyy get input date */
 function EzdtePkEdit(date1, dtval, frmt) {
     $(date1).datetimepicker({

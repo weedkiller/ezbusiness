@@ -11,7 +11,7 @@
     var paydeductons = [];
     $(function () {
         GetDivisionList();
-        EzsetDatetxt();
+        //EzsetDatetxt();
         var dt1 = new Date().getToday();
         //$("#tablePODetails tbody tr").find('td:eq(1)').find("[name*='Dates']").prop("value", dt1);
         //$("#Dates").val(dt1);
@@ -29,10 +29,10 @@
             debugger;
 
             var e1 = $("#EmpCode option:selected").val();
-            var dt2 = $("#Att_Date").val();
+            var dt2 = Ezsetdtpkdate($("#Att_Date").val());
             var e1 = $("#EmpCode option:selected").val();
             duplicates = false;
-            var value = $("#Att_Date").val();
+            var value = Ezsetdtpkdate($("#Att_Date").val());
             if (e1 != '0'  && Att_Date !='') {
                 if (arr.indexOf(value) == -1)
                 {
@@ -66,7 +66,7 @@
                     for (var i = 0; i < ary.length; i++) {
                        // var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-                        var dy = new Date(Ezdatefrmt1(ary[i].Att_Date));
+                        var dy = new Date(EzdatefrmtRes1(ary[i].Att_Date));
                         dy = (EzmonthNames[dy.getDay()]);
                         var Readonly1 = "Readonly = 'true'";
                         var Readonly2 = '';
@@ -77,13 +77,13 @@
                         }
                         var tr1 = "<tr>";
                         var td = "<td><div class='form-group'>" + counter + "</div></td>"
-                        var td1 = "<td><div class='form-group'><input type='date' Readonly='true' class='form-control' name='Datest" + counter + "'></div></td>"
+                        var td1 = "<td><div class='form-group'><input  Readonly='true' class='form-control' name='Datest" + counter + "'></div></td>"
                         var td2 = "<td><div>" + dropAttendence + "</div></td>";
                         var td3 = "<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
                         $("#tablePODetails").append(tr1 + td + td1 + td2 + td3 );
 
                         var tr = $("#tablePODetails tbody tr");
-                        tr.find("[name='Datest" + counter + "']").val(Ezdatefrmt1(ary[i].Att_Date));
+                        tr.find("[name='Datest" + counter + "']").val(EzdatefrmtRes1(ary[i].Att_Date));
                         tr.find("[name='ATT" + counter + "']").val(ary[i].NHrs);
                         counter++;
                     }
@@ -109,7 +109,7 @@
             $("#tablePODetails tbody tr").each(function (index, item) {
                 debugger
 
-                var Datesttxt = $(this).find("[name*='Datest']").val();
+                var Datesttxt = Ezsetdtpkdate($(this).find("[name*='Datest']").val());
                 var ddlPayDeductOn1 = $(this).find("[name*='ddlPayDeductOn1']").val();
                 if ((Datesttxt != "0")) {
                     var OTExtraATT = {

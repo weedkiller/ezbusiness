@@ -18,7 +18,7 @@ namespace EzBusiness_BL_Interface
 
         //  List<Country> GetCountrys();
 
-        bool DeleteHoliday(string CmpyCode,DateTime date1, string UserName);
+        bool DeleteHoliday(string CmpyCode, string HRPH001_CODE, string UserName);
 
         HolidayVM SaveHoliday(HolidayVM Hol);
 

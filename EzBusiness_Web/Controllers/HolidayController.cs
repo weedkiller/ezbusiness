@@ -102,7 +102,7 @@ namespace EzBusiness_Web.Controllers
         }
         
         [Route("DeleteHoliday")]
-        public ActionResult DeleteHoliday(DateTime date1)
+        public ActionResult DeleteHoliday(string HRPH001_CODE)
         {
 
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -113,7 +113,7 @@ namespace EzBusiness_Web.Controllers
             else
             {
                                 
-                return Json(new { DeleteFlag = _HoliService.DeleteHoliday(list[0].CmpyCode, date1, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _HoliService.DeleteHoliday(list[0].CmpyCode, HRPH001_CODE, list[0].user_name) }, JsonRequestBehavior.AllowGet);
                 
             }
         }

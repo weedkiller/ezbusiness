@@ -23,9 +23,9 @@ namespace EzBusiness_BL_Service
             _HolyRepo = new HolidayPayrollRepository();
         }
 
-        public bool DeleteHoliday(string CmpyCode, DateTime date1, string UserName)
+        public bool DeleteHoliday(string CmpyCode, string HRPH001_CODE, string UserName)
         {
-            return _HolyRepo.DeleteHoliday(CmpyCode, date1, UserName);
+            return _HolyRepo.DeleteHoliday(CmpyCode, HRPH001_CODE, UserName);
         }
 
         

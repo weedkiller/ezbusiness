@@ -201,9 +201,9 @@
         EzcheckedFnD("input[name='AbscondingYN']", "[name*='AbscondingYN']", "input[name='AbscondingDate1']");
 
 
-        var counter = parseInt($("#hdnCounter").val());
-        var counter1 = parseInt($("#hdnCounter1").val());
-        var counter2 = parseInt($("#hdnCounter2").val());
+        //var counter = parseInt($("#hdnCounter").val());
+        //var counter1 = parseInt($("#hdnCounter1").val());
+        //var counter2 = parseInt($("#hdnCounter2").val());
         $("#tablePODetails1").on("change", "[name*='Degree']", function () {
             debugger;
 
@@ -218,11 +218,14 @@
         EzTableRowDel("#tablePODetails1", "[name*='btnDelete']");
         EzTableRowDel("#tablePODetails2", "[name*='btnDelete']");
 
-        counter2 = 1;
+        //counter2 = 1;
 
+        var counter2 = $("#counter2").val();
         $("#tablePODetails1").on("change", "[name*='Institution']", function () {
             tbldtpickerYY();
-            $(".datepicker").datetimepicker("destroy");
+           // if (counter2 > 2) {
+                $(".datepicker").datetimepicker("destroy");
+           // }
             var tr = $(this).closest("tr");
            // tr.find("[name *= 'ObtainedYear']").val(EzdtePkyyyy("[name *= 'ObtainedYear']"));
             if (tr.is(":last-child")) {
@@ -265,10 +268,14 @@
             }
         });
 
-        counter1 = 1;
+        //counter1 = 1;
+        var counter1 = $("#counter1").val();
         $("#tablePODetails").on("change", "[name*='NomineeName']", function () {
             tbldtpicker();
-            $(".datepicker").datetimepicker("destroy");
+           // if (counter1 > 2) {
+                $(".datepicker").datetimepicker("destroy");
+            ///}
+          //  $(".datepicker").datetimepicker("destroy");
             var tr = $(this).closest("tr");
            // tr.find("[name *= 'NomineeDOB']").val(EzdtePk("[name *= 'NomineeDOB']"));
             if (tr.is(":last-child")) {
@@ -295,12 +302,16 @@
             }
     });
 
-        counter = 1;
+        //counter = 1;
+        var counter = $("#counter").val();
         $("#tablePODetails2").on("change", "[name*='DocCode']", function () {
             debugger;
             tbldtpicker();
-            $(".datepicker").datetimepicker("destroy");
-            counter = counter+1;
+            //  $(".datepicker").datetimepicker("destroy");
+            //if (counter > 2) {
+                $(".datepicker").datetimepicker("destroy");
+            //}
+          //  counter = counter+1;
             var tr = $(this).closest("tr");
             var docode = tr.find("[name*='DocCode']").val();
             var doName = tr.find("[name*='DocCode'] option:selected").text();
@@ -343,6 +354,7 @@
                 trLast.find(":first").text(counter);
 
             }
+            counter++;
            
         });
 
@@ -962,7 +974,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        @Html.Hidden("hdnCounter", (++counter))
+                                        @Html.Hidden("counter", (++counter))
                                         @*</div>*@
                                     </div>
                                     <div id="menu3" class="tab-pane fade">
@@ -1010,6 +1022,7 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            @Html.Hidden("counter1", (++counter1))
                                         </div>
                                     </div>
                                     <div id="menu4" class="tab-pane fade">
@@ -1060,7 +1073,7 @@
                                                         <div class="grid-group">
                                                             @*<input id="ObtainedYear1" class="grid-control datepicker" name="ObtainedYear1" />*@
                                                             
-                                                            @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control datepicker dt3" })
+                                                            @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control dt3" })
                                                         </div>
                                                     </td>
                                                     <td>
@@ -1072,6 +1085,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        @Html.Hidden("counter2", (++counter2))
                                         @*</div>*@
                                     </div>
                                 </div>
@@ -1084,3 +1098,13 @@
         </div>
     </div>
 </div>
+
+<style>
+    table {
+        position: relative !important;
+    }
+
+    .bootstrap-datetimepicker-widget li {
+        display: block !important;
+    }
+</style>

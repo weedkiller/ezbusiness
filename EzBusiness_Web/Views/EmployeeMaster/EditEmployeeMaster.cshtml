@@ -17,11 +17,11 @@
 
         $('#user_img').attr("src", $('#photpath').val());
         var dte='';      
-        EzdtePkEdit('#JoiningDate1', "#JoiningDate");
-        EzdtePkEdit('#DOB1', "#DOB");
-        EzdtePkEdit('#LastRetDate1', "#LastRetDate");
-        EzdtePkEdit('#ContactDate1', "#ContactDate");
-        EzdtePkEdit('#AbscondingDate1', "#AbscondingDate");
+        EzdtePkEdit('#JoiningDate1', "#JoiningDate",'DD-MM-YYYY');
+        EzdtePkEdit('#DOB1', "#DOB", 'DD-MM-YYYY');
+        EzdtePkEdit('#LastRetDate1', "#LastRetDate", 'DD-MM-YYYY');
+        EzdtePkEdit('#ContactDate1', "#ContactDate", 'DD-MM-YYYY');
+        EzdtePkEdit('#AbscondingDate1', "#AbscondingDate", 'DD-MM-YYYY');
 
        // ezValidateNumbers("#tablePODetails1", "[name*='ObtainedYear']");
         debugger;
@@ -112,52 +112,8 @@
             tr.find("[name*='DegreeName']").val(docode);
 
         });
-        $("#tablePODetails2").on("change", "[name*='DocCode']", function () {
-            debugger;
-            tbldtpicker();
-            $(".datepicker").datetimepicker("destroy");
-            var tr = $(this).closest("tr");
-            var docode = tr.find("[name*='DocCode']").val();
-            var doName = tr.find("[name*='DocCode'] option:selected").text();
-            tr.find("[name *= 'StartDate']").val(EzdtePk("[name *= 'StartDate']"));
-            tr.find("[name *= 'EndDate']").val(EzdtePk("[name *= 'EndDate']"));
-            if (tr.is(":last-child")) {
-                tr.clone(true, true).insertAfter(tr);
-                tr.find("[name*='DocCode']").val(docode);
-                tr.find("[name*='DocName']").val(doName);
-                $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                    .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
-                var trLast = $("#tableMetaSettings tr:last")
-                trLast.find("[name *= 'DocCode']").attr({
-                    "name": ("DocCode" + counter)
-                });
-                trLast.find("[name *= 'DocName']").attr({
-                    "name": ("DocName" + counter)
-                });
-                trLast.find("[name *= 'DocNo']").attr({
-                    "name": ("DocNo" + counter)
-                });
-                trLast.find("[name *= 'IssuePlace']").attr({
-                    "name": ("IssuePlace" + counter)
-                });
-                trLast.find("[name *= 'DocStatus']").attr({
-                    "name": ("DocStatus" + counter)
-                });
 
-                trLast.find("[name *= 'StartDate']").attr({
-                    "name": ("StartDate" + counter)
-                });
-                trLast.find("[name *= 'EndDate']").attr({
-                    "name": ("EndDate" + counter)
-                });
-                trLast.find("[name *= 'Description']").attr({
-                    "name": ("Description" + counter)
-                });
-
-                trLast.find(":first").text(counter);
-            }
-            counter++;
-        });
+        
         $("#tablePODetails2").on("change", "[name*='DocumentPath']", function () {
            
             debugger;
@@ -190,19 +146,34 @@
             }
         });
         
+        var counter2 = $("#counter2").val();
         $("#tablePODetails1").on("change", "[name*='Institution']", function () {
-            debugger;
-            tbldtpicker();
+            tbldtpickerYY();
+            // if (counter2 > 2) {
             $(".datepicker").datetimepicker("destroy");
+            // }
             var tr = $(this).closest("tr");
-            tr.find("[name *= 'ObtainedYear']").val(EzdtePkyyyy("[name *= 'ObtainedYear']"));
+            // tr.find("[name *= 'ObtainedYear']").val(EzdtePkyyyy("[name *= 'ObtainedYear']"));
             if (tr.is(":last-child")) {
-
                 tr.clone(true, true).insertAfter(tr);
                 $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails1 tbody tr:nth-last-child(2)");
-                var trLast = $("#tableMetaSettings tr:last")
-                $("#tablePODetails1 tbody tr:last").find("[name*='Institution']").val('');
+
+                //   $('.selectpicker').selectpicker('refresh');
+
+                var trLast = $("#tableMetaSettings tr:last");
+
+                var trLast1 = $("#tablePODetails1 tbody tr:last");
+                trLast1.find("[name*='Institution']").val('');
+                trLast1.find("[name*='Location']").val('');
+                trLast1.find("[name*='Degree']").val(0);
+                trLast1.find("[name*='DegreeName']").val('');
+                trLast1.find("[name*='ObtainedYear']").val('');
+                trLast1.find("[name*='Specification']").val('');
+
+
+
+
                 trLast.find("[name *= 'Institution']").attr({
                     "name": ("Institution" + counter2)
                 });
@@ -222,13 +193,17 @@
 
             }
         });
+
+        //counter1 = 1;
+        var counter1 = $("#counter1").val();
         $("#tablePODetails").on("change", "[name*='NomineeName']", function () {
-            debugger;
             tbldtpicker();
+            // if (counter1 > 2) {
             $(".datepicker").datetimepicker("destroy");
+            ///}
+            //  $(".datepicker").datetimepicker("destroy");
             var tr = $(this).closest("tr");
-            tr.find("[name *= 'NomineeDOB']").val(EzdtePk("[name *= 'NomineeDOB']"));
-            
+            // tr.find("[name *= 'NomineeDOB']").val(EzdtePk("[name *= 'NomineeDOB']"));
             if (tr.is(":last-child")) {
                 tr.clone(true, true).insertAfter(tr);
                 $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter1 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
@@ -247,11 +222,68 @@
                 trLast.find("[name *= 'NomineeDOB']").attr({
                     "name": ("NomineeDOB" + counter1)
                 });
-                
 
                 counter1++;
+
             }
         });
+
+        //counter = 1;
+        var counter = $("#counter").val();
+        $("#tablePODetails2").on("change", "[name*='DocCode']", function () {
+            debugger;
+            tbldtpicker();
+            //  $(".datepicker").datetimepicker("destroy");
+            //if (counter > 2) {
+            $(".datepicker").datetimepicker("destroy");
+            //}
+            //  counter = counter+1;
+            var tr = $(this).closest("tr");
+            var docode = tr.find("[name*='DocCode']").val();
+            var doName = tr.find("[name*='DocCode'] option:selected").text();
+            var sdate = tr.find("[name*='StartDate']").val();
+            var edate = tr.find("[name*='EndDate']").val();
+            if (tr.is(":last-child")) {
+                tr.clone(true, true).insertAfter(tr);
+                tr.find("[name*='DocCode']").val(docode);
+                tr.find("[name*='DocName']").val(doName);
+                tr.find("[name *= 'StartDate']").val(sdate);
+                tr.find("[name *= 'EndDate']").val(edate);
+                $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                    .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
+                var trLast = $("#tableMetaSettings tr:last")
+
+                trLast.find("[name *= 'DocCode']").attr({
+                    "name": ("DocCode" + counter)
+                });
+                trLast.find("[name *= 'DocName']").attr({
+                    "name": ("DocName" + counter)
+                });
+                trLast.find("[name *= 'DocNo']").attr({
+                    "name": ("DocNo" + counter)
+                });
+                trLast.find("[name *= 'IssuePlace']").attr({
+                    "name": ("IssuePlace" + counter)
+                });
+                trLast.find("[name *= 'DocStatus']").attr({
+                    "name": ("DocStatus" + counter)
+                });
+                trLast.find("[name *= 'StartDate']").attr({
+                    "name": ("StartDate" + counter)
+                });
+                trLast.find("[name *= 'EndDate']").attr({
+                    "name": ("EndDate" + counter)
+                });
+                trLast.find("[name *= 'Description']").attr({
+                    "name": ("Description" + counter)
+                });
+                trLast.find(":first").text(counter);
+
+            }
+            counter++;
+
+        });
+
         var tablePODetails2 = $("#tablePODetails2 tbody tr");
         var index3 = 1;
         tablePODetails2.each(function (index, item) {
@@ -271,8 +303,8 @@
            
             index3 = index + 1;
         });
-        EzdtePk('#StartDate' + index3 + ',#StartDate' + index3 + '');
-        EzdtePk('#EndDate' + index3 + ',#EndDate' + index3 + '');
+        //EzdtePk('#StartDate' + index3 + ',#StartDate' + index3 + '');
+        //EzdtePk('#EndDate' + index3 + ',#EndDate' + index3 + '');
         var tablePODetails1 = $("#tablePODetails1 tbody tr");
         var index2 = 1;
         tablePODetails1.each(function (index, item) {
@@ -285,7 +317,7 @@
             $("[name*='Specification" + (index + 1) + "']").val($("[name*='hdnSpecification" + (index + 1) + "']").val());
             index2 = index + 1;
         });
-        EzdtePkyyyy('#ObtainedYear' + index2 + ',#ObtainedYear' + index2 + '');
+        //EzdtePkyyyy('#ObtainedYear' + index2 + ',#ObtainedYear' + index2 + '');
         var tablePODetails = $("#tablePODetails tbody tr");
         var index1 = 1;
         tablePODetails.each(function (index, item) {
@@ -298,7 +330,7 @@
 
             index1 = index + 1;
         });
-        EzdtePk('#NomineeDOB' + index1 + ',#NomineeDOB' + index1 + '');
+        //EzdtePk('#NomineeDOB' + index1 + ',#NomineeDOB' + index1 + '');
 
         $('body').on('focusin', '.datepicker', function () {
             debugger;
@@ -987,7 +1019,7 @@
                                             <table class="table table-bordered table-sm" id="tablePODetails">
                                                 <thead>
                                                     <tr >
-                                                        <th>Sr No.</th>
+                                                        @*<th>Sr No.</th>*@
                                                         <th>Name Of the Nominee</th>
                                                         <th>Address</th>
                                                         <th>Nominee's Relation With</th>
@@ -998,11 +1030,11 @@
                                                     @foreach (var item in Model.EmployeeNomineenews)
                                                     {
                                                         <tr>
-                                                            <td>
+                                                            @*<td>
                                                                 <div class="grid-group">
                                                                     @Html.Label(counter1.ToString())
                                                                 </div>
-                                                            </td>
+                                                            </td>*@
                                                             <td>
                                                                 <div class="grid-group">
                                                                     @Html.TextBox(string.Concat("NomineeName", counter1), null, new { @class = "grid-control" })
@@ -1031,38 +1063,39 @@
                                                                 <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
                                                             </td>
                                                         </tr>
-                                                        counter++;
+                                                        counter1++;
                                                     }
                                                     <tr>
+                                                        @*<td>
+                                                            <div class="grid-group">
+                                                                @Html.Label(counter1.ToString())
+                                                            </div>
+                                                        </td>*@
                                                         <td>
                                                             <div class="grid-group">
-                                                                @Html.Label(counter.ToString())
+                                                                @Html.TextBox(string.Concat("NomineeName", counter1), null, new { @class = "grid-control" })
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("NomineeName", counter), null, new { @class = "grid-control" })
+                                                                @Html.TextBox(string.Concat("NomineeAddress", counter1), null, new { @class = "grid-control" })
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("NomineeAddress", counter), null, new { @class = "grid-control" })
+                                                                @Html.TextBox(string.Concat("NomineeRelation", counter1), null, new { @class = "grid-control" })
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("NomineeRelation", counter), null, new { @class = "grid-control" })
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("NomineeDOB", counter), null, new { @class = "grid-control datepicker" })
+                                                                @Html.TextBox(string.Concat("NomineeDOB", counter1), null, new { @class = "grid-control datepicker" })
 
                                                             </div>
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            @Html.Hidden("counter", (++counter1))
                                         </div>
                                     </div>
                                     <div id="menu4" class="tab-pane fade">
@@ -1071,7 +1104,7 @@
                                             <table class="table table-bordered table-sm" id="tablePODetails1">
                                                 <thead>
                                                     <tr >
-                                                        <th style="width:10%">Sr. No.</th>
+                                                        @*<th style="width:10%">Sr. No.</th>*@
                                                         <th>Institution Attended</th>
                                                         <th>Location</th>
                                                         <th>Education</th>
@@ -1085,11 +1118,11 @@
                                                     @foreach (var item in Model.EducationDetailnews)
                                                     {
                                                         <tr>
-                                                            <td>
+                                                            @*<td>
                                                                 <div class="grid-group">
                                                                     @Html.Label(counter2.ToString())
                                                                 </div>
-                                                            </td>
+                                                            </td>*@
                                                             <td>
                                                                 <div class="grid-group">
                                                                     @Html.TextBox(string.Concat("Institution", counter2), null, new { @class = "grid-control" })
@@ -1116,7 +1149,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control datepicker dt3" })
+                                                                    @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control dt3" })
                                                                     @Html.Hidden(string.Concat("hdnObtainedYear", counter2), item.ObtainedYear)
                                                                 </div>
                                                             </td>
@@ -1130,44 +1163,44 @@
                                                                 <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
                                                             </td>
                                                         </tr>
-                                                        counter++;
+                                                        counter2++;
                                                     }
                                                     <tr>
+                                                        @*<td>
+                                                            <div class="grid-group">
+                                                                @Html.Label(counter2.ToString())
+                                                            </div>
+                                                        </td>*@
                                                         <td>
                                                             <div class="grid-group">
-                                                                @Html.Label(counter.ToString())
+                                                                @Html.TextBox(string.Concat("Institution", counter2), null, new { @class = "grid-control" })
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("Institution", counter), null, new { @class = "grid-control" })
+                                                                @Html.TextBox(string.Concat("Location", counter2), null, new { @class = "grid-control" })
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("Location", counter), null, new { @class = "grid-control" })
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="grid-group">
-                                                                @Html.DropDownList(string.Concat("Degree", counter), Model.DegreeList, new { @class = "form-control" })
+                                                                @Html.DropDownList(string.Concat("Degree", counter2), Model.DegreeList, new { @class = "form-control" })
                                                             </div>
                                                         </td>
 
                                                         <td>
                                                             <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("DegreeName", counter), null, new { @class = "grid-control" })
+                                                                @Html.TextBox(string.Concat("DegreeName", counter2), null, new { @class = "grid-control" })
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="grid-group">
                                                                 @*<input id="ObtainedYear1" class="grid-control datepicker" name="ObtainedYear1" />*@
-                                                                @Html.TextBox(string.Concat("ObtainedYear", counter), null, new { @class = "grid-control datepicker dt3"})
+                                                                @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control dt3"})
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("Specification", counter), null, new { @class = "grid-control" })
+                                                                @Html.TextBox(string.Concat("Specification", counter2), null, new { @class = "grid-control" })
                                                             </div>
                                                         </td>
 
@@ -1175,6 +1208,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        @Html.Hidden("counter2", (++counter2))
                                     </div>
                                 </div>
                             </div>
@@ -1186,3 +1220,12 @@
         </div>
     </div>
 </div>
+<style>
+    table {
+        position: relative !important;
+    }
+
+    .bootstrap-datetimepicker-widget li {
+        display: block !important;
+    }
+</style>

@@ -135,13 +135,15 @@ namespace EzBusiness_DL_Repository
                 }
 
             dt1 = Convert.ToDateTime(Hol.Dates);
-
+                
+                
                string dtstr1 = dt1.ToString("yyyy-MM-dd hh:mm:ss tt");
-
-                var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select count(*) from HRPH001 where CmpyCode='" + Hol.CmpyCode + "' and format(Holiday_date,'dd-MM-yyyy')=format(cast('" + dtstr1 + "'  as date),'dd-MM-yyyy')");
+                // and format(Holiday_date,'dd-MM-yyyy')=format(cast('" + dtstr1 + "'  as date),'dd-MM-yyyy')
+                var StatsEdit = _EzBusinessHelper.ExecuteScalar("Select count(*) from HRPH001 where CmpyCode='" + Hol.CmpyCode + "' and HRPH001_CODE='"  + Hol.HRPH001_CODE + "'");
                 if (StatsEdit != 0)
                 {
-                    _EzBusinessHelper.ExecuteNonQuery("update HRPH001 set CmpyCode='" + Hol.CmpyCode + "',Holiday_date='" + Hol.Dates + "',COUNTRY='" + Hol.COUNTRY + "',LEAVE_TYPE='" + Hol.LEAVE_TYPECODE + "',Description='" + Hol.Description + "' where HRPH001_CODE='"+ Hol.HRPH001_CODE +"' and  CmpyCode='" + Hol.CmpyCode + "' and format(Holiday_date,'dd-MM-yyyy')=format(cast('" + dtstr1 + "'  as date),'dd-MM-yyyy')");
+                    //and format(Holiday_date,'dd-MM-yyyy')=format(cast('" + dtstr1 + "'  as date),'dd-MM-yyyy')
+                    _EzBusinessHelper.ExecuteNonQuery("update HRPH001 set CmpyCode='" + Hol.CmpyCode + "',Holiday_date='" + dtstr1 + "',COUNTRY='" + Hol.COUNTRY + "',LEAVE_TYPE='" + Hol.LEAVE_TYPECODE + "',Description='" + Hol.Description + "' where HRPH001_CODE='"+ Hol.HRPH001_CODE +"' and  CmpyCode='" + Hol.CmpyCode + "' ");
 
                     _EzBusinessHelper.ActivityLog(Hol.CmpyCode, Hol.UserName, "Update Holiday", Hol.Dates, Environment.MachineName);
 
@@ -167,21 +169,21 @@ namespace EzBusiness_DL_Repository
 
         }
 
-        public bool DeleteHoliday(string CmpyCode, DateTime date1, string username)
+        public bool DeleteHoliday(string CmpyCode, string HRPH001_CODE, string username)
         {
             DateTime dt1;
             string dtstr;
-            dt1 = Convert.ToDateTime(date1);
+            dt1 = Convert.ToDateTime(System.DateTime.Now);
 
             dtstr = dt1.ToString("yyyy-MM-dd");
 
-            int Stats = _EzBusinessHelper.ExecuteScalar("Select count(*) from HRPH001 where CmpyCode='" + CmpyCode + "' and format(Holiday_date,'dd-MM-yyyy')=format(cast('" + dtstr + "'  as date),'dd-MM-yyyy')");
+            int Stats = _EzBusinessHelper.ExecuteScalar("Select count(*) from HRPH001 where CmpyCode='" + CmpyCode + "' and  HRPH001_CODE='" + HRPH001_CODE + "'");
             if (Stats != 0)
             {
 
-                _EzBusinessHelper.ActivityLog(CmpyCode, username, "Delete Holiday", date1.ToString() , Environment.MachineName);
+                _EzBusinessHelper.ActivityLog(CmpyCode, username, "Delete Holiday", HRPH001_CODE, Environment.MachineName);
 
-                return _EzBusinessHelper.ExecuteNonQuery1("update HRPH001 set Flag=1 where CmpyCode='" + CmpyCode + "' and format(Holiday_date,'dd-MM-yyyy')=format(cast('" + dtstr + "'  as date),'dd-MM-yyyy')");
+                return _EzBusinessHelper.ExecuteNonQuery1("update HRPH001 set Flag=1 where CmpyCode='" + CmpyCode + "' and  HRPH001_CODE='" + HRPH001_CODE + "'");
                 //return true;
             }
             return false;
