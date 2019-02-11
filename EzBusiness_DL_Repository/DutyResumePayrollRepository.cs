@@ -16,17 +16,11 @@ namespace EzBusiness_DL_Repository
     {
         DataSet ds = null;
         DataTable dt = null;
-
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
         DropListFillFun drop = new DropListFillFun();
         public bool DeleteDrs(string Cmpycode, string PRDR001_CODE, string oldLeavedays, string EmpCode, string username)
         {
-            //int Drs = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRPRDR001 where Cmpycode='" + Cmpycode + "' ");
-            //if (Drs != 0)
-            //{
-            //    _EzBusinessHelper.ExecuteNonQuery("delete from PRDR001 where CmpyCode='" + Cmpycode + "' ");
-            //    return true;
-            //}
+           
             bool Cstatus;
 
             SqlParameter[] param1 = {
@@ -36,19 +30,14 @@ namespace EzBusiness_DL_Repository
                         new SqlParameter("@PRDR001_CODE",PRDR001_CODE)
                        };
 
-
             Cstatus = _EzBusinessHelper.ExecuteNonQuery("DeleteDutyResume", param1);
             if (Cstatus == true)
             {
-
                 return _EzBusinessHelper.ActivityLog(Cmpycode, username, "Delete DutyResume Master", PRDR001_CODE, Environment.MachineName);
-
                // return true;
             }
-
             return false;
         }
-
         public List<DutyResume> GetDrs(string Cmpycode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRDR001 where Cmpycode='" + Cmpycode + "'");
@@ -63,51 +52,43 @@ namespace EzBusiness_DL_Repository
                     PRDR001_CODE = dr["PRDR001_CODE"].ToString(),
                     EmpCode = dr["EmpCode"].ToString(),
                     ResumeDate = Convert.ToDateTime(dr["ResumeDate"]),
-
-
                 });
-
             }
             return ObjList;
         }
 
         public DutyResumeVM GetDutyEdit(string Cmpycode, string LsNo)
         {
+             DutyResumeVM du = null;
             //ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRDR001 where Cmpycode='" + Cmpycode + "' and PRDR001_CODE='" + LsNo +"'");
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRDR001 a,PRLR001 b where  a.Cmpycode='" + Cmpycode + "' and a.PRDR001_CODE='" + LsNo + "' and a.PRLR001_CODE = b.PRLR001_CODE and a.Cmpycode = b.Cmpycode");
-
-
-            dt = ds.Tables[0];
-            DutyResumeVM du = new DutyResumeVM();
-            foreach (DataRow dr in dt.Rows)
-            {
-                du.Cmpycode = dr["Cmpycode"].ToString();
-                du.EmpCode = dr["EmpCode"].ToString();
-                du.ResumeDate = Convert.ToDateTime(dr["ResumeDate"].ToString());
-
-                du.PRLR001_CODE = dr["PRLR001_CODE"].ToString();
-                du.StartDate = Convert.ToDateTime(dr["StartDate"].ToString());
-                du.EndDate = Convert.ToDateTime(dr["EndDate"].ToString());
-                du.Actual_Leave_Type = dr["Actual_Leave_Type"].ToString();
-                du.Approve_Days = dr["Approve_Days"].ToString();
-                du.Approve_Days_in_full = dr["Approve_Days_in_full"].ToString();
-                du.Approve_Days_in_Half = dr["Approve_Days_in_Half"].ToString();
-                du.country = dr["country"].ToString();
-                du.division = dr["division"].ToString();
-                du.Excess_Days_plus_minus = dr["Excess_Days_plus_minus"].ToString();
-                du.PRDR001_CODE = dr["PRDR001_CODE"].ToString();
-                du.PRLS001_CODE = dr["PRLS001_CODE"].ToString();
-                du.BalanceLeave = dr["TotalBalance"].ToString();
-
-
-
-                // du.Remark = dr["Remark"].ToString();
-                //du.DrNo = dr["DrNo"].ToString();
-
-
-
+             ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRDR001 a,PRLR001 b where  a.Cmpycode='" + Cmpycode + "' and a.PRDR001_CODE='" + LsNo + "' and a.PRLR001_CODE = b.PRLR001_CODE and a.Cmpycode = b.Cmpycode");
+             if (ds.Tables.Count > 0)
+             {
+               dt = ds.Tables[0];
+               du= new DutyResumeVM();
+               foreach (DataRow dr in dt.Rows)
+               {
+                    du.Cmpycode = dr["Cmpycode"].ToString();
+                    du.EmpCode = dr["EmpCode"].ToString();
+                    du.ResumeDate = Convert.ToDateTime(dr["ResumeDate"].ToString());
+                    du.PRLR001_CODE = dr["PRLR001_CODE"].ToString();
+                    du.StartDate = Convert.ToDateTime(dr["StartDate"].ToString());
+                    du.EndDate = Convert.ToDateTime(dr["EndDate"].ToString());
+                    du.Actual_Leave_Type = dr["Actual_Leave_Type"].ToString();
+                    du.Approve_Days = dr["Approve_Days"].ToString();
+                    du.Approve_Days_in_full = dr["Approve_Days_in_full"].ToString();
+                    du.Approve_Days_in_Half = dr["Approve_Days_in_Half"].ToString();
+                    du.country = dr["country"].ToString();
+                    du.division = dr["division"].ToString();
+                    du.Excess_Days_plus_minus = dr["Excess_Days_plus_minus"].ToString();
+                    du.PRDR001_CODE = dr["PRDR001_CODE"].ToString();
+                    du.PRLS001_CODE = dr["PRLS001_CODE"].ToString();
+                    du.BalanceLeave = dr["TotalBalance"].ToString();
+                    // du.Remark = dr["Remark"].ToString();
+                    //du.DrNo = dr["DrNo"].ToString();
+                }
             }
-            return du;
+           return du;           
         }
 
         public List<Employee> GetEmpCodes(string Cmpycode)
@@ -127,7 +108,6 @@ namespace EzBusiness_DL_Repository
             }
             return ObjList;
         }
-
         public List<LeaveApplication> GetLeaveData(string cmpycode, string LanNo)
         {
 
@@ -139,11 +119,11 @@ namespace EzBusiness_DL_Repository
             {
                 ObjList.Add(new LeaveApplication()
                 {
-                    PRLR001_CODE = dr["PRLR001_CODE"].ToString(),
-                    StartDate = Convert.ToDateTime(dr["StartDate"]),
-                    EndDate = Convert.ToDateTime(dr["EndDate"]),
-                    EmpCode = dr["EmpCode"].ToString(),
-                    LeaveType = dr["LeaveType"].ToString(),
+                   PRLR001_CODE = dr["PRLR001_CODE"].ToString(),
+                   StartDate = Convert.ToDateTime(dr["StartDate"]),
+                   EndDate = Convert.ToDateTime(dr["EndDate"]),
+                   EmpCode = dr["EmpCode"].ToString(),
+                   LeaveType = dr["LeaveType"].ToString(),
                     TotalSanctioned = dr["TotalSanctioned"].ToString(),
                     DIVISION = dr["division"].ToString(),
                     COUNTRY = dr["division"].ToString(),
@@ -165,7 +145,6 @@ namespace EzBusiness_DL_Repository
             {
                 ds = _EzBusinessHelper.ExecuteDataSet("Select a.* from PRLR001 a where a.cmpycode='" + Cmpycode + "' and PRLR001_CODE  in (Select PRLR001_CODE from PRLS001 where cmpycode = a.cmpycode) order by a.PRLR001_CODE");
             }
-
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<LeaveApplication> ObjList = new List<LeaveApplication>();
@@ -183,14 +162,9 @@ namespace EzBusiness_DL_Repository
                     EmpCode = dr["EmpCode"].ToString(),
                     LeaveType = dr["LeaveType"].ToString(),
                     TotalBalance=dr["TotalBalance"].ToString()
-                   
-
-
                 });
-
             }
             return ObjList;
-
         }
         public List<Attendence> GetLeaveTypList(string CmpyCode)
         {
@@ -228,11 +202,7 @@ namespace EzBusiness_DL_Repository
                         new SqlParameter("@Excess_Days_plus_minus",Drs.Excess_Days_plus_minus),
                         new SqlParameter("@Approve_Days_in_full",Drs.Approve_Days_in_full),
                         new SqlParameter("@Approve_Days_in_Half",Drs.Approve_Days_in_Half)
-
-
                        };
-
-
                     cstatus = _EzBusinessHelper.ExecuteNonQuery("AddDutyResume", param1);
                     if (cstatus == true)
                     {
@@ -244,12 +214,11 @@ namespace EzBusiness_DL_Repository
                         Drs.SaveFlag = false;
                         Drs.ErrorMessage = "Duplicate Record";
                     }
-
                     return Drs;
                 }
                 else
                 {
-                    SqlParameter[] param1 = {new SqlParameter("@PRDR001_CODE",Drs.PRDR001_CODE),
+                     SqlParameter[] param1 = {new SqlParameter("@PRDR001_CODE",Drs.PRDR001_CODE),
                         new SqlParameter("@PRLR001_CODE",Drs.PRLR001_CODE),
                         new SqlParameter("@CmpyCode", Drs.Cmpycode),
                         new SqlParameter("@country",Drs.country),
@@ -265,9 +234,7 @@ namespace EzBusiness_DL_Repository
                         new SqlParameter("@Approve_Days_in_full",Drs.Approve_Days_in_full),
                         new SqlParameter("@Approve_Days_in_Half",Drs.Approve_Days_in_Half),
                         new SqlParameter("@oldLeavedays",Drs.oldLeavedays)
-
-
-                       };
+                    };
 
                     cstatus = _EzBusinessHelper.ExecuteNonQuery("UpdateDutyResume", param1);
                     if (cstatus == true)
@@ -288,12 +255,8 @@ namespace EzBusiness_DL_Repository
             {
                 Drs.SaveFlag = false;
                 //  unit.ErrorMessage = exceptionMessage;
-
             }
-
             return Drs;
         }
-
-
     }
 }

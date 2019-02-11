@@ -16,9 +16,7 @@ namespace EzBusiness_Web.Controllers
         public DocumentsController()
         {
             _DokService = new DocumentsPayrollService();
-
         }
-
         #region Documents Master
         [Route("Documents")]
         public ActionResult DocumentsMaster()
@@ -33,25 +31,20 @@ namespace EzBusiness_Web.Controllers
                 return View(_DokService.GetDoks(list[0].CmpyCode));
             }
         }
-
         [Route("Doks")]
         public ActionResult Doks()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {
-                return Redirect("Login/InLogin");
+               return Redirect("Login/InLogin");
             }
             else
             {
-                return Json(_DokService.GetDoks(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+               return Json(_DokService.GetDoks(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
             }
         }
-
-
-
         [HttpPost]
-
         public ActionResult SaveDoks(DocumentsVM Doks)
         {
            
@@ -65,10 +58,8 @@ namespace EzBusiness_Web.Controllers
                 Doks.CmpyCode = list[0].CmpyCode;
                 Doks.UserName = list[0].user_name;
                 return Json(_DokService.SaveDoks(Doks), JsonRequestBehavior.AllowGet);
-
             }
         }
-
         [Route("DeleteDoks")]
         public ActionResult DeleteDoks(string DocCode, string CmpyCode)
         {
@@ -83,10 +74,7 @@ namespace EzBusiness_Web.Controllers
             }
         }
         #endregion
-
         #region Doks Request
-
-
         #endregion
     }
 }
