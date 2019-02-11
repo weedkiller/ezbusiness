@@ -92,11 +92,11 @@ namespace EzBusiness_BL_Service
 
             return new EmpShiftVM
             {
-                PRSFT003_code=_CodeRep.GetCode(CmpyCode, "EmpShiftMaster"),
+                PRSFT003_code=_CodeRep.GetCode(CmpyCode, "EMPShiftMaster"),
                 EmpCodeList = GetEmpCodes(CmpyCode),
                 ShiftCode = GetShiftCodes(CmpyCode),
                 ShiftCodeAlloc = GetShiftAllocCode(CmpyCode, "0"),
-               
+              
                 EditFlag = false
             };
         }
@@ -105,7 +105,7 @@ namespace EzBusiness_BL_Service
         {
             if (!Sft.EditFlag)
             {
-                Sft.PRSFT003_code= _CodeRep.GetCode(Sft.CmpyCode, "EmpShiftMaster");
+                Sft.PRSFT003_code= _CodeRep.GetCode(Sft.CmpyCode, "EMPShiftMaster");
             }
            
             return _EmpShiftRepo.SaveEmpShift(Sft);

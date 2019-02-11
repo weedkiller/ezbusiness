@@ -99,7 +99,7 @@ namespace EzBusiness_DL_Repository
 
                     return Brnc;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MBR005 where CmpyCode='" + Brnc.CmpyCode + "' and Code='" + Brnc.Code + "'");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalar("Select count(*) from MBR005 where CmpyCode='" + Brnc.CmpyCode + "' and Code='" + Brnc.Code + "'");
                 if (StatsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update MBR005 set CmpyCode='" + Brnc.CmpyCode + "',DivCode='" + Brnc.DivCode + "',Name='" + Brnc.Name + "' where CmpyCode='" + Brnc.CmpyCode + "' and Code='" + Brnc.Code + "'");

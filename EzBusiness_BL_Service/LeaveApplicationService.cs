@@ -114,7 +114,7 @@ namespace EzBusiness_BL_Service
         {
             if (!LeaveApp.IsEditMode)
             {
-                LeaveApp.PRLR001_CODE = _CodeRep.GetCode(LeaveApp.CmpyCode, "");
+                LeaveApp.PRLR001_CODE = _CodeRep.GetCode(LeaveApp.CmpyCode, "LeaveApplication");
             }
             return _LeaveAppRepo.SaveLeaveApp(LeaveApp);
         }

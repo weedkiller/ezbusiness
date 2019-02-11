@@ -40,7 +40,7 @@
                 }
                 else
                 {
-                    alert("Already Exit Date");
+                    EzAlerterrtxt("Already Exit Date");
                     duplicates = true;
                 }
                 if (e1 != '0' && duplicates == false && Att_Date != '') {
@@ -54,7 +54,7 @@
                     if (ary.length == 0)
                     {
                         arr.pop(dt2);
-                        alert("Timesheet does not exist");
+                        EzAlerterrtxt("Timesheet does not exist");
                         duplicates = false
                     }
                     else
@@ -95,8 +95,19 @@
         $("#btnCancel").click(function () {
             arr.length = 0;
             $("#tablePODetails tbody tr").empty();
-            $("#Dates").val(dt1);
+            EzdtePk('#Att_Date');
             $("#btnSave").prop("disabled", true);
+            arr.length = 0;
+            counter = 1;
+            //$('#EmpCode').val('0');// == "0"
+            
+            //$("select#EmpCode")[0].selectedIndex = 0;
+           
+            $('#EmpCode').val(0);
+            $('.selectpicker').selectpicker('refresh');                      
+           // $("#EmpCode > [value=0]").attr("selected", "true");
+
+            Ezerrormsg("#ErrorMessage", "");
         });
         $("#btnSave").click(function () {
             debugger;
@@ -124,7 +135,9 @@
             if (validationResult.formValid) {
                 $.post("/SaveEmployeeAttendence", OTPayroll).done(function (response) {
                     if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                        $("#POContainer").html("<div class='row'><div class='col-lg-12 col-sm-12'><div class='alert alert-danger'><strong>Saved Successfully</strong></div></div></div>");
+                        // $("#POContainer").html("<div class='row' id='ErrorMessage'><div class='col-lg-12 col-sm-12'><div class='alert alert-danger'><strong>Saved Successfully</strong></div></div></div>");
+                       // Ezerrormsg("#ErrorMessage", "Saved Successfully");
+
                         //$("#btnEdit").prop("disabled", false);
                         //$("#btnDelete").prop("disabled", true);
                         //$("#btnNew").prop("disabled", false);
@@ -133,19 +146,24 @@
                         //$("#hdnOperationMode").val("");
                         //$("#Dates").val(dt1);
                         EzsetDatetxt();
+                        $('#EmpCode').val(0);
+                        $('.selectpicker').selectpicker('refresh');
                         $("#tablePODetails tbody tr").empty();
                         arr.length = 0;
+                        EzAlertSave();
 
                     } else {
                         //   $("#ErrorMessage").show().find("strong").text(response.ErrorMessage);
-                        Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                        // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                        EzAlerterrtxt(response.ErrorMessage);
                     }
                 });
 
             } else {
                 //$("#ErrorMessage").show();
                 //$("#ErrorMessage").find("strong").text(validationResult.ErrorMessage);
-                Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                EzAlerterrtxt(response.ErrorMessage);
             }
 
             function ValidateForm(OTPayroll) {
@@ -175,7 +193,18 @@
                 console.log(thrownError);
             });
         });
+
+
+        $("#EmpCode").change(function () {
+            debugger;
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+        });
     });
+
+
 
     function GetPayDeductOnDDL(index) {
         debugger;
@@ -215,7 +244,7 @@
                 }
             },
             error: function () {
-                alert('error occurred');
+                EzAlerterr();
             }
         });
     }
@@ -260,6 +289,10 @@
 <!-- Row end -->
 <!-- Row start -->
 <div class="row">
+    <label class="row" id="ErrorMessage" style="color:red">
+        <strong></strong>
+    </label>
+
     <!--updated code-->
     <div id="POContainer">
 

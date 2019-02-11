@@ -69,21 +69,66 @@
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/DutyResume", "DeleteIt");
             if (n == 1) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                            var Cmpycode = $("[name*='Cmpycode']").val();
+                            var PRDR001_CODE = $("[name*='PRDR001_CODE']").val();
+                            var oldLeavedays = $("[name*='oldLeavedays']").val();
+                            var EmpCode = $("[name*='EmpCode']").val();
+                            $.getJSON("/DeleteDrs", { Cmpycode: Cmpycode, PRDR001_CODE: PRDR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    GetDrs();
+                                $("#btnCancel").trigger("click");
+                            } else {
+                                    EzAlertdele(PRDR001_CODE);
+                            }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
                 $("#editshow").hide();
-                if (confirm("Are you Sure?")) {
-                    var Cmpycode = $("[name*='Cmpycode']").val();
-                    var PRDR001_CODE = $("[name*='PRDR001_CODE']").val();
-                    var oldLeavedays = $("[name*='oldLeavedays']").val();
-                    var EmpCode = $("[name*='EmpCode']").val();
-                    $.getJSON("/DeleteDrs", { Cmpycode: Cmpycode, PRDR001_CODE: PRDR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            GetDrs();
-                            $("#btnCancel").trigger("click");
-                        } else {
-                            Ezerrormsg("#ErrorMessage", "Unable to Delete");
-                        }
-                    });
-                }
+                //if (confirm("Are you Sure?")) {
+                //    var Cmpycode = $("[name*='Cmpycode']").val();
+                //    var PRDR001_CODE = $("[name*='PRDR001_CODE']").val();
+                //    var oldLeavedays = $("[name*='oldLeavedays']").val();
+                //    var EmpCode = $("[name*='EmpCode']").val();
+                //    $.getJSON("/DeleteDrs", { Cmpycode: Cmpycode, PRDR001_CODE: PRDR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
+                //        if (data.DeleteFlag) {
+                //            GetDrs();
+                //            $("#btnCancel").trigger("click");
+                //        } else {
+                //            Ezerrormsg("#ErrorMessage", "Unable to Delete");
+                //        }
+                //    });
+                //}
             }
         });
         $("#btnSave").click(function () {

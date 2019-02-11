@@ -112,7 +112,7 @@ namespace EzBusiness_DL_Repository
                     }
                     return Deps;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MDEP009 where CmpyCode='" + Deps.CmpyCode + "' and DepartmentCode='" + Deps.DepartmentCode + "'");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalar("Select count(*) from MDEP009 where CmpyCode='" + Deps.CmpyCode + "' and DepartmentCode='" + Deps.DepartmentCode + "'");
                 if (StatsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update MDEP009 set CmpyCode='" +Deps.CmpyCode + "',DepartmentCode='" + Deps.DepartmentCode + "',DepartmentName='" + Deps.DepartmentName + "',DivisionCode='" + Deps.DivisionCode + "',BranchCode='" + Deps.BranchCode + "' where CmpyCode='" + Deps.CmpyCode + "' and DepartmentCode='" + Deps.DepartmentCode + "'");

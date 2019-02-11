@@ -38,8 +38,19 @@ namespace EzBusiness_DL_Repository
 
             dte = Convert.ToDateTime(dte1);
             dtstr1 = dte.ToString("yyyy-MM-dd");
-            ds = _EzBusinessHelper.ExecuteDataSet("select * from PRDTD002  where format(Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "'  and Empcode ='" + EmpCode + "' and cmpycode='" + CmpyCode + "'");
+
+            //
+            ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,EmpCode,EmpName,(select isnull(ReportingEmp,'-') from MEM001 b where b.Cmpycode=a.Cmpycode and a.EmpCode=b.ReportingEmp and b.ReportingEmp!='0') as [Reporting Emp],TYEAR,TMONTH,ATT,NHrs,OTHrs,HOTHrs,FOTHrs,ExtraHrs,TotalHrs from PRDTD002  a  where format(a.Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "'  and a.Empcode ='" + EmpCode + "' and a.cmpycode='" + CmpyCode + "'");
+            //dt = ds.Tables[0];
+
+            //SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
+            //            new SqlParameter("@date1", dtstr1),
+            //new SqlParameter("@EmpCode",EmpCode)};
+
+            //ds = _EzBusinessHelper.ExecuteDataSet("retrieve_timesheetDet", CommandType.StoredProcedure, param);
+
             dt = ds.Tables[0];
+
             DataRowCollection drc = dt.Rows;
             List<TimeSheetDetail> ObjList = new List<TimeSheetDetail>();
             foreach (DataRow dr in drc)
@@ -54,7 +65,7 @@ namespace EzBusiness_DL_Repository
                     FOTHrs = dr["FOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["FOTHrs"].ToString()) : 0,
                     HOTHrs = dr["HOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["HOTHrs"].ToString()) : 0,
                     OTHrs = dr["OTHrs"].ToString() != "" ? Convert.ToDecimal(dr["OTHrs"].ToString()) : 0,
-                    //ReportingEmp=dr["Reporting Emp"].ToString()
+                    ReportingEmp=dr["Reporting Emp"].ToString()
                 });
 
             }

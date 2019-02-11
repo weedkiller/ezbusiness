@@ -74,20 +74,67 @@
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/ShiftMaster", "DeleteIt");
             if (n == 1) {
-                $("#editshow").hide();
-                if (confirm("Are you Sure?")) {
-                    var PRSR001_CODE = $("[name*='PRSFT001_code']").val();
-                    $.getJSON("/DeleteShift", { PRSFT001_code: PRSR001_CODE }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            GetLeaveList();
-                            $("#btnCancel").trigger("click");
-                        } else {
+               
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
 
-                            Ezerrormsg("#ErrorMessage", "Unable to Delete");
-                        }
-                    });
-                }
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var PRSR001_CODE = $("[name*='PRSFT001_code']").val();
+                        $.getJSON("/DeleteShift", { PRSFT001_code: PRSR001_CODE }).done(function (data) {
+                            if (data.DeleteFlag) {
+                                GetLeaveList();
+                                $("#btnCancel").trigger("click");
+                            } else {
+                                EzAlertdele(PRSR001_CODE);
+                            }
+                            //else {
+                            //       $("#ErrorMessage").show().find("strong").text("Unable to Delete");
+                            //     }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                $("#editshow").hide();
             }
+            //    if (confirm("Are you Sure?")) {
+            //        var PRSR001_CODE = $("[name*='PRSFT001_code']").val();
+            //        $.getJSON("/DeleteShift", { PRSFT001_code: PRSR001_CODE }).done(function (data) {
+            //            if (data.DeleteFlag) {
+            //                GetLeaveList();
+            //                $("#btnCancel").trigger("click");
+            //            } else {
+
+            //                Ezerrormsg("#ErrorMessage", "Unable to Delete");
+            //            }
+            //        });
+            //    }
+            //}
         });
 
         $("#btnSave").click(function () {

@@ -26,9 +26,7 @@ namespace EzBusiness_DL_Repository
 
         public List<TimeSheetDetail> GetTSDList(string CmpyCode, string EmpCode, DateTime date)
         {
-
            
-
             SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
                         new SqlParameter("@date1", date),
             new SqlParameter("@EmpCode",EmpCode)};

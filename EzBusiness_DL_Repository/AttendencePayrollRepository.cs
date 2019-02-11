@@ -96,7 +96,7 @@ namespace EzBusiness_DL_Repository
                     }
                     return Atens;
                 }
-                var AtensEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MLH033 where CmpyCode='" + Atens.CmpyCode + "' and Code='" + Atens.Code + "'");
+                var AtensEdit = _EzBusinessHelper.ExecuteScalar("Select count(*) from MLH033 where CmpyCode='" + Atens.CmpyCode + "' and Code='" + Atens.Code + "'");
                 if (AtensEdit != 0)
                 {
                     Atens.SaveFlag = _EzBusinessHelper.ExecuteNonQuery1("update MLH033 set LeaveName='" + Atens.LeaveName + "',CountryCode='" + Atens.CountryCode + "' where CmpyCode='" + Atens.CmpyCode + "' and Code='" + Atens.Code + "'");

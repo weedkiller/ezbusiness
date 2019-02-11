@@ -90,7 +90,7 @@ namespace EzBusiness_DL_Repository
                     }
                     return Countrys;
                 }
-                var CountrysEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from Country where CmpyCode='" + Countrys.CmpyCode + "' and Code='" + Countrys.Code + "'");
+                var CountrysEdit = _EzBusinessHelper.ExecuteScalar("Select count(*) from Country where CmpyCode='" + Countrys.CmpyCode + "' and Code='" + Countrys.Code + "'");
                 if (CountrysEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update Country set CmpyCode='" + Countrys.CmpyCode + "',Code='" + Countrys.Code + "',Name='" + Countrys.Name + "',UniCodeName='" + Countrys.UniCodeName + "' where CmpyCode='"+ Countrys.CmpyCode + "' and Code='" + Countrys.Code + "'");

@@ -161,7 +161,7 @@ namespace EzBusiness_DL_Repository
                    
                     return EmpBnk;
                 }
-                var EmpbnEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRBM003 where CmpyCode='" + EmpBnk.CmpyCode + "' and PRBM003_CODE='" + EmpBnk.PRBM003_CODE + "'");
+                var EmpbnEdit = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRBM003 where CmpyCode='" + EmpBnk.CmpyCode + "' and PRBM003_CODE='" + EmpBnk.PRBM003_CODE + "'");
                 if (EmpbnEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update PRBM003 set EmpCode='" + EmpBnk.EmpCode + "',PRBM001_code='" + EmpBnk.PRBM001_code + "',PRBM002_code='" + EmpBnk.PRBM002_code + "',Entry_Date='" + dtstr + "',Account_no='" + EmpBnk.Account_no + "',EBAN_no='" + EmpBnk.EBAN_no + "',Remarks='" + EmpBnk.Remarks + "' where CmpyCode='" + EmpBnk.CmpyCode + "' and PRBM003_CODE='" + EmpBnk.PRBM003_CODE + "'");
