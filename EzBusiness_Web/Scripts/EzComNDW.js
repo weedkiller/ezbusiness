@@ -527,7 +527,11 @@ function EzdtePk(date1) {
         format: 'DD/MM/YYYY',
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top'
+        //toolbarPlacement: 'top'
+        widgetPositioning: {
+            horizontal: 'right',
+            vertical: 'top'
+        }
     });
 }
 /*tbl class date formate DD/MM/YYYY get input */
@@ -537,7 +541,11 @@ function tbldtpicker() {
         format: 'DD/MM/YYYY',
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top'
+        //toolbarPlacement: 'top'
+        widgetPositioning: {
+            horizontal: 'right',
+            vertical: 'top'
+        }
     });
 }
 /*tbl date formate yyyy  */
@@ -546,7 +554,11 @@ function tbldtpickerYY() {
         format: 'YYYY',
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top'
+        //toolbarPlacement: 'top'
+        widgetPositioning: {
+            horizontal: 'right',
+            vertical: 'top'
+        }
     });
 }
 
@@ -558,8 +570,11 @@ function Ezdteformtcur(date1,frmt) {
         format: frmt,
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top',
-
+        //toolbarPlacement: 'top',
+         widgetPositioning: {
+                    horizontal: 'right',
+                    vertical: 'top'
+                }
     });
 }
 /*tbl date formate yyyy  */
@@ -580,7 +595,11 @@ function EzdtePkEdit(date1, dtval, frmt) {
         format: frmt,
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top'
+        //toolbarPlacement: 'top'
+         widgetPositioning: {
+                    horizontal: 'right',
+                    vertical: 'top'
+                }
     });
 }
 
@@ -591,8 +610,11 @@ function EzdtePkMMyy(date1) {
         format: 'MMMM-YYYY',        
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top',
-
+        //toolbarPlacement: 'top',
+         widgetPositioning: {
+                    horizontal: 'right',
+                    vertical: 'top'
+                }
     });
 }
 /* date formate yyyy get current date */
@@ -602,7 +624,11 @@ function EzdtePkyyyy(date1) {
         format: 'YYYY',
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top',
+        //toolbarPlacement: 'top',
+        widgetPositioning: {
+            horizontal: 'right',
+            vertical: 'top'
+        }
 
     });
 }
@@ -613,7 +639,11 @@ function EzdtePkMMyyEdit(date1, dtval) {
         format: 'MMMM-YYYY',
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top'
+        //toolbarPlacement: 'top'
+        widgetPositioning: {
+            horizontal: 'right',
+            vertical: 'top'
+        }
     });
 }
 /* date formate DD/MM/yyyy get input date */
