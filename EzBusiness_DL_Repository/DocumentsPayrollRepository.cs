@@ -101,7 +101,7 @@ namespace EzBusiness_DL_Repository
 
                     return Doks;
                 }
-                var DoksEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MDOC012 where CmpyCode='" + Doks.CmpyCode + "' and DocCode='" + Doks.DocCode + "'");
+                var DoksEdit = _EzBusinessHelper.ExecuteScalar("Select count(*) from MDOC012 where CmpyCode='" + Doks.CmpyCode + "' and DocCode='" + Doks.DocCode + "'");
                 if (DoksEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update MDOC012 set CmpyCode='" + Doks.CmpyCode + "',DocCode='" + Doks.DocCode + "',DocName='" + Doks.DocName + "',UniCodeName='" + Doks.UniCodeName + "' where CmpyCode='" + Doks.CmpyCode + "' and DocCode='" + Doks.DocCode + "'");

@@ -94,17 +94,60 @@
             var n = EzAuthenticationBtn("/EmpBankMaster", "DeleteIt");
             if (n == 1) {
                 jq2("#editshow").hide();
-                if (confirm("Are you Sure?")) {
-                    var PRBM003_CODE = $("[name*='PRBM003_CODE']").val();
-                    jq2.getJSON("/DeleteEmpBnk", { PRBM003_CODE: PRBM003_CODE }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            GetLeaveList();
-                            jq2("#btnCancel").trigger("click");
-                        } else {
-                            Ezerrormsg("#ErrorMessage", "Unable to Delete");
-                        }
-                    });
-                }
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                            var PRBM003_CODE = $("[name*='PRBM003_CODE']").val();
+                            jq2.getJSON("/DeleteEmpBnk", { PRBM003_CODE: PRBM003_CODE }).done(function (data) {
+                            debugger;
+                            if (data.DeleteFlag) {
+                                GetLeaveList();
+                                $("#btnCancel").trigger("click");
+                            } else {
+                                EzAlertdele(PRBM003_CODE);
+                            }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                //if (confirm("Are you Sure?")) {
+                //    var PRBM003_CODE = $("[name*='PRBM003_CODE']").val();
+                //    jq2.getJSON("/DeleteEmpBnk", { PRBM003_CODE: PRBM003_CODE }).done(function (data) {
+                //        if (data.DeleteFlag) {
+                //            GetLeaveList();
+                //            jq2("#btnCancel").trigger("click");
+                //        } else {
+                //            Ezerrormsg("#ErrorMessage", "Unable to Delete");
+                //        }
+                //    });
+                //}
             }
         });
 

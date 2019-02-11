@@ -104,7 +104,7 @@ namespace EzBusiness_DL_Repository
 
                     return Dis;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MDISC010 where CmpyCode='" + Dis.CmpyCode + "' and Code='" + Dis.Code + "'");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalar("Select count(*) from MDISC010 where CmpyCode='" + Dis.CmpyCode + "' and Code='" + Dis.Code + "'");
                 if (StatsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update MDISC010 set CmpyCode='" + Dis.CmpyCode + "',Code='" + Dis.Code + "',Name='" + Dis.Name + "',UniCodeName='" + Dis.UniCodeName + "' where CmpyCode='" + Dis.CmpyCode + "' and Code='" + Dis.Code + "'");

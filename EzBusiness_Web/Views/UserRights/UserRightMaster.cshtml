@@ -60,20 +60,68 @@
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/UserRights", "DeleteIt");
             if (n == 1) {
-                if (confirm("Are you Sure?")) {
-                    debugger;
-                    var user_name = $("[name*='user_name']").val();
+
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var user_name = $("[name*='user_name']").val();
+                        $.getJSON("/DeleteUserRight", { user_name: user_name }).done(function (data) {
+                            if (data.DeleteFlag) {
+                                GetLeaveList();
+                                $("#btnCancel").trigger("click");
+                            } else {
+                                EzAlertdele(user_name);
+                            }
+                            //else {
+                            //       $("#ErrorMessage").show().find("strong").text("Unable to Delete");
+                            //     }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                $("#editshow").hide();
+
+                //if (confirm("Are you Sure?")) {
+                //    debugger;
+                //    var user_name = $("[name*='user_name']").val();
 
 
-                    $.getJSON("/DeleteUserRight", { user_name: user_name }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            GetLeaveList();
-                            $("#btnCancel").trigger("click");
-                        } else {
-                            $("#ErrorMessage").show().find("strong").text("Unable to Delete");
-                        }
-                    });
-                }
+                //    $.getJSON("/DeleteUserRight", { user_name: user_name }).done(function (data) {
+                //        if (data.DeleteFlag) {
+                //            GetLeaveList();
+                //            $("#btnCancel").trigger("click");
+                //        } else {
+                //            $("#ErrorMessage").show().find("strong").text("Unable to Delete");
+                //        }
+                //    });
+                //}
             }
         });
         $("#btnSave").click(function () {

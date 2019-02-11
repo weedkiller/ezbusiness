@@ -76,17 +76,64 @@
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/SalaryM", "DeleteIt");
             if (n == 1) {
-                if (confirm("Are you Sure?")) {
-                    var PRSM001_CODE = $("[name*='PRSM001_CODE']").val();
-                    $.getJSON("/DeleteSry", { PRSM001_CODE: PRSM001_CODE }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            GetSry();
-                            $("#btnCancel").trigger("click");
-                        } else {
-                            Ezerrormsg("#ErrorMessage", "Unable to Delete");
-                        }
-                    });
-                }
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        //code = $(tr).find("td:eq(0)").text().trim();
+                            var PRSM001_CODE = $("[name*='PRSM001_CODE']").val();
+                            $.getJSON("/DeleteSry", { PRSM001_CODE: PRSM001_CODE }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    GetSry();
+                                $("#btnCancel").trigger("click");
+                                }
+                                else {
+                                    EzAlertdele(PRSM001_CODE);
+                                }
+                            //else {
+                            //       $("#ErrorMessage").show().find("strong").text("Unable to Delete");
+                            //     }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                //if (confirm("Are you Sure?")) {
+                //    var PRSM001_CODE = $("[name*='PRSM001_CODE']").val();
+                //    $.getJSON("/DeleteSry", { PRSM001_CODE: PRSM001_CODE }).done(function (data) {
+                //        if (data.DeleteFlag) {
+                //            GetSry();
+                //            $("#btnCancel").trigger("click");
+                //        } else {
+                //            Ezerrormsg("#ErrorMessage", "Unable to Delete");
+                //        }
+                //    });
+                //}
                 $("#editshow").hide();
             }
         });

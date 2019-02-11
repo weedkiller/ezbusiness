@@ -74,6 +74,15 @@ function EzAlerterr() {
         showLoaderOnConfirm: true,
     }])
 }
+function EzAlerterrtxt(txt) {
+    Swal.queue([{
+        type: 'error',
+        title: 'Oops...',
+        text: txt,
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+    }])
+}
 function EzAlertUpd(code) {
     Swal.queue([{
         type: 'success',
