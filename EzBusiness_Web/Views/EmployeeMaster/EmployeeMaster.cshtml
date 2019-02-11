@@ -64,19 +64,62 @@
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/EmployeeMaster", "DeleteIt");
             if (n == 1) {
-                $("#editshow").hide();
-                if (confirm("Are you Sure?")) {
-                    var EmpCode = $("[name*='EmpCode']").val();
-                    $.getJSON("/DeleteEmployeeMaster", { EmpCode: EmpCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            GetPurchaseOrderList();
-                            $("#btnCancel").trigger("click");
-                        } else {
-                            $("#ErrorMessage").show().find("strong").text("Unable to Delete");
+                $("#editshow").hide();            
+              
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            var EmpCode = $("[name*='EmpCode']").val();
+                                $.getJSON("/DeleteEmployeeMaster", { EmpCode: EmpCode }).done(function (data) {
+                                    if (data.DeleteFlag) {
+                                        GetPurchaseOrderList();
+                                        $("#btnCancel").trigger("click");
+                                    } else {
+                                        EzAlertdele(EmpCode);
+                                    }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    });
+                    })
                 }
-            }
+                //if (confirm("Are you Sure?")) {
+                //    var EmpCode = $("[name*='EmpCode']").val();
+                //    $.getJSON("/DeleteEmployeeMaster", { EmpCode: EmpCode }).done(function (data) {
+                //        if (data.DeleteFlag) {
+                //            GetPurchaseOrderList();
+                //            $("#btnCancel").trigger("click");
+                //        } else {
+                //            $("#ErrorMessage").show().find("strong").text("Unable to Delete");
+                //        }
+                //    });
+                //}
+            
         });
 
     
@@ -162,7 +205,6 @@
                     Week_off1: $("[name='Week_off1'] option:selected").val(),
                     Week_off2: $("[name='Week_off2'] option:selected").val(),
                     wagesby: $("input:radio[name=wagesby]:checked").val(),
-
                     //------
                     EmployeeDetailnews: [],
                     EducationDetailnews: [],

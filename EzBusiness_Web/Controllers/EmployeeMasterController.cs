@@ -249,6 +249,12 @@ namespace EzBusiness_Web.Controllers
             }
 
         }
+        public FileResult Download(string parentPartId)
+        {
+            byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath(parentPartId));
+            string fileName = parentPartId;
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        }
 
         public ActionResult GetBranchCodeList1(string divcode)
         {
