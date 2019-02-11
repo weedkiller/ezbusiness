@@ -12,9 +12,7 @@
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
-  
     $(function () {
-
         $('#user_img').attr("src", $('#photpath').val());
         var dte='';      
         EzdtePkEdit('#JoiningDate1', "#JoiningDate", 'DD/MM/YYYY');
@@ -70,7 +68,35 @@
                 $('.selectpicker').selectpicker('refresh');
             });
         });
+        $("#tablePODetails2").on("change", "[name*='SourceFile']", function () {
+            debugger;
+            if (window.FormData != undefined) {
+                //var FileUpload = $('#File').get(0);
+                var files = $("[name*='SourceFile']").get(0).files;
+                var fileData = new FormData();
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                $.ajax({
+                    url: "/EmployeeMaster/UploadDoc",
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: fileData,
+                    success: function (response) {
+                        debugger;
+                        //code after success
+                        //  alert(response);
+                        //  $("#user_img").val(response);
+                        $('input[name*="DocumentPath"]').val('/Uploads/' + response);
 
+                    },
+                    error: function (er) {
+                        alert(er);
+                    }
+                });
+            }
+        });
         $('#BankCode').change(function () {
             debugger;
             var BanCode = $('#BankCode option:selected').val();
@@ -114,12 +140,12 @@
         });
 
         
-        $("#tablePODetails2").on("change", "[name*='DocumentPath']", function () {
+        $("#tablePODetails2").on("change", "[name*='SourceFile']", function () {
            
             debugger;
             if (window.FormData != undefined) {
                 //var FileUpload = $('#File').get(0);
-                var files = $("[name*='DocumentPath']").get(0).files;
+                var files = $("[name*='SourceFile']").get(0).files;
                 var fileData = new FormData();
                 for (var i = 0; i < files.length; i++) {
                     fileData.append(files[i].name, files[i]);
@@ -299,7 +325,7 @@
             $("[name*='EndDate" + (index + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnEndDate" + (index + 1) + "']").val()));
             $("[name*='Description" + (index + 1) + "']").val($("[name*='hdnDescription" + (index + 1) + "']").val());
             $("[name*='IssuePlace" + (index + 1) + "']").val($("[name*='hdnIssuePlace" + (index + 1) + "']").val());
-           // $("[name*='DocumentPath" + (index + 1) + "']").val($("[name*='hdnDocumentPath" + (index + 1) + "']").val());
+            $("[name*='DocumentPath" + (index + 1) + "']").val($("[name*='SourceFile" + (index + 1) + "']").val());
            
             index3 = index + 1;
         });
@@ -943,8 +969,8 @@
                                                                 <div class="grid-group">
                                                                     @*@Html.ActionLink("View",Convert.ToString(item.SourceFile), new { @target = "_blank" })*@
                                                                    
-                                                                    @Html.TextBox(string.Concat("DocumentPath", counter), item.DocumentPath, new { @class = "grid-control", type = "File", multiple = "multiple",@Title=item.DocumentPath })
-                                                                    @Html.Hidden(string.Concat("hdnDocumentPath", counter), item.DocumentPath)
+                                                                    @Html.TextBox(string.Concat("SourceFile", counter), item.DocumentPath, new { @class = "grid-control", type = "File", multiple = "multiple",@Title=item.DocumentPath })
+                                                                    @Html.Hidden(string.Concat("DocumentPath", counter), item.DocumentPath)
                                                                     @Html.ActionLink(string.Concat("Download File"), "Download", new { parentPartId = item.DocumentPath })
                                                                   
                                                                 </div>
@@ -1003,7 +1029,7 @@
                                                         <td>
                                                             <div class="grid-group">
                                                                 @Html.Hidden(string.Concat("DocumentPath", counter), null, new { @class = "grid-control" })
-                                                                @Html.TextBox(string.Concat("DocumentPath", counter), null, new { @class = "grid-control", type = "File", multiple = "multiple" })
+                                                                @Html.TextBox(string.Concat("SourceFile", counter), null, new { @class = "grid-control", type = "File", multiple = "multiple" })
                                                               
                                                             </div>
                                                         </td>

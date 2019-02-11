@@ -990,6 +990,7 @@ namespace EzBusiness_DL_Repository
                             Sno = counter++,
                             IssuePlace = m.IssuePlace,
                             DocStatus = m.DocStatus,
+                            DocumentPath=m.DocumentPath
                             //IssueState = m.IssueState,
 
                         }).ToList());
@@ -1229,7 +1230,7 @@ namespace EzBusiness_DL_Repository
                         sb.Append("StartDate,");
                         sb.Append("EndDate,");
                         sb.Append("Description,");
-                        //sb.Append("Preview,");
+                        sb.Append("DocumentPath,");
                         //sb.Append("Doc,");
                         //sb.Append("FileType,");
                         //sb.Append("FormType,");
@@ -1251,7 +1252,7 @@ namespace EzBusiness_DL_Repository
                         //sb.Append("'" + ObjList[n - 1].Preview.ToString() + "',");
                         //sb.Append("'" + ObjList[n - 1].Doc.ToString() + "',");
 //sb.Append("'" + ObjList[n - 1].FileType.ToString() + "',");
-                       // sb.Append("'" + ObjList[n - 1].FormType.ToString() + "',");
+                        sb.Append("'" + ObjList[n - 1].DocumentPath.ToString() + "',");
                         sb.Append("'" + ObjList[n - 1].Sno.ToString() + "',");
                         sb.Append("'" + ObjList[n - 1].IssuePlace.ToString() + "',");
                         sb.Append("'" + ObjList[n - 1].DocStatus.ToString() + "')");
