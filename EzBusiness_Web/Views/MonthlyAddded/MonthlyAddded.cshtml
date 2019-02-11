@@ -65,7 +65,7 @@
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/MonthlyAddded", "DeleteIt");
             if (n == 1) {
-                debugger;
+                $("#editshow").hide();
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
@@ -82,23 +82,24 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                            var PRADN001_CODE = $("[name*='PRADN001_CODE']").val();
+                        var PRADN001_CODE = $("[name*='PRADN001_CODE']").val();
                             $.getJSON("/DeleteMonthly", { PRADN001_CODE: PRADN001_CODE }).done(function (data) {
                                 if (data.DeleteFlag) {
                                     debugger;
                                     GetLeaveList();
-                                $("#btnCancel").trigger("click");
+
+                                    $("#btnCancel").trigger("click");
+                                  //  Ezerrormsg("#ErrorMessage", "Record Deleted");
+
                                 } else {
                                     EzAlertdele(PRADN001_CODE);
                                 }
-
                         });
                         swalWithBootstrapButtons.fire(
                           'Deleted!',
                           'Your Code has been deleted.',
                           'success'
                         )
-
                     } else if (
                         // Read more about handling dismissals
                       result.dismiss === Swal.DismissReason.cancel
@@ -110,8 +111,8 @@
                         )
                     }
                 })
-                $("#editshow").hide();
-               // $("#editshow").hide();
+                //debugger;
+                //$("#editshow").hide();
                 //if (confirm("Are you Sure?")) {
                 //    var PRADN001_CODE = $("[name*='PRADN001_CODE']").val();
                 //    $.getJSON("/DeleteMonthly", { PRADN001_CODE: PRADN001_CODE }).done(function (data) {
