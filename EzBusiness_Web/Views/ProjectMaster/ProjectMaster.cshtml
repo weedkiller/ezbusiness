@@ -77,9 +77,7 @@
                     trLast.find("[name *= 'txtName']").attr({
                         "name": ("txtName" + counter)
                     });
-
-                    trLast.find(":first").text(counter);
-                    
+                    trLast.find(":first").text(counter);                    
                 }
                
             }
@@ -109,8 +107,12 @@
             $("[name*='Delete']").prop('disabled', false);
             Ezerrormsg("#ErrorMessage", "");
         });
+        function ReloadDatatable()
+        {
+           
+        }
         /*Save Unit Table */
-        $("#btnSave").click(function () {
+      $("#btnSave").click(function () {
            var ProjectMaster=  {
                ProjectNew: []
             };
@@ -150,6 +152,7 @@
                    
                     if(response.Drecord.length>0)
                     {
+                        debugger;
                         var ary1 = [];
                         ary1 = response.Drecord;
                         if ($.inArray(codeAdd, ary1) < 0 && codeAdd != '' && nameAdd !='') {
@@ -204,7 +207,9 @@
                         }
                         $("[name*='Edit']").prop('disabled', false)
                         $("[name*='Delete']").prop('disabled', false)
+                        location.reload(true);
                         EzAlertSave();
+                      
                     }
                 });
                 });
@@ -214,9 +219,8 @@
                 EzAlerterr();
         }
         });
-
-        function ValidateForm(ProjectMaster) {
-            var response = {
+      function ValidateForm(ProjectMaster) {
+           var response = {
                 ErrorMessage: "",
                 formValid: false
             };
@@ -399,12 +403,57 @@
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var code = "";
                 if (hdnMode.val() == "false") {
-                    code = $(tr).find("td:eq(0)").text().trim();
-                    $.getJSON("/DeletePjms", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            tr.remove();
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            code = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeletePjms", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
+                                if (data.DeleteFlag) {                                              
+                                    location.reload(true);
+                                }
+                                else {
+                                    EzAlertdele(code);
+                                }
+                            }); 
+                           
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    });
+                    })
+
+
+                    //code = $(tr).find("td:eq(0)").text().trim();
+                    //$.getJSON("/DeletePjms", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
+                    //    if (data.DeleteFlag) {                                              
+                    //        location.reload(true);
+                    //    }
+                    //});
                 }
                 else {
                     var nameTd = $(tr).find("td:eq(1)");
