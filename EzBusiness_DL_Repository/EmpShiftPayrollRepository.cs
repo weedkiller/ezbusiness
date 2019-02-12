@@ -80,9 +80,6 @@ namespace EzBusiness_DL_Repository
 
                     _EzBusinessHelper.ExecuteNonQuery("delete from PRSFT003 where CmpyCode='" + Sft.CmpyCode + "' and PRSFT003_code='" + Sft.PRSFT003_code + "'");
 
-
-
-
                     _EzBusinessHelper.ExecuteNonQuery("insert into PRSFT003(PRSFT003_code,PRSFT002_code,PRSFT001_code,SNO,EmpCode,Remarks,CmpyCode) values('" + Sft.PRSFT003_code + "','" + Sft.PRSFT002_code + "','" + Sft.PRSFT001_code + "','" + Sft.SNO + "','" + Sft.EmpCode + "','" + Sft.Remarks + "','" + Sft.CmpyCode + "')");
 
                     Sft.SaveFlag = true;

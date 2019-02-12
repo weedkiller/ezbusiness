@@ -1,0 +1,131 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.ProjectAllotmentVM
+
+
+@{
+    var counter = 1;
+
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/EzComNDW.js"></script>
+
+<script>
+    $(function () {
+        EzdtePk('#Effect_From1,#Entery_date1');
+        debugger;
+        $('.selectpicker').selectpicker('refresh');
+
+        EzTxttabEve('#PRPRJE001_code', '#EmpCode', 'Please Enter Code', "T");
+        EzDropTabEve("[name='EmpCode']", "[name='EmpCode'] option:selected", "[name='PRPRJE001_code']", 'Select Emp Code');
+        EzDropChaEve("[name='EmpCode']", "[name='EmpCode'] option:selected", "[name='PRPRJE001_code']", 'Select Emp Code');
+
+      
+      
+
+    });
+    
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+
+
+
+                                <div class="form-body">
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">PRPRJE001_code</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.PRPRJE001_code, new { @class = "form-control", @placeholder = "Code", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Emp</label>
+                                                <div class="col-md-8 input-field">
+
+                                                    @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">CCH004_code</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.DropDownListFor(m => m.CCH004_code, Model.CCH004_codeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Entery_date</label>
+                                                <div class="col-md-8 input-field">
+                                                    <input id="Entery_date1" class="form-control datepicker" name="Entery_date1" disabled="disabled"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Effect_From</label>
+                                                <div class="col-md-8 input-field">
+                                                    <input id="Effect_From1" class="form-control datepicker" name="Effect_From1" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Remarks</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control", @placeholder = "Remarks" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <!--/row-->
+                                    <!--/row-->
+
+
+
+
+                                </div>
+
+                            </div><br />
+                            <!-- END FORM-->
+                            <!-- <button>Hey, click me!</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

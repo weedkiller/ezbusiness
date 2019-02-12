@@ -139,7 +139,7 @@ namespace EzBusiness_DL_Repository
         {
             return drop.GetEmpList1(CmpyCode, empcode);
         }
-        public List<CostCenterHeader> GetProjects(string CmpyCode)
+        public List<ProjectMaster> GetProjects(string CmpyCode)
         {
             return drop.GetProjects(CmpyCode);
         }

@@ -21,7 +21,7 @@ namespace EzBusiness_DL_Interface
         List<Profession> GetProfList(string CmpyCode);
 
 
-        List<CostCenterHeader> GetProjects(string CmpyCode);
+        List<ProjectMaster> GetProjects(string CmpyCode);
 
         List<BankMaster> GetBankList(string CmpyCode);
         List<Accounts_Tbl> GetAccList(string CmpyCode,string Typeofacc);

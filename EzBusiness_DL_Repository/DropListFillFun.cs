@@ -292,15 +292,15 @@ namespace EzBusiness_DL_Repository
             }
             return ObjList;
         }
-        public List<CostCenterHeader> GetProjects(string CmpyCode)
+        public List<ProjectMaster> GetProjects(string CmpyCode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select Name,Code from CCH004 where CmpyCode='" + CmpyCode + "' ");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
-            List<CostCenterHeader> ObjList = new List<CostCenterHeader>();
+            List<ProjectMaster> ObjList = new List<ProjectMaster>();
             foreach (DataRow dr in drc)
             {
-                ObjList.Add(new CostCenterHeader()
+                ObjList.Add(new ProjectMaster()
                 {
                     Name = dr["Name"].ToString(),
                     Code = dr["Code"].ToString(),
