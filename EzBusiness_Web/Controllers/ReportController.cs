@@ -839,7 +839,6 @@ namespace EzBusiness_Web.Controllers
             // Return info.
             return result;
         }
-
         [Route("ProjectReportEmployeeWise")]
         public ActionResult ProjectReportEmployeeWise()
         {
