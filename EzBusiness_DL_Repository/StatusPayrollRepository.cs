@@ -9,6 +9,7 @@ using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Transactions;
 
 namespace EzBusiness_DL_Repository
 {
@@ -83,13 +84,16 @@ namespace EzBusiness_DL_Repository
                             sb.Append("'" + Stats.CmpyCode + "',");
                             sb.Append("'" + ObjList[n - 1].Code + "',");
                             sb.Append("'" + ObjList[n - 1].Name + "')");
-                          //  sb.Append("'" + ObjList[n - 1].UniCodeName + "')");
-                            _EzBusinessHelper.ExecuteNonQuery("insert into MSTS023(CmpyCode,Code,Name) values(" + sb.ToString() + "");
+                            //  sb.Append("'" + ObjList[n - 1].UniCodeName + "')");
 
-                            _EzBusinessHelper.ActivityLog(Stats.CmpyCode, Stats.UserName, "Add Status Master", Stats.Code, Environment.MachineName);
-
-                            Stats.SaveFlag = true;
-                            Stats.ErrorMessage = string.Empty;
+                            using (TransactionScope scope = new TransactionScope())
+                            {
+                                _EzBusinessHelper.ExecuteNonQuery("insert into MSTS023(CmpyCode,Code,Name) values(" + sb.ToString() + "");
+                                _EzBusinessHelper.ActivityLog(Stats.CmpyCode, Stats.UserName, "Add Status Master", Stats.Code, Environment.MachineName);
+                                Stats.SaveFlag = true;
+                                Stats.ErrorMessage = string.Empty;
+                                scope.Complete();
+                            }
                         }
                         else
                         {
@@ -108,11 +112,15 @@ namespace EzBusiness_DL_Repository
                 var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MSTS023 where CmpyCode='" + Stats.CmpyCode + "' and Code='" + Stats.Code + "'");
                 if (StatsEdit != 0)
                 {
-                    _EzBusinessHelper.ExecuteNonQuery("update MSTS023 set CmpyCode='" + Stats.CmpyCode + "',Code='" + Stats.Code + "',Name='" + Stats.Name + "' where CmpyCode='" + Stats.CmpyCode + "' and Code='" + Stats.Code + "'");
-
-                    _EzBusinessHelper.ActivityLog(Stats.CmpyCode, Stats.UserName, "Update Status Master", Stats.Code, Environment.MachineName);
-                    Stats.SaveFlag = true;
-                    Stats.ErrorMessage = string.Empty;
+                    using (TransactionScope scope1 = new TransactionScope())
+                    {
+                        _EzBusinessHelper.ExecuteNonQuery("update MSTS023 set CmpyCode='" + Stats.CmpyCode + "',Code='" + Stats.Code + "',Name='" + Stats.Name + "' where CmpyCode='" + Stats.CmpyCode + "' and Code='" + Stats.Code + "'");
+                        _EzBusinessHelper.ActivityLog(Stats.CmpyCode, Stats.UserName, "Update Status Master", Stats.Code, Environment.MachineName);
+                       
+                         Stats.SaveFlag = true;
+                         Stats.ErrorMessage = string.Empty;
+                        scope1.Complete();
+                    }
                 }
                 else
                 {

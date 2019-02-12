@@ -528,10 +528,10 @@ function EzdtePk(date1) {
         showClose: true,
         showClear: true,
         //toolbarPlacement: 'top'
-        widgetPositioning: {
-            horizontal: 'right',
-            vertical: 'top'
-        }
+        //widgetPositioning: {
+        //    horizontal: 'right',
+        //    vertical: 'top'
+        //}
     });
 }
 /*tbl class date formate DD/MM/YYYY get input */
@@ -542,10 +542,10 @@ function tbldtpicker() {
         showClose: true,
         showClear: true,
         //toolbarPlacement: 'top'
-        widgetPositioning: {
-            horizontal: 'right',
-            vertical: 'top'
-        }
+        //widgetPositioning: {
+        //    horizontal: 'right',
+        //    vertical: 'top'
+        //}
     });
 }
 /*tbl date formate yyyy  */
@@ -555,10 +555,10 @@ function tbldtpickerYY() {
         showClose: true,
         showClear: true,
         //toolbarPlacement: 'top'
-        widgetPositioning: {
-            horizontal: 'right',
-            vertical: 'top'
-        }
+        //widgetPositioning: {
+        //    horizontal: 'right',
+        //    vertical: 'top'
+        //}
     });
 }
 
@@ -571,12 +571,28 @@ function Ezdteformtcur(date1,frmt) {
         showClose: true,
         showClear: true,
         //toolbarPlacement: 'top',
-         widgetPositioning: {
-                    horizontal: 'right',
-                    vertical: 'top'
-                }
+         //widgetPositioning: {
+         //           horizontal: 'right',
+         //           vertical: 'top'
+         //       }
     });
 }
+
+function Ezdteformtcurtime() {
+    $('.time1').datetimepicker({
+        defaultDate: new Date(),
+        format: 'LT',
+        showClose: true,
+        showClear: true,
+        //toolbarPlacement: 'top',
+        //widgetPositioning: {
+        //           horizontal: 'right',
+        //           vertical: 'top'
+        //       }
+    });
+}
+
+
 /*tbl date formate yyyy  */
 /* DD/MM/YYYY , YYYY , MMMM-YYYY  */
 //function tbldtpicker(date1, frmt) {
@@ -596,10 +612,10 @@ function EzdtePkEdit(date1, dtval, frmt) {
         showClose: true,
         showClear: true,
         //toolbarPlacement: 'top'
-         widgetPositioning: {
-                    horizontal: 'right',
-                    vertical: 'top'
-                }
+         //widgetPositioning: {
+         //           horizontal: 'right',
+         //           vertical: 'top'
+         //       }
     });
 }
 
@@ -611,10 +627,10 @@ function EzdtePkMMyy(date1) {
         showClose: true,
         showClear: true,
         //toolbarPlacement: 'top',
-         widgetPositioning: {
-                    horizontal: 'right',
-                    vertical: 'top'
-                }
+         //widgetPositioning: {
+         //           horizontal: 'right',
+         //           vertical: 'top'
+         //       }
     });
 }
 /* date formate yyyy get current date */
@@ -625,10 +641,10 @@ function EzdtePkyyyy(date1) {
         showClose: true,
         showClear: true,
         //toolbarPlacement: 'top',
-        widgetPositioning: {
-            horizontal: 'right',
-            vertical: 'top'
-        }
+        //widgetPositioning: {
+        //    horizontal: 'right',
+        //    vertical: 'top'
+        //}
 
     });
 }
@@ -640,10 +656,10 @@ function EzdtePkMMyyEdit(date1, dtval) {
         showClose: true,
         showClear: true,
         //toolbarPlacement: 'top'
-        widgetPositioning: {
-            horizontal: 'right',
-            vertical: 'top'
-        }
+        //widgetPositioning: {
+        //    horizontal: 'right',
+        //    vertical: 'top'
+        //}
     });
 }
 /* date formate DD/MM/yyyy get input date */

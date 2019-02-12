@@ -9,6 +9,7 @@ using System.Data;
 using EzBusiness_EF_Entity;
 using EzBusiness_ViewModels;
 using System.Data.SqlClient;
+using System.Transactions;
 
 namespace EzBusiness_DL_Repository
 {
@@ -212,134 +213,153 @@ namespace EzBusiness_DL_Repository
                 bool result = false;
                 if (!SPDV.EditFlag)
                 {
-                    DateTime dte = Convert.ToDateTime(SPDV.CurrentDate);
-                    string saldate = dte.ToString("yyyy-MM-dd");
-                    dtstr4 = dte.ToString("MM");
-                    DateTime dte1 = Convert.ToDateTime(SPDV.CurrentDate);
-                    dtstr9 = dte.ToString("yyyy");
-                    int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + PurchaseMgmtConstants.SalaryProcessHeader + "' ");
-                    while (n > 0)
+                    using (TransactionScope scope1 = new TransactionScope())
                     {
-                        
-
-                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSPD001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "' and not in (EmpCode='" + ObjList[n - 1].EmpCode + "')");
-                        if (Stats1 == 0)
+                        DateTime dte = Convert.ToDateTime(SPDV.CurrentDate);
+                        string saldate = dte.ToString("yyyy-MM-dd");
+                        dtstr4 = dte.ToString("MM");
+                        DateTime dte1 = Convert.ToDateTime(SPDV.CurrentDate);
+                        dtstr9 = dte.ToString("yyyy");
+                        int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + PurchaseMgmtConstants.SalaryProcessHeader + "' ");
+                        while (n > 0)
                         {
-                            StringBuilder sb = new StringBuilder();
-                            sb.Append("'" + SPDV.CmpyCode + "',");
-                            sb.Append("'" + SPDV.Code + "',");
-                            sb.Append("'" + saldate + "',");
-                            sb.Append("'" + ObjList[n - 1].Sno + "',");
-                            sb.Append("'" + ObjList[n - 1].EmpName + "',");
-                            sb.Append("'" + ObjList[n - 1].EmpCode + "',");
-                            sb.Append("'" + ObjList[n - 1].WorkingDay + "',");
-                            sb.Append("'" + ObjList[n - 1].Present + "',");
-                            sb.Append("'" + ObjList[n - 1].LossDays + "',");
-                            sb.Append("'" + ObjList[n - 1].Absent + "',");
-                            sb.Append("'" + ObjList[n - 1].Leaves + "',");
-                            sb.Append("'" + ObjList[n - 1].SickLeaves + "',");
-                            sb.Append("'" + ObjList[n - 1].WeeklyOff + "',");
-                            sb.Append("'" + ObjList[n - 1].Holiday + "',");
-                            sb.Append("'" + ObjList[n - 1].NormalOTHrs + "',");
-                            sb.Append("'" + ObjList[n - 1].HolidayOTHrs + "',");
-                            sb.Append("'" + ObjList[n - 1].WeeklyOffOTHrs + "',");
-                            sb.Append("'" + ObjList[n - 1].ExtraOTHrs + "',");
-                            sb.Append("'" + ObjList[n - 1].FExtraOTHrs + "',");
-                            sb.Append("'" + ObjList[n - 1].MonthlyAddition + "',");
-                            sb.Append("'" + ObjList[n - 1].TotalEarning + "',");
-                            sb.Append("'" + ObjList[n - 1].TotalDeduction + "',");
-                            sb.Append("'" + ObjList[n - 1].LoanDeduction + "',");
-                            sb.Append("'" + ObjList[n - 1].NetSalary + "')");
-                            result = _EzBusinessHelper.ExecuteNonQuery1("insert into PRSPD001(CmpyCode,Code,Dates,Sno,EmpName,EmpCode,WorkingDay,Present,LossDays,Absent,Leaves,SickLeave,WeeklyOff,Holiday,NormalOTHrs,HolidayOTHrs,WeeklyOffOTHrs,ExtraOTHrs,FExtraOTHrs,TotalAddition,TotalEarning,TotalDeduction,LoanDeduction,NetSalary) values(" + sb.ToString() + "");
-                            if (result == true)
-                            {
-                                countl = _EzBusinessHelper.ExecuteNonQuery("UPDATE A SET Paid = 'Y' from PRLA002 A INNER JOIN PRLA001 RA ON A.PRLA001_CODE = RA.PRLA001_CODE and a.CmpyCode = ra.CmpyCode where a.TMONTH = 11 and a.TYEAR = 2018 and ra.EmpCode ='" + ObjList[n - 1].EmpCode + "' and a.CmpyCode ='" + SPDV.CmpyCode + "'");
-                            }
-                        }
-                        else
-                        {
-                            Drecord.Add(SPDV.Code.ToString());
-                            SPDV.Drecord = Drecord;
-                            SPDV.SaveFlag = false;
-                            SPDV.ErrorMessage = "Duplicate Record";
-                        }
-                        n = n - 1;
-                    }
-                        if (result == true && countl>0)
-                            {
-                                int Stats11 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSPH001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
-                                if (Stats11 == 0)
-                                {
-                                    StringBuilder sb1 = new StringBuilder();
-                                    sb1.Append("'" + SPDV.CmpyCode + "',");
-                                    sb1.Append("'" + SPDV.Code + "',");
-                                    sb1.Append("'" + saldate + "',");
-                                    sb1.Append("'" + dtstr4 + "',");
-                                    sb1.Append("'" + dtstr9 + "')");
-                                   bool flg= _EzBusinessHelper.ExecuteNonQuery1("insert into PRSPH001(CmpyCode,Code,Dates,TMonth,TYear) values(" + sb1.ToString() + "");
-                                    if (flg == true)
-                                    {
-                                  //_EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + PurchaseMgmtConstants.SalaryProcessHeader + "'");
-                                    _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + PurchaseMgmtConstants.SalaryProcessHeader + "'");
-                               
-                                           _EzBusinessHelper.ActivityLog(SPDV.CmpyCode, SPDV.UserName, "Add Salary Process", SPDV.Code, Environment.MachineName);
-                                        SPDV.SaveFlag = true;
-                                        SPDV.ErrorMessage = string.Empty;
-                                    }
-                                }
-                                else
-                                {
 
-                                    Drecord.Add(ObjList[n - 1].Code.ToString());
-                                    SPDV.Drecord = Drecord;
-                                    SPDV.SaveFlag = false;
-                                    SPDV.ErrorMessage = "Duplicate Record";
-                                }
 
+                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSPD001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "' and not in (EmpCode='" + ObjList[n - 1].EmpCode + "')");
+                            if (Stats1 == 0)
+                            {
+                                StringBuilder sb = new StringBuilder();
+                                sb.Append("'" + SPDV.CmpyCode + "',");
+                                sb.Append("'" + SPDV.Code + "',");
+                                sb.Append("'" + saldate + "',");
+                                sb.Append("'" + ObjList[n - 1].Sno + "',");
+                                sb.Append("'" + ObjList[n - 1].EmpName + "',");
+                                sb.Append("'" + ObjList[n - 1].EmpCode + "',");
+                                sb.Append("'" + ObjList[n - 1].WorkingDay + "',");
+                                sb.Append("'" + ObjList[n - 1].Present + "',");
+                                sb.Append("'" + ObjList[n - 1].LossDays + "',");
+                                sb.Append("'" + ObjList[n - 1].Absent + "',");
+                                sb.Append("'" + ObjList[n - 1].Leaves + "',");
+                                sb.Append("'" + ObjList[n - 1].SickLeaves + "',");
+                                sb.Append("'" + ObjList[n - 1].WeeklyOff + "',");
+                                sb.Append("'" + ObjList[n - 1].Holiday + "',");
+                                sb.Append("'" + ObjList[n - 1].NormalOTHrs + "',");
+                                sb.Append("'" + ObjList[n - 1].HolidayOTHrs + "',");
+                                sb.Append("'" + ObjList[n - 1].WeeklyOffOTHrs + "',");
+                                sb.Append("'" + ObjList[n - 1].ExtraOTHrs + "',");
+                                sb.Append("'" + ObjList[n - 1].FExtraOTHrs + "',");
+                                sb.Append("'" + ObjList[n - 1].MonthlyAddition + "',");
+                                sb.Append("'" + ObjList[n - 1].TotalEarning + "',");
+                                sb.Append("'" + ObjList[n - 1].TotalDeduction + "',");
+                                sb.Append("'" + ObjList[n - 1].LoanDeduction + "',");
+                                sb.Append("'" + ObjList[n - 1].NetSalary + "')");
+                                result = _EzBusinessHelper.ExecuteNonQuery1("insert into PRSPD001(CmpyCode,Code,Dates,Sno,EmpName,EmpCode,WorkingDay,Present,LossDays,Absent,Leaves,SickLeave,WeeklyOff,Holiday,NormalOTHrs,HolidayOTHrs,WeeklyOffOTHrs,ExtraOTHrs,FExtraOTHrs,TotalAddition,TotalEarning,TotalDeduction,LoanDeduction,NetSalary) values(" + sb.ToString() + "");
+                                if (result == true)
+                                {
+                                    countl = _EzBusinessHelper.ExecuteNonQuery("UPDATE A SET Paid = 'Y' from PRLA002 A INNER JOIN PRLA001 RA ON A.PRLA001_CODE = RA.PRLA001_CODE and a.CmpyCode = ra.CmpyCode where a.TMONTH = 11 and a.TYEAR = 2018 and ra.EmpCode ='" + ObjList[n - 1].EmpCode + "' and a.CmpyCode ='" + SPDV.CmpyCode + "'");
+                                }
                             }
                             else
                             {
+                                Drecord.Add(SPDV.Code.ToString());
+                                SPDV.Drecord = Drecord;
                                 SPDV.SaveFlag = false;
-                                SPDV.ErrorMessage = "Inseretion Failed";
+                                SPDV.ErrorMessage = "Duplicate Record";
+                            }
+                            n = n - 1;
+                        }
+                        if (result == true && countl > 0)
+                        {
+                            int Stats11 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSPH001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
+                            if (Stats11 == 0)
+                            {
+                                StringBuilder sb1 = new StringBuilder();
+                                sb1.Append("'" + SPDV.CmpyCode + "',");
+                                sb1.Append("'" + SPDV.Code + "',");
+                                sb1.Append("'" + saldate + "',");
+                                sb1.Append("'" + dtstr4 + "',");
+                                sb1.Append("'" + dtstr9 + "')");
+                                bool flg = _EzBusinessHelper.ExecuteNonQuery1("insert into PRSPH001(CmpyCode,Code,Dates,TMonth,TYear) values(" + sb1.ToString() + "");
+                                if (flg == true)
+                                {
+                                    //_EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + PurchaseMgmtConstants.SalaryProcessHeader + "'");
+                                    _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + PurchaseMgmtConstants.SalaryProcessHeader + "'");
+
+                                    _EzBusinessHelper.ActivityLog(SPDV.CmpyCode, SPDV.UserName, "Add Salary Process", SPDV.Code, Environment.MachineName);
+                                    SPDV.SaveFlag = true;
+                                    SPDV.ErrorMessage = string.Empty;
+                                }
+                            }
+                            else
+                            {
+
+                                Drecord.Add(ObjList[n - 1].Code.ToString());
+                                SPDV.Drecord = Drecord;
+                                SPDV.SaveFlag = false;
+                                SPDV.ErrorMessage = "Duplicate Record";
                             }
 
+                        }
+                        else
+                        {
+                            SPDV.SaveFlag = false;
+                            SPDV.ErrorMessage = "Inseretion Failed";
+                        }
+                        scope1.Complete();
+                    }
                     return SPDV;
                 }
                 else
                 {
-                    while (n > 0)
+                    using (TransactionScope scope = new TransactionScope())
                     {
-                        var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRSPD001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
-                        if (StatsEdit != 0)
+                        while (n > 0)
                         {
-                            StringBuilder sb = new StringBuilder();
-                            sb.Append("CmpyCode='" + SPDV.CmpyCode + "',");
-                            sb.Append("Sno='" + ObjList[n - 1].Sno + "',");
-                            sb.Append("Code='" + ObjList[n - 1].Code + "',");
-                            sb.Append("EmpName='" + ObjList[n - 1].EmpName + "',");
-                            sb.Append("EmpCode='" + ObjList[n - 1].EmpCode + "',");
-                            sb.Append("WorkingDay='" + ObjList[n - 1].WorkingDay + "',");
-                            sb.Append("Present='" + ObjList[n - 1].Present + "',");
-                            sb.Append("LossDays='" + ObjList[n - 1].LossDays + "',");
-                            sb.Append("Absent='" + ObjList[n - 1].Absent + "',");
-                            sb.Append("Leaves='" + ObjList[n - 1].Leaves + "',");
-                            sb.Append("SickLeave='" + ObjList[n - 1].SickLeaves + "',");
-                            sb.Append("WeeklyOff='" + ObjList[n - 1].WeeklyOff + "',");
-                            sb.Append("Holiday='" + ObjList[n - 1].Holiday + "',");
-                            sb.Append("NormalOTHrs='" + ObjList[n - 1].NormalOTHrs + "',");
-                            sb.Append("HolidayOTHrs='" + ObjList[n - 1].HolidayOTHrs + "',");
-                            sb.Append("WeeklyOffOTHrs='" + ObjList[n - 1].WeeklyOffOTHrs + "',");
-                            sb.Append("ExtraOTHrs='" + ObjList[n - 1].ExtraOTHrs + "',");
-                            sb.Append("FExtraOTHrs='" + ObjList[n - 1].FExtraOTHrs + "',");
-                            sb.Append("TotalAddition='" + ObjList[n - 1].MonthlyAddition + "',");
-                            sb.Append("TotalEarning='" + ObjList[n - 1].TotalEarning + "',");
-                            sb.Append("TotalDeduction='" + ObjList[n - 1].TotalDeduction + "',");
-                            sb.Append("LoanDeduction='" + ObjList[n - 1].LoanDeduction + "',");
-                            sb.Append("NetSalary='" + ObjList[n - 1].NetSalary + "')");
-                            _EzBusinessHelper.ExecuteNonQuery("update PRSPD001 set'" + sb.ToString() + "' where compycode='" + SPDV.CmpyCode + "'and code='" + SPDV.Code + "' ");
+                            var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRSPD001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
+                            if (StatsEdit != 0)
+                            {
+                                StringBuilder sb = new StringBuilder();
+                                sb.Append("CmpyCode='" + SPDV.CmpyCode + "',");
+                                sb.Append("Sno='" + ObjList[n - 1].Sno + "',");
+                                sb.Append("Code='" + ObjList[n - 1].Code + "',");
+                                sb.Append("EmpName='" + ObjList[n - 1].EmpName + "',");
+                                sb.Append("EmpCode='" + ObjList[n - 1].EmpCode + "',");
+                                sb.Append("WorkingDay='" + ObjList[n - 1].WorkingDay + "',");
+                                sb.Append("Present='" + ObjList[n - 1].Present + "',");
+                                sb.Append("LossDays='" + ObjList[n - 1].LossDays + "',");
+                                sb.Append("Absent='" + ObjList[n - 1].Absent + "',");
+                                sb.Append("Leaves='" + ObjList[n - 1].Leaves + "',");
+                                sb.Append("SickLeave='" + ObjList[n - 1].SickLeaves + "',");
+                                sb.Append("WeeklyOff='" + ObjList[n - 1].WeeklyOff + "',");
+                                sb.Append("Holiday='" + ObjList[n - 1].Holiday + "',");
+                                sb.Append("NormalOTHrs='" + ObjList[n - 1].NormalOTHrs + "',");
+                                sb.Append("HolidayOTHrs='" + ObjList[n - 1].HolidayOTHrs + "',");
+                                sb.Append("WeeklyOffOTHrs='" + ObjList[n - 1].WeeklyOffOTHrs + "',");
+                                sb.Append("ExtraOTHrs='" + ObjList[n - 1].ExtraOTHrs + "',");
+                                sb.Append("FExtraOTHrs='" + ObjList[n - 1].FExtraOTHrs + "',");
+                                sb.Append("TotalAddition='" + ObjList[n - 1].MonthlyAddition + "',");
+                                sb.Append("TotalEarning='" + ObjList[n - 1].TotalEarning + "',");
+                                sb.Append("TotalDeduction='" + ObjList[n - 1].TotalDeduction + "',");
+                                sb.Append("LoanDeduction='" + ObjList[n - 1].LoanDeduction + "',");
+                                sb.Append("NetSalary='" + ObjList[n - 1].NetSalary + "')");
+                                _EzBusinessHelper.ExecuteNonQuery("update PRSPD001 set'" + sb.ToString() + "' where compycode='" + SPDV.CmpyCode + "'and code='" + SPDV.Code + "' ");
 
-                            _EzBusinessHelper.ActivityLog(SPDV.CmpyCode, SPDV.UserName, "Update Salary Process", SPDV.Code, Environment.MachineName);
+                                _EzBusinessHelper.ActivityLog(SPDV.CmpyCode, SPDV.UserName, "Update Salary Process", SPDV.Code, Environment.MachineName);
 
+                                SPDV.SaveFlag = true;
+                                SPDV.ErrorMessage = string.Empty;
+                            }
+                            else
+                            {
+                                SPDV.SaveFlag = false;
+                                SPDV.ErrorMessage = "Record not available";
+                            }
+                            n = n - 1;
+                        }
+                        var SalaryEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRSPH001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
+                        if (SalaryEdit != 0)
+                        {
+                            _EzBusinessHelper.ExecuteNonQuery("update PRSPH001 set CmpyCode='" + SPDV.CmpyCode + "',Code='" + SPDV.Code + "',Month='" + dtstr4 + "',year='" + dtstr9 + "' where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
                             SPDV.SaveFlag = true;
                             SPDV.ErrorMessage = string.Empty;
                         }
@@ -348,20 +368,9 @@ namespace EzBusiness_DL_Repository
                             SPDV.SaveFlag = false;
                             SPDV.ErrorMessage = "Record not available";
                         }
-                        n = n - 1;
+                        scope.Complete();
                     }
-                    var SalaryEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRSPH001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
-                    if (SalaryEdit != 0)
-                    {
-                        _EzBusinessHelper.ExecuteNonQuery("update PRSPH001 set CmpyCode='" + SPDV.CmpyCode + "',Code='" + SPDV.Code + "',Month='" + dtstr4 + "',year='" + dtstr9 + "' where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
-                        SPDV.SaveFlag = true;
-                        SPDV.ErrorMessage = string.Empty;
-                    }
-                    else
-                    {
-                        SPDV.SaveFlag = false;
-                        SPDV.ErrorMessage = "Record not available";
-                    }
+                    
                 }
             }
             catch (Exception ex)

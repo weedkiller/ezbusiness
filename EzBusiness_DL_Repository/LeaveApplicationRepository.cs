@@ -10,6 +10,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using EzBusiness_ViewModels;
+using System.Transactions;
 
 namespace EzBusiness_DL_Repository
 {
@@ -100,11 +101,8 @@ namespace EzBusiness_DL_Repository
             try
             {
                 if (!LeaveApp.IsEditMode)
-                {
-                    //int LeaveApp1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRLR001 where CmpyCode='" + LeaveApp.CmpyCode + "' and PRLR001_CODE='" + LeaveApp.PRLR001_CODE + "'");                  
-                    //if (LeaveApp1 == 0)
-                    //{
-                    SqlParameter[] param1 = {new SqlParameter("@CmpyCode", LeaveApp.CmpyCode),
+                {                                    
+                        SqlParameter[] param1 = {new SqlParameter("@CmpyCode", LeaveApp.CmpyCode),
                         new SqlParameter("@COUNTRY", LeaveApp.COUNTRY),
                         new SqlParameter("@DIVISION",LeaveApp.DIVISION),
                           new SqlParameter("@Entry_Dates",dtstr3 ),
@@ -133,6 +131,7 @@ namespace EzBusiness_DL_Repository
                         LeaveApp.IsSavedFlag = false;
                         LeaveApp.ErrorMessage = "Duplicate Record";
                     }
+                        
                     return LeaveApp;
 
                 }
@@ -174,128 +173,7 @@ namespace EzBusiness_DL_Repository
                     return LeaveApp;
 
                 }
-
-                    //AddLeaveproc
-
-                    // int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + LeaveApp.CmpyCode + "' and Code='" + PurchaseMgmtConstants.LeaveHeader + "' ");
-
-                    // LeaveApp.PRLR001_CODE = string.Concat(PurchaseMgmtConstants.LeaveHeader, "-", (Convert.ToInt16(pno)).ToString().PadLeft(4, '0')).ToString();
-
-
-                    // StringBuilder sb = new StringBuilder();
-
-                    // sb.Append("(PRLR001_CODE,");
-                    // sb.Append("CmpyCode,");
-                    // sb.Append("COUNTRY,");
-                    // sb.Append("DIVISION,");
-                    // sb.Append("Branch,");
-                    // sb.Append("Dept,");
-                    // sb.Append("Entry_Dates,");
-                    // sb.Append("EmpCode,");
-                    // sb.Append("JoiningDate,");
-                    // sb.Append("LeaveType,");
-                    // sb.Append("StartDate,");
-                    // sb.Append("EndDate,");
-                    // sb.Append("LeaveDays,");
-                    // sb.Append("Remarks,");
-                    // sb.Append("TotalBalance,");
-                    // sb.Append("TotalApplied,");
-                    // sb.Append("TotalSanctioned,");
-                    // sb.Append("ApprovalYN,");
-                    // sb.Append("Status)");
-
-                    // sb.Append(" values('" + LeaveApp.PRLR001_CODE + "',");
-                    // sb.Append("'" + LeaveApp.CmpyCode + "',");
-                    // sb.Append("'" + LeaveApp.COUNTRY + "',");
-                    // sb.Append("'" + LeaveApp.DIVISION + "',");
-                    // sb.Append("'" + LeaveApp.Branch + "',");
-                    // sb.Append("'" + LeaveApp.Dept + "',");
-                    // sb.Append("'" + dtstr3 + "',");
-                    // sb.Append("'" + LeaveApp.EmpCode + "',");
-                    // sb.Append("'" + dtstr4 + "',");
-                    // sb.Append("'" + LeaveApp.LeaveType + "',");
-                    // sb.Append("'" + dtstr1 + "',");
-                    // sb.Append("'" + dtstr2 + "',");
-                    // sb.Append("'" + LeaveApp.LeaveDays + "',");
-                    // sb.Append("'" + LeaveApp.Remarks + "',");
-                    // sb.Append("'" + LeaveApp.TotalBalance + "',");
-                    // sb.Append("'" + LeaveApp.TotalApplied + "',");
-                    // sb.Append("'" + LeaveApp.TotalSanctioned + "',");
-                    // sb.Append("'" + LeaveApp.ApprovalYN + "',");
-                    // sb.Append("'" + LeaveApp.Status + "')");
-                    // _EzBusinessHelper.ExecuteNonQuery("insert into PRLR001 " + sb.ToString() + "");
-                    // LeaveApp.IsSavedFlag = true;
-                    // LeaveApp.ErrorMessage = string.Empty;
-
-                    // _EzBusinessHelper.ExecuteNonQuery("update Mem001 set BalLeave ="+LeaveApp.TotalBalance+"-" + LeaveApp.LeaveDays + " where EmpCode = '" + LeaveApp.EmpCode + "' and cmpycode = '" + LeaveApp.CmpyCode + "'");
-
-                    //_EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + LeaveApp.CmpyCode + "' and Code='" + PurchaseMgmtConstants.LeaveHeader + "'");
-               // }
-                    //else
-                    //{
-                    //    LeaveApp.IsSavedFlag = false;
-                    //    LeaveApp.ErrorMessage = "Duplicate Record";
-                    //}
                    
-                //}
-                //var DivsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * PRLR001 where CmpyCode='" + LeaveApp.CmpyCode + "' and PRLR001_CODE='" + LeaveApp.PRLR001_CODE + "'");
-                //if (DivsEdit != 0)
-                //{
-                //    _EzBusinessHelper.ExecuteNonQuery("delete from PRLR001 where CmpyCode='" + LeaveApp.CmpyCode + "' and PRLR001_CODE='" + LeaveApp.PRLR001_CODE + "'");
-                //    StringBuilder sb = new StringBuilder();
-
-                //    sb.Append("(PRLR001_CODE,");
-                //    sb.Append("CmpyCode,");
-                //    sb.Append("COUNTRY,");
-                //    sb.Append("DIVISION,");
-                //    sb.Append("Branch,");
-                //    sb.Append("Dept,");
-                //    sb.Append("Entry_Dates,");
-                //    sb.Append("EmpCode,");
-                //    sb.Append("JoiningDate,");
-                //    sb.Append("LeaveType,");
-                //    sb.Append("StartDate,");
-                //    sb.Append("EndDate,");
-                //    sb.Append("LeaveDays,");
-                //    sb.Append("Remarks,");
-                //    sb.Append("TotalBalance,");
-                //    sb.Append("TotalApplied,");
-                //    sb.Append("TotalSanctioned,");
-                //    sb.Append("ApprovalYN,");
-                //    sb.Append("Status)");
-
-                //    sb.Append(" values('" + LeaveApp.PRLR001_CODE + "',");
-                //    sb.Append("'" + LeaveApp.CmpyCode + "',");
-                //    sb.Append("'" + LeaveApp.COUNTRY + "',");
-                //    sb.Append("'" + LeaveApp.DIVISION + "',");
-                //    sb.Append("'" + LeaveApp.Branch + "',");
-                //    sb.Append("'" + LeaveApp.Dept + "',");
-                //    sb.Append("'" + dtstr3 + "',");
-                //    sb.Append("'" + LeaveApp.EmpCode + "',");
-                //    sb.Append("'" + dtstr4 + "',");
-                //    sb.Append("'" + LeaveApp.LeaveType + "',");
-                //    sb.Append("'" + dtstr1 + "',");
-                //    sb.Append("'" + dtstr2 + "',");
-                //    sb.Append("'" + LeaveApp.LeaveDays + "',");
-                //    sb.Append("'" + LeaveApp.Remarks + "',");
-                //    sb.Append("'" + LeaveApp.TotalBalance + "',");
-                //    sb.Append("'" + LeaveApp.TotalApplied + "',");
-                //    sb.Append("'" + LeaveApp.TotalSanctioned + "',");
-                //    sb.Append("'" + LeaveApp.ApprovalYN + "',");
-                //    sb.Append("'" + LeaveApp.Status + "'");
-
-                //    _EzBusinessHelper.ExecuteNonQuery("insert into PRLR001 " + sb.ToString() + "");
-                //    _EzBusinessHelper.ExecuteNonQuery("update Mem001 set BalLeave =BalLeave-'" + LeaveApp.LeaveDays + "' where EmpCode = '" + LeaveApp.EmpCode + "' and cmpycode = '" + LeaveApp.CmpyCode + "'");
-                //    LeaveApp.IsSavedFlag = true;
-                //    LeaveApp.ErrorMessage = string.Empty;
-                //}
-                //else
-                //{
-                //    LeaveApp.IsSavedFlag = false;
-                //    LeaveApp.ErrorMessage = "Record not available";
-                //}
-                //return LeaveApp;
-
             }
             catch(Exception ex)
             {

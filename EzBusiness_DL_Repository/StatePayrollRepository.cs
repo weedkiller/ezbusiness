@@ -9,6 +9,8 @@ using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Transactions;
+
 namespace EzBusiness_DL_Repository
 {
     public class StatePayrollRepository : IStatePayrollRepository
@@ -79,13 +81,17 @@ namespace EzBusiness_DL_Repository
                             sb.Append("'" + Sts.CmpyCode + "',");
                             sb.Append("'" + ObjList[n - 1].Code + "',");
                             sb.Append("'" + ObjList[n - 1].Name + "')");
-                            
-                            _EzBusinessHelper.ExecuteNonQuery("insert into MSM059(CmpyCode,Code,Name) values(" + sb.ToString() + "");
 
-                            _EzBusinessHelper.ActivityLog(Sts.CmpyCode, Sts.UserName, "Add State Master", Sts.Code, Environment.MachineName);
+                            using (TransactionScope scope = new TransactionScope())
+                            {
+                                _EzBusinessHelper.ExecuteNonQuery("insert into MSM059(CmpyCode,Code,Name) values(" + sb.ToString() + "");
 
-                            Sts.SaveFlag = true;
-                            Sts.ErrorMessage = string.Empty;
+                                _EzBusinessHelper.ActivityLog(Sts.CmpyCode, Sts.UserName, "Add State Master", Sts.Code, Environment.MachineName);
+
+                                Sts.SaveFlag = true;
+                                Sts.ErrorMessage = string.Empty;
+                                scope.Complete();
+                            }
                         }
                         else
                         {
@@ -129,11 +135,14 @@ namespace EzBusiness_DL_Repository
                 var StsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MSM059 where CmpyCode='" + Sts.CmpyCode + "' and Code='" + Sts.Code + "'");
                 if (StsEdit != 0)
                 {
-                    _EzBusinessHelper.ExecuteNonQuery("update MSM059 set Name='" + Sts.Name + "' where CmpyCode='" + Sts.CmpyCode + "' and Code='" + Sts.Code + "'");
-
-                    _EzBusinessHelper.ActivityLog(Sts.CmpyCode, Sts.UserName, "Update State Master", Sts.Code, Environment.MachineName);
-                    Sts.SaveFlag = true;
-                    Sts.ErrorMessage = string.Empty;
+                    using (TransactionScope scope = new TransactionScope())
+                    {
+                        _EzBusinessHelper.ExecuteNonQuery("update MSM059 set Name='" + Sts.Name + "' where CmpyCode='" + Sts.CmpyCode + "' and Code='" + Sts.Code + "'");
+                        _EzBusinessHelper.ActivityLog(Sts.CmpyCode, Sts.UserName, "Update State Master", Sts.Code, Environment.MachineName);
+                        Sts.SaveFlag = true;
+                        Sts.ErrorMessage = string.Empty;
+                        scope.Complete();
+                    }
                 }
                 else
                 {

@@ -9,6 +9,7 @@ using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Transactions;
 
 namespace EzBusiness_DL_Repository
 {
@@ -83,12 +84,16 @@ namespace EzBusiness_DL_Repository
                             sb.Append("'" + ObjList[n - 1].Code + "',");
                             sb.Append("'" + ObjList[n - 1].Name + "',");                          
                             sb.Append("'" + ObjList[n - 1].CompanyMolID + "')");
-                            _EzBusinessHelper.ExecuteNonQuery("insert into VLOC001(CmpyCode,Code,Name,CompanyMolID) values(" + sb.ToString() + "");
 
-                            _EzBusinessHelper.ActivityLog(Vls.CmpyCode, Vls.UserName, "Add Visa Location Master", Vls.Code, Environment.MachineName);
-
-                            Vls.SaveFlag = true;
-                            Vls.ErrorMessage = string.Empty;
+                            using (TransactionScope scope1 = new TransactionScope())
+                            {
+                                _EzBusinessHelper.ExecuteNonQuery("insert into VLOC001(CmpyCode,Code,Name,CompanyMolID) values(" + sb.ToString() + "");
+                                _EzBusinessHelper.ActivityLog(Vls.CmpyCode, Vls.UserName, "Add Visa Location Master", Vls.Code, Environment.MachineName);
+                                scope1.Complete();
+                                Vls.SaveFlag = true;
+                                Vls.ErrorMessage = string.Empty;
+                            }
+                           
                         }
                         else
                         {
@@ -106,10 +111,15 @@ namespace EzBusiness_DL_Repository
                 var VlsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from VLOC001 where CmpyCode='" +  Vls.CmpyCode + "' and Code='" + Vls.Code + "'");
                 if (VlsEdit != 0)
                 {
-                    Vls.SaveFlag = _EzBusinessHelper.ExecuteNonQuery1("update VLOC001 set CmpyCode='" + Vls.CmpyCode + "',Code='" + Vls.Code + "',Name='" + Vls.Name + "',CompanyMolID='" + Vls.CompanyMolID + "' where CmpyCode='" + Vls.CmpyCode + "' and Code='" + Vls.Code + "'");
 
-                    _EzBusinessHelper.ActivityLog(Vls.CmpyCode, Vls.UserName, "Update Visa Location Master", Vls.Code, Environment.MachineName);
-                   // Vls.SaveFlag = true;
+                    using (TransactionScope scope = new TransactionScope())
+                    {
+                        Vls.SaveFlag = _EzBusinessHelper.ExecuteNonQuery1("update VLOC001 set CmpyCode='" + Vls.CmpyCode + "',Code='" + Vls.Code + "',Name='" + Vls.Name + "',CompanyMolID='" + Vls.CompanyMolID + "' where CmpyCode='" + Vls.CmpyCode + "' and Code='" + Vls.Code + "'");
+
+                        _EzBusinessHelper.ActivityLog(Vls.CmpyCode, Vls.UserName, "Update Visa Location Master", Vls.Code, Environment.MachineName);
+                        // Vls.SaveFlag = true;
+                        scope.Complete();
+                    }
                     Vls.ErrorMessage = string.Empty;
                 }
                 else
