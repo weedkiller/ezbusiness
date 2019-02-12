@@ -945,5 +945,62 @@ namespace EzBusiness_BL_Service
 
         }
 
+        public List<TimeSheetDetail> GetProjectDetailsEmployeeWise(string CmpyCode,DateTime CurrentDate)
+        {
+            return _reportdetail.GetProjectDetailsEmployeeWise(CmpyCode, CurrentDate);
+        }
+        public List<TimeSheetDetail> ProjectReportDetailsColumnWithOrder(string order, string orderDir, List<TimeSheetDetail> data)
+        {
+            // Initialization.
+            List<TimeSheetDetail> lst = new List<TimeSheetDetail>();
+
+            try
+            {
+                // Sorting
+                switch (order)
+                {
+                    case "0":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Srno).ToList()                                                                                                 : data.OrderBy(p => p.Srno).ToList();
+                        break;
+                    case "1":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EmpCode).ToList()                                                                                                 : data.OrderBy(p => p.EmpCode).ToList();
+                        break;
+                    case "2":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EmpName).ToList()
+                                                                                                 : data.OrderBy(p => p.EmpName).ToList();
+                        break;
+
+                    case "3":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.ProjectCode).ToList()
+                                                                                                 : data.OrderBy(p => p.ProjectCode).ToList();
+                        break;
+
+                    case "4":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.ProjectName).ToList()
+                                                                                                 : data.OrderBy(p => p.ProjectName).ToList();
+                        break;
+                    case "5":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Tyear).ToList()                                                                                                 : data.OrderBy(p => p.Tyear).ToList();
+                        break;
+                    default:
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Tmonth).ToList()                                                                                                 : data.OrderBy(p => p.Tmonth).ToList();
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                // info.
+                Console.Write(ex);
+            }
+            // info.
+            return lst;
+        }
     }
 }

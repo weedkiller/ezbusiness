@@ -29,6 +29,6 @@ namespace EzBusiness_DL_Interface
 
         List<DutyResume> GetDutyResumeReportDetails(string CmpyCode, DateTime Fromdate, DateTime Todate,string EmpCode,string EmpName);
         List<ShiftMaster> GetShiftMasterDetails(string CmpyCode, string ShiftCode);
-
+        List<TimeSheetDetail> GetProjectDetailsEmployeeWise(string CmpyCode, DateTime CurrentDate);
     }
 }

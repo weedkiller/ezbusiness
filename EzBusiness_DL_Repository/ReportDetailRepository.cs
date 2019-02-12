@@ -427,7 +427,38 @@ namespace EzBusiness_DL_Repository
             return objList;
         }
 
-       
-
+       public List<TimeSheetDetail> GetProjectDetailsEmployeeWise(string CmpyCode,DateTime CurrentDate)
+        {
+            string FMonth = CurrentDate.ToString("MM");
+            string Fyear = CurrentDate.ToString("yyyy");
+            List<TimeSheetDetail> objList = null;
+            //  string fdate = Fromdate.ToString("yyyy-MM-dd");
+            // string Tdate = Todate.ToString("yyyy-MM-dd");
+            SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
+                                     new SqlParameter("@TMonth", FMonth),
+                                     new SqlParameter("@TYear",Fyear)};
+            ds = _EzBusinessHelper.ExecuteDataSet("GetProjectDetails", CommandType.StoredProcedure, param);
+            if (ds.Tables.Count > 0)
+            {
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                objList = new List<TimeSheetDetail>();
+                foreach (DataRow dr in drc)
+                {
+                    objList.Add(new TimeSheetDetail()
+                    {
+                        Srno = Convert.ToInt32(dr["SrNo"].ToString()),
+                        EmpCode = dr["Empcode"].ToString(),
+                        EmpName = dr["EmpName"].ToString(),
+                        Tmonth  = Convert.ToInt32(dr["TMONTH"].ToString()),
+                        Tyear = Convert.ToInt32(dr["TYEAR"].ToString()),
+                        ProjectCode = dr["Project_code"].ToString(),
+                        ProjectName = dr["Name"].ToString(),
+                        ProjectDuration= dr["ProjectDuration"].ToString()
+                    });
+                }
+            }
+            return objList;
+        }
     }
 }
