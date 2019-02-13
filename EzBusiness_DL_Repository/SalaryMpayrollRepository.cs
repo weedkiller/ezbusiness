@@ -345,7 +345,7 @@ namespace EzBusiness_DL_Repository
 
         public List<Employee> GetEmpCodes(string CMPYCODE)
         {
-            return drop.GetEmpCodes(CMPYCODE,"A");
+            return drop.GetEmpCodes(CMPYCODE, "SM");
         }
 
         public bool DeleteSry(string CMPYCODE, string PRSM001_CODE, string username)

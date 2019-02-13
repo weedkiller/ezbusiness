@@ -30,6 +30,7 @@
         EzGriddel("#tablePODetails", "[name*='btnDelete']");
 
         /* Add new row & find duplicate data in table  */
+        var counter = $("#counter").val();
         $("#tablePODetails").on("change", "[name*='PRSFT002_code']", function () {
             tbldtpicker();
             $(".datepicker").datetimepicker("destroy");
@@ -103,6 +104,7 @@
                 format: 'DD/MM/YYYY',
                 showClose: true,
                 showClear: true,
+                minDate: new Date(),
                 //toolbarPlacement: 'top'
                 //widgetPositioning: {
                 //    horizontal: 'right',
@@ -198,7 +200,7 @@
                             <table class="table table-bordered table-sm" id="tablePODetails">
                                 <thead>
                                     <tr>
-                                        <th>Sr No</th>
+                                        @*<th>Sr No</th>*@
                                         <th>Shift Allocation Code</th>
                                         <th>Entyr Date</th>
                                         <th>Effective Date</th>
@@ -208,11 +210,11 @@
                                 <tbody>
                                     <tr>
 
-                                        <td>
+                                        @*<td>
                                             <label>@counter</label>
-                                            @*@Html.Label(counter.ToString())*@
+                                            @Html.Label(counter.ToString())
 
-                                        </td>
+                                        </td>*@
                                         <td>
                                             <div class="grid-group">
                                                 @Html.TextBox(string.Concat("PRSFT002_code", counter), null, new { @class = "grid-control", @placeholder = "Code" })
@@ -245,6 +247,8 @@
                                 </tbody>
 
                             </table>
+
+                            @Html.Hidden("counter", (++counter))
                         </div>
                     </div><br />
                     

@@ -232,6 +232,14 @@ namespace EzBusiness_DL_Repository
             {
                 qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode ='" + CmpyCode + "' and Flag=0 and EmpCode not in (Select EmpCode from Users where Cmpycode=MEM001.Cmpycode)";
             }
+            else if (typ == "T")
+            {
+                qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "' and Flag=0 And WorkingStatus = 'Y'  Order By EmpCode";
+            }
+            else if (typ == "SM")
+            {
+                qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "' and Flag=0 And WorkingStatus = 'Y'  Order By EmpCode";
+            }
             else
             {
                 qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "'  And WorkingStatus = 'Y' and Flag=0  Order By EmpCode";
@@ -461,7 +469,7 @@ namespace EzBusiness_DL_Repository
         }
         public List<Weekdays> GetWeekdaysList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select DayCode,DayName,SNo from WKDS001");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select DayCode,DayName,SNo from WKDS001 order by sno");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<Weekdays> ObjList = new List<Weekdays>();
