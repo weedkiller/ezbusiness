@@ -133,7 +133,8 @@ namespace EzBusiness_BL_Service
                 ALLOWANCE3CAPTION = m.ALLOWANCE3CAPTION,
                 ALLOWANCE3ACT = m.ALLOWANCE3ACT,
                 TOTAL = m.TOTAL,
-
+                EmpName=m.EmpName,
+                
 
             }).ToList();
         }
