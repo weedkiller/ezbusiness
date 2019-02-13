@@ -68,7 +68,7 @@ namespace EzBusiness_BL_Service
         public List<SelectListItem> GetCommList(string Type)
         {
             var itemCodes = _EmployeeMgmtRepo.GetCommList(Type)
-                                      .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
+                                      .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat( m.Name) }) //m.Code, "-",
                                       .ToList();
 
             return InsertFirstElementDDL(itemCodes);

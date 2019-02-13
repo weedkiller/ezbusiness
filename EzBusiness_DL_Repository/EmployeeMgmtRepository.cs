@@ -456,11 +456,9 @@ namespace EzBusiness_DL_Repository
                     Employee Emp = new Employee();
                     int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + EmpMs.Cmpycode + "' and Code='" + PurchaseMgmtConstants.EmpHeader + "' ");
                     #region Employee_VM1
-                    //Emp.EmpCode = string.Concat(PurchaseMgmtConstants.EmpHeader, "-", (Convert.ToInt16(pno)).ToString().PadLeft(4, '0')).ToString();                
+                   
                     dte = Convert.ToDateTime(EmpMs.JoiningDate.ToString());
-                    dtstr1 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
-                    //dte = Convert.ToDateTime(EmpMs.FirstSetDate.ToString());
-                    //dtstr2 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
+                    dtstr1 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");                   
                     dte = Convert.ToDateTime(EmpMs.LastRetDate.ToString());
                     dtstr3 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
                     dte = Convert.ToDateTime(EmpMs.DOB.ToString());
@@ -469,24 +467,17 @@ namespace EzBusiness_DL_Repository
                     dtstr6 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
                     dte = Convert.ToDateTime(EmpMs.AbscondingDate.ToString());
                     dtstr7 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
-
-                    //dte = Convert.ToDateTime(EmpMs.LeaveSettlementDate.ToString());
-                    //dtstr8 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
-
+                  
                     Emp.EmpCode = EmpMs.EmpCode;
                     Emp.Cmpycode = EmpMs.Cmpycode;
                     Emp.Empname = EmpMs.Empname;
                     Emp.EmpType = EmpMs.EmpType;
                     Emp.DivisionCode = EmpMs.DivisionCode;
-                    Emp.ProfCode = EmpMs.ProfCode;
-                    //Emp.JoiningDate = EmpMs.JoiningDate;
+                    Emp.ProfCode = EmpMs.ProfCode;                   
                     Emp.Sex = EmpMs.Sex;
-                    Emp.Address = EmpMs.Address;
-                    //Emp.FirstSetDate = EmpMs.FirstSetDate;               
+                    Emp.Address = EmpMs.Address;                                 
                     Emp.LeaveStatus = EmpMs.LeaveStatus;
-                    Emp.WorkingStatus = EmpMs.WorkingStatus;
-                    // Emp.LastRetDate = EmpMs.LastRetDate;              
-                    // Emp.LastIncDate = EmpMs.LastIncDate;               
+                    Emp.WorkingStatus = EmpMs.WorkingStatus;                              
                     Emp.VisaLocation = EmpMs.VisaLocation;
                     Emp.Nationality = EmpMs.Nationality;
                     Emp.VisaStatus = EmpMs.VisaStatus;
@@ -495,11 +486,8 @@ namespace EzBusiness_DL_Repository
                     Emp.DepartmentCode = EmpMs.DepartmentCode;
                     Emp.ProjectCode = EmpMs.ProjectCode;
                     Emp.BankCode = EmpMs.BankCode;
-
                     Emp.BankAccNo = EmpMs.BankAccNo;
-                    Emp.AccNo = EmpMs.AccNo;
-                    //Emp.CommissionP = EmpMs.CommissionP;
-                    //Emp.DiscountP = EmpMs.DiscountP;               
+                    Emp.AccNo = EmpMs.AccNo;                              
                     Emp.ReportingEmp = EmpMs.ReportingEmp;
                     Emp.MaritalStatus = EmpMs.MaritalStatus;
                     Emp.BloodGroup = EmpMs.BloodGroup;
@@ -508,34 +496,21 @@ namespace EzBusiness_DL_Repository
                     Emp.Salutaion = EmpMs.Salutaion;
                     Emp.ContactNo = EmpMs.ContactNo;
                     Emp.EMail = EmpMs.EMail;
-                    Emp.BranchCode = EmpMs.BranchCode;
-                    // Emp.ContactDate = EmpMs.ContactDate;
-                    Emp.AbscondingYN = EmpMs.AbscondingYN;
-                    // Emp.AbscondingDate = EmpMs.AbscondingDate;               
+                    Emp.BranchCode = EmpMs.BranchCode;                   
+                    Emp.AbscondingYN = EmpMs.AbscondingYN;                            
                     Emp.TicketType = EmpMs.TicketType;
                     Emp.TicketNo = EmpMs.TicketNo;
                     Emp.Contract = EmpMs.Contract;
                     Emp.SupervisorYN = EmpMs.SupervisorYN;
-                    Emp.LanguageKnown = EmpMs.LanguageKnown;
-                    // Emp.LeaveSettlementDate = EmpMs.LeaveSettlementDate;
-                    //Emp.LastIncrementDate = EmpMs.LastIncrementDate;              
-                    /// Emp.PFRegDate = EmpMs.PFRegDate;                                                                                        
-                    Emp.GroupCode = EmpMs.GroupCode;
-                    // Emp.JoiningForLeave = EmpMs.JoiningForLeave;                
-                    //Emp.TicketAccruedDate = EmpMs.TicketAccruedDate;
+                    Emp.LanguageKnown = EmpMs.LanguageKnown;                                                                                                           
+                    Emp.GroupCode = EmpMs.GroupCode;                   
                     Emp.LocCode = EmpMs.LocCode;
                     Emp.photpath = EmpMs.photpath;
                     Emp.Week_off1 = EmpMs.Week_off1;
                     Emp.Week_off2 = EmpMs.Week_off2;
                     Emp.wagesby = EmpMs.wagesby;
                     Emp.BankBranchCode = EmpMs.BankBranchCode;
-                    #endregion
-                    // pt.Dates = po.Dates ;
-                    //DateTime dt1 = Convert.ToDateTime(EmpMs.DOB.ToString());
-                    //dtstr = dt1.ToString("yyyy-MM-dd hh:mm:ss tt");
-                    //DateTime dt2 = Convert.ToDateTime(po.Dates.ToString());
-                    //dtstr1 = dt2.ToString("yyyy-MM-dd hh:mm:ss tt");
-                    // pt.Description = po.Description;
+                    #endregion                   
                     #region ObjectList
                     List<EmployeeDetail> ObjList = new List<EmployeeDetail>();
                     if (EmpMs.EmployeeDetailnews != null)
@@ -550,10 +525,7 @@ namespace EzBusiness_DL_Repository
                             StartDate = m.StartDate.ToString(),
                             EndDate = m.EndDate.ToString(),
                             Description = m.Description,
-                            Preview = m.Preview,
-                            // Doc =m.Doc,
-                            // FileType =m.FileType,
-                            // FormType =m.FormType,
+                            Preview = m.Preview,                           
                             Sno = counter++,
                             IssuePlace = m.IssuePlace,
                             DocStatus = m.DocStatus,
@@ -622,8 +594,7 @@ namespace EzBusiness_DL_Repository
                         sb.Append("ProfCode,");
                         sb.Append("JoiningDate,");
                         sb.Append("Sex,");
-                        sb.Append("Address,");
-                        //sb.Append("FirstSetDate,");
+                        sb.Append("Address,");                       
                         sb.Append("LeaveStatus,");
                         sb.Append("WorkingStatus,");
                         sb.Append("LastRetDate,");
@@ -654,16 +625,13 @@ namespace EzBusiness_DL_Repository
                         sb.Append("TicketNo,");
                         sb.Append("Contract,");
                         sb.Append("SupervisorYN,");
-                        sb.Append("LanguageKnown,");
-                        // sb.Append("LeaveSettlementDate,");
-
+                        sb.Append("LanguageKnown,");                     
                         sb.Append("GroupCode,");
                         sb.Append("LocCode,");
                         sb.Append("photpath,");
                         sb.Append("Week_off1,");
                         sb.Append("Week_off2,");
                         sb.Append("wagesby,");
-
                         sb.Append("BranchCode)");
 
                         sb.Append(" values(");
@@ -676,8 +644,7 @@ namespace EzBusiness_DL_Repository
                         sb.Append("'" + Emp.ProfCode + "',");
                         sb.Append("'" + dtstr1 + "',");
                         sb.Append("'" + Emp.Sex + "',");
-                        sb.Append("'" + Emp.Address + "',");
-                        //sb.Append("'" + dtstr2 + "',");
+                        sb.Append("'" + Emp.Address + "',");                      
                         sb.Append("'" + Emp.LeaveStatus + "',");
                         sb.Append("'" + Emp.WorkingStatus + "',");
                         sb.Append("'" + dtstr3 + "',");
@@ -708,10 +675,7 @@ namespace EzBusiness_DL_Repository
                         sb.Append("'" + Emp.TicketNo + "',");
                         sb.Append("'" + Emp.Contract + "',");
                         sb.Append("'" + Emp.SupervisorYN + "',");
-                        sb.Append("'" + Emp.LanguageKnown + "',");
-                        // sb.Append("'" + dtstr8 + "',");
-
-
+                        sb.Append("'" + Emp.LanguageKnown + "',");                       
                         sb.Append("'" + Emp.GroupCode + "',");
                         sb.Append("'" + Emp.LocCode + "',");
                         sb.Append("'" + Emp.photpath + "',");
@@ -758,17 +722,17 @@ namespace EzBusiness_DL_Repository
 
                                 sb.Append(" values(");
 
-                                sb.Append("'" + ObjList[n - 1].Cmpycode.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].EmpCode.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].DocCode.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].DocName.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].DocNo.ToString() + "',");
+                                sb.Append("'" + ObjList[n - 1].Cmpycode + "',");
+                                sb.Append("'" + ObjList[n - 1].EmpCode + "',");
+                                sb.Append("'" + ObjList[n - 1].DocCode + "',");
+                                sb.Append("'" + ObjList[n - 1].DocName + "',");
+                                sb.Append("'" + ObjList[n - 1].DocNo + "',");
                                 sb.Append("'" + dtstr4 + "',");
                                 sb.Append("'" + dtstr9 + "',");
                                 sb.Append("'" + ObjList[n - 1].Description + "',");
-                                sb.Append("'" + ObjList[n - 1].Sno.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].IssuePlace.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].DocStatus.ToString() + "',");
+                                sb.Append("'" + ObjList[n - 1].Sno + "',");
+                                sb.Append("'" + ObjList[n - 1].IssuePlace + "',");
+                                sb.Append("'" + ObjList[n - 1].DocStatus + "',");
                                 sb.Append("'" + ObjList[n - 1].DocumentPath + "')");
 
 
@@ -798,22 +762,21 @@ namespace EzBusiness_DL_Repository
                                 sb.Append("Specification,");
                                 sb.Append("Location)");
                                 sb.Append(" values(");
-                                sb.Append("'" + ObjList1[n - 1].Cmpycode.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].code.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].SNo.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].Degree.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].DegreeName.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].Institution.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].ObtainedYear.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].Specification.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].Location.ToString() + "' )");
+                                sb.Append("'" + ObjList1[n - 1].Cmpycode + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].code + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].SNo + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].Degree + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].DegreeName + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].Institution + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].ObtainedYear + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].Specification + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].Location + "' )");
                                 _EzBusinessHelper.ExecuteNonQuery("insert into EMPDET001" + sb + " ");
                                 n = n - 1;
                             }
                             #endregion`
 
-                            #region LeaveApplication
-                            #endregion
+                          
 
                             #region EmployeeNominee
                             n = ObjList3.Count;
@@ -835,12 +798,12 @@ namespace EzBusiness_DL_Repository
 
                                 sb.Append(" values(");
 
-                                sb.Append("'" + ObjList3[n - 1].CmpyCode.ToString() + "' ,");
-                                sb.Append("'" + ObjList3[n - 1].EmpCode.ToString() + "' ,");
-                                sb.Append("'" + ObjList3[n - 1].SNo.ToString() + "' ,");
-                                sb.Append("'" + ObjList3[n - 1].NomineeName.ToString() + "' ,");
-                                sb.Append("'" + ObjList3[n - 1].NomineeAddress.ToString() + "' ,");
-                                sb.Append("'" + ObjList3[n - 1].NomineeRelation.ToString() + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].CmpyCode + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].EmpCode + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].SNo + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].NomineeName + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].NomineeAddress + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].NomineeRelation + "' ,");
                                 sb.Append("'" + dtstr10 + "' )");
 
 
@@ -891,8 +854,7 @@ namespace EzBusiness_DL_Repository
 
                             dte = EmpMs.JoiningDate.Value;
                             dtstr1 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
-                            //dte = EmpMs.FirstSetDate.Value;
-                            //dtstr2 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
+                           
                             dte = EmpMs.LastRetDate.Value;
                             dtstr3 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
 
@@ -902,8 +864,7 @@ namespace EzBusiness_DL_Repository
                             dtstr6 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
                             dte = EmpMs.AbscondingDate.Value;
                             dtstr7 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
-                            //dte = EmpMs.LeaveSettlementDate.Value;
-                            //dtstr8 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
+                           
 
 
                             Emp.EmpCode = EmpMs.EmpCode;
@@ -911,83 +872,49 @@ namespace EzBusiness_DL_Repository
                             Emp.Empname = EmpMs.Empname;
                             Emp.EmpType = EmpMs.EmpType;
                             Emp.DivisionCode = EmpMs.DivisionCode;
-                            Emp.ProfCode = EmpMs.ProfCode;
-                            //Emp.JoiningDate = EmpMs.JoiningDate;
+                            Emp.ProfCode = EmpMs.ProfCode;                         
                             Emp.Sex = EmpMs.Sex;
-
-                            Emp.Address = EmpMs.Address;
-                            //Emp.FirstSetDate = EmpMs.FirstSetDate;
-
+                            Emp.Address = EmpMs.Address;                         
                             Emp.LeaveStatus = EmpMs.LeaveStatus;
-                            Emp.WorkingStatus = EmpMs.WorkingStatus;
-                            // Emp.LastRetDate = EmpMs.LastRetDate;
-
-                            // Emp.LastIncDate = EmpMs.LastIncDate;
-
+                            Emp.WorkingStatus = EmpMs.WorkingStatus;                         
                             Emp.VisaLocation = EmpMs.VisaLocation;
                             Emp.Nationality = EmpMs.Nationality;
-
-                            // Emp.DOB = EmpMs.DOB;
-
                             Emp.VisaStatus = EmpMs.VisaStatus;
                             Emp.WorkLocation = EmpMs.WorkLocation;
                             Emp.AddressLocal = EmpMs.AddressLocal;
-
                             Emp.DepartmentCode = EmpMs.DepartmentCode;
                             Emp.ProjectCode = EmpMs.ProjectCode;
                             Emp.BankCode = EmpMs.BankCode;
                             Emp.BankAccNo = EmpMs.BankAccNo;
-                            Emp.AccNo = EmpMs.AccNo;
-                            //Emp.CommissionP = EmpMs.CommissionP;
-                            //Emp.DiscountP = EmpMs.DiscountP;
-
+                            Emp.AccNo = EmpMs.AccNo;                         
                             Emp.ReportingEmp = EmpMs.ReportingEmp;
                             Emp.MaritalStatus = EmpMs.MaritalStatus;
                             Emp.BloodGroup = EmpMs.BloodGroup;
                             Emp.PhysicallyDisabledYN = EmpMs.PhysicallyDisabledYN;
-
                             Emp.PhysicallyDisabled = EmpMs.PhysicallyDisabled;
-
                             Emp.Salutaion = EmpMs.Salutaion;
-
-
                             Emp.ContactNo = EmpMs.ContactNo;
                             Emp.EMail = EmpMs.EMail;
                             Emp.BranchCode = EmpMs.BranchCode;
-
-
-                            // Emp.ContactDate = EmpMs.ContactDate;
                             Emp.AbscondingYN = EmpMs.AbscondingYN;
-                            // Emp.AbscondingDate = EmpMs.AbscondingDate;
-
                             Emp.TicketType = EmpMs.TicketType;
                             Emp.TicketNo = EmpMs.TicketNo;
                             Emp.Contract = EmpMs.Contract;
                             Emp.SupervisorYN = EmpMs.SupervisorYN;
                             Emp.LanguageKnown = EmpMs.LanguageKnown;
-                            // Emp.LeaveSettlementDate = EmpMs.LeaveSettlementDate;
-                            //Emp.LastIncrementDate = EmpMs.LastIncrementDate;
-
-                            /// Emp.PFRegDate = EmpMs.PFRegDate;
-
-
-                            // Emp.ESICDate = EmpMs.ESICDate;
-
                             Emp.BankBranchCode = EmpMs.BankBranchCode;
 
                             Emp.GroupCode = EmpMs.GroupCode;
 
-
-
-                            //Emp.TicketAccruedDate = EmpMs.TicketAccruedDate;
                             Emp.LocCode = EmpMs.LocCode;
                             Emp.photpath = EmpMs.photpath;
+                            Emp.wagesby = EmpMs.wagesby;
                             #endregion
-                            //_EzBusinessHelper.ExecuteNonQuery("delete from MEM001 where CmpyCode='" + EmpMs.Cmpycode + "' and EmpCode='" + EmpMs.EmpCode + "'");
+                           
                             _EzBusinessHelper.ExecuteNonQuery("delete from EMNM005 where CmpyCode='" + EmpMs.Cmpycode + "' and EmpCode='" + EmpMs.EmpCode + "'");
                             _EzBusinessHelper.ExecuteNonQuery("delete from EMPDET001 where CmpyCode='" + EmpMs.Cmpycode + "' and Code='" + EmpMs.EmpCode + "'");
                             _EzBusinessHelper.ExecuteNonQuery("delete from EMDET002 where CmpyCode='" + EmpMs.Cmpycode + "' and EmpCode='" + EmpMs.EmpCode + "'");
-                            //   _EzBusinessHelper.ExecuteNonQuery("delete from SA001 where CmpyCode='" + EmpMs.Cmpycode + "' and Salesmancode='" + EmpMs.EmpCode + "'");
+                          
                             #region ObjectList
                             List<EmployeeDetail> ObjList = new List<EmployeeDetail>();
                             if (EmpMs.EmployeeDetailnews != null)
@@ -1003,15 +930,12 @@ namespace EzBusiness_DL_Repository
                                     StartDate = m.StartDate.ToString(),
                                     EndDate = m.EndDate.ToString(),
                                     Description = m.Description,
-                                    Preview = m.Preview,
-                                    //Doc = m.Doc,
-                                    //FileType = m.FileType,
-                                    // FormType = m.FormType,
+                                    Preview = m.Preview,                                   
                                     Sno = counter++,
                                     IssuePlace = m.IssuePlace,
                                     DocStatus = m.DocStatus,
                                     DocumentPath = m.DocumentPath
-                                    //IssueState = m.IssueState,
+                                   
 
                                 }).ToList());
                             }
@@ -1042,38 +966,7 @@ namespace EzBusiness_DL_Repository
                             #endregion
 
                             #region OjectList2
-                            //List<LeaveApplication> ObjList2 = new List<LeaveApplication>();
-                            //if (EmpMs.LeaveApplicationnew != null)
-                            //{
-
-
-                            //    ObjList2.AddRange(EmpMs.LeaveApplicationnew.Select(m => new LeaveApplication
-                            //    {
-
-                            //        CmpyCode = EmpMs.Cmpycode,
-                            //        LANo = m.LANo,
-                            //        Dates = m.Dates,
-                            //        EmpCode = Emp.EmpCode,
-                            //        JoiningDate = m.JoiningDate,
-                            //        LeaveType = m.LeaveType,
-                            //        StartDate = m.StartDate,
-                            //        EndDate = m.EndDate,
-                            //        LeaveDays = m.LeaveDays,
-                            //        Remarks = m.Remarks,
-                            //        TotalBalance = m.TotalBalance,
-                            //        TotalApplied = m.TotalApplied,
-                            //        TotalSanctioned = m.TotalSanctioned,
-                            //        ApprovalYN = m.ApprovalYN,
-                            //        SendMail = m.SendMail,
-                            //        ResumeDate = m.ResumeDate,
-                            //        Status = m.Status,
-                            //        Phone = m.Phone,
-                            //        Place = m.Place,
-                            //        UseTicket = m.UseTicket,
-                            //        NoofTickets = m.NoofTickets,
-
-                            //    }).ToList());
-                            //}
+                            
                             #endregion
 
                             #region ObjectList3
@@ -1121,60 +1014,7 @@ namespace EzBusiness_DL_Repository
                             StringBuilder sb = new StringBuilder();
 
                             #region Employee
-                            //  sb.Append("(Cmpycode,");
-                            //  sb.Append("EmpCode,");
-                            //  sb.Append("Empname,");
-                            //  sb.Append("EmpType,");
-                            //  sb.Append("DivisionCode,");
-                            //  sb.Append("ProfCode,");
-                            //  sb.Append("JoiningDate,");
-                            //  sb.Append("Sex,");
-                            //  sb.Append("Address,");
-                            // // sb.Append("FirstSetDate,");
-                            //  sb.Append("LeaveStatus,");
-                            //  sb.Append("WorkingStatus,");
-                            //  sb.Append("LastRetDate,");
-                            //  sb.Append("VisaLocation,");
-                            //  sb.Append("Nationality,");
-                            //  sb.Append("DOB,");
-                            //  sb.Append("VisaStatus,");
-                            //  sb.Append("WorkLocation,");
-                            //  sb.Append("AddressLocal,");
-                            //  sb.Append("DepartmentCode,");
-                            //  sb.Append("ProjectCode,");
-                            //  sb.Append("BankCode,");
-                            //  sb.Append("BankAccNo,");
-                            //  sb.Append("AccNo,");
-                            //  sb.Append("ReportingEmp,");
-                            //  sb.Append("MaritalStatus,");
-                            //  sb.Append("BloodGroup,");
-                            //  sb.Append("PhysicallyDisabledYN,");
-                            //  sb.Append("PhysicallyDisabled,");
-                            //  sb.Append("Salutaion,");
-                            //  sb.Append("ContactNo,");
-                            //  sb.Append("EMail,");
-                            //  sb.Append("BankBranchCode,");
-                            //  sb.Append("ContactDate,");
-                            //  sb.Append("AbscondingYN,");
-                            //  sb.Append("AbscondingDate,");
-                            //  sb.Append("TicketType,");
-                            //  sb.Append("TicketNo,");
-                            //  sb.Append("Contract,");
-                            //  sb.Append("SupervisorYN,");
-                            //  sb.Append("LanguageKnown,");
-                            ////  sb.Append("LeaveSettlementDate,");
-                            //  sb.Append("GroupCode,");
-                            //  sb.Append("LocCode,");
-                            //  sb.Append("photpath,");
-                            //  sb.Append("Week_off1,");
-                            //  sb.Append("Week_off2,");
-                            //  sb.Append("wagesby,");
-
-                            //  sb.Append("BranchCode)");
-                            //  sb.Append(" values(");
-                            //'---
-                            //sb.Append("Cmpycode='" + Emp.Cmpycode + "',");
-                            //sb.Append("EmpCode='" + Emp.EmpCode + "',");
+                            
                             sb.Append("Empname='" + Emp.Empname + "',");
                             sb.Append("EmpType='" + Emp.EmpType + "',");
                             sb.Append("DivisionCode='" + Emp.DivisionCode + "',");
@@ -1251,32 +1091,28 @@ namespace EzBusiness_DL_Repository
                                 sb.Append("EndDate,");
                                 sb.Append("Description,");
                                 sb.Append("DocumentPath,");
-                                //sb.Append("Doc,");
-                                //sb.Append("FileType,");
-                                //sb.Append("FormType,");
+                                
                                 sb.Append("Sno,");
                                 sb.Append("IssuePlace,");
                                 sb.Append("DocStatus)");
-                                //sb.Append("IssueState)");
+                               
 
                                 sb.Append(" values(");
 
-                                sb.Append("'" + ObjList[n - 1].Cmpycode.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].EmpCode.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].DocCode.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].DocName.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].DocNo.ToString() + "',");
+                                sb.Append("'" + ObjList[n - 1].Cmpycode + "',");
+                                sb.Append("'" + ObjList[n - 1].EmpCode + "',");
+                                sb.Append("'" + ObjList[n - 1].DocCode + "',");
+                                sb.Append("'" + ObjList[n - 1].DocName + "',");
+                                sb.Append("'" + ObjList[n - 1].DocNo + "',");
                                 sb.Append("'" + dtstr4 + "',");
                                 sb.Append("'" + dtstr9 + "',");
-                                sb.Append("'" + ObjList[n - 1].Description.ToString() + "',");
-                                //sb.Append("'" + ObjList[n - 1].Preview.ToString() + "',");
-                                //sb.Append("'" + ObjList[n - 1].Doc.ToString() + "',");
-                                //sb.Append("'" + ObjList[n - 1].FileType.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].DocumentPath.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].Sno.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].IssuePlace.ToString() + "',");
-                                sb.Append("'" + ObjList[n - 1].DocStatus.ToString() + "')");
-                                // sb.Append("'" + ObjList[n - 1].IssueState.ToString() + "')");
+                                sb.Append("'" + ObjList[n - 1].Description + "',");
+                              
+                                sb.Append("'" + ObjList[n - 1].DocumentPath + "',");
+                                sb.Append("'" + ObjList[n - 1].Sno + "',");
+                                sb.Append("'" + ObjList[n - 1].IssuePlace + "',");
+                                sb.Append("'" + ObjList[n - 1].DocStatus + "')");
+                                
 
                                 _EzBusinessHelper.ExecuteNonQuery("insert into EMDET002" + sb + " ");
                                 n = n - 1;
@@ -1304,78 +1140,20 @@ namespace EzBusiness_DL_Repository
                                 sb.Append("Specification,");
                                 sb.Append("Location)");
                                 sb.Append(" values(");
-                                sb.Append("'" + ObjList1[n - 1].Cmpycode.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].code.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].SNo.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].Degree.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].DegreeName.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].Institution.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].ObtainedYear.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].Specification.ToString() + "' ,");
-                                sb.Append("'" + ObjList1[n - 1].Location.ToString() + "' )");
+                                sb.Append("'" + ObjList1[n - 1].Cmpycode + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].code + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].SNo + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].Degree + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].DegreeName + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].Institution + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].ObtainedYear + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].Specification + "' ,");
+                                sb.Append("'" + ObjList1[n - 1].Location + "' )");
                                 _EzBusinessHelper.ExecuteNonQuery("insert into EMPDET001" + sb + " ");
                                 n = n - 1;
                             }
                             #endregion`
-                            #region LeaveApplication
-                            //n = ObjList2.Count;
-
-                            //while (n > 0)
-                            //{
-                            //    sb.Clear();
-
-                            //    sb.Append("(CmpyCode,");
-                            //    sb.Append("LANo,");
-                            //    sb.Append("Dates,");
-                            //    sb.Append("EmpCode,");
-                            //    sb.Append("JoiningDate,");
-                            //    sb.Append("LeaveType,");
-                            //    sb.Append("StartDate,");
-                            //    sb.Append("EndDate,");
-                            //    sb.Append("LeaveDays,");
-                            //    sb.Append("Remarks,");
-                            //    sb.Append("TotalBalance,");
-                            //    sb.Append("TotalApplied,");
-                            //    sb.Append("TotalSanctioned,");
-                            //    sb.Append("ApprovalYN,");
-                            //    sb.Append("SendMail,");
-                            //    sb.Append("ResumeDate,");
-                            //    sb.Append("Status,");
-                            //    sb.Append("Phone,");
-                            //    sb.Append("Place,");
-                            //    sb.Append("UseTicket,");
-                            //    sb.Append("NoofTickets)");
-
-                            //    sb.Append(" values(");
-
-                            //    sb.Append("'" + ObjList2[n - 1].CmpyCode.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].LANo.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].Dates.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].EmpCode.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].JoiningDate.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].LeaveType.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].StartDate.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].EndDate.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].LeaveDays.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].Remarks.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].TotalBalance.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].TotalApplied.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].TotalSanctioned.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].ApprovalYN.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].SendMail.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].ResumeDate.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].Status.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].Phone.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].Place.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].UseTicket.ToString() + "',");
-                            //    sb.Append("'" + ObjList2[n - 1].NoofTickets.ToString() + "')");
-
-                            //    _EzBusinessHelper.ExecuteNonQuery("insert into EMLAP004" + sb + " ");
-                            //    n = n - 1;
-
-                            //}
-
-                            #endregion
+                           
 
                             #region EmployeeNominee
                             n = ObjList3.Count;
@@ -1398,12 +1176,12 @@ namespace EzBusiness_DL_Repository
 
                                 sb.Append(" values(");
 
-                                sb.Append("'" + ObjList3[n - 1].CmpyCode.ToString() + "' ,");
-                                sb.Append("'" + ObjList3[n - 1].EmpCode.ToString() + "' ,");
-                                sb.Append("'" + ObjList3[n - 1].SNo.ToString() + "' ,");
-                                sb.Append("'" + ObjList3[n - 1].NomineeName.ToString() + "' ,");
-                                sb.Append("'" + ObjList3[n - 1].NomineeAddress.ToString() + "' ,");
-                                sb.Append("'" + ObjList3[n - 1].NomineeRelation.ToString() + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].CmpyCode + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].EmpCode + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].SNo + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].NomineeName + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].NomineeAddress + "' ,");
+                                sb.Append("'" + ObjList3[n - 1].NomineeRelation + "' ,");
                                 sb.Append("'" + dtstr10 + "' )");
 
 

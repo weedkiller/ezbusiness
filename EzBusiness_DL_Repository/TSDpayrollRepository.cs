@@ -21,7 +21,7 @@ namespace EzBusiness_DL_Repository
         DropListFillFun drop = new DropListFillFun();
         public List<Employee> GetEmpCodes(string CmpyCode)
         {
-            return drop.GetEmpCodes(CmpyCode,"A");
+            return drop.GetEmpCodes(CmpyCode,"T");
         }
 
         public List<TimeSheetDetail> GetTSDList(string CmpyCode, string EmpCode, DateTime date)

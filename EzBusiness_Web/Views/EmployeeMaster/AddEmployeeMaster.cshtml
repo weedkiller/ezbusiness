@@ -34,7 +34,9 @@
 
     $(function () {
 
-        EzdtePk('#JoiningDate1,#DOB1,#LastRetDate1,#ContactDate1,#AbscondingDate1');
+        EzdtePk('#JoiningDate1,#LastRetDate1,#ContactDate1,#AbscondingDate1');
+
+        EzdteformtDOB('#DOB1', 'DD/MM/YYYY');
              
         $('#ContactNo').keypress(function (event) {
             debugger;
@@ -227,7 +229,7 @@
         $("#tablePODetails1").on("change", "[name*='Institution']", function () {
             tbldtpickerYY();
            // if (counter2 > 2) {
-                $(".datepicker").datetimepicker("destroy");
+                $(".dt3").datetimepicker("destroy");
            // }
             var tr = $(this).closest("tr");
            // tr.find("[name *= 'ObtainedYear']").val(EzdtePkyyyy("[name *= 'ObtainedYear']"));
@@ -372,11 +374,8 @@
                 format: 'DD/MM/YYYY',
                 showClose: true,
                 showClear: true,
-               // toolbarPlacement: 'top'
-                //widgetPositioning: {
-                //    horizontal: 'right',
-                //    vertical: 'top'
-                //}
+                maxDate: new Date(),
+               
             });
 
         });
@@ -390,11 +389,7 @@
                 format: 'YYYY',
                 showClose: true,
                 showClear: true,
-                //toolbarPlacement: 'top'
-                //widgetPositioning: {
-                //    horizontal: 'right',
-                //    vertical: 'top'
-                //}
+                maxDate: new Date(),
             });
 
         });

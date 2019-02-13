@@ -527,11 +527,8 @@ function EzdtePk(date1) {
         format: 'DD/MM/YYYY',
         showClose: true,
         showClear: true,
-        //toolbarPlacement: 'top'
-        //widgetPositioning: {
-        //    horizontal: 'right',
-        //    vertical: 'top'
-        //}
+        minDate: new Date(),
+       
     });
 }
 /*tbl class date formate DD/MM/YYYY get input */
@@ -541,11 +538,8 @@ function tbldtpicker() {
         format: 'DD/MM/YYYY',
         showClose: true,
         showClear: true,
-        //toolbarPlacement: 'top'
-        //widgetPositioning: {
-        //    horizontal: 'right',
-        //    vertical: 'top'
-        //}
+        minDate: new Date(),
+       
     });
 }
 /*tbl date formate yyyy  */
@@ -554,11 +548,8 @@ function tbldtpickerYY() {
         format: 'YYYY',
         showClose: true,
         showClear: true,
-        //toolbarPlacement: 'top'
-        //widgetPositioning: {
-        //    horizontal: 'right',
-        //    vertical: 'top'
-        //}
+        minDate: new Date(),
+        
     });
 }
 
@@ -570,11 +561,17 @@ function Ezdteformtcur(date1,frmt) {
         format: frmt,
         showClose: true,
         showClear: true,
-        //toolbarPlacement: 'top',
-         //widgetPositioning: {
-         //           horizontal: 'right',
-         //           vertical: 'top'
-         //       }
+        minDate: new Date(),       
+    });
+}
+
+function EzdteformtDOB(date1, frmt) {
+    $(date1).datetimepicker({
+        defaultDate: new Date(),
+        format: frmt,
+        showClose: true,
+        showClear: true,
+        maxDate: new Date(),
     });
 }
 
@@ -584,11 +581,7 @@ function Ezdteformtcurtime() {
         format: 'LT',
         showClose: true,
         showClear: true,
-        //toolbarPlacement: 'top',
-        //widgetPositioning: {
-        //           horizontal: 'right',
-        //           vertical: 'top'
-        //       }
+        
     });
 }
 
@@ -611,6 +604,7 @@ function EzdtePkEdit(date1, dtval, frmt) {
         format: frmt,
         showClose: true,
         showClear: true,
+        minDate: new Date($(dtval).val()),
         //toolbarPlacement: 'top'
          //widgetPositioning: {
          //           horizontal: 'right',
@@ -626,6 +620,7 @@ function EzdtePkMMyy(date1) {
         format: 'MMMM-YYYY',        
         showClose: true,
         showClear: true,
+        minDate: new Date(),
         //toolbarPlacement: 'top',
          //widgetPositioning: {
          //           horizontal: 'right',
@@ -640,11 +635,8 @@ function EzdtePkyyyy(date1) {
         format: 'YYYY',
         showClose: true,
         showClear: true,
-        //toolbarPlacement: 'top',
-        //widgetPositioning: {
-        //    horizontal: 'right',
-        //    vertical: 'top'
-        //}
+        maxDate: new Date(),
+       
 
     });
 }
@@ -655,11 +647,8 @@ function EzdtePkMMyyEdit(date1, dtval) {
         format: 'MMMM-YYYY',
         showClose: true,
         showClear: true,
-        //toolbarPlacement: 'top'
-        //widgetPositioning: {
-        //    horizontal: 'right',
-        //    vertical: 'top'
-        //}
+        minDate: new Date($(dtval).val()),
+        
     });
 }
 /* date formate DD/MM/yyyy get input date */

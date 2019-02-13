@@ -259,7 +259,7 @@ namespace EzBusiness_Web.Controllers
                 fileName = parentPartId;
                
             }
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);// 
         }
 
         public ActionResult GetBranchCodeList1(string divcode)
