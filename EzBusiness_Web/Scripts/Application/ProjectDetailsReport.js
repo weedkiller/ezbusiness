@@ -56,12 +56,7 @@ var prjreport = {
                                 pageSize: 'LEGAL'
                               
                             }
-               ],
-               //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
-               //    var oSettings = this.fnSettings();
-               //    $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-               //    return nRow;
-               //},
+               ],             
                "processing": true,
                "serverSide": true,
                //"stateSave": true,
