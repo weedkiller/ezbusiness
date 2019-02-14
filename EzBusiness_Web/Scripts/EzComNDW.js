@@ -854,11 +854,11 @@ function EztableLstTab(tbl, ide, idf) {
 }
     
 var t = false;
-function EztableDateCondion(tbl, ide, idf,fstyp) {
+function EztableDateCondion(tbl, ide, idf) {
     $(tbl).on('dp.change', ide, function (e) {
-       
-        if (e.oldDate !== null ) {
-            debugger;
+        debugger;
+        var fstyp = "";
+       if (e.oldDate !== null) {         
         var tr = $(this).closest("tr");
         var Edt = new Date(Ezsetdtpkdate(tr.find(ide).val()));
         var Effdt = new Date(Ezsetdtpkdate(tr.find(idf).val()));

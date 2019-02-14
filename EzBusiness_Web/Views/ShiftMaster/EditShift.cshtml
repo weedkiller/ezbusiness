@@ -120,10 +120,44 @@
 
 
        
-            EztableDateCondion("#tablePODetails", "[name*='Enttry_Date']", "[name*='Effect_Date']","E");
-            EztableDateCondion("#tablePODetails", "[name*='Effect_Date']", "[name*='Enttry_Date']","N");
+            //EztableDateCondion("#tablePODetails", "[name*='Enttry_Date']", "[name*='Effect_Date']","E");
+            //EztableDateCondion("#tablePODetails", "[name*='Effect_Date']", "[name*='Enttry_Date']","N");
                          
-       
+        $("#tablePODetails").on('dp.change', "[name*='Enttry_Date']", function (e) {
+            debugger;
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");
+                var Edt = new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val()));
+                var Effdt = new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val()));
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val())) >= new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='Enttry_Date']").val(tr.find("[name*='Effect_Date']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
+
+        $("#tablePODetails").on('dp.change', "[name*='Effect_Date']", function (e) {
+            debugger;
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");
+                var Edt = new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val()));
+                var Effdt = new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val()));
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val())) <= new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='Effect_Date']").val(tr.find("[name*='Enttry_Date']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
 
         
 

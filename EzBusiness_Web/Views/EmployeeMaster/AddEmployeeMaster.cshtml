@@ -33,8 +33,7 @@
 
     $(function () {
 
-        EzdtePk('#JoiningDate1,#LastRetDate1,#ContactDate1,#AbscondingDate1');
-
+        EzdtePk('#JoiningDate1,#LastRetDate1,#ContactDate1,#AbscondingDate1');     
         EzdteformtDOB('#DOB1', 'DD/MM/YYYY');
              
         $('#ContactNo').keypress(function (event) {
@@ -325,8 +324,8 @@
                 tr.clone(true, true).insertAfter(tr);
                 tr.find("[name*='DocCode']").val(docode);
                 tr.find("[name*='DocName']").val(doName);
-                tr.find("[name *= 'StartDate']").val(sdate);
-                tr.find("[name *= 'EndDate']").val(edate);
+                //tr.find("[name *= 'StartDate']").val(sdate);
+                //tr.find("[name *= 'EndDate']").val(edate);
                 $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                     .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
                 var trLast = $("#tableMetaSettings tr:last")
@@ -362,13 +361,12 @@
            
         });
 
-        EztableDateCondion("#tablePODetails2", "[name*='EndDate']", "[name*='StartDate']", "E");
-        EztableDateCondion("#tablePODetails2", "[name*='StartDate']", "[name*='EndDate']", "N");
+        
        
         $('body').on('focusin', '.datepicker', function () {
             debugger;
            // var myDate = new Date(2012, 2, 11);
-
+           
            // $('#startdate').datetimepicker("setDate", myDate);
             $('.datepicker').datetimepicker({
                // defaultDate: new Date(),
@@ -383,7 +381,7 @@
         $('body').on('focusin', '.dt3', function () {
             debugger;
             // var myDate = new Date(2012, 2, 11);
-
+          
             // $('#startdate').datetimepicker("setDate", myDate);
             $('.dt3').datetimepicker({
                 // defaultDate: new Date(),
@@ -394,15 +392,54 @@
             });
 
         });
+
+
+        //EztableDateCondion("#tablePODetails2", "[name*='StartDate']", "[name*='EndDate']", "E");
+        //EztableDateCondion("#tablePODetails2", "[name*='EndDate']", "[name*='StartDate']", "N");
+
+        $("#tablePODetails2").on('dp.change', "[name*='StartDate']", function (e) {
+            debugger;
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");               
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())) >= new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='StartDate']").val(tr.find("[name*='EndDate']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
+        $("#tablePODetails2").on('dp.change', "[name*='EndDate']", function (e) {
+            debugger;
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())) <= new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='EndDate']").val(tr.find("[name*='StartDate']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
+
+
+        $(".dt3").on("dp.show", function (e) {
+            $(e.target).data("DateTimePicker").viewMode("years");
+        });
+
+        EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
+        EzdtePkyyyy('#ObtainedYear1');
+       // $(".datepicker").datetimepicker("destroy");
     });
 
-    $(".dt3").on("dp.show", function (e) {
-        $(e.target).data("DateTimePicker").viewMode("years");
-    });
-
-    EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
-    EzdtePkyyyy('#ObtainedYear1');
-    //$(".datepicker").datetimepicker("destroy");
+   
+    //
 
 </script>
 

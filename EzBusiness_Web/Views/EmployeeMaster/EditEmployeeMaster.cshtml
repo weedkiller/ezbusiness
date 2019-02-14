@@ -359,8 +359,7 @@
         });
         //EzdtePk('#NomineeDOB' + index1 + ',#NomineeDOB' + index1 + '');
 
-        EztableDateCondion("#tablePODetails2", "[name*='StartDate']", "[name*='EndDate']", "E");
-        EztableDateCondion("#tablePODetails2", "[name*='EndDate']", "[name*='StartDate']", "N");
+      
         $('body').on('focusin', '.datepicker', function () {
             debugger;
             // var myDate = new Date(2012, 2, 11);
@@ -389,6 +388,40 @@
             });
 
         });
+
+        //EztableDateCondion("#tablePODetails2", "[name*='StartDate']", "[name*='EndDate']", "E");
+        //EztableDateCondion("#tablePODetails2", "[name*='EndDate']", "[name*='StartDate']", "N");
+        $("#tablePODetails2").on('dp.change', "[name*='StartDate']", function (e) {
+            debugger;
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())) >= new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='StartDate']").val(tr.find("[name*='EndDate']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
+        $("#tablePODetails2").on('dp.change', "[name*='EndDate']", function (e) {
+            debugger;
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())) <= new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='EndDate']").val(tr.find("[name*='StartDate']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
+
         $(".dt3").on("dp.show", function (e) {
             $(e.target).data("DateTimePicker").viewMode("years");
         });
