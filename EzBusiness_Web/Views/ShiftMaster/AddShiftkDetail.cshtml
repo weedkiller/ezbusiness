@@ -87,6 +87,13 @@
                         "name": ("ShiftName" + counter)
                     });
 
+                    trLast.find("[name *= 'Enttry_Date']").attr({
+                        "name": ("Enttry_Date" + counter)
+                    });
+                    trLast.find("[name *= 'Effect_Date']").attr({
+                        "name": ("Effect_Date" + counter)
+                    });
+
 
                     trLast.find(":first").text(counter);
                 }
@@ -104,25 +111,29 @@
                 format: 'DD/MM/YYYY',
                 showClose: true,
                 showClear: true,
-                minDate: new Date(),
-                //toolbarPlacement: 'top'
-                //widgetPositioning: {
-                //    horizontal: 'right',
-                //    vertical: 'top'
-                //}
+                
+               
             });
 
         });
         EztableLstEnt("#tablePODetails", "[name*='ShiftName']", "[name *= 'PRSFT002_code']","T","");
       
 
+        EztableDateCondion("#tablePODetails", "[name*='Enttry_Date']", "[name*='Effect_Date']", "E");
+        EztableDateCondion("#tablePODetails", "[name*='Effect_Date']", "[name*='Enttry_Date']", "N");
+
+
+        $('.selectpicker').selectpicker('refresh');
+
+        EzdtePk('#Enttry_Date1,#Effect_Date1');
+        Ezdteformtcurtime();
+        $(".datepicker").datetimepicker("destroy");
+
     });
 
-    $('.selectpicker').selectpicker('refresh');
    
-    EzdtePk('#Enttry_Date1,#Effect_Date1');
-    Ezdteformtcurtime();
-    $(".datepicker").datetimepicker("destroy");
+
+
     </script>
     
     <!-- Row start -->
@@ -224,17 +235,18 @@
                                         <td>
 
                                             <div class="grid-group">
-                                                @Html.TextBox(string.Concat("Effect_Date", counter), "", "", new { @class = "grid-control datepicker" })
+                                                @Html.TextBox(string.Concat("Enttry_Date", counter), "", "", new { @class = "grid-control datepicker" })
                                             </div>
 
                                         </td>
                                         <td>
 
                                             <div class="grid-group">
-                                                @Html.TextBox(string.Concat("Enttry_Date", counter), "", "", new { @class = "grid-control datepicker" })
+                                                @Html.TextBox(string.Concat("Effect_Date", counter), "", "", new { @class = "grid-control datepicker" })
                                             </div>
 
                                         </td>
+                                       
                                         <td>
                                             @Html.DropDownList(string.Concat("SelectAproved", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "Y" }, new SelectListItem { Text = "NO", Value = "N" }, }, new { @class = "grid-control" })
                                             @*<select name="" id="SelectAproved" class="grid-control">

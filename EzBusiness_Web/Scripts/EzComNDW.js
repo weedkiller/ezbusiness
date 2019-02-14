@@ -32,7 +32,7 @@ function ezValidateNumbers(tableid, ids) {
 function EzHeadTxtvalid(ide, tbl, tblid, errmsg, typH,typ) {
    
     if ($(ide).val() == typH) {
-        alert(errmsg);
+        EzAlerterrtxt(errmsg);
         var trLast1 = $(tbl);
         trLast1.find(tblid).val(typ);
         $(ide).focus();       
@@ -70,6 +70,15 @@ function EzAlerterr() {
         type: 'error',
         title: 'Oops...',
         text: 'Enter Valid Data!',
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+    }])
+}
+function EzAlerterrDt() {
+    Swal.queue([{
+        type: 'error',
+        title: 'Oops...',
+        text: 'Enter Valid Date!',
         allowOutsideClick: false,
         showLoaderOnConfirm: true,
     }])
@@ -439,7 +448,7 @@ function EzDropTabEve(Ide, IdeSel, fIde, errmsg) {
             }
             else {
                 $(Ide).focus();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
         }
     });
@@ -455,7 +464,7 @@ function EzDropChaEve(Ide, IdeSel, fIde, errmsg) {
         }
         else {
             $(Ide).focus();
-            alert(errmsg);
+            EzAlerterrtxt(errmsg);
         }
 
     });
@@ -481,7 +490,7 @@ function EzTxttabEve(Ide, fIde, errmsg, typ) {
             else {
                 $(Ide).focus();
                 $(Ide).select();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
         }
     });
@@ -542,6 +551,18 @@ function tbldtpicker() {
        
     });
 }
+
+
+function tbldtpickerEdit(dtval) {
+    $('.datepicker').datetimepicker({
+        // defaultDate: new Date(),
+        format: 'DD/MM/YYYY',
+        showClose: true,
+        showClear: true,
+       // minDate: new Date($(dtval).val()),
+       
+    });
+}
 /*tbl date formate yyyy  */
 function tbldtpickerYY() {
     $('.dt3').datetimepicker({      
@@ -562,6 +583,15 @@ function Ezdteformtcur(date1,frmt) {
         showClose: true,
         showClear: true,
         minDate: new Date(),       
+    });
+}
+function EzdteformtcurRep(date1, frmt) {
+    $(date1).datetimepicker({
+        defaultDate: new Date(),
+        format: frmt,
+        showClose: true,
+        showClear: true,
+        maxDate: new Date(),
     });
 }
 
@@ -620,12 +650,7 @@ function EzdtePkMMyy(date1) {
         format: 'MMMM-YYYY',        
         showClose: true,
         showClear: true,
-        minDate: new Date(),
-        //toolbarPlacement: 'top',
-         //widgetPositioning: {
-         //           horizontal: 'right',
-         //           vertical: 'top'
-         //       }
+       
     });
 }
 /* date formate yyyy get current date */
@@ -646,9 +671,7 @@ function EzdtePkMMyyEdit(date1, dtval) {
         defaultDate: new Date($(dtval).val()),
         format: 'MMMM-YYYY',
         showClose: true,
-        showClear: true,
-        minDate: new Date($(dtval).val()),
-        
+        showClear: true,              
     });
 }
 /* date formate DD/MM/yyyy get input date */
@@ -730,7 +753,7 @@ function EztableTabEve(tbl, ide, idf, errmsg, typ, vtyp) {
             else {
                 tr.css("background", "red");
                 tr.find(ide).focus();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
         }
     });
@@ -757,7 +780,7 @@ function EztableTabEveOne(tbl, ide, idf, errmsg, typ, vtyp,lent) {
                 tr.find(ide).val(ab.slice(0, 1 - ab.length));
                 tr.css("background", "red");
                 tr.find(ide).focus();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
         }
     });
@@ -783,7 +806,7 @@ function EztableLstEnt(tbl, ide, idf, errmsg, typ, vtyp) {
             else {
                 tr.css("background", "red");
                 tr.find(ide).focus();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
             return false;
         }
@@ -812,7 +835,7 @@ function EztableLstTabBlk(tbl, ide, idf, errmsg, typ, vtyp) {
             else {
                 tr.css("background", "red");
                 tr.find(ide).focus();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
 
         }
@@ -829,6 +852,43 @@ function EztableLstTab(tbl, ide, idf) {
         }
     });
 }
+    
+var t = false;
+function EztableDateCondion(tbl, ide, idf,fstyp) {
+    $(tbl).on('dp.change', ide, function (e) {
+       
+        if (e.oldDate !== null ) {
+            debugger;
+        var tr = $(this).closest("tr");
+        var Edt = new Date(Ezsetdtpkdate(tr.find(ide).val()));
+        var Effdt = new Date(Ezsetdtpkdate(tr.find(idf).val()));
+        if (fstyp = 'E') {
+            if ((t == false) && (new Date(Ezsetdtpkdate(tr.find(ide).val())) >= new Date(Ezsetdtpkdate(tr.find(idf).val())))) {//compare end <=, not >=
+                tr.find(ide).val(tr.find(idf).val());
+                t = true;
+                EzAlerterrDt();
+            }
+            else {
+                t = false;
+            }
+        } else {
+            if ((t == false) && (new Date(Ezsetdtpkdate(tr.find(ide).val())) <= new Date(Ezsetdtpkdate(tr.find(idf).val())))) {//compare end <=, not >=
+                tr.find(ide).val(tr.find(idf).val());
+                t = true;
+                EzAlerterrDt();
+            }
+            else {
+                t = false;
+            }
+        }
+        
+        
+        }
+       
+    });
+}
+
+
 /* delete grid record */
 function EzGriddel(tbl, btndel) {
     $(tbl).on("click", btndel, function () {       
