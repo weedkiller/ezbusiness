@@ -23,53 +23,57 @@ namespace EzBusiness_DL_Repository
 
         public List<SalaryM> GetSryList(string CMPYCODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRSMS001 where CmpyCode='" + CMPYCODE + "' and  Flag=0 ");
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<SalaryM> ObjList = new List<SalaryM>();
-            foreach (DataRow dr in drc)
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRSMS001 sm inner join MEM001 emp on sm.EMPCODE=emp.EmpCode and sm.CMPYCODE=emp.Cmpycode and sm.Flag=emp.Flag  where sm.CmpyCode='" + CMPYCODE + "' and  sm.Flag=0 ");
+            List<SalaryM> ObjList = null;
+            if (ds.Tables.Count > 0)
             {
-                ObjList.Add(new SalaryM()
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                 ObjList = new List<SalaryM>();
+                foreach (DataRow dr in drc)
                 {
-                    CMPYCODE = dr["CMPYCODE"].ToString(),
-                    PRSM001_CODE = dr["PRSM001_CODE"].ToString(),
-                    DIVISION = dr["DIVISION"].ToString(),
-                    COUNTRY = dr["COUNTRY"].ToString(),
-                    EMPCODE = dr["EMPCODE"].ToString(),
-                    Entery_date = Convert.ToDateTime(dr["Entery_date"]),
-                    Effect_From = Convert.ToDateTime(dr["Effect_From"]),
-                    BASIC = Convert.ToDecimal(dr["BASIC"]),
-                    BASICCAPTION = dr["BASICCAPTION"].ToString(),
-                    BASICACT = dr["BASICACT"].ToString(),
-                    HRA = Convert.ToDecimal(dr["HRA"]),
-                    HRACAPTION = dr["HRACAPTION"].ToString(),
-                    HRAACT = dr["HRAACT"].ToString(),
-                    DA = Convert.ToDecimal(dr["DA"]),
-                    DACAPTION = dr["DACAPTION"].ToString(),
-                    DAACT = dr["DAACT"].ToString(),
-                    TELE = Convert.ToDecimal(dr["TELE"]),
-                    TELECAPTION = dr["TELECAPTION"].ToString(),
-                    TELEACT = dr["TELEACT"].ToString(),
-                    TRANS = Convert.ToDecimal(dr["TRANS"]),
-                    TRANSCAPTION = dr["TRANSCAPTION"].ToString(),
-                    TRANSACT = dr["TRANSACT"].ToString(),
-                    CAR = Convert.ToDecimal(dr["CAR"]),
-                    CARCAPTION = dr["CARCAPTION"].ToString(),
-                    CARACT = dr["CARACT"].ToString(),
-                    ALLOWANCE1 = Convert.ToDecimal(dr["ALLOWANCE1"]),
-                    ALLOWANCE1CAPTION = dr["ALLOWANCE1CAPTION"].ToString(),
-                    ALLOWANCE1ACT = dr["ALLOWANCE1ACT"].ToString(),
-                    ALLOWANCE2 = Convert.ToDecimal(dr["ALLOWANCE2"]),
-                    ALLOWANCE2CAPTION = dr["ALLOWANCE2CAPTION"].ToString(),
-                    ALLOWANCE2ACT = dr["ALLOWANCE2ACT"].ToString(),
-                    ALLOWANCE3 = Convert.ToDecimal(dr["ALLOWANCE3"]),
-                    ALLOWANCE3CAPTION = dr["ALLOWANCE3CAPTION"].ToString(),
-                    ALLOWANCE3ACT = dr["ALLOWANCE3ACT"].ToString(),
-                    TOTAL = Convert.ToDecimal(dr["TOTAL"]),
+                    ObjList.Add(new SalaryM()
+                    {
+                        CMPYCODE = dr["CMPYCODE"].ToString(),
+                        PRSM001_CODE = dr["PRSM001_CODE"].ToString(),
+                        DIVISION = dr["DIVISION"].ToString(),
+                        COUNTRY = dr["COUNTRY"].ToString(),
+                        EMPCODE = dr["EMPCODE"].ToString(),
+                        Entery_date = Convert.ToDateTime(dr["Entery_date"]),                       
+                        Effect_From = Convert.ToDateTime(dr["Effect_From"]),
+                        BASIC = Convert.ToDecimal(dr["BASIC"]),
+                        BASICCAPTION = dr["BASICCAPTION"].ToString(),
+                        BASICACT = dr["BASICACT"].ToString(),
+                        HRA = Convert.ToDecimal(dr["HRA"]),
+                        HRACAPTION = dr["HRACAPTION"].ToString(),
+                        HRAACT = dr["HRAACT"].ToString(),
+                        DA = Convert.ToDecimal(dr["DA"]),
+                        DACAPTION = dr["DACAPTION"].ToString(),
+                        DAACT = dr["DAACT"].ToString(),
+                        TELE = Convert.ToDecimal(dr["TELE"]),
+                        TELECAPTION = dr["TELECAPTION"].ToString(),
+                        TELEACT = dr["TELEACT"].ToString(),
+                        TRANS = Convert.ToDecimal(dr["TRANS"]),
+                        TRANSCAPTION = dr["TRANSCAPTION"].ToString(),
+                        TRANSACT = dr["TRANSACT"].ToString(),
+                        CAR = Convert.ToDecimal(dr["CAR"]),
+                        CARCAPTION = dr["CARCAPTION"].ToString(),
+                        CARACT = dr["CARACT"].ToString(),
+                        ALLOWANCE1 = Convert.ToDecimal(dr["ALLOWANCE1"]),
+                        ALLOWANCE1CAPTION = dr["ALLOWANCE1CAPTION"].ToString(),
+                        ALLOWANCE1ACT = dr["ALLOWANCE1ACT"].ToString(),
+                        ALLOWANCE2 = Convert.ToDecimal(dr["ALLOWANCE2"]),
+                        ALLOWANCE2CAPTION = dr["ALLOWANCE2CAPTION"].ToString(),
+                        ALLOWANCE2ACT = dr["ALLOWANCE2ACT"].ToString(),
+                        ALLOWANCE3 = Convert.ToDecimal(dr["ALLOWANCE3"]),
+                        ALLOWANCE3CAPTION = dr["ALLOWANCE3CAPTION"].ToString(),
+                        ALLOWANCE3ACT = dr["ALLOWANCE3ACT"].ToString(),
+                        TOTAL = Convert.ToDecimal(dr["TOTAL"]),
+                        EmpName = dr["Empname"].ToString()
 
+                    });
 
-                });
-
+                }
             }
             return ObjList;
         }

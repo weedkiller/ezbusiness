@@ -830,7 +830,6 @@ namespace EzBusiness_DL_Repository
                 }
                 catch (Exception)
                 {
-
                     EmpMs.ErrorMessage = "Error occur";
                     EmpMs.IsSavedFlag = false;
                 }
@@ -840,8 +839,6 @@ namespace EzBusiness_DL_Repository
                 //var mr = _materialMgmtContext.MReqHeaders.FirstOrDefault(m => m.MRCode.Equals(po.MRCode) && m.CmpyCode.Equals(po.CmpyCode));
                 try
                 {
-
-
                     ds = _EzBusinessHelper.ExecuteDataSet("Select * from MEM001 where CmpyCode='" + EmpMs.Cmpycode + "' and EmpCode='" + EmpMs.EmpCode + "'");
                     using (TransactionScope scope1 = new TransactionScope())
                     {
