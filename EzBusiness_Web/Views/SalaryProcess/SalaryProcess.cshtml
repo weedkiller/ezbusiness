@@ -133,23 +133,24 @@
             $("#editshow").hide();
             debugger;
             var opMode = $("#hdnOperationMode").val();
-
+            var currdate = $("[name*='DateINMonth']").val();
             if (opMode == "Add") {
                 // Code for Adding MainTable
                 var salarym = {
                     EditFlag: false,
                     //PRSM001UID :$("[name*='PRSM001UID']").val(),
                     Code: $("[name*='Code']").val(),
-                    CurrentDate: Ezsetdtpkdate($("[name*='CurrentDate']").val()),
+                    CurrentDate: $("[name*='DateINMonth']").val(),
                 
                     salaryList: [],
 
                 };
                 $("#tableslryDetails tbody tr").each(function (index, item) {
                 
-                    var SnoTxt = $(this).find('td:eq(1)').text();
-                    var EmpCodeTxt = $(this).find('td:eq(2)').text();
-                    var EmpNameTxt = $(this).find('td:eq(3)').text();
+                    var SnoTxt = $(this).find('td:eq(0)').text();
+                    var EmpCodeTxt = $(this).find('td:eq(1)').text();
+                    var EmpNameTxt = $(this).find('td:eq(2)').text();
+                    var ProjectCodeTxt = $(this).find('td:eq(3)').text();
                     var WorkingDay = $(this).find('td:eq(4)').text();
                     var Present = $(this).find('td:eq(5)').text();
                     var Absent = $(this).find('td:eq(6)').text();
@@ -161,18 +162,20 @@
                     var HolidayOTHrs = $(this).find('td:eq(12)').text();
                     var WeeklyOffOTHrs = $(this).find('td:eq(13)').text();
                     var ExtraOTHrs = $(this).find('td:eq(14)').text();
-                    var FExtraOTHrs = $(this).find('td:eq(15)').text();
+                    var BasicSalary = $(this).find('td:eq(15)').text();
                     var MonthlyAddition = $(this).find('td:eq(16)').text();
-                    var TotalEarning = $(this).find('td:eq(17)').text();
-                    var TotalDeduction = $(this).find('td:eq(18)').text();
-                    var LoanDeduction = $(this).find('td:eq(19)').text();
+                    var TotalDeduction  = $(this).find('td:eq(17)').text();
+                    var LoanDeduction = $(this).find('td:eq(18)').text();
+                    var TotalEarning = $(this).find('td:eq(19)').text();
                     var NetSalary = $(this).find('td:eq(20)').text();
+                    var FExtraOTHrs = 0;
 
                     if ((EmpCodeTxt != "")) {
                         var salarydetail = {
                             Sno: SnoTxt,
                             EmpCode: EmpCodeTxt,
                             EmpName: EmpNameTxt,
+                            ProjectCode:ProjectCodeTxt,
                             WorkingDay: WorkingDay,
                             Present: Present,
                             Absent: Absent,
@@ -212,20 +215,26 @@
                     $("#ErrorMessage").show();
                     Ezerrormsg("#ErrorMessage",validationResult.ErrorMessage);
                 }
-                } else if (opMode == "Edit" && n==1) {
+            }
+            else if (opMode == "Edit" && n == 1) {
                     // Code for Adding Purchase order
-                   // debugger;
+                // debugger;
+                var i = 0;
+                $("#btnDelete").prop("disabled", true);
+                $("#btnSave").prop("disabled", true);
+                EzAlerterrtxt("Can't Edit Data");
+                if (i = 1) {
                     var salarym = {
                         EditFlag: true,
                         //PRSM001UID :$("[name*='PRSM001UID']").val(),
                         PRSM001_CODE: $("[name*='Code']").val(),
                         CurrentDate: $("[name*='CurrentDate']").val(),
-                
+
                         salaryList: []
 
                     };
                     $("#tableslryDetails tbody tr").each(function (index, item) {
-                      
+
                         var SnoTxt = $(this).find("[name*='Sno']").val();
                         var EmpCodeTxt = $(this).find("[name*='EmpCode']").val();
                         var EmpNameTxt = $(this).find("[name*='EmpName']").val();
@@ -274,20 +283,22 @@
                         }
                     });
                     var validationResult = ValidateForm(salarydetail);
-                if (validationResult.formValid) {
-                    $.post("/SaveSalaryProcess", salarym).done(function (response) {
-                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            EzbtnsaveAc("#SMAContainer");
-                            ezerrormsg("#ErrorMessage", response.ErrorMessage);
-                            GetSry();
-                        } else {
-                            ezerrormsg("#ErrorMessage",response.ErrorMessage);
-                        }
-                    });
-                } else {
-                    $("#ErrorMessage").show();
-                    ezerrormsg("#ErrorMessage",validationResult.ErrorMessage);
+                    if (validationResult.formValid) {
+                        $.post("/SaveSalaryProcess", salarym).done(function (response) {
+                            if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                                EzbtnsaveAc("#SMAContainer");
+                                ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                GetSry();
+                            } else {
+                                ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            }
+                        });
+                    } else {
+                        $("#ErrorMessage").show();
+                        ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    }
                 }
+              
             }
 
 
@@ -471,6 +482,7 @@
                                                                         <th>Sr No</th>
                                                                         <th>Emp_Code</th>
                                                                         <th>Employee Name</th>
+                                                                        <th>ProjectCode</th>
                                                                         <th>Working Days</th>
                                                                         <th>Present</th>
                                                                         <th>Absent</th>

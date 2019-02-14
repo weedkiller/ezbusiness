@@ -49,7 +49,7 @@ namespace EzBusiness_DL_Repository
 
         public List<SalaryProcessDetailsVM> GetSalaryDetailsList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select CmpyCode,Code,Dates from PRSPD001 where CmpyCode='" + CmpyCode + "'");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select CmpyCode,Code,Dates from PRSPD001 where CmpyCode='" + CmpyCode + "' group by CmpyCode,Code,Dates");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<SalaryProcessDetailsVM> ObjList = new List<SalaryProcessDetailsVM>();
@@ -128,27 +128,28 @@ namespace EzBusiness_DL_Repository
                     objList = new List<SalaryProcessDetailsListItem>();
                     foreach (DataRow dr in drc)
                     {
-                        objList.Add(new SalaryProcessDetailsListItem()
-                        {
-                            EmpCode = dr["EmpCode"].ToString(),
-                            EmpName = dr["empname"].ToString(),
-                            WorkingDay = Convert.ToDecimal(dr["workingday"].ToString()),
-                            Present = Convert.ToDecimal(dr["Present"].ToString()),
-                            Leaves = Convert.ToDecimal(dr["AnnualLeave"].ToString()),
-                            Absent = Convert.ToDecimal(dr["Absentt"].ToString()),
-                            SickLeaves = Convert.ToDecimal(dr["SickLeave"].ToString()),
-                            WeeklyOff = Convert.ToDecimal(dr["WeeklyOff"].ToString()),
-                            Holiday = Convert.ToDecimal(dr["Holiday"].ToString()),
-                            NormalOTHrs = Convert.ToDecimal(dr["NOTHrs"].ToString()),
-                            HolidayOTHrs = Convert.ToDecimal(dr["HOTHrs"].ToString()),
-                            WeeklyOffOTHrs = Convert.ToDecimal(dr["FOTHrs"].ToString()),
-                            ExtraOTHrs = Convert.ToDecimal(dr["ExtraOTHrs"].ToString()),
-                            TotalEarning = Convert.ToDecimal(dr["TotalEarningdata"].ToString()),
-                            TotalDeduction = Convert.ToDecimal(dr["Deduction"].ToString()),
-                            NetSalary = Convert.ToDecimal(dr["netsalarydata"].ToString()),
-                            MonthlyAddition = Convert.ToDecimal(dr["Addition"].ToString()),
-                            LoanDeduction = Convert.ToDecimal(dr["LoanDeductiondata"].ToString()),
-                            //ErrorMsg = (dr["Flag"].ToString()),
+                    objList.Add(new SalaryProcessDetailsListItem()
+                    {
+                        EmpCode = dr["EmpCode"].ToString(),
+                        EmpName = dr["empname"].ToString(),
+                        WorkingDay = Convert.ToDecimal(dr["workingday"].ToString()),
+                        Present = Convert.ToDecimal(dr["Present"].ToString()),
+                        Leaves = Convert.ToDecimal(dr["AnnualLeave"].ToString()),
+                        Absent = Convert.ToDecimal(dr["Absentt"].ToString()),
+                        SickLeaves = Convert.ToDecimal(dr["SickLeave"].ToString()),
+                        WeeklyOff = Convert.ToDecimal(dr["WeeklyOff"].ToString()),
+                        Holiday = Convert.ToDecimal(dr["Holiday"].ToString()),
+                        NormalOTHrs = Convert.ToDecimal(dr["NOTHrs"].ToString()),
+                        HolidayOTHrs = Convert.ToDecimal(dr["HOTHrs"].ToString()),
+                        WeeklyOffOTHrs = Convert.ToDecimal(dr["FOTHrs"].ToString()),
+                        ExtraOTHrs = Convert.ToDecimal(dr["ExtraOTHrs"].ToString()),
+                        TotalEarning = Convert.ToDecimal(dr["TotalEarningdata"].ToString()),
+                        TotalDeduction = Convert.ToDecimal(dr["Deduction"].ToString()),
+                        NetSalary = Convert.ToDecimal(dr["netsalarydata"].ToString()),
+                        MonthlyAddition = Convert.ToDecimal(dr["Addition"].ToString()),
+                        LoanDeduction = Convert.ToDecimal(dr["LoanDeductiondata"].ToString()),
+                        //ErrorMsg = (dr["Flag"].ToString()),
+                        ProjectCode = dr["Project_code"].ToString(),
                             Salary = Convert.ToDecimal(dr["BasicSalary"].ToString()),
 
                         });
@@ -185,6 +186,7 @@ namespace EzBusiness_DL_Repository
                 {
                     CmpyCode = m.CmpyCode,
                     Code = m.Code,
+                    Sno=m.Sno,
                     EmpName = m.EmpName,
                     EmpCode = m.EmpCode,
                     WorkingDay = m.WorkingDay,
@@ -192,6 +194,7 @@ namespace EzBusiness_DL_Repository
                     LossDays = m.LossDays,
                     Absent = m.Absent,
                     Leaves = m.Leaves,
+                    ProjectCode=m.ProjectCode,
                     SickLeaves = m.SickLeaves,
                     WeeklyOff = m.WeeklyOff,
                     Holiday = m.Holiday,
@@ -234,6 +237,7 @@ namespace EzBusiness_DL_Repository
                                 sb.Append("'" + saldate + "',");
                                 sb.Append("'" + ObjList[n - 1].Sno + "',");
                                 sb.Append("'" + ObjList[n - 1].EmpName + "',");
+                                sb.Append("'" + ObjList[n - 1].ProjectCode + "',");
                                 sb.Append("'" + ObjList[n - 1].EmpCode + "',");
                                 sb.Append("'" + ObjList[n - 1].WorkingDay + "',");
                                 sb.Append("'" + ObjList[n - 1].Present + "',");
@@ -253,11 +257,17 @@ namespace EzBusiness_DL_Repository
                                 sb.Append("'" + ObjList[n - 1].TotalDeduction + "',");
                                 sb.Append("'" + ObjList[n - 1].LoanDeduction + "',");
                                 sb.Append("'" + ObjList[n - 1].NetSalary + "')");
-                                result = _EzBusinessHelper.ExecuteNonQuery1("insert into PRSPD001(CmpyCode,Code,Dates,Sno,EmpName,EmpCode,WorkingDay,Present,LossDays,Absent,Leaves,SickLeave,WeeklyOff,Holiday,NormalOTHrs,HolidayOTHrs,WeeklyOffOTHrs,ExtraOTHrs,FExtraOTHrs,TotalAddition,TotalEarning,TotalDeduction,LoanDeduction,NetSalary) values(" + sb.ToString() + "");
-                                if (result == true)
-                                {
-                                    countl = _EzBusinessHelper.ExecuteNonQuery("UPDATE A SET Paid = 'Y' from PRLA002 A INNER JOIN PRLA001 RA ON A.PRLA001_CODE = RA.PRLA001_CODE and a.CmpyCode = ra.CmpyCode where a.TMONTH = 11 and a.TYEAR = 2018 and ra.EmpCode ='" + ObjList[n - 1].EmpCode + "' and a.CmpyCode ='" + SPDV.CmpyCode + "'");
-                                }
+                                
+                               
+                                    result = _EzBusinessHelper.ExecuteNonQuery1("insert into PRSPD001(CmpyCode,Code,Dates,Sno,EmpName,ProjectCode,EmpCode,WorkingDay,Present,LossDays,Absent,Leaves,SickLeave,WeeklyOff,Holiday,NormalOTHrs,HolidayOTHrs,WeeklyOffOTHrs,ExtraOTHrs,FExtraOTHrs,TotalAddition,TotalEarning,TotalDeduction,LoanDeduction,NetSalary) values(" + sb.ToString() + "");
+                                    if (result == true)
+                                    {
+                                        int loanstatus = _EzBusinessHelper.ExecuteScalar("select count(*) from PRLA001 prl inner join PRLA002 la on prl.PRLA001_CODE=la.PRLA001_CODE and prl.CmpyCode=la.CmpyCode where EmpCode='" + ObjList[n - 1].EmpCode + "' and la.TMONTH='" + dtstr4 + "' and la.TYEAR='" + dtstr9 + "'");
+
+                                        if (loanstatus > 0)
+                                            countl = _EzBusinessHelper.ExecuteNonQuery("UPDATE A SET Paid = 'Y' from PRLA002 A INNER JOIN PRLA001 RA ON A.PRLA001_CODE = RA.PRLA001_CODE and a.CmpyCode = ra.CmpyCode where a.TMONTH ='" + dtstr4 + "' and a.TYEAR ='" + dtstr9 + "' and ra.EmpCode ='" + ObjList[n - 1].EmpCode + "' and a.CmpyCode ='" + SPDV.CmpyCode + "'");
+                                    }
+                               
                             }
                             else
                             {
@@ -268,7 +278,7 @@ namespace EzBusiness_DL_Repository
                             }
                             n = n - 1;
                         }
-                        if (result == true && countl > 0)
+                        if (result == true)
                         {
                             int Stats11 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSPH001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
                             if (Stats11 == 0)
@@ -323,6 +333,7 @@ namespace EzBusiness_DL_Repository
                                 sb.Append("Sno='" + ObjList[n - 1].Sno + "',");
                                 sb.Append("Code='" + ObjList[n - 1].Code + "',");
                                 sb.Append("EmpName='" + ObjList[n - 1].EmpName + "',");
+                                sb.Append("ProjectCode='"+ ObjList[n - 1].ProjectCode + "',");
                                 sb.Append("EmpCode='" + ObjList[n - 1].EmpCode + "',");
                                 sb.Append("WorkingDay='" + ObjList[n - 1].WorkingDay + "',");
                                 sb.Append("Present='" + ObjList[n - 1].Present + "',");
@@ -402,7 +413,7 @@ namespace EzBusiness_DL_Repository
                 {
                     EmpCode = dr["EmpCode"].ToString(),
                     EmpName = dr["empname"].ToString(),
-                    //  Dates =Convert.ToDateTime(dr["Dates"].ToString()),
+                    ProjectCode=dr["ProjectCode"].ToString(),
                     WorkingDay = Convert.ToDecimal(dr["workingday"].ToString()),
                     Present = Convert.ToDecimal(dr["Present"].ToString()),
                     Leaves = Convert.ToDecimal(dr["Leaves"].ToString()),
@@ -411,13 +422,13 @@ namespace EzBusiness_DL_Repository
                     WeeklyOff = Convert.ToDecimal(dr["WeeklyOff"].ToString()),
                     Holiday = Convert.ToDecimal(dr["Holiday"].ToString()),
                     NormalOTHrs = Convert.ToDecimal(dr["NormalOTHrs"].ToString()),
-                    // HolidayOTHrs = Convert.ToDecimal(dr["HOTHrs"].ToString()),
-                    // WeeklyOffOTHrs = Convert.ToDecimal(dr["ExtraOTHrs"].ToString()),
-                    //  ExtraOTHrs = Convert.ToDecimal(dr["ExtraOTHrs"].ToString()),
-                    // TotalEarning = Convert.ToDecimal(dr["TotalEarning"].ToString()),
+                    HolidayOTHrs = Convert.ToDecimal(dr["HolidayOTHrs"].ToString()),
+                    WeeklyOffOTHrs = Convert.ToDecimal(dr["WeeklyOffOTHrs"].ToString()),
+                    ExtraOTHrs = Convert.ToDecimal(dr["ExtraOTHrs"].ToString()),
+                    TotalEarning = Convert.ToDecimal(dr["TotalEarning"].ToString()),
                     TotalDeduction = Convert.ToDecimal(dr["TotalDeduction"].ToString()),
-                    // NetSalary = Convert.ToDecimal(dr["NetSalary"].ToString()),
-                    //SickLeave = dr["SickLeave"].ToString(),
+                    NetSalary = Convert.ToDecimal(dr["NetSalary"].ToString()),
+                    SickLeave = dr["SickLeave"].ToString(),
                     MonthlyAddition = Convert.ToDecimal(dr["TotalAddition"].ToString()),
                 });
             }
