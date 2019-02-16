@@ -12,7 +12,7 @@
          /*Retrive Data  */   
         var tablePODetails = $("#tablePODetails tbody tr");
         tablePODetails.each(function (index, item) {
-            debugger;
+           
             $("[name*='PRBM002_code" + (index + 1) + "']").val($("[name*='hdnPRBM002_code" + (index + 1) + "']").val());
             $("[name*='Bank_branch_name" + (index + 1) + "']").val($("[name*='hdnBank_branch_name" + (index + 1) + "']").val());
 
@@ -39,7 +39,7 @@
                 tr.css("background", "");
 
                 if (tr.is(":last-child")) {
-                    debugger;
+                   
                     tr.clone(true, true).insertAfter(tr);
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                         .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
@@ -82,7 +82,7 @@
         });
         /*Bank_branch_name Enter Event*/
         $("#tablePODetails").on("keypress", "[name *= 'Bank_branch_name']", function (e) {
-            debugger;
+           
             if (e.keyCode == 13) {
                 $(this).closest('tr').next('tr').find("[name *= 'PRBM002_code']").focus();
                 return false;
@@ -90,7 +90,7 @@
         });
         /*Code Tab Event*/
         $("#tablePODetails").on("keydown", "[name*='PRBM002_code']", function (e) {
-            debugger;
+           
             var keyCode = e.keyCode || e.which;
             if (keyCode == 9) {
                 e.preventDefault();

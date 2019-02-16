@@ -15,7 +15,7 @@
         })
     },
     ShiftMasterDetails: function () {
-        debugger;
+       
         $("#displayShiftMaster").show();
         var shiftCode =$("#shiftcodetxt").val();
      
@@ -23,7 +23,7 @@
             PRSFT001_code: shiftCode,
            
         }
-        debugger;
+       
         var empdt = $('#ShiftMasterreport').DataTable({
 
             "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
@@ -73,7 +73,7 @@
             ]
         });
         $("select option").filter(function () {
-            debugger;
+           
             //may want to use $.trim in here
             //return $(this).text() == text1;
             if ($(this).text() == "All") {

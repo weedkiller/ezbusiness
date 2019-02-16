@@ -45,7 +45,7 @@
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtProfCode']", function () {
             var tr = $(this).closest('tr');
-            debugger;
+           
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -93,7 +93,7 @@
         
         /*Refresh */
         $("#btnCancel").click(function () {
-            debugger;
+           
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
@@ -116,7 +116,7 @@
 
 
         $("#btnSave").click(function () {
-            debugger;
+           
             var Pros = {
                 ProfessionDetailnew: []
             };
@@ -294,7 +294,7 @@
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var profcode = "";
 
-                debugger;
+               
                 if (hdnMode.val() == "false") {
 
                     const swalWithBootstrapButtons = Swal.mixin({
@@ -316,7 +316,7 @@
                             profcode = $(tr).find("td:eq(0)").text().trim();
                             $.getJSON("/DeletePros", { ProfCode: profcode, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    debugger;
+                                   
                                     tr.remove();
                                     if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
                                         //$(".dataTables_empty").replaceWith("No data available in table");

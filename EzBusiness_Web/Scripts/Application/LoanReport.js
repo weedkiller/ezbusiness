@@ -11,7 +11,7 @@
 
         $("#lanbtnSearchData").click(function () {
             // alert("");
-            // debugger;
+            //
             loanmastr.LoanReportDetails();
         })
         $("#btncancel").click(function () {
@@ -24,7 +24,7 @@
     },
 
     LoanReportDetails: function () {
-        debugger;
+        
         $("#displayloandetails").show();
         var LoanCode = $("#empcodetxt").val();
         var name = $("#nametxt").val();
@@ -32,7 +32,7 @@
             PRLM001_CODE:LoanCode,
             Name:name
         }
-        // debugger;
+        //
 
         var fnldt = $('#loanreport').DataTable({
 
@@ -82,7 +82,7 @@
         });
        
           $("select option").filter(function () {
-            debugger;
+            
             //may want to use $.trim in here
             //return $(this).text() == text1;
             if ($(this).text() == "All") {

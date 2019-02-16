@@ -11,7 +11,7 @@
 
         $("#lanbtnSearchData").click(function () {
             // alert("");
-            // debugger;
+            //
             loandata.LoanApplicationReportDetails();
         })
           $("#btncancel").click(function () {
@@ -24,7 +24,7 @@
     },
 
     LoanApplicationReportDetails: function () {
-        debugger;
+        
         $("#displayloandetails").show();
         var fdate = Ezsetdtpkdate($("#fnlfdatetxt").val());
         var Tdate = Ezsetdtpkdate($("#fnltdatetxt").val());
@@ -36,7 +36,7 @@
             EmpName: empname,
             EmpCode: empCode
         }
-        // debugger;
+        //
 
         var fnldt = $('#LoanApplicationreport').DataTable({
 
@@ -118,7 +118,7 @@
         //    });
         //}).draw();
         $("select option").filter(function () {
-            debugger;
+            
             //may want to use $.trim in here
             //return $(this).text() == text1;
             if ($(this).text() == "All") {

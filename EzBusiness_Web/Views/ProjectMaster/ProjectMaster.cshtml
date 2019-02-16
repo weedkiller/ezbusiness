@@ -40,7 +40,7 @@
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtCode']", function () {
             var tr = $(this).closest('tr');
-            debugger;
+           
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -58,7 +58,7 @@
                 tr.find("[name*= 'txtCode']").val('');
             }
             else {
-                debugger;
+               
                 counter=1;
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
@@ -117,7 +117,7 @@
                ProjectNew: []
             };
            $("#tblUnits1 tbody tr").each(function (index, item) {
-               debugger;
+              
                 var StsCode = $(this).find("[name*='txtCode']").val();
                 var StsName = $(this).find("[name*='txtName']").val();                
                 var StsActive = $(this).find("[name*='txtActive'] option:Selected").val();
@@ -152,7 +152,7 @@
                    
                     if(response.Drecord.length>0)
                     {
-                        debugger;
+                       
                         var ary1 = [];
                         ary1 = response.Drecord;
                         if ($.inArray(codeAdd, ary1) < 0 && codeAdd != '' && nameAdd !='') {
@@ -302,7 +302,7 @@
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/ProjectMaster", "EditIt");
-            debugger;
+           
             if (n == 1) {
                 var counter = $("#Counter").val();
                 var hdnEditMode = $(this).parent().find('input:hidden:first');
@@ -335,7 +335,7 @@
                     $.post("/ProjectMaster/SavePjms", Pjms).done(function (response) {
                         nameTd.text(response.Name);
 
-                        debugger;
+                       
 
                         if (response.Active == '0') {
                             response.Active = 'No'
@@ -459,7 +459,7 @@
                     var nameTd = $(tr).find("td:eq(1)");
                     var activeTd = $(tr).find("td:eq(2)");
                     var nameEdit = $('#Ecode1').val();// $(tr).find("[name*='txtName']").val().trim();
-                    debugger;
+                   
                      var activeEdit =$('#EAct1').val();// $(tr).find("[name*='txtActive'] option:Selected").val();
 
                     if (activeEdit == '0') {

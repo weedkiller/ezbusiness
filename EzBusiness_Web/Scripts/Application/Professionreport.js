@@ -11,7 +11,7 @@
 
         $("#lanbtnSearchData").click(function () {
             // alert("");
-            // debugger;
+            //
             Profdata.ProfessionReportDetails();
         })
         $("#btncancel").click(function () {
@@ -23,7 +23,7 @@
     },
 
     ProfessionReportDetails: function () {
-        debugger;
+       
         $("#displayprofdetails").show();
         var Code = $("#empcodetxt").val();
         var name = $("#nametxt").val();
@@ -31,7 +31,7 @@
             ProfCode: Code,
             ProfName: name
         }
-        // debugger;
+        //
 
         var fnldt = $('#profreport').DataTable({
 
@@ -82,7 +82,7 @@
         });
      
         $("select option").filter(function () {
-            debugger;
+           
             //may want to use $.trim in here
             //return $(this).text() == text1;
             if ($(this).text() == "All") {
