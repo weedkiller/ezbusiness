@@ -50,14 +50,14 @@ namespace EzBusiness_DL_Repository
                     Utype = dr["Utype"].ToString();
 
                     List<SessionListnew> ObjList = new List<SessionListnew>();
-
+                    
 
                     SessionListnew data = new SessionListnew();
                     data.user_name = Login1;
                     data.Utype = Utype;
 
                     data.CmpyCode = LoginMaster.CmpyCode.ToString();
-
+                    
 
                     if (LoginMaster.DivCode != null)
                     {
@@ -92,11 +92,6 @@ namespace EzBusiness_DL_Repository
 
 
                     context.Session["SesDet"] = ObjList;
-
-                  
-
-
-
 
                 }
                 if (Login1 != "0")
