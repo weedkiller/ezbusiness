@@ -15,9 +15,6 @@
 <script>
     $(function () {
        // EzsetDatetxt();
-        
-
-      
         counter = 1;
         drec = [];
         /* delete grid record */
@@ -64,11 +61,9 @@
                 tr.find("[name *= 'PRSFT002_code']").focus();
                 alert("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'PRSFT002_code']").val('');
-
             }
             else {
                 tr.css("background", "");
-
                 if (tr.is(":last-child")) {
                     tr.clone(true, true).insertAfter(tr);
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
@@ -86,24 +81,17 @@
                     trLast.find("[name *= 'ShiftName']").attr({
                         "name": ("ShiftName" + counter)
                     });
-
                     trLast.find("[name *= 'Enttry_Date']").attr({
                         "name": ("Enttry_Date" + counter)
                     });
                     trLast.find("[name *= 'Effect_Date']").attr({
                         "name": ("Effect_Date" + counter)
                     });
-
-
                     trLast.find(":first").text(counter);
                 }
                 counter++;
-
-               
-               
             }
         });
-
         $('body').on('focusin', '.datepicker', function () {
            
             // var myDate = new Date(2012, 2, 11);
@@ -138,7 +126,7 @@
         });
 
         $("#tablePODetails").on('dp.change', "[name*='Effect_Date']", function (e) {
-           
+            debugger;
             var fstyp = "";
             if (e.oldDate !== null) {
                 var tr = $(this).closest("tr");              
@@ -152,23 +140,14 @@
                 }
             }
         });
-       
-
-
 
         $('.selectpicker').selectpicker('refresh');
-
         EzdtePk('#Enttry_Date1,#Effect_Date1');       
         Ezdteformtcurtime();
         $(".datepicker").datetimepicker("destroy");
-
     });
 
-   
-
-
-    </script>
-    
+    </script>   
     <!-- Row start -->
   <div class="form-horizontal">
     <div class="form-body">
@@ -196,9 +175,7 @@
 
 
         </div>
-
         <div class="row">
-
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="control-label col-md-3">Shift Name</label>

@@ -99,9 +99,7 @@ namespace EzBusiness_DL_Repository
 
                     LoginMaster.IsLogInFlag = true;
 
-                    LoginMaster.ErrorMessage = "Login Successfull";
-
-                    
+                    LoginMaster.ErrorMessage = "Login Successfull";                   
                 }
                 else
                 {
