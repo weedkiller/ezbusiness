@@ -30,6 +30,13 @@ namespace EzBusiness_Web.Controllers
             return View();
         }
 
+        //[NotChildAction]
+        //[HttpPost]
+        //public ActionResult Attt
+        //{
+
+        //}
+
         [ChildActionOnly]
         public ActionResult GetMenuTree()
         {

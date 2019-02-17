@@ -89,9 +89,9 @@ namespace EzBusiness_DL_Repository
 
                     HttpContext context = HttpContext.Current;
 
-
-
                     context.Session["SesDet"] = ObjList;
+
+                   
 
                 }
                 if (Login1 != "0")
