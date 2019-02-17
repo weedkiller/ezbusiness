@@ -11,7 +11,7 @@ function ezValidateNumbers(tableid, ids) {
 }
 //function EZMessgDeleteBtn()
 //{
-//    debugger;
+//   
 //   // var retunresult = "";
 //    const swalWithBootstrapButtons = Swal.mixin({
 //        confirmButtonClass: 'btn btn-success',
@@ -530,7 +530,7 @@ function Ezsidetbl(ide, idef, lk) {
 }
 /*tbl class date formate DD/MM/YYYY get current */
 function EzdtePk(date1) {
-    debugger;
+    
     $(date1).datetimepicker({
         defaultDate: new Date(),
         format: 'DD/MM/YYYY',
@@ -686,7 +686,7 @@ function EzdtePkMMyyEdit(date1, dtval) {
 //}
 /* date formate dd/MM/yyyy set Table*/
 function EzdteTblPkEdit(dtval) {
-    debugger;
+    
     var now = new Date(dtval);
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -761,7 +761,7 @@ function EztableTabEve(tbl, ide, idf, errmsg, typ, vtyp) {
 /*Lenght decide table inside input */
 function EztableTabEveOne(tbl, ide, idf, errmsg, typ, vtyp,lent) {
     $(tbl).on("keydown", ide, function (e) {
-        debugger;
+        
         var keyCode = e.keyCode || e.which;
         if (keyCode == 9) {
             e.preventDefault();
@@ -854,11 +854,11 @@ function EztableLstTab(tbl, ide, idf) {
 }
     
 var t = false;
-function EztableDateCondion(tbl, ide, idf,fstyp) {
+function EztableDateCondion(tbl, ide, idf) {
     $(tbl).on('dp.change', ide, function (e) {
-       
-        if (e.oldDate !== null ) {
-            debugger;
+        
+        var fstyp = "";
+       if (e.oldDate !== null) {         
         var tr = $(this).closest("tr");
         var Edt = new Date(Ezsetdtpkdate(tr.find(ide).val()));
         var Effdt = new Date(Ezsetdtpkdate(tr.find(idf).val()));
@@ -916,7 +916,7 @@ function EzMasterCancel(btnadd, btncan, btnsave) {
 }
 
 function Ezprop(Ideary, propvalue, tf) {
-    debugger;
+    
     var n = Ideary.length;
     while (n > 0) {
         $(Ideary[n - 1]).prop(propvalue, tf);
@@ -924,7 +924,7 @@ function Ezprop(Ideary, propvalue, tf) {
     }
 }
 function Ezattr(Ideary, propvalue, tf) {
-    debugger;
+    
     var n = Ideary.length;
     while (n > 0) {
         $(Ideary[n - 1]).attr(propvalue, tf);

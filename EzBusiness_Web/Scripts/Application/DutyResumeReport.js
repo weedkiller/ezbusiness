@@ -14,7 +14,7 @@
         })
     },
     DutyResumeDetails: function () {
-        debugger;
+        
         $("#displayDutyResume").show();
         var fdate = Ezsetdtpkdate($("#fdatetxt").val());
         var Tdate = Ezsetdtpkdate($("#tdatetxt").val());
@@ -27,7 +27,7 @@
             EmpName: empname,
             EmpCode: empCode
         }
-        debugger;
+        
         var empdt = $('#DutyResumereport').DataTable({
 
             "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
@@ -86,7 +86,7 @@
         });
 
         $("select option").filter(function () {
-            debugger;
+            
             //may want to use $.trim in here
             //return $(this).text() == text1;
             if ($(this).text() == "All") {

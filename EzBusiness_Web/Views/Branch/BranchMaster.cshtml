@@ -23,7 +23,7 @@
        $(function () {
         $("#tblUnits1").hide();      
 
-        debugger;
+       
         $("#tbldiv").show();
         GetDivisionList();
 
@@ -49,7 +49,7 @@
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtCode']", function () {
             var tr = $(this).closest('tr');
-            debugger;
+           
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -127,7 +127,7 @@
             };
             Ezerrormsg("#ErrorMessage", "");
             $("#tblUnits1 tbody tr").each(function (index, item) {
-                debugger;
+               
                 var StsCode = $(this).find("[name*='txtCode']").val().trim();
                 var StsName = $(this).find("[name*='txtName']").val().trim();
                 var StsDivisionCode = $(this).find("[name*='ddlPayDeductOn1']").val().trim();               
@@ -214,7 +214,7 @@
             }
         });
         function ValidateForm(Brc) {
-            debugger;
+           
             var response = {
                 ErrorMessage: "",
                 formValid: false
@@ -237,7 +237,7 @@
         });
        
         $("#tblUnits").on("click", "[name^='Edit']", function () {
-            debugger;
+           
             var n = EzAuthenticationBtn("/Branch", "EditIt");
             if (n == 1) {
                 var counter = $("#Counter").val();
@@ -259,7 +259,7 @@
                         DivCode: DivCodeEdit,
                         EditFlag: true
                     };
-                    debugger;
+                   
                     $.post("/Branch/SaveBrnc", Branch).done(function (response) {
                         NameTd.text(response.Name);
                         paydeductonTd.text(response.DivCode);
@@ -294,7 +294,7 @@
             }
         });
         $("#tblUnits").on("click", "[name^='Delete']", function () {
-            debugger;
+           
             var n = EzAuthenticationBtn("/Branch", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");
@@ -323,7 +323,7 @@
                             code = $(tr).find("td:eq(0)").text().trim();
                             $.getJSON("/DeleteBrs", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    debugger;
+                                   
                                     tr.remove();
                                     if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
                                         //$(".dataTables_empty").replaceWith("No data available in table");
@@ -389,7 +389,7 @@
     }
     /*Start Code For Bind Dropdown*/
     function GetPayDeductOnDDL(index) {
-        debugger;
+       
         if (paydeductons.length > 0) {
             var ddlPayDeductOn = "<select class='target' name='ddlPayDeductOn1" + index + "'>";
             for (var i in paydeductons) {
@@ -402,7 +402,7 @@
    
     /*Code For Bind Branch Code*/
     function GetDivisionList() {
-        debugger;
+       
         var index = 1;
         $.ajax({
             url: "/DivCommontable2",

@@ -27,7 +27,7 @@
        $(function () {
         $("#tblUnits1").hide();
       
-        debugger;
+       
         $("#tbldiv").show();
             GetDivisionList();
             GetBranchList();
@@ -55,7 +55,7 @@
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtDepartmentCode']", function () {
             var tr = $(this).closest('tr');
-            debugger;
+           
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -116,7 +116,7 @@
        
         /*Change  Event*/
         $("#tblUnits1").on("change", "[name*='ddlPayDeductOn1']", function () {
-            debugger;
+           
 
             var tr = $(this).closest("tr");
             var Divddl = tr.find("[name*='ddlPayDeductOn1']").val();
@@ -182,7 +182,7 @@
                 DepartmentDetailnew: []
             };
             $("#tblUnits1 tbody tr").each(function (index, item) {
-                debugger;
+               
                 var StsCode = $(this).find("[name*='txtDepartmentCode']").val().trim();
                 if (StsCode != '') {
                     var StsName = $(this).find("[name*='txtDepartmentName']").val().trim();
@@ -329,7 +329,7 @@
                     };
                 }
                 
-                debugger;
+               
                 $.post("/Department/SaveDeps", Deps).done(function (response) {
                     departmentnameTd.text(response.DepartmentName);
                     paydeductonTd.text(response.DivisionCode);
@@ -400,7 +400,7 @@
                             code = $(tr).find("td:eq(0)").text().trim();
                             $.getJSON("/DeleteDeps", { DepartmentCode: code, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    debugger;
+                                   
                                     tr.remove();
                                     if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
                                         //$(".dataTables_empty").replaceWith("No data available in table");
@@ -470,7 +470,7 @@
     }
     /*Start Code For Bind Dropdown*/
     function GetPayDeductOnDDL(index) {
-        debugger;
+       
         if (paydeductons.length > 0) {
             var ddlPayDeductOn = "<select class='target' name='ddlPayDeductOn1" + index + "'>";
             for (var i in paydeductons) {
@@ -482,7 +482,7 @@
     }
     /*Code For Bind Division Code*/
     function GetDivisionList() {
-        debugger;
+       
         var index = 1;
         $.ajax({
             url: "/Commontable2",
@@ -508,7 +508,7 @@
     }
     /*Code For Bind Branch Code*/
     function GetBranchList() {
-        debugger;
+       
       //  var index = 1;
    
                     var mySelect = $('#ddlPayDeductOn2');
@@ -517,7 +517,7 @@
                         );
                    } 
     function GetPayDeductOnDDL1(index) {
-        debugger;
+       
         if (paydeductons1.length > 0) {
             var ddlPayDeductOn = "<select class='target' name='ddlPayDeductOn1" + index + "'>";
             for (var i in paydeductons1) {
@@ -531,7 +531,7 @@
     
     /*Code For Change Event On Dropdown*/
     function GetPayDeductOnDDL2(paydeducton2) {
-        debugger;
+       
         var ddlPayDeductOn = "<select class='target2'  id='mySelect'  name='ddlPayDeductOn2" + paydeducton2 + "' style='width:153px;' '>";//onchange='setValue();
                 ddlPayDeductOn += "<option value='" + paydeducton2 + "'>" + paydeducton2 + " </option>";
                 ddlPayDeductOn += "</select>";           

@@ -11,7 +11,7 @@
        
         $("#mnthbtnSearchData").click(function () {
             // alert("");
-            // debugger;
+            //
             monthadddect.MonthlyAddDeductReportDetails();
         })
           $("#btncancel").click(function () {
@@ -24,7 +24,7 @@
     },
    
     MonthlyAddDeductReportDetails: function () {
-        debugger;
+        
         $("#displaymonthlyadddeduct").show();
         var fdate = Ezsetdtpkdate($("#fnlfdatetxt").val());
         var Tdate = Ezsetdtpkdate($("#fnltdatetxt").val());
@@ -36,7 +36,7 @@
             EmpName: empname,
             EmpCode: empCode
         }
-        // debugger;
+        //
 
         var fnldt = $('#monthlyadddeductreport').DataTable({
 
@@ -99,7 +99,7 @@
         //    });
         //}).draw();
         $("select option").filter(function () {
-            debugger;
+            
             //may want to use $.trim in here
             //return $(this).text() == text1;
             if ($(this).text() == "All") {

@@ -23,7 +23,7 @@ var Empreport = {
        })
         $("#fnlbtnSearchData").click(function () {
           // alert("");
-         // debugger;
+         //
            Empreport.FinalReportDetails();
         })
         $("#btncancel").click(function () {
@@ -41,7 +41,7 @@ var Empreport = {
    },
    EmpReportDetails: function ()
    {
-      // debugger;
+      //
        $("#displayemp").show();
        var fdate = $("#fdatetxt").val();
        var Tdate = $("#tdatetxt").val();
@@ -124,7 +124,7 @@ var Empreport = {
                ]
            });
        //empdt.on('order.dt search.dt', function () {
-       //    debugger;
+       //   
        //        empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
        //            cell.innerHTML = i + 1;
        //             empdt.cell(cell).invalidate('dom');
@@ -132,7 +132,7 @@ var Empreport = {
        //    }).draw();
 
        $("select option").filter(function () {
-           debugger;
+           
            //may want to use $.trim in here
            //return $(this).text() == text1;
            if ($(this).text() == "All") {
@@ -147,7 +147,7 @@ var Empreport = {
    FinalReportDetails: function ()
    {
        
-       debugger;
+       
        $("#displayfinalsettlment").show();
        var fdate = Ezsetdtpkdate($("#fnlfdatetxt").val());
        var Tdate = Ezsetdtpkdate($("#fnltdatetxt").val());
@@ -159,7 +159,7 @@ var Empreport = {
            EmpName: empname,
            EmpCode: empCode
        }
-       debugger;
+       
      
            var fnldt = $('#finalsettlmentreport').DataTable({
 

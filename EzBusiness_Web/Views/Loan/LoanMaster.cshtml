@@ -40,7 +40,7 @@
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtPRLM001_CODE']", function () {
             var tr = $(this).closest('tr');
-            debugger;
+           
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -109,7 +109,7 @@
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
-            debugger;
+           
            var LoanMaster=  {
                LoanNew: []
             };
@@ -276,7 +276,7 @@
         $("#tblUnits").on("click", "[name^='Delete']", function (e, data) {
             var n = EzAuthenticationBtn("/Loan", "DeleteIt");
             if (n == 1) {
-                debugger;
+               
                 var tr = $(this).closest("tr");
                 var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
                 var codeTd = $(tr).find("td:eq(0)");
@@ -303,7 +303,7 @@
                             code = $(tr).find("td:eq(0)").text().trim();                          
                             $.getJSON("/DeleteLons", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    debugger;
+                                   
                                       tr.remove();                                  
                                     if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
                                         //$(".dataTables_empty").replaceWith("No data available in table");

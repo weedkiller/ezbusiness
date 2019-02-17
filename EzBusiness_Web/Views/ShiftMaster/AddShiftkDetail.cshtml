@@ -98,11 +98,14 @@
                     trLast.find(":first").text(counter);
                 }
                 counter++;
+
+               
+               
             }
         });
 
         $('body').on('focusin', '.datepicker', function () {
-            debugger;
+           
             // var myDate = new Date(2012, 2, 11);
 
             // $('#startdate').datetimepicker("setDate", myDate);
@@ -117,15 +120,45 @@
 
         });
         EztableLstEnt("#tablePODetails", "[name*='ShiftName']", "[name *= 'PRSFT002_code']","T","");
-      
+              
+        $("#tablePODetails").on('dp.change', "[name*='Enttry_Date']", function (e) {
+           
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");                           
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val())) >= new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='Enttry_Date']").val(tr.find("[name*='Effect_Date']").val());
+                        t = true;
+                        EzAlerterrDt();
+                    }
+                    else {
+                        t = false;
+                    }               
+            }
+        });
 
-        EztableDateCondion("#tablePODetails", "[name*='Enttry_Date']", "[name*='Effect_Date']", "E");
-        EztableDateCondion("#tablePODetails", "[name*='Effect_Date']", "[name*='Enttry_Date']", "N");
+        $("#tablePODetails").on('dp.change', "[name*='Effect_Date']", function (e) {
+           
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");              
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val())) <= new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='Effect_Date']").val(tr.find("[name*='Enttry_Date']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
+       
+
 
 
         $('.selectpicker').selectpicker('refresh');
 
-        EzdtePk('#Enttry_Date1,#Effect_Date1');
+        EzdtePk('#Enttry_Date1,#Effect_Date1');       
         Ezdteformtcurtime();
         $(".datepicker").datetimepicker("destroy");
 

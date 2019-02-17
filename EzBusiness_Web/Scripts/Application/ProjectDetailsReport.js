@@ -26,7 +26,7 @@ var prjreport = {
    },
    ProjectReportDetails: function ()
    {
-      // debugger;
+      //
        $("#displayemp").show();
        var fdate = $("#fdatetxt").val();
        var Tdate = $("#tdatetxt").val();
@@ -88,7 +88,7 @@ var prjreport = {
            });
       
        $("select option").filter(function () {
-           debugger;
+          
            //may want to use $.trim in here
            //return $(this).text() == text1;
            if ($(this).text() == "All") {
