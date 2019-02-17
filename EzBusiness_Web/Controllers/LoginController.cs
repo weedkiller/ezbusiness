@@ -30,9 +30,11 @@ namespace EzBusiness_Web.Controllers
 
 
         [Route("Index")]
-        public ActionResult Index(LoginVM LoginVM)
+        public ActionResult Index()//LoginVM LoginVM
         {
-            return View();
+           
+                return View();
+           
         }
 
 
@@ -88,6 +90,7 @@ namespace EzBusiness_Web.Controllers
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             list = null;
             Session["SesDet"] = list;
+            
 
             return Redirect("Login/InLogin");
         }

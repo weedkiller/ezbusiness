@@ -89,10 +89,12 @@ namespace EzBusiness_DL_Repository
 
                     HttpContext context = HttpContext.Current;
 
-
+                    //context.Session.Add("SesDet",ObjList);
+                    
 
                     context.Session["SesDet"] = ObjList;
 
+                   // context.Session.Timeout = 30;
                   
 
 
