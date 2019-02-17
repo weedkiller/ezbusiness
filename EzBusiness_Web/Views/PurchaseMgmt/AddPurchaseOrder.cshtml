@@ -1,0 +1,313 @@
+﻿@model EzBusiness_ViewModels.Models.PurchaseMgmt.PurchaseReqVM
+
+@{
+    var counter = 1;
+}
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script>
+    $(function () {
+
+        //$("[name*='ItemCode']").empty();
+       $('.selectpicker').selectpicker('refresh');
+       debugger;
+        $("#ProjectCode").change(function () {
+            var projectName = $("#ProjectCode option:selected").val();
+            //$("#MasterWrapper").show();
+            if (projectName != "0") {
+                $(this).prop("disabled", true);
+            }
+        });
+
+        debugger;
+      
+        $("input:radio[name=ResourceType]").click(function () {
+           // $('.selectpicker').selectpicker('refresh');
+            // do something
+            if ($(this).is(':checked'))
+                var rest = $("input:radio[name=ResourceType]:checked").val();
+            $("#MasterWrapper").show();
+            if (rest != null) {
+                $.get("PurchaseMgmt/GetItemCodeList", { restyp: rest }).done(function (response) {
+                    $('#tablePODetails tr').each(function (data) {
+                        $("[name*='ItemCode']").empty();
+                        var ary = [];
+                        ary = response;
+                        for (var i = 0; i < ary.length; i++) {
+
+                            $("[name*='ItemCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+
+                        }
+
+                        $("[name*='ItemCode']").val(0);
+
+                    });
+                });
+            }
+        });
+
+       //var tbltr = $('#tablePODetails tr').length();
+
+
+        var rowCount = $('#tablePODetails tr').length;
+        if (rowCount = 2) {
+            // $("#input:radio[name=ResourceType]").attr('disabled', true);
+            //$('#ResourceType input[type="radio"]').removeAttr("disabled");
+        }
+
+        var counter = parseInt($("#hdnCounter").val());
+        $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+        });
+        $("#tablePODetails").on("change", "[name*='ItemCode']", function () {
+            debugger;
+            
+            var tr = $(this).closest("tr");
+            //$("[name*='ItemCode']").val(0);
+            //var rowCount = $('#tablePODetails tr').length;
+            //if (rowCount >= 2)
+            //{
+            //    // $('#ResourceType input[type="radio"]').removeAttr("disabled");
+
+            //    //$('#input:radio[name=ResourceType]').prop("disabled", false);
+            //}
+
+            var rest1=$("input:radio[name=ResourceType]:checked").val();
+            if (rest1 != null) {
+                $.get("PurchaseMgmt/GetItemCodeDescription", { itemCode: $(this).val(), restyp: rest1 }).done(function (response) {
+                    tr.find("[name*='ItemDescription']").val(response.Description);
+                    tr.find("[name*='ItemUnit']").val(response.Unit);
+
+                    //$('.selectpicker').selectpicker('refresh');
+                    //$('.selectpicker').selectpicker('render');
+                });
+            }
+            if (tr.is(":last-child")) {
+
+
+                tr.clone(true, true).insertAfter(tr);
+
+                $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                    .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                var trLast = $("#tableMetaSettings tr:last")
+
+               
+
+                var cloned = $("#tablePODetails tbody tr:last").clone(true); // clone last row
+                // looping over last row's inputs
+                $("#tablePODetails tbody tr:last").find('select').each(function () {
+                    cloned.find('select[name^=' + this.name.replace('[]', '') + ']').val(0);
+                    
+                });
+
+                $("#tablePODetails > tbody").append(cloned);
+                $("#tablePODetails > tbody tr:last").prev().remove();
+
+                trLast.find("[name *= 'ItemCode']").attr({
+                    "name": ("ItemCode" + counter)
+                });
+                trLast.find("[name *= 'ItemDescription']").attr({
+                    "name": ("ItemDescription" + counter)
+                });
+                trLast.find("[name *= 'ItemSpecification']").attr({
+                    "name": ("ItemSpecification" + counter)
+                });
+                trLast.find("[name *= 'ItemUnit']").attr({
+                    "name": ("ItemUnit" + counter)
+                });
+                trLast.find("[name *= 'ItemQuantity']").attr({
+                    "name": ("ItemQuantity" + counter)
+                });
+                trLast.find(":first").text(counter);
+            }
+            counter++;
+        });
+        //$("[name*='ItemCode']").change(function () {
+
+        //});
+        $('#PODate').val(new Date().getToday());
+    });
+    Date.prototype.getToday = function () {
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        return today;
+    }
+</script>
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div class="custom-form-wrapper">
+                    <!-- BEGIN FORM-->
+                    <div class="form-horizontal">
+                        <div class="form-body">
+                            <div class="row" id="ErrorMessage" style="display:none">
+                                <div class="col-lg-12 col-sm-12">
+                                    <div class="alert alert-danger">
+                                        <strong></strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">MR Code</label>
+                                        <div class="col-md-8 input-field">
+                                            <input type="text" class="form-control" name="" required placeholder="" maxlength="50" style="width:222px" readonly="readonly">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Date</label>
+                                        <div class="col-md-9 input-field">
+                                            @Html.EditorFor(m => m.PODate, new { @style = "width: 60%", @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/row-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">Project</label>
+                                        <div class="col-md-8 input-field">
+                                            @Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @style = "width: 60%", @class = "selectpicker", @data_live_search = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Location</label>
+                                        <div class="col-md-9 input-field">
+                                            @Html.DropDownListFor(m => m.LocationCode, Model.LocationList, new { @style = "width: 128%!important", @class = "selectpicker", @data_live_search = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/row-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">Resource Type</label>
+                                        <div class="col-md-8 input-field">
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(m => m.ResourceType, "M") Material
+                                            </label>
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(m => m.ResourceType, "A") Asset
+                                            </label>
+                                            <label class="radio-inline">
+                                                @Html.RadioButtonFor(m => m.ResourceType, "S") Service
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Requested By</label>
+                                        <div class="col-md-9 input-field">
+                                            @Html.DropDownListFor(m => m.RequesterCode, Model.RequesterList, new { @style = "width: 50%", @class = "selectpicker", @data_live_search = "true" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/row-->
+                            <!--/row-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">Description </label>
+                                        <div class="col-md-8 input-field">
+                                            @Html.TextAreaFor(m => m.Description, new { @style = "width: 200%", @class = "form-control", @placeholder = "Level" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--/row-->
+                            <!--/row-->
+
+
+                        </div>
+                        <!--/form body-->
+                    </div>
+
+
+                    <!-- END FORM-->
+                    <div class="portlet-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_5_1">
+                                <div id="sample_1_wrapper" class="dataTables_wrapper no-footer">
+                                    <input type="hidden" id="hdnPODetails" name="hdnPODetails" />
+                                    <div class="table-scrollable">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading clearfix">
+                                                <i class="icon-calendar"></i>
+                                                <h3 class="panel-title">Details</h3>
+                                            </div>
+                                            <table class="table table-bordered table-sm" id="tablePODetails">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 3%">Sr No</th>
+                                                        <th style="width: 30%">Item Code</th>
+                                                        <th style="width: 30%">Description</th>
+                                                        <th style="width: 20%">Specification</th>
+                                                        <th style="width: 40%">Unit</th>
+                                                        <th style="width: 5%">Quantity</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            @Html.Label(counter.ToString())
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                @Html.DropDownList(string.Concat("ItemCode", counter), Model.ItemCodeList, new { @class = "form-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBox(string.Concat("ItemDescription", counter), null, new { @class = "form-control", @disabled = "disabled" })
+                                                        </td>
+                                                        <td>
+                                                            @Html.TextBox(string.Concat("ItemSpecification", counter), null, new { @class = "form-control" })
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                @Html.DropDownList(string.Concat("ItemUnit", counter), Model.UnitList, new { @class = "form-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                @Html.TextBox(string.Concat("ItemQuantity", counter), null, new { @class = "form-control" })
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            @Html.Hidden("hdnCounter", (++counter))
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <button>Hey, click me!</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

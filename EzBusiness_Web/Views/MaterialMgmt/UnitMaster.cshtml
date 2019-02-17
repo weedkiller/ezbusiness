@@ -1,0 +1,225 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.MaterialMgmt.UnitVM>
+
+
+@{
+    ViewBag.Title = "Unit Master";
+    var counter = 1;
+}
+
+<h2>Unit Master</h2>
+
+
+
+@Scripts.Render("~/bundles/jquery")
+
+
+<script>
+    var unitTypes = [];
+    $(function () {
+        GetUnitTypes();
+        $("#btnAdd").click(function () {
+            var counter = $("#Counter").val();
+            var firstRow = $('#tblUnits tr:first');
+            var cmpyCode = $('#tblUnits tr:last').find("[name='item.CmpyCode']").val();
+            var newRow = "<tr><td><input type='text' name='txtCode" + counter + "'></td><td><input type='text' name='txtName" + counter +
+                "'></td><td><input type='text' name='txtUniCodeName" + counter + "'></td><td>";
+            newRow += GetUnitTypeDDL(counter);
+            newRow += "</td><td><button class='btn btn-primary' name='Add" + counter + "'>Save</button><button class='btn btn-danger' name='DeleteNew" + counter +
+                "'>Delete</button><input type='hidden' name='AddMode" + counter + "' value='true'><input name='item.CmpyCode' type='hidden' value='" + cmpyCode +
+                "'></td></tr>";
+            $(firstRow).after(newRow);
+        });
+
+        $("#tblUnits").on("click", "[name^='Add']", function () {
+            var counter = $("#Counter").val();
+            var hdnAddMode = $(this).parent().find('input:hidden:first');
+            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+            var editButton = $(this).parent().find("[name='Add" + counter + "']");
+            var tr = $(this).closest("tr");
+            var index = $(this).attr("name").substring(4);
+            var codeTd = $(tr).find("td:eq(0)");
+            var nameTd = $(tr).find("td:eq(1)");
+            var uniCodeNameTd = $(tr).find("td:eq(2)");
+            var unitTypeTd = $(tr).find("td:eq(3)");
+
+            if (hdnAddMode.val() == "true") {
+                var codeAdd = $(tr).find("[name*='txtCode']").val().trim();
+                var nameAdd = $(tr).find("[name*='txtName']").val().trim();
+                var uniCodeNameAdd = $(tr).find("[name*='txtUniCodeName']").val().trim();
+                var uniTypeAdd = $(tr).find("select option:selected").val().trim();
+                var unit = {
+                    Name: nameAdd,
+                    UniCodeName: uniCodeNameAdd,
+                    UnitType: uniTypeAdd,
+                    CmpyCode: hdnCmpyCode,
+                    Code: codeAdd,
+                    EditFlag: false
+                };
+                if (codeAdd && hdnCmpyCode) {
+                    $.post("/MaterialMgmt/SaveUnit", unit).done(function (response) {
+                        console.log(response);
+                        codeTd.text(response.Code);
+                        nameTd.text(response.Name);
+                        uniCodeNameTd.text(response.UniCodeName);
+                        unitTypeTd.text(response.UnitType);
+                        hdnAddMode.val("false");
+                        editButton.attr("name", ("Edit" + counter)).text("Edit");
+                        hdnAddMode.attr("name", ("EditMode" + counter)).val("false");
+                    });
+                } else {
+                    alert();
+                }
+            }
+        });
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+        $("#tblUnits").on("click", "[name^='DeleteNew']", function () {
+            $(this).closest("tr").remove();
+        });
+
+        $("#tblUnits").on("click", "[name^='Edit']", function () {
+            var counter = $("#Counter").val();
+            var hdnEditMode = $(this).parent().find('input:hidden:first');
+            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+            var tr = $(this).closest("tr");
+            var hdnCode = $(tr).find("td:eq(0)").text().trim();
+            var index = $(this).attr("name").substring(4);
+            var nameTd = $(tr).find("td:eq(1)");
+            var uniCodeNameTd = $(tr).find("td:eq(2)");
+            var unitTypeTd = $(tr).find("td:eq(3)");
+            var editButton = $(this);
+
+            if (hdnEditMode.val() == "true") {
+                var nameEdit = $(tr).find("[name*='txtName']").val().trim();
+                var uniCodeNameEdit = $(tr).find("[name*='txtUniCodeName']").val().trim();
+                var uniTypeEdit = $(tr).find("select option:selected").val().trim();
+                var unit = {
+                    Name: nameEdit,
+                    UniCodeName: uniCodeNameEdit,
+                    UnitType: uniTypeEdit,
+                    CmpyCode: hdnCmpyCode,
+                    Code: hdnCode,
+                    EditFlag: true
+                };
+
+                $.post("/MaterialMgmt/SaveUnit", unit).done(function (response) {
+                    nameTd.text(response.Name);
+                    uniCodeNameTd.text(response.UniCodeName);
+                    unitTypeTd.text(response.UnitType);
+                    hdnEditMode.val("false");
+                    editButton.text("Edit");
+                });
+                $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                    console.log(thrownError);
+                });
+            } else {
+                var name = $(tr).find("td:eq(1)").text();
+                nameTd.html("<input type='text' name='txtName" + index + "' value='" + name.trim() + "' />");
+
+                var uniCodeName = $(tr).find("td:eq(2)").text();
+                uniCodeNameTd.html("<input type='text' name='txtUniCodeName" + index + "' value='" + uniCodeName.trim() + "' />");
+
+                var unitType = $(tr).find("td:eq(3)").text().trim();
+                unitTypeTd.html(GetUnitTypeDDL(index));
+                unitTypeTd.find("select").val(unitType);
+                $(this).text("Update");
+                hdnEditMode.val("true");
+            }
+        });
+
+        $("#tblUnits").on("click", "[name^='Delete']", function () {
+            var tr = $(this).closest("tr");
+            var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+            var codeTd = $(tr).find("td:eq(0)");
+            var hdnMode = $(this).parent().find('input:hidden:first');
+            var code = "";
+            if (hdnMode.val() == "true") {
+                code = $(tr).find("[name*='txtCode']").val().trim();
+            } else {
+                code = $(tr).find("td:eq(0)").text().trim();
+            }
+
+            $.getJSON("/DeleteUnit", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
+                if (data.DeleteFlag) {
+                    tr.remove();
+                }
+            });
+        });
+    });
+
+    function GetUnitTypeDDL(index) {
+        if (unitTypes.length > 0) {
+            var ddlUnitType = "<select class='form-control' name='ddlUnitType" + index + "'>";
+            for (var i in unitTypes) {
+                ddlUnitType += "<option value='" + unitTypes[i].Code + "'>" + unitTypes[i].Name + "</option>";
+            }
+            ddlUnitType += "</select>";
+        }
+        return ddlUnitType;
+    }
+
+    function GetUnitTypes() {
+        $.ajax({
+            url: "/UnitTypes",
+            dataType: "json",
+            success: function (data) {
+                unitTypes = data;
+            },
+            error: function () {
+                alert('error occurred');
+            }
+        });
+        return unitTypes;
+    }
+</script>
+
+<p>
+    <button class="btn btn-primary" id="btnAdd">Add</button>
+
+</p>
+<table class="table" id="tblUnits">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UniCodeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitType)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UniCodeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitType)
+            </td>
+            <td>
+                <button class="btn btn-primary" name="@string.Concat("Edit",counter)">Edit</button>
+                <button class="btn btn-danger" name="@string.Concat("Delete",counter)">Delete</button>
+                <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                @Html.HiddenFor(m => item.CmpyCode)
+            </td>
+        </tr>
+        counter++;
+    }
+
+</table>
+@Html.Hidden("Counter", counter)

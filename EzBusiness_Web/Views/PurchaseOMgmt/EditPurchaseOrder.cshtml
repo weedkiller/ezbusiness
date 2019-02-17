@@ -1,0 +1,561 @@
+﻿@model EzBusiness_ViewModels.Models.PurchaseMgmt.PurchaseOrderVM
+
+
+@{
+    var counter = 1;
+}
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script>
+    debugger;
+    var units = [];
+    $(function () {    
+        $('.selectpicker').selectpicker('refresh');
+        $("#ProjectCode").change(function () {
+            var projectName = $("#ProjectCode option:selected").val();
+            $("#MasterWrapper").show();
+            if (projectName != "0") {
+                $(this).prop("disabled", true);
+            }
+        });
+        var counter = parseInt($("#hdnCounter").val());
+        $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+        });
+
+        $("#tablePODetails").on("change", "[name*='ItemPrice']", function () {
+            debugger;
+            var tr = $(this).closest("tr");
+            var IQ = tr.find("[name*='ItemQuantity']").val();
+            var IP = tr.find("[name*='ItemPrice']").val();
+            tr.find("[name*='ItemPriceTotal']").val(parseFloat(IQ) * parseFloat(IP));
+            var Pt = tr.find("[name*='ItemPriceTotal']").val();
+            tr.find("[name*='NetAmt']").val(Pt);
+            tr.find("[name*='DiscP']").val(0);
+            tr.find("[name*='DiscA']").val(0);
+            sumOfColumns();
+        });
+
+        function sumOfColumns() {
+            debugger;
+            var sum = 0.0;
+            var sum1 = 0.0;
+            $("#tablePODetails > tbody  > tr").each(function () {
+                var amount = parseFloat($(this).find("[name*='NetAmt']").val());
+                sum += isNaN(amount) ? 0 : amount;
+                $(this).find("[name*='NetAmt']").val('' + amount);
+
+                var amount1 = parseFloat($(this).find("[name*='LNetAmt']").val());
+                sum1 += isNaN(amount1) ? 0 : amount1;
+                $(this).find("[name*='LNetAmt']").val('' + amount1);
+            });
+            //just update the total to sum  
+            $("[name*='NetAmount']").val(sum);
+            $("[name*='LAmount']").val(sum1);
+        }
+        $("#tablePODetails").on("change", "[name*='DiscP']", function () {
+
+            var tr = $(this).closest("tr");
+            var IPT = tr.find("[name*='ItemPriceTotal']").val();
+            var DP = tr.find("[name*='DiscP']").val();
+            tr.find("[name*='DiscA']").val((parseFloat(IPT) * parseFloat(DP)) / 100);
+            var DA = tr.find("[name*='DiscA']").val();
+            tr.find("[name*='NetAmt']").val(parseFloat(IPT) - parseFloat(DA));
+            sumOfColumns();
+        });
+        $("#tablePODetails").on("change", "[name*='DiscA']", function () {
+            debugger;
+            var tr = $(this).closest("tr");
+            var IPT = tr.find("[name*='ItemPriceTotal']").val();
+            tr.find("[name*='DiscP']").val('0');
+            var DA = tr.find("[name*='DiscA']").val();
+            tr.find("[name*='NetAmt']").val(parseFloat(IPT) - parseFloat(DA));
+            sumOfColumns();
+        });
+
+
+        $("#tablePODetails").on("change", "[name*='ItemCode']", function () {
+            debugger;
+            var tr = $(this).closest("tr");
+
+            var rest1 = $("input:radio[name=ResourceType]:checked").val();
+            $.get("PurchaseOMgmt/GetItemCodeDescription", { itemCode: $(this).val(), restyp: rest1 }).done(function (response) {
+
+                tr.find("[name*='ItemDescription']").val(response.Description);
+                tr.find("[name*='ItemUnit']").val(response.Unit);
+            });
+            if (tr.is(":last-child")) {
+             
+
+                tr.clone(true, true).insertAfter(tr);
+
+                $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                    .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                var trLast = $("#tableMetaSettings tr:last")
+
+
+
+                var cloned = $("#tablePODetails tbody tr:last").clone(true); // clone last row
+                // looping over last row's inputs
+                $("#tablePODetails tbody tr:last").find('select').each(function () {
+                    cloned.find('select[name^=' + this.name.replace('[]', '') + ']').val(0);
+                });
+
+
+                $("#tablePODetails > tbody").append(cloned);
+                $("#tablePODetails > tbody tr:last").prev().remove();
+
+                trLast.find("[name *= 'ItemCode']").attr({
+                    "name": ("ItemCode" + counter)
+                });
+                trLast.find("[name *= 'ItemDescription']").attr({
+                    "name": ("ItemDescription" + counter)
+                });
+                trLast.find("[name *= 'ItemSpecification']").attr({
+                    "name": ("ItemSpecification" + counter)
+                });
+                trLast.find("[name *= 'ItemUnit']").attr({
+                    "name": ("ItemUnit" + counter)
+                });
+                trLast.find("[name *= 'ItemQuantity']").attr({
+                    "name": ("ItemQuantity" + counter)
+                });
+
+                trLast.find("[name *= 'ItemPrice']").attr({
+                    "name": ("ItemPrice" + counter)
+                });
+                trLast.find("[name *= 'ItemPriceTotal']").attr({
+                    "name": ("ItemPriceTotal" + counter)
+                });
+
+                trLast.find("[name *= 'DiscP']").attr({
+                    "name": ("DiscP" + counter)
+                });
+
+                trLast.find("[name *= 'DiscA']").attr({
+                    "name": ("DiscA" + counter)
+                });
+
+                trLast.find("[name *= 'NetAmt']").attr({
+                    "name": ("NetAmt" + counter)
+                });
+
+                trLast.find("[name *= 'LNetAmt']").attr({
+                    "name": ("LNetAmt" + counter)
+                });
+
+                trLast.find(":first").text(counter);
+            }
+            counter++;
+        });
+
+        //var tablePODetails = $("#tablePODetails tbody tr");
+        
+        //var rest = $("input:radio[name=ResourceType]:checked").val();
+        //$.get("PurchaseOMgmt/GetItemCodeList", { restyp: rest }).done(function (response) {
+        //    $('#tablePODetails tr').each(function (data) {
+        //        $("[name*='ItemCode']").empty();
+        //        var ary = [];
+        //        ary = response;
+        //        for (var i = 0; i < ary.length; i++) {
+
+        //            $("[name*='ItemCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+
+        //        }
+        //       $("[name*='ItemCode']").val(0);
+
+
+        //    });
+        //});
+
+        var tablePODetails = $("#tablePODetails tbody tr");
+        tablePODetails.each(function (index, item) {
+            $("[name*='ItemCode" + (index + 1) + "']").val($("[name*='hdnItemCode" + (index + 1) + "']").val());
+            $("[name*='ItemDescription" + (index + 1) + "']").val($("[name*='hdnItemDescription" + (index + 1) + "']").val());
+            $("[name*='ItemSpecification" + (index + 1) + "']").val($("[name*='hdnItemSpecification" + (index + 1) + "']").val());
+            $("[name*='ItemUnit" + (index + 1) + "']").val($("[name*='hdnItemUnit" + (index + 1) + "']").val());
+            $("[name*='ItemQuantity" + (index + 1) + "']").val($("[name*='hdnItemQuantity" + (index + 1) + "']").val());
+
+            $("[name*='ItemPrice" + (index + 1) + "']").val($("[name*='hdnItemPrice" + (index + 1) + "']").val());
+            $("[name*='ItemPriceTotal" + (index + 1) + "']").val($("[name*='hdnItemPriceTotal" + (index + 1) + "']").val());
+            $("[name*='DiscP" + (index + 1) + "']").val($("[name*='hdnDiscP" + (index + 1) + "']").val());
+            $("[name*='DiscA" + (index + 1) + "']").val($("[name*='hdnDiscA" + (index + 1) + "']").val());
+
+            $("[name*='NetAmt" + (index + 1) + "']").val($("[name*='hdnNetAmt" + (index + 1) + "']").val());
+            $("[name*='LNetAmt" + (index + 1) + "']").val($("[name*='hdnLNetAmt" + (index + 1) + "']").val());
+
+
+
+        });
+    });
+    Date.prototype.getToday = function () {
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        return today;
+    }
+</script>
+
+@*<script src="~/Content/assets/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>*@
+
+
+
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel-body" style="margin-left:10px;">
+            <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+                <div class="custom-form-wrapper">
+                    <div id="POContainer">
+                        <div class="row">
+                            <div class="custom-form-wrapper">
+                                <!-- BEGIN FORM-->
+                                <div class="form-horizontal">
+                                    <div class="form-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">MR Code</label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.PONumber, new { @style = "width: 60%", @class = "form-control", @disabled = "disabled" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Date</label>
+                                                    <div class="col-md-4 input-field">
+                                                        @Html.EditorFor(m => m.Dates, new { @style = "width: 60%", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        <!--/row-->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Project</label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @style = "width: 50%", @class = "selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Location</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.DropDownListFor(m => m.LocCode, Model.LocationList, new { @style = "width: 50%", @class = "selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Supplier</label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.DropDownListFor(m => m.SupplierCode, Model.SupplierList, new { @style = "width: 50%", @class = "selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            @*<div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Po From</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.DropDownListFor(m => m.POFrom, Model.POfromList, new { @style = "width: 50%", @class = "selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>*@
+
+                                            @*<div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Po Req</label>
+                                                    <div class="col-md-8 input-field">
+                                                       @Html.DropDownListFor(m => m.POReq, Model.POReqList, new { @style = "width: 50%", @class = "selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                            <!--/span-->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Currency</label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.DropDownListFor(m => m.CurCode, Model.CurList, new { @style = "width: 50%", @class = "selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Expected Delivery Date</label>
+                                                    <div class="col-md-4 input-field">
+                                                        @Html.EditorFor(m => m.ExpectedDeliveryDate, new { @style = "width: 60%", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+
+                                        <!--/row-->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Resource Type</label>
+                                                    <div class="col-md-9 input-field">
+                                                        <label class="radio-inline">
+                                                            @Html.RadioButtonFor(m => m.ResourceType, "M") Material
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            @Html.RadioButtonFor(m => m.ResourceType, "A") Asset
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            @Html.RadioButtonFor(m => m.ResourceType, "S") Service
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Division</label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.DropDownListFor(m => m.DivisionCode, Model.DivisionCodeList, new { @style = "width: 50%", @class = "selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        <!--/row-->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Requested By </label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.DropDownListFor(m => m.ReqtBy, Model.RequesterList, new { @style = "width: 50%", @class = "selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><br />
+                                <!-- END FORM-->
+                                <div class="portlet-body">
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="tab_5_1">
+                                            <div id="sample_1_wrapper" class="dataTables_wrapper no-footer">
+                                                <input type="hidden" id="hdnPODetails" name="hdnPODetails" />
+                                                <div class="table-scrollable">
+                                                    <div class="panel panel-primary">
+                                                        <div class="panel-heading clearfix">
+                                                            <i class="icon-calendar"></i>
+                                                            <h3 class="panel-title">Details</h3>
+                                                        </div>
+                                                        <div style="overflow-x:auto">
+                                                            <table class="table table-bordered table-sm" id="tablePODetails">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width: 3%">Sr No</th>
+                                                                    <th style="width: 15%">Item Code</th>
+                                                                    <th style="width: 15%">Description</th>
+                                                                    <th style="width: 15%">Specification</th>
+                                                                    <th style="width: 15%">Unit</th>
+                                                                    <th style="width: 5%">Quantity</th>
+                                                                    <th style="width: 10%"> Price</th>
+                                                                    <th style="width: 10%">Item Price Total</th>
+                                                                    <th style="width: 10%"> Dis Per</th>
+                                                                    <th style="width: 15%"> Dis Amt</th>
+                                                                    <th style="width: 15%">Net Amt</th>
+                                                                    <th style="width: 10%"> Local Net Amt</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach (var item in Model.PurchaseOrderDetailsnew)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            @Html.Label(counter.ToString())
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                             @Html.DropDownList(string.Concat("ItemCode", counter), Model.ItemCodeList, new { @class = "form-control" })
+                                                                                @Html.Hidden(string.Concat("hdnItemCode", counter), item.ItemCode)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBox(string.Concat("ItemDescription", counter), null, new { @class = "form-control", @disabled = "disabled" })
+                                                                            @Html.Hidden(string.Concat("hdnItemDescription", counter), item.Description)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBox(string.Concat("ItemSpecification", counter), null, new { @class = "form-control" })
+                                                                            @Html.Hidden(string.Concat("hdnItemSpecification", counter), item.Specification)
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.DropDownList(string.Concat("ItemUnit", counter), Model.UnitList, new { @class = "form-control" })
+                                                                                @Html.Hidden(string.Concat("hdnItemUnit", counter), item.Unit)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("ItemQuantity", counter), null, new { @class = "form-control" })
+                                                                                @Html.Hidden(string.Concat("hdnItemQuantity", counter), item.Quantity)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBox(string.Concat("ItemPrice", counter), null, new { @class = "form-control" })
+                                                                            @Html.Hidden(string.Concat("hdnItemPrice", counter), item.ItemPrice)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBox(string.Concat("ItemPriceTotal", counter), null, new { @class = "form-control" })
+                                                                            @Html.Hidden(string.Concat("hdnItemPriceTotal", counter), item.ItemPriceTotal)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBox(string.Concat("DiscP", counter), Model.UnitList, new { @class = "form-control" })
+                                                                            @Html.Hidden(string.Concat("hdnDiscP", counter), item.Discper)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBox(string.Concat("DiscA", counter), null, new { @class = "form-control" })
+                                                                            @Html.Hidden(string.Concat("hdnDiscA", counter), item.DiscAmt)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.TextBox(string.Concat("NetAmt", counter), null, new { @class = "form-control", @disabled = "disabled" })
+                                                                            @Html.Hidden(string.Concat("hdnNetAmt", counter), item.NetAmt)
+                                                                        <td>
+                                                                            @Html.TextBox(string.Concat("LNetAmt", counter), null, new { @class = "form-control", @disabled = "disabled" })
+                                                                            @Html.Hidden(string.Concat("hdnLNetAmt", counter), item.LocalAmt)
+                                                                        </td>
+                                                                        <td>
+                                                                            <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    counter++;
+                                                                }
+                                                                <tr>
+                                                                    <td>
+                                                                        @Html.Label(counter.ToString())
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownList(string.Concat("ItemCode", counter), Model.ItemCodeList, new { @class = "form-control" })
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBox(string.Concat("ItemDescription", counter), null, new { @class = "form-control", @disabled = "disabled" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBox(string.Concat("ItemSpecification", counter), null, new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DropDownList(string.Concat("ItemUnit", counter), Model.UnitList, new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBox(string.Concat("ItemQuantity", counter), null, new { @class = "form-control" })
+                                                                    </td>
+
+                                                                    <td>
+                                                                        @Html.TextBox(string.Concat("ItemPrice", counter), Model.UnitList, new { @class = "form-control" })
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.TextBox(string.Concat("ItemPriceTotal", counter), null, new { @class = "form-control" })
+                                                                    </td>
+
+                                                                    <td>
+                                                                        @Html.TextBox(string.Concat("DiscP", counter), null, new { @class = "form-control" })
+                                                                    </td>
+
+                                                                    <td>
+                                                                        @Html.TextBox(string.Concat("DiscA", counter), null, new { @class = "form-control" })
+                                                                    </td>
+
+                                                                    <td>
+                                                                        @Html.TextBox(string.Concat("NetAmt", counter), null, new { @class = "form-control", @disabled = "disabled" })
+                                                                    </td>
+
+                                                                    <td>
+                                                                        @Html.TextBox(string.Concat("LNetAmt", counter), null, new { @class = "form-control", @disabled = "disabled" })
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                                <tfoot>
+                                                                    <tr>
+
+                                                                        <td colspan="11" align="right"><b>Total Net Val</b> &nbsp;&nbsp; </td>
+                                                                        <td>@Html.TextBox(string.Concat("NetAmount"), null, new { @class = "form-control", @disabled = "disabled" })</td>
+
+                                                                    </tr>
+                                                                    <tr>
+
+
+                                                                        <td colspan="11" align="right"><b>Total Local Net Val</b> &nbsp;&nbsp; </td>
+                                                                        <td>
+                                                                            @Html.TextBox(string.Concat("LAmount"), null, new { @class = "form-control", @disabled = "disabled" })
+                                                                        </td>
+
+
+                                                                    </tr>
+                                                                </tfoot>
+                                                        </table>
+                                                        </div>
+
+                                                        @*<div class="panel panel-primary">
+                                                            <div class="row">
+                                                                <div class="col-sm-10" align="right">
+                                                                    Total Net Val &nbsp;&nbsp;
+                                                                </div>
+                                                                <div class="col-sm-2">
+
+                                                                    @Html.TextBox(string.Concat("TNetAmt"), null, new { @class = "form-control" })
+
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-10" align="right">
+                                                                    Total Local Net Val &nbsp;&nbsp;
+                                                                </div>
+                                                                <div class="col-sm-2">
+                                                                    @Html.TextBox(string.Concat("TLNetAmt"), null, new { @class = "form-control" })
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>*@
+                                                        @Html.Hidden("hdnCounter", (++counter))
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- <button>Hey, click me!</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Purchase Request List Start-->
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+</div>
+
