@@ -54,12 +54,6 @@ namespace EzBusiness_Web.Controllers
             }
         }
 
-
-
-
-
-
-
         [HttpGet]
         public ActionResult MDIForm()
         {
