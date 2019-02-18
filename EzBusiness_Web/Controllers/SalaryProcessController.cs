@@ -179,7 +179,7 @@ namespace EzBusiness_Web.Controllers
         }
 
     //  [Route("DeleteSalaryProcess")]
-        public ActionResult DeleteSalaryProcess(string ids, string SalCode,string flag)
+        public ActionResult DeleteSalaryProcess(string SalCode,string currdate)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -189,14 +189,14 @@ namespace EzBusiness_Web.Controllers
             else
             {
                 bool breturn = false;
-                string[] Ids = ids.Split(',');
-                foreach (string Id in Ids)
-                {
-                    if (_SalService.DeleteSalaryProcess(list[0].CmpyCode, ids, SalCode, flag,list[0].user_name))
+                //string[] Ids = ids.Split(',');
+                //foreach (string Id in Ids)
+                //{
+                    if (_SalService.DeleteSalaryProcess(list[0].CmpyCode, SalCode,Convert.ToDateTime(currdate.ToString()),list[0].user_name))
                         breturn = true;
                     else
                         breturn = false;
-                }
+              //  }
                 return Json(breturn, JsonRequestBehavior.AllowGet);
             }
         }
@@ -305,6 +305,28 @@ namespace EzBusiness_Web.Controllers
             // info.
             return lst;
 
+        }
+        [Route("CheckslryDataCalculated")]
+        public ActionResult CheckslryDataCalculated(string CurrentDate)
+        {
+            bool flag=false;
+            try
+            {
+                List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+                if (list == null)
+                {
+                    return Redirect("Login/InLogin");
+                }
+                else
+                {
+                    flag = _SalService.CheckslryDataCalculated(list[0].CmpyCode, Convert.ToDateTime(CurrentDate));
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Json(new { data = flag }, JsonRequestBehavior.AllowGet);
         }
     }
 }

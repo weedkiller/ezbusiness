@@ -22,7 +22,7 @@ namespace EzBusiness_DL_Repository
 
         public List<Unit> GetUnits(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from MMu001 where CmpyCode='" + CmpyCode + "'");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from MMU001 where CmpyCode='" + CmpyCode + "'");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<Unit> ObjList = new List<Unit>();
@@ -48,10 +48,10 @@ namespace EzBusiness_DL_Repository
             {
                 if (!unit.EditFlag)
                 {
-                    int unit1 = _EzBusinessHelper.ExecuteScalar("Select count(*) from MMat001 where CmpyCode='" + unit.CmpyCode + "' and Code='" + unit.Code + "'");
+                    int unit1 = _EzBusinessHelper.ExecuteScalar("Select count(*) from MMU001 where CmpyCode='" + unit.CmpyCode + "' and Code='" + unit.Code + "'");
                     if (unit1 == 0)
                     {
-                        _EzBusinessHelper.ExecuteNonQuery("insert into MMat001(CmpyCode,Code,Name,UniCodeName,UnitType)values('" + unit.CmpyCode + "','" + unit.Code + "','" + unit.Name + "','" + unit.UniCodeName + "','" + unit.UnitType + "')");
+                        _EzBusinessHelper.ExecuteNonQuery("insert into MMU001(CmpyCode,Code,Name,UniCodeName,UnitType)values('" + unit.CmpyCode + "','" + unit.Code + "','" + unit.Name + "','" + unit.UniCodeName + "','" + unit.UnitType + "')");
                         unit.SaveFlag = true;
                         unit.ErrorMessage = string.Empty;
                     }
@@ -62,10 +62,10 @@ namespace EzBusiness_DL_Repository
                     }
                     return unit;
                 }
-                var unitEdit = _EzBusinessHelper.ExecuteScalar("Select * from MMat001 where CmpyCode='" + unit.CmpyCode + "' and Code='" + unit.Code + "'");
+                var unitEdit = _EzBusinessHelper.ExecuteScalar("Select * from MMU001 where CmpyCode='" + unit.CmpyCode + "' and Code='" + unit.Code + "'");
                 if (unitEdit != 0)
                 {
-                    _EzBusinessHelper.ExecuteNonQuery("update MMat001 set CmpyCode='" + unit.CmpyCode + "',Code='" + unit.Code + "',Name='" + unit.Name + "',UniCodeName='" + unit.UniCodeName + "',UnitType='" + unit.UnitType + "' where CmpyCode='" + unit.CmpyCode + "' and Code='" + unit.Code + "'");
+                    _EzBusinessHelper.ExecuteNonQuery("update MMU001 set CmpyCode='" + unit.CmpyCode + "',Code='" + unit.Code + "',Name='" + unit.Name + "',UniCodeName='" + unit.UniCodeName + "',UnitType='" + unit.UnitType + "' where CmpyCode='" + unit.CmpyCode + "' and Code='" + unit.Code + "'");
                     unit.SaveFlag = true;
                     unit.ErrorMessage = string.Empty;
                 }
@@ -88,28 +88,33 @@ namespace EzBusiness_DL_Repository
 
         public List<UnitType> GetUnitTypes()
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from MMUt001");
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<UnitType> ObjList = new List<UnitType>();
-            foreach (DataRow dr in drc)
+            List<UnitType> ObjList = null;
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from MMUT001");
+            if (ds.Tables.Count > 0)
             {
-                ObjList.Add(new UnitType()
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                ObjList = new List<UnitType>();
+                foreach (DataRow dr in drc)
                 {
-                    Code = dr["Code"].ToString(),
-                    Name = dr["Name"].ToString(),
-                });
+                    ObjList.Add(new UnitType()
+                    {
+                        Code = dr["Code"].ToString(),
+                        Name = dr["Name"].ToString(),
+                    });
 
+                }
+               
             }
             return ObjList;
         }
 
         public bool DeleteUnit(string Code, string CmpyCode)
         {
-            int unit = _EzBusinessHelper.ExecuteScalar("Select count(*) from Units where CmpyCode='" + CmpyCode + "' and Code='" + Code + "'");
+            int unit = _EzBusinessHelper.ExecuteScalar("Select count(*) from MMU001 where CmpyCode='" + CmpyCode + "' and Code='" + Code + "'");
             if (unit != 0)
             {
-                _EzBusinessHelper.ExecuteNonQuery("delete from Units where CmpyCode='"+ CmpyCode + "' and Code='" + Code + "'");
+                _EzBusinessHelper.ExecuteNonQuery("delete from MMU001 where CmpyCode='" + CmpyCode + "' and Code='" + Code + "'");
                 return true;
             }
             return false;

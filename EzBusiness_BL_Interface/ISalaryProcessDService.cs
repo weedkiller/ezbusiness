@@ -17,9 +17,9 @@ namespace EzBusiness_BL_Interface
         SalaryProcessDetailsVM GetSalaryProcessEdit(string CmpyCode, string PRSFT001_code);
         List<SalaryProcessDetailsListItem> GetSalaryProcessGridEdit(string CmpyCode, string PRSPD001_code);
         string GetSalaryProcessId(string CmpyCode);
-        bool DeleteSalaryProcess(string CmpyCode,string empcode,string PRSFT001_code,string flag,string UserName);
+        bool DeleteSalaryProcess(string CmpyCode,string Code,DateTime CurrDate,string UserName);
         // int UseShiftAlloc(string CmpyCode, string PRSFT001_code, string PRSFT002_code);
-
+        bool CheckslryDataCalculated(string CmpyCode, DateTime CurrDate);
         //  #endregion
         #region SalaryProcess Request
 

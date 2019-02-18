@@ -39,6 +39,7 @@
         var counter = $("#Counter").val();
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtPRLM001_CODE']", function () {
+            debugger;
             var tr = $(this).closest('tr');
            
             drec = [];
@@ -89,6 +90,7 @@
        
         /*Refresh */
         $("#btnCancel").click(function () {
+            debugger;
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
@@ -275,8 +277,7 @@
 
         $("#tblUnits").on("click", "[name^='Delete']", function (e, data) {
             var n = EzAuthenticationBtn("/Loan", "DeleteIt");
-            if (n == 1) {
-               
+            if (n == 1) {               
                 var tr = $(this).closest("tr");
                 var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
                 var codeTd = $(tr).find("td:eq(0)");

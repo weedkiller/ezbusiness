@@ -19,9 +19,9 @@ namespace EzBusiness_BL_Service
             _salaryrepo = new SalaryProcessRepository();
         }
 
-        public bool DeleteSalaryProcess(string CmpyCode,string Empcode,string salaryP_code,string flag,string UserName)
+        public bool DeleteSalaryProcess(string CmpyCode, string Code, DateTime CurrDate, string UserName)
         {
-            return _salaryrepo.DeleteSalaryProcess(CmpyCode,Empcode,salaryP_code,flag, UserName);
+            return _salaryrepo.DeleteSalaryProcess(CmpyCode, Code, CurrDate, UserName);
         }
 
         public List<SalaryProcessDetailsVM> GetSalaryDetailsList(string CmpyCode)
@@ -95,6 +95,11 @@ namespace EzBusiness_BL_Service
             //}).ToList();
             return _salaryrepo.GetSalaryProcessGridEdit(CmpyCode, PRSPD001_code);
 
+        }
+
+        public bool CheckslryDataCalculated(string CmpyCode, DateTime CurrDate)
+        {
+            return _salaryrepo.CheckslryDataCalculated(CmpyCode, CurrDate);
         }
     }
 }
