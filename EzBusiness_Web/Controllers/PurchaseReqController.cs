@@ -10,13 +10,13 @@ using System.Web.Mvc;
 
 namespace EzBusiness_Web.Controllers
 {
-    public class PurchaseMgmtController : Controller
+    public class PurchaseReqController : Controller
     {
-        IPurchaseMgmtService _purchaseService;
+        IPurchaseReqService _purchaseService;
        // IMasterService _masterService;
-        public PurchaseMgmtController()
+        public PurchaseReqController()
         {
-            _purchaseService = new PurchaseMgmtService();
+            _purchaseService = new PurchaseReqService();
           //  _masterService = new MasterService();
         }
 
@@ -26,9 +26,16 @@ namespace EzBusiness_Web.Controllers
 
         [Route("PurchaseReq")]
         public ActionResult PurchaseRequest()
-
         {
-            return View();
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return View();
+            }
         }
 
 

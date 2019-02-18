@@ -14,9 +14,12 @@ namespace EzBusiness_Web.Controllers
     {
         ILoanAppPayrollService _LAPService;
 
+        ISalaryprocCondService _SalProCond;
+
         public LoanAppliationController()
         {
             _LAPService = new LoanAppPayrollService();
+            _SalProCond = new SalaryprocCondService();
 
         }
 
@@ -82,6 +85,9 @@ namespace EzBusiness_Web.Controllers
         [Route("SaveLoanAppliation")]
         public ActionResult SaveLoanAppliation(LoanAppliationVM LoanApp)
         {
+
+            
+
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {
@@ -89,6 +95,14 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
+                decimal tsal = _SalProCond.GetSalaryLast(list[0].CmpyCode, LoanApp.EmpCode, LoanApp.Entry_Date);
+                if (tsal <= LoanApp.Instalment)
+                {
+                    LoanApp.ErrorMessage = "Salry Amount not enough";
+                    LoanApp.SaveFlag = false;
+                    return Json(LoanApp, JsonRequestBehavior.AllowGet);
+                }
+
                 LoanApp.CmpyCode = list[0].CmpyCode;
                 LoanApp.UserName = list[0].user_name;
                 return Json(_LAPService.SaveLoanApp(LoanApp), JsonRequestBehavior.AllowGet);

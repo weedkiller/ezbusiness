@@ -15,7 +15,7 @@ using System.Globalization;
 
 namespace EzBusiness_DL_Repository
 {
-    public class PurchaseMgmtRepository : IPurchaseMgmtRepository
+    public class PurchaseReqRepository : IPurchaseReqRepository
     {
 
         DataSet ds = null;
@@ -25,11 +25,11 @@ namespace EzBusiness_DL_Repository
 
         public bool DeletePurchaseOrder(string CmpyCode, string MRCode)
         {
-            int unit = _EzBusinessHelper.ExecuteScalar("Select count(*) from MReqHeader where CmpyCode='" + CmpyCode + "' and MRCode='" + MRCode + "'");
+            int unit = _EzBusinessHelper.ExecuteScalar("Select count(*) from PMMRH001 where CmpyCode='" + CmpyCode + "' and MRCode='" + MRCode + "'");
             if (unit != 0)
             {
-                _EzBusinessHelper.ExecuteNonQuery("delete from MReqDetail where CmpyCode='" + CmpyCode + "' and MRCode='" + MRCode + "'");
-                _EzBusinessHelper.ExecuteNonQuery("delete from MReqHeader where CmpyCode='" + CmpyCode + "' and MRCode='" + MRCode + "'");
+                _EzBusinessHelper.ExecuteNonQuery("delete from PMMRD002 where CmpyCode='" + CmpyCode + "' and MRCode='" + MRCode + "'");
+                _EzBusinessHelper.ExecuteNonQuery("delete from PMMRH001 where CmpyCode='" + CmpyCode + "' and MRCode='" + MRCode + "'");
                 return true;
             }
             return false;
@@ -39,11 +39,11 @@ namespace EzBusiness_DL_Repository
         {
             if (restyp=="A")
             {
-                ds = _EzBusinessHelper.ExecuteDataSet("Select SelfGenCode as [ItemCode],Code as [Description],'NOS' as [Unit] from AssetTree where Cmpycode='" + CmpyCode + "' and SelfGenCode='" + itemCode + "' ");
+                ds = _EzBusinessHelper.ExecuteDataSet("Select SelfGenCode as [ItemCode],Code as [Description],'NOS' as [Unit] from MMAT001 where Cmpycode='" + CmpyCode + "' and SelfGenCode='" + itemCode + "' ");
             }
             else
             {
-                ds = _EzBusinessHelper.ExecuteDataSet("Select ItemCode,Description,Unit from Products where Cmpycode='" + CmpyCode + "' and ItemCode='" + itemCode + "' and ShowInPurchase != 0 and PrdType='" + PurchaseMgmtConstants.PrdType + "'");
+                ds = _EzBusinessHelper.ExecuteDataSet("Select ItemCode,Description,Unit from MMP001 where Cmpycode='" + CmpyCode + "' and ItemCode='" + itemCode + "' and ShowInPurchase != 0 and PrdType='" + PurchaseMgmtConstants.PrdType + "'");
             }
             dt = ds.Tables[0];                    
             PurchaseOrderDetail po=new PurchaseOrderDetail();
@@ -80,7 +80,7 @@ namespace EzBusiness_DL_Repository
 
         public List<Location> GetLocationList(string CmpyCode)
         {          
-            ds = _EzBusinessHelper.ExecuteDataSet("Select LocCode,LocName from Location where CmpyCode='" + CmpyCode + "' ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select LocCode,LocName from MLOC018 where CmpyCode='" + CmpyCode + "' ");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<Location> ObjList = new List<Location>();
@@ -98,7 +98,7 @@ namespace EzBusiness_DL_Repository
 
         public List<MReqDetail> GetPODetailsList(string CmpyCode, string MRCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from MReqDetail where CmpyCode='" + CmpyCode + "' and MRCode='" + MRCode + "' ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PMMRD002 where CmpyCode='" + CmpyCode + "' and MRCode='" + MRCode + "' ");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<MReqDetail> ObjList = new List<MReqDetail>();
@@ -125,7 +125,7 @@ namespace EzBusiness_DL_Repository
         public PurchaseReqVM GetPOMasterDetailsEdit(string CmpyCode, string MRCode)
         {
           
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from MReqHeader where CmpyCode='" + CmpyCode + "' and MRCode='" + MRCode + "' ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PMMRH001 where CmpyCode='" + CmpyCode + "' and MRCode='" + MRCode + "' ");
            
             dt = ds.Tables[0];
             PurchaseReqVM pr = new PurchaseReqVM();
@@ -150,7 +150,7 @@ namespace EzBusiness_DL_Repository
         public List<CostCenterHeader> GetProjects(string CmpyCode)
         {
             
-            ds = _EzBusinessHelper.ExecuteDataSet("Select Name,Code from CostCenterHeader where CmpyCode='" + CmpyCode + "' ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Name,Code from CCH004 where CmpyCode='" + CmpyCode + "' ");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<CostCenterHeader> ObjList = new List<CostCenterHeader>();
@@ -168,7 +168,7 @@ namespace EzBusiness_DL_Repository
 
         public List<MReqHeader> GetPurchaseOrderList(string CmpyCode)
         {            
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from MReqHeader where CmpyCode='" + CmpyCode + "' ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PMMRH001 where CmpyCode='" + CmpyCode + "' ");
 
 
 
@@ -209,7 +209,7 @@ namespace EzBusiness_DL_Repository
 
         public List<Employee> GetRequesterList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select empName,empcode from Employee where CmpyCode='" + CmpyCode + "' and WorkingStatus = '"+ PurchaseMgmtConstants.WorkingStatus +"' ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select empName,empcode from MEM001 where CmpyCode='" + CmpyCode + "' and WorkingStatus = '"+ PurchaseMgmtConstants.WorkingStatus +"' ");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<Employee> ObjList = new List<Employee>();
@@ -310,12 +310,12 @@ namespace EzBusiness_DL_Repository
                     Select_Img = string.Empty
                 }).ToList());
 
-                _EzBusinessHelper.ExecuteNonQuery("insert into MReqHeader(MRCode,CmpyCode,ResourceType,Dates,Description,EmpCode,LocCode,ProjectCode,ApprovalYN,MRFrom,Status,DontShowJobInList,GenerateInquiry,IsPopUpCheckedByUser,JobNo,PreparedBy,Priority,RType,WONo) values('" + pt.MRCode + "','" + pt.CmpyCode + "','" + pt.ResourceType + "','" + dtstr + "','" + pt.Description + "','" + pt.EmpCode + "','" + pt.LocCode + "','" + pt.ProjectCode + "','" + pt.ApprovalYN + "','" + pt.MRFrom + "','" + pt.Status + "','" + pt.DontShowJobInList + "','" + pt.GenerateInquiry + "','" + pt.IsPopUpCheckedByUser + "','" + pt.JobNo + "','" + pt.PreparedBy + "','" + pt.Priority + "','" + pt.RType + "','" + pt.WONo + "')");
+                _EzBusinessHelper.ExecuteNonQuery("insert into PMMRH001(MRCode,CmpyCode,ResourceType,Dates,Description,EmpCode,LocCode,ProjectCode,ApprovalYN,MRFrom,Status,DontShowJobInList,GenerateInquiry,IsPopUpCheckedByUser,JobNo,PreparedBy,Priority,RType,WONo) values('" + pt.MRCode + "','" + pt.CmpyCode + "','" + pt.ResourceType + "','" + dtstr + "','" + pt.Description + "','" + pt.EmpCode + "','" + pt.LocCode + "','" + pt.ProjectCode + "','" + pt.ApprovalYN + "','" + pt.MRFrom + "','" + pt.Status + "','" + pt.DontShowJobInList + "','" + pt.GenerateInquiry + "','" + pt.IsPopUpCheckedByUser + "','" + pt.JobNo + "','" + pt.PreparedBy + "','" + pt.Priority + "','" + pt.RType + "','" + pt.WONo + "')");
                 n = ObjList.Count;
                
                while(n>0)
                 {                     
-                _EzBusinessHelper.ExecuteNonQuery("insert into MReqDetail(CmpyCode,MRCode,Description,BaseQtyReq,BaseUnitQty,BOQSno,Specification,SNo,ItemCode,Unit,Qty,CostCode,FileType,ImgDesc,OverBudget,PackageSno,PartNumber,Product_Img,QtyReceived,Select_Img) values('"+ ObjList[n-1].CmpyCode.ToString()  + "','" + ObjList[n - 1].MRCode.ToString()+ "','" + ObjList[n - 1].Description.ToString() + "','" + ObjList[n - 1].BaseQtyReq.ToString()+ "','" + ObjList[n - 1].BaseUnitQty.ToString() + "','"+ ObjList[n - 1].BOQSno.ToString()+"', '"+ ObjList[n - 1].Specification.ToString()+ "','" + ObjList[n - 1].SNo.ToString()+ "','" + ObjList[n - 1].ItemCode.ToString() + "','" + ObjList[n - 1].Unit.ToString() + "','" + ObjList[n - 1].Qty.ToString() + "','" + ObjList[n - 1].CostCode.ToString() + "','" + ObjList[n - 1].FileType.ToString() + "','" + ObjList[n - 1].ImgDesc.ToString() + "','" + ObjList[n - 1].OverBudget.ToString() + "','" + ObjList[n - 1].PackageSno.ToString() + "','" + ObjList[n - 1].PartNumber.ToString() + "','" + ObjList[n - 1].Product_Img.ToString() + "','" + ObjList[n - 1].QtyReceived.ToString() + "','" + ObjList[n - 1].Select_Img.ToString() +"')");
+                _EzBusinessHelper.ExecuteNonQuery("insert into PMMRD002(CmpyCode,MRCode,Description,BaseQtyReq,BaseUnitQty,BOQSno,Specification,SNo,ItemCode,Unit,Qty,CostCode,FileType,ImgDesc,OverBudget,PackageSno,PartNumber,Product_Img,QtyReceived,Select_Img) values('"+ ObjList[n-1].CmpyCode.ToString()  + "','" + ObjList[n - 1].MRCode.ToString()+ "','" + ObjList[n - 1].Description.ToString() + "','" + ObjList[n - 1].BaseQtyReq.ToString()+ "','" + ObjList[n - 1].BaseUnitQty.ToString() + "','"+ ObjList[n - 1].BOQSno.ToString()+"', '"+ ObjList[n - 1].Specification.ToString()+ "','" + ObjList[n - 1].SNo.ToString()+ "','" + ObjList[n - 1].ItemCode.ToString() + "','" + ObjList[n - 1].Unit.ToString() + "','" + ObjList[n - 1].Qty.ToString() + "','" + ObjList[n - 1].CostCode.ToString() + "','" + ObjList[n - 1].FileType.ToString() + "','" + ObjList[n - 1].ImgDesc.ToString() + "','" + ObjList[n - 1].OverBudget.ToString() + "','" + ObjList[n - 1].PackageSno.ToString() + "','" + ObjList[n - 1].PartNumber.ToString() + "','" + ObjList[n - 1].Product_Img.ToString() + "','" + ObjList[n - 1].QtyReceived.ToString() + "','" + ObjList[n - 1].Select_Img.ToString() +"')");
                     n = n - 1;
                 }
 
@@ -330,8 +330,8 @@ namespace EzBusiness_DL_Repository
                 }
                 else
                 {
-                //var mr = _materialMgmtContext.MReqHeaders.FirstOrDefault(m => m.MRCode.Equals(po.MRCode) && m.CmpyCode.Equals(po.CmpyCode));
-                ds = _EzBusinessHelper.ExecuteDataSet("Select * from MReqHeader where CmpyCode='" + po.CmpyCode + "' and MRCode='" + po.MRCode + "' ");
+                //var mr = _materialMgmtContext.PMMRH001s.FirstOrDefault(m => m.MRCode.Equals(po.MRCode) && m.CmpyCode.Equals(po.CmpyCode));
+                ds = _EzBusinessHelper.ExecuteDataSet("Select * from PMMRH001 where CmpyCode='" + po.CmpyCode + "' and MRCode='" + po.MRCode + "' ");
 
                 MReqHeader pt = new MReqHeader();
                 dt = ds.Tables[0];
@@ -352,9 +352,9 @@ namespace EzBusiness_DL_Repository
                     pt.ResourceType = po.ResourceType;
                     pt.MRCode = dr["MRCode"].ToString();
                     pt.CmpyCode = dr["CmpyCode"].ToString();
-                    _EzBusinessHelper.ExecuteNonQuery("Delete from MReqDetail where MRCode= '" + pt.MRCode + "' and CmpyCode='" + pt.CmpyCode + "' ");
+                    _EzBusinessHelper.ExecuteNonQuery("Delete from PMMRD002 where MRCode= '" + pt.MRCode + "' and CmpyCode='" + pt.CmpyCode + "' ");
 
-                    _EzBusinessHelper.ExecuteNonQuery("Delete from MReqHeader where MRCode= '" + pt.MRCode + "' and CmpyCode='" + pt.CmpyCode + "' ");
+                    _EzBusinessHelper.ExecuteNonQuery("Delete from PMMRH001 where MRCode= '" + pt.MRCode + "' and CmpyCode='" + pt.CmpyCode + "' ");
 
                     List<MReqDetail> ObjList = new List<MReqDetail>();
 
@@ -383,14 +383,14 @@ namespace EzBusiness_DL_Repository
                             Select_Img = string.Empty
                         }).ToList());
 
-                    _EzBusinessHelper.ExecuteNonQuery("insert into MReqHeader(MRCode,CmpyCode,ResourceType,Dates,Description,EmpCode,LocCode,ProjectCode,ApprovalYN,MRFrom,Status,DontShowJobInList,GenerateInquiry,IsPopUpCheckedByUser,JobNo,PreparedBy,Priority,RType,WONo) values('" + pt.MRCode + "','" + pt.CmpyCode + "','" + pt.ResourceType + "','" + dtstr + "','" + pt.Description + "','" + pt.EmpCode + "','" + pt.LocCode + "','" + pt.ProjectCode + "','" + pt.ApprovalYN + "','" + pt.MRFrom + "','" + pt.Status + "','" + pt.DontShowJobInList + "','" + pt.GenerateInquiry + "','" + pt.IsPopUpCheckedByUser + "','" + pt.JobNo + "','" + pt.PreparedBy + "','" + pt.Priority + "','" + pt.RType + "','" + pt.WONo + "')");
+                    _EzBusinessHelper.ExecuteNonQuery("insert into PMMRH001(MRCode,CmpyCode,ResourceType,Dates,Description,EmpCode,LocCode,ProjectCode,ApprovalYN,MRFrom,Status,DontShowJobInList,GenerateInquiry,IsPopUpCheckedByUser,JobNo,PreparedBy,Priority,RType,WONo) values('" + pt.MRCode + "','" + pt.CmpyCode + "','" + pt.ResourceType + "','" + dtstr + "','" + pt.Description + "','" + pt.EmpCode + "','" + pt.LocCode + "','" + pt.ProjectCode + "','" + pt.ApprovalYN + "','" + pt.MRFrom + "','" + pt.Status + "','" + pt.DontShowJobInList + "','" + pt.GenerateInquiry + "','" + pt.IsPopUpCheckedByUser + "','" + pt.JobNo + "','" + pt.PreparedBy + "','" + pt.Priority + "','" + pt.RType + "','" + pt.WONo + "')");
 
                      n = ObjList.Count;
 
                     while (n > 0)
                     {
                         string str = ObjList[n - 1].CmpyCode.ToString();
-                        _EzBusinessHelper.ExecuteNonQuery("insert into MReqDetail(CmpyCode,MRCode,Description,BaseQtyReq,BaseUnitQty,BOQSno,Specification,SNo,ItemCode,Unit,Qty,CostCode,FileType,ImgDesc,OverBudget,PackageSno,PartNumber,Product_Img,QtyReceived,Select_Img) values('" + ObjList[n - 1].CmpyCode.ToString() + "','" + ObjList[n - 1].MRCode.ToString() + "','" + ObjList[n - 1].Description.ToString() + "','" + ObjList[n - 1].BaseQtyReq.ToString() + "','" + ObjList[n - 1].BaseUnitQty.ToString() + "','" + ObjList[n - 1].BOQSno.ToString() + "', '" + ObjList[n - 1].Specification.ToString() + "','" + ObjList[n - 1].SNo.ToString() + "','" + ObjList[n - 1].ItemCode.ToString() + "','" + ObjList[n - 1].Unit.ToString() + "','" + ObjList[n - 1].Qty.ToString() + "','" + ObjList[n - 1].CostCode.ToString() + "','" + ObjList[n - 1].FileType.ToString() + "','" + ObjList[n - 1].ImgDesc.ToString() + "','" + ObjList[n - 1].OverBudget.ToString() + "','" + ObjList[n - 1].PackageSno.ToString() + "','" + ObjList[n - 1].PartNumber.ToString() + "','" + ObjList[n - 1].Product_Img.ToString() + "','" + ObjList[n - 1].QtyReceived.ToString() + "','" + ObjList[n - 1].Select_Img.ToString() + "')");
+                        _EzBusinessHelper.ExecuteNonQuery("insert into PMMRD002(CmpyCode,MRCode,Description,BaseQtyReq,BaseUnitQty,BOQSno,Specification,SNo,ItemCode,Unit,Qty,CostCode,FileType,ImgDesc,OverBudget,PackageSno,PartNumber,Product_Img,QtyReceived,Select_Img) values('" + ObjList[n - 1].CmpyCode.ToString() + "','" + ObjList[n - 1].MRCode.ToString() + "','" + ObjList[n - 1].Description.ToString() + "','" + ObjList[n - 1].BaseQtyReq.ToString() + "','" + ObjList[n - 1].BaseUnitQty.ToString() + "','" + ObjList[n - 1].BOQSno.ToString() + "', '" + ObjList[n - 1].Specification.ToString() + "','" + ObjList[n - 1].SNo.ToString() + "','" + ObjList[n - 1].ItemCode.ToString() + "','" + ObjList[n - 1].Unit.ToString() + "','" + ObjList[n - 1].Qty.ToString() + "','" + ObjList[n - 1].CostCode.ToString() + "','" + ObjList[n - 1].FileType.ToString() + "','" + ObjList[n - 1].ImgDesc.ToString() + "','" + ObjList[n - 1].OverBudget.ToString() + "','" + ObjList[n - 1].PackageSno.ToString() + "','" + ObjList[n - 1].PartNumber.ToString() + "','" + ObjList[n - 1].Product_Img.ToString() + "','" + ObjList[n - 1].QtyReceived.ToString() + "','" + ObjList[n - 1].Select_Img.ToString() + "')");
                         n = n - 1;
                     }
                 }

@@ -23,5 +23,22 @@ namespace EzBusiness_DL_Repository
             string GetCode = _EzBusinessHelper.ExecuteScalarS("Sp_codeGen", param1);
             return GetCode;
         }
+
+        public decimal GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy)
+        {
+            return _EzBusinessHelper.ExecuteScalarDec("select a.TOTAL from PRSMS001 a where a.CMPYCODE ='"+ CmpyCode +"' and a.Effect_From <='"+  dtmonthyy +"' and a.EMPCODE='"+ Empcode + "' and a.Flag=0 and Effect_From =(select max(b.Effect_From) from PRSMS001 b where b.CMPYCODE =a.CMPYCODE and b.EMPCODE=a.EMPCODE and b.Effect_From <=a.Effect_From and a.Flag=b.Flag)");
+        }
+
+        public bool GetSalaryProcess(string CmpyCode, string Empcode, DateTime dtmonthyy)
+        {
+            string Monthyy = dtmonthyy.ToString("MM-yyyy");
+           int k= _EzBusinessHelper.ExecuteScalar("select count(*) from PRSPD001 where flag=0 and EmpCode='" +  Empcode + "'  and CmpyCode='"+ CmpyCode +"' and FORMAT(Dates,'MM-yyyy') = '" + Monthyy + "'");
+            if (k == 0){
+                return true;
+            }
+            return false;
+        }
+
+
     }
 }

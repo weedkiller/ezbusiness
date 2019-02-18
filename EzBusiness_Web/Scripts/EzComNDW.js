@@ -56,6 +56,33 @@ function EzAuthentication(Rpath) {
         }              
     });
 }
+
+/*Salary Proceess Condition check*/
+function EzSalrProcCondiont(Empcode, dtmonthyy) {    
+    var a = 0;   
+    $.ajax({
+        url: "/SalryProCond",
+        dataType: 'json',
+        async: false,
+        data: { Empcode: Empcode, dtmonthyy: dtmonthyy },
+        success: function (data) {
+            debugger;
+            if (data == true) {
+                a =1;            
+            }
+            if (a == 0) {
+                Swal.queue([{
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Salary Process Genereted this Month. You can not Change .!',
+                    allowOutsideClick: false,
+                    showLoaderOnConfirm: true,                              
+                }])
+            }
+        }
+    });
+    return a;       
+}
 function EzAlertdele(code) {
     Swal.queue([{
         type: 'error',
@@ -700,6 +727,14 @@ function Ezsetdtpkdate(date1) {
     var mm = d.getMonth() + 1;
     var yy = d.getFullYear();
     var newdate = yy + "/" + mm + "/" + dd;
+    return newdate;
+}
+function EzsetdtpkdateSal(date1) {
+    var d = new Date(date1.split("/").reverse().join("-"));
+    var dd = d.getDate();
+    var mm = d.getMonth() + 1;
+    var yy = d.getFullYear();
+    var newdate = yy + "" + mm + "" + dd;
     return newdate;
 }
 

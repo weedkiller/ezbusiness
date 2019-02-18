@@ -9,12 +9,12 @@
         var poHtml = $("#POContainer").html();
         $("#POListContainer1").hide();
         function GetPurchaseOrderList() {
-            $.get("/PurchaseMgmt/GetPurchaseOrderList", function (response) {
+            $.get("/PurchaseReq/GetPurchaseOrderList", function (response) {
                 $("#POListContainer").html(response);
             });
         }
         $("#btnNew").click(function () {
-            $.get("PurchaseMgmt/AddPurchaseOrder", function (response) {
+            $.get("PurchaseReq/AddPurchaseOrder", function (response) {
                 $("#POContainer").html(response);
             });
             $(this).prop("disabled", true);
@@ -565,7 +565,7 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="container scroll" id="POListContainer">
-                        @Html.Action("GetPurchaseOrderList", "PurchaseMgmt")
+                        @Html.Action("GetPurchaseOrderList", "PurchaseReq")
                     </div>
                 </div>
 

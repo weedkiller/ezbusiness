@@ -75,7 +75,10 @@
         //var Description = $("[name*='Description']");
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/SalaryM", "DeleteIt");
-            if (n == 1) {
+            var date1 = Ezsetdtpkdate($('#Entery_date1').val());
+            var k = EzSalrProcCondiont($("#EMPCODE option:selected").val(), date1);
+
+            if (n == 1 && k==1) {
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
@@ -139,11 +142,15 @@
         });
         $("#btnSave").click(function () {
             var n = EzAuthenticationBtn("/SalaryM", "EditIt");
+
+            var date1 = Ezsetdtpkdate($('#Entery_date1').val());
+            var k = EzSalrProcCondiont($("#EMPCODE option:selected").val(), date1);
+
             $("#editshow").hide();
            
             var opMode = $("#hdnOperationMode").val();
 
-            if (opMode == "Add") {
+            if (opMode == "Add" && k==1) {
                 // Code for Adding MainTable
                 var salarym = {
                     EditFlag: false,
@@ -212,7 +219,7 @@
                 } else {
                     Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                 }
-            } else if (opMode == "Edit" && n == 1) {
+            } else if (opMode == "Edit" && n == 1 && k == 1) {
                     // Code for Adding Purchase order
                    
                     var salarym = {

@@ -112,6 +112,13 @@ namespace EzBusiness_BL_Service
         //}
         public Leave_App_VW SaveLeaveApp(Leave_App_VW LeaveApp)
         {
+           //bool t= _CodeRep.GetSalaryProcess(LeaveApp.CmpyCode, LeaveApp.EmpCode, LeaveApp.StartDate);
+           // if(t==false)
+           // {
+           //     LeaveApp.ErrorMessage = "Salary Process Genereted this Month...You can not Change ...!";
+           //     LeaveApp.IsSavedFlag = false;
+           //     return LeaveApp;
+           // }
             if (!LeaveApp.IsEditMode)
             {
                 LeaveApp.PRLR001_CODE = _CodeRep.GetCode(LeaveApp.CmpyCode, "LeaveApplication");

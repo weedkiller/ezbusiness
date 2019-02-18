@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace EzBusiness_BL_Interface
 {
-    public interface IPurchaseMgmtService
+    public interface IPurchaseReqService
     {
         #region Purchase Request
         List<SelectListItem> GetProjects(string CmpyCode);

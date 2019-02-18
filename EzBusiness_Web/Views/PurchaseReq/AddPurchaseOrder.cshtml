@@ -3,10 +3,16 @@
 @{
     var counter = 1;
 }
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
+        EzdtePk('#PODate1');
 
         //$("[name*='ItemCode']").empty();
        $('.selectpicker').selectpicker('refresh');
@@ -28,7 +34,8 @@
                 var rest = $("input:radio[name=ResourceType]:checked").val();
             $("#MasterWrapper").show();
             if (rest != null) {
-                $.get("PurchaseMgmt/GetItemCodeList", { restyp: rest }).done(function (response) {
+                $("#tablePODetails tbody").find("tr:not(:last)").remove();
+                $.get("PurchaseReq/GetItemCodeList", { restyp: rest }).done(function (response) {                                    
                     $('#tablePODetails tr').each(function (data) {
                         $("[name*='ItemCode']").empty();
                         var ary = [];
@@ -59,82 +66,146 @@
         $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
             $(this).closest("tr").remove();
         });
-        $("#tablePODetails").on("change", "[name*='ItemCode']", function () {
+
+        var counter = $('#hdnCounter').val();
+
+
+        $('.selectpicker').selectpicker({
+            style: 'btn-default',
+            size: 4,
+            container: 'body'
+        });
+
+        $('.table-responsive').on('show.bs.select', function () {
+            console.log("triggered show bs select");
+            $('.table-responsive').css("overflow", "hidden");
+        });
+        $('.table-responsive').on('hide.bs.select', function () {
+            console.log("triggered hide bs select");
+            $('.table-responsive').css("overflow", "auto");
+        });
+
+
+        $("#tablePODetails").on('change', 'select', "[name*='ItemCode']", function () {
             debugger;
-            
-            var tr = $(this).closest("tr");
-            //$("[name*='ItemCode']").val(0);
-            //var rowCount = $('#tablePODetails tr').length;
-            //if (rowCount >= 2)
-            //{
-            //    // $('#ResourceType input[type="radio"]').removeAttr("disabled");
-
-            //    //$('#input:radio[name=ResourceType]').prop("disabled", false);
-            //}
-
-            var rest1=$("input:radio[name=ResourceType]:checked").val();
-            if (rest1 != null) {
-                $.get("PurchaseMgmt/GetItemCodeDescription", { itemCode: $(this).val(), restyp: rest1 }).done(function (response) {
-                    tr.find("[name*='ItemDescription']").val(response.Description);
-                    tr.find("[name*='ItemUnit']").val(response.Unit);
-
-                    //$('.selectpicker').selectpicker('refresh');
-                    //$('.selectpicker').selectpicker('render');
-                });
-            }
+            var tr = $(this).closest("tr");           
+            var ItemCode = tr.find("[name*='ItemCode'] option:selected").text();
+            var rest1 = $("input:radio[name=ResourceType]:checked").val();
             if (tr.is(":last-child")) {
-
-
-                tr.clone(true, true).insertAfter(tr);
-
+                tr.clone(true, true).insertAfter(tr);               
+                if (rest1 != null) {
+                    $.get("PurchaseReq/GetItemCodeDescription", { itemCode: ItemCode, restyp: rest1 }).done(function (response) {
+                        tr.find("[name*='ItemDescription']").val(response.Description);
+                        tr.find("[name*='ItemUnit']").val(response.Unit);                                             
+                    });
+                }
                 $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                     .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
-                var trLast = $("#tableMetaSettings tr:last")
+                $('.selectpicker').selectpicker('render');
+                var trLast = $("#tablePODetails tbody tr:last")                            
+                        trLast.find("[name *= 'ItemCode']").attr(
+                            "name", "ItemCode" + counter
+                        );
+                        trLast.find("[name *= 'ItemCode']").attr(
+                                   "data-id", "ItemCode" + counter
+                               );
+                        trLast.find("[name *= 'ItemCode']").attr(
+                                "id", "ItemCode" + counter
+                         );
+                        trLast.find("[name *= 'ItemDescription']").attr(
+                            "name", "ItemDescription" + counter
+                        );
+                        trLast.find("[name *= 'ItemDescription']").attr(
+                        "id", "ItemDescription" + counter
+                        );
+                        trLast.find("[name *= 'ItemSpecification']").attr(
+                            "name", "ItemSpecification" + counter
+                        );
+                        trLast.find("[name *= 'ItemSpecification']").attr(
+                                    "id", "ItemSpecification" + counter
+                               );
+                        trLast.find("[name *= 'ItemUnit']").attr(
+                            "name", "ItemUnit" + counter
+                        );
+                        trLast.find("[name *= 'ItemUnit']").attr(
+                                    "id", "ItemUnit" + counter
+                               );
+                        trLast.find("[name *= 'ItemQuantity']").attr(
+                            "name", "ItemQuantity" + counter
+                        );
+                        trLast.find("[name *= 'ItemQuantity']").attr(
+                                     "id", "ItemQuantity" + counter
+                                );
+
+                        trLast.find('select[name^=ItemCode' + counter + ']').val(0);
+                
+                trLast.find(":first").text(counter);
+
+            }
+            counter++;
+
+        });
+
+        //$("#tablePODetails").on("change", "[name*='ItemCode']", function () {
+        //    debugger;
+            
+        //    var tr = $(this).closest("tr");           
+        //    var rest1=$("input:radio[name=ResourceType]:checked").val();
+        //    if (rest1 != null) {
+        //        $.get("PurchaseReq/GetItemCodeDescription", { itemCode: $(this).val(), restyp: rest1 }).done(function (response) {
+        //            tr.find("[name*='ItemDescription']").val(response.Description);
+        //            tr.find("[name*='ItemUnit']").val(response.Unit);
+        //            $('.selectpicker').selectpicker('refresh');
+        //            //$('.selectpicker').selectpicker('refresh');
+        //            //$('.selectpicker').selectpicker('render');
+        //        });
+        //    }
+        //    if (tr.is(":last-child")) {
+
+              
+        //        tr.clone(true, true).insertAfter(tr);
+
+        //        $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+        //            .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+        //        var trLast = $("#tableMetaSettings tr:last")
 
                
 
-                var cloned = $("#tablePODetails tbody tr:last").clone(true); // clone last row
-                // looping over last row's inputs
-                $("#tablePODetails tbody tr:last").find('select').each(function () {
-                    cloned.find('select[name^=' + this.name.replace('[]', '') + ']').val(0);
+        //        var cloned = $("#tablePODetails tbody tr:last").clone(true); // clone last row
+        //        // looping over last row's inputs
+        //        $("#tablePODetails tbody tr:last").find('select').each(function () {
+        //            cloned.find('select[name^=' + this.name.replace('[]', '') + ']').val(0);
                     
-                });
+        //        });
 
-                $("#tablePODetails > tbody").append(cloned);
-                $("#tablePODetails > tbody tr:last").prev().remove();
+        //        $("#tablePODetails > tbody").append(cloned);
+        //        $("#tablePODetails > tbody tr:last").prev().remove();
 
-                trLast.find("[name *= 'ItemCode']").attr({
-                    "name": ("ItemCode" + counter)
-                });
-                trLast.find("[name *= 'ItemDescription']").attr({
-                    "name": ("ItemDescription" + counter)
-                });
-                trLast.find("[name *= 'ItemSpecification']").attr({
-                    "name": ("ItemSpecification" + counter)
-                });
-                trLast.find("[name *= 'ItemUnit']").attr({
-                    "name": ("ItemUnit" + counter)
-                });
-                trLast.find("[name *= 'ItemQuantity']").attr({
-                    "name": ("ItemQuantity" + counter)
-                });
-                trLast.find(":first").text(counter);
-            }
-            counter++;
-        });
+        //        trLast.find("[name *= 'ItemCode']").attr({
+        //            "name": ("ItemCode" + counter)
+        //        });
+        //        trLast.find("[name *= 'ItemDescription']").attr({
+        //            "name": ("ItemDescription" + counter)
+        //        });
+        //        trLast.find("[name *= 'ItemSpecification']").attr({
+        //            "name": ("ItemSpecification" + counter)
+        //        });
+        //        trLast.find("[name *= 'ItemUnit']").attr({
+        //            "name": ("ItemUnit" + counter)
+        //        });
+        //        trLast.find("[name *= 'ItemQuantity']").attr({
+        //            "name": ("ItemQuantity" + counter)
+        //        });
+        //        trLast.find(":first").text(counter);
+        //    }
+        //    counter++;
+        //});
         //$("[name*='ItemCode']").change(function () {
 
         //});
-        $('#PODate').val(new Date().getToday());
+      
     });
-    Date.prototype.getToday = function () {
-        var now = new Date();
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-
-        var today = now.getFullYear() + "-" + (month) + "-" + (day);
-        return today;
-    }
+   
 </script>
 
 
@@ -169,8 +240,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Date</label>
-                                        <div class="col-md-9 input-field">
-                                            @Html.EditorFor(m => m.PODate, new { @style = "width: 60%", @class = "form-control" })
+                                        <div class="col-md-4 input-field">
+                                            @*@Html.EditorFor(m => m.PODate, new { @style = "width: 60%", @class = "form-control" })*@
+                                            <input id="PODate1" class="form-control datepicker" name="DateINMonth" autocomplete="false">
                                         </div>
                                     </div>
                                 </div>
@@ -181,7 +253,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-4">Project</label>
                                         <div class="col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @style = "width: 60%", @class = "selectpicker", @data_live_search = "true" })
+                                            @Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @style = "width: 60%", @class = "selectpicker form-control", @data_live_search = "true" })
                                         </div>
                                     </div>
                                 </div>
@@ -189,7 +261,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Location</label>
                                         <div class="col-md-9 input-field">
-                                            @Html.DropDownListFor(m => m.LocationCode, Model.LocationList, new { @style = "width: 128%!important", @class = "selectpicker", @data_live_search = "true" })
+                                            @Html.DropDownListFor(m => m.LocationCode, Model.LocationList, new { @style = "width: 128%!important", @class = "selectpicker form-control", @data_live_search = "true" })
                                         </div>
                                     </div>
                                 </div>
@@ -201,7 +273,7 @@
                                         <label class="control-label col-md-4">Resource Type</label>
                                         <div class="col-md-8 input-field">
                                             <label class="radio-inline">
-                                                @Html.RadioButtonFor(m => m.ResourceType, "M") Material
+                                                @Html.RadioButtonFor(m => m.ResourceType, "M", new { @checked = "checked" }) Material
                                             </label>
                                             <label class="radio-inline">
                                                 @Html.RadioButtonFor(m => m.ResourceType, "A") Asset
@@ -216,7 +288,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Requested By</label>
                                         <div class="col-md-9 input-field">
-                                            @Html.DropDownListFor(m => m.RequesterCode, Model.RequesterList, new { @style = "width: 50%", @class = "selectpicker", @data_live_search = "true" })
+                                            @Html.DropDownListFor(m => m.RequesterCode, Model.RequesterList, new { @style = "width: 50%", @class = "selectpicker form-control", @data_live_search = "true" })
                                         </div>
                                     </div>
                                 </div>
@@ -274,23 +346,23 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                @Html.DropDownList(string.Concat("ItemCode", counter), Model.ItemCodeList, new { @class = "form-control" })
+                                                                @Html.DropDownList(string.Concat("ItemCode", counter), Model.ItemCodeList, new { @class = "selectpicker grid-control", @data_live_search = "true" })
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            @Html.TextBox(string.Concat("ItemDescription", counter), null, new { @class = "form-control", @disabled = "disabled" })
+                                                            @Html.TextBox(string.Concat("ItemDescription", counter), null, new { @class = "grid-control", @disabled = "disabled" })
                                                         </td>
                                                         <td>
-                                                            @Html.TextBox(string.Concat("ItemSpecification", counter), null, new { @class = "form-control" })
+                                                            @Html.TextBox(string.Concat("ItemSpecification", counter), null, new { @class = "grid-control" })
                                                         </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                @Html.DropDownList(string.Concat("ItemUnit", counter), Model.UnitList, new { @class = "form-control" })
+                                                                @Html.DropDownList(string.Concat("ItemUnit", counter), Model.UnitList, new { @class = "grid-control" })
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                @Html.TextBox(string.Concat("ItemQuantity", counter), null, new { @class = "form-control" })
+                                                                @Html.TextBox(string.Concat("ItemQuantity", counter), null, new { @class = "grid-control",@Type="Number" })
                                                             </div>
                                                         </td>
 

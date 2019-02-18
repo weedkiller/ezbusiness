@@ -13,14 +13,14 @@ using EzBusiness_ViewModels;
 
 namespace EzBusiness_BL_Service
 {
-    public class PurchaseMgmtService : IPurchaseMgmtService
+    public class PurchaseReqService : IPurchaseReqService
     {
 
-        IPurchaseMgmtRepository _purchaseRepo;
+        IPurchaseReqRepository _purchaseRepo;
         IMaterialMgmtService _materialService;
-        public PurchaseMgmtService()
+        public PurchaseReqService()
         {
-            _purchaseRepo = new PurchaseMgmtRepository();
+            _purchaseRepo = new PurchaseReqRepository();
             _materialService = new MaterialMgmtService();
         }
 

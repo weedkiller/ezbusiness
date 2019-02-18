@@ -13,11 +13,11 @@ namespace EzBusiness_Web.Controllers
     public class MonthlyAdddedController : Controller
     {
         IMonthlyAdddedPayrollService _MonthlyAdddedService;
-
+        ISalaryprocCondService _SalProCond;
         public MonthlyAdddedController()
         {
             _MonthlyAdddedService = new MonthlyAdddedPayrollService();
-
+            _SalProCond = new SalaryprocCondService();
         }
 
         #region MonthlyAddded Master
@@ -104,7 +104,7 @@ namespace EzBusiness_Web.Controllers
                 return Redirect("Login/InLogin");
             }
             else
-            {
+            {             
                 Monthly.CmpyCode = list[0].CmpyCode;
                 Monthly.UserName = list[0].user_name;
                 return Json(_MonthlyAdddedService.SaveMonthlyAD(Monthly), JsonRequestBehavior.AllowGet);

@@ -68,7 +68,10 @@
         //var Description = $("[name*='Description']");
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/DutyResume", "DeleteIt");
-            if (n == 1) {
+            var date1 = Ezsetdtpkdate($('#ResumeDate1').val());
+            var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+
+            if (n == 1 && k==1) {
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
@@ -134,10 +137,14 @@
         $("#btnSave").click(function () {
            
             var n = EzAuthenticationBtn("/DutyResume", "EditIt");
+
+            var date1 = Ezsetdtpkdate($('#ResumeDate1').val());
+            var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
 
-            if (opMode == "Add") {
+            if (opMode == "Add" && k ==1) {
                 // Code for Adding MainTable
                 var dutyResume = {
                     EditFlag: false,
@@ -176,7 +183,7 @@
                 } else {
                     Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                 }
-            } else if (opMode == "Edit" && n==1) {
+            } else if (opMode == "Edit" && n==1 && k==1) {
                 // Code for Adding Purchase order
                     var dutyResume = {
                         EditFlag: true,

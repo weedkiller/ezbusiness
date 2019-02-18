@@ -9,7 +9,7 @@ using EzBusiness_ViewModels.Models.PurchaseMgmt;
 
 namespace EzBusiness_DL_Interface
 {
-    public interface IPurchaseMgmtRepository
+    public interface IPurchaseReqRepository
     {
         #region Purchase Request
         List<CostCenterHeader> GetProjects(string CmpyCode);
