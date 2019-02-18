@@ -20,36 +20,34 @@ namespace EzBusiness_DL_Repository
 
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
    
-        public bool DeleteSalaryProcess(string CmpyCode,string EmpCode,string sal_Code,string flag, string username)
+        public bool DeleteSalaryProcess(string CmpyCode, string Code, DateTime CurrDate, string UserName)
         {
-            int salary = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRSPH001 where CmpyCode='" + CmpyCode + "' and Code='" + sal_Code + "'");
+            string dtr = CurrDate.ToString("MM");
+            string dtr1 = CurrDate.ToString("yyyy");
+            int salary = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRSPH001 where CmpyCode='" + CmpyCode + "' and Code='" + Code + "' and Flag=0");
             if (salary != 0)
             {
-                if (flag == "sp")
-                {
-                    _EzBusinessHelper.ExecuteNonQuery("update  PRSPD001 set flag=1 where CmpyCode='" + CmpyCode + "' and Code='" + sal_Code + "' and EmpCode='" + EmpCode + "'");
+                //int n = salary;
+                
 
-                    _EzBusinessHelper.ActivityLog(CmpyCode, username, "Delete Salary Process", sal_Code, Environment.MachineName);
+                 int i=   _EzBusinessHelper.ExecuteNonQuery("update  PRSPD001 set flag=1 where CmpyCode='" + CmpyCode + "' and Code='" + Code + "' and month(Dates)='" + dtr + "' and year(Dates)='" + dtr1 + "'");
+                if (i > 0)
+                {
+                    _EzBusinessHelper.ExecuteNonQuery("update  PRSPH001 set flag=1 where CmpyCode='" + CmpyCode + "' and Code='" + Code + "'");
+
+                    _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete Salary Process", Code, Environment.MachineName);
 
                     return true;
                 }
-                if(flag == "spH")
-                {
-                    _EzBusinessHelper.ExecuteNonQuery("update  PRSPD001 set flag=1 where CmpyCode='" + CmpyCode + "' and Code='" + sal_Code + "' and EmpCode='" + EmpCode + "'");
-                    _EzBusinessHelper.ExecuteNonQuery("update  PRSPH001 set flag=1 where CmpyCode='" + CmpyCode + "' and Code='" + sal_Code + "'");
-
-                    _EzBusinessHelper.ActivityLog(CmpyCode, username, "Delete Salary Process", sal_Code, Environment.MachineName);
-
-                    return true;
-                }
-
+                else
+                return false;
             }
             return false;
         }
 
         public List<SalaryProcessDetailsVM> GetSalaryDetailsList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select CmpyCode,Code,Dates from PRSPD001 where CmpyCode='" + CmpyCode + "' group by CmpyCode,Code,Dates");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select CmpyCode,Code,Dates from PRSPD001 where CmpyCode='" + CmpyCode + "' and Flag=0 group by CmpyCode,Code,Dates");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<SalaryProcessDetailsVM> ObjList = new List<SalaryProcessDetailsVM>();
@@ -101,55 +99,41 @@ namespace EzBusiness_DL_Repository
                 string monthdata = currDate.ToString("MM");
                 SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
                                     new SqlParameter("@Year", yeardata),
-                                     new SqlParameter("@Month",monthdata)};
-            //   ds = _EzBusinessHelper.ExecuteDataSet("usp_GetEmployeeNotInDTSbMonthly", CommandType.StoredProcedure, param);
-            //if (ds.Tables.Count >= 0)
-            //{
-            //    dt = ds.Tables[0];
-            //    DataRowCollection drc = dt.Rows;
-            //    objList = new List<SalaryProcessDetailsListItem>();
-            //    foreach (DataRow dr in drc)
-            //    {
-            //        objList.Add(new SalaryProcessDetailsListItem()
-            //        {
-            //            EmpCode = dr["EmpCode"].ToString(),
-            //            EmpName = dr["Empname"].ToString(),
-            //        });
-            //    }   
-            // }
-            //else
-            //{
+                                     new SqlParameter("@Month",monthdata)};         
                 ds = _EzBusinessHelper.ExecuteDataSet("usp_GetSlryProsesDetails", CommandType.StoredProcedure, param);
-                if (ds.Tables.Count > 0)
-                {
+            if (ds.Tables.Count > 0)
+            {
 
-                    dt = ds.Tables[0];
-                    DataRowCollection drc = dt.Rows;
+                dt = ds.Tables[0];
+
+                DataRowCollection drc = dt.Rows;
+                
                     objList = new List<SalaryProcessDetailsListItem>();
                     foreach (DataRow dr in drc)
                     {
-                    objList.Add(new SalaryProcessDetailsListItem()
-                    {
-                        EmpCode = dr["EmpCode"].ToString(),
-                        EmpName = dr["empname"].ToString(),
-                        WorkingDay = Convert.ToDecimal(dr["workingday"].ToString()),
-                        Present = Convert.ToDecimal(dr["Present"].ToString()),
-                        Leaves = Convert.ToDecimal(dr["AnnualLeave"].ToString()),
-                        Absent = Convert.ToDecimal(dr["Absentt"].ToString()),
-                        SickLeaves = Convert.ToDecimal(dr["SickLeave"].ToString()),
-                        WeeklyOff = Convert.ToDecimal(dr["WeeklyOff"].ToString()),
-                        Holiday = Convert.ToDecimal(dr["Holiday"].ToString()),
-                        NormalOTHrs = Convert.ToDecimal(dr["NOTHrs"].ToString()),
-                        HolidayOTHrs = Convert.ToDecimal(dr["HOTHrs"].ToString()),
-                        WeeklyOffOTHrs = Convert.ToDecimal(dr["FOTHrs"].ToString()),
-                        ExtraOTHrs = Convert.ToDecimal(dr["ExtraOTHrs"].ToString()),
-                        TotalEarning = Convert.ToDecimal(dr["TotalEarningdata"].ToString()),
-                        TotalDeduction = Convert.ToDecimal(dr["Deduction"].ToString()),
-                        NetSalary = Convert.ToDecimal(dr["netsalarydata"].ToString()),
-                        MonthlyAddition = Convert.ToDecimal(dr["Addition"].ToString()),
-                        LoanDeduction = Convert.ToDecimal(dr["LoanDeductiondata"].ToString()),
-                        //ErrorMsg = (dr["Flag"].ToString()),
-                        ProjectCode = dr["Project_code"].ToString(),
+                        objList.Add(new SalaryProcessDetailsListItem()
+                        {
+                            EmpCode = dr["EmpCode"].ToString(),
+                            EmpName = dr["empname"].ToString(),
+                            WorkingDay = Convert.ToDecimal(dr["workingday"].ToString()),
+                            Present = Convert.ToDecimal(dr["Present"].ToString()),
+                            Leaves = Convert.ToDecimal(dr["AnnualLeave"].ToString()),
+                            Absent = Convert.ToDecimal(dr["Absentt"].ToString()),
+                            SickLeaves = Convert.ToDecimal(dr["SickLeave"].ToString()),
+                            WeeklyOff = Convert.ToDecimal(dr["WeeklyOff"].ToString()),
+                            Holiday = Convert.ToDecimal(dr["Holiday"].ToString()),
+                            NormalOTHrs = Convert.ToDecimal(dr["NOTHrs"].ToString()),
+                            HolidayOTHrs = Convert.ToDecimal(dr["HOTHrs"].ToString()),
+                            WeeklyOffOTHrs = Convert.ToDecimal(dr["FOTHrs"].ToString()),
+                            ExtraOTHrs = Convert.ToDecimal(dr["ExtraOTHrs"].ToString()),
+                            TotalEarning = Convert.ToDecimal(dr["TotalEarningdata"].ToString()),
+                            TotalDeduction = Convert.ToDecimal(dr["Deduction"].ToString()),
+                            NetSalary = Convert.ToDecimal(dr["netsalarydata"].ToString()),
+                            MonthlyAddition = Convert.ToDecimal(dr["Addition"].ToString()),
+                            LoanDeduction = Convert.ToDecimal(dr["LoanDeductiondata"].ToString()),
+                            //ErrorMsg = (dr["Flag"].ToString()),
+                            ProjectCode = dr["Project_code"].ToString(),
+
                             Salary = Convert.ToDecimal(dr["BasicSalary"].ToString()),
 
                         });
@@ -161,7 +145,7 @@ namespace EzBusiness_DL_Repository
         }
         public SalaryProcessDetailsVM  GetSalaryProcessEdit(string CmpyCode,string salaryCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("select * from PRSPH001 where CmpyCode='" + CmpyCode + "' and code='" + salaryCode + "'");
+            ds = _EzBusinessHelper.ExecuteDataSet("select * from PRSPH001 where CmpyCode='" + CmpyCode + "' and code='" + salaryCode + "' and Flag=0");
             dt = ds.Tables[0];
             SalaryProcessDetailsVM drc = new SalaryProcessDetailsVM();
             foreach (DataRow dr in dt.Rows)
@@ -228,7 +212,7 @@ namespace EzBusiness_DL_Repository
                         {
 
 
-                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSPD001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "' and not in (EmpCode='" + ObjList[n - 1].EmpCode + "')");
+                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSPD001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "' and flag=0 and not in (EmpCode='" + ObjList[n - 1].EmpCode + "')");
                             if (Stats1 == 0)
                             {
                                 StringBuilder sb = new StringBuilder();
@@ -280,7 +264,7 @@ namespace EzBusiness_DL_Repository
                         }
                         if (result == true)
                         {
-                            int Stats11 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSPH001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
+                            int Stats11 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSPH001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "' and Flag=0");
                             if (Stats11 == 0)
                             {
                                 StringBuilder sb1 = new StringBuilder();
@@ -325,7 +309,7 @@ namespace EzBusiness_DL_Repository
                     {
                         while (n > 0)
                         {
-                            var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRSPD001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
+                            var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRSPD001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "' and Flag=0");
                             if (StatsEdit != 0)
                             {
                                 StringBuilder sb = new StringBuilder();
@@ -353,7 +337,7 @@ namespace EzBusiness_DL_Repository
                                 sb.Append("TotalDeduction='" + ObjList[n - 1].TotalDeduction + "',");
                                 sb.Append("LoanDeduction='" + ObjList[n - 1].LoanDeduction + "',");
                                 sb.Append("NetSalary='" + ObjList[n - 1].NetSalary + "')");
-                                _EzBusinessHelper.ExecuteNonQuery("update PRSPD001 set'" + sb.ToString() + "' where compycode='" + SPDV.CmpyCode + "'and code='" + SPDV.Code + "' ");
+                                _EzBusinessHelper.ExecuteNonQuery("update PRSPD001 set'" + sb.ToString() + "' where compycode='" + SPDV.CmpyCode + "'and code='" + SPDV.Code + "' and Flag=0 ");
 
                                 _EzBusinessHelper.ActivityLog(SPDV.CmpyCode, SPDV.UserName, "Update Salary Process", SPDV.Code, Environment.MachineName);
 
@@ -367,10 +351,10 @@ namespace EzBusiness_DL_Repository
                             }
                             n = n - 1;
                         }
-                        var SalaryEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRSPH001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
+                        var SalaryEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRSPH001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "' and Flag=0");
                         if (SalaryEdit != 0)
                         {
-                            _EzBusinessHelper.ExecuteNonQuery("update PRSPH001 set CmpyCode='" + SPDV.CmpyCode + "',Code='" + SPDV.Code + "',Month='" + dtstr4 + "',year='" + dtstr9 + "' where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "'");
+                            _EzBusinessHelper.ExecuteNonQuery("update PRSPH001 set CmpyCode='" + SPDV.CmpyCode + "',Code='" + SPDV.Code + "',Month='" + dtstr4 + "',year='" + dtstr9 + "' where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.Code + "' and Flag=0");
                             SPDV.SaveFlag = true;
                             SPDV.ErrorMessage = string.Empty;
                         }
@@ -433,6 +417,18 @@ namespace EzBusiness_DL_Repository
                 });
             }
             return objList;
+        }
+        public bool CheckslryDataCalculated(string CmpyCode, DateTime CurrDate)
+        {
+            string dtesly = CurrDate.ToString("MM");
+            string dtesly1 = CurrDate.ToString("yyyy");
+            int slrydata = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRSPD001 where CmpyCode='" + CmpyCode + "' and Flag=0 and month(Dates)='" + dtesly + "' and year(Dates)='"+dtesly1+"'");
+            if (slrydata > 0)
+            {
+                return true;
+            }
+            else
+                return false;
         }
     }
 }
