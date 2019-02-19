@@ -127,8 +127,7 @@
             var opMode = $("#hdnOperationMode").val();
             var n = EzAuthenticationBtn("/EmployeeMaster", "EditIt");
             if (opMode == "Add") {
-                // Code for Adding Purchase order
-               
+                // Code for Adding Purchase order               
                 var employeemaster = {
                     IsEditMode: false,
                     Salutaion: $("[name='Salutaion'] option:selected").val(),
@@ -289,12 +288,13 @@
                                 
                                 GetPurchaseOrderList();
                             } else {
-                                Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzAlerterrtxt(response.ErrorMessage);
                             }
                         });
                   } else {
-                    
-                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                 }
             } else if (opMode == "Edit" && n==1) {
                 // Code for Adding Purchase order
@@ -308,7 +308,7 @@
                     LeaveStatus: $("[name='LeaveStatus']").val(),
                     EmpMolId: $("[name='EmpMolId']").val(),
                     AttDeviceNo: $("[name='AttDeviceNo']").val(),
-                    DOB: Ezsetdtpkdate($("[name='DOB']").val()),
+                    DOB: Ezsetdtpkdate($("[name='DOB1']").val()),
                     Empname: $("[name='Empname']").val(),
                     PlaceOfBirth: $("[name='PlaceOfBirth']").val(),
                     Sex: $("input:radio[name=Sex]:checked").val(),
@@ -449,16 +449,18 @@
                         $.post("/SaveEmployeeMaster", employeemaster).done(function (response) {
                             if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {
                                 EzbtnsaveAc("#POContainer");
-                                Ezerrormsg("#ErrorMessage","");
+                                //Ezerrormsg("#ErrorMessage","");
                                 GetPurchaseOrderList();
                             } else {
                                 //  $("#ErrorMessage").show().find("strong").text(response.ErrorMessage);
-                                Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzAlerterrtxt(response.ErrorMessage);
                             }
                         });
 
                     } else {
-                        Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                        //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                        EzAlerterrtxt(validationResult.ErrorMessage);
                     }
                 }
         });
@@ -469,7 +471,7 @@
                 ErrorMessage: "",
                 formValid: false
             };
-            if (employeemaster.IsEditMode == false) {
+            //if (employeemaster.IsEditMode == false) {
                 if (employeemaster.Salutaion == "0") {
                     response.ErrorMessage += "Salutaion ,";
                 }
@@ -505,15 +507,15 @@
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
             }
-            } else if (employeemaster.IsEditMode == true) {
-                if (employeemaster.EmpCode=='') {
-                    response.ErrorMessage += "Employee Code,";
+            //} else if (employeemaster.IsEditMode == true) {
+            //    if (employeemaster.EmpCode=='') {
+            //        response.ErrorMessage += "Employee Code,";
 
-                }
-                if (response.ErrorMessage.length == 0) {
-                    response.formValid = true;
-                }
-            }
+            //    }
+            //    if (response.ErrorMessage.length == 0) {
+            //        response.formValid = true;
+            //    }
+            //}
             return response;
         }
 
