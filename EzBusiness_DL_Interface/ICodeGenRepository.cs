@@ -11,7 +11,7 @@ namespace EzBusiness_DL_Interface
         string GetCode(string CmpyCode, string LocCode);
        bool GetSalaryProcess(string CmpyCode, string Empcode,DateTime dtmonthyy);
 
-        decimal  GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy);
+        bool GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy,string InpAmt);
 
     }
 }

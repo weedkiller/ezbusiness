@@ -24,9 +24,9 @@ namespace EzBusiness_BL_Service
             _CodeRep = new CodeGenRepository();
         }
 
-        public decimal GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy)
+        public bool GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy, string InpAmt)
         {
-            return _CodeRep.GetSalaryLast(CmpyCode, Empcode, dtmonthyy);
+            return _CodeRep.GetSalaryLast(CmpyCode, Empcode, dtmonthyy, InpAmt);
         }
 
         public bool GetSalaryProcess(string CmpyCode, string Empcode, DateTime dtmonthyy)
