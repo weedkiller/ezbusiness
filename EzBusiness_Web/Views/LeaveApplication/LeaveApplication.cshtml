@@ -135,13 +135,13 @@
         $("#btnSave").click(function () {
             
             var date1 = Ezsetdtpkdate($('#StartDate1').val());
-            var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+            var k =0;
 
             var n = EzAuthenticationBtn("/LeaveApplication", "EditIt");
             $("#editshow").hide();
            
             var opMode = $("#hdnOperationMode").val();
-            if (opMode == "Add" && k == 1) {
+            if (opMode == "Add") {
                 // Code for Adding Purchase order
                 var LeaveApp = {
                     IsEditMode: false,
@@ -164,6 +164,9 @@
                 };              
                 var validationResult = ValidateForm(LeaveApp);
                 if (validationResult.formValid) {
+                    k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                    if (k == 0)
+                        {
                     $.post("/SaveLeaveApp", LeaveApp).done(function (response) {
                         if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {                         
                             EzbtnsaveAc("#LVContainer");
@@ -174,13 +177,14 @@
                             EzAlerterrtxt(response.ErrorMessage);
                         }
                     });
+                    }
 
                 } else {
                     EzAlerterrtxt(validationResult.ErrorMessage);
                    // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                     
                 }
-            } else if (opMode == "Edit" && n == 1 && k == 1) {// 
+            } else if (opMode == "Edit" && n == 1 ) {// 
                 // Code for Adding Purchase order
                 debugger;
                 var LeaveApp = {
@@ -207,21 +211,23 @@
 
                 var validationResult = ValidateForm(LeaveApp);
                 if (validationResult.formValid) {
-                    
-                    $.post("/SaveLeaveApp", LeaveApp).done(function (response) {
-                        var arr = [];
-                        arr = response;
-                        if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {
-                           
-                           
-                            EzbtnsaveAc("#LVContainer");
-                          //  Ezerrormsg("#ErrorMessage", response.ErrorMessage);
-                            GetLeaveList();
-                        } else {
-                            //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
-                            EzAlerterrtxt(response.ErrorMessage);
-                        }
-                    });
+                    k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                    if (k == 0) {
+                        $.post("/SaveLeaveApp", LeaveApp).done(function (response) {
+                            var arr = [];
+                            arr = response;
+                            if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {
+
+
+                                EzbtnsaveAc("#LVContainer");
+                                //  Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                GetLeaveList();
+                            } else {
+                                //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzAlerterrtxt(response.ErrorMessage);
+                            }
+                        });
+                    }
 
                 } else {
                     //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);

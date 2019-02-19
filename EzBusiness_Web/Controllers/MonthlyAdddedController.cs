@@ -104,10 +104,11 @@ namespace EzBusiness_Web.Controllers
                 return Redirect("Login/InLogin");
             }
             else
-            {             
+            {
                 Monthly.CmpyCode = list[0].CmpyCode;
                 Monthly.UserName = list[0].user_name;
                 return Json(_MonthlyAdddedService.SaveMonthlyAD(Monthly), JsonRequestBehavior.AllowGet);
+
             }
         }
         [Route("DeleteMonthly")]

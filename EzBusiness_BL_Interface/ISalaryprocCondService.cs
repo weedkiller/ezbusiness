@@ -10,6 +10,6 @@ namespace EzBusiness_BL_Interface
     {
         bool GetSalaryProcess(string CmpyCode, string Empcode, DateTime dtmonthyy);
 
-        decimal GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy);
+        bool GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy, string InpAmt);
     }
 }

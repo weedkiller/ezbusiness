@@ -58,13 +58,17 @@ function EzAuthentication(Rpath) {
 }
 
 /*Salary Proceess Condition check*/
-function EzSalrProcCondiont(Empcode, dtmonthyy) {    
+function EzSalrProcCondiont(Empcode, dtmonthyy) {
+    debugger;
     var a = 0;   
     $.ajax({
-        url: "/SalryProCond",
-        dataType: 'json',
-        async: false,
-        data: { Empcode: Empcode, dtmonthyy: dtmonthyy },
+          async: false,
+          cache: false,
+          type: "POST",
+          data: "{Empcode:'"+Empcode+"',dtmonthyy:'"+dtmonthyy+"'}",
+          url: "/UserRights/CheckSalryProCond",      
+          dataType: 'Json',
+         contentType:"Application/json",
         success: function (data) {
             debugger;
             if (data == true) {
@@ -82,6 +86,36 @@ function EzSalrProcCondiont(Empcode, dtmonthyy) {
         }
     });
     return a;       
+}
+/*Salary last*/
+function EzSalrLast(Empcode, dtmonthyy,InpAmt) {
+    debugger;
+    var a = 0;
+    $.ajax({
+        async: false,
+        cache: false,
+        type: "POST",
+        data: "{Empcode:'" + Empcode + "',dtmonthyy:'" + dtmonthyy + "',InpAmt:'" + InpAmt + "'}",
+        url: "/UserRights/GetSalryLast",
+        dataType: 'Json',
+        contentType: "Application/json",
+        success: function (data) {
+            debugger;
+            if (data == true) {
+                a = 1;
+            }
+            if (a == 0) {
+                Swal.queue([{
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Salry Amount not enough .!',
+                    allowOutsideClick: false,
+                    showLoaderOnConfirm: true,
+                }])
+            }
+        }
+    });
+    return a;
 }
 function EzAlertdele(code) {
     Swal.queue([{
