@@ -156,7 +156,7 @@ namespace EzBusiness_DL_Repository
             {
                 dte = Convert.ToDateTime(ObjList[n - 1].Att_Date);
                 dtstr1 = dte.ToString("yyyy-MM-dd");
-                _EzBusinessHelper.ExecuteNonQuery("update PRDTD002 set ATT='" + ObjList[n - 1].ATT + "' where format(Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "' and Empcode ='" + OT.EmpCode + "' and cmpycode='" + OT.Cmpycode + "'");
+                _EzBusinessHelper.ExecuteNonQuery("update PRDTD002 set NHrs=0, ATT='" + ObjList[n - 1].ATT + "' where format(Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "' and Empcode ='" + OT.EmpCode + "' and cmpycode='" + OT.Cmpycode + "'");
                 n = n - 1;
             }
 

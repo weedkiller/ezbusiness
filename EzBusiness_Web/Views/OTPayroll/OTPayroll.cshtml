@@ -35,12 +35,8 @@
         });
 
         $("#btnadd").click(function () {
-            var n = EzAuthenticationBtn("/OTPayroll", "NewIt");
-
-            var date1 = Ezsetdtpkdate($('#Att_Date').val());
-            var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
-
-            if (n == 1 && k==1) {
+            var n = EzAuthenticationBtn("/OTPayroll", "NewIt");      
+            if (n == 1 ) {
                 var e1 = $("#EmpCode option:selected").val();
                 var dt2 = Ezsetdtpkdate($("#Att_Date").val());
                 var e1 = $("#EmpCode option:selected").val();
@@ -55,8 +51,10 @@
                         duplicates = true;
                     }
                     if (e1 != '0' && duplicates == false && Att_Date != '') {
-                        $.get("/GetOTDet", { EmpCode: e1, dte: dt2 }).done(function (response) {
-                           
+                        var date1 = Ezsetdtpkdate($('#Att_Date').val());
+                        var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                        if (k == 1){
+                        $.get("/GetOTDet", { EmpCode: e1, dte: dt2 }).done(function (response) {                           
                             var ary = [];
                             ary = response;
                             if (ary.length == 0) {
@@ -86,6 +84,12 @@
                                     Readonly3 = "";
                                     Readonly2 = "Readonly = 'true'";
                                 }
+                                debugger;
+                                if (ary[i].ATT != 'P' && (ary[i].ATT != 'H' || ary[i].ATT != 'W')) {
+                                    Readonly1 = "Readonly = 'true'";
+                                    Readonly3 = "Readonly = 'true'";
+                                    Readonly2 = "Readonly = 'true'";
+                                }
                                 var tr1 = "<tr>";
                                 var td = "<td><div class='form-group'>" + counter + "</div></td>"
                                 var td1 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='Datest" + counter + "'></div></td>"
@@ -111,7 +115,11 @@
                                 counter++;
                             }
                         });
+                        }
                     }
+                }
+                else {
+                    EzAlerterrtxt("Select Employee");
                 }
             }
         });

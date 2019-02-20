@@ -63,9 +63,10 @@
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/LeaveApplication", "DeleteIt");
             var date1 = Ezsetdtpkdate($('#StartDate1').val());
-            var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
-
-            if (n == 1 && k==1) {
+            var k = 0;
+            if (n == 1) {
+                k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                if( k == 1){
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
@@ -130,6 +131,7 @@
                 //    });
                 //}
                 $("#editshow").hide();
+                }
             }
         });
         $("#btnSave").click(function () {
@@ -165,7 +167,7 @@
                 var validationResult = ValidateForm(LeaveApp);
                 if (validationResult.formValid) {
                     k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
-                    if (k == 0)
+                    if (k == 1)
                         {
                     $.post("/SaveLeaveApp", LeaveApp).done(function (response) {
                         if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {                         
@@ -212,7 +214,7 @@
                 var validationResult = ValidateForm(LeaveApp);
                 if (validationResult.formValid) {
                     k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
-                    if (k == 0) {
+                    if (k == 1) {
                         $.post("/SaveLeaveApp", LeaveApp).done(function (response) {
                             var arr = [];
                             arr = response;

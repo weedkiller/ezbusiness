@@ -76,9 +76,11 @@
                 }
             });
             var date1 = Ezsetdtpkdate($('#Entry_Date1').val());
-            var k = EzSalrProcCondiont(EmpCodeArr, date1);
+            var k =0;
 
-            if (n == 1 && k == 1) {//&& k==1
+            if (n == 1) {//&& k==1
+                k = EzSalrProcCondiont(EmpCodeArr, date1);
+                if(k==1){
                 $("#editshow").hide();
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
@@ -142,6 +144,7 @@
                 //        }
                 //    });
                 //}
+                }
             }
         });
 
@@ -208,7 +211,7 @@
                          k = EzSalrProcCondiont(EmpCodeArr1, date1);
                     }                    
                     if (EmpCodeArr.length !== 0 && k == 1) {
-                         SA = EzSalrLast(EmpCodeArr, date1, InpAmtAry);
+                        SA = EzSalrLast(EmpCodeArr, date1, InpAmtAry, 'Salary amount not enough');
                     }
                     else {                     
                         SA = 1;
@@ -279,7 +282,7 @@
                         k = EzSalrProcCondiont(EmpCodeArr1, date1);
                     }
                     if (EmpCodeArr.length !== 0 && k == 1) {
-                        SA = EzSalrLast(EmpCodeArr, date1, InpAmtAry);
+                        SA = EzSalrLast(EmpCodeArr, date1, InpAmtAry, 'Salary amount not enough');
                     }
                     else {
                         SA = 1;

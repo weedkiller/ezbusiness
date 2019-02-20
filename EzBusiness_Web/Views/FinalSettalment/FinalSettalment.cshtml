@@ -63,8 +63,10 @@
             var n = EzAuthenticationBtn("/FinalSettalment", "DeleteIt");
 
             var date1 = Ezsetdtpkdate($('#Dates1').val());
-            var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
-            if (n == 1 && k==1) {
+            var k = 0;
+            if (n == 1 ) {
+                k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                if( k == 1){
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
@@ -121,6 +123,7 @@
                 //    });
                 //}
                 $("#editshow").hide();
+                }
             }
         });
 
