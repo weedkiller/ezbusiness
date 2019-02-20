@@ -33,7 +33,7 @@
                 Ezprop(abk,"disabled", false);             
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
-                Ezerrormsg("#ErrorMessage", "");
+                //Ezerrormsg("#ErrorMessage", "");
             }
         });
         var counter = $("#Counter").val();
@@ -56,7 +56,7 @@
                 var dr = tr.find("[name *= 'txtPRLM001_CODE']").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'txtPRLM001_CODE']").focus();
-                alert("Already Exist Code '" + dr + "'");
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'txtPRLM001_CODE']").val('');
 
             }
@@ -107,7 +107,7 @@
             abk1 = [];
             abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");           
             Ezprop(abk1, "disabled", false);           
-            Ezerrormsg("#ErrorMessage", "");
+            //Ezerrormsg("#ErrorMessage", "");
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
@@ -244,7 +244,7 @@
                         Act_code: unicodenameEdit,
                         EditFlag: true
                     };
-
+                    if (nameEdit != '') {
                     $.post("/Loan/SaveLons", Lons).done(function (response) {
                         nameTd.text(response.Name);
                         unicodenameTd.text(response.Act_code);                       
@@ -254,6 +254,9 @@
                         tableDis("F");
                         EzAlertUpd(hdnCode);
                     });
+                    } else {
+                        EzAlerterrtxt('Enter Valid Data');
+                    }
                     $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                         console.log(thrownError);
                     });

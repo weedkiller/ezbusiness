@@ -40,9 +40,13 @@
             $("#tblUnits > tbody tr").empty();
             $("#tblUnits > tbody tr").remove();
             var e1 = $("#EmpCode option:selected").val();
-            if (e1 != '0')
+
+            var date1 = Ezsetdtpkdate($('#Dates').val());
+            var k = EzSalrLast($("#EmpCode option:selected").val(), date1, 0,'Salary not set for this employee');
+
+            if (e1 != '0' && k==1)
                 {
-                var date1 = Ezsetdtpkdate($('#Dates').val());
+                //var date1 = Ezsetdtpkdate($('#Dates').val());
                     $.get("/GetTSDList", { EmpCode: e1, date1: date1 }).done(function (response) {
                         var ary = [];
                         ary = response;

@@ -14,6 +14,7 @@ namespace EzBusiness_DL_Repository
 {
     public class CodeGenRepository : ICodeGenRepository
     {
+
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
         public string GetCode(string CmpyCode, string LocCode)
         {
@@ -39,7 +40,11 @@ namespace EzBusiness_DL_Repository
                 if (Emps != "")
                 {
                     string Monthyy = dtmonthyy.ToString("MM-yyyy");
-                    decimal k = _EzBusinessHelper.ExecuteScalarDec("select a.TOTAL from PRSMS001 a where a.CMPYCODE ='" + CmpyCode + "' and a.Effect_From <='" + dtmonthyy + "' and a.EMPCODE='" + Emps + "' and a.Flag=0 and Effect_From =(select max(b.Effect_From) from PRSMS001 b where b.CMPYCODE =a.CMPYCODE and b.EMPCODE=a.EMPCODE and b.Effect_From <=a.Effect_From and a.Flag=b.Flag)");
+                    //decimal k = _EzBusinessHelper.ExecuteScalarDec("select a.TOTAL from PRSMS001 a where a.CMPYCODE ='" + CmpyCode + "' and a.Effect_From <='" + dtmonthyy + "' and a.EMPCODE='" + Emps + "' and a.Flag=0 and Effect_From =(select max(b.Effect_From) from PRSMS001 b where b.CMPYCODE =a.CMPYCODE and b.EMPCODE=a.EMPCODE and b.Effect_From <=a.Effect_From and a.Flag=b.Flag)");
+                    SqlParameter[] param = {new SqlParameter("@cmpyCode", CmpyCode),
+                        new SqlParameter("@currDate", dtmonthyy),
+            new SqlParameter("@EmpCode",Empcode)};
+                    decimal k = _EzBusinessHelper.ExecuteScalarDec("usp_ChecksalaryData", param);                   
                     decimal t =Convert.ToDecimal(InpAmts[i]);
                     if (k > t)
                     {

@@ -25,9 +25,7 @@
             $(this).closest("tr").remove();
         });
 
-        $("#btnadd").click(function () {
-           
-
+        $("#btnadd").click(function () {          
             var e1 = $("#EmpCode option:selected").val();
             var dt2 = Ezsetdtpkdate($("#Att_Date").val());
             var e1 = $("#EmpCode option:selected").val();
@@ -42,12 +40,11 @@
                 {
                     EzAlerterrtxt("Already Exit Date");
                     duplicates = true;
-                }
-
-                var date1 = Ezsetdtpkdate($('#Att_Date').val());
-                var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
-
-                if (e1 != '0' && duplicates == false && Att_Date != '' && k==1) {
+                }            
+                if (e1 != '0' && duplicates == false && Att_Date != '') {
+                    var date1 = Ezsetdtpkdate($('#Att_Date').val());
+                    var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                    if (k == 1){
                     var newRow1;
                     newRow1 = GetPayDeductOnDDL(counter);
                     var dropAttendence = newRow1;
@@ -91,9 +88,13 @@
                         tr.find("[name='ATT" + counter + "']").val(ary[i].NHrs);
                         counter++;
                     }
-                });
+                    });
+                    }
             }
-        }
+            }
+            else {
+                EzAlerterrtxt("Select Employee");
+            }
         });
 
         $("#btnCancel").click(function () {
@@ -111,7 +112,7 @@
             $('.selectpicker').selectpicker('refresh');                      
            // $("#EmpCode > [value=0]").attr("selected", "true");
 
-            Ezerrormsg("#ErrorMessage", "");
+            //Ezerrormsg("#ErrorMessage", "");
         });
         $("#btnSave").click(function () {
            

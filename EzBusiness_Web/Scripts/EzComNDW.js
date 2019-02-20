@@ -88,7 +88,7 @@ function EzSalrProcCondiont(Empcode, dtmonthyy) {
     return a;       
 }
 /*Salary last*/
-function EzSalrLast(Empcode, dtmonthyy,InpAmt) {
+function EzSalrLast(Empcode, dtmonthyy,InpAmt,salmsg) {
     debugger;
     var a = 0;
     $.ajax({
@@ -108,7 +108,7 @@ function EzSalrLast(Empcode, dtmonthyy,InpAmt) {
                 Swal.queue([{
                     type: 'error',
                     title: 'Oops...',
-                    text: 'Salry Amount not enough .!',
+                    text: salmsg,
                     allowOutsideClick: false,
                     showLoaderOnConfirm: true,
                 }])
@@ -999,6 +999,24 @@ function Ezattr(Ideary, propvalue, tf) {
         $(Ideary[n - 1]).attr(propvalue, tf);
         n--;
     }
+}
+
+function EzComapretxtval(Ide,idf,errmsg)
+{
+    $(idf).on('keydown', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode == 9) {
+            e.preventDefault();
+            debugger;
+            var ab = parseInt($(Ide).val()) || 0;
+            var ab1 = parseInt($(idf).val()) || 0;
+            if (ab < ab1) {                                              
+                $(idf).select();
+                EzAlerterrtxt(errmsg);
+            }
+        }
+    });
+
 }
 
 
