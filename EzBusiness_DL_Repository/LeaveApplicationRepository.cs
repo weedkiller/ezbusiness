@@ -22,7 +22,7 @@ namespace EzBusiness_DL_Repository
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
         DropListFillFun drop = new DropListFillFun();
 
-        public bool DeleteLeaveApp(string Cmpycode, string PRLR001_CODE, string oldLeavedays, string EmpCode, string username)
+        public bool DeleteLeaveApp(string Cmpycode, string PRLR001_CODE, string oldLeavedays, string EmpCode, string username,string LeaveType)
         {
             //int LeaveApp = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRLR001 where CmpyCode='" + CmpyCode + "' and PRLR001_CODE='" + Code + "'");
             //if (LeaveApp != 0)
@@ -37,7 +37,8 @@ namespace EzBusiness_DL_Repository
                         new SqlParameter("@CmpyCode",Cmpycode),
                         new SqlParameter("@Empcode",EmpCode),
                         new SqlParameter("@oldLeavedays",oldLeavedays),
-                        new SqlParameter("@PRLR001_CODE",PRLR001_CODE)
+                        new SqlParameter("@PRLR001_CODE",PRLR001_CODE),
+                        new SqlParameter("@LeaveType",LeaveType)
                        };
 
 

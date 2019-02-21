@@ -27,10 +27,10 @@ namespace EzBusiness_BL_Service
         }
 
 
-        public bool DeleteLeaveApp(string Cmpycode, string PRLR001_CODE, string oldLeavedays, string EmpCode, string UserName)
+        public bool DeleteLeaveApp(string Cmpycode, string PRLR001_CODE, string oldLeavedays, string EmpCode, string UserName, string LeaveType)
         {
 
-            return _LeaveAppRepo.DeleteLeaveApp(Cmpycode,PRLR001_CODE,oldLeavedays,EmpCode, UserName);
+            return _LeaveAppRepo.DeleteLeaveApp(Cmpycode,PRLR001_CODE,oldLeavedays,EmpCode, UserName, LeaveType);
         }
 
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)

@@ -88,7 +88,8 @@
                         var PRLR001_CODE = $("[name*='PRLR001_CODE']").val();
                         var oldLeavedays = $("[name*='oldLeavedays']").val();
                         var EmpCode = $("[name*='EmpCode']").val();
-                        $.getJSON("/DeleteLeaveApp", { PRLR001_CODE: PRLR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
+                        var LeaveType = $("#LeaveType option:selected").val();
+                        $.getJSON("/DeleteLeaveApp", { PRLR001_CODE: PRLR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode, LeaveType: LeaveType }).done(function (data) {
                             if (data.DeleteFlag)
                             {
                                 GetLeaveList();

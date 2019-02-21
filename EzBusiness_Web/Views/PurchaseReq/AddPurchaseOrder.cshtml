@@ -26,7 +26,9 @@
         });
 
         debugger;
-      
+
+
+        
         $("input:radio[name=ResourceType]").click(function () {
            // $('.selectpicker').selectpicker('refresh');
             // do something
@@ -52,10 +54,7 @@
                 });
             }
         });
-
-       //var tbltr = $('#tablePODetails tr').length();
-
-
+     
         var rowCount = $('#tablePODetails tr').length;
         if (rowCount = 2) {
             // $("#input:radio[name=ResourceType]").attr('disabled', true);
@@ -64,86 +63,164 @@
 
         var counter = parseInt($("#hdnCounter").val());
         $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
-            $(this).closest("tr").remove();
+            $(this).closest("tr").remove();            
+            counter = 1;
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function (e) {
+                var tr1 = $(this).closest("tr");
+                tr1.find(":first").text(counter);
+                counter++;
+            });
         });
 
         var counter = $('#hdnCounter').val();
 
 
-        $('.selectpicker').selectpicker({
-            style: 'btn-default',
-            size: 4,
-            container: 'body'
-        });
+      
 
-        $('.table-responsive').on('show.bs.select', function () {
-            console.log("triggered show bs select");
-            $('.table-responsive').css("overflow", "hidden");
-        });
-        $('.table-responsive').on('hide.bs.select', function () {
-            console.log("triggered hide bs select");
-            $('.table-responsive').css("overflow", "auto");
-        });
+      
+        //$(document).on('change', '.selectpicker', function () {
+        //    $('.selectpicker').selectpicker('refresh');
+        //});
 
 
-        $("#tablePODetails").on('change', 'select', "[name*='ItemCode']", function () {
+       // $("#creatives").selectpicker('refresh').empty().append(output).selectpicker('refresh').trigger('change')
+
+        
+
+        $("#tablePODetails").on('change', "[name*='ItemCode']", function () {
             debugger;
+            
             var tr = $(this).closest("tr");           
             var ItemCode = tr.find("[name*='ItemCode'] option:selected").text();
             var rest1 = $("input:radio[name=ResourceType]:checked").val();
-            if (tr.is(":last-child")) {
-                tr.clone(true, true).insertAfter(tr);               
-                if (rest1 != null) {
-                    $.get("PurchaseReq/GetItemCodeDescription", { itemCode: ItemCode, restyp: rest1 }).done(function (response) {
-                        tr.find("[name*='ItemDescription']").val(response.Description);
-                        tr.find("[name*='ItemUnit']").val(response.Unit);                                             
-                    });
-                }
-                $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                    .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
-                $('.selectpicker').selectpicker('render');
-                var trLast = $("#tablePODetails tbody tr:last")                            
-                        trLast.find("[name *= 'ItemCode']").attr(
-                            "name", "ItemCode" + counter
-                        );
-                        trLast.find("[name *= 'ItemCode']").attr(
-                                   "data-id", "ItemCode" + counter
-                               );
-                        trLast.find("[name *= 'ItemCode']").attr(
-                                "id", "ItemCode" + counter
-                         );
-                        trLast.find("[name *= 'ItemDescription']").attr(
-                            "name", "ItemDescription" + counter
-                        );
-                        trLast.find("[name *= 'ItemDescription']").attr(
-                        "id", "ItemDescription" + counter
-                        );
-                        trLast.find("[name *= 'ItemSpecification']").attr(
-                            "name", "ItemSpecification" + counter
-                        );
-                        trLast.find("[name *= 'ItemSpecification']").attr(
-                                    "id", "ItemSpecification" + counter
-                               );
-                        trLast.find("[name *= 'ItemUnit']").attr(
-                            "name", "ItemUnit" + counter
-                        );
-                        trLast.find("[name *= 'ItemUnit']").attr(
-                                    "id", "ItemUnit" + counter
-                               );
-                        trLast.find("[name *= 'ItemQuantity']").attr(
-                            "name", "ItemQuantity" + counter
-                        );
-                        trLast.find("[name *= 'ItemQuantity']").attr(
-                                     "id", "ItemQuantity" + counter
-                                );
 
-                        trLast.find('select[name^=ItemCode' + counter + ']').val(0);
+            if ($("#tablePODetails > tbody tr").length >= 2)
+            {
+                var k = parseInt($("#tablePODetails > tbody tr:last").prev().find("[name *= 'ItemQuantity']").val()) || 0;
+                if (k == 0) {
+                    tr.find("[name*='ItemCode']").val('0');
+                    $("#tablePODetails > tbody tr:last").prev().find("[name *= 'ItemQuantity']").focus();
+                    EzAlerterrtxt("Enter Qty");
+                    return;
+                }
                 
-                trLast.find(":first").text(counter);
+            }
+           var drec = [];
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function (e) {
+                //add item to array
+                var tr1 = $(this).closest("tr");
+                var ab = tr1.find("[name*='ItemCode']").val();
+                drec.push(ab);
+            });
+            drec.splice($.inArray(tr.find("[name*='ItemCode']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name*='ItemCode']").val(), drec) >= 0) {
+                var dr = tr.find("[name*='ItemCode']").val();
+                tr.css("background", "red");
+                tr.find("[name*='ItemCode']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name*='ItemCode']").val('0');
 
             }
-            counter++;
+            else {
+                tr.css("background", "");
 
+                if (tr.is(":last-child")) {
+                  //  tr.clone(true, true).insertAfter(tr);
+
+                    $('#tablePODetails tr:last').clone().insertAfter('#tablePODetails tr:last');
+
+                    //var packing = trLast.find("[name *= 'ItemCode']");                                  
+                    if (rest1 != null) {
+                        //$.get("PurchaseReq/GetItemCodeDescription", { itemCode: ItemCode, restyp: rest1 }).done(function (response) {
+                        //    tr.find("[name*='ItemDescription']").val(response.Description);                            
+                        //    //tr.find('select[name^=ItemUnit]').val(response.Unit);
+                        //    tr.find('select[name^=ItemUnit]').val(response.Unit);
+                            
+                                                
+                        //});
+                        $.ajax({
+                            async: false,
+                            cache: false,
+                            type: "POST",
+                            data: "{itemCode:'" + ItemCode + "',restyp:'" + rest1 + "'}",
+                            url: "/PurchaseReq/GetItemCodeDescription",
+                            dataType: 'Json',
+                            contentType:"Application/json",
+                            success: function (data) {
+
+                                tr.find("[name*='ItemDescription']").val(data.Description);
+                                    //tr.find('select[name^=ItemUnit]').val(response.Unit);
+                                tr.find('select[name^=ItemUnit]').val(data.Unit);                               
+                                //tr.find('select[name^=ItemUnit]').prop("selected", true);
+
+                                tr.find('select[name^=ItemUnit]').attr('text', data.Unit);
+                        }
+                        });
+                    }
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                        .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                       
+                    var trLast = $("#tablePODetails tbody tr:last")
+                    trLast.find("[name *= 'ItemCode']").attr(
+                        "name", "ItemCode" + counter
+                    );
+                    trLast.find("[name *= 'ItemCode']").attr(
+                               "data-id", "ItemCode" + counter
+                           );
+                    trLast.find("[name *= 'ItemCode']").attr(
+                            "id", "ItemCode" + counter
+                     );                 
+                    trLast.find("[name *= 'ItemDescription']").attr(
+                        "name", "ItemDescription" + counter
+                    );
+                    trLast.find("[name *= 'ItemDescription']").attr(
+                    "id", "ItemDescription" + counter
+                    );
+                    trLast.find("[name *= 'ItemSpecification']").attr(
+                        "name", "ItemSpecification" + counter
+                    );
+                    trLast.find("[name *= 'ItemSpecification']").attr(
+                                "id", "ItemSpecification" + counter
+                           );
+                    trLast.find("[name *= 'ItemUnit']").attr(
+                        "name", "ItemUnit" + counter
+                    );
+                    trLast.find("[name *= 'ItemUnit']").attr(
+                                "id", "ItemUnit" + counter
+                           );
+                    trLast.find("[name *= 'ItemQuantity']").attr(
+                        "name", "ItemQuantity" + counter
+                    );
+                    trLast.find("[name *= 'ItemQuantity']").attr(
+                                 "id", "ItemQuantity" + counter
+                            );
+
+                    trLast.find('select[name^=ItemCode' + counter + ']').val(0);
+
+                    trLast.find(":first").text(counter);
+
+                    trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+                    trLast.find("[name *= 'ItemCode']").selectpicker('refresh');
+                    trLast.find("[name *= 'ItemUnit']").selectpicker('refresh');
+
+                }
+                counter++;
+
+            }
+
+        });
+
+
+
+       
+        EztableLstTabBlk("#tablePODetails", "[name*='ItemQuantity']", "[name*='ItemCode']", 'Enter Qty', 'N', "");
+       
+
+        $('.selectpicker').selectpicker({
+            style: 'btn-info',
+            size: 4,
+            
         });
 
         //$("#tablePODetails").on("change", "[name*='ItemCode']", function () {
@@ -242,7 +319,7 @@
                                         <label class="control-label col-md-3">Date</label>
                                         <div class="col-md-4 input-field">
                                             @*@Html.EditorFor(m => m.PODate, new { @style = "width: 60%", @class = "form-control" })*@
-                                            <input id="PODate1" class="form-control datepicker" name="DateINMonth" autocomplete="false">
+                                            <input id="PODate1" class="form-control datepicker" name="PODate1" autocomplete="false">
                                         </div>
                                     </div>
                                 </div>
@@ -328,7 +405,7 @@
                                                 <i class="icon-calendar"></i>
                                                 <h3 class="panel-title">Details</h3>
                                             </div>
-                                            <table class="table table-bordered table-sm" id="tablePODetails">
+                                            <table class="table table-bordered table-sm" id="tablePODetails" data-container = "body">
                                                 <thead>
                                                     <tr>
                                                         <th style="width: 3%">Sr No</th>
@@ -346,7 +423,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                @Html.DropDownList(string.Concat("ItemCode", counter), Model.ItemCodeList, new { @class = "selectpicker grid-control", @data_live_search = "true" })
+                                                                @Html.DropDownList(string.Concat("ItemCode", counter), Model.ItemCodeList, new { @class = "grid-control selectpicker", @data_live_search = "true", @data_dropup_auto = "false" })
                                                             </div>
                                                         </td>
                                                         <td>
@@ -357,7 +434,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="form-group">
-                                                                @Html.DropDownList(string.Concat("ItemUnit", counter), Model.UnitList, new { @class = "grid-control" })
+                                                                @Html.DropDownList(string.Concat("ItemUnit", counter), Model.UnitList, new { @class = "grid-control selectpicker", @data_live_search = "true", @data_dropup_auto = "false" })
                                                             </div>
                                                         </td>
                                                         <td>

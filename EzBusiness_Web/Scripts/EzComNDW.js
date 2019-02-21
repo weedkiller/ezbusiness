@@ -883,7 +883,7 @@ function EztableLstEnt(tbl, ide, idf, errmsg, typ, vtyp) {
 }
 
 function EztableLstTabBlk(tbl, ide, idf, errmsg, typ, vtyp) {
-   
+    debugger;
     $(tbl).on("keydown", ide, function (e) {
        
         var keyCode = e.keyCode || e.which;

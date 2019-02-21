@@ -71,14 +71,14 @@ namespace EzBusiness_BL_Service
         {         
 
             var poEdit = _purchaseRepo.GetPOMasterDetailsEdit(CmpyCode, MRCode);
-            poEdit.PurchaseOrderDetails = GetPODetailsList(CmpyCode, MRCode);
-            poEdit.PODetail = new PurchaseOrderDetail();
+           
             poEdit.ProjectList = GetProjects(CmpyCode);
             poEdit.ItemCodeList = GetItemCodeList(CmpyCode, "M");
             poEdit.LocationList = GetLocationList(CmpyCode);
-            poEdit.RequesterList = GetRequesterList(CmpyCode);
-            
+            poEdit.RequesterList = GetRequesterList(CmpyCode);            
             poEdit.UnitList = GetUnits(CmpyCode);
+            poEdit.PurchaseOrderDetails = GetPODetailsList(CmpyCode, MRCode);
+            poEdit.PODetail = new PurchaseOrderDetail();
             poEdit.IsEditMode = true;
             return poEdit;
         }

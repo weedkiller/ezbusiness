@@ -27,7 +27,7 @@ namespace EzBusiness_BL_Interface
      
 
         decimal GetBalanceLeave(string CmpyCode, string EmpCode, string LeaveType, DateTime joiningdte);
-        bool DeleteLeaveApp(string Cmpycode, string PRLR001_CODE, string oldLeavedays, string EmpCode, string UserName);
+        bool DeleteLeaveApp(string Cmpycode, string PRLR001_CODE, string oldLeavedays, string EmpCode, string UserName, string LeaveType);
         #endregion
     }
 }

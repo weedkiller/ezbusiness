@@ -2,11 +2,18 @@
 @{
     var counter = 1;
 }
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
 <script>
     var units = [];
     $(function () {
+
+
+        EzdtePkEdit('#PODate1', "#PODate", 'DD/MM/YYYY');
         //var restyp1 = $("#ResourceType:checked").val();
 
         //if (restyp1 == "M")
@@ -44,71 +51,120 @@
 
         var counter = parseInt($("#hdnCounter").val());
         $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
+            debugger;
             $(this).closest("tr").remove();
+            counter = 1;
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function (e) {
+                var tr1 = $(this).closest("tr");
+                tr1.find(":first").text(counter);
+                counter++;
+            });
         });
-        $("#tablePODetails").on("change", "[name*='ItemCode']", function () {
+     
+
+        $("#tablePODetails").on('change', "[name*='ItemCode']", function () {
             debugger;
             var tr = $(this).closest("tr");
-
+            var ItemCode = tr.find("[name*='ItemCode'] option:selected").text();
             var rest1 = $("input:radio[name=ResourceType]:checked").val();
 
-            if (rest1 != null)
-                {
-                $.get("PurchaseReq/GetItemCodeDescription", { itemCode: $(this).val(), restyp: rest1 }).done(function (response) {
+            if ($("#tablePODetails > tbody tr").length >= 2) {
+                var k = parseInt($("#tablePODetails > tbody tr:last").prev().find("[name *= 'ItemQuantity']").val()) || 0;
+                if (k == 0) {
+                    tr.find("[name*='ItemCode']").val('0');
+                    $("#tablePODetails > tbody tr:last").prev().find("[name *= 'ItemQuantity']").focus();
+                    EzAlerterrtxt("Enter Qty");
+                    return;
+                }
 
-                tr.find("[name*='ItemDescription']").val(response.Description);
-                tr.find("[name*='ItemUnit']").val(response.Unit);
+            }
+            var drec = [];
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function (e) {
+                //add item to array
+                var tr1 = $(this).closest("tr");
+                var ab = tr1.find("[name*='ItemCode']").val();
+                drec.push(ab);
             });
+            drec.splice($.inArray(tr.find("[name*='ItemCode']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name*='ItemCode']").val(), drec) >= 0) {
+                var dr = tr.find("[name*='ItemCode']").val();
+                tr.css("background", "red");
+                tr.find("[name*='ItemCode']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name*='ItemCode']").val('0');
+
             }
-            if (tr.is(":last-child")) {
-                //tr.clone(true, true).insertAfter(tr);
-                //$("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                //    .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
-                //var trLast = $("#tableMetaSettings tr:last")
+            else {
+                tr.css("background", "");
 
-                tr.clone(true, true).insertAfter(tr);
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    if (rest1 != null) {
+                        $.get("PurchaseReq/GetItemCodeDescription", { itemCode: ItemCode, restyp: rest1 }).done(function (response) {
+                            tr.find("[name*='ItemDescription']").val(response.Description);
+                            tr.find("[name*='ItemUnit']").val(response.Unit);
+                        });
+                    }
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                        .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                    // $('.selectpicker').selectpicker('render');                             
+                    var trLast = $("#tablePODetails tbody tr:last")
+                    trLast.find("[name *= 'ItemCode']").attr(
+                        "name", "ItemCode" + counter
+                    );
+                    trLast.find("[name *= 'ItemCode']").attr(
+                               "data-id", "ItemCode" + counter
+                           );
+                    trLast.find("[name *= 'ItemCode']").attr(
+                            "id", "ItemCode" + counter
+                     );
+                    trLast.find("[name *= 'ItemDescription']").attr(
+                        "name", "ItemDescription" + counter
+                    );
+                    trLast.find("[name *= 'ItemDescription']").attr(
+                    "id", "ItemDescription" + counter
+                    );
+                    trLast.find("[name *= 'ItemSpecification']").attr(
+                        "name", "ItemSpecification" + counter
+                    );
+                    trLast.find("[name *= 'ItemSpecification']").attr(
+                                "id", "ItemSpecification" + counter
+                           );
+                    trLast.find("[name *= 'ItemUnit']").attr(
+                        "name", "ItemUnit" + counter
+                    );
+                    trLast.find("[name *= 'ItemUnit']").attr(
+                                "id", "ItemUnit" + counter
+                           );
+                    trLast.find("[name *= 'ItemQuantity']").attr(
+                        "name", "ItemQuantity" + counter
+                    );
+                    trLast.find("[name *= 'ItemQuantity']").attr(
+                                 "id", "ItemQuantity" + counter
+                            );
 
-                $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                    .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
-                var trLast = $("#tableMetaSettings tr:last")
+                    trLast.find('select[name^=ItemCode' + counter + ']').val(0);
 
+                    trLast.find(":first").text(counter);
 
+                }
+                counter++;
 
-                var cloned = $("#tablePODetails tbody tr:last").clone(true); // clone last row
-                // looping over last row's inputs
-                $("#tablePODetails tbody tr:last").find('select').each(function () {
-                    cloned.find('select[name^=' + this.name.replace('[]', '') + ']').val(0);
-                });
-
-
-                $("#tablePODetails > tbody").append(cloned);
-                $("#tablePODetails > tbody tr:last").prev().remove();
-
-                trLast.find("[name *= 'ItemCode']").attr({
-                    "name": ("ItemCode" + counter)
-                });
-                trLast.find("[name *= 'ItemDescription']").attr({
-                    "name": ("ItemDescription" + counter)
-                });
-                trLast.find("[name *= 'ItemSpecification']").attr({
-                    "name": ("ItemSpecification" + counter)
-                });
-                trLast.find("[name *= 'ItemUnit']").attr({
-                    "name": ("ItemUnit" + counter)
-                });
-                trLast.find("[name *= 'ItemQuantity']").attr({
-                    "name": ("ItemQuantity" + counter)
-                });
-                trLast.find(":first").text(counter);
             }
-            counter++;
+
         });
+
+
+
+
+        EztableLstTabBlk("#tablePODetails", "[name*='ItemQuantity']", "[name*='ItemCode']", 'Enter Qty', 'N', "");
 
 
         var tablePODetails = $("#tablePODetails tbody tr");
 
        
-
+        var index = 1;
         tablePODetails.each(function (index, item) {
             debugger;
             $("[name*='ItemCode" + (index + 1) + "']").val($("[name*='hdnItemCode" + (index + 1) + "']").val());
@@ -116,6 +172,7 @@
             $("[name*='ItemSpecification" + (index + 1) + "']").val($("[name*='hdnItemSpecification" + (index + 1) + "']").val());
             $("[name*='ItemUnit" + (index + 1) + "']").val($("[name*='hdnItemUnit" + (index + 1) + "']").val());
             $("[name*='ItemQuantity" + (index + 1) + "']").val($("[name*='hdnItemQuantity" + (index + 1) + "']").val());
+            index = index + 1;
         });
     });
     Date.prototype.getToday = function () {
@@ -164,7 +221,8 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Date</label>
                                         <div class="col-md-9 input-field">
-                                            @Html.EditorFor(m => m.PODate, new { @style = "width: 60%", @class = "form-control" })
+                                            <input id="PODate1" class="form-control datepicker" name="PODate1" autocomplete="false">
+                                            @Html.HiddenFor(m => m.PODate, new { @style = "width: 60%", @class = "form-control" })
                                         </div>
                                     </div>
                                 </div>
@@ -278,6 +336,9 @@
                                                                     @Html.Hidden(string.Concat("hdnItemQuantity", counter), item.Quantity)
                                                                 </div>
                                                             </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                            </td>
                                                         </tr>
                                                         counter++;
                                                     }
@@ -304,6 +365,7 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
+                                            @Html.Hidden("hdnCounter", (++counter))
                                         </div>
                                     </div>
                                 </div>

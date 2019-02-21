@@ -140,7 +140,7 @@ namespace EzBusiness_Web.Controllers
             }
         }
         [Route("DeleteLeaveApp")]
-        public ActionResult DeleteLeaveApp(string Cmpycode, string PRLR001_CODE, string oldLeavedays, string EmpCode)
+        public ActionResult DeleteLeaveApp(string Cmpycode, string PRLR001_CODE, string oldLeavedays, string EmpCode,string LeaveType)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -149,7 +149,7 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(new { DeleteFlag = _LeaveAppService.DeleteLeaveApp(list[0].CmpyCode, PRLR001_CODE, oldLeavedays, EmpCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _LeaveAppService.DeleteLeaveApp(list[0].CmpyCode, PRLR001_CODE, oldLeavedays, EmpCode, list[0].user_name, LeaveType) }, JsonRequestBehavior.AllowGet);
             }
         }
 
