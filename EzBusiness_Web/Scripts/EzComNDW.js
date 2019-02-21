@@ -567,7 +567,7 @@ function Ezsidetbl(ide, idef, lk) {
 
         // DataTable
         var tableInstance = $(ide).DataTable({
-            "paging": false,
+            "paging": true,
             "ordering": true,
             "info": true
         });

@@ -56,9 +56,17 @@ namespace EzBusiness_Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveUnit(UnitVM unit)
+        public ActionResult SaveUnit(UnitVM UnitMaster)
         {
-            return Json(_materialService.SaveUnit(unit), JsonRequestBehavior.AllowGet);
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_materialService.SaveUnit(list[0].CmpyCode,UnitMaster), JsonRequestBehavior.AllowGet);
+            }
         }
 
         [Route("DeleteUnit")]
