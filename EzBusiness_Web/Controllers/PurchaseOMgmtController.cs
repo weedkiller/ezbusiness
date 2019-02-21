@@ -13,7 +13,6 @@ namespace EzBusiness_Web.Controllers
     public class PurchaseOMgmtController : Controller
     {
 
-
         IPurchaseMgmtOService _purchaseService;
         // GET: PurchaseOMgmt
         public PurchaseOMgmtController()
@@ -22,25 +21,16 @@ namespace EzBusiness_Web.Controllers
             //  _masterService = new MasterService();
         }
 
-
-
         #region Purchase Request
-
         [Route("PurchaseOrder")]
         public ActionResult PurchaseOrder()
-
         {
             return View();
         }
-
-
-
         public ActionResult SiteOrder()
         {
             return View();
         }
-
-
         public ActionResult GetPurchaseOrderList()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;

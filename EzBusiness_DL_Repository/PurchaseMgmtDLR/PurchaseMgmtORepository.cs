@@ -37,19 +37,23 @@ namespace EzBusiness_DL_Repository
         //}
         public List<ExchangeRates> GetCurList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("SELECT CurCode, CurName,CurRate FROM ExchangeRates WHERE Cmpycode ='" + CmpyCode + "' Order By Curcode ");
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<ExchangeRates> ObjList = new List<ExchangeRates>();
-            foreach (DataRow dr in drc)
+            List<ExchangeRates> ObjList = null;
+            ds = _EzBusinessHelper.ExecuteDataSet("SELECT CurCode, CurName,CurRate FROM PMEXCHNGRT001 WHERE Cmpycode ='" + CmpyCode + "' Order By Curcode ");
+            if (ds.Tables.Count > 0)
             {
-                ObjList.Add(new ExchangeRates()
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                 ObjList = new List<ExchangeRates>();
+                foreach (DataRow dr in drc)
                 {
-                    CurCode = dr["CurCode"].ToString(),
-                    CurName = dr["CurName"].ToString(),
-                    CurRate = Convert.ToDecimal(dr["CurRate"]),
-                });
+                    ObjList.Add(new ExchangeRates()
+                    {
+                        CurCode = dr["CurCode"].ToString(),
+                        CurName = dr["CurName"].ToString(),
+                        CurRate = Convert.ToDecimal(dr["CurRate"]),
+                    });
 
+                }
             }
             return ObjList;
         }
@@ -58,18 +62,23 @@ namespace EzBusiness_DL_Repository
 
         public List<Division> GetDivisionList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("SELECT DivisionCode, DivisionName FROM Division WHERE Cmpycode ='" + CmpyCode + "' Order By DivisionCode ");
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<Division> ObjList = new List<Division>();
-            foreach (DataRow dr in drc)
+            List<Division> ObjList = null;
+            ds = _EzBusinessHelper.ExecuteDataSet("SELECT DivisionCode, DivisionName FROM MDIV011 WHERE Cmpycode ='" + CmpyCode + "' Order By DivisionCode ");
+            if (ds.Tables.Count > 0)
             {
-                ObjList.Add(new Division()
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                ObjList = new List<Division>();
+                foreach (DataRow dr in drc)
                 {
-                    DivisionCode = dr["DivisionCode"].ToString(),
-                    DivisionName = dr["DivisionName"].ToString(),
-                });
+                    ObjList.Add(new Division()
+                    {
+                        DivisionCode = dr["DivisionCode"].ToString(),
+                        DivisionName = dr["DivisionName"].ToString(),
+                    });
 
+                }
+               
             }
             return ObjList;
         }
@@ -117,18 +126,21 @@ namespace EzBusiness_DL_Repository
 
         public List<Location> GetLocationList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select LocCode,LocName from Location where CmpyCode='" + CmpyCode + "' ");
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<Location> ObjList = new List<Location>();
-            foreach (DataRow dr in drc)
+            List<Location> ObjList = null;
+            ds = _EzBusinessHelper.ExecuteDataSet("Select LocCode,LocName from MLOC018 where CmpyCode='" + CmpyCode + "' ");
+            if (ds.Tables.Count > 0)
             {
-                ObjList.Add(new Location()
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                 ObjList = new List<Location>();
+                foreach (DataRow dr in drc)
                 {
-                    LocCode = dr["LocCode"].ToString(),
-                    LocName = dr["LocName"].ToString(),
-                });
-
+                    ObjList.Add(new Location()
+                    {
+                        LocCode = dr["LocCode"].ToString(),
+                        LocName = dr["LocName"].ToString(),
+                    });
+                }
             }
             return ObjList;
         }
@@ -167,7 +179,7 @@ namespace EzBusiness_DL_Repository
 
         public List<CommonTable> GetPOFromList(string type)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select Code,Name from CommonTable where Type='" + type + "' ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Code,Name from CMTBL003 where Type='" + type + "' ");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<CommonTable> ObjList = new List<CommonTable>();
@@ -281,92 +293,101 @@ namespace EzBusiness_DL_Repository
 
         public List<MReqHeader> GetPOReqList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from MReqHeader where CmpyCode='" + CmpyCode + "' ");
-
-
-
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<MReqHeader> ObjList = new List<MReqHeader>();
-            foreach (DataRow dr in drc)
+            List<MReqHeader> ObjList = null;
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PMMRH001 where CmpyCode='" + CmpyCode + "' ");
+            if (ds.Tables.Count > 0)
             {
-                ObjList.Add(new MReqHeader()
-                {                                       
-                    Dates = Convert.ToDateTime(dr["Dates"].ToString()),                                        
-                    EmpCode = dr["EmpCode"].ToString(),                                     
-                    JobNo = dr["JobNo"].ToString(),
-                    LocCode = dr["LocCode"].ToString(),
-                    MRCode = dr["MRCode"].ToString(),                  
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                 ObjList = new List<MReqHeader>();
+                foreach (DataRow dr in drc)
+                {
+                    ObjList.Add(new MReqHeader()
+                    {
+                        Dates = Convert.ToDateTime(dr["Dates"].ToString()),
+                        EmpCode = dr["EmpCode"].ToString(),
+                        JobNo = dr["JobNo"].ToString(),
+                        LocCode = dr["LocCode"].ToString(),
+                        MRCode = dr["MRCode"].ToString(),
+                    }
+                  );
                 }
-              );
             }
             return ObjList;
         }
 
         public List<CostCenterHeader> GetProjects(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select Name,Code from CostCenterHeader where CmpyCode='" + CmpyCode + "' ");
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<CostCenterHeader> ObjList = new List<CostCenterHeader>();
-            foreach (DataRow dr in drc)
+            List<CostCenterHeader> ObjList = null;
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Name,Code from CCH004 where CmpyCode='" + CmpyCode + "' ");
+            if (ds.Tables.Count > 0)
             {
-                ObjList.Add(new CostCenterHeader()
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                 ObjList = new List<CostCenterHeader>();
+                foreach (DataRow dr in drc)
                 {
-                    Name = dr["Name"].ToString(),
-                    Code = dr["Code"].ToString(),
-                });
-
+                    ObjList.Add(new CostCenterHeader()
+                    {
+                        Name = dr["Name"].ToString(),
+                        Code = dr["Code"].ToString(),
+                    });
+                }
             }
             return ObjList;
         }
 
         public List<POHeader> GetPurchaseOrderList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PoHeader where CmpyCode='" + CmpyCode + "' ");
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<POHeader> ObjList = new List<POHeader>();
-            foreach (DataRow dr in drc)
+            List<POHeader> ObjList = null;
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PMPOH001 where CmpyCode='" + CmpyCode + "' ");
+            if (ds.Tables.Count > 0)
             {
-                ObjList.Add(new POHeader()
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                ObjList = new List<POHeader>();
+                foreach (DataRow dr in drc)
                 {
+                    ObjList.Add(new POHeader()
+                    {
 
-                    CmpyCode = dr["CmpyCode"].ToString(),
-                    ApprovalYN = dr["ApprovalYN"].ToString(),
-                    Dates = Convert.ToDateTime(dr["Dates"].ToString()),
-                    //Description = dr["Description"].ToString(),
-                    //DontShowJobInList = Convert.ToInt16(dr["DontShowJobInList"].ToString()),
-                    ReqtBy = dr["ReqtBy"].ToString(),
-                    SupplierCode = dr["SupplierCode"].ToString(),
-                    LocCode = dr["LocCode"].ToString(),
-                    PONumber = dr["PONumber"].ToString(),
-                    POFrom = dr["POFrom"].ToString(),
-                    PreparedBy = dr["PreparedBy"].ToString(),
-                    POPriority = dr["POPriority"].ToString(),
-                    ProjectCode = dr["ProjectCode"].ToString(),
-                    ResourceType = dr["ResourceType"].ToString(),
-                    CurCode = dr["CurCode"].ToString(),
-                    CurRate =Convert.ToDecimal(dr["CurRate"].ToString()),
-                    Status = dr["Status"].ToString(),
-                    WONO = dr["WONo"].ToString(),
-                    ExpectedDeliveryDate= Convert.ToDateTime(dr["ExpectedDeliveryDate"].ToString()),
-                    RevisionNo=Convert.ToInt16(dr["RevisionNo"].ToString()),
-                    YourRef=dr["YourRef"].ToString(),
-                    ValidityDate= Convert.ToDateTime(dr["ValidityDate"].ToString()),
-                    SupplierContactPerson =dr["SupplierContactPerson"].ToString(),
+                        CmpyCode = dr["CmpyCode"].ToString(),
+                        ApprovalYN = dr["ApprovalYN"].ToString(),
+                        Dates = Convert.ToDateTime(dr["Dates"].ToString()),
+                        //Description = dr["Description"].ToString(),
+                        //DontShowJobInList = Convert.ToInt16(dr["DontShowJobInList"].ToString()),
+                        ReqtBy = dr["ReqtBy"].ToString(),
+                        SupplierCode = dr["SupplierCode"].ToString(),
+                        LocCode = dr["LocCode"].ToString(),
+                        PONumber = dr["PONumber"].ToString(),
+                        POFrom = dr["POFrom"].ToString(),
+                        PreparedBy = dr["PreparedBy"].ToString(),
+                        POPriority = dr["POPriority"].ToString(),
+                        ProjectCode = dr["ProjectCode"].ToString(),
+                        ResourceType = dr["ResourceType"].ToString(),
+                        CurCode = dr["CurCode"].ToString(),
+                        CurRate = Convert.ToDecimal(dr["CurRate"].ToString()),
+                        Status = dr["Status"].ToString(),
+                        WONO = dr["WONo"].ToString(),
+                        ExpectedDeliveryDate = Convert.ToDateTime(dr["ExpectedDeliveryDate"].ToString()),
+                        RevisionNo = Convert.ToInt16(dr["RevisionNo"].ToString()),
+                        YourRef = dr["YourRef"].ToString(),
+                        ValidityDate = Convert.ToDateTime(dr["ValidityDate"].ToString()),
+                        SupplierContactPerson = dr["SupplierContactPerson"].ToString(),
 
 
 
+                    }
+                  );
                 }
-              );
             }
-            return ObjList;
+                return ObjList;
+            
         }
 
         public List<Employee> GetRequesterList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select empName,empcode from Employee where CmpyCode='" + CmpyCode + "' and WorkingStatus = '" + PurchaseMgmtConstants.WorkingStatus + "' ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select empName,empcode from MEM001 where CmpyCode='" + CmpyCode + "' and WorkingStatus = '" + PurchaseMgmtConstants.WorkingStatus + "' ");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<Employee> ObjList = new List<Employee>();
@@ -384,7 +405,7 @@ namespace EzBusiness_DL_Repository
 
         public List<Supplier> GetSupplierList(string Cmpycode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select Name,Suppliercode from Suppliers where CmpyCode='" + Cmpycode + "'  AND SupplierType='S' ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Name,Suppliercode from PMSUPH001 where CmpyCode='" + Cmpycode + "'  AND SupplierType='S' ");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<Supplier> ObjList = new List<Supplier>();
@@ -924,8 +945,6 @@ namespace EzBusiness_DL_Repository
                 }
 
                 _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno+1) +" where CmpyCode='" + po.CmpyCode + "' and Code='" + PurchaseMgmtConstants.POHeader + "'");
-
-
                 // _materialMgmtContext.SaveChanges();
                 counter = 1;
                 po.ErrorMessage = string.Empty;
@@ -935,7 +954,6 @@ namespace EzBusiness_DL_Repository
             {
                 //var mr = _materialMgmtContext.MReqHeaders.FirstOrDefault(m => m.MRCode.Equals(po.MRCode) && m.CmpyCode.Equals(po.CmpyCode));
                 ds = _EzBusinessHelper.ExecuteDataSet("Select * from PoHeader where CmpyCode='" + po.CmpyCode + "' and PONumber='" + po.PONumber + "' ");
-
                 POHeader pt = new POHeader();
                 dt = ds.Tables[0];
                 foreach (DataRow dr in dt.Rows)
