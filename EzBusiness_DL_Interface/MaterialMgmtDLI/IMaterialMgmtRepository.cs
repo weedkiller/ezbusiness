@@ -13,7 +13,7 @@ namespace EzBusiness_DL_Interface
         #region Unit Master
         List<Unit> GetUnits(string CmpyCode);
 
-        UnitVM SaveUnit(UnitVM unit);
+        UnitVM SaveUnit(string cmpyCode,UnitVM unit);
 
         List<UnitType> GetUnitTypes();
 

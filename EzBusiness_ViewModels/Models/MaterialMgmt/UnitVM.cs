@@ -28,11 +28,21 @@ namespace EzBusiness_ViewModels.Models.MaterialMgmt
         public string UnitType { get; set; }
 
         public List<SelectListItem> UnitTypeList { get; set; }
-
+        public UnitNew UnitDetail { get; set; }
+        public List<UnitNew> UnitNew { get; set;}
         public bool SaveFlag { get; set; }
 
         public bool EditFlag { get; set; }
-
+        public List<string> Drecord { get; set; }
         public string ErrorMessage { get; set; }
+    }
+    public class UnitNew
+    {
+        public string CmpyCode { get; set; }
+        public string Code { get; set; }
+        public string UniCodeName { get; set; }
+        public string Name { get; set; }
+        public string UnitType { get; set; }
+
     }
 }

@@ -46,9 +46,9 @@ namespace EzBusiness_BL_Service
             return unitTypes;
         }
 
-        public UnitVM SaveUnit(UnitVM unit)
+        public UnitVM SaveUnit(string cmpyCode,UnitVM unit)
         {
-            return _materialRepo.SaveUnit(unit);
+            return _materialRepo.SaveUnit(cmpyCode,unit);
         }
 
         #endregion

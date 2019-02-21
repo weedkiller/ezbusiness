@@ -15,7 +15,7 @@ namespace EzBusiness_BL_Interface
     {
         List<UnitVM> GetUnits(string CmpyCode);
 
-        UnitVM SaveUnit(UnitVM unit);
+        UnitVM SaveUnit(string CmpyCode,UnitVM unit);
 
         List<UnitType> GetUnitTypes();
 

@@ -28,10 +28,14 @@
 <script>
     var units = [];
     $(function () {
+        debugger;
+        GetUnitTypes();
         $("#tblUnits1").hide();
         $("#btnAdd").click(function () {
+            debugger;
             var n = EzAuthenticationBtn("/Loan", "NewIt");
             if (n == 1) {
+               
                 $("#tbldiv").hide();
                 var abk = [];
                 abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
@@ -41,32 +45,32 @@
                 Ezprop(abk,"disabled", false);
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
+                GetUnitTypeDDL(counter)
                 //Ezerrormsg("#ErrorMessage", "");
             }
         });
         var counter = $("#Counter").val();
         /*Add Table Change Event*/
-        $("#tblUnits1").on("change", "[name*='txtPRLM001_CODE']", function () {
+        $("#tblUnits1").on("change", "[name*='txtMM001_Code']", function () {
             debugger;
             var tr = $(this).closest('tr');
 
             drec = [];
-            $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
+            $('#tblUnits tbody tr td:nth-child(1)').each(function () {
                 //add item to array
-                var ab = $(this).find("[name *= 'txtPRLM001_CODE']").val();
+                var ab = $(this).find("[name *= 'txtMM001_Code']").val();
                 drec.push(ab);
             });
 
-            drec.splice($.inArray(tr.find("[name *= 'txtPRLM001_CODE']").val(), drec), 1);
+            drec.splice($.inArray(tr.find("[name *= 'txtMM001_Code']").val(), drec), 1);
 
-            if ($.inArray(tr.find("[name *= 'txtPRLM001_CODE']").val(), drec) >= 0)
+            if ($.inArray(tr.find("[name *= 'txtMM001_Code']").val(), drec) >= 0)
             {
-                var dr = tr.find("[name *= 'txtPRLM001_CODE']").val();
+                var dr = tr.find("[name *= 'txtMM001_Code']").val();
                 tr.css("background", "red");
-                tr.find("[name *= 'txtPRLM001_CODE']").focus();
+                tr.find("[name *= 'txtMM001_Code']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
-                tr.find("[name *= 'txtPRLM001_CODE']").val('');
-
+                tr.find("[name *= 'txtMM001_Code']").val('');
             }
             else {
                 tr.css("background", "");
@@ -75,25 +79,24 @@
                     var trLast = $("#tableMetaSettings tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtPRLM001_CODE']").val('');
-                    trLast.find("[name *= 'txtPRLM001_CODE']").attr({
-                        "name": ("txtPRLM001_CODE" + counter)
+                    $(this).closest('tr').next('tr').find("[name*='txtMM001_Code']").val('');
+                    trLast.find("[name *= 'txtMM001_Code']").attr({
+                        "name": ("txtMM001_Code" + counter)
                     });
                     trLast.find("[name *= 'txtName']").attr({
                         "name": ("Name" + counter)
                     });
-                    trLast.find("[name *= 'txtAct_code']").attr({
-                        "name": ("txtAct_code" + counter)
+                    trLast.find("[name *= 'ddlUnitType']").attr({
+                        "name": ("ddlUnitType" + counter)
                     });
                     trLast.find(":first").text(counter);
                 }
             }
             counter++;
         });
-
-        EztableTabEve("#tblUnits1", "[name*='txtName']", "[name *= 'txtAct_code']", "Please Enter Name", 'T',"");
-        EztableTabEve("#tblUnits1", "[name*='txtPRLM001_CODE']", "[name *= 'txtName']", "Please Enter Code", 'T',"");
-        EztableLstEnt("#tblUnits1", "[name*='txtAct_code']", "[name *= 'txtPRLM001_CODE']",'T',"");
+        EztableTabEve("#tblUnits1", "[name*='txtMM001_Code']", "[name *= 'txtName']", "Please Enter Code", 'T', "");
+        EztableTabEve("#tblUnits1", "[name*='txtName']", "[name *= 'txtMM001_Code']", "Please Enter Name", 'T', "");
+        EztableLstEnt("#tblUnits1", "[name*='ddlUnitType']", "[name *= 'txtMM001_Code']", 'T', "");
         /*Name Tab Event*/
 
         /*Refresh */
@@ -107,7 +110,7 @@
 
             $("#tblUnits1").hide();
             var abk1 = [];
-            abk1.push("[name*='txtPRLM001_CODE']", "[name*='txtName']", "[name*='txtAct_code']");
+            abk1.push("[name*='txtMM001_Code']", "[name*='txtName']", "[name*='ddlUnitType']");
             Ezsettxtclr(abk1);
             abk1 = [];
             abk1.push("#btnCancel", "#btnSave");
@@ -119,15 +122,15 @@
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
-
+            debugger;
            var UnitMaster=  {
                UnitNew: []
             };
             $("#tblUnits1 tbody tr").each(function (index, item) {
                 var Code = $(this).find("[name*='txtMM001_Code']").val();
                 var  Name = $(this).find("[name*='txtName']").val();
-                var MMunitType = $(this).find("[name*='txtUnitType']").val();
-                if ((StsCode != "") && (StsName != "")) {
+                var MMunitType = $(this).find("[name*='ddlUnitType']").val();
+                if ((Code != "") && (Name != "")) {
                     var UnitDetail = {
                         Code: Code,
                         Name: Name,
@@ -138,18 +141,22 @@
             });
             var validationResult = ValidateForm(UnitMaster);
             if (validationResult.formValid) {
-                $.post("/MaterialMgmt/SaveUnit", unit).done(function (response) {
-                if (response.Drecord == null)
-                {
-                    $("#tbldiv").show();
-                    response.Drecord = 0;
-                }
+                $.post("/MaterialMgmt/SaveUnit", UnitMaster).done(function (response) {
+                    debugger;
+                  if (response.Drecord == null)
+                  {
+                      $("#tbldiv").show();
+                      response.Drecord = 0;
+                    //$("#tblUnits1").hide();
+                   //EzAlerterrtxt("Duplicate Record");
+                  }
+                debugger;
                 $("#tblUnits1 tbody tr").each(function (index, item) {
                     var tr = $(this).closest("tr");
                     var codeAdd = $(tr).find("[name*='txtMM001_Code']").val().trim();
                     var nameAdd = $(tr).find("[name*='txtName']").val().trim();
-                    var UnitTypeAdd = $(tr).find("[name*='txtUnitType']").val().trim();
-                    if(response.Drecord.length>0)
+                    var UnitTypeAdd = $(tr).find("[name*='ddlUnitType']").val().trim();
+                    if (response.Drecord.length > 0)
                     {
                         var ary1 = [];
                         ary1 = response.Drecord;
@@ -195,7 +202,6 @@
                         abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
                         Ezprop(abk1, "disabled", false);
                         EzAlertSave();
-
                         $(".dataTables_empty").replaceWith("");
                     }
                 });
@@ -225,11 +231,12 @@
         });
 
 
-        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-            console.log(thrownError);
-        });
+        //$(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+        //    console.log(thrownError);
+        //});
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
+            debugger;
             var n = EzAuthenticationBtn("/Unit", "EditIt");
             if (n == 1) {
                 var counter = $("#Counter").val();
@@ -244,34 +251,48 @@
 
                 if (hdnEditMode.val() == "true") {
                     var nameEdit = $(tr).find("[name*='txtName']").val().trim();
-                    var unicodenameEdit = $(tr).find("[name*='txtUnitType']").val().trim();
-                    var Lons = {
+                    var unicodenameEdit = $(tr).find("[name*='ddlUnitType']").val().trim();
+                    var UnitMaster = {
                         CmpyCode: hdnCmpyCode,
                         Code: hdnCode,
                         Name: nameEdit,
                         UnitType: unicodenameEdit,
                         EditFlag: true
                     };
-
-                    $.post("/MaterialMgmt/SaveUnit", Lons).done(function (response) {
-                        nameTd.text(response.Name);
-                        unicodenameTd.text(response.Act_code);
-                        hdnEditMode.val("false");
-                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
-                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
-                        tableDis("F");
-                        EzAlertUpd(hdnCode);
+                    if (nameEdit != '') {
+                    $.post("/MaterialMgmt/SaveUnit", UnitMaster).done(function (response) {
+                        //nameTd.text(response.Name);
+                        ////unicodenameTd.text(response.Act_code);
+                        //hdnEditMode.val("false");
+                        //editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
+                        //tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
+                        //tableDis("F");
+                        //EzAlertUpd(hdnCode);
+                        debugger;
+                                nameTd.text(response.Name);
+                                unicodenameTd.text(response.UnitType);
+                                hdnEditMode.val("false");
+                                editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
+                                tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
+                                tableDis("F");
+                                EzAlertUpd(hdnCode);
                     });
-                    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-                        console.log(thrownError);
-                    });
+                    } else {
+                        EzAlerterrtxt('Enter Valid Data');
+                    }
+                    //$(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                    //    console.log(thrownError);
+                    //});
                 } else {
                     var name = $(tr).find("td:eq(1)").text();
                     $('#inpNme').val(name.trim());
                     nameTd.html("<input type='text' name='txtName" + index + "' value='" + name.trim() + "' />");
                     var unicodename = $(tr).find("td:eq(2)").text();
                     $('#inpAct').val(unicodename.trim());
-                    unicodenameTd.html("<input type='text' name='txtUnitType" + index + "' value='" + unicodename.trim() + "' />");
+
+                    unicodenameTd.html(GetUnitTypeDDL(index));
+                    unicodenameTd.find("select").val(unicodename.trim());
+                    //unicodenameTd.html("<input type='text' name='txtUnitType" + index + "' value='" + unicodename.trim() + "' />");
                     $(this).html('<span class="glyphicon glyphicon-upload"></span>')
                     hdnEditMode.val("true");
                     tableDis("T");
@@ -385,7 +406,39 @@
             $("#btnAdd").prop('disabled', false);
         }
     }
+    function GetUnitTypeDDL(index) {
+        if (units.length > 0) {
+            var ddlUnitType = "<select class='form-control' name='ddlUnitType" + index + "'>";
+            for (var i in units) {
+                ddlUnitType += "<option value='" + units[i].Code + "'>" + units[i].Name + "</option>";
+            }
+            ddlUnitType += "</select>";
+        }
+        return ddlUnitType;
+    }
 
+    function GetUnitTypes() {
+        $.ajax({
+            url: "/UnitTypes",
+            dataType: "json",
+            success: function (data) {
+                units = data;
+                if (units.length > 0) {
+                    var mySelect = $('#ddlUnitType');
+
+                    for (var i in units) {
+                        mySelect.append(
+                            $('<option></option>').val(units[i].Code).html(units[i].Name)
+                        );
+                    }
+                }
+            },
+            error: function () {
+                alert('error occurred');
+            }
+        });
+        return units;
+    }
 
 </script>
 
@@ -414,7 +467,7 @@ $(document).ready(function(){
     <div class="panel-body">
         <input id="inpNme" type="hidden" />
         <input id="inpAct" type="hidden" />
-        <table class="table table-bordered" id="tblUnits1">
+        <table class="table table-bordered" id="tblUnits1" style="display:none">
             <thead>
                 <tr class="tr">
                     <th>
@@ -444,7 +497,9 @@ $(document).ready(function(){
                     </td>                 
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtUnitType", counter), null, new { @class = "grid-control" })
+                            <div class="col-md-9 input-field">
+                                <select class="grid-control" name="ddlUnitType" id="ddlUnitType"></select>
+                            </div>
                         </div>
                     </td>
                 </tr>
@@ -460,9 +515,9 @@ $(document).ready(function(){
                         <th>
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
-                        <th>
+                        @*<th>
                             @Html.DisplayNameFor(model => model.UniCodeName)
-                        </th>
+                        </th>*@
                         <th>
                             @Html.DisplayNameFor(model => model.UnitType)
                         </th>
@@ -479,9 +534,9 @@ $(document).ready(function(){
                             <td>
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
-                            <td>
+                            @*<td>
                                 @Html.DisplayFor(modelItem => item.UniCodeName)
-                            </td>
+                            </td>*@
                             <td>
                                 @Html.DisplayFor(modelItem => item.UnitType)
                             </td>

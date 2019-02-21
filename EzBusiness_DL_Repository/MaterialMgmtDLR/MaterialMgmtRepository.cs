@@ -42,30 +42,61 @@ namespace EzBusiness_DL_Repository
             return ObjList;
         }
 
-        public UnitVM SaveUnit(UnitVM unit)
+        public UnitVM SaveUnit(string cmpyCode,UnitVM unit)
         {
             try
             {
                 if (!unit.EditFlag)
                 {
-                    int unit1 = _EzBusinessHelper.ExecuteScalar("Select count(*) from MMU001 where CmpyCode='" + unit.CmpyCode + "' and Code='" + unit.Code + "'");
-                    if (unit1 == 0)
+                    var Drecord = new List<string>();
+                    List<UnitNew> ObjList = new List<UnitNew>();
+                    ObjList.AddRange(unit.UnitNew.Select(m => new UnitNew
                     {
-                        _EzBusinessHelper.ExecuteNonQuery("insert into MMU001(CmpyCode,Code,Name,UniCodeName,UnitType)values('" + unit.CmpyCode + "','" + unit.Code + "','" + unit.Name + "','" + unit.UniCodeName + "','" + unit.UnitType + "')");
-                        unit.SaveFlag = true;
-                        unit.ErrorMessage = string.Empty;
-                    }
-                    else
+                        Code = m.Code,
+                        CmpyCode = m.CmpyCode,
+                        Name = m.Name,
+                        UnitType = m.UnitType,
+                        UniCodeName=m.UniCodeName                       
+                    }).ToList());
+                    int n = 0;
+                    n = ObjList.Count;
+
+                    while (n > 0)
                     {
-                        unit.SaveFlag = false;
-                        unit.ErrorMessage = "Duplicate Record";
+                              int unit1 = _EzBusinessHelper.ExecuteScalar("Select count(*) from MMU001 where CmpyCode='"+cmpyCode+"' and Code='"+ ObjList[n - 1].Code + "'");
+
+                        if (unit1 == 0)
+                        {
+                            StringBuilder sb = new StringBuilder();
+                            sb.Append("'" + cmpyCode + "',");
+                            sb.Append("'" + ObjList[n - 1].Code + "',");
+                            sb.Append("'" + ObjList[n - 1].UnitType + "',");
+                            sb.Append("'" + ObjList[n - 1].Name + "')");
+                            // sb.Append("'" + ObjList[n - 1].Act_code + "')");
+                            _EzBusinessHelper.ExecuteNonQuery("insert into MMU001(CmpyCode,Code,UnitType,Name)values(" + sb.ToString()+ "");
+                            unit.SaveFlag = true;
+                            unit.ErrorMessage = string.Empty;
+                        }
+                        else
+                        {
+
+                            Drecord.Add(ObjList[n - 1].Code.ToString());
+
+                            unit.Drecord = Drecord;
+                            unit.SaveFlag = false;
+                            unit.ErrorMessage = "Duplicate Record";
+                        }
+                        n = n - 1;
                     }
+
                     return unit;
                 }
-                var unitEdit = _EzBusinessHelper.ExecuteScalar("Select * from MMU001 where CmpyCode='" + unit.CmpyCode + "' and Code='" + unit.Code + "'");
+                 var unitEdit = _EzBusinessHelper.ExecuteScalar("Select * from MMU001 where CmpyCode='" + unit.CmpyCode + "' and Code='" + unit.Code + "'");
+
                 if (unitEdit != 0)
                 {
-                    _EzBusinessHelper.ExecuteNonQuery("update MMU001 set CmpyCode='" + unit.CmpyCode + "',Code='" + unit.Code + "',Name='" + unit.Name + "',UniCodeName='" + unit.UniCodeName + "',UnitType='" + unit.UnitType + "' where CmpyCode='" + unit.CmpyCode + "' and Code='" + unit.Code + "'");
+                   _EzBusinessHelper.ExecuteNonQuery("update MMU001 set CmpyCode='" + unit.CmpyCode + "',Code='" + unit.Code + "',Name='" + unit.Name + "',UniCodeName='" + unit.UniCodeName + "',UnitType='" + unit.UnitType + "' where CmpyCode='" + unit.CmpyCode + "' and Code='" + unit.Code + "'");
+
                     unit.SaveFlag = true;
                     unit.ErrorMessage = string.Empty;
                 }
@@ -76,13 +107,12 @@ namespace EzBusiness_DL_Repository
                 }
 
             }
-            catch
+            catch (Exception ex)
             {
                 unit.SaveFlag = false;
                 //  unit.ErrorMessage = exceptionMessage;
 
             }
-
             return unit;
         }
 
