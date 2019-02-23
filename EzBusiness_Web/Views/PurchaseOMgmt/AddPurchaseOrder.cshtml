@@ -3,9 +3,12 @@
 @{
     var counter = 1;
 }
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
-
+<script src="~/Scripts/EzComNDW.js"></script>
 
 
 
@@ -14,6 +17,7 @@
     $(function () {
        // $("#POReq").prop("disabled", true);
         //$("[name*='ItemCode']").empty();
+        EzdtePk('#Dates1,#ExpectedDeliveryDate1');
        $('.selectpicker').selectpicker('refresh');
        debugger;
         $("#ProjectCode").change(function () {
@@ -267,7 +271,8 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Date</label>
                                                     <div class="col-md-4 input-field">
-                                                        @Html.EditorFor(m => m.Dates, new { @style = "width: 60%", @class = "form-control" })
+                                                        @*@Html.EditorFor(m => m.Dates, new { @style = "width: 60%", @class = "form-control" })*@
+                                                        <input id="Dates1" class="form-control datepicker" name="Dates1" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -276,6 +281,15 @@
                                         <!--/row-->
                                         <div id="POContainer2">
                                             <div class="row">
+                                                @*<div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Project</label>
+                                                        <div class="col-md-9 input-field">
+                                                            @Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @style = "width: 50%", @class = "selectpicker", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>*@
+                                                <div class="clearfix"></div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Project</label>
@@ -339,18 +353,18 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Expected Delivery Date</label>
                                                         <div class="col-md-4 input-field">
-                                                            @Html.EditorFor(m => m.ExpectedDeliveryDate, new { @style = "width: 60%", @class = "form-control" })
+                                                            @*@Html.EditorFor(m => m.ExpectedDeliveryDate, new { @style = "width: 60%", @class = "form-control" })*@
+                                                            <input id="ExpectedDeliveryDate1" class="form-control datepicker" name="ExpectedDeliveryDate1" />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!--/span-->
                                             </div>
-
                                             <!--/row-->
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">Resource Type</label>
+                                                       <label class="control-label col-md-3">Resource Type</label>
                                                         <div class="col-md-9 input-field">
                                                             <label class="radio-inline">
                                                                 @Html.RadioButtonFor(m => m.ResourceType, "M") Material
@@ -386,7 +400,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-
                                                 </div>
                                             </div>
                                         </div>
