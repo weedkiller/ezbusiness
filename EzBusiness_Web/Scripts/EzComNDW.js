@@ -590,14 +590,13 @@ function Ezsidetbl(ide, idef, lk) {
     });
 }
 /*tbl class date formate DD/MM/YYYY get current */
-function EzdtePk(date1) {
-    
+function EzdtePk(date1) {    
     $(date1).datetimepicker({
         defaultDate: new Date(),
         format: 'DD/MM/YYYY',
         showClose: true,
         showClear: true,
-        minDate: new Date(),
+        minDate: new Date(),       
        
     });
 }
@@ -1018,6 +1017,7 @@ function EzComapretxtval(Ide,idf,errmsg)
     });
 
 }
+
 
 
 
