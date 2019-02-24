@@ -10,13 +10,9 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/EzComNDW.js"></script>
 
-
-
-
 <script>
     $(function () {
-       // $("#POReq").prop("disabled", true);
-        //$("[name*='ItemCode']").empty();
+      
         EzdtePk('#Dates1,#ExpectedDeliveryDate1');
        $('.selectpicker').selectpicker('refresh');
        debugger;
@@ -44,15 +40,12 @@
 
         $("#POReq").change(function () {
             debugger;
-            var MRCode = $("#POReq option:selected").val();                   
+            var MRCode = $("#POReq option:selected").val();
             $.get("PurchaseOMgmt/GetPOItemReqList", { MRCode: MRCode }).done(function (response) {
                 $("#POContainer").html(response);
             });
         });
 
-        
-
-           
         $("input:radio[name=ResourceType]").click(function () {
             debugger;
             var rowCount = $('#tablePODetails tbody tr').length;
@@ -262,7 +255,10 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">MR Code</label>
                                                     <div class="col-md-9 input-field">
-                                                        <input type="text" class="form-control" name="" required placeholder="" maxlength="50" readonly="readonly">
+                                                        @*<input type="text" class="form-control" name="" required placeholder="" maxlength="50" readonly="readonly">*@
+                                                        @Html.TextBoxFor(m => m.MRCode, new { @class = "form-control", @readonly = "readonly" })
+
+
                                                     </div>
                                                 </div>
                                             </div>
