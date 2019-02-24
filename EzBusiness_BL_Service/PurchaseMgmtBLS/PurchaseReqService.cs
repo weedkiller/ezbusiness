@@ -18,10 +18,12 @@ namespace EzBusiness_BL_Service
 
         IPurchaseReqRepository _purchaseRepo;
         IMaterialMgmtService _materialService;
+        ICodeGenRepository _CodeRep;
         public PurchaseReqService()
         {
             _purchaseRepo = new PurchaseReqRepository();
             _materialService = new MaterialMgmtService();
+            _CodeRep = new CodeGenRepository();
         }
 
         public bool DeletePurchaseOrder(string CmpyCode, string MRCode)
@@ -100,6 +102,8 @@ namespace EzBusiness_BL_Service
         {
             return new PurchaseReqVM
             {
+
+                MRCode = _CodeRep.GetCode(CmpyCode, "MR"),
                 ProjectList = GetProjects(CmpyCode),
                 ItemCodeList = GetItemCodeList(CmpyCode, "M"),
                 LocationList = GetLocationList(CmpyCode),
@@ -145,6 +149,12 @@ namespace EzBusiness_BL_Service
 
         public PurchaseReqVM SavePurchaseOrder(PurchaseReqVM purchaseReq)
         {
+
+            if (!purchaseReq.IsEditMode)
+            {
+                purchaseReq.MRCode = _CodeRep.GetCode(purchaseReq.CmpyCode, "MR");
+            }
+
             return _purchaseRepo.SavePurchaseOrder(purchaseReq);
         }
     }

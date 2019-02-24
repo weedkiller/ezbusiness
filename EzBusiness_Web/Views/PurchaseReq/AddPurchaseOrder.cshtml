@@ -14,16 +14,18 @@
     $(function () {
         EzdtePk('#PODate1');
 
+       
+
         //$("[name*='ItemCode']").empty();
        $('.selectpicker').selectpicker('refresh');
        debugger;
-        $("#ProjectCode").change(function () {
-            var projectName = $("#ProjectCode option:selected").val();
-            //$("#MasterWrapper").show();
-            if (projectName != "0") {
-                $(this).prop("disabled", true);
-            }
-        });
+        //$("#ProjectCode").change(function () {
+        //    var projectName = $("#ProjectCode option:selected").val();
+        //    //$("#MasterWrapper").show();
+        //    if (projectName != "0") {
+        //        $(this).prop("disabled", true);
+        //    }
+        //});
 
         debugger;
 
@@ -89,7 +91,22 @@
 
         $("#tablePODetails").on('change', "[name*='ItemCode']", function () {
             debugger;
+            if ($("#tablePODetails > tbody tr").length == 1) {            
+            if (EzHeadTxtvalid("[name *= 'MRCode']", "#tablePODetails tbody tr:last", "[name *= 'MRCode']", "Please Enter MRCode", '', '') == true) {
+                return;
+            }
+            if (EzHeadTxtvalid("#ProjectCode option:selected", "#tablePODetails tbody tr:last", "[name *= 'ProjectCode']", "Please Enter ProjectCode", '0', '0') == true) {
+                return;
+            }
+            if (EzHeadTxtvalid("#LocationCode option:selected", "#tablePODetails tbody tr:last", "[name *= 'LocationCode']", "Please Enter LocationCode", '0', '0') == true) {
+                return;
+            }
+            if (EzHeadTxtvalid("#RequesterCode option:selected", "#tablePODetails tbody tr:last", "[name *= 'RequesterCode']", "Please Enter RequesterCode", '0', '0') == true) {
+                return;
+            }          
             
+            }
+
             var tr = $(this).closest("tr");           
             var ItemCode = tr.find("[name*='ItemCode'] option:selected").text();
             var rest1 = $("input:radio[name=ResourceType]:checked").val();
@@ -124,21 +141,10 @@
             }
             else {
                 tr.css("background", "");
-
                 if (tr.is(":last-child")) {
                   //  tr.clone(true, true).insertAfter(tr);
-
-                    $('#tablePODetails tr:last').clone().insertAfter('#tablePODetails tr:last');
-
-                    //var packing = trLast.find("[name *= 'ItemCode']");                                  
-                    if (rest1 != null) {
-                        //$.get("PurchaseReq/GetItemCodeDescription", { itemCode: ItemCode, restyp: rest1 }).done(function (response) {
-                        //    tr.find("[name*='ItemDescription']").val(response.Description);                            
-                        //    //tr.find('select[name^=ItemUnit]').val(response.Unit);
-                        //    tr.find('select[name^=ItemUnit]').val(response.Unit);
-                            
-                                                
-                        //});
+                    $('#tablePODetails tr:last').clone().insertAfter('#tablePODetails tr:last');                                                 
+                    if (rest1 != null) {                       
                         $.ajax({
                             async: false,
                             cache: false,
@@ -148,13 +154,9 @@
                             dataType: 'Json',
                             contentType:"Application/json",
                             success: function (data) {
-
-                                tr.find("[name*='ItemDescription']").val(data.Description);
-                                    //tr.find('select[name^=ItemUnit]').val(response.Unit);
-                                tr.find('select[name^=ItemUnit]').val(data.Unit);                               
-                                //tr.find('select[name^=ItemUnit]').prop("selected", true);
-
-                                tr.find('select[name^=ItemUnit]').attr('text', data.Unit);
+                                tr.find("[name*='ItemDescription']").val(data.Description);                                
+                                tr.find('[name^=ItemUnit] option[value=' + data.Unit + ']').attr('selected', 'selected');
+                                tr.find("[name*='ItemUnit']").trigger("change");
                         }
                         });
                     }
@@ -223,64 +225,11 @@
             
         });
 
-        //$("#tablePODetails").on("change", "[name*='ItemCode']", function () {
-        //    debugger;
-            
-        //    var tr = $(this).closest("tr");           
-        //    var rest1=$("input:radio[name=ResourceType]:checked").val();
-        //    if (rest1 != null) {
-        //        $.get("PurchaseReq/GetItemCodeDescription", { itemCode: $(this).val(), restyp: rest1 }).done(function (response) {
-        //            tr.find("[name*='ItemDescription']").val(response.Description);
-        //            tr.find("[name*='ItemUnit']").val(response.Unit);
-        //            $('.selectpicker').selectpicker('refresh');
-        //            //$('.selectpicker').selectpicker('refresh');
-        //            //$('.selectpicker').selectpicker('render');
-        //        });
-        //    }
-        //    if (tr.is(":last-child")) {
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
 
-              
-        //        tr.clone(true, true).insertAfter(tr);
-
-        //        $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-        //            .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
-        //        var trLast = $("#tableMetaSettings tr:last")
-
-               
-
-        //        var cloned = $("#tablePODetails tbody tr:last").clone(true); // clone last row
-        //        // looping over last row's inputs
-        //        $("#tablePODetails tbody tr:last").find('select').each(function () {
-        //            cloned.find('select[name^=' + this.name.replace('[]', '') + ']').val(0);
-                    
-        //        });
-
-        //        $("#tablePODetails > tbody").append(cloned);
-        //        $("#tablePODetails > tbody tr:last").prev().remove();
-
-        //        trLast.find("[name *= 'ItemCode']").attr({
-        //            "name": ("ItemCode" + counter)
-        //        });
-        //        trLast.find("[name *= 'ItemDescription']").attr({
-        //            "name": ("ItemDescription" + counter)
-        //        });
-        //        trLast.find("[name *= 'ItemSpecification']").attr({
-        //            "name": ("ItemSpecification" + counter)
-        //        });
-        //        trLast.find("[name *= 'ItemUnit']").attr({
-        //            "name": ("ItemUnit" + counter)
-        //        });
-        //        trLast.find("[name *= 'ItemQuantity']").attr({
-        //            "name": ("ItemQuantity" + counter)
-        //        });
-        //        trLast.find(":first").text(counter);
-        //    }
-        //    counter++;
-        //});
-        //$("[name*='ItemCode']").change(function () {
-
-        //});
-      
+       
     });
    
 </script>
@@ -310,7 +259,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-4">MR Code</label>
                                         <div class="col-md-8 input-field">
-                                            <input type="text" class="form-control" name="" required placeholder="" maxlength="50" style="width:222px" readonly="readonly">
+                                            @Html.TextBoxFor(m => m.MRCode, new { @style = "width: 80%", @class = "form-control", @disabled = "disabled" })
                                         </div>
                                     </div>
                                 </div>
@@ -319,7 +268,7 @@
                                         <label class="control-label col-md-3">Date</label>
                                         <div class="col-md-4 input-field">
                                             @*@Html.EditorFor(m => m.PODate, new { @style = "width: 60%", @class = "form-control" })*@
-                                            <input id="PODate1" class="form-control datepicker" name="PODate1" autocomplete="false">
+                                            <input id="PODate1" class="form-control datepicker" name="PODate1">
                                         </div>
                                     </div>
                                 </div>

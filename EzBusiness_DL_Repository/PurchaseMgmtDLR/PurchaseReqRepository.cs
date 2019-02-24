@@ -148,7 +148,7 @@ namespace EzBusiness_DL_Repository
         public List<CostCenterHeader> GetProjects(string CmpyCode)
         {
 
-            ds = _EzBusinessHelper.ExecuteDataSet("Select Name,Code from CCH004 where CmpyCode='" + CmpyCode + "' ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Name,Code from CCH004 where CmpyCode='" + CmpyCode + "' and Flag=0 ");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<CostCenterHeader> ObjList = new List<CostCenterHeader>();
@@ -239,17 +239,21 @@ namespace EzBusiness_DL_Repository
             if (!po.IsEditMode)
             {
                 try
-                {                    
-                    ds = _EzBusinessHelper.ExecuteDataSet("Select * from PARTTBL001 where CmpyCode='" + po.CmpyCode + "' and Code='" + PurchaseMgmtConstants.MRHeader + "' ");
+                {
                     MReqHeader pt = new MReqHeader();
-                    dt = ds.Tables[0];
-                    int pno = 0;
-                    foreach (DataRow dr in dt.Rows)
-                    {
+                    int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + po.CmpyCode + "' and Code='" + PurchaseMgmtConstants.MRHeader + "' ");
 
-                        pno = Convert.ToInt16(dr["Nos"]) + 1;
-                    }
-                    pt.MRCode = string.Concat(PurchaseMgmtConstants.MRHeader, "-", (Convert.ToInt16(pno)).ToString().PadLeft(4, '0')).ToString();
+                    //ds = _EzBusinessHelper.ExecuteDataSet("Select * from PARTTBL001 where CmpyCode='" + po.CmpyCode + "' and Code='" + PurchaseMgmtConstants.MRHeader + "' ");
+                    //MReqHeader pt = new MReqHeader();
+                    //dt = ds.Tables[0];
+                    //int pno = 0;
+                    //foreach (DataRow dr in dt.Rows)
+                    //{
+
+                    //    pno = Convert.ToInt16(dr["Nos"]) + 1;
+                    //}
+                    //pt.MRCode = string.Concat(PurchaseMgmtConstants.MRHeader, "-", (Convert.ToInt16(pno)).ToString().PadLeft(4, '0')).ToString();
+                    pt.MRCode = po.MRCode;
                     pt.CmpyCode = po.CmpyCode;
                     pt.ResourceType = po.ResourceType;
                     DateTime dt1 = Convert.ToDateTime(po.PODate.ToString());
