@@ -78,14 +78,17 @@
                         }
                         var tr1 = "<tr>";
                         var td = "<td><div class='form-group'>" + counter + "</div></td>"
+                        var td4 = "<td><div class='form-group'><input  Readonly='true' class='form-control' name='EmpCode" + counter + "'></div></td>"
+
                         var td1 = "<td><div class='form-group'><input  Readonly='true' class='form-control' name='Datest" + counter + "'></div></td>"
                         var td2 = "<td><div>" + dropAttendence + "</div></td>";
                         var td3 = "<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
-                        $("#tablePODetails").append(tr1 + td + td1 + td2 + td3 );
+                        $("#tablePODetails").append(tr1 + td + td4 + td1 + td2 + td3);
 
                         var tr = $("#tablePODetails tbody tr");
                         tr.find("[name='Datest" + counter + "']").val(EzdatefrmtRes1(ary[i].Att_Date));
                         tr.find("[name='ATT" + counter + "']").val(ary[i].NHrs);
+                        tr.find("[name='EmpCode" + counter + "']").val(ary[i].EmpCode);
                         counter++;
                     }
                     });
@@ -124,13 +127,14 @@
 
             $("#tablePODetails tbody tr").each(function (index, item) {
                 debugger
-
+                var EmpCodetxt = $(this).find("[name*='EmpCode']").val();
                 var Datesttxt = Ezsetdtpkdate($(this).find("[name*='Datest']").val());
                 var ddlPayDeductOn1 = $(this).find("[name*='ddlPayDeductOn1']").val();
                 if ((Datesttxt != "0")) {
                     var OTExtraATT = {
                         Att_Date: Datesttxt,
                         ATT: ddlPayDeductOn1,
+                        EmpCode: EmpCodetxt
                     };
                     OTPayroll.OTExtraATTnews.push(OTExtraATT);
                 }
@@ -168,7 +172,7 @@
                 //$("#ErrorMessage").show();
                 //$("#ErrorMessage").find("strong").text(validationResult.ErrorMessage);
                 // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
-                EzAlerterrtxt(response.ErrorMessage);
+                EzAlerterrtxt(validationResult.ErrorMessage);
             }
 
             function ValidateForm(OTPayroll) {
@@ -364,6 +368,7 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Sr No</th>
+                                                                        <th>EmpCode</th>
                                                                         <th>Date</th>
                                                                         <th>Attendence Type</th>
                                                                     </tr>

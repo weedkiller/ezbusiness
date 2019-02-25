@@ -63,7 +63,9 @@ namespace EzBusiness_BL_Service
                 NHrs = m.NHrs,
                 OTHrs = m.OTHrs,
                 ATT = m.ATT,
-                ReportingEmp=m.ReportingEmp
+               // ReportingEmp=m.EmpCode,
+               
+                
             }).ToList();
         }
 
@@ -74,6 +76,7 @@ namespace EzBusiness_BL_Service
             {
                 Att_Date = m.Att_Date,
                 ATT = m.ATT,
+                EmpCode=m.EmpCode
             }).ToList();
         }
 

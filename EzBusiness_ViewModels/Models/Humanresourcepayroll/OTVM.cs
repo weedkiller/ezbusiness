@@ -58,12 +58,14 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public decimal? FOThrs { get; set; }
         public decimal? Hhrs { get; set; }
         public decimal? ExtraHrs { get; set; }
+        public string EmpCode { get; set; }
     }
 
     public class OTExtraATTnews
     {
         public DateTime? Att_Date { get; set; }
         public string ATT { get; set; }
+        public string EmpCode { get; set; }
 
     }
 }
