@@ -20,10 +20,15 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="Preview page of Metronic Admin Theme #4 for " name="description" />
     <meta content="" name="author" />
+
+  
+
     <link rel="shortcut icon" href="~/Content/assets/files/images/favicon.ico" />
 
     <link href="~/Content/assets/files/styleLogin.css" rel="stylesheet" />
     <link href="~/Content/assets/files/Login.css" rel="stylesheet" />
+
+
     @*<link href="~/Content/css/Home.css" rel="stylesheet" />*@
     @*<link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
         <link href="~/Content/assets/files/bootstrap-glyphicons.css" rel="stylesheet" />*@
@@ -31,15 +36,13 @@
     <link href="~/Styles/bootstrap-glyphicons.css" rel="stylesheet" />
     <link href="~/Styles/bootstrap.min.css" rel="stylesheet" />
     @* ---fancy textbox--- *@
-    <link href="~/Content/css/fancy-textbox.css" rel="stylesheet" />
+    @*<link href="~/Content/css/fancy-textbox.css" rel="stylesheet" />
     <script src="~/Content/assets/js/jquery.fancy-textbox.js"></script>
+    <script src="~/Content/assets/js/jquery-1.10.2.min.js"></script>*@
+
 </head>
 <!-- END HEAD -->
-@*<script type="text/javascript">
-        $(document).ready(function () {
-            $('input').ftext();
-        });
-    </script>*@
+
 <body class="login">
     <div style="height:5px;background-color:#615F63  ">
 
@@ -59,13 +62,13 @@
                         <div class="row" style="position:fixed;">
                             <div class="col-md-4 col-md-offset-3">
                                 <div class="id3">
-                                    @Html.TextBoxFor(model => model.user_name, new { @class = "inpt", @type = "text", @autocomplete = "off", @placeholder = "Username", })
+                                    @Html.TextBoxFor(model => model.user_name, new { @class = "inpt anStyle", @type = "text", @data_animation="up", @data_label="Username", @autocomplete = "off" })
                                 </div>
                             </div>
 
                             <div class="col-md-4 col-md-offset-3">
                                 <div class="id3">
-                                    @Html.TextBoxFor(model => model.PassW, new { @class = "inpt", @type = "password", @autocomplete = "off", @placeholder = "Password" })
+                                    @Html.TextBoxFor(model => model.PassW, new { @class = "inpt anStyle", @type = "password", @data_animation = "up", @data_label = "Password", @autocomplete = "off"  })
                                 </div>
                             </div>
 
@@ -329,10 +332,234 @@
         });
         });
 
-        function pageLoad() {
+        //function pageLoad() {
+        //    $('.anStyle').ftext();
+        //}
+
+        $(document).ready(function() {
             $('.anStyle').ftext();
-        }
+        })
     </script>
+
+    <script>
+        (function ($) {
+            $.fn.extend({
+                ftext: function () {
+                    return this.each(function () {
+                        var cls = 'fancy-textbox';
+                        var textbox = $(this);
+
+                        var id = textbox.attr('id');
+                        if (id == null || id == undefined || id == '') {
+                            id = cls + '-' + $('.' + cls).size() + 1;
+                            textbox.attr('id', id);
+                        }
+
+                        var label = textbox.attr('data-label');
+                        var animation = textbox.attr('data-animation');
+                        var mask = textbox.attr('data-mask');
+                        var icon = textbox.attr('data-icon');
+
+                        if (label == undefined) label = '';
+                        if (mask == undefined) mask = '';
+                        if (icon == undefined) icon = '';
+
+                        var labelControl = null;
+                        if (label != '' && icon == '')
+                            labelControl = $('<label class="label" for="' + id + '">' + label + '</label>');
+                        else if (label != '' && icon != '')
+                            labelControl = $('<label class="label icon text" no-repeat left center;" for="' + id + '"><i class="' + icon + '"></i>' + label + '</label>');
+                        else if (label == '' && icon != '')
+                            labelControl = $('<label class="label icon" for="' + id + '"><i class="' + icon + '"></i></label>');
+
+                        //add a wrapper around the text box and place the textbox within that wrapper, this will help positioning and animating the label
+
+                        var wrapper = $('<div class="' + cls + '-wrapper"></div>');
+                        textbox.before(wrapper);
+                        textbox.addClass(cls).addClass('masked');
+
+
+                        if (animation == 'box-3d' || animation == 'box-3d-in' || animation == 'box-3d-up' || animation == 'box-3d-out') {
+                            wrapper.append('<div class="wrap-3d"><div class="face front"> </div> <div class="face back">  </div> </div>');
+                            textbox.appendTo(wrapper.find('.back'));
+                            labelControl.appendTo(wrapper.find('.front'));
+                        }
+                        else {
+                            textbox.appendTo(wrapper);
+                            textbox.after(labelControl);
+                        }
+
+
+
+                        wrapper.addClass(animation);
+
+                        var labelWidth = parseFloat(textbox.parent().find('label').outerWidth());
+                        textbox.css('text-indent', labelWidth + 'px');
+
+                        if (animation == 'balloon') {
+                            var arrow = $('<label class="arrow"></label>');
+                            labelControl.after(arrow);
+                            arrow.css('left', labelWidth / 2 + 'px');
+                        }
+
+                        textbox.val(mask);
+
+                        wrapper.find('input').focus(function () {
+
+                            if ($(this).parent().hasClass('slide')) {
+                                var indent = $(this).css('text-indent');
+                                $(this).data('text-indent', indent);
+                                $(this).css('text-indent', 0).removeClass('masked');
+                                $(this).parent().find('label').css({ 'transform': 'translateX(-70%)', '-webkit-transform': 'translateX(-70%)', '-moz-transform': 'translateX(-70%)' });
+                            }
+                            if ($(this).parent().hasClass('up')) {
+                                var indent = $(this).css('text-indent');
+                                $(this).data('text-indent', indent);
+                                $(this).css('text-indent', 0).removeClass('masked');
+                                $(this).parent().find('label').css({ 'transform': 'translateY(-70%)', '-webkit-transform': 'translateY(-70%)', '-moz-transform': 'translateY(-70%)' });
+                            }
+                            else if ($(this).parent().hasClass('balloon')) {
+                                var indent = $(this).css('text-indent');
+                                var top = $(this).outerHeight();
+                                $(this).data('text-indent', indent);
+                                $(this).css('text-indent', 0).removeClass('masked');
+                                $(this).parent().find('label:first').css({ 'transform': 'translateY(-' + top + 'px)', '-webkit-transform': 'translateY(-' + top + 'px)', '-moz-transform': 'translateY(-' + top + 'px)' }).css('background-color', $(this).attr('data-label-bg')).css('color', $(this).attr('data-label-color'));
+                                $(this).parent().find('label.arrow').css({ 'transform': 'translateY(-' + (top + 8) + 'px)', '-webkit-transform': 'translateY(-' + (top + 8) + 'px)', '-moz-transform': 'translateY(-' + (top + 8) + 'px)' }).css('border-top', '3px solid #7AB893');
+                            }
+
+                            //handle input mask
+                            if ($(this).val() == $(this).attr('data-mask')) {
+                                $(this).val('');
+                            }
+                        });
+
+                        wrapper.find('input').blur(function () {
+                            if ($(this).parent().hasClass('slide')) {
+                                $(this).css('text-indent', $(this).data('text-indent')).addClass('masked');
+                                $(this).parent().find('label').css({ 'transform': 'translateX(0)', '-webkit-transform': 'translateX(0)', '-moz-transform': 'translateX(0)' });
+                            }
+                            else if ($(this).parent().hasClass('up')) {
+                                $(this).css('text-indent', $(this).data('text-indent')).addClass('masked');
+                                $(this).parent().find('label').css({ 'transform': 'translateY(0)', '-webkit-transform': 'translateY(0)', '-moz-transform': 'translateY(0)' });
+                            }
+
+
+                            else if ($(this).parent().hasClass('balloon')) {
+                                $(this).css('text-indent', $(this).data('text-indent')).addClass('masked');
+                                $(this).parent().find('label').css({ 'transform': 'translateY(0)', '-webkit-transform': 'translateY(0)', '-moz-transform': 'translateY(0)' }).css('background-color', '').css('color', '');
+                                $(this).parent().find('label:last').css('border-top', '');
+                            }
+
+
+
+
+
+                            //handle input mask
+                            if ($(this).val() == '') {
+                                $(this).val($(this).attr('data-mask'));
+                            }
+                        });
+                    });
+                }
+            });
+        })(jQuery);
+
+
+    </script>
+
+    <style>
+        /*General styles*/
+        .fancy-textbox-wrapper {
+            display: inline-block;
+            position: relative;
+            margin: 10px 10px;
+            padding-right: 150px;
+        }
+
+            .fancy-textbox-wrapper input.masked {
+            }
+
+        /* textbox */
+        input {
+            position: relative;
+            display: inline-block;
+            height: 20px;
+            max-width: 100%;
+            width: 215px;
+            padding: 10px 15px !important;
+            border: 1px solid #e5e5e5;
+            background: #fff;
+            color: #000;
+            border: 0;
+            outline: 0;
+            font-family: "Open Sans", sans;
+            font-weight: 400;
+            -webkit-transition: all linear .2s;
+            -moz-transition: all linear .2s;
+            -o-transition: all linear .2s;
+            transition: all linear .2s;
+        }
+
+            label.label {
+                position: absolute;
+                display: inline-block;
+                padding: 6px 5px !important;
+                font-size: 14px;
+                font-weight: 400;
+                /* background: #82cff0; */
+                color: #666;
+                font-family: "Open Sans" , sans;
+                border: 0;
+                outline: 0;
+                top: 0;
+                left: 0;
+                /* text-transform: uppercase; */
+                -webkit-transition: all .3s ease-in-out;
+                -moz-transition: all .3s ease-in-out;
+                -moz-transition: all linear .3s;
+                -o-transition: all .3s ease-in-out;
+               
+            }
+
+        /**************************************
+            balloon
+        /**************************************/
+
+        .fancy-textbox-wrapper.balloon label.arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            top: 100%;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            border-top: 3px solid transparent;
+            -webkit-transition: all .3s ease-in-out;
+            -moz-transition: all .3s ease-in-out;
+            -o-transition: all .3s ease-in-out;
+            transition: all .3s ease-in-out;
+        }
+        /**********************************
+            slide up
+        /*********************************/
+        /*style the input box*/
+        .fancy-textbox-wrapper.up input {
+            /*display: inline-block;     width: 215px;     padding: 12px 0 12px 15px;     margin-top: 0px;     font-family: "Open Sans" , sans;     font-weight: 400;     color: #377D6A;     border: 0;     outline: 0;     -webkit-transition: all .3s ease-in-out;     -moz-transition: all .3s ease-in-out;     -o-transition: all .3s ease-in-out;     transition: all .3s ease-in-out;*/
+        }
+
+        .fancy-textbox-wrapper.up label {
+            /*display: inline-block;     position: absolute;     top: 0;     left: 0;     padding: 10px 15px;     text-shadow: 0 1px 0 rgba(19, 74, 70, 0.4);     background: #82cff0;        -webkit-transition: all .3s ease-in-out;     -moz-transition: all .3s ease-in-out;     -o-transition: all .3s ease-in-out;     transition: all .3s ease-in-out;     color: #fff;*/
+        }
+
+        /*general style for icons and labels*/
+        .fancy-textbox-wrapper label.icon {
+            width: 40px;
+            height: 45px;
+            padding: 0px !important;
+            margin: 0px !important;
+            line-height: 45px;
+        }
+    </style>
+
 
 
 
