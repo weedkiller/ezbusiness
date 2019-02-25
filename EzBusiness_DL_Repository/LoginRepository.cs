@@ -40,7 +40,7 @@ namespace EzBusiness_DL_Repository
 
             try
             {
-                ds = _EzBusinessHelper.ExecuteDataSet("Select user_name,Utype From Users Where user_name=N'" + LoginMaster.user_name + " 'and passwords=N'" + LoginMaster.PassW + "'");
+                ds = _EzBusinessHelper.ExecuteDataSet(" Select user_name,Utype,photpath,Empname From Users u inner join MEM001 emp on emp.EmpCode=u.EmpCode Where user_name=N'" + LoginMaster.user_name + " 'and passwords=N'" + LoginMaster.PassW + "'");
                 dt = ds.Tables[0];
                 string Login1="0" ;
                 string Utype = "";
@@ -55,7 +55,8 @@ namespace EzBusiness_DL_Repository
                     SessionListnew data = new SessionListnew();
                     data.user_name = Login1;
                     data.Utype = Utype;
-
+                    data.PhotoPath = dr["photpath"].ToString();
+                    data.EmpName = dr["Empname"].ToString();
                     data.CmpyCode = LoginMaster.CmpyCode.ToString();
                     
 
@@ -90,15 +91,15 @@ namespace EzBusiness_DL_Repository
                     HttpContext context = HttpContext.Current;
 
                     context.Session["SesDet"] = ObjList;
+                  //  context.Session["empname"]=ObjList.emp
 
                    
-
                 }
                 if (Login1 != "0")
                 {
 
                     LoginMaster.IsLogInFlag = true;
-
+                    
                     LoginMaster.ErrorMessage = "Login Successfull";                   
                 }
                 else

@@ -18,7 +18,8 @@ namespace EzBusiness_ViewModels.Models.Login
         public bool IsLogOutFlag { get; set; }
         public bool IsLogInFlag { get; set; }
         public string ErrorMessage { get; set; }
-
+        public string PhotoPath { get; set; }
+        public string EmpName { get; set; }
 
         //public List<SessionListnew> SessionListnew { get; set; }
         //public SessionListnew SessionDet { get; set; }

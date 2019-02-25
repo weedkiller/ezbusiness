@@ -26,6 +26,7 @@
     LoanApplicationReportDetails: function () {
         
         $("#displayloandetails").show();
+        var Message = "";
         var fdate = Ezsetdtpkdate($("#fnlfdatetxt").val());
         var Tdate = Ezsetdtpkdate($("#fnltdatetxt").val());
         var empCode = $("#empcodetxt").val();
@@ -37,108 +38,115 @@
             EmpCode: empCode
         }
         //
+        Message = loandata.ValidateReports(newrow);
+        if (Message == "") {
+            var fnldt = $('#LoanApplicationreport').DataTable({
 
-        var fnldt = $('#LoanApplicationreport').DataTable({
+                "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
+                "order": [[0, 'asc']],
+                "scrollX": true,
+                "language":
+                {
+                    "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
+                },
+                "dom": 'lBfrtip',
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "buttons": [
+                          'excel',
+                           {
+                               extend: 'pdfHtml5',
+                               orientation: 'landscape',
+                               pageSize: 'LEGAL'
 
-            "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
-            "order": [[0, 'asc']],
-            "scrollX": true,
-            "language":
-            {
-                "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
-            },
-            "dom": 'lBfrtip',
-            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-            "buttons": [
-                      'excel',
-                       {
-                           extend: 'pdfHtml5',
-                           orientation: 'landscape',
-                           pageSize: 'LEGAL'
+                           }
+                ],
+                //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                //    var oSettings = this.fnSettings();
+                //    $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+                //    return nRow;
+                //},
+                "processing": true,
+                "serverSide": true,
+                "ajax":
+                {
+                    "async": false,
+                    "cache": false,
+                    "type": "POST",
+                    "url": '/GetLoanApplicatnRDetails',
+                    "dataType": 'json',
+                    "data": newrow,
+                    //"contentType": "application/json; charset=utf-8",                     
+                },
+                "destroy": true,
+                "sorting": true,
+                "columns": [
+                   {
+                       "data": "SrNo",
 
+                   },
+                   { "data": "EmpCode" },
+                   { "data": "EmpName" },
+                   { "data": "PRLA001_CODE" },
+                   { "data": "LoanAmount" },
+                   { "data": "NoOfInstalments" },
+                   { "data": "Instalment" },
+                   { "data": "Deduction" },
+                   {
+                       "data": "Entry_Date",
+                       "render": function (data) {
+                           return (EzdatefrmtRes1(data));
                        }
-            ],
-            //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
-            //    var oSettings = this.fnSettings();
-            //    $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-            //    return nRow;
-            //},
-            "processing": true,
-            "serverSide": true,
-            "ajax":
-            {
-                "async": false,
-                "cache": false,
-                "type": "POST",
-                "url": '/GetLoanApplicatnRDetails',
-                "dataType": 'json',
-                "data": newrow,
-                //"contentType": "application/json; charset=utf-8",                     
-            },
-            "destroy": true,
-            "sorting": true,
-            "columns": [
-               {
-                   "data": "SrNo",
-                 
-               },
-               { "data": "EmpCode" },
-               { "data": "EmpName" },
-               { "data": "PRLA001_CODE" },
-               { "data": "LoanAmount" },
-               { "data": "NoOfInstalments" },
-               { "data": "Instalment" },
-               { "data": "Deduction" },
-               {
-                   "data": "Entry_Date",
-                   "render": function (data) {
-                       return (EzdatefrmtRes1(data));
-                   }
-               },
-               { "data": "Balance" },
-               { "data": "Remarks" },
-               { "data": "Status" },
-               { "data": "AutoDeductionYN" },
-               {
-                   "data": "DeductionStartDate",
-                   "render": function (data) {
-                       return (EzdatefrmtRes1(data));
-                   }
-               },
-                { "data": "Act_code" },
-                { "data": "LoanType" },
-                { "data": "ApprovalYN" },
-                { "data": "AppliedAmt" }
-            ]
-        });
-        //fnldt.on('order.dt search.dt', function () {
-        //    fnldt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-        //        cell.innerHTML = i + 1;
-        //        fnldt.cell(cell).invalidate('dom');
-        //    });
-        //}).draw();
-        $("select option").filter(function () {
-            
-            //may want to use $.trim in here
-            //return $(this).text() == text1;
-            if ($(this).text() == "All") {
-                var tabledata = $('#LoanApplicationreport').dataTable();
-                //Get the total rows
-                k = tabledata.fnSettings().fnRecordsTotal();
-                $(this).val(k);
-            }
-        });
+                   },
+                   { "data": "Balance" },
+                   { "data": "Remarks" },
+                   { "data": "Status" },
+                   { "data": "AutoDeductionYN" },
+                   {
+                       "data": "DeductionStartDate",
+                       "render": function (data) {
+                           return (EzdatefrmtRes1(data));
+                       }
+                   },
+                    { "data": "Act_code" },
+                    { "data": "LoanType" },
+                    { "data": "ApprovalYN" },
+                    { "data": "AppliedAmt" }
+                ]
+            });
+            //fnldt.on('order.dt search.dt', function () {
+            //    fnldt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+            //        cell.innerHTML = i + 1;
+            //        fnldt.cell(cell).invalidate('dom');
+            //    });
+            //}).draw();
+            $("select option").filter(function () {
+
+                //may want to use $.trim in here
+                //return $(this).text() == text1;
+                if ($(this).text() == "All") {
+                    var tabledata = $('#LoanApplicationreport').dataTable();
+                    //Get the total rows
+                    k = tabledata.fnSettings().fnRecordsTotal();
+                    $(this).val(k);
+                }
+            });
+        }
+        else
+        {
+            EzAlerterrtxt(Message);
+        }
     },
 
-    ValidateReports: function (fdate, Tdate) {
+    ValidateReports: function (newrow) {
+        debugger;
         var msg = "";
-        if (fdate == "") {
+        if (newrow.Fdate == "") {
             msg = "FromDate should not be empty";
         }
-        if (Tdate == "") {
+        if (newrow.Tdate == "") {
             msg = msg + ',' + " " + "ToDate should not be empty";
         }
-        if (fdate >= Tdate) {
+        if (newrow.Fdate > newrow.Tdate) {
             msg = msg + ',' + " " + "Fromdate should be greater than Todate";
         }
         return msg;

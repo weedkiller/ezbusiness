@@ -28,6 +28,7 @@ var prjreport = {
    {
       //
        $("#displayemp").show();
+       var Msg="";
        var fdate = $("#fdatetxt").val();
        var Tdate = $("#tdatetxt").val();
        var empCode = $("#empcodetxt").val();
@@ -38,25 +39,27 @@ var prjreport = {
            //Tdate: Tdate,
            EmpName: empname,
            EmpCode: empCode
-       }        
-       var empdt = $('#Projectreport').DataTable({
+       }
+       Msg = prjreport.ValidateReports(newrow)
+       if (Msg == "") {
+           var empdt = $('#Projectreport').DataTable({
                "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
-              "order": [[0, 'asc']],
+               "order": [[0, 'asc']],
                //"scrollX": true,
                "language":
                {
                    "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
                },
-               "dom": 'Blfrtip',             
+               "dom": 'Blfrtip',
                "buttons": [
                          'excel',
                             {
                                 extend: 'pdfHtml5',
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL'
-                              
+
                             }
-               ],             
+               ],
                "processing": true,
                "serverSide": true,
                //"stateSave": true,
@@ -69,12 +72,12 @@ var prjreport = {
                    "dataType": 'json',
                    "data": newrow,
                    //"contentType": "application/json; charset=utf-8",                     
-               },             
+               },
                "destroy": true,
                "sorting": true,
                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                "columns": [
-                  {"data": "Srno"},
+                  { "data": "Srno" },
                   { "data": "EmpCode" },
                   { "data": "EmpName" },
                   { "data": "ProjectCode" },
@@ -86,36 +89,38 @@ var prjreport = {
 
                ]
            });
-      
-       $("select option").filter(function () {
-          
-           //may want to use $.trim in here
-           //return $(this).text() == text1;
-           if ($(this).text() == "All") {
-               var tabledata = $('#Projectreport').dataTable();
-               //Get the total rows
-               k = tabledata.fnSettings().fnRecordsTotal();
-               $(this).val(k);
-           }         
-       });
-     
+
+           $("select option").filter(function () {
+
+               //may want to use $.trim in here
+               //return $(this).text() == text1;
+               if ($(this).text() == "All") {
+                   var tabledata = $('#Projectreport').dataTable();
+                   //Get the total rows
+                   k = tabledata.fnSettings().fnRecordsTotal();
+                   $(this).val(k);
+               }
+           });
+       }
+       else
+       {
+           EzAlerterrtxt(Msg);
+       }
     },
  
-   ValidateReports:function(fdate,Tdate)
-    {
+   ValidateReports: function (newrow) {
        var msg = "";
-       if(fdate=="")
-       {
+       if (newrow.Fdate == "") {
            msg = "FromDate should not be empty";
        }
-       if (Tdate == "") {
-           msg =msg+','+" "+"ToDate should not be empty";
+       if (newrow.Tdate == "") {
+           msg = msg + ',' + " " + "ToDate should not be empty";
        }
-       if(fdate>=Tdate)
-       {
-          msg = msg + ',' + " " + "Fromdate should be greater than Todate";
+       if (newrow.Fdate >= newrow.Tdate) {
+           msg = msg + ',' + " " + "Fromdate should be greater than Todate";
        }
        return msg;
    }
+
 }
 
