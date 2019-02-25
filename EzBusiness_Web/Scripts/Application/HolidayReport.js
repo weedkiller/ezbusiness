@@ -32,7 +32,7 @@
             HRPH001_CODE: HolidayCode
         }
         //
-
+       
         var fnldt = $('#Holidayreport').DataTable({
 
             "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],

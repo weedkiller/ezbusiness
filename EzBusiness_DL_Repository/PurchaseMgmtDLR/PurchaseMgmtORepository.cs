@@ -341,94 +341,71 @@ namespace EzBusiness_DL_Repository
         public PurchaseOrderVM SavePurchaseOrder(PurchaseOrderVM po)
         {
             int n;
-            string dtstr,dtstr1 = null;
-
-            //try
-            //{
+            string dtstr, dtstr1 = null;
+            DateTime dte;
+            ////try
+            ////{
             var counter = 1;
             if (!po.IsEditMode)
             {
-                // var pt = _materialMgmtContext.ParamTables.FirstOrDefault(m => m.Cmpycode == po.CmpyCode && m.Code.Equals(PurchaseMgmtConstants.MRHeader));
-
-                ds = _EzBusinessHelper.ExecuteDataSet("Select Nos from PARTTBL001 where CmpyCode='" + po.CmpyCode + "' and Code='" + PurchaseMgmtConstants.POHeader + "' ");
+                //    // var pt = _materialMgmtContext.ParamTables.FirstOrDefault(m => m.Cmpycode == po.CmpyCode && m.Code.Equals(PurchaseMgmtConstants.MRHeader));
                 POHeader pt = new POHeader();
+                ds = _EzBusinessHelper.ExecuteDataSet("Select Nos from PARTTBL001 where CmpyCode='" + po.CmpyCode + "' and Code='" + PurchaseMgmtConstants.POHeader + "' ");
+                
                 dt = ds.Tables[0];
                 int pno = 0;
                 foreach (DataRow dr in dt.Rows)
                 {
                     pno = Convert.ToInt16(dr["Nos"]);
                 }
-                    pt.PONumber = string.Concat(PurchaseMgmtConstants.POHeader, "-", (Convert.ToInt16(pno)).ToString().PadLeft(4, '0')).ToString();
-                    pt.CmpyCode = po.CmpyCode;
-                    pt.ResourceType = po.ResourceType;
-                // pt.Dates = po.Dates ;
+                pt.PONumber = string.Concat(PurchaseMgmtConstants.POHeader, "-", (Convert.ToInt16(pno)).ToString().PadLeft(4, '0')).ToString();
+                pt.CmpyCode = po.CmpyCode;
+                pt.ResourceType = po.ResourceType;               
+                dtstr = po.Dates.ToString() == null ? "1900/01/01" : po.Dates.ToString();
+                //DateTime dt2 = Convert.ToDateTime(po.Dates.ToString());
+                dtstr1 = po.Dates.ToString() == null ? "1900/01/01" : po.Dates.ToString();
 
-                DateTime dt1 = Convert.ToDateTime(po.Dates.ToString());
+                //pt.Description = po.Description;
+                pt.ReqtBy = po.ReqtBy;
+                pt.LocCode = po.LocCode;
+                pt.ProjectCode = po.ProjectCode;
+                pt.ApprovalYN = PurchaseMgmtConstants.ApprovalYN;
+                pt.Status = PurchaseMgmtConstants.Status;
+                pt.PreparedBy = "EASY";
+                pt.POPriority = po.POPriority;
+                pt.ResourceType = po.ResourceType;
+                pt.WONO = po.WONO;
 
-                dtstr = dt1.ToString("yyyy-MM-dd hh:mm:ss tt");
-
-                DateTime dt2 = Convert.ToDateTime(po.Dates.ToString());
-
-                dtstr1 = dt2.ToString("yyyy-MM-dd hh:mm:ss tt");
-
-                // pt.Description = po.Description;
-                    pt.ReqtBy = po.ReqtBy;
-                    pt.LocCode = po.LocCode;
-                    pt.ProjectCode = po.ProjectCode;
-                    pt.ApprovalYN = PurchaseMgmtConstants.ApprovalYN;
-                    //pt.MRFrom = PurchaseMgmtConstants.MRFrom;
-                    pt.Status = PurchaseMgmtConstants.Status;
-                    //pt.DontShowJobInList = 0;
-                    //pt.GenerateInquiry = string.Empty;
-                    //pt.IsPopUpCheckedByUser = 0;
-                    //pt.JobNo = string.Empty;
-                    pt.PreparedBy = "EASY";
-                    pt.POPriority = po.POPriority;
-                    pt.ResourceType = po.ResourceType;
-                    pt.WONO = po.WONO;
-
-                    pt.SupplierCode = po.SupplierCode;
-                    pt.CurCode = po.CurCode;
-                    pt.Status = po.Status;
-                   // pt.ExpectedDeliveryDate = po.ExpectedDeliveryDate;
-                    pt.DivisionCode = po.DivisionCode;
-                    pt.POFrom = po.POFrom;
-
+                pt.SupplierCode = po.SupplierCode;
+                pt.CurCode = po.CurCode;
+                pt.Status = po.Status;
+                // pt.ExpectedDeliveryDate = po.ExpectedDeliveryDate;
+                pt.DivisionCode = po.DivisionCode;
+                pt.POFrom = po.POFrom;
                 pt.NetAmount = po.NetAmount;
                 pt.LAmount = po.LAmount;
-
-               
-
-
-
-
                 List<PODetail> ObjList = new List<PODetail>();
-
                 ObjList.AddRange(po.PurchaseOrderDetailsnew.Select(m => new PODetail
                 {
-
                     CmpyCode = po.CmpyCode,
                     PoNumber = pt.PONumber,
                     Description = m.Description,
                     BaseUnitQty = 1,
                     BOQSno = 1,
-                    Specification = m.Specification ?? string.Empty,
+                  //  Specification = m.Specification ?? string.Empty,
                     Sno = counter++,
                     ItemCode = m.ItemCode,
                     Unit = m.Unit,
                     LocCode = pt.LocCode,
-                    AnalysisCode =string.Empty,
-                    Asses_Amt =0,
-                    AvgCost =0,
-                    BaseDamage =0,
-                    BaseOrder =0,
-                    BaseReceived =0,                    
-                    BoxOrdered =0,                    
-                    CostCode =string.Empty,
-                    Cust_Item_Code = string.Empty,
-                    Cust_Item_Name = string.Empty,                    
-                    Discount = m.DiscAmt.Value,
-                    DiscountP = m.Discper.Value,
+                   // AnalysisCode = string.Empty,
+                    Asses_Amt = 0,
+                    AvgCost = 0,
+                    BaseDamage = 0,
+                    BaseOrder = 0,
+                    BaseReceived = 0,
+                    BoxOrdered = 0,                  
+                   //// Discount = m.DiscAmt.Value,
+                  // // DiscountP = m.Discper.Value,
                     Ex_Duty_Amt = 0,
                     Ex_Duty_Per = 0,
                     Ex_Ed_Cess_Amt = 0,
@@ -440,10 +417,10 @@ namespace EzBusiness_DL_Repository
                     IncludingVAT = 0,
                     InqNumber = string.Empty,
                     InvItemSno = counter++,
-                    ItemActualCost = m.ItemPriceTotal.Value,                    
+                    ItemActualCost = m.ItemPriceTotal.Value,
                     ItemSno = counter++,
                     ItemTotal = m.ItemPriceTotal.Value,
-                    LNetAmount = m.NetAmt.Value,                    
+                    LNetAmount = m.NetAmt.Value,
                     NetAmount = m.NetAmt.Value,
                     NetAmountWithTax = 0,
                     NetPurchase = m.NetAmt.Value,
@@ -452,10 +429,10 @@ namespace EzBusiness_DL_Repository
                     OnOrderDiscPerc = 0,
                     Other_Amt = 0,
                     Other_Per = 0,
-                    OverBudget =0,
+                    OverBudget = 0,
                     PackageSno = 0,
                     Packing = string.Empty,
-                    PerformaInvNo = string.Empty,                    
+                    PerformaInvNo = string.Empty,
                     PoQtyAdd = 0,
                     PoQtyShort = 0,
                     ProcessCode = string.Empty,
@@ -475,19 +452,19 @@ namespace EzBusiness_DL_Repository
                     Ser_Ed_Cess_Amt = 0,
                     Ser_Ed_Cess_Per = 0,
                     Ser_H_Ed_Cess_Amt = 0,
-                    Ser_H_Ed_Cess_Per = 0,                                       
+                    Ser_H_Ed_Cess_Per = 0,
                     Tax_Amt = 0,
                     Tax_per = 0,
                     Taxable_Amt = 0,
-                    TaxAmount = 0,                    
+                    TaxAmount = 0,
                     UnitPrice = m.ItemPrice.Value,
                     VATAmount = 0,
-                    VATPerc =0,
+                    VATPerc = 0,
                     WoNumber = string.Empty
 
                 }).ToList());
 
-                StringBuilder sb = new StringBuilder();
+                    StringBuilder sb = new StringBuilder();
                 sb.Append("(CmpyCode,");
                 sb.Append("PONumber,");
                 sb.Append("LocCode,");
