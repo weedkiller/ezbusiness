@@ -31,7 +31,7 @@
                 $("#SMAListContainer").html(response);
             });
             $('#DateINMonth').on('dp.change', function (event) {
-                debugger;
+               
                 dt = $("#DateINMonth").val();
                 currdat = $("#DateINMonth").val();
                 dt = dt + "-" + '01';
@@ -48,7 +48,7 @@
                    // Code=$("#Code").val()
                 //}
                     $.get("GetTimeSheetDetailsByMonth",{CurrentDate:CurrentDate}).done(function (obj) {
-                        debugger;
+                       
                         var arr = [];
                         arr = obj;
                         if (arr.data.length > 0) {
@@ -65,77 +65,95 @@
                     else {
                         $('#empContaint').hide();
                         $('#salrcontainer').show();
-
-                        var newrow=
-                            {
-                              CurrentDate: currmonthyear,
-                              Code:$("#Code").val()
+                        debugger;
+                        $.get("CheckslryDataCalculated", { CurrentDate: CurrentDate }).done(function (obj) {
+                            debugger;
+                            if (obj.data == true) {
+                                EzAlerterrtxt("This Month Of Salary Alredy Calculated");
                             }
-                        var t = $('#tableslryDetails').DataTable({
-                            "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
-                            "order": [[1, 'asc']],
-                            "scrollX": true,
-                            "language":
-                            {
-                                "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
-                            },
-                            "dom": 'lBfrtip',
-                            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                            "buttons": [
-                                      'excel',
-                                      'pdf'
-                            ],
-                            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                                var oSettings = this.fnSettings();
-                                $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-                                return nRow;
-                            },
-                            "processing": true,
-                            "serverSide": true,
-                            "ajax":
-                            {
-                                "async": false,
-                                "cache": false,
-                                "type": "POST",
-                                "url": '/GetCalculatedSalary',
-                                "dataType": "json",
-                                "data": newrow,                     
-                            },
-                            "destroy": true,
-                            "columns": [
-                                 { "data": null },
-                               { "data": "EmpCode" },
-                               { "data": "EmpName" },
-                               { "data": "WorkingDay" },
-                               { "data": "Present" },
-                               { "data": "Leaves" },
-                               { "data": "Absent" },
-                               { "data": "SickLeaves" },
-                               { "data": "WeeklyOff" },
-                               { "data": "Holiday" },
-                               { "data": "NormalOTHrs" },
-                               { "data": "HolidayOTHrs" },
-                               { "data": "WeeklyOffOTHrs" },
-                               { "data": "ExtraOTHrs" },
-                               { "data": "Salary" },
-                               { "data": "MonthlyAddition" },
-                               { "data": "TotalDeduction" },
-                               { "data": "LoanDeduction" },
-                               { "data": "TotalEarning" },
-                               { "data": "NetSalary" },
+                            else {
+                                var newrow =
+                                   {
+                                       CurrentDate: currmonthyear,
+                                       Code: $("#Code").val()
+                                   }
+                                var t = $('#tableslryDetails').DataTable({
+                                    "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
+                                    "order": [[1, 'asc']],
+                                    "scrollX": true,
+                                    "language":
+                                    {
+                                        "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
+                                    },
+                                    "dom": 'lBfrtip',
+                                    "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                                    "buttons": [
+                                              'excel',
+                                              'pdf'
+                                    ],
+                                    "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                                        var oSettings = this.fnSettings();
+                                        $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+                                        return nRow;
+                                    },
+                                    "processing": true,
+                                    "serverSide": true,
+                                    "ajax":
+                                    {
+                                        "async": false,
+                                        "cache": false,
+                                        "type": "POST",
+                                        "url": '/GetCalculatedSalary',
+                                        "dataType": "json",
+                                        "data": newrow,
+                                    },
+                                    "destroy": true,
+                                    "columns": [
+                                         { "data": null },
+                                       { "data": "EmpCode" },
+                                       { "data": "EmpName" },
+                                       { "data": "ProjectCode" },
+                                       { "data": "WorkingDay" },
+                                       { "data": "Present" },
+                                       { "data": "Leaves" },
+                                       { "data": "Absent" },
+                                       { "data": "SickLeaves" },
+                                       { "data": "WeeklyOff" },
+                                       { "data": "Holiday" },
+                                       { "data": "NormalOTHrs" },
+                                       { "data": "HolidayOTHrs" },
+                                       { "data": "WeeklyOffOTHrs" },
+                                       { "data": "ExtraOTHrs" },
+                                       { "data": "Salary" },
+                                       { "data": "MonthlyAddition" },
+                                       { "data": "TotalDeduction" },
+                                       { "data": "LoanDeduction" },
+                                       { "data": "TotalEarning" },
+                                       { "data": "NetSalary" },
+                                    ]
+                                });
 
+                                $("select option").filter(function () {
 
-                            ]
+                                    //may want to use $.trim in here
+                                    //return $(this).text() == text1;
+                                    if ($(this).text() == "All") {
+                                        var tabledata = $('#tableslryDetails').dataTable();
+                                        //Get the total rows
+                                        k = tabledata.fnSettings().fnRecordsTotal();
+                                        $(this).val(k);
+                                    }
+                                });
+                            }
                         });
-                        t.on('order.dt search.dt', function () {
-                            t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-                                cell.innerHTML = i + 1;
-                            });
-                        }).draw();
-                    }
-                });
-         
+                      }
+                });         
             });
+
+            function GetSryData()
+            {
+                
+            }
         });
         
         
@@ -148,6 +166,10 @@
             else {
                 jq('#tableslryDetails tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
             }
+        });
+
+        $(".datepicker").on("dp.show", function (e) {
+            $(e.target).data("DateTimePicker").viewMode("months");
         });
 
 </script>
@@ -220,6 +242,7 @@
                                             @*<th></th>*@
                                             <th>Emp_Code</th>
                                             <th>Employee Name</th>
+                                            <th>ProjectCode</th>
                                             <th>Working Days</th>
                                             <th>Present</th>
                                             <th>Absent</th>

@@ -23,7 +23,7 @@ var Empreport = {
        })
         $("#fnlbtnSearchData").click(function () {
           // alert("");
-         // debugger;
+         //
            Empreport.FinalReportDetails();
         })
         $("#btncancel").click(function () {
@@ -41,10 +41,12 @@ var Empreport = {
    },
    EmpReportDetails: function ()
    {
-      // debugger;
+       //
+       debugger;
+       var msg = "";
        $("#displayemp").show();
-       var fdate = $("#fdatetxt").val();
-       var Tdate = $("#tdatetxt").val();
+       var fdate =Ezsetdtpkdate($("#fdatetxt").val());
+       var Tdate =Ezsetdtpkdate($("#tdatetxt").val());
        var empCode = $("#empcodetxt").val();
        var empname = $("#empnametxt").val();
        var i = 0;
@@ -54,24 +56,25 @@ var Empreport = {
            EmpName: empname,
            EmpCode: empCode
        }
-        
+       msg = Empreport.ValidateReports(newrow)
+       if (msg=="") {
            var empdt = $('#Employeereport').DataTable({
                "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
-              "order": [[0, 'asc']],
+               "order": [[0, 'asc']],
                "scrollX": true,
                "language":
                {
                    "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
                },
                "dom": 'Blfrtip',
-             
+
                "buttons": [
                          'excel',
                             {
                                 extend: 'pdfHtml5',
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL'
-                              
+
                             }
                ],
                //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
@@ -91,64 +94,72 @@ var Empreport = {
                    "dataType": 'json',
                    "data": newrow,
                    //"contentType": "application/json; charset=utf-8",                     
-               },             
+               },
                "destroy": true,
                "sorting": true,
                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
                "columns": [
                     {
                         "data": "SrNo",
-                        
+
                     },
                   { "data": "EmpCode" },
                   { "data": "Empname" },
-                  { "data": "EmpType" },                 
+                  { "data": "EmpType" },
                   { "data": "EMail" },
                   {
-                       "data": "JoiningDate",
-                       "render": function (data) {
-                           return (EzdatefrmtRes1(data));
-                       }
+                      "data": "JoiningDate",
+                      "render": function (data) {
+                          return (EzdatefrmtRes1(data));
+                      }
 
-                   },
+                  },
                   { "data": "ContactNo" },
                   { "data": "Nationality" },
-                  { "data": "DOB",
-                   "render": function (data) {
-                       return (EzdatefrmtRes1(data));
-                      }},
+                  {
+                      "data": "DOB",
+                      "render": function (data) {
+                          return (EzdatefrmtRes1(data));
+                      }
+                  },
                   { "data": "ReportingEmp" },
                   { "data": "BloodGroup" },
                   { "data": "LanguageKnown" },
 
                ]
            });
-       //empdt.on('order.dt search.dt', function () {
-       //    debugger;
-       //        empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-       //            cell.innerHTML = i + 1;
-       //             empdt.cell(cell).invalidate('dom');
-       //        });
-       //    }).draw();
+           empdt.on('order.dt search.dt', function () {
 
-       $("select option").filter(function () {
-           debugger;
-           //may want to use $.trim in here
-           //return $(this).text() == text1;
-           if ($(this).text() == "All") {
-               var tabledata = $('#Employeereport').dataTable();
-               //Get the total rows
-               k = tabledata.fnSettings().fnRecordsTotal();
-               $(this).val(k);
-           }         
-       });
-     
-    },
+               empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                   cell.innerHTML = i + 1;
+                   empdt.cell(cell).invalidate('dom');
+               });
+           }).draw();
+
+           $("select option").filter(function () {
+
+               //may want to use $.trim in here
+               //return $(this).text() == text1;
+               if ($(this).text() == "All") {
+                   var tabledata = $('#Employeereport').dataTable();
+                   //Get the total rows
+                   k = tabledata.fnSettings().fnRecordsTotal();
+                   $(this).val(k);
+               }
+           });
+
+       }
+       else
+       {
+           EzAlerterrtxt(msg)
+       }
+   },
    FinalReportDetails: function ()
    {
        
-       debugger;
+       
        $("#displayfinalsettlment").show();
+       var msg="";
        var fdate = Ezsetdtpkdate($("#fnlfdatetxt").val());
        var Tdate = Ezsetdtpkdate($("#fnltdatetxt").val());
        var empCode = $("#empcodetxt").val();
@@ -159,8 +170,8 @@ var Empreport = {
            EmpName: empname,
            EmpCode: empCode
        }
-       debugger;
-     
+       msg = Empreport.ValidateReports(newrow)
+       if (msg == "") {
            var fnldt = $('#finalsettlmentreport').DataTable({
 
                "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
@@ -252,22 +263,38 @@ var Empreport = {
            //        fnldt.cell(cell).invalidate('dom');
            //    });
            //}).draw();
-     
+           $("select option").filter(function () {
+
+               //may want to use $.trim in here
+               //return $(this).text() == text1;
+               if ($(this).text() == "All") {
+                   var tabledata = $('#finalsettlmentreport').dataTable();
+                   //Get the total rows
+                   k = tabledata.fnSettings().fnRecordsTotal();
+                   $(this).val(k);
+               }
+           });
+
+       }
+       else
+       {
+           EzAlerterrtxt(msg);
+       }
     },
 
-   ValidateReports:function(fdate,Tdate)
+   ValidateReports: function (newrow)
     {
        var msg = "";
-       if(fdate=="")
+       if (newrow .Fdate== "")
        {
            msg = "FromDate should not be empty";
        }
-       if (Tdate == "") {
+       if (newrow.Tdate == "") {
            msg =msg+','+" "+"ToDate should not be empty";
        }
-       if(fdate>=Tdate)
+       if (newrow.Fdate > newrow.Tdate)
        {
-          msg = msg + ',' + " " + "Fromdate should be greater than Todate";
+          msg = msg + ',' + " " + "Todate should be greater than Fromdate";
        }
        return msg;
    }

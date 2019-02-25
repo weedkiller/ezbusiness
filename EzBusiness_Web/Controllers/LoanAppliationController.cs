@@ -14,9 +14,12 @@ namespace EzBusiness_Web.Controllers
     {
         ILoanAppPayrollService _LAPService;
 
+        ISalaryprocCondService _SalProCond;
+
         public LoanAppliationController()
         {
             _LAPService = new LoanAppPayrollService();
+            _SalProCond = new SalaryprocCondService();
 
         }
 
@@ -82,6 +85,9 @@ namespace EzBusiness_Web.Controllers
         [Route("SaveLoanAppliation")]
         public ActionResult SaveLoanAppliation(LoanAppliationVM LoanApp)
         {
+
+            
+
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {

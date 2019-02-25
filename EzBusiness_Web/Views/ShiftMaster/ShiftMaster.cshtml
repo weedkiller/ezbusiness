@@ -14,6 +14,7 @@
 
         EzAuthentication("/ShiftMaster");
         //EzsetDatetxt();
+        Ezdteformtcurtime();
         EzdtePk('#datepicker,#datepicker1');
         var lvHtml = $("#POContainer").html();
         $("#POListContainer1").hide();
@@ -30,10 +31,7 @@
                 $("#POContainer").html(response);
             });
             $(this).prop("disabled", true);
-            //$("#btnEdit").prop("disabled", true);
-            //$("#btnDelete").prop("disabled", true);
-            //$("#hdnOperationMode").val("Add");
-            //$("#btnSave").prop("disabled", false);
+          
             EzbtnNewAc();
             $("#POListContainer1").hide();
             }
@@ -45,11 +43,9 @@
         $("#btnEdit").click(function () {
             var n = EzAuthenticationBtn("/ShiftMaster", "ViewIt");
             if (n == 1) {
-                debugger;
+               
                 $(this).prop("disabled", true);
-                //$("#btnNew").prop("disabled", true);            
-                //$("#hdnOperationMode").val("Edit");
-                //$("#btnSave").prop("disabled", false);
+              
                 EzbtnEditAc();
                 $("#POContainer").html();
                 $("#POListContainer1").show();
@@ -60,14 +56,10 @@
 
        
         $("#btnCancel").click(function () {
-            $("#POContainer").html(lvHtml);
-            //$("#btnNew").prop("disabled", false);
-            //$("#btnEdit").prop("disabled", false);
-            //$("#btnDelete").prop("disabled", true);
-            //$("#hdnOperationMode").val("");
-            //$("#btnSave").prop("disabled", true);
-            EzsetDatetxt();
+            $("#POContainer").html(lvHtml);            
+            EzdtePk('#datepicker,#datepicker1');
             EzbtnCancelAc();
+            Ezdteformtcurtime();
             $("#POListContainer1").hide();
             $("#editshow").hide();
         });
@@ -122,25 +114,13 @@
                 })
                 $("#editshow").hide();
             }
-            //    if (confirm("Are you Sure?")) {
-            //        var PRSR001_CODE = $("[name*='PRSFT001_code']").val();
-            //        $.getJSON("/DeleteShift", { PRSFT001_code: PRSR001_CODE }).done(function (data) {
-            //            if (data.DeleteFlag) {
-            //                GetLeaveList();
-            //                $("#btnCancel").trigger("click");
-            //            } else {
-
-            //                Ezerrormsg("#ErrorMessage", "Unable to Delete");
-            //            }
-            //        });
-            //    }
-            //}
+           
         });
 
         $("#btnSave").click(function () {
             var n = EzAuthenticationBtn("/ShiftMaster", "EditIt");
             $("#editshow").hide();
-            debugger;
+           
             var opMode = $("#hdnOperationMode").val();
             if (opMode == "Add") {
                 // Code for Adding Purchase order
@@ -186,24 +166,19 @@
                 if (validationResult.formValid) {
                     $.post("/SaveShift", Sft).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            //$("#POContainer").html("<div class='row'><div class='col-lg-12 col-sm-12'><div class='alert alert-danger'><strong>Saved Successfully</strong></div></div></div>");
-                            //$("#btnEdit").prop("disabled", false);
-                            //$("#btnDelete").prop("disabled", true);
-                            //$("#btnNew").prop("disabled", false);
-                            //$("#btnSave").prop("disabled", true);
-                            //$("#hdnOperationMode").val("");
+                            
                             EzbtnsaveAc("#POContainer");
                             GetLeaveList();
                         } else {
-                            //$("#ErrorMessage").show().find("strong").text(response.ErrorMessage);
-                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            
+                            EzAlerterrtxt(response.ErrorMessage);
                         }
                     });
 
                 } else {
-                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
-                    //$("#ErrorMessage").show();
-                    //$("#ErrorMessage").find("strong").text(validationResult.ErrorMessage);
+                    
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                    
                 }
             } else if (opMode == "Edit" && n == 1) {
                 // Code for Adding Purchase order
@@ -250,25 +225,16 @@
                 var validationResult = ValidateForm(Sft);
                 if (validationResult.formValid) {
                     $.post("/SaveShift", Sft).done(function (response) {
-                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            //$("#POContainer").html("<div class='row'><div class='col-lg-12 col-sm-12'><div class='alert alert-danger'><strong>Saved Successfully</strong></div></div></div>");
-                            //$("#btnEdit").prop("disabled", false);
-                            //$("#btnDelete").prop("disabled", true);
-                            //$("#btnNew").prop("disabled", false);
-                            //$("#btnSave").prop("disabled", true);
-                            //$("#hdnOperationMode").val("");
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {                           
                             EzbtnsaveAc("#POContainer");
                             GetLeaveList();
-                        } else {
-                            // $("#ErrorMessage").show().find("strong").text(response.ErrorMessage);
-                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                        } else {                         
+                            EzAlerterrtxt(response.ErrorMessage);
                         }
                     });
 
-                } else {
-                    //$("#ErrorMessage").show();
-                    //$("#ErrorMessage").find("strong").text(validationResult.ErrorMessage);
-                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                } else {                 
+                    EzAlerterrtxt(validationResult.ErrorMessage);
                 }
             }
 
@@ -276,7 +242,7 @@
         });
 
         function ValidateForm(Sft) {
-            debugger;
+           
             var response = {
                 ErrorMessage: "",
                 formValid: false
@@ -321,7 +287,7 @@
         var jq1 = $.noConflict(true);
 
         jq1(document).on("click", "#POList tbody tr", function () {
-            debugger;
+           
             var operationMode = jq1("#hdnOperationMode").val();
             if (operationMode == "Edit") {
                 jq1("#POList > tbody").children().removeClass("active");
@@ -481,7 +447,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label col-md-4">Start Time</label>
                                                             <div class="col-md-8 input-field">
-                                                                <input type="text" class="form-control" name="" required placeholder="" />
+                                                                <input type="text" class="form-control time1" name="" required placeholder="" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -489,7 +455,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label col-md-4">End Time</label>
                                                             <div class="col-md-8 input-field">
-                                                                <input type="text" class="form-control" name="" required placeholder="" />
+                                                                <input type="text" class="form-control time1" name="" required placeholder="" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -516,7 +482,7 @@
                                                                     <table class="table table-bordered table-sm" id="tablePODetails">
                                                                         <tbody>
                                                                             <tr>
-                                                                                <th>Sr No</th>
+                                                                                @*<th>Sr No</th>*@
                                                                                 <th>Shift Allocation Code</th>
                                                                                 <th>Entry Date</th>
                                                                                 <th>Effective Date</th>
@@ -524,9 +490,9 @@
                                                                             </tr>
 
                                                                             <tr>
-                                                                                <td>
+                                                                                @*<td>
                                                                                     1
-                                                                                </td>
+                                                                                </td>*@
                                                                                 <td>
 
                                                                                     <input type="text" class="grid-control contro" name="" required placeholder="" maxlength="50" />

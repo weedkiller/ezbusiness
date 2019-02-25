@@ -139,7 +139,6 @@ namespace EzBusiness_DL_Repository
                 if (!LoanApp.EditFlag)
                 {
 
-
                     int Empbn1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRLA001 where CmpyCode='" + LoanApp.CmpyCode + "' and PRLA001_CODE='" + LoanApp.PRLA001_CODE + "'");
                     if (Empbn1 == 0)
                     {
@@ -171,18 +170,12 @@ namespace EzBusiness_DL_Repository
                         if (flag == true)
                             LoanApp.SaveFlag = true;                       
                             LoanApp.ErrorMessage = string.Empty;
-
                     }
                     else
                     {
-
-
                         LoanApp.SaveFlag = false;
                         LoanApp.ErrorMessage = "Duplicate Record";
                     }
-                    //    n = n - 1;
-                    //}
-
                     return LoanApp;
                 }
                 int P = _EzBusinessHelper.ExecuteScalar("select count(*) from PRLA002 where CmpyCode='" + LoanApp.CmpyCode + "' and PRLA001_CODE='" + LoanApp.PRLA001_CODE + "' and Paid='Y'");

@@ -15,9 +15,6 @@
 <script>
     $(function () {
        // EzsetDatetxt();
-        
-
-      
         counter = 1;
         drec = [];
         /* delete grid record */
@@ -30,6 +27,7 @@
         EzGriddel("#tablePODetails", "[name*='btnDelete']");
 
         /* Add new row & find duplicate data in table  */
+        var counter = $("#counter").val();
         $("#tablePODetails").on("change", "[name*='PRSFT002_code']", function () {
             tbldtpicker();
             $(".datepicker").datetimepicker("destroy");
@@ -61,13 +59,11 @@
                 var dr = tr.find("[name *= 'PRSFT002_code']").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'PRSFT002_code']").focus();
-                alert("Already Exist Code '" + dr + "'");
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'PRSFT002_code']").val('');
-
             }
             else {
                 tr.css("background", "");
-
                 if (tr.is(":last-child")) {
                     tr.clone(true, true).insertAfter(tr);
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
@@ -85,16 +81,19 @@
                     trLast.find("[name *= 'ShiftName']").attr({
                         "name": ("ShiftName" + counter)
                     });
-
-
+                    trLast.find("[name *= 'Enttry_Date']").attr({
+                        "name": ("Enttry_Date" + counter)
+                    });
+                    trLast.find("[name *= 'Effect_Date']").attr({
+                        "name": ("Effect_Date" + counter)
+                    });
                     trLast.find(":first").text(counter);
                 }
                 counter++;
             }
         });
-
         $('body').on('focusin', '.datepicker', function () {
-            debugger;
+           
             // var myDate = new Date(2012, 2, 11);
 
             // $('#startdate').datetimepicker("setDate", myDate);
@@ -103,21 +102,52 @@
                 format: 'DD/MM/YYYY',
                 showClose: true,
                 showClear: true,
-                toolbarPlacement: 'top'
+                
+               
             });
 
         });
         EztableLstEnt("#tablePODetails", "[name*='ShiftName']", "[name *= 'PRSFT002_code']","T","");
-      
+              
+        $("#tablePODetails").on('dp.change', "[name*='Enttry_Date']", function (e) {
+           
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");                           
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val())) >= new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='Enttry_Date']").val(tr.find("[name*='Effect_Date']").val());
+                        t = true;
+                        EzAlerterrDt();
+                    }
+                    else {
+                        t = false;
+                    }               
+            }
+        });
 
+        $("#tablePODetails").on('dp.change', "[name*='Effect_Date']", function (e) {
+            debugger;
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");              
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val())) <= new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='Effect_Date']").val(tr.find("[name*='Enttry_Date']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
+
+        $('.selectpicker').selectpicker('refresh');
+        EzdtePk('#Enttry_Date1,#Effect_Date1');       
+        Ezdteformtcurtime();
+        $(".datepicker").datetimepicker("destroy");
     });
 
-    $('.selectpicker').selectpicker('refresh');
-   
-    EzdtePk('#Enttry_Date1,#Effect_Date1');
-    $(".datepicker").datetimepicker("destroy");
-    </script>
-    
+    </script>   
     <!-- Row start -->
   <div class="form-horizontal">
     <div class="form-body">
@@ -145,9 +175,7 @@
 
 
         </div>
-
         <div class="row">
-
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="control-label col-md-3">Shift Name</label>
@@ -161,7 +189,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Start Time</label>
                     <div class="col-md-9 input-field">
-                        @Html.TextBoxFor(m => m.StTime, new { @class = "form-control" ,@Type = "time" })
+                        @Html.TextBoxFor(m => m.StTime, new { @class = "form-control time1" })
                     </div>
                 </div>
             </div>
@@ -169,7 +197,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">End Time</label>
                     <div class="col-md-9 input-field">
-                        @Html.TextBoxFor(m => m.EdTime, new { @class = "form-control" ,@Type = "time" })
+                        @Html.TextBoxFor(m => m.EdTime, new { @class = "form-control time1" })
                     </div>
                 </div>
             </div>
@@ -193,7 +221,7 @@
                             <table class="table table-bordered table-sm" id="tablePODetails">
                                 <thead>
                                     <tr>
-                                        <th>Sr No</th>
+                                        @*<th>Sr No</th>*@
                                         <th>Shift Allocation Code</th>
                                         <th>Entyr Date</th>
                                         <th>Effective Date</th>
@@ -203,21 +231,14 @@
                                 <tbody>
                                     <tr>
 
-                                        <td>
+                                        @*<td>
                                             <label>@counter</label>
-                                            @*@Html.Label(counter.ToString())*@
+                                            @Html.Label(counter.ToString())
 
-                                        </td>
+                                        </td>*@
                                         <td>
                                             <div class="grid-group">
                                                 @Html.TextBox(string.Concat("PRSFT002_code", counter), null, new { @class = "grid-control", @placeholder = "Code" })
-                                            </div>
-
-                                        </td>
-                                        <td>
-
-                                            <div class="grid-group">
-                                                @Html.TextBox(string.Concat("Effect_Date", counter), "", "", new { @class = "grid-control datepicker" })
                                             </div>
 
                                         </td>
@@ -228,6 +249,14 @@
                                             </div>
 
                                         </td>
+                                        <td>
+
+                                            <div class="grid-group">
+                                                @Html.TextBox(string.Concat("Effect_Date", counter), "", "", new { @class = "grid-control datepicker" })
+                                            </div>
+
+                                        </td>
+                                       
                                         <td>
                                             @Html.DropDownList(string.Concat("SelectAproved", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "Y" }, new SelectListItem { Text = "NO", Value = "N" }, }, new { @class = "grid-control" })
                                             @*<select name="" id="SelectAproved" class="grid-control">
@@ -240,6 +269,8 @@
                                 </tbody>
 
                             </table>
+
+                            @Html.Hidden("counter", (++counter))
                         </div>
                     </div><br />
                     

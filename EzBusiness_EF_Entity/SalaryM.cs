@@ -43,6 +43,7 @@ namespace EzBusiness_EF_Entity
         public decimal? ALLOWANCE3 { get; set; }
         public string ALLOWANCE3CAPTION { get; set; }
         public string ALLOWANCE3ACT { get; set; }
+        public string EmpName { get; set;}
         public decimal? TOTAL { get; set; }
 
        

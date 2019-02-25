@@ -160,6 +160,39 @@ namespace EzBusiness_DL_Repository
             }          
             return numrows.Value;
         }
+
+        public decimal ExecuteScalarDec(string sqlCommandText, SqlParameter[] p)
+        {
+            decimal numrows = 0;
+            using (SqlConnection cn = new SqlConnection(connStr))
+            {
+                cn.Open();
+                using (cmd = new SqlCommand(sqlCommandText, cn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    int k = p.Length;
+                    int j = 0;
+                    while (j < k)
+                    {
+                        cmd.Parameters.AddWithValue(p[j].ParameterName, p[j].Value);
+                        j = j + 1;
+                    }
+                    try
+                    {
+                        object o = cmd.ExecuteScalar();
+                        if (o != null)
+                        {
+                            numrows = Convert.ToDecimal(o.ToString());
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        errormsg = ex.Message;
+                    }
+                }
+            }
+            return numrows;
+        }
         public decimal ExecuteScalarDec(string sqlCommandText)
         {
             decimal numrows = 0;

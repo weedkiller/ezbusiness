@@ -29,14 +29,14 @@
         EzDisabledT(arr1);
         arr1 = [];
         $("#PRLR001_CODE").change(function () {
-            debugger;
+           
             var LCode = $("#PRLR001_CODE option:selected").val();
             if (LCode != '0')
             {
                 var lvsdte=Ezsetdtpkdate($("#Entry_Date1").val());
                 $.get("/LeaveSettlement/GetLeaveDetails", { PRLR001_CODE: LCode, lvsdte: lvsdte }).done(function (response) {                    
                     arr1 = response;
-                    debugger;
+                   
                     $('#LStartDate1').val(EzdatefrmtRes(arr1[0].LLSdate));
                     $('#LendDate1').val(EzdatefrmtRes(arr1[0].LendDate));
                     $('#JoiningDate1').val(EzdatefrmtRes(arr1[0].JoiningDate));
@@ -131,7 +131,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">Entry Date</label>
                                                         <div class="col-md-8">
-                                                            <input id="Entry_Date1" name="Entry_Date1" class="form-control datepicker" />
+                                                            <input id="Entry_Date1" name="Entry_Date1" class="form-control datepicker" disabled = "disabled"/>
                                                             @*@Html.HiddenFor(m => m.Entry_Date)*@
 
                                                         </div>

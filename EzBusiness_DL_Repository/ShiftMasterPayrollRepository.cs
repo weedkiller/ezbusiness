@@ -9,6 +9,7 @@ using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Transactions;
 
 namespace EzBusiness_DL_Repository
 {
@@ -108,31 +109,35 @@ namespace EzBusiness_DL_Repository
                 if (n != 0 && k == 0)
                 {
 
-                    _EzBusinessHelper.ExecuteNonQuery("insert into PRSFT001(PRSFT001_code,CmpyCode,country,division,ShiftName,StTime,EdTime) values('" + Sft.PRSFT001_code + "','" + Sft.CmpyCode + "','" + Sft.country + "','" + Sft.division + "','" + Sft.ShiftName + "','" + Sft.StTime + "','" + Sft.EdTime + "')");
-
-                    while (n > 0)
+                    using (TransactionScope scope = new TransactionScope())
                     {
+                        _EzBusinessHelper.ExecuteNonQuery("insert into PRSFT001(PRSFT001_code,CmpyCode,country,division,ShiftName,StTime,EdTime) values('" + Sft.PRSFT001_code + "','" + Sft.CmpyCode + "','" + Sft.country + "','" + Sft.division + "','" + Sft.ShiftName + "','" + Sft.StTime + "','" + Sft.EdTime + "')");
 
-                        dt1 = Convert.ToDateTime(ObjList[n - 1].Enttry_Date.ToString());
-                        Dst1 = dt1.ToString("yyyy-MM-dd hh:mm:ss tt");
-                        dt2 = Convert.ToDateTime(ObjList[n - 1].Effect_Date.ToString());
-                        Dst2 = dt2.ToString("yyyy-MM-dd hh:mm:ss tt");
-                        //if (ObjList[n - 1].ApprovalYN ="YES")
-                        //    Approved = "Y";
-                        //else
-                        //    Approved = "N";
+                        while (n > 0)
+                        {
+
+                            dt1 = Convert.ToDateTime(ObjList[n - 1].Enttry_Date.ToString());
+                            Dst1 = dt1.ToString("yyyy-MM-dd hh:mm:ss tt");
+                            dt2 = Convert.ToDateTime(ObjList[n - 1].Effect_Date.ToString());
+                            Dst2 = dt2.ToString("yyyy-MM-dd hh:mm:ss tt");
+                            //if (ObjList[n - 1].ApprovalYN ="YES")
+                            //    Approved = "Y";
+                            //else
+                            //    Approved = "N";
 
 
-                        _EzBusinessHelper.ExecuteNonQuery("insert into PRSFT002(PRSFT001_code,PRSFT002_code,CmpyCode,division,Enttry_Date,Effect_Date,ApprovalYN) values('" + Sft.PRSFT001_code + "','" + ObjList[n - 1].PRSFT002_code + "','" + Sft.CmpyCode + "', '" + ObjList[n - 1].division + "', '" + Dst1 + "', '" + Dst2 + "', '" + ObjList[n - 1].ApprovalYN + "')");
+                            _EzBusinessHelper.ExecuteNonQuery("insert into PRSFT002(PRSFT001_code,PRSFT002_code,CmpyCode,division,Enttry_Date,Effect_Date,ApprovalYN) values('" + Sft.PRSFT001_code + "','" + ObjList[n - 1].PRSFT002_code + "','" + Sft.CmpyCode + "', '" + ObjList[n - 1].division + "', '" + Dst1 + "', '" + Dst2 + "', '" + ObjList[n - 1].ApprovalYN + "')");
 
 
 
-                        n = n - 1;
+                            n = n - 1;
+                        }
+                        _EzBusinessHelper.ActivityLog(Sft.CmpyCode, Sft.UserName, "Add Shift  Master", Sft.PRSFT001_code, Environment.MachineName);
+                        _EzBusinessHelper.ExecuteNonQuery("UPDATE PARTTBL001 SET Nos =" + (pno + 1) + " where CmpyCode='" + Sft.CmpyCode + "' and Code='PRSFT'");
+                        Sft.SaveFlag = true;
+                        Sft.ErrorMessage = string.Empty;
+                        scope.Complete();   
                     }
-                    _EzBusinessHelper.ActivityLog(Sft.CmpyCode, Sft.UserName, "Add Shift  Master", Sft.PRSFT001_code, Environment.MachineName);
-                    _EzBusinessHelper.ExecuteNonQuery("UPDATE PARTTBL001 SET Nos ="+(pno+1)+" where CmpyCode='" + Sft.CmpyCode + "' and Code='PRSFT'");
-                    Sft.SaveFlag = true;
-                    Sft.ErrorMessage = string.Empty;
                 }
                 else
                 {
@@ -151,42 +156,46 @@ namespace EzBusiness_DL_Repository
                 {
                     string DT1, DT2;
 
-                    _EzBusinessHelper.ExecuteNonQuery("delete from PRSFT001 where CmpyCode='" + Sft.CmpyCode + "' and PRSFT001_code='" + Sft.PRSFT001_code + "'");
-                    _EzBusinessHelper.ExecuteNonQuery("delete from PRSFT002 where CmpyCode='" + Sft.CmpyCode + "' and PRSFT001_code='" + Sft.PRSFT001_code + "'");
-
-                    ShiftMaster pt = new ShiftMaster();
-                    List<ShiftAllocationH> ObjList = new List<ShiftAllocationH>();
-                    ObjList.AddRange(Sft.Shift.Select(m => new ShiftAllocationH
+                    using (TransactionScope scope1 = new TransactionScope())
                     {
-                        PRSFT001_code = m.PRSFT001_code,
-                        PRSFT002_code = m.PRSFT002_code,
-                        CmpyCode = m.CmpyCode,
-                        ApprovalYN = m.ApprovalYN,
-                        division = m.division,
-                        Effect_Date = m.Effect_Date,
-                        Enttry_Date = m.Enttry_Date
+                        _EzBusinessHelper.ExecuteNonQuery("delete from PRSFT001 where CmpyCode='" + Sft.CmpyCode + "' and PRSFT001_code='" + Sft.PRSFT001_code + "'");
+                        _EzBusinessHelper.ExecuteNonQuery("delete from PRSFT002 where CmpyCode='" + Sft.CmpyCode + "' and PRSFT001_code='" + Sft.PRSFT001_code + "'");
 
-                    }).ToList());
+                        ShiftMaster pt = new ShiftMaster();
+                        List<ShiftAllocationH> ObjList = new List<ShiftAllocationH>();
+                        ObjList.AddRange(Sft.Shift.Select(m => new ShiftAllocationH
+                        {
+                            PRSFT001_code = m.PRSFT001_code,
+                            PRSFT002_code = m.PRSFT002_code,
+                            CmpyCode = m.CmpyCode,
+                            ApprovalYN = m.ApprovalYN,
+                            division = m.division,
+                            Effect_Date = m.Effect_Date,
+                            Enttry_Date = m.Enttry_Date
 
-                    _EzBusinessHelper.ExecuteNonQuery("insert into PRSFT001(PRSFT001_code,CmpyCode,country,division,ShiftName,StTime,EdTime) values('" + Sft.PRSFT001_code + "','" + Sft.CmpyCode + "','" + Sft.country + "','" + Sft.division + "','" + Sft.ShiftName + "','" + Sft.StTime + "','" + Sft.EdTime + "')");
-                    n = ObjList.Count;
+                        }).ToList());
+
+                        _EzBusinessHelper.ExecuteNonQuery("insert into PRSFT001(PRSFT001_code,CmpyCode,country,division,ShiftName,StTime,EdTime) values('" + Sft.PRSFT001_code + "','" + Sft.CmpyCode + "','" + Sft.country + "','" + Sft.division + "','" + Sft.ShiftName + "','" + Sft.StTime + "','" + Sft.EdTime + "')");
+                        n = ObjList.Count;
 
 
-                    while (n > 0)
-                    {
-                        dt1 = Convert.ToDateTime(ObjList[n - 1].Enttry_Date.ToString());
-                        Dst1 = dt1.ToString("yyyy-MM-dd hh:mm:ss tt");
-                        dt2 = Convert.ToDateTime(ObjList[n - 1].Effect_Date.ToString());
-                        Dst2 = dt2.ToString("yyyy-MM-dd hh:mm:ss tt");
+                        while (n > 0)
+                        {
+                            dt1 = Convert.ToDateTime(ObjList[n - 1].Enttry_Date.ToString());
+                            Dst1 = dt1.ToString("yyyy-MM-dd hh:mm:ss tt");
+                            dt2 = Convert.ToDateTime(ObjList[n - 1].Effect_Date.ToString());
+                            Dst2 = dt2.ToString("yyyy-MM-dd hh:mm:ss tt");
 
-                        _EzBusinessHelper.ExecuteNonQuery("insert into PRSFT002(PRSFT001_code,PRSFT002_code,CmpyCode,division,Enttry_Date,Effect_Date,ApprovalYN) values('" + Sft.PRSFT001_code + "','" + ObjList[n - 1].PRSFT002_code + "','" + Sft.CmpyCode + "', '" + ObjList[n - 1].division + "', '" + Dst1 + "', '" + Dst2 + "', '" + ObjList[n - 1].ApprovalYN + "')");
-                        n = n - 1;
+                            _EzBusinessHelper.ExecuteNonQuery("insert into PRSFT002(PRSFT001_code,PRSFT002_code,CmpyCode,division,Enttry_Date,Effect_Date,ApprovalYN) values('" + Sft.PRSFT001_code + "','" + ObjList[n - 1].PRSFT002_code + "','" + Sft.CmpyCode + "', '" + ObjList[n - 1].division + "', '" + Dst1 + "', '" + Dst2 + "', '" + ObjList[n - 1].ApprovalYN + "')");
+                            n = n - 1;
+                        }
+
+                        _EzBusinessHelper.ActivityLog(Sft.CmpyCode, Sft.UserName, "Update Shift  Master", Sft.PRSFT001_code, Environment.MachineName);
+                        Sft.SaveFlag = true;
+                        Sft.ErrorMessage = string.Empty;
+
+                        scope1.Complete();
                     }
-
-                    _EzBusinessHelper.ActivityLog(Sft.CmpyCode, Sft.UserName, "Update Shift  Master", Sft.PRSFT001_code, Environment.MachineName);
-                    Sft.SaveFlag = true;
-                    Sft.ErrorMessage = string.Empty;
-
                 }
                 else
                 {

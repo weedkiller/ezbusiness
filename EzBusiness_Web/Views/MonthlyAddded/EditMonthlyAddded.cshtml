@@ -12,7 +12,7 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
-        debugger;
+       
         $('.selectpicker').selectpicker('refresh');
         counter = 1;
         drec = [];
@@ -21,7 +21,7 @@
         /*Retrive Data  */
         var tablePODetails = $("#tablePODetails tbody tr");
         tablePODetails.each(function (index, item) {
-            debugger;
+           
             $("[name*='EmpCode" + (index + 1) + "']").val($("[name*='hdnEmpCode" + (index + 1) + "']").val());
             $("[name*='ADN_Amount" + (index + 1) + "']").val($("[name*='hdnADN_Amount" + (index + 1) + "']").val());
             $("[name*='ADN_Act_code" + (index + 1) + "']").val($("[name*='hdnADN_Act_code" + (index + 1) + "']").val());
@@ -34,12 +34,12 @@
         $("#tablePODetails").on("change", "[name*='EmpCode']", function () {
             var PRADN001_CODE = $("[name *= 'PRADN001_CODE']").val();
             if (PRADN001_CODE == '') {
-                alert("Please Enter PRADN001_CODE")
+                EzAlerterrtxt("Please Enter PRADN001_CODE")
                 var trLast1 = $("#tablePODetails tbody tr:last");
                 trLast1.find("[name *= 'EmpCode']").val('0')
                 end();
             }
-            debugger;
+           
             var tr = $(this).closest("tr");
             $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -52,7 +52,7 @@
                 var dr = tr.find("[name *= 'EmpCode']").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'EmpCode']").focus();
-                alert("Already Exist Code '" + dr + "'");
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'EmpCode']").val('0');
 
             }
@@ -60,7 +60,7 @@
                 tr.css("background", "");
 
                 if (tr.is(":last-child")) {
-                    debugger;
+                   
                     tr.clone(true, true).insertAfter(tr);
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                         .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
@@ -138,7 +138,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Entry_Date</label>
                                                 <div class="col-md-8 input-field">
-                                                    <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" />
+                                                    <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" disabled = "disabled"/>
                                                     @Html.HiddenFor(m => m.Entry_Date)
                                                 </div>
                                             </div>

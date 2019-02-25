@@ -33,14 +33,15 @@
                 Ezprop(abk,"disabled", false);             
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
-                Ezerrormsg("#ErrorMessage", "");
+                //Ezerrormsg("#ErrorMessage", "");
             }
         });
         var counter = $("#Counter").val();
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtPRLM001_CODE']", function () {
-            var tr = $(this).closest('tr');
             debugger;
+            var tr = $(this).closest('tr');
+           
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -55,7 +56,7 @@
                 var dr = tr.find("[name *= 'txtPRLM001_CODE']").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'txtPRLM001_CODE']").focus();
-                alert("Already Exist Code '" + dr + "'");
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'txtPRLM001_CODE']").val('');
 
             }
@@ -89,6 +90,7 @@
        
         /*Refresh */
         $("#btnCancel").click(function () {
+            debugger;
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
@@ -105,11 +107,11 @@
             abk1 = [];
             abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");           
             Ezprop(abk1, "disabled", false);           
-            Ezerrormsg("#ErrorMessage", "");
+            //Ezerrormsg("#ErrorMessage", "");
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
-            debugger;
+           
            var LoanMaster=  {
                LoanNew: []
             };
@@ -242,7 +244,7 @@
                         Act_code: unicodenameEdit,
                         EditFlag: true
                     };
-
+                    if (nameEdit != '') {
                     $.post("/Loan/SaveLons", Lons).done(function (response) {
                         nameTd.text(response.Name);
                         unicodenameTd.text(response.Act_code);                       
@@ -252,6 +254,9 @@
                         tableDis("F");
                         EzAlertUpd(hdnCode);
                     });
+                    } else {
+                        EzAlerterrtxt('Enter Valid Data');
+                    }
                     $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                         console.log(thrownError);
                     });
@@ -275,8 +280,7 @@
 
         $("#tblUnits").on("click", "[name^='Delete']", function (e, data) {
             var n = EzAuthenticationBtn("/Loan", "DeleteIt");
-            if (n == 1) {
-                debugger;
+            if (n == 1) {               
                 var tr = $(this).closest("tr");
                 var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
                 var codeTd = $(tr).find("td:eq(0)");
@@ -303,7 +307,7 @@
                             code = $(tr).find("td:eq(0)").text().trim();                          
                             $.getJSON("/DeleteLons", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    debugger;
+                                   
                                       tr.remove();                                  
                                     if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
                                         //$(".dataTables_empty").replaceWith("No data available in table");

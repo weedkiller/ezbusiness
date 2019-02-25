@@ -1,0 +1,82 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.PurchaseMgmt.PurchaseReqVM>
+
+@*<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>
+
+<script>
+    var jq = $.noConflict();
+
+    jq(document).ready(function () {
+        // Setup - add a text input to each footer cell
+        jq('#POList tfoot th').each(function () {
+            var title = jq(this).text();
+            jq(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        });
+
+        // DataTable
+        var tableInstance = jq('#POList').DataTable({
+            "paging": false,
+            "ordering": false,
+            "info": false
+        });
+
+
+        tableInstance.columns().every(function () {
+            var that = this;
+            jq('input', this.footer()).on('keydown', function (ev) {
+                if (ev.keyCode == 13) { //only on enter keypress (code 13)
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+
+
+    });
+</script>*@
+<table id="POList" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>MRCode</th>
+            <th>PODate</th>
+            <th>Description</th>
+            <th>LocationCode</th>
+            <th>ProjectCode</th>
+            <th>RequesterCode</th>
+            <th>PreparedBy</th>
+            <th>ResourceType</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var po in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnMRCode", po.MRCode)
+                    @po.MRCode
+                </td>
+                <td>
+                    @po.PODate
+                </td>
+                <td>
+                    @po.Description
+                </td>
+                <td>
+                    @po.LocationCode
+                </td>
+                <td>
+                    @po.ProjectCode
+                </td>
+                <td>
+                    @po.RequesterCode
+                </td>
+                <td>
+                    @po.PreparedBy
+                </td>
+                <td>
+                    @po.ResourceType
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -11,7 +11,7 @@ function ezValidateNumbers(tableid, ids) {
 }
 //function EZMessgDeleteBtn()
 //{
-//    debugger;
+//   
 //   // var retunresult = "";
 //    const swalWithBootstrapButtons = Swal.mixin({
 //        confirmButtonClass: 'btn btn-success',
@@ -32,7 +32,7 @@ function ezValidateNumbers(tableid, ids) {
 function EzHeadTxtvalid(ide, tbl, tblid, errmsg, typH,typ) {
    
     if ($(ide).val() == typH) {
-        alert(errmsg);
+        EzAlerterrtxt(errmsg);
         var trLast1 = $(tbl);
         trLast1.find(tblid).val(typ);
         $(ide).focus();       
@@ -56,6 +56,67 @@ function EzAuthentication(Rpath) {
         }              
     });
 }
+
+/*Salary Proceess Condition check*/
+function EzSalrProcCondiont(Empcode, dtmonthyy) {
+    debugger;
+    var a = 0;   
+    $.ajax({
+          async: false,
+          cache: false,
+          type: "POST",
+          data: "{Empcode:'"+Empcode+"',dtmonthyy:'"+dtmonthyy+"'}",
+          url: "/UserRights/CheckSalryProCond",      
+          dataType: 'Json',
+         contentType:"Application/json",
+        success: function (data) {
+            debugger;
+            if (data == true) {
+                a =1;            
+            }
+            if (a == 0) {
+                Swal.queue([{
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'Salary Process Genereted this Month. You can not Change .!',
+                    allowOutsideClick: false,
+                    showLoaderOnConfirm: true,                              
+                }])
+            }
+        }
+    });
+    return a;       
+}
+/*Salary last*/
+function EzSalrLast(Empcode, dtmonthyy,InpAmt,salmsg) {
+    debugger;
+    var a = 0;
+    $.ajax({
+        async: false,
+        cache: false,
+        type: "POST",
+        data: "{Empcode:'" + Empcode + "',dtmonthyy:'" + dtmonthyy + "',InpAmt:'" + InpAmt + "'}",
+        url: "/UserRights/GetSalryLast",
+        dataType: 'Json',
+        contentType: "Application/json",
+        success: function (data) {
+            debugger;
+            if (data == true) {
+                a = 1;
+            }
+            if (a == 0) {
+                Swal.queue([{
+                    type: 'error',
+                    title: 'Oops...',
+                    text: salmsg,
+                    allowOutsideClick: false,
+                    showLoaderOnConfirm: true,
+                }])
+            }
+        }
+    });
+    return a;
+}
 function EzAlertdele(code) {
     Swal.queue([{
         type: 'error',
@@ -70,6 +131,15 @@ function EzAlerterr() {
         type: 'error',
         title: 'Oops...',
         text: 'Enter Valid Data!',
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+    }])
+}
+function EzAlerterrDt() {
+    Swal.queue([{
+        type: 'error',
+        title: 'Oops...',
+        text: 'Enter Valid Date!',
         allowOutsideClick: false,
         showLoaderOnConfirm: true,
     }])
@@ -439,7 +509,7 @@ function EzDropTabEve(Ide, IdeSel, fIde, errmsg) {
             }
             else {
                 $(Ide).focus();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
         }
     });
@@ -455,7 +525,7 @@ function EzDropChaEve(Ide, IdeSel, fIde, errmsg) {
         }
         else {
             $(Ide).focus();
-            alert(errmsg);
+            EzAlerterrtxt(errmsg);
         }
 
     });
@@ -481,7 +551,7 @@ function EzTxttabEve(Ide, fIde, errmsg, typ) {
             else {
                 $(Ide).focus();
                 $(Ide).select();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
         }
     });
@@ -497,7 +567,7 @@ function Ezsidetbl(ide, idef, lk) {
 
         // DataTable
         var tableInstance = $(ide).DataTable({
-            "paging": false,
+            "paging": true,
             "ordering": true,
             "info": true
         });
@@ -520,14 +590,14 @@ function Ezsidetbl(ide, idef, lk) {
     });
 }
 /*tbl class date formate DD/MM/YYYY get current */
-function EzdtePk(date1) {
-    debugger;
+function EzdtePk(date1) {    
     $(date1).datetimepicker({
         defaultDate: new Date(),
         format: 'DD/MM/YYYY',
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top'
+        minDate: new Date(),       
+       
     });
 }
 /*tbl class date formate DD/MM/YYYY get input */
@@ -537,7 +607,20 @@ function tbldtpicker() {
         format: 'DD/MM/YYYY',
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top'
+        minDate: new Date(),
+       
+    });
+}
+
+
+function tbldtpickerEdit(dtval) {
+    $('.datepicker').datetimepicker({
+        // defaultDate: new Date(),
+        format: 'DD/MM/YYYY',
+        showClose: true,
+        showClear: true,
+       // minDate: new Date($(dtval).val()),
+       
     });
 }
 /*tbl date formate yyyy  */
@@ -546,7 +629,8 @@ function tbldtpickerYY() {
         format: 'YYYY',
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top'
+        minDate: new Date(),
+        
     });
 }
 
@@ -558,10 +642,40 @@ function Ezdteformtcur(date1,frmt) {
         format: frmt,
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top',
-
+        minDate: new Date(),       
     });
 }
+function EzdteformtcurRep(date1, frmt) {
+    $(date1).datetimepicker({
+        defaultDate: new Date(),
+        format: frmt,
+        showClose: true,
+        showClear: true,
+        maxDate: new Date(),
+    });
+}
+
+function EzdteformtDOB(date1, frmt) {
+    $(date1).datetimepicker({
+        defaultDate: new Date(),
+        format: frmt,
+        showClose: true,
+        showClear: true,
+        maxDate: new Date(),
+    });
+}
+
+function Ezdteformtcurtime() {
+    $('.time1').datetimepicker({
+        defaultDate: new Date(),
+        format: 'LT',
+        showClose: true,
+        showClear: true,
+        
+    });
+}
+
+
 /*tbl date formate yyyy  */
 /* DD/MM/YYYY , YYYY , MMMM-YYYY  */
 //function tbldtpicker(date1, frmt) {
@@ -580,7 +694,12 @@ function EzdtePkEdit(date1, dtval, frmt) {
         format: frmt,
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top'
+        minDate: new Date($(dtval).val()),
+        //toolbarPlacement: 'top'
+         //widgetPositioning: {
+         //           horizontal: 'right',
+         //           vertical: 'top'
+         //       }
     });
 }
 
@@ -591,8 +710,7 @@ function EzdtePkMMyy(date1) {
         format: 'MMMM-YYYY',        
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top',
-
+       
     });
 }
 /* date formate yyyy get current date */
@@ -602,7 +720,8 @@ function EzdtePkyyyy(date1) {
         format: 'YYYY',
         showClose: true,
         showClear: true,
-        toolbarPlacement: 'top',
+        maxDate: new Date(),
+       
 
     });
 }
@@ -612,8 +731,7 @@ function EzdtePkMMyyEdit(date1, dtval) {
         defaultDate: new Date($(dtval).val()),
         format: 'MMMM-YYYY',
         showClose: true,
-        showClear: true,
-        toolbarPlacement: 'top'
+        showClear: true,              
     });
 }
 /* date formate DD/MM/yyyy get input date */
@@ -628,7 +746,7 @@ function EzdtePkMMyyEdit(date1, dtval) {
 //}
 /* date formate dd/MM/yyyy set Table*/
 function EzdteTblPkEdit(dtval) {
-    debugger;
+    
     var now = new Date(dtval);
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
@@ -642,6 +760,14 @@ function Ezsetdtpkdate(date1) {
     var mm = d.getMonth() + 1;
     var yy = d.getFullYear();
     var newdate = yy + "/" + mm + "/" + dd;
+    return newdate;
+}
+function EzsetdtpkdateSal(date1) {
+    var d = new Date(date1.split("/").reverse().join("-"));
+    var dd = d.getDate();
+    var mm = d.getMonth() + 1;
+    var yy = d.getFullYear();
+    var newdate = yy + "" + mm + "" + dd;
     return newdate;
 }
 
@@ -695,7 +821,7 @@ function EztableTabEve(tbl, ide, idf, errmsg, typ, vtyp) {
             else {
                 tr.css("background", "red");
                 tr.find(ide).focus();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
         }
     });
@@ -703,7 +829,7 @@ function EztableTabEve(tbl, ide, idf, errmsg, typ, vtyp) {
 /*Lenght decide table inside input */
 function EztableTabEveOne(tbl, ide, idf, errmsg, typ, vtyp,lent) {
     $(tbl).on("keydown", ide, function (e) {
-        debugger;
+        
         var keyCode = e.keyCode || e.which;
         if (keyCode == 9) {
             e.preventDefault();
@@ -722,7 +848,7 @@ function EztableTabEveOne(tbl, ide, idf, errmsg, typ, vtyp,lent) {
                 tr.find(ide).val(ab.slice(0, 1 - ab.length));
                 tr.css("background", "red");
                 tr.find(ide).focus();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
         }
     });
@@ -748,7 +874,7 @@ function EztableLstEnt(tbl, ide, idf, errmsg, typ, vtyp) {
             else {
                 tr.css("background", "red");
                 tr.find(ide).focus();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
             return false;
         }
@@ -756,7 +882,7 @@ function EztableLstEnt(tbl, ide, idf, errmsg, typ, vtyp) {
 }
 
 function EztableLstTabBlk(tbl, ide, idf, errmsg, typ, vtyp) {
-   
+    debugger;
     $(tbl).on("keydown", ide, function (e) {
        
         var keyCode = e.keyCode || e.which;
@@ -777,7 +903,7 @@ function EztableLstTabBlk(tbl, ide, idf, errmsg, typ, vtyp) {
             else {
                 tr.css("background", "red");
                 tr.find(ide).focus();
-                alert(errmsg);
+                EzAlerterrtxt(errmsg);
             }
 
         }
@@ -794,6 +920,43 @@ function EztableLstTab(tbl, ide, idf) {
         }
     });
 }
+    
+var t = false;
+function EztableDateCondion(tbl, ide, idf) {
+    $(tbl).on('dp.change', ide, function (e) {
+        
+        var fstyp = "";
+       if (e.oldDate !== null) {         
+        var tr = $(this).closest("tr");
+        var Edt = new Date(Ezsetdtpkdate(tr.find(ide).val()));
+        var Effdt = new Date(Ezsetdtpkdate(tr.find(idf).val()));
+        if (fstyp = 'E') {
+            if ((t == false) && (new Date(Ezsetdtpkdate(tr.find(ide).val())) >= new Date(Ezsetdtpkdate(tr.find(idf).val())))) {//compare end <=, not >=
+                tr.find(ide).val(tr.find(idf).val());
+                t = true;
+                EzAlerterrDt();
+            }
+            else {
+                t = false;
+            }
+        } else {
+            if ((t == false) && (new Date(Ezsetdtpkdate(tr.find(ide).val())) <= new Date(Ezsetdtpkdate(tr.find(idf).val())))) {//compare end <=, not >=
+                tr.find(ide).val(tr.find(idf).val());
+                t = true;
+                EzAlerterrDt();
+            }
+            else {
+                t = false;
+            }
+        }
+        
+        
+        }
+       
+    });
+}
+
+
 /* delete grid record */
 function EzGriddel(tbl, btndel) {
     $(tbl).on("click", btndel, function () {       
@@ -821,7 +984,7 @@ function EzMasterCancel(btnadd, btncan, btnsave) {
 }
 
 function Ezprop(Ideary, propvalue, tf) {
-    debugger;
+    
     var n = Ideary.length;
     while (n > 0) {
         $(Ideary[n - 1]).prop(propvalue, tf);
@@ -829,13 +992,32 @@ function Ezprop(Ideary, propvalue, tf) {
     }
 }
 function Ezattr(Ideary, propvalue, tf) {
-    debugger;
+    
     var n = Ideary.length;
     while (n > 0) {
         $(Ideary[n - 1]).attr(propvalue, tf);
         n--;
     }
 }
+
+function EzComapretxtval(Ide,idf,errmsg)
+{
+    $(idf).on('keydown', function (e) {
+        var keyCode = e.keyCode || e.which;
+        if (keyCode == 9) {
+            e.preventDefault();
+            debugger;
+            var ab = parseInt($(Ide).val()) || 0;
+            var ab1 = parseInt($(idf).val()) || 0;
+            if (ab < ab1) {                                              
+                $(idf).select();
+                EzAlerterrtxt(errmsg);
+            }
+        }
+    });
+
+}
+
 
 
 

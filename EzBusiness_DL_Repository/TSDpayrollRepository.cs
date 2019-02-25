@@ -21,12 +21,13 @@ namespace EzBusiness_DL_Repository
         DropListFillFun drop = new DropListFillFun();
         public List<Employee> GetEmpCodes(string CmpyCode)
         {
-            return drop.GetEmpCodes(CmpyCode,"A");
+            return drop.GetEmpCodes(CmpyCode,"T");
         }
 
         public List<TimeSheetDetail> GetTSDList(string CmpyCode, string EmpCode, DateTime date)
         {
            
+
             SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
                         new SqlParameter("@date1", date),
             new SqlParameter("@EmpCode",EmpCode)};
@@ -54,8 +55,8 @@ namespace EzBusiness_DL_Repository
                         FOTHrs = dr["FOTHrs"].ToString() !="" ?Convert.ToDecimal(dr["FOTHrs"].ToString()):0,
                         HOTHrs = dr["HOTHrs"].ToString() !="" ?Convert.ToDecimal(dr["HOTHrs"].ToString()):0,
                         OTHrs = dr["OTHrs"].ToString() !="" ?Convert.ToDecimal(dr["OTHrs"].ToString()):0,
-                        ReportingEmp=dr["Reporting Emp"].ToString()
-
+                        ReportingEmp=dr["Reporting Emp"].ToString(),
+                        Project_code=dr["Project_code"].ToString() !=""? dr["Project_code"].ToString():"-"
                     });
 
                 }

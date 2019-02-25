@@ -29,10 +29,19 @@ namespace EzBusiness_Web.Controllers
         }
 
 
+        [HttpGet]
         [Route("Index")]
-        public ActionResult Index(LoginVM LoginVM)
+        public ActionResult Index()//LoginVM LoginVM
         {
-            return View();
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return View();
+            }          
         }
 
 
@@ -40,10 +49,7 @@ namespace EzBusiness_Web.Controllers
 
         [Route("InLogin1")]
         public ActionResult InLogin1(LoginVM LoginVM)
-        {
-
-
-       
+        {       
             return Json(_loginService.SaveLons(LoginVM), JsonRequestBehavior.AllowGet);
             //_loginService.SaveLons(LoginVM);
             //if (HttpContext.Session["SesDet"].ToString() != null)
@@ -88,6 +94,7 @@ namespace EzBusiness_Web.Controllers
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             list = null;
             Session["SesDet"] = list;
+            
 
             return Redirect("Login/InLogin");
         }

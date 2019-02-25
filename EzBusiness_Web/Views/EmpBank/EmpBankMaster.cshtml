@@ -42,7 +42,7 @@
 <script>
     var jq2 = $.noConflict(true);
     jq2(document).ready(function () {
-        debugger;
+       
         EzAuthentication("/EmpBankMaster");
         EzdtePk('#Entry_Date1');
         var lvHtml = $("#POContainer").html();
@@ -70,7 +70,7 @@
         });
 
         $("#btnEdit").click(function () {
-            debugger;
+           
             var n = EzAuthenticationBtn("/EmpBankMaster", "ViewIt");
             if (n == 1) {
                 $("#editshow").show();
@@ -83,7 +83,7 @@
         });
 
         $("#btnCancel").click(function () {
-            debugger;
+           
             $("#POContainer").html(lvHtml);
             EzbtnCancelAc();
             EzdtePk('#Entry_Date1');
@@ -112,7 +112,7 @@
                     if (result.value) {
                             var PRBM003_CODE = $("[name*='PRBM003_CODE']").val();
                             jq2.getJSON("/DeleteEmpBnk", { PRBM003_CODE: PRBM003_CODE }).done(function (data) {
-                            debugger;
+                           
                             if (data.DeleteFlag) {
                                 GetLeaveList();
                                 $("#btnCancel").trigger("click");
@@ -152,7 +152,7 @@
         });
 
         jq2("#btnSave").click(function () {
-            debugger;
+           
             var n = EzAuthenticationBtn("/EmpBankMaster", "EditIt");
             jq2("#editshow").hide();
             var opMode = jq2("#hdnOperationMode").val();
@@ -179,12 +179,14 @@
                             EzbtnsaveAc("#POContainer");
                             GetLeaveList();
                         } else {
-                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
                         }
                     });
 
                 } else {
-                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
                 }
             } else if (opMode == "Edit" && n==1) {
                 // Code for Adding Purchase order
@@ -207,12 +209,14 @@
                             EzbtnsaveAc("#POContainer");
                             GetLeaveList();
                         } else {
-                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
                         }
                     });
 
                 } else {
-                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
                 }
             }
 
@@ -275,7 +279,7 @@
         });
 
         $(document).on("click", "#POList tbody tr", function () {
-            debugger;
+           
             var operationMode = $("#hdnOperationMode").val();
             if (operationMode == "Edit") {
                 $("#POList > tbody").children().removeClass("active");

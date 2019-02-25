@@ -34,7 +34,7 @@
                 Ezprop(abk, "disabled", false);                
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
-                Ezerrormsg("#ErrorMessage", "");
+                //Ezerrormsg("#ErrorMessage", "");
             }
 
         });
@@ -42,7 +42,7 @@
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtCode']", function () {
             var tr = $(this).closest('tr');
-            debugger;
+           
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -57,7 +57,7 @@
                 var dr = tr.find("[name *= 'txtCode']").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'txtCode']").focus();
-                alert("Already Exist Code '" + dr + "'");
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'txtCode']").val('');
 
             }
@@ -112,7 +112,7 @@
             abk1 = [];
             abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
             Ezprop(abk1, "disabled", false);
-            Ezerrormsg("#ErrorMessage", "");
+            //Ezerrormsg("#ErrorMessage", "");
            
         });
         /*Save Unit Table */
@@ -121,7 +121,7 @@
                VisaLocNew: []
             };
            $("#tblUnits1 tbody tr").each(function (index, item) {
-               debugger;
+              
                 var StsCode = $(this).find("[name*='txtCode']").val();
                 var StsName = $(this).find("[name*='txtName']").val();              
                 var StsCompanyMolID = $(this).find("[name*='txtCompanyMolID']").val();
@@ -172,7 +172,7 @@
                     }
                     else {
                         $("#tblUnits1 tbody").find("tr:not(:last)").remove();                                             
-                        Ezerrormsg("#ErrorMessage", "");
+                        //Ezerrormsg("#ErrorMessage", "");
                         if (codeAdd != '' && nameAdd !='') {
                         var counter = $("#Counter").val();
                         var firstRow = $('#tblUnits tbody tr:first');

@@ -26,7 +26,7 @@
         EzdtePk('#Dates1,#JoiningDate1,#DateofRelease1,#LLSDate1,#DutyResume1');
        var arr1 = [];
         $("#EmpCode").change(function () {           
-            debugger;
+           
             var EmpCode = $('#EmpCode option:selected').val();
             if (EmpCode != '0') {
                 $('#btncalcu').removeAttr("disabled", "disabled");
@@ -35,7 +35,8 @@
                     arr1 = response;
                     if (arr1.length == '0')
                     {
-                        Ezerrormsg("#ErrorMessage",'No Record Found')
+                        //Ezerrormsg("#ErrorMessage",'No Record Found')
+                        EzAlerterrtxt('No Record Found');
                         //  EzsetDatetxt();
                         EzdtePk('#Dates1,#JoiningDate1,#DateofRelease1,#LLSDate1,#DutyResume1');
                         Ezsetzerotxt();
@@ -54,7 +55,8 @@
                         $('#LLSDate1').val(EzdatefrmtRes(arr1[0].LLSDate));
                         $('#BalLeave').val(arr1[0].BalLeave);
                         $('#EmpType').val(arr1[0].EmpType);
-                        Ezerrormsg("#ErrorMessage", '')
+                        //Ezerrormsg("#ErrorMessage", '')
+                        
                     }
                 });
             }
@@ -68,7 +70,7 @@
         });
         $('#btncalcu').click(function () {
             arr1 = [];
-            debugger;
+           
             var Empcode = $('#EmpCode option:selected').val();
             var joiingdte = Ezsetdtpkdate($('#JoiningDate1').val());
             var Reldate = Ezsetdtpkdate($('#DateofRelease1').val());

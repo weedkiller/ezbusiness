@@ -9,6 +9,7 @@ using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Transactions;
 
 namespace EzBusiness_DL_Repository
 {
@@ -22,7 +23,7 @@ namespace EzBusiness_DL_Repository
 
         public List<Employee> GetEmpCodeList(string CmpyCode)
         {
-            return drop.GetEmpCodes(CmpyCode,"E");
+            return drop.GetEmpCodes(CmpyCode, "E");
         }
 
         public List<MonthlyAdddeddet1> GetMonthlyADGrid(string CmpyCode, string PRADN001_CODE)
@@ -35,13 +36,13 @@ namespace EzBusiness_DL_Repository
             {
                 ObjList.Add(new MonthlyAdddeddet1()
                 {
-                  
+
                     ADN_Act_code = dr["ADN_Act_code"].ToString(),
-                    ADN_Amount=Convert.ToDecimal(dr["ADN_Amount"].ToString()),
-                    EmpCode=dr["EmpCode"].ToString(),
-                    EmpName=dr["EmpName"].ToString(),
-                    Remarks=dr["Remarks"].ToString(),
-                    T_type=dr["T_type"].ToString(),                   
+                    ADN_Amount = Convert.ToDecimal(dr["ADN_Amount"].ToString()),
+                    EmpCode = dr["EmpCode"].ToString(),
+                    EmpName = dr["EmpName"].ToString(),
+                    Remarks = dr["Remarks"].ToString(),
+                    T_type = dr["T_type"].ToString(),
                 });
             }
             return ObjList;
@@ -66,44 +67,51 @@ namespace EzBusiness_DL_Repository
                 List<MonthlyAdddeddet1> ObjList = new List<MonthlyAdddeddet1>();
                 ObjList.AddRange(MonthlyAD.MonthlyAddded.Select(m => new MonthlyAdddeddet1
                 {
-
                     ADN_Act_code = m.ADN_Act_code,
-                  ADN_Amount=m.ADN_Amount,
-                  EmpCode=m.EmpCode,
-                  EmpName=m.EmpName,
-                  Remarks=m.Remarks,
-                  T_type=m.T_type,
-                 
-                 
-
+                    ADN_Amount = m.ADN_Amount,
+                    EmpCode = m.EmpCode,
+                    EmpName = m.EmpName,
+                    Remarks = m.Remarks,
+                    T_type = m.T_type,
                 }).ToList());
 
-                _EzBusinessHelper.ExecuteNonQuery("insert into PRADN001(PRADN001_CODE,COUNTRY,CmpyCode,Entry_Date,TYear,TMonth) values('" + MonthlyAD.PRADN001_CODE + "','" + MonthlyAD.COUNTRY + "','" + MonthlyAD.CmpyCode + "','" + dtstr1 + "','" + MonthlyAD.TYear + "','" + MonthlyAD.TMonth + "')");
-                n = ObjList.Count;
-
-
-                while (n > 0)
+                try
                 {
-                    _EzBusinessHelper.ExecuteNonQuery("insert into PRADN002(PRADN001_CODE,CmpyCode,EmpCode,EmpName,ADN_Amount,ADN_Act_code,T_type,Remarks) values('" + MonthlyAD.PRADN001_CODE + "','" + MonthlyAD.CmpyCode + "','" + ObjList[n - 1].EmpCode + "','"+ ObjList[n-1].EmpName + "','" + ObjList[n - 1].ADN_Amount + "','" + ObjList[n - 1].ADN_Act_code + "','" + ObjList[n - 1].T_type + "','" + ObjList[n - 1].Remarks + "')");
-                    n = n - 1;
-                }
-                _EzBusinessHelper.ExecuteNonQuery("UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + MonthlyAD.CmpyCode + "' and Code='PRADN'");
+                    using (TransactionScope scope = new TransactionScope())
+                    {
+                        _EzBusinessHelper.ExecuteNonQuery("insert into PRADN001(PRADN001_CODE,COUNTRY,CmpyCode,Entry_Date,TYear,TMonth) values('" + MonthlyAD.PRADN001_CODE + "','" + MonthlyAD.COUNTRY + "','" + MonthlyAD.CmpyCode + "','" + dtstr1 + "','" + MonthlyAD.TYear + "','" + MonthlyAD.TMonth + "')");
+                        n = ObjList.Count;
 
-                MonthlyAD.SaveFlag = true;
-                MonthlyAD.ErrorMessage = string.Empty;
+
+                        while (n > 0)
+                        {
+                            _EzBusinessHelper.ExecuteNonQuery("insert into PRADN002(PRADN001_CODE,CmpyCode,EmpCode,EmpName,ADN_Amount,ADN_Act_code,T_type,Remarks) values('" + MonthlyAD.PRADN001_CODE + "','" + MonthlyAD.CmpyCode + "','" + ObjList[n - 1].EmpCode + "','" + ObjList[n - 1].EmpName + "','" + ObjList[n - 1].ADN_Amount + "','" + ObjList[n - 1].ADN_Act_code + "','" + ObjList[n - 1].T_type + "','" + ObjList[n - 1].Remarks + "')");
+                            n = n - 1;
+                        }
+                        _EzBusinessHelper.ExecuteNonQuery("UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + MonthlyAD.CmpyCode + "' and Code='PRADN'");
+
+                        MonthlyAD.SaveFlag = true;
+                        MonthlyAD.ErrorMessage = string.Empty;
+                        scope.Complete();
+                    }
+                }
+                catch (Exception)
+                {
+
+                    MonthlyAD.SaveFlag = false;
+                    MonthlyAD.ErrorMessage = "error occur";
+                }
+
             }
             else
             {
-                
-               
+
+
                 n = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRADN001 where CmpyCode='" + MonthlyAD.CmpyCode + "' and PRADN001_CODE='" + MonthlyAD.PRADN001_CODE + "' ");
 
-                if (n != 0 )
+                if (n != 0)
                 {
 
-
-                    _EzBusinessHelper.ExecuteNonQuery("delete from PRADN001 where CmpyCode='" + MonthlyAD.CmpyCode + "' and PRADN001_CODE='" + MonthlyAD.PRADN001_CODE + "'");
-                    _EzBusinessHelper.ExecuteNonQuery("delete from PRADN002 where CmpyCode='" + MonthlyAD.CmpyCode + "' and PRADN001_CODE='" + MonthlyAD.PRADN001_CODE + "'");
 
                     MonthlyAdddedMst pt = new MonthlyAdddedMst();
                     //int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + MonthlyAD.CmpyCode + "' and Code='PRBM' ");
@@ -124,27 +132,37 @@ namespace EzBusiness_DL_Repository
 
                     }).ToList());
 
-                    _EzBusinessHelper.ExecuteNonQuery("insert into PRADN001(PRADN001_CODE,COUNTRY,CmpyCode,Entry_Date,TYear,TMonth) values('" + MonthlyAD.PRADN001_CODE + "','" + MonthlyAD.COUNTRY + "','" + MonthlyAD.CmpyCode + "','" + dtstr1 + "','" + MonthlyAD.TYear + "','" + MonthlyAD.TMonth + "')");
-                    n = ObjList.Count;
-
-
-                    while (n > 0)
+                    try
                     {
-                        _EzBusinessHelper.ExecuteNonQuery("insert into PRADN002(PRADN001_CODE,CmpyCode,EmpCode,EmpName,ADN_Amount,ADN_Act_code,T_type,Remarks) values('" + MonthlyAD.PRADN001_CODE + "','" + MonthlyAD.CmpyCode + "','" + ObjList[n - 1].EmpCode + "','" + ObjList[n - 1].EmpName + "','" + ObjList[n - 1].ADN_Amount + "','" + ObjList[n - 1].ADN_Act_code + "','" + ObjList[n - 1].T_type + "','" + ObjList[n - 1].Remarks + "')");
-                        n = n - 1;
-                    }
-                    MonthlyAD.SaveFlag = true;
-                    MonthlyAD.ErrorMessage = string.Empty;
+                        using (TransactionScope scope1 = new TransactionScope())
+                        {
 
+                            _EzBusinessHelper.ExecuteNonQuery("delete from PRADN001 where CmpyCode='" + MonthlyAD.CmpyCode + "' and PRADN001_CODE='" + MonthlyAD.PRADN001_CODE + "'");
+                            _EzBusinessHelper.ExecuteNonQuery("delete from PRADN002 where CmpyCode='" + MonthlyAD.CmpyCode + "' and PRADN001_CODE='" + MonthlyAD.PRADN001_CODE + "'");
+                            _EzBusinessHelper.ExecuteNonQuery("insert into PRADN001(PRADN001_CODE,COUNTRY,CmpyCode,Entry_Date,TYear,TMonth) values('" + MonthlyAD.PRADN001_CODE + "','" + MonthlyAD.COUNTRY + "','" + MonthlyAD.CmpyCode + "','" + dtstr1 + "','" + MonthlyAD.TYear + "','" + MonthlyAD.TMonth + "')");
+                            n = ObjList.Count;
+                            while (n > 0)
+                            {
+                                _EzBusinessHelper.ExecuteNonQuery("insert into PRADN002(PRADN001_CODE,CmpyCode,EmpCode,EmpName,ADN_Amount,ADN_Act_code,T_type,Remarks) values('" + MonthlyAD.PRADN001_CODE + "','" + MonthlyAD.CmpyCode + "','" + ObjList[n - 1].EmpCode + "','" + ObjList[n - 1].EmpName + "','" + ObjList[n - 1].ADN_Amount + "','" + ObjList[n - 1].ADN_Act_code + "','" + ObjList[n - 1].T_type + "','" + ObjList[n - 1].Remarks + "')");
+                                n = n - 1;
+                            }
+                            MonthlyAD.SaveFlag = true;
+                            MonthlyAD.ErrorMessage = string.Empty;
+                            scope1.Complete();
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                        MonthlyAD.SaveFlag = false;
+                        MonthlyAD.ErrorMessage = "error occur";
+                    }
                 }
                 else
                 {
                     MonthlyAD.SaveFlag = true;
                     MonthlyAD.ErrorMessage = "Error occur";
                 }
-
-
-
             }
 
             return MonthlyAD;
@@ -157,7 +175,7 @@ namespace EzBusiness_DL_Repository
             MonthlyAdddedVM MonthlyAD = new MonthlyAdddedVM();
             foreach (DataRow dr in dt.Rows)
             {
-                MonthlyAD.Entry_Date =Convert.ToDateTime(dr["Entry_Date"].ToString());
+                MonthlyAD.Entry_Date = Convert.ToDateTime(dr["Entry_Date"].ToString());
                 MonthlyAD.TMonth = Convert.ToInt32(dr["TMonth"].ToString());
                 MonthlyAD.TYear = Convert.ToInt32(dr["TYear"].ToString());
                 MonthlyAD.PRADN001_CODE = dr["PRADN001_CODE"].ToString();
@@ -168,9 +186,9 @@ namespace EzBusiness_DL_Repository
 
         public bool DeleteMonthlyAD(string CmpyCode, string PRADN001_CODE, string username)
         {
-            
+
             int Bns = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRADN001 where CmpyCode='" + CmpyCode + "' and PRADN001_CODE='" + PRADN001_CODE + "'");
-            if (Bns != 0 )
+            if (Bns != 0)
             {
                 _EzBusinessHelper.ExecuteNonQuery("update PRADN001 set Flag=1 where CmpyCode='" + CmpyCode + "' and PRADN001_CODE='" + PRADN001_CODE + "'");
                 _EzBusinessHelper.ExecuteNonQuery("update PRADN002 set Flag=1 where CmpyCode='" + CmpyCode + "' and PRADN001_CODE='" + PRADN001_CODE + "'");
@@ -191,9 +209,9 @@ namespace EzBusiness_DL_Repository
                 ObjList.Add(new MonthlyAdddedVM()
                 {
                     PRADN001_CODE = dr["PRADN001_CODE"].ToString(),
-                    Entry_Date =Convert.ToDateTime(dr["Entry_Date"].ToString()),
+                    Entry_Date = Convert.ToDateTime(dr["Entry_Date"].ToString()),
                     TMonth = Convert.ToInt32(dr["TMonth"].ToString()),
-                    TYear= Convert.ToInt32(dr["TYear"].ToString()),
+                    TYear = Convert.ToInt32(dr["TYear"].ToString()),
 
                 });
             }

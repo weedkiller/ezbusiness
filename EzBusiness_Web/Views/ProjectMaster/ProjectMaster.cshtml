@@ -40,7 +40,7 @@
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtCode']", function () {
             var tr = $(this).closest('tr');
-            debugger;
+           
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -54,11 +54,11 @@
                 var dr = tr.find("[name *= 'txtCode']").val();
                 tr.css("background", "red");
                 tr.find("[name*= 'txtCode']").focus();
-                alert("Already Exist Code '" + dr + "'");
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name*= 'txtCode']").val('');
             }
             else {
-                debugger;
+               
                 counter=1;
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
@@ -77,9 +77,7 @@
                     trLast.find("[name *= 'txtName']").attr({
                         "name": ("txtName" + counter)
                     });
-
-                    trLast.find(":first").text(counter);
-                    
+                    trLast.find(":first").text(counter);                    
                 }
                
             }
@@ -107,15 +105,19 @@
             $("#btnSave").prop("disabled", true);
             $("[name*='Edit']").prop('disabled', false);
             $("[name*='Delete']").prop('disabled', false);
-            Ezerrormsg("#ErrorMessage", "");
+            //Ezerrormsg("#ErrorMessage", "");
         });
+        function ReloadDatatable()
+        {
+           
+        }
         /*Save Unit Table */
-        $("#btnSave").click(function () {
+      $("#btnSave").click(function () {
            var ProjectMaster=  {
                ProjectNew: []
             };
            $("#tblUnits1 tbody tr").each(function (index, item) {
-               debugger;
+              
                 var StsCode = $(this).find("[name*='txtCode']").val();
                 var StsName = $(this).find("[name*='txtName']").val();                
                 var StsActive = $(this).find("[name*='txtActive'] option:Selected").val();
@@ -150,6 +152,7 @@
                    
                     if(response.Drecord.length>0)
                     {
+                       
                         var ary1 = [];
                         ary1 = response.Drecord;
                         if ($.inArray(codeAdd, ary1) < 0 && codeAdd != '' && nameAdd !='') {
@@ -204,7 +207,9 @@
                         }
                         $("[name*='Edit']").prop('disabled', false)
                         $("[name*='Delete']").prop('disabled', false)
+                        location.reload(true);
                         EzAlertSave();
+                      
                     }
                 });
                 });
@@ -214,9 +219,8 @@
                 EzAlerterr();
         }
         });
-
-        function ValidateForm(ProjectMaster) {
-            var response = {
+      function ValidateForm(ProjectMaster) {
+           var response = {
                 ErrorMessage: "",
                 formValid: false
             };
@@ -283,7 +287,7 @@
                         $("#btnAdd").prop('disabled', false);
                     });
                 } else {
-                    alert("Please Enter Record");
+                    EzAlerterrtxt("Please Enter Record");
                 }
             }
         });
@@ -298,7 +302,7 @@
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/ProjectMaster", "EditIt");
-            debugger;
+           
             if (n == 1) {
                 var counter = $("#Counter").val();
                 var hdnEditMode = $(this).parent().find('input:hidden:first');
@@ -331,7 +335,7 @@
                     $.post("/ProjectMaster/SavePjms", Pjms).done(function (response) {
                         nameTd.text(response.Name);
 
-                        debugger;
+                       
 
                         if (response.Active == '0') {
                             response.Active = 'No'
@@ -399,18 +403,63 @@
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var code = "";
                 if (hdnMode.val() == "false") {
-                    code = $(tr).find("td:eq(0)").text().trim();
-                    $.getJSON("/DeletePjms", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
-                        if (data.DeleteFlag) {
-                            tr.remove();
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            code = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeletePjms", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
+                                if (data.DeleteFlag) {                                              
+                                    location.reload(true);
+                                }
+                                else {
+                                    EzAlertdele(code);
+                                }
+                            }); 
+                           
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    });
+                    })
+
+
+                    //code = $(tr).find("td:eq(0)").text().trim();
+                    //$.getJSON("/DeletePjms", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
+                    //    if (data.DeleteFlag) {                                              
+                    //        location.reload(true);
+                    //    }
+                    //});
                 }
                 else {
                     var nameTd = $(tr).find("td:eq(1)");
                     var activeTd = $(tr).find("td:eq(2)");
                     var nameEdit = $('#Ecode1').val();// $(tr).find("[name*='txtName']").val().trim();
-                    debugger;
+                   
                      var activeEdit =$('#EAct1').val();// $(tr).find("[name*='txtActive'] option:Selected").val();
 
                     if (activeEdit == '0') {

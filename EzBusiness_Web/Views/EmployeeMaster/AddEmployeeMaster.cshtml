@@ -16,7 +16,6 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 
 <script>
-
     function readURL(input) {
 
         if (input.files && input.files[0]) {
@@ -24,6 +23,7 @@
             reader.onload = function (e) {
                 $('#user_img').attr('src', e.target.result);
             }
+
             reader.readAsDataURL(input.files[0]);
         }
 
@@ -31,10 +31,11 @@
 
     $(function () {
 
-        EzdtePk('#JoiningDate1,#DOB1,#LastRetDate1,#ContactDate1,#AbscondingDate1');
+        EzdtePk('#JoiningDate1,#LastRetDate1,#ContactDate1,#AbscondingDate1');     
+        EzdteformtDOB('#DOB1', 'DD/MM/YYYY');
              
         $('#ContactNo').keypress(function (event) {
-            debugger;
+           
             var keycode = event.which;
             if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
                 event.preventDefault();
@@ -44,7 +45,7 @@
         $("#EMail").change(function () {          
             var EmailId = $("[name*='EMail']").val();
             if (!ValidateEmail(EmailId)) {
-                alert("Enter Valid Email-Id");
+                EzAlerterrtxt("Enter Valid Email-Id");
                 $("[name*='EMail']").focus();
             }
         });
@@ -53,7 +54,7 @@
         EztableTabEve("#tablePODetails1", "[name*='ObtainedYear']", "[name *= 'Specification']", "Please Enter ObtainedYear", 'N', "0");
 
         $("#tablePODetails2").on("change", "[name*='SourceFile']", function () {
-            debugger;
+           
             if(window.FormData!=undefined)
             {
                 //var FileUpload = $('#File').get(0);
@@ -70,7 +71,7 @@
                     contentType: false,
                     data: fileData,
                     success: function (response) {
-                        debugger;
+                       
                         //code after success
                       //  alert(response);
                       //  $("#user_img").val(response);
@@ -78,14 +79,14 @@
 
                     },
                     error: function (er) {
-                        alert(er);
+                        EzAlerterrtxt(er);
                     }
                 });
             }
         });
         $("#sourcephoto").change(function () {
             readURL(this);
-            debugger;
+           
             var data = new FormData();
             var files = $("#sourcephoto").get(0).files;
             if (files.length > 0) {
@@ -104,13 +105,13 @@
 
                 },
                 error: function (er) {
-                    alert(er);
+                    EzAlerterrtxt(er);
                 }
             });
         });
         $('.selectpicker').selectpicker('refresh');
         $('#DivisionCode').change(function () {
-            debugger;
+           
             var divcode = $('#DivisionCode option:selected').val();
             $.get("EmployeeMaster/GetBranchCodeList1", { divcode: divcode }).done(function (response) {
                 $('#BranchCode').empty();
@@ -127,7 +128,7 @@
             });
         });
         $('#BranchCode').change(function () {
-            debugger;
+           
             var divcode = $('#DivisionCode option:selected').val();
             var Brancode = $('#BranchCode option:selected').val();
             $.get("EmployeeMaster/GetDepartmentList", { divcode: divcode, Brancode: Brancode }).done(function (response) {
@@ -144,7 +145,7 @@
 
 
         $('#BankCode').change(function () {
-            debugger;
+           
             var BanCode = $('#BankCode option:selected').val();
            
             $.get("EmployeeMaster/GetBankBranchList", { BankCode: BanCode }).done(function (response) {
@@ -205,7 +206,7 @@
         //var counter1 = parseInt($("#hdnCounter1").val());
         //var counter2 = parseInt($("#hdnCounter2").val());
         $("#tablePODetails1").on("change", "[name*='Degree']", function () {
-            debugger;
+           
 
             var tr = $(this).closest("tr");
             var docode = tr.find("[name*='Degree']").val();
@@ -224,7 +225,7 @@
         $("#tablePODetails1").on("change", "[name*='Institution']", function () {
             tbldtpickerYY();
            // if (counter2 > 2) {
-                $(".datepicker").datetimepicker("destroy");
+                $(".dt3").datetimepicker("destroy");
            // }
             var tr = $(this).closest("tr");
            // tr.find("[name *= 'ObtainedYear']").val(EzdtePkyyyy("[name *= 'ObtainedYear']"));
@@ -305,7 +306,7 @@
         //counter = 1;
         var counter = $("#counter").val();
         $("#tablePODetails2").on("change", "[name*='DocCode']", function () {
-            debugger;
+           
             tbldtpicker();
             //  $(".datepicker").datetimepicker("destroy");
             //if (counter > 2) {
@@ -321,8 +322,8 @@
                 tr.clone(true, true).insertAfter(tr);
                 tr.find("[name*='DocCode']").val(docode);
                 tr.find("[name*='DocName']").val(doName);
-                tr.find("[name *= 'StartDate']").val(sdate);
-                tr.find("[name *= 'EndDate']").val(edate);
+                //tr.find("[name *= 'StartDate']").val(sdate);
+                //tr.find("[name *= 'EndDate']").val(edate);
                 $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                     .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
                 var trLast = $("#tableMetaSettings tr:last")
@@ -358,40 +359,85 @@
            
         });
 
+        
        
         $('body').on('focusin', '.datepicker', function () {
-            debugger;
+           
            // var myDate = new Date(2012, 2, 11);
-
+           
            // $('#startdate').datetimepicker("setDate", myDate);
             $('.datepicker').datetimepicker({
                // defaultDate: new Date(),
                 format: 'DD/MM/YYYY',
                 showClose: true,
                 showClear: true,
-                toolbarPlacement: 'top'
+                
+               
             });
 
         });
         $('body').on('focusin', '.dt3', function () {
-            debugger;
+           
             // var myDate = new Date(2012, 2, 11);
-
+          
             // $('#startdate').datetimepicker("setDate", myDate);
             $('.dt3').datetimepicker({
                 // defaultDate: new Date(),
                 format: 'YYYY',
                 showClose: true,
                 showClear: true,
-                toolbarPlacement: 'top'
+               
             });
 
         });
+
+
+        //EztableDateCondion("#tablePODetails2", "[name*='StartDate']", "[name*='EndDate']", "E");
+        //EztableDateCondion("#tablePODetails2", "[name*='EndDate']", "[name*='StartDate']", "N");
+
+        $("#tablePODetails2").on('dp.change', "[name*='StartDate']", function (e) {
+           
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");               
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())) >= new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='StartDate']").val(tr.find("[name*='EndDate']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
+        $("#tablePODetails2").on('dp.change', "[name*='EndDate']", function (e) {
+           
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())) <= new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='EndDate']").val(tr.find("[name*='StartDate']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
+
+
+        $(".dt3").on("dp.show", function (e) {
+            $(e.target).data("DateTimePicker").viewMode("years");
+        });
+
+        EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
+        EzdtePkyyyy('#ObtainedYear1');
+       // $(".datepicker").datetimepicker("destroy");
     });
 
-    EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
-    EzdtePkyyyy('#ObtainedYear1');
-    //$(".datepicker").datetimepicker("destroy");
+   
+    //
 
 </script>
 
@@ -511,7 +557,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                
-                                                <label class="control-label col-md-5">Email Id</label>
+                                                <label class="control-label col-md-5">Email Id<i style="color:red;">*</i></label>
                                                 <div class="col-md-7 input-field">
                                                     @Html.TextBoxFor(m => m.EMail, new { @class = "form-control" })
                                                 </div>
@@ -883,7 +929,7 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label class="control-label col-md-3">Visa Location</label>
+                                                            <label class="control-label col-md-3">Visa Location<i style="color:red;">*</i></label>
                                                             <div class="col-md-9 input-field">
                                                                 @Html.DropDownListFor(m => m.VisaLocation, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                                             </div>
@@ -979,7 +1025,7 @@
                                     </div>
                                     <div id="menu3" class="tab-pane fade">
                                         <br /><br />
-                                        @*<div style="overflow-x:auto;">*@
+                                        <div >@*style="overflow-x:auto;"*@
                                             <table class="table table-bordered table-sm" id="tablePODetails">
                                                 <thead>
                                                     <tr >

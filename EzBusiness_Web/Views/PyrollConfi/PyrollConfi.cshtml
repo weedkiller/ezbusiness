@@ -11,7 +11,7 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
-        debugger;
+       
         EzAuthentication("/PyrollConfi");
       //  EzsetDatetxt();
         EzdtePk('#TO_DATE1,#FROM_DATE1');
@@ -128,8 +128,8 @@
         });
 
         $("#btnSave").click(function () {
-            debugger;
-            var n = EzAuthenticationBtn("/PyrollConfi", "EditIt");
+           
+            var n = EzAuthenticationBtn("/PyrollConfi", "EditIt");         
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
             if (opMode == "Add") {
@@ -153,14 +153,16 @@
                             EzbtnsaveAc("#POContainer");
                             GetLeaveList();
                         } else {
-                            debugger;
                            
-                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                           
+                            // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
                         }
                     });
 
                 } else {
-                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
                    
                 }
             } else if (opMode == "Edit" && n == 1) {
@@ -186,13 +188,13 @@
                             GetLeaveList();
                         } else {
                            
-                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
                         }
                     });
 
                 } else {
-                  
-                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
                 }
             }
 

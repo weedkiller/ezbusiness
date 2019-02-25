@@ -45,7 +45,7 @@
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtProfCode']", function () {
             var tr = $(this).closest('tr');
-            debugger;
+           
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -59,7 +59,7 @@
                 var dr = tr.find("[name *= 'txtProfCode']").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'txtProfCode']").focus();
-                alert("Already Exist ProfessionCode '" + dr + "'");
+                EzAlerterrtxt("Already Exist ProfessionCode '" + dr + "'");
                 tr.find("[name *= 'txtProfCode']").val('');
 
             }
@@ -93,7 +93,7 @@
         
         /*Refresh */
         $("#btnCancel").click(function () {
-            debugger;
+           
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
@@ -107,16 +107,16 @@
             abk1 = [];
             abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
             Ezprop(abk1, "disabled", false);
-            Ezerrormsg("#ErrorMessage", "");            
+            //Ezerrormsg("#ErrorMessage", "");            
             $("#tblUnits1").hide();           
             $("#tbldiv").show();
-            Ezerrormsg("#ErrorMessage", " ");
+            //Ezerrormsg("#ErrorMessage", " ");
         });
         /*Save Unit Table */
 
 
         $("#btnSave").click(function () {
-            debugger;
+           
             var Pros = {
                 ProfessionDetailnew: []
             };
@@ -294,7 +294,7 @@
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var profcode = "";
 
-                debugger;
+               
                 if (hdnMode.val() == "false") {
 
                     const swalWithBootstrapButtons = Swal.mixin({
@@ -316,7 +316,7 @@
                             profcode = $(tr).find("td:eq(0)").text().trim();
                             $.getJSON("/DeletePros", { ProfCode: profcode, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    debugger;
+                                   
                                     tr.remove();
                                     if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
                                         //$(".dataTables_empty").replaceWith("No data available in table");

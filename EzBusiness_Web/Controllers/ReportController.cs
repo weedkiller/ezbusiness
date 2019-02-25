@@ -839,6 +839,91 @@ namespace EzBusiness_Web.Controllers
             // Return info.
             return result;
         }
+        [Route("ProjectReportEmployeeWise")]
+        public ActionResult ProjectReportEmployeeWise()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        [Route("GetProjectDetailsEmployeeWise")]
+        public ActionResult GetProjectDetailsEmployeeWise(TimeSheetDetail emp1)
+        {
+            JsonResult result = new JsonResult();
+            try
+            {
+                List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+                if (list == null)
+                {
+                    return Redirect("Login/InLogin");
+                }
+                else
+                {
+                    // Initialization.
+                    string search = Request.Form.GetValues("search[value]")[0];
+                    string draw = Request.Form.GetValues("draw")[0];
+                    string order = Request.Form.GetValues("order[0][column]")[0];
+                    string orderDir = Request.Form.GetValues("order[0][dir]")[0];
+                    int startRec = Convert.ToInt32(Request.Form.GetValues("start")[0]);
+                    int pageSize = Convert.ToInt32(Request.Form.GetValues("length")[0]);
+
+                    if (pageSize == -1)
+                    {
+                        draw = "2";
+                    }
+
+                    List<TimeSheetDetail> data = _reportdetail.GetProjectDetailsEmployeeWise(list[0].CmpyCode,emp1.CurrentDate);
+                    // Total record count.
+                    int totalRecords = data.Count;
+                    // Verification.
+                    if (!string.IsNullOrEmpty(search) &&
+                        !string.IsNullOrWhiteSpace(search))
+                    {
+                        // Apply search
+                        data = data.Where(p => p.EmpCode.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.EmpName.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.ProjectCode.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.ProjectName.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.Tyear.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.Tmonth.ToString().ToLower().Contains(search.ToLower())).ToList();
+                    }
+
+                    // Sorting.
+                    data = _reportdetail.ProjectReportDetailsColumnWithOrder(order, orderDir, data);
+
+                    // Filter record count.
+                    int recFilter = data.Count;
+
+                    if (pageSize != -1)
+                    {
+                        data = data.Skip(startRec).Take(pageSize).ToList();
+                    }
+                    else
+                    {
+                        data = data.ToList();
+                    }
+
+                    // Loading drop down lists.
+                    result = this.Json(new { draw = Convert.ToInt32(draw), recordsTotal = totalRecords, recordsFiltered = recFilter, data = data }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Info
+                Console.Write(ex);
+            }
+
+            // Return info.
+            return result;
+        }
+
 
     }
 }

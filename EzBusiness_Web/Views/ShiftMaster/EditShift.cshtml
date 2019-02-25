@@ -16,27 +16,32 @@
         $('.selectpicker').selectpicker('refresh');
        // EzsetDatetxt();
         /*Retrive Data  */
-       
+        Ezdteformtcurtime();
+        //EzdtePkEdit('#StTime', '#StTime', 'LT');
+        //EzdtePkEdit('#EdTime', '#EdTime', 'LT');
         var tablePODetails = $("#tablePODetails tbody tr");
         var index1 = 1;
-        tablePODetails.each(function (index, item) {
-            debugger;
+        
+        tablePODetails.each(function (index1, item) {
+           
             
-            $("[name*='PRSFT002_code" + (index + 1) + "']").val($("[name*='hdnPRSFT002_code" + (index + 1) + "']").val());
-            $("[name*='PRSFT001_code" + (index + 1) + "']").val($("[name*='hdnPRSFT001_code" + (index + 1) + "']").val());
-            $("[name*='Enttry_Date" + (index + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnEnttry_Date" + (index + 1) + "']").val()));
-            $("[name*='Effect_Date" + (index + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnEffect_Date" + (index + 1) + "']").val()));
+            $("[name*='PRSFT002_code" + (index1 + 1) + "']").val($("[name*='hdnPRSFT002_code" + (index1 + 1) + "']").val());
+            $("[name*='PRSFT001_code" + (index1 + 1) + "']").val($("[name*='hdnPRSFT001_code" + (index1 + 1) + "']").val());
+            $("[name*='Enttry_Date" + (index1 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnEnttry_Date" + (index1 + 1) + "']").val()));
+            $("[name*='Effect_Date" + (index1 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnEffect_Date" + (index1 + 1) + "']").val()));
             //$("[name*='ApprovalYN" + (index + 1) + "']").val($("[name*='hdnApprovalYN" + (index + 1) + "']").val());
             // option:selected
-            $("#SelectAproved" + (index + 1) + "").val($("[name*='hdnApprovalYN" + (index + 1) + "']").val());
-            index1 = index + 1;            
+            $("#SelectAproved" + (index1 + 1) + "").val($("[name*='hdnApprovalYN" + (index1 + 1) + "']").val());
+            index1 = index1 + 1;            
         });                   
-            EzdtePk('#Enttry_Date' + index1 + ',#Effect_Date' + index1 + '');        
-        counter = 1;
+           // EzdtePk('#Enttry_Date' + index1 + ',#Effect_Date' + index1 + '');        
+        //counter = 1;
         drec = [];
+
+        var counter = $("#hdnCounter").val();
         /* Add new row & find duplicate data in table  */
         $("#tablePODetails").on("change", "[name*='PRSFT002_code']", function () {
-            tbldtpicker();
+            tbldtpickerEdit('#Enttry_Date1');
             $(".datepicker").datetimepicker("destroy");
             var tr = $(this).closest("tr");
             $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
@@ -49,14 +54,14 @@
                 var dr = tr.find("[name *= 'PRSFT002_code']").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'PRSFT002_code']").focus();
-                alert("Already Exist Code '" + dr + "'");
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'PRSFT002_code']").val('');
             }
             else {
                 tr.css("background", "");
 
                 if (tr.is(":last-child")) {
-                    debugger;
+                   
                     tr.clone(true, true).insertAfter(tr);
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                         .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
@@ -72,7 +77,12 @@
                     trLast.find("[name *= 'ShiftName']").attr({
                         "name": ("ShiftName" + counter)
                     });
-
+                    trLast.find("[name *= 'Enttry_Date']").attr({
+                        "name": ("Enttry_Date" + counter)
+                    });
+                    trLast.find("[name *= 'Effect_Date']").attr({
+                        "name": ("Effect_Date" + counter)
+                    });
 
                     trLast.find(":first").text(counter);
                 }
@@ -81,7 +91,11 @@
         });
 
 
-       
+     
+
+      
+
+
         /*Delete Data  */
         $("#tablePODetails tbody tr").on("click", "[name*='btnDelete']", function () {
             var tr = $(this).closest("tr");
@@ -94,7 +108,7 @@
                         counter--;
                         tr.remove();
                     } else {
-                        alert("Already Record found Employee Bank'" + PRSR002_CODE + "'");
+                        EzAlerterrtxt("Already Record found Employee Bank'" + PRSR002_CODE + "'");
                         tr.css("background", "red");
                     }
                 });
@@ -105,51 +119,63 @@
         EztableTabEve("#tablePODetails", "[name*='PRSFT002_code']", "[name *= 'Effect_Date']", "Please Enter Code", 'T', "");
 
 
+       
+            //EztableDateCondion("#tablePODetails", "[name*='Enttry_Date']", "[name*='Effect_Date']","E");
+            //EztableDateCondion("#tablePODetails", "[name*='Effect_Date']", "[name*='Enttry_Date']","N");
+                         
+        $("#tablePODetails").on('dp.change', "[name*='Enttry_Date']", function (e) {
+           
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");
+                var Edt = new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val()));
+                var Effdt = new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val()));
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val())) >= new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='Enttry_Date']").val(tr.find("[name*='Effect_Date']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
+
+        $("#tablePODetails").on('dp.change', "[name*='Effect_Date']", function (e) {
+           
+            var fstyp = "";
+            if (e.oldDate !== null) {
+                var tr = $(this).closest("tr");
+                var Edt = new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val()));
+                var Effdt = new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val()));
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val())) <= new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='Effect_Date']").val(tr.find("[name*='Enttry_Date']").val());
+                    t = true;
+                    EzAlerterrDt();
+                }
+                else {
+                    t = false;
+                }
+            }
+        });
 
         
-        ///*Bank_branch_name Enter Event*/
-        //$("#tablePODetails").on("keypress", "[name *= 'ShiftName']", function (e) {
-        //    debugger;
-        //    if (e.keyCode == 13) {
-        //        $(this).closest('tr').next('tr').find("[name *= 'PRSR002_CODE']").focus();
-        //        return false;
-        //    }
-        //});
-        ///*Code Tab Event*/
-        //$("#tablePODetails").on("keydown", "[name*='PRSR002_CODE']", function (e) {
-        //    debugger;
-        //    var keyCode = e.keyCode || e.which;
-        //    if (keyCode == 9) {
-        //        e.preventDefault();
-        //        var tr = $(this).closest('tr');
-        //        var ab = tr.find("[name *= 'PRSFT001_code']").val();
-        //        if (ab != '') {
-        //            tr.find("[name *= 'ShiftMaster']").focus();
-        //            tr.css("background", "");
-        //        }
-        //        else {
-        //            tr.css("background", "red");
-        //            tr.find("[name *= 'PRSFT001_code']").focus();
-        //            alert("Please Enter Code");
-        //        }
-        //    }
-        //});
 
-        $('body').on('focusin', '.datepicker', function () {
-            debugger;
-            // var myDate = new Date(2012, 2, 11);
+            $('body').on('focusin', '.datepicker', function () {
+                $('.datepicker').datetimepicker({
+                    // defaultDate: new Date(),
+                    format: 'DD/MM/YYYY',
+                    showClose: true,
+                    showClear: true,
+                });
 
-            // $('#startdate').datetimepicker("setDate", myDate);
-            $('.datepicker').datetimepicker({
-                // defaultDate: new Date(),
-                format: 'DD/MM/YYYY',
-                showClose: true,
-                showClear: true,
-                toolbarPlacement: 'top'
             });
 
-        });
+      
+
+
     });
+    
 </script>
 <div class="row">
     <div class="col-md-12">
@@ -203,8 +229,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Start Time</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.StTime, new { @class = "form-control", @placeholder = "Code", @Type = "time" })
-
+                                                    @Html.TextBoxFor(m => m.StTime, new { @class = "form-control time1" })
                                                 </div>
                                             </div>
                                         </div>
@@ -214,7 +239,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">End Time</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.EdTime, new { @class = "form-control", @placeholder = "Code",@Type= "time" })
+                                                    @Html.TextBoxFor(m => m.EdTime, new { @class = "form-control time1" })
                                                 </div>
                                             </div>
                                         </div>
@@ -239,7 +264,7 @@
                                                     <table class="table table-bordered table-sm" id="tablePODetails">
                                                         <thead>
                                                             <tr>
-                                                                <th>Sr No</th>
+                                                                @*<th>Sr No</th>*@
                                                                 <th>Shift Allocation Code</th>
 
                                                                 <th>Entyr Date</th>
@@ -252,13 +277,19 @@
                                                             {
 
                                                             <tr>
-                                                                <td>
+                                                                @*<td>
                                                                     @Html.Label(counter.ToString())
-                                                                </td>
+                                                                </td>*@
                                                                 <td>
 
                                                                     @Html.TextBox(string.Concat("PRSFT002_code", counter), null, new { @class = "grid-control" })
                                                                     @Html.Hidden(string.Concat("hdnPRSFT002_code", counter), item.PRSFT002_code)
+
+                                                                </td>
+                                                                <td>
+
+                                                                    @Html.TextBox(string.Concat("Enttry_Date", counter), null, new { @class = "grid-control datepicker" })
+                                                                    @Html.Hidden(string.Concat("hdnEnttry_Date", counter), item.Enttry_Date)
 
                                                                 </td>
 
@@ -268,12 +299,7 @@
                                                                     @Html.Hidden(string.Concat("hdnEffect_Date", counter), item.Effect_Date)
 
                                                                 </td>
-                                                                <td>
-
-                                                                    @Html.TextBox(string.Concat("Enttry_Date", counter), null, new { @class = "grid-control datepicker" })
-                                                                    @Html.Hidden(string.Concat("hdnEnttry_Date", counter), item.Enttry_Date)
-
-                                                                </td>
+                                                               
                                                                 <td>
                                                                     @*<select name="" id="SelectAproved" value="">
                                             <option value="Y">YES</option>
@@ -294,21 +320,14 @@
 
                                                             <tr>
 
-                                                                <td>
+                                                                @*<td>
 
                                                                     @Html.Label(counter.ToString())
 
-                                                                </td>
+                                                                </td>*@
                                                                 <td>
                                                                     <div class="grid-group">
                                                                         @Html.TextBox(string.Concat("PRSFT002_code", counter), null, new { @class = "grid-control" })
-                                                                    </div>
-
-                                                                </td>
-                                                                <td>
-
-                                                                    <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("Effect_Date", counter), "", "", new { @class = "grid-control datepicker" })
                                                                     </div>
 
                                                                 </td>
@@ -319,6 +338,14 @@
                                                                     </div>
 
                                                                 </td>
+                                                                <td>
+
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("Effect_Date", counter), "", "", new { @class = "grid-control datepicker" })
+                                                                    </div>
+
+                                                                </td>
+                                                                
                                                                 <td>
 
                                                                     @Html.DropDownList(string.Concat("SelectAproved", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "Y" }, new SelectListItem { Text = "NO", Value = "N" }, }, new { @class = "grid-control" })

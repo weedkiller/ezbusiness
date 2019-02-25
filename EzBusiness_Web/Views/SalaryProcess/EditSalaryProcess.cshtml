@@ -40,24 +40,32 @@
                     "destroy": true,
                     "columns": [
                          { "data": null },
-                        {"data":null,
-                        "render": function (data) {
-                            return "<label class='containerone'>" + "<input type='checkbox' class='chck' value='" + data.EmpCode + "'>" + "<span class='chekmark></span>" + "</label>";
-                        }
-                        },
+                        //{"data":null,
+                        //"render": function (data) {
+                        //    return "<label class='containerone'>" + "<input type='checkbox' class='chck' value='" + data.EmpCode + "'>" + "<span class='chekmark></span>" + "</label>";
+                        //}
+                       // },
                       
-                       { "data": "EmpCode" },
-                       { "data": "EmpName" },
-                       { "data": "WorkingDay" },
-                       { "data": "Present" },
-                       { "data": "Leaves" },
-                       { "data": "Absent" },
-                       { "data": "SickLeaves" },
-                       { "data": "WeeklyOff" },
-                       { "data": "Holiday" },
-                       { "data": "NormalOTHrs" },
-                       { "data": "TotalAddition" },
-                       { "data": "TotalDeduction" },
+                               { "data": "EmpCode" },
+                               { "data": "EmpName" },
+                               { "data": "ProjectCode" },
+                               { "data": "WorkingDay" },
+                               { "data": "Present" },
+                               { "data": "Leaves" },
+                               { "data": "Absent" },
+                               { "data": "SickLeaves" },
+                               { "data": "WeeklyOff" },
+                               { "data": "Holiday" },
+                               { "data": "NormalOTHrs" },
+                               { "data": "HolidayOTHrs" },
+                               { "data": "WeeklyOffOTHrs" },
+                               { "data": "ExtraOTHrs" },
+                               { "data": "Salary" },
+                               { "data": "MonthlyAddition" },
+                               { "data": "TotalDeduction" },
+                               { "data": "LoanDeduction" },
+                               { "data": "TotalEarning" },
+                               { "data": "NetSalary" },
                      
                     ]
                 });
@@ -78,6 +86,9 @@
         else {
             $('#tableslryDetails1 tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
         }
+    });
+    $(".datepicker").on("dp.show", function (e) {
+        $(e.target).data("DateTimePicker").viewMode("months");
     });
 
 </script>
@@ -132,12 +143,13 @@
 
                                 <table class="table table-bordered table-sm" id="tableslryDetails1">
                                     <thead>
-                                        <tr class="id2">
+                                        <tr>
                                             <th>Sr No</th>
-                                            <th><label class="containerone" style="padding-left:35px"><input type="checkbox" class="chck chckheaderdata"><span class="chekmark"></span></label></th>
+                                            @*<th><label class="containerone" style="padding-left:35px"><input type="checkbox" class="chck chckheaderdata"><span class="chekmark"></span></label></th>*@
                                           
                                             <th>Emp_Code</th>
                                             <th>Employee Name</th>
+                                            <th>ProjectCode</th>
                                             <th>Working Days</th>
                                             <th>Present</th>
                                             <th>Absent</th>
@@ -146,15 +158,15 @@
                                             <th>Weekly Off</th>
                                             <th>Holiday</th>
                                             <th>NOT Hrs</th>
-                                            @*<th>HOT Hrs</th>*@
-                                            @*<th>WOT hrs</th>
-                    <th>Extra OT Hrs</th>
-                    <th>F Extra OT hrs</th>*@
+                                            <th>HOT Hrs</th>
+                                            <th>WOT hrs</th>
+                                            <th>Extra OT Hrs</th>
+                                            <th>Basic Salary</th>
                                             <th>Monthly Addition</th>
-                                            @*<th>Total Earning</th>*@
                                             <th>Monthly Deduction</th>
-                                            @*<th>Loan Deduction</th>
-                    <th>Net Salary</th>*@
+                                            <th>Loan Deduction</th>
+                                            <th>Total Earning</th>
+                                            <th>Net Salary</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>

@@ -13,7 +13,7 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
-        debugger;
+       
         $('.selectpicker').selectpicker('refresh');
         var counter1 = 1;
         EzdtePk('#Entry_Date1');
@@ -21,13 +21,13 @@
         $("#tablePODetails").on("change", "[name*='EmpCode']", function () {
             var PRADN001_CODE = $("[name *= 'PRADN001_CODE']").val();
             if (PRADN001_CODE == '') {
-                alert("Please Enter PRADN001_CODE")
+                EzAlerterrtxt("Please Enter PRADN001_CODE")
                 var trLast1 = $("#tablePODetails tbody tr:last");
                 trLast1.find("[name *= 'EmpCode']").val('0')
                 // end();
                 return;
             }
-            debugger;
+           
             var tr = $(this).closest("tr");
             drec = [];
             $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
@@ -41,7 +41,7 @@
                 var dr = tr.find("[name *= 'EmpCode']").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'EmpCode']").focus();
-                alert("Already Exist Code '" + dr + "'");
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'EmpCode']").val('0');
 
             }
@@ -49,7 +49,7 @@
                 tr.css("background", "");
 
                 if (tr.is(":last-child")) {
-                    debugger;
+                   
                     tr.clone(true, true).insertAfter(tr);
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter1 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                         .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
@@ -97,7 +97,7 @@
         EzGetYear("#TYear", "#hdnTYear", new Date(Ezsetdtpkdate($("#Entry_Date1").val())));
 
         $('#Entry_Date1').on('dp.change', function (event) {
-            debugger;
+           
             dt = new Date(Ezsetdtpkdate($("#Entry_Date1").val()));
             EzGetMonthName("#TMonth", "#hdnTMonth", dt);
             EzGetYear("#TYear", "#hdnTYear", dt);
@@ -135,7 +135,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Entry_Date</label>
                                                 <div class="col-md-8 input-field">
-                                                    <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" />
+                                                    <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" disabled = "disabled"/>
                                                     @Html.HiddenFor(m => m.Entry_Date)
                                                 </div>
                                             </div>
@@ -201,7 +201,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="grid-group">
-                                                        <select  class="form-control" id="T_type" name="T_type">
+                                                        <select  class="form-control"  id="T_type" name="T_type">
                                                             <option value="A">Addition</option>
                                                             <option value="D">Deduction</option>
                                                         </select>

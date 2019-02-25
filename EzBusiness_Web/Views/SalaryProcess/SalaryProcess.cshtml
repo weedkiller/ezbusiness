@@ -20,7 +20,7 @@
             });
         }
         $("#btnNew").click(function () {
-            // debugger;
+            //
             var n = EzAuthenticationBtn("/SalaryProcess", "NewIt");
             if (n == 1) {
                 $.get("SalaryProcess/AddSalesProcess", function (response) {
@@ -67,89 +67,88 @@
             var n = EzAuthenticationBtn("/SalaryProcess", "DeleteIt");
             if (n == 1) {
                 $("#editshow").hide();
-                var Code = $("#Code").val();
-                var selectedrowall = $(".chck").length;
-                var selectedrow = $(".chck:checked").length;
-                var flag = "";
-                if (selectedrow < selectedrowall) {
-                    var ids = new Array();
-                    $(".chck:checked").each(function (index) {
-                        ids[index] = $(this).attr('value');
-                        //alert($(this).attr('value'));
+                debugger;
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
                     })
-                    flag = "sp";
-                    $.ajax({
-                        async: false,
-                        cache: false,
-                        type: "POST",
-                        data: "{ids:'" + ids + "',SalCode:'" + Code + "',flag:'" + flag + "'}",
-                        url: "/SalaryProcess/DeleteSalaryProcess",
-                        dataType: 'Json',
-                        contentType: "Application/json",
-                        sucssess: function () {
-                            if (data.DeleteFlag) {
-                                GetSry();
-                                $("#btnCancel").trigger("click");
-                            } else {
-                                $("#ErrorMessage").show().find("strong").text("Unable to Delete");
-                            }
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            debugger;
+                            var Code = $("#Code").val();
+                            var currdate = $("[name*='DateINMonth']").val();
+                                $.ajax({
+                                    async: false,
+                                    cache: false,
+                                    type: "POST",
+                                    data: "{SalCode:'" + Code + "',currdate:'" + currdate + "'}",//ids:'" + ids + "',
+                                    url: "/SalaryProcess/DeleteSalaryProcess",
+                                    dataType: 'Json',
+                                    contentType: "Application/json",
+                                    success: function (data) {                                     
+                                        if (data=true) {
+                                            debugger;
+                                            RefreshDatatable();
+                                            $("#btnCancel").trigger("click");
+                                        } else {
+                                            EzAlertdele(Code);
+                                        }
+                                    }
+                                });
+
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    });
-                }
-                else if (selectedrow <= selectedrowall) {
-                    var ids = new Array();
-                    $(".chck:checked").each(function (index) {
-                        ids[index] = $(this).attr('value');
-                        //alert($(this).attr('value'));
                     })
-                    flag = "spH";
-                    $.ajax({
-                        async: false,
-                        cache: false,
-                        type: "POST",
-                        data: "{ids:'" + ids + "',SalCode:'" + Code + "',flag:'" + flag + "'}",
-                        url: "/SalaryProcess/DeleteSalaryProcess",
-                        dataType: 'Json',
-                        contentType: "Application/json",
-                        sucssess: function () {
-                            if (data.DeleteFlag) {
-                                GetSry();
-                                $("#btnCancel").trigger("click");
-                            } else {
-                                $("#ErrorMessage").show().find("strong").text("Unable to Delete");
-                            }
-                        }
-                    });
                 }
-                else {
-                    alert("Select Row First");
-                }
-            }
         });
         $("#btnSave").click(function () {
 
             var n = EzAuthenticationBtn("/SalaryProcess", "EditIt");
             
             $("#editshow").hide();
-            debugger;
+           
             var opMode = $("#hdnOperationMode").val();
-
+            var currdate = $("[name*='DateINMonth']").val();
             if (opMode == "Add") {
                 // Code for Adding MainTable
                 var salarym = {
                     EditFlag: false,
                     //PRSM001UID :$("[name*='PRSM001UID']").val(),
                     Code: $("[name*='Code']").val(),
-                    CurrentDate: Ezsetdtpkdate($("[name*='CurrentDate']").val()),
+                    CurrentDate: $("[name*='DateINMonth']").val(),
                 
                     salaryList: [],
 
                 };
                 $("#tableslryDetails tbody tr").each(function (index, item) {
                 
-                    var SnoTxt = $(this).find('td:eq(1)').text();
-                    var EmpCodeTxt = $(this).find('td:eq(2)').text();
-                    var EmpNameTxt = $(this).find('td:eq(3)').text();
+                    var SnoTxt = $(this).find('td:eq(0)').text();
+                    var EmpCodeTxt = $(this).find('td:eq(1)').text();
+                    var EmpNameTxt = $(this).find('td:eq(2)').text();
+                    var ProjectCodeTxt = $(this).find('td:eq(3)').text();
                     var WorkingDay = $(this).find('td:eq(4)').text();
                     var Present = $(this).find('td:eq(5)').text();
                     var Absent = $(this).find('td:eq(6)').text();
@@ -161,18 +160,20 @@
                     var HolidayOTHrs = $(this).find('td:eq(12)').text();
                     var WeeklyOffOTHrs = $(this).find('td:eq(13)').text();
                     var ExtraOTHrs = $(this).find('td:eq(14)').text();
-                    var FExtraOTHrs = $(this).find('td:eq(15)').text();
+                    var BasicSalary = $(this).find('td:eq(15)').text();
                     var MonthlyAddition = $(this).find('td:eq(16)').text();
-                    var TotalEarning = $(this).find('td:eq(17)').text();
-                    var TotalDeduction = $(this).find('td:eq(18)').text();
-                    var LoanDeduction = $(this).find('td:eq(19)').text();
+                    var TotalDeduction  = $(this).find('td:eq(17)').text();
+                    var LoanDeduction = $(this).find('td:eq(18)').text();
+                    var TotalEarning = $(this).find('td:eq(19)').text();
                     var NetSalary = $(this).find('td:eq(20)').text();
+                    var FExtraOTHrs = 0;
 
                     if ((EmpCodeTxt != "")) {
                         var salarydetail = {
                             Sno: SnoTxt,
                             EmpCode: EmpCodeTxt,
                             EmpName: EmpNameTxt,
+                            ProjectCode:ProjectCodeTxt,
                             WorkingDay: WorkingDay,
                             Present: Present,
                             Absent: Absent,
@@ -197,35 +198,44 @@
                 var validationResult = ValidateForm(salarym);
                 if (validationResult.formValid) {
                     $.post("/SaveSalaryProcess", salarym).done(function (response) {
-                        debugger;
+                       
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
                           
                             EzbtnsaveAc("#SMAContainer");
-                            ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                           // ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             GetSry();
                         } else {
-                            Ezerrormsg("#ErrorMessage",response.ErrorMessage);
+                            //Ezerrormsg("#ErrorMessage",response.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
+
                         }
                     });
 
                 } else {
                     $("#ErrorMessage").show();
-                    Ezerrormsg("#ErrorMessage",validationResult.ErrorMessage);
+                    //Ezerrormsg("#ErrorMessage",validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
                 }
-                } else if (opMode == "Edit" && n==1) {
+            }
+            else if (opMode == "Edit" && n == 1) {
                     // Code for Adding Purchase order
-                   // debugger;
+                //
+                var i = 0;
+                $("#btnDelete").prop("disabled", true);
+                $("#btnSave").prop("disabled", true);
+                EzAlerterrtxt("Can't Edit Data");
+                if (i = 1) {
                     var salarym = {
                         EditFlag: true,
                         //PRSM001UID :$("[name*='PRSM001UID']").val(),
                         PRSM001_CODE: $("[name*='Code']").val(),
                         CurrentDate: $("[name*='CurrentDate']").val(),
-                
+
                         salaryList: []
 
                     };
                     $("#tableslryDetails tbody tr").each(function (index, item) {
-                      
+
                         var SnoTxt = $(this).find("[name*='Sno']").val();
                         var EmpCodeTxt = $(this).find("[name*='EmpCode']").val();
                         var EmpNameTxt = $(this).find("[name*='EmpName']").val();
@@ -274,20 +284,24 @@
                         }
                     });
                     var validationResult = ValidateForm(salarydetail);
-                if (validationResult.formValid) {
-                    $.post("/SaveSalaryProcess", salarym).done(function (response) {
-                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            EzbtnsaveAc("#SMAContainer");
-                            ezerrormsg("#ErrorMessage", response.ErrorMessage);
-                            GetSry();
-                        } else {
-                            ezerrormsg("#ErrorMessage",response.ErrorMessage);
-                        }
-                    });
-                } else {
-                    $("#ErrorMessage").show();
-                    ezerrormsg("#ErrorMessage",validationResult.ErrorMessage);
+                    if (validationResult.formValid) {
+                        $.post("/SaveSalaryProcess", salarym).done(function (response) {
+                            if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                                EzbtnsaveAc("#SMAContainer");
+                               // ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                GetSry();
+                            } else {
+                                //ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzAlerterrtxt(response.ErrorMessage);
+                            }
+                        });
+                    } else {
+                        $("#ErrorMessage").show();
+                        //ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+
+                    }
                 }
+              
             }
 
 
@@ -322,6 +336,61 @@
 
                     return response;
                 }
+        function RefreshDatatable()
+        {
+            var Code = $("#Code").val();
+
+            $.get("/SalaryProcess/GetSalaryProcessGridEdit", { salP_code: Code }).done(function (responce) {
+                    GetslryDetailsDatatable(responce);
+              
+            });
+        }
+        function GetslryDetailsDatatable(responce) {
+            $("#divsrly").show();
+            jq.fn.dataTable.ext.errorMode = 'none';
+            var t = jq('#srlyprocssdatatabl').DataTable({
+                "ColumnDefs": [{ "targets": [0], "Visible": false, "searchable": false }],
+                data: responce,
+                "order": [[1, "desc"]],
+                "scrollX": true,
+                "destroy": true,
+                "columns": [
+                     { "data": null },
+                    //{"data":null,
+                    //"render": function (data) {
+                    //    return "<label class='containerone'>" + "<input type='checkbox' class='chck' value='" + data.EmpCode + "'>" + "<span class='chekmark></span>" + "</label>";
+                    //}
+                   // },
+
+                           { "data": "EmpCode" },
+                           { "data": "EmpName" },
+                           { "data": "ProjectCode" },
+                           { "data": "WorkingDay" },
+                           { "data": "Present" },
+                           { "data": "Leaves" },
+                           { "data": "Absent" },
+                           { "data": "SickLeaves" },
+                           { "data": "WeeklyOff" },
+                           { "data": "Holiday" },
+                           { "data": "NormalOTHrs" },
+                           { "data": "HolidayOTHrs" },
+                           { "data": "WeeklyOffOTHrs" },
+                           { "data": "ExtraOTHrs" },
+                           { "data": "Salary" },
+                           { "data": "MonthlyAddition" },
+                           { "data": "TotalDeduction" },
+                           { "data": "LoanDeduction" },
+                           { "data": "TotalEarning" },
+                           { "data": "NetSalary" },
+
+                ]
+            });
+            t.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+        }
 
          $(document).on("click", "#SalaryList tbody tr", function ()
                 {
@@ -329,7 +398,7 @@
                     var operationMode = $("#hdnOperationMode").val();
                     if (operationMode == "Edit")
                     {
-                       // debugger;
+                       //
                         $("#SalaryList > tbody").children().removeClass("active");
                         $(this).addClass("active");
                         var Code = $(this).find("#hdnprbmCode").val();
@@ -342,7 +411,10 @@
                     }
                 });
                
-            });
+    });
+    $(".datepicker").on("dp.show", function (e) {
+        $(e.target).data("DateTimePicker").viewMode("months");
+    });
 </script>
 <style>
     .top-buffer {
@@ -455,19 +527,21 @@
                                             <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
 
                                         </ul>
-                                        <div class="tab-content" style="display:none">
+                                        <div class="tab-content" style="display:none" id="divsrly">
                                             <div id="home" class="tab-pane fade in active">
                                                 <br /><br />
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div style="overflow-x:auto;">
-                                                            <table class="table table-bordered">
+                                                            <table class="table table-bordered" id="srlyprocssdatatabl">
                                                                 <thead>
-                                                                    <tr class="id2">
-                                                                        @*<th><label class="containerone" style="padding-left:35px"><input type="checkbox" class="chck chckheader" value="42"><span class="chekmark"></span></label></th>*@
+                                                                    <tr>
                                                                         <th>Sr No</th>
+                                                                        @*<th><label class="containerone" style="padding-left:35px"><input type="checkbox" class="chck chckheaderdata"><span class="chekmark"></span></label></th>*@
+
                                                                         <th>Emp_Code</th>
                                                                         <th>Employee Name</th>
+                                                                        <th>ProjectCode</th>
                                                                         <th>Working Days</th>
                                                                         <th>Present</th>
                                                                         <th>Absent</th>
@@ -476,15 +550,15 @@
                                                                         <th>Weekly Off</th>
                                                                         <th>Holiday</th>
                                                                         <th>NOT Hrs</th>
-                                                                        @*<th>HOT Hrs</th>*@
-                                                                        @*<th>WOT hrs</th>
-                    <th>Extra OT Hrs</th>
-                    <th>F Extra OT hrs</th>*@
+                                                                        <th>HOT Hrs</th>
+                                                                        <th>WOT hrs</th>
+                                                                        <th>Extra OT Hrs</th>
+                                                                        <th>Basic Salary</th>
                                                                         <th>Monthly Addition</th>
-                                                                        @*<th>Total Earning</th>*@
                                                                         <th>Monthly Deduction</th>
-                                                                        @*<th>Loan Deduction</th>
-                    <th>Net Salary</th>*@
+                                                                        <th>Loan Deduction</th>
+                                                                        <th>Total Earning</th>
+                                                                        <th>Net Salary</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody></tbody>

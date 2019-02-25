@@ -69,7 +69,7 @@
                     if (result.value) {
                             var PRSFT003_code = $("[name*='PRSFT003_code']").val();
                             $.getJSON("/DeleteEmpShift", { PRSFT003_code: PRSFT003_code }).done(function (data) {
-                            debugger;
+                           
                             if (data.DeleteFlag) {
                                 GetLeaveList();
                                 $("#btnCancel").trigger("click");
@@ -128,14 +128,16 @@
                     $.post("/SaveEmpShift", Sft).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                           
                             EzbtnsaveAc("#POContainer");
-                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             GetLeaveList();
                         } else {                         
-                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
                         }
                     });
                 } else {                    
-                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
                 }
             } else if (opMode == "Edit" && n==1) {
                 var Sft = {
@@ -152,14 +154,16 @@
                     $.post("/SaveEmpShift", Sft).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                          
                             EzbtnsaveAc("#POContainer");
-                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             GetLeaveList();
                         } else {                            
-                            Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
                         }
                     });
                 } else {                   
-                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
                 }
             }
         });

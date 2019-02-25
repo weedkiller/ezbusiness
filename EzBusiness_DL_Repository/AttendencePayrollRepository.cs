@@ -32,7 +32,6 @@ namespace EzBusiness_DL_Repository
             }
             return false;
         }
-
         public List<Attendence> GetAtens(string CmpyCode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select * from MLH033 where CmpyCode='"+ CmpyCode  +"'and Flag=0");

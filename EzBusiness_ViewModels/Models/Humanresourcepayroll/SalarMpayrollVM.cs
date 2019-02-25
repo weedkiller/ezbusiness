@@ -62,7 +62,7 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
        
         public List<SalaryGrid> SalaryMas { get; set; }
         public SalaryGrid SMEarning { get; set; }
-
+        public string EmpName { get; set;}
         public string UserName { get; set; }
 
     }

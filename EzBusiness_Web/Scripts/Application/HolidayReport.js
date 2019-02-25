@@ -11,7 +11,7 @@
 
         $("#lanbtnSearchData").click(function () {
             // alert("");
-            // debugger;
+            //
             holidaydata.HolidayReportDetails();
         })
         $("#btncancel").click(function () {
@@ -22,7 +22,7 @@
     },
 
     HolidayReportDetails: function () {
-        debugger;
+        
         $("#displayholidetails").show();
         //var fdate = $("#fnlfdatetxt").val();
         //var Tdate = $("#fnltdatetxt").val();
@@ -31,8 +31,8 @@
         var newrow = {
             HRPH001_CODE: HolidayCode
         }
-        // debugger;
-
+        //
+       
         var fnldt = $('#Holidayreport').DataTable({
 
             "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
@@ -88,7 +88,7 @@
         });
         
         $("select option").filter(function () {
-            debugger;
+            
             //may want to use $.trim in here
             //return $(this).text() == text1;
             if ($(this).text() == "All") {

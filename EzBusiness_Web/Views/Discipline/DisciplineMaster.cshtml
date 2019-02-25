@@ -46,7 +46,7 @@
             //$(firstRow).after(newRow);
             var n = EzAuthenticationBtn("/Discipline", "NewIt");
             if (n == 1) {
-                debugger;
+               
                 $("#tbldiv").hide();
                 $("#btnAdd").prop('disabled', true)
                 $("#btnCancel").prop("disabled", false);
@@ -61,7 +61,7 @@
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtCode']", function () {
             var tr = $(this).closest('tr');
-            debugger;
+           
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -75,7 +75,7 @@
                 var dr = tr.find("[name *= 'txtCode']").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'txtCode']").focus();
-                alert("Already Exist DisciplineCode '" + dr + "'");
+                EzAlerterrtxt("Already Exist DisciplineCode '" + dr + "'");
                 tr.find("[name *= 'txtCode']").val('');
 
             }
@@ -104,7 +104,7 @@
 
         /*Name Tab Event*/
         $("#tblUnits1").on("keydown", "[name*='txtName']", function (e) {
-            debugger;
+           
             var keyCode = e.keyCode || e.which;
             if (keyCode == 9) {
                 e.preventDefault();
@@ -117,13 +117,13 @@
                 else {
                     tr.css("background", "red");
                     tr.find("[name *= 'txtName']").focus();
-                    alert("Please Enter DisciplineName");
+                    EzAlerterrtxt("Please Enter DisciplineName");
                 }
             }
         });
         /*Code Tab Event*/
         $("#tblUnits1").on("keydown", "[name*='txtCode']", function (e) {
-            debugger;
+           //
             var keyCode = e.keyCode || e.which;
             if (keyCode == 9) {
                 e.preventDefault();
@@ -136,13 +136,13 @@
                 else {
                     tr.css("background", "red");
                     tr.find("[name *= 'txtCode']").focus();
-                    alert("Please Enter Discipline Code");
+                    EzAlerterrtxt("Please Enter Discipline Code");
                 }
             }
         });
         /*UniCodeName Enter Event*/
         $("#tblUnits1").on("keypress", "[name *= 'txtUniCodeName']", function (e) {
-            debugger;
+           
             if (e.keyCode == 13) {
                 $(this).closest('tr').next('tr').find("[name *= 'txtCode']").focus();
                 return false;
@@ -150,7 +150,7 @@
         });
         /*Refresh */
         $("#btnCancel").click(function () {
-            debugger;
+           
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
@@ -173,7 +173,7 @@
 
 
         $("#btnSave").click(function () {
-            debugger;
+           
             var Dis = {
                 DisciplineDetailnew: []
             };
@@ -396,7 +396,7 @@
         });
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
-            debugger;
+           
             var n = EzAuthenticationBtn("/Discipline", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");

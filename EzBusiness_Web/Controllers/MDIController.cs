@@ -30,6 +30,13 @@ namespace EzBusiness_Web.Controllers
             return View();
         }
 
+        //[NotChildAction]
+        //[HttpPost]
+        //public ActionResult Attt
+        //{
+
+        //}
+
         [ChildActionOnly]
         public ActionResult GetMenuTree()
         {
@@ -54,13 +61,7 @@ namespace EzBusiness_Web.Controllers
             }
         }
 
-
-       
-
-
-
-
-
+        [HttpGet]
         public ActionResult MDIForm()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -115,7 +116,8 @@ namespace EzBusiness_Web.Controllers
             return _masterService.GetParentFormName(CmpyCode, ParentFormId);
         }
 
-        [HttpPost]
+        //[HttpPost]
+        [HttpGet]
         public ActionResult MDIForm(FormCollection formCollection, MenuItemsVM menuItemsVM)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;

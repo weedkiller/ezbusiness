@@ -42,6 +42,13 @@ namespace EzBusiness_EF_Entity
 
         public string ReportingEmp { get; set; }
 
+        //Report for Project Details
+        public Int32 Srno { get; set; }
+        public string ProjectDuration { get; set; }
+        public string ProjectCode { get; set; }
+        public string ProjectName { get; set; }
+        public DateTime CurrentDate { get; set; }
+        
         //public string EmpCode { get; set; }
         //public int Tyear { get; set; }
         //public int Tmonth { get; set; }

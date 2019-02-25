@@ -39,6 +39,7 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 
         public string UserName { get; set; }
         public string ReportingEmp { get; set; }
+        public string Project_code { get; set; }
 
     }
    

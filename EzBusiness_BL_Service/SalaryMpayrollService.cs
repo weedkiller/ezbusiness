@@ -16,9 +16,11 @@ namespace EzBusiness_BL_Service
     public class SalaryMpayrollService : ISalaryMpayrollService
     {
         ISalaryMpayrollRepository _SalzPayrollRepo;
+        ICodeGenRepository _codeRep;
         public SalaryMpayrollService()
         {
             _SalzPayrollRepo = new SalaryMpayrollRepository();
+            _codeRep = new CodeGenRepository();
         }
 
         public bool DeleteSry(string CMPYCODE, string PRSM001_CODE, string UserName)
@@ -75,6 +77,7 @@ namespace EzBusiness_BL_Service
                 SalaryMas = new List<SalaryGrid>(),
                 SMEarning = new SalaryGrid(),                
                 EmpCodeList = GetEmpCodes(CMPYCODE),
+                PRSM001_CODE= _codeRep.GetCode(CMPYCODE, "Salary Master"),
                 EditFlag = false
             };
         }
@@ -133,13 +136,18 @@ namespace EzBusiness_BL_Service
                 ALLOWANCE3CAPTION = m.ALLOWANCE3CAPTION,
                 ALLOWANCE3ACT = m.ALLOWANCE3ACT,
                 TOTAL = m.TOTAL,
-
+                EmpName=m.EmpName,
+                
 
             }).ToList();
         }
 
         public SalarMpayrollVM SaveSry(SalarMpayrollVM Sry)
         {
+            if (!Sry.EditFlag)
+            {
+                Sry.PRSM001_CODE = _codeRep.GetCode(Sry.CMPYCODE, "Salary Master");
+            }
             return _SalzPayrollRepo.SaveSry(Sry);
         }
     }

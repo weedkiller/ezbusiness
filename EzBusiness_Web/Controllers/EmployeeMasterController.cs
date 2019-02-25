@@ -251,9 +251,18 @@ namespace EzBusiness_Web.Controllers
         }
         public FileResult Download(string parentPartId)
         {
-            byte[] fileBytes = System.IO.File.ReadAllBytes(Server.MapPath(parentPartId));
-            string fileName = parentPartId;
+            byte[] fileBytes = null;
+            string fileName = null;
+            if (parentPartId != null)
+            {
+                fileBytes = System.IO.File.ReadAllBytes(Server.MapPath(parentPartId));
+                fileName = parentPartId;
+
+            }
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+
+            //string filePath = Server.MapPath(parentPartId);
+            //return File(filePath, "application/pdf");
         }
 
         public ActionResult GetBranchCodeList1(string divcode)

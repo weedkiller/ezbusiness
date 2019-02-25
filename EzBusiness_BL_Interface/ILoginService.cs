@@ -15,12 +15,9 @@ namespace EzBusiness_BL_Interface
    public interface ILoginService
     {
         List<SelectListItem> GetCompanyList();
-
         List<SelectListItem> GetDivisionList(string CmpyCode);
         List<SelectListItem> GetBranchList(string CmpyCode, string DivCode);
-
         List<SelectListItem> GetDepartmentList(string CmpyCode, string DivCode, string BranchCode);
         LoginVM SaveLons(LoginVM LoginVM);
-
     }
 }

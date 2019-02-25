@@ -30,7 +30,7 @@
         $('#oldLeavedays').val($('#LeaveDays').val());
 
         function halfday() {
-            debugger;
+           
             var start = new Date(Ezsetdtpkdate($("[name*='StartDate1']").val()));
             var end = new Date(Ezsetdtpkdate($("[name*='EndDate1']").val()));
             var diff = new Date(end - start);
@@ -51,7 +51,7 @@
 
 
         //$('#StartDate1').change(function () {
-        //    debugger;
+        //   
         //    halfday();
         //});
 
@@ -68,7 +68,7 @@
             halfday();
         });
       
-
+        EzComapretxtval("#LeaveDays", "#TotalSanctioned", 'Sanction days not greater than leave days');
         
 
     });
@@ -108,7 +108,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Date</label>
                                                         <div class="col-md-8 input-field">                                                            
-                                                            <input id="Entry_Dates1" class="form-control datepicker" disabled="disabled" name="Entry_Dates1" />
+                                                            <input id="Entry_Dates1" class="form-control datepicker" disabled="disabled" name="Entry_Dates1"  />
                                                             @Html.HiddenFor(m => m.Entry_Dates, new { htmlAttributes = new { @class = "date1" } })
                                                         </div>
                                                     </div>
@@ -165,7 +165,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Leave Type</label>
                                                         <div class="col-md-8 input-field">
-                                                            @Html.DropDownListFor(m => m.LeaveType, Model.LeaveTypeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            @Html.DropDownListFor(m => m.LeaveType, Model.LeaveTypeList, new { @class = "selectpicker form-control", @data_live_search = "true",@disabled="disabled" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -214,7 +214,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Sanction Days</label>
                                                         <div class="col-md-8 input-field">
-                                                            @Html.TextBoxFor(m => m.TotalSanctioned, new { @class = "form-control" })
+                                                            @Html.TextBoxFor(m => m.TotalSanctioned, new { @class = "form-control", @Type = "Number" })
                                                         </div>
                                                     </div>
                                                 </div>

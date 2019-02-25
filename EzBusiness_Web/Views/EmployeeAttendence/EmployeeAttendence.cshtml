@@ -25,9 +25,7 @@
             $(this).closest("tr").remove();
         });
 
-        $("#btnadd").click(function () {
-            debugger;
-
+        $("#btnadd").click(function () {          
             var e1 = $("#EmpCode option:selected").val();
             var dt2 = Ezsetdtpkdate($("#Att_Date").val());
             var e1 = $("#EmpCode option:selected").val();
@@ -42,13 +40,16 @@
                 {
                     EzAlerterrtxt("Already Exit Date");
                     duplicates = true;
-                }
+                }            
                 if (e1 != '0' && duplicates == false && Att_Date != '') {
+                    var date1 = Ezsetdtpkdate($('#Att_Date').val());
+                    var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                    if (k == 1){
                     var newRow1;
                     newRow1 = GetPayDeductOnDDL(counter);
                     var dropAttendence = newRow1;
                     $.get("/GetAPDetailList", { EmpCode: e1, dte: dt2 }).done(function (response) {
-                    debugger;
+                   
                     var ary = [];
                     ary = response;
                     if (ary.length == 0)
@@ -87,9 +88,13 @@
                         tr.find("[name='ATT" + counter + "']").val(ary[i].NHrs);
                         counter++;
                     }
-                });
+                    });
+                    }
             }
-        }
+            }
+            else {
+                EzAlerterrtxt("Select Employee");
+            }
         });
 
         $("#btnCancel").click(function () {
@@ -107,10 +112,10 @@
             $('.selectpicker').selectpicker('refresh');                      
            // $("#EmpCode > [value=0]").attr("selected", "true");
 
-            Ezerrormsg("#ErrorMessage", "");
+            //Ezerrormsg("#ErrorMessage", "");
         });
         $("#btnSave").click(function () {
-            debugger;
+           
             var OTPayroll = {
 
                 EmpCode: $("#EmpCode option:selected").val(),
@@ -196,7 +201,7 @@
 
 
         $("#EmpCode").change(function () {
-            debugger;
+           
             counter = 1;
             arr = [];
             $("#tablePODetails > tbody tr").empty();
@@ -207,7 +212,7 @@
 
 
     function GetPayDeductOnDDL(index) {
-        debugger;
+       
 
         if (paydeductons.length > 0) {
             var ddlPayDeductOn = "<select class='form-control' name='ddlPayDeductOn1" + index + "'>";
@@ -220,7 +225,7 @@
     }
     /*Code For Bind Division Code*/
     function GetDivisionList() {
-        debugger;
+       
         var index = 1;
         $.ajax(
 
@@ -229,7 +234,7 @@
             url: "/GetLeaveTypList",
             dataType: "json",
             success: function (data) {
-                debugger;
+               
                 paydeductons = data;
 
                 if (paydeductons.length > 0) {

@@ -13,10 +13,12 @@ namespace EzBusiness_Web.Controllers
     public class SalaryMController : Controller
     {
         ISalaryMpayrollService _SalzService;
+        
 
         public SalaryMController()
         {
             _SalzService = new SalaryMpayrollService();
+            
 
         }
 

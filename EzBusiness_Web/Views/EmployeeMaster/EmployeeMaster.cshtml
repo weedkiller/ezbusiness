@@ -5,10 +5,8 @@
 <script>
   
     $(function () {
-
         EzAuthentication("/EmployeeMaster");
-        EzdtePk('#JoiningDate1,#DOB1,#LastRetDate1,#ContactDate,#AbscondingDate');
-
+        EzdtePk('#JoiningDate1,#DOB1,#LastRetDate1,#ContactDate1,#AbscondingDate1');
         EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
         EzdtePkyyyy('#ObtainedYear1');
         var poHtml = $("#POContainer").html();
@@ -19,7 +17,7 @@
             });
         }
         $("#btnNew").click(function () {
-            debugger;           
+                      
             var n = EzAuthenticationBtn("/EmployeeMaster", "NewIt");
             if (n == 1)
             {
@@ -108,18 +106,7 @@
                         }
                     })
                 }
-                //if (confirm("Are you Sure?")) {
-                //    var EmpCode = $("[name*='EmpCode']").val();
-                //    $.getJSON("/DeleteEmployeeMaster", { EmpCode: EmpCode }).done(function (data) {
-                //        if (data.DeleteFlag) {
-                //            GetPurchaseOrderList();
-                //            $("#btnCancel").trigger("click");
-                //        } else {
-                //            $("#ErrorMessage").show().find("strong").text("Unable to Delete");
-                //        }
-                //    });
-                //}
-            
+ 
         });
 
     
@@ -128,7 +115,7 @@
             var opMode = $("#hdnOperationMode").val();
             var n = EzAuthenticationBtn("/EmployeeMaster", "EditIt");
             if (opMode == "Add") {
-                // Code for Adding Purchase order
+                // Code for Adding Purchase order               
                 var employeemaster = {
                     IsEditMode: false,
                     Salutaion: $("[name='Salutaion'] option:selected").val(),
@@ -193,7 +180,7 @@
                     VisaProfession: $("[name='VisaProfession'] option:selected").val(),
                   //  LeaveSettlementDate: $("[name='LeaveSettlementDate']").val(),
                    // LastIncrementDate: $("[name='LastIncrementDate']").val(),
-                    EmployeeType: $("[name='EmpType'] option:selected").val(),
+                    EmpType: $("input:radio[name=EmpType]:checked").val(),
                    // FirstSetDate: $("[name='FirstSetDate']").val(),
                   //  RetirementDate: $("[name='RetirementDate']").val(),
                    // ESICDate: $("[name='ESICDate']").val(),
@@ -222,7 +209,7 @@
                     var StartDateTxt = Ezsetdtpkdate($(this).find("[name*='StartDate']").val());
                     var EndDateTxt = Ezsetdtpkdate($(this).find("[name*='EndDate']").val());
                     var DescriptionTxt = $(this).find("[name*='Description']").val();
-                    var DocumentPath = $('[name*="DocumentPath"]').val();
+                    var DocumentPath = $(this).find('[name*="DocumentPath"]').val();
                  
                     if ((DocCodeDDL != "0") && (DocNoTxt != "")) {
                         var EmployeeDetail = {
@@ -282,19 +269,20 @@
                 var validationResult = ValidateForm(employeemaster);
                 if (validationResult.formValid) {
                     $.post("/SaveEmployeeMaster", employeemaster).done(function (response) {
-                        debugger;
+                       
                             if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {
                              
                                 EzbtnsaveAc("#POContainer");
                                 
                                 GetPurchaseOrderList();
                             } else {
-                                Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzAlerterrtxt(response.ErrorMessage);
                             }
                         });
                   } else {
-                    
-                    Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                 }
             } else if (opMode == "Edit" && n==1) {
                 // Code for Adding Purchase order
@@ -308,7 +296,7 @@
                     LeaveStatus: $("[name='LeaveStatus']").val(),
                     EmpMolId: $("[name='EmpMolId']").val(),
                     AttDeviceNo: $("[name='AttDeviceNo']").val(),
-                    DOB: Ezsetdtpkdate($("[name='DOB']").val()),
+                    DOB: Ezsetdtpkdate($("[name='DOB1']").val()),
                     Empname: $("[name='Empname']").val(),
                     PlaceOfBirth: $("[name='PlaceOfBirth']").val(),
                     Sex: $("input:radio[name=Sex]:checked").val(),
@@ -363,7 +351,7 @@
                     VisaProfession: $("[name='VisaProfession'] option:selected").val(),
                    // LeaveSettlementDate: $("[name='LeaveSettlementDate']").val(),
                    // LastIncrementDate: $("[name='LastIncrementDate']").val(),
-                    EmployeeType: $("[name='EmpType'] option:selected").val(),
+                    EmpType: $("input:radio[name=EmpType]:checked").val(),
                    // FirstSetDate: $("[name='FirstSetDate']").val(),
                     //RetirementDate: $("[name='RetirementDate']").val(),
                    // ESICDate: $("[name='ESICDate']").val(),
@@ -380,7 +368,7 @@
                     EmployeeNomineenews: [],
                     //----
                 };
-                debugger;
+               
                 $("#tablePODetails2 tbody tr").each(function (index, item) {
                     var DocCodeDDL = $(this).find("[name*='DocCode'] option:selected").val();
                     var DocNameTxt = $(this).find("[name*='DocName']").val();
@@ -390,7 +378,7 @@
                     var StartDateTxt = Ezsetdtpkdate($(this).find("[name*='StartDate']").val());
                     var EndDateTxt = Ezsetdtpkdate($(this).find("[name*='EndDate']").val());
                     var DescriptionTxt = $(this).find("[name*='Description']").val();
-
+                    var DocumentPath = $(this).find('[name*="DocumentPath"]').val();
                     if ((DocCodeDDL != "0") && (DocNoTxt != "")) {
                         var EmployeeDetail = {
                             DocCode: DocCodeDDL,
@@ -401,6 +389,7 @@
                             StartDate: StartDateTxt,
                             EndDate: EndDateTxt,
                             Description: DescriptionTxt,
+                            DocumentPath: DocumentPath
                         };
                         employeemaster.EmployeeDetailnews.push(EmployeeDetail);
                     }
@@ -441,34 +430,35 @@
                         };
                         employeemaster.EducationDetailnews.push(EducationDetail);
                     }
-                });
-            
+                });           
                     var validationResult = ValidateForm(employeemaster);
                     if (validationResult.formValid) {
                         $.post("/SaveEmployeeMaster", employeemaster).done(function (response) {
                             if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {
                                 EzbtnsaveAc("#POContainer");
-                                Ezerrormsg("#ErrorMessage","");
+                                //Ezerrormsg("#ErrorMessage","");
                                 GetPurchaseOrderList();
                             } else {
                                 //  $("#ErrorMessage").show().find("strong").text(response.ErrorMessage);
-                                Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzAlerterrtxt(response.ErrorMessage);
                             }
                         });
 
                     } else {
-                        Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                        //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                        EzAlerterrtxt(validationResult.ErrorMessage);
                     }
                 }
         });
 
         function ValidateForm(employeemaster) {
-            debugger;
+           
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
-            if (employeemaster.IsEditMode == false) {
+            //if (employeemaster.IsEditMode == false) {
                 if (employeemaster.Salutaion == "0") {
                     response.ErrorMessage += "Salutaion ,";
                 }
@@ -484,6 +474,9 @@
                 if (employeemaster.Location == "") {
                     response.ErrorMessage += "Location";
                 }
+                if (employeemaster.VisaLocation == "") {
+                    response.ErrorMessage += "Visa Location";
+                }
             if (!employeemaster.DOB) {
                 response.ErrorMessage += "Date of Birth,";
             }
@@ -494,22 +487,22 @@
             if (!ValidateEmail(employeemaster.EMail)) {
                 response.ErrorMessage += "EmailId not Valid,";
             }
-
+            
             if (employeemaster.DOB >= employeemaster.JoiningDate) {
                 response.ErrorMessage += "Date of Birth Can not be greater than Joining Date .";
             }
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
             }
-            } else if (employeemaster.IsEditMode == true) {
-                if (employeemaster.EmpCode=='') {
-                    response.ErrorMessage += "Employee Code,";
+            //} else if (employeemaster.IsEditMode == true) {
+            //    if (employeemaster.EmpCode=='') {
+            //        response.ErrorMessage += "Employee Code,";
 
-                }
-                if (response.ErrorMessage.length == 0) {
-                    response.formValid = true;
-                }
-            }
+            //    }
+            //    if (response.ErrorMessage.length == 0) {
+            //        response.formValid = true;
+            //    }
+            //}
             return response;
         }
 
@@ -525,7 +518,7 @@
 
 
         $(document).on("click", "#POList tbody tr", function () {
-            debugger;
+           
             var operationMode = $("#hdnOperationMode").val();
             if (operationMode == "Edit") {
                 $("#POList > tbody").children().removeClass("active");
@@ -538,8 +531,10 @@
             }
         });
 
-
-        debugger;
+        $("#ObtainedYear1").on("dp.show", function (e) {
+            $(e.target).data("DateTimePicker").viewMode("years");
+        });
+       
         //alert("hiii");
      
 
@@ -736,7 +731,7 @@
                                                                     <div class="clearfix"></div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
-                                                                            <label class="control-label col-md-5">Email Id</label>
+                                                                            <label class="control-label col-md-5">Email Id<i style="color:red;">*</i></label>
                                                                             <div class="col-md-7 input-field">
                                                                                 <input type="text" class="form-control" name="" required placeholder="" maxlength="50" />
                                                                             </div>
@@ -1187,7 +1182,7 @@
                                                                     <div class="row">
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label class="control-label col-md-3">Visa Location</label>
+                                                                                <label class="control-label col-md-3">Visa Location<i style="color:red;">*</i></label>
                                                                                 <div class="col-md-9 input-field">
                                                                                     <select class="form-control" name="">
                                                                                         <option value="">---Select---</option>
@@ -1272,7 +1267,7 @@
                                                                             <td>
                                                                                 <div class="grid-group">
                                                                                     @*@Html.file(string.Concat("AttachedDocument", counter), null, new { @class = "grid-control" })*@
-                                                                                    <input type="file" name="file" id="file" /><br><br>
+                                                                                    <input type="file" name="DocumentPath" id="DocumentPath" /><br><br>
                                                                                     @*<input type="submit" value="Upload Image" />*@
                                                                                 </div>
                                                                             </td>

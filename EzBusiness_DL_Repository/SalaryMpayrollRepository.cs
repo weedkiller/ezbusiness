@@ -9,6 +9,8 @@ using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Transactions;
+
 namespace EzBusiness_DL_Repository
 {
     public class SalaryMpayrollRepository : ISalaryMpayrollRepository
@@ -21,53 +23,57 @@ namespace EzBusiness_DL_Repository
 
         public List<SalaryM> GetSryList(string CMPYCODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRSMS001 where CmpyCode='" + CMPYCODE + "' and  Flag=0 ");
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<SalaryM> ObjList = new List<SalaryM>();
-            foreach (DataRow dr in drc)
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRSMS001 sm inner join MEM001 emp on sm.EMPCODE=emp.EmpCode and sm.CMPYCODE=emp.Cmpycode and sm.Flag=emp.Flag  where sm.CmpyCode='" + CMPYCODE + "' and  sm.Flag=0 ");
+            List<SalaryM> ObjList = null;
+            if (ds.Tables.Count > 0)
             {
-                ObjList.Add(new SalaryM()
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                 ObjList = new List<SalaryM>();
+                foreach (DataRow dr in drc)
                 {
-                    CMPYCODE = dr["CMPYCODE"].ToString(),
-                    PRSM001_CODE = dr["PRSM001_CODE"].ToString(),
-                    DIVISION = dr["DIVISION"].ToString(),
-                    COUNTRY = dr["COUNTRY"].ToString(),
-                    EMPCODE = dr["EMPCODE"].ToString(),
-                    Entery_date = Convert.ToDateTime(dr["Entery_date"]),
-                    Effect_From = Convert.ToDateTime(dr["Effect_From"]),
-                    BASIC = Convert.ToDecimal(dr["BASIC"]),
-                    BASICCAPTION = dr["BASICCAPTION"].ToString(),
-                    BASICACT = dr["BASICACT"].ToString(),
-                    HRA = Convert.ToDecimal(dr["HRA"]),
-                    HRACAPTION = dr["HRACAPTION"].ToString(),
-                    HRAACT = dr["HRAACT"].ToString(),
-                    DA = Convert.ToDecimal(dr["DA"]),
-                    DACAPTION = dr["DACAPTION"].ToString(),
-                    DAACT = dr["DAACT"].ToString(),
-                    TELE = Convert.ToDecimal(dr["TELE"]),
-                    TELECAPTION = dr["TELECAPTION"].ToString(),
-                    TELEACT = dr["TELEACT"].ToString(),
-                    TRANS = Convert.ToDecimal(dr["TRANS"]),
-                    TRANSCAPTION = dr["TRANSCAPTION"].ToString(),
-                    TRANSACT = dr["TRANSACT"].ToString(),
-                    CAR = Convert.ToDecimal(dr["CAR"]),
-                    CARCAPTION = dr["CARCAPTION"].ToString(),
-                    CARACT = dr["CARACT"].ToString(),
-                    ALLOWANCE1 = Convert.ToDecimal(dr["ALLOWANCE1"]),
-                    ALLOWANCE1CAPTION = dr["ALLOWANCE1CAPTION"].ToString(),
-                    ALLOWANCE1ACT = dr["ALLOWANCE1ACT"].ToString(),
-                    ALLOWANCE2 = Convert.ToDecimal(dr["ALLOWANCE2"]),
-                    ALLOWANCE2CAPTION = dr["ALLOWANCE2CAPTION"].ToString(),
-                    ALLOWANCE2ACT = dr["ALLOWANCE2ACT"].ToString(),
-                    ALLOWANCE3 = Convert.ToDecimal(dr["ALLOWANCE3"]),
-                    ALLOWANCE3CAPTION = dr["ALLOWANCE3CAPTION"].ToString(),
-                    ALLOWANCE3ACT = dr["ALLOWANCE3ACT"].ToString(),
-                    TOTAL = Convert.ToDecimal(dr["TOTAL"]),
+                    ObjList.Add(new SalaryM()
+                    {
+                        CMPYCODE = dr["CMPYCODE"].ToString(),
+                        PRSM001_CODE = dr["PRSM001_CODE"].ToString(),
+                        DIVISION = dr["DIVISION"].ToString(),
+                        COUNTRY = dr["COUNTRY"].ToString(),
+                        EMPCODE = dr["EMPCODE"].ToString(),
+                        Entery_date = Convert.ToDateTime(dr["Entery_date"]),                       
+                        Effect_From = Convert.ToDateTime(dr["Effect_From"]),
+                        BASIC = Convert.ToDecimal(dr["BASIC"]),
+                        BASICCAPTION = dr["BASICCAPTION"].ToString(),
+                        BASICACT = dr["BASICACT"].ToString(),
+                        HRA = Convert.ToDecimal(dr["HRA"]),
+                        HRACAPTION = dr["HRACAPTION"].ToString(),
+                        HRAACT = dr["HRAACT"].ToString(),
+                        DA = Convert.ToDecimal(dr["DA"]),
+                        DACAPTION = dr["DACAPTION"].ToString(),
+                        DAACT = dr["DAACT"].ToString(),
+                        TELE = Convert.ToDecimal(dr["TELE"]),
+                        TELECAPTION = dr["TELECAPTION"].ToString(),
+                        TELEACT = dr["TELEACT"].ToString(),
+                        TRANS = Convert.ToDecimal(dr["TRANS"]),
+                        TRANSCAPTION = dr["TRANSCAPTION"].ToString(),
+                        TRANSACT = dr["TRANSACT"].ToString(),
+                        CAR = Convert.ToDecimal(dr["CAR"]),
+                        CARCAPTION = dr["CARCAPTION"].ToString(),
+                        CARACT = dr["CARACT"].ToString(),
+                        ALLOWANCE1 = Convert.ToDecimal(dr["ALLOWANCE1"]),
+                        ALLOWANCE1CAPTION = dr["ALLOWANCE1CAPTION"].ToString(),
+                        ALLOWANCE1ACT = dr["ALLOWANCE1ACT"].ToString(),
+                        ALLOWANCE2 = Convert.ToDecimal(dr["ALLOWANCE2"]),
+                        ALLOWANCE2CAPTION = dr["ALLOWANCE2CAPTION"].ToString(),
+                        ALLOWANCE2ACT = dr["ALLOWANCE2ACT"].ToString(),
+                        ALLOWANCE3 = Convert.ToDecimal(dr["ALLOWANCE3"]),
+                        ALLOWANCE3CAPTION = dr["ALLOWANCE3CAPTION"].ToString(),
+                        ALLOWANCE3ACT = dr["ALLOWANCE3ACT"].ToString(),
+                        TOTAL = Convert.ToDecimal(dr["TOTAL"]),
+                        EmpName = dr["Empname"].ToString()
 
+                    });
 
-                });
-
+                }
             }
             return ObjList;
         }
@@ -157,11 +163,13 @@ namespace EzBusiness_DL_Repository
 
                         //}).ToList());
 
-                        _EzBusinessHelper.ExecuteNonQuery("insert into PRSMS001(PRSM001_CODE,CMPYCODE,DIVISION,COUNTRY,EMPCODE,Entery_date,Effect_From,BASIC,BASICCAPTION,BASICACT,HRA,HRACAPTION,HRAACT,DA,DACAPTION,DAACT,TELE,TELECAPTION,TELEACT,TRANS,TRANSCAPTION,TRANSACT,CAR,CARCAPTION,CARACT,ALLOWANCE1,ALLOWANCE1CAPTION,ALLOWANCE1ACT,ALLOWANCE2,ALLOWANCE2CAPTION,ALLOWANCE2ACT,ALLOWANCE3,ALLOWANCE3CAPTION,ALLOWANCE3ACT,TOTAL) values(" + sb.ToString() + "");
+                        using (TransactionScope scope1 = new TransactionScope())
+                        {
+                            _EzBusinessHelper.ExecuteNonQuery("insert into PRSMS001(PRSM001_CODE,CMPYCODE,DIVISION,COUNTRY,EMPCODE,Entery_date,Effect_From,BASIC,BASICCAPTION,BASICACT,HRA,HRACAPTION,HRAACT,DA,DACAPTION,DAACT,TELE,TELECAPTION,TELEACT,TRANS,TRANSCAPTION,TRANSACT,CAR,CARCAPTION,CARACT,ALLOWANCE1,ALLOWANCE1CAPTION,ALLOWANCE1ACT,ALLOWANCE2,ALLOWANCE2CAPTION,ALLOWANCE2ACT,ALLOWANCE3,ALLOWANCE3CAPTION,ALLOWANCE3ACT,TOTAL) values(" + sb.ToString() + "");
 
 
-                        _EzBusinessHelper.ActivityLog(Sry.CMPYCODE, Sry.UserName, "Add Salary Master", Sry.PRSM001_CODE, Environment.MachineName);
-
+                            _EzBusinessHelper.ActivityLog(Sry.CMPYCODE, Sry.UserName, "Add Salary Master", Sry.PRSM001_CODE, Environment.MachineName);
+                       
                         //n = ObjList.Count;
 
                         //while (n > 0)
@@ -171,6 +179,8 @@ namespace EzBusiness_DL_Repository
                         //}
                         Sry.SaveFlag = true;
                         Sry.ErrorMessage = string.Empty;
+                            scope1.Complete();
+                        }
                     }
                 }
 
@@ -178,87 +188,91 @@ namespace EzBusiness_DL_Repository
                 {
                     n = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRSMS001 where CmpyCode='" + Sry.CMPYCODE + "' and PRSM001_CODE='" + Sry.PRSM001_CODE + "' ");
 
+                    using (TransactionScope scope = new TransactionScope())
+                    {
 
-                    _EzBusinessHelper.ExecuteNonQuery("Delete from PRSMS001 where CmpyCode='" + Sry.CMPYCODE + "' and PRSM001_CODE='" + Sry.PRSM001_CODE + "' ");
-                    //_EzBusinessHelper.ExecuteNonQuery("Delete from SHH004 where CmpyCode='" + Sry.CMPYCODE + "' and PRSM001_CODE='" + Sry.PRSM001_CODE + "' ");
-                    DateTime dt1 = Convert.ToDateTime(Sry.Entery_date.ToString());
+                        _EzBusinessHelper.ExecuteNonQuery("Delete from PRSMS001 where CmpyCode='" + Sry.CMPYCODE + "' and PRSM001_CODE='" + Sry.PRSM001_CODE + "' ");
+                        //_EzBusinessHelper.ExecuteNonQuery("Delete from SHH004 where CmpyCode='" + Sry.CMPYCODE + "' and PRSM001_CODE='" + Sry.PRSM001_CODE + "' ");
+                        DateTime dt1 = Convert.ToDateTime(Sry.Entery_date.ToString());
 
-                    dtstr = dt1.ToString("yyyy-MM-dd");
+                        dtstr = dt1.ToString("yyyy-MM-dd");
 
-                    DateTime dt2 = Convert.ToDateTime(Sry.Effect_From.ToString());
+                        DateTime dt2 = Convert.ToDateTime(Sry.Effect_From.ToString());
 
-                    dtstr1 = dt2.ToString("yyyy-MM-dd");
-
-
-                    StringBuilder sb = new StringBuilder();
-                    //sb.Append("'" + Sry.PRSM001UID + "',");
-                    sb.Append("'" + Sry.PRSM001_CODE + "',");
-                    sb.Append("'" + Sry.CMPYCODE + "',");
-                    sb.Append("'" + Sry.DIVISION + "',");
-                    sb.Append("'" + Sry.COUNTRY + "',");
-                    sb.Append("'" + Sry.EMPCODE + "',");
-                    sb.Append("'" + dtstr + "',");
-                    sb.Append("'" + dtstr1 + "',");
-                    sb.Append("'" + Sry.BASIC + "',");
-                    sb.Append("'" + Sry.BASICCAPTION + "',");
-                    sb.Append("'" + Sry.BASICACT + "',");
-                    sb.Append("'" + Sry.HRA + "',");
-                    sb.Append("'" + Sry.HRACAPTION + "',");
-                    sb.Append("'" + Sry.HRAACT + "',");
-                    sb.Append("'" + Sry.DA + "',");
-                    sb.Append("'" + Sry.DACAPTION + "',");
-                    sb.Append("'" + Sry.DAACT + "',");
-                    sb.Append("'" + Sry.TELE + "',");
-                    sb.Append("'" + Sry.TELECAPTION + "',");
-                    sb.Append("'" + Sry.TELEACT + "',");
-                    sb.Append("'" + Sry.TRANS + "',");
-                    sb.Append("'" + Sry.TRANSCAPTION + "',");
-                    sb.Append("'" + Sry.TRANSACT + "',");
-                    sb.Append("'" + Sry.CAR + "',");
-                    sb.Append("'" + Sry.CARCAPTION + "',");
-                    sb.Append("'" + Sry.CARACT + "',");
-                    sb.Append("'" + Sry.ALLOWANCE1 + "',");
-                    sb.Append("'" + Sry.ALLOWANCE1CAPTION + "',");
-                    sb.Append("'" + Sry.ALLOWANCE1ACT + "',");
-                    sb.Append("'" + Sry.ALLOWANCE2 + "',");
-                    sb.Append("'" + Sry.ALLOWANCE2CAPTION + "',");
-                    sb.Append("'" + Sry.ALLOWANCE2ACT + "',");
-                    sb.Append("'" + Sry.ALLOWANCE3 + "',");
-                    sb.Append("'" + Sry.ALLOWANCE3CAPTION + "',");
-                    sb.Append("'" + Sry.ALLOWANCE3ACT + "',");
-                    sb.Append("'" + Sry.TOTAL + "')");
+                        dtstr1 = dt2.ToString("yyyy-MM-dd");
 
 
-                    //List<SalaryGrid> ObjList = new List<SalaryGrid>();
+                        StringBuilder sb = new StringBuilder();
+                        //sb.Append("'" + Sry.PRSM001UID + "',");
+                        sb.Append("'" + Sry.PRSM001_CODE + "',");
+                        sb.Append("'" + Sry.CMPYCODE + "',");
+                        sb.Append("'" + Sry.DIVISION + "',");
+                        sb.Append("'" + Sry.COUNTRY + "',");
+                        sb.Append("'" + Sry.EMPCODE + "',");
+                        sb.Append("'" + dtstr + "',");
+                        sb.Append("'" + dtstr1 + "',");
+                        sb.Append("'" + Sry.BASIC + "',");
+                        sb.Append("'" + Sry.BASICCAPTION + "',");
+                        sb.Append("'" + Sry.BASICACT + "',");
+                        sb.Append("'" + Sry.HRA + "',");
+                        sb.Append("'" + Sry.HRACAPTION + "',");
+                        sb.Append("'" + Sry.HRAACT + "',");
+                        sb.Append("'" + Sry.DA + "',");
+                        sb.Append("'" + Sry.DACAPTION + "',");
+                        sb.Append("'" + Sry.DAACT + "',");
+                        sb.Append("'" + Sry.TELE + "',");
+                        sb.Append("'" + Sry.TELECAPTION + "',");
+                        sb.Append("'" + Sry.TELEACT + "',");
+                        sb.Append("'" + Sry.TRANS + "',");
+                        sb.Append("'" + Sry.TRANSCAPTION + "',");
+                        sb.Append("'" + Sry.TRANSACT + "',");
+                        sb.Append("'" + Sry.CAR + "',");
+                        sb.Append("'" + Sry.CARCAPTION + "',");
+                        sb.Append("'" + Sry.CARACT + "',");
+                        sb.Append("'" + Sry.ALLOWANCE1 + "',");
+                        sb.Append("'" + Sry.ALLOWANCE1CAPTION + "',");
+                        sb.Append("'" + Sry.ALLOWANCE1ACT + "',");
+                        sb.Append("'" + Sry.ALLOWANCE2 + "',");
+                        sb.Append("'" + Sry.ALLOWANCE2CAPTION + "',");
+                        sb.Append("'" + Sry.ALLOWANCE2ACT + "',");
+                        sb.Append("'" + Sry.ALLOWANCE3 + "',");
+                        sb.Append("'" + Sry.ALLOWANCE3CAPTION + "',");
+                        sb.Append("'" + Sry.ALLOWANCE3ACT + "',");
+                        sb.Append("'" + Sry.TOTAL + "')");
 
-                    //ObjList.AddRange(Sry.SalaryMas.Select(m => new SalaryGrid
-                    //{
 
-                    //    CmpyCode = m.CmpyCode,
-                    //    Code = m.Code,
-                    //    Amount = m.Amount.Value,
-                    //    Name = m.Name,
-                    //    Accountcode = m.Accountcode
+                        //List<SalaryGrid> ObjList = new List<SalaryGrid>();
 
-                    //    //CmpyCode = po.CmpyCode,
-                    //    //MRCode = pt.MRCode, //response.MRCode,
+                        //ObjList.AddRange(Sry.SalaryMas.Select(m => new SalaryGrid
+                        //{
 
-                    //}).ToList());
+                        //    CmpyCode = m.CmpyCode,
+                        //    Code = m.Code,
+                        //    Amount = m.Amount.Value,
+                        //    Name = m.Name,
+                        //    Accountcode = m.Accountcode
 
-                    _EzBusinessHelper.ExecuteNonQuery("insert into PRSMS001(PRSM001_CODE,CMPYCODE,DIVISION,COUNTRY,EMPCODE,Entery_date,Effect_From,BASIC,BASICCAPTION,BASICACT,HRA,HRACAPTION,HRAACT,DA,DACAPTION,DAACT,TELE,TELECAPTION,TELEACT,TRANS,TRANSCAPTION,TRANSACT,CAR,CARCAPTION,CARACT,ALLOWANCE1,ALLOWANCE1CAPTION,ALLOWANCE1ACT,ALLOWANCE2,ALLOWANCE2CAPTION,ALLOWANCE2ACT,ALLOWANCE3,ALLOWANCE3CAPTION,ALLOWANCE3ACT,TOTAL) values(" + sb.ToString() + "");
+                        //    //CmpyCode = po.CmpyCode,
+                        //    //MRCode = pt.MRCode, //response.MRCode,
 
-                    _EzBusinessHelper.ActivityLog(Sry.CMPYCODE, Sry.UserName, "Update Salary Master", Sry.PRSM001_CODE, Environment.MachineName);
+                        //}).ToList());
 
-                    //n = ObjList.Count;
+                        _EzBusinessHelper.ExecuteNonQuery("insert into PRSMS001(PRSM001_CODE,CMPYCODE,DIVISION,COUNTRY,EMPCODE,Entery_date,Effect_From,BASIC,BASICCAPTION,BASICACT,HRA,HRACAPTION,HRAACT,DA,DACAPTION,DAACT,TELE,TELECAPTION,TELEACT,TRANS,TRANSCAPTION,TRANSACT,CAR,CARCAPTION,CARACT,ALLOWANCE1,ALLOWANCE1CAPTION,ALLOWANCE1ACT,ALLOWANCE2,ALLOWANCE2CAPTION,ALLOWANCE2ACT,ALLOWANCE3,ALLOWANCE3CAPTION,ALLOWANCE3ACT,TOTAL) values(" + sb.ToString() + "");
 
-                    //while (n > 0)
-                    //{
-                    //    _EzBusinessHelper.ExecuteNonQuery("insert into SHH004(CmpyCode,Code,Name,Accountcode,Amount) values('" + ObjList[n - 1].CmpyCode + "','" + ObjList[n - 1].Code + "','" + ObjList[n - 1].Name + "','" + ObjList[n - 1].Accountcode + "','" + ObjList[n - 1].Amount + "')");
-                    //    n = n - 1;
-                    //}
+                        _EzBusinessHelper.ActivityLog(Sry.CMPYCODE, Sry.UserName, "Update Salary Master", Sry.PRSM001_CODE, Environment.MachineName);
 
-                    Sry.ErrorMessage = string.Empty;
-                    Sry.SaveFlag = true;
+                        //n = ObjList.Count;
+
+                        //while (n > 0)
+                        //{
+                        //    _EzBusinessHelper.ExecuteNonQuery("insert into SHH004(CmpyCode,Code,Name,Accountcode,Amount) values('" + ObjList[n - 1].CmpyCode + "','" + ObjList[n - 1].Code + "','" + ObjList[n - 1].Name + "','" + ObjList[n - 1].Accountcode + "','" + ObjList[n - 1].Amount + "')");
+                        //    n = n - 1;
+                        //}
+
+                        Sry.ErrorMessage = string.Empty;
+                        Sry.SaveFlag = true;
+                        scope.Complete();
+                    }
                 }
 
                 return Sry;
@@ -331,7 +345,7 @@ namespace EzBusiness_DL_Repository
 
         public List<Employee> GetEmpCodes(string CMPYCODE)
         {
-            return drop.GetEmpCodes(CMPYCODE,"A");
+            return drop.GetEmpCodes(CMPYCODE, "SM");
         }
 
         public bool DeleteSry(string CMPYCODE, string PRSM001_CODE, string username)

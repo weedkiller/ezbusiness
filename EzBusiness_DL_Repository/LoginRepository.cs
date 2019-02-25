@@ -50,14 +50,14 @@ namespace EzBusiness_DL_Repository
                     Utype = dr["Utype"].ToString();
 
                     List<SessionListnew> ObjList = new List<SessionListnew>();
-
+                    
 
                     SessionListnew data = new SessionListnew();
                     data.user_name = Login1;
                     data.Utype = Utype;
 
                     data.CmpyCode = LoginMaster.CmpyCode.ToString();
-
+                    
 
                     if (LoginMaster.DivCode != null)
                     {
@@ -89,14 +89,9 @@ namespace EzBusiness_DL_Repository
 
                     HttpContext context = HttpContext.Current;
 
-
-
                     context.Session["SesDet"] = ObjList;
 
-                  
-
-
-
+                   
 
                 }
                 if (Login1 != "0")
@@ -104,9 +99,7 @@ namespace EzBusiness_DL_Repository
 
                     LoginMaster.IsLogInFlag = true;
 
-                    LoginMaster.ErrorMessage = "Login Successfull";
-
-                    
+                    LoginMaster.ErrorMessage = "Login Successfull";                   
                 }
                 else
                 {

@@ -42,6 +42,7 @@ namespace EzBusiness_BL_Interface
 
         List<ShiftMaster> GetShiftMasterDetails(string CmpyCode, string ShiftCode);
         List<ShiftMaster> ShiftMasterReportDetailsColumnWithOrder(string order, string orderDir, List<ShiftMaster> data);
-
+        List<TimeSheetDetail> GetProjectDetailsEmployeeWise(string CmpyCode,DateTime CurrentDate);
+        List<TimeSheetDetail> ProjectReportDetailsColumnWithOrder(string order, string orderDir, List<TimeSheetDetail> data);
     }
 }

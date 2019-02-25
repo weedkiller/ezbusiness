@@ -19,12 +19,42 @@ namespace EzBusiness_Web.Controllers
 
         IMenuItemRightsUService _MenuRights;
         IMasterService _masterService;
+        ISalaryprocCondService _SalryProCond;
         public UserRightsController()
         {
             _MenuRights = new MenuItemRightsUService();
 
             _masterService = new MasterService();
+            _SalryProCond = new SalaryprocCondService();
         }
+
+        //[Route("SalryProCond")]
+        public ActionResult CheckSalryProCond(string Empcode, string dtmonthyy)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return  Json(_SalryProCond.GetSalaryProcess(list[0].CmpyCode, Empcode, Convert.ToDateTime(dtmonthyy)), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetSalryLast(string Empcode, string dtmonthyy, string InpAmt)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                
+                return Json(_SalryProCond.GetSalaryLast(list[0].CmpyCode, Empcode, Convert.ToDateTime(dtmonthyy), InpAmt), JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         [Route("AuthCheck")]
         public ActionResult GetEmployeeMasterList1(string rpath1)
