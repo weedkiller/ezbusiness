@@ -11,7 +11,7 @@ namespace EzBusiness_DL_Interface
     public interface IPurchaseMgmtORepository
     {
         #region Purchase order
-        List<CostCenterHeader> GetProjects(string CmpyCode);
+        List<ProjectMaster> GetProjects(string CmpyCode);
         List<Product> GetItemCodeList(string CmpyCode, string restyp);
 
         PurchaseOrderDetailnew GetItemCodeDescription(string CmpyCode, string itemCode, string restyp);

@@ -146,8 +146,6 @@ namespace EzBusiness_DL_Repository
         }
         #endregion
 
-
-
         public List<EducationDetail> GetEducationDetailList(string CmpyCode, string EmpCode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select * from EMPDET001 where CmpyCode='" + CmpyCode + "' and Code='" + EmpCode + "' and Flag=0");
@@ -393,18 +391,8 @@ namespace EzBusiness_DL_Repository
 
 
                 EmpMs.GroupCode = dr["GroupCode"].ToString();
-
-
-
-
-
-
-
-
-
                 EmpMs.BankBranchCode = dr["BankBranchCode"].ToString();
                 EmpMs.LocCode = dr["LocCode"].ToString();
-
                 EmpMs.DepartmentCode = dr["DepartmentCode"].ToString();
                 EmpMs.BranchCode = dr["BranchCode"].ToString();
                 EmpMs.photpath = dr["photpath"].ToString();
@@ -813,19 +801,12 @@ namespace EzBusiness_DL_Repository
                             }
 
                             #endregion
-
-
-
-
-
-
-                            // _materialMgmtContext.SaveChanges();
+                           // _materialMgmtContext.SaveChanges();
                             counter = 1;
                             EmpMs.ErrorMessage = string.Empty;
                             EmpMs.IsSavedFlag = true;
                         }
                         scope.Complete();
-
                     }
                 }
                 catch (Exception)
@@ -1222,7 +1203,6 @@ namespace EzBusiness_DL_Repository
         {
             return drop.GetBranchCode1(CmpyCode, divcode);
         }
-
 
     }
 }

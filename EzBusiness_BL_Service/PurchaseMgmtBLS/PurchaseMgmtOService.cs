@@ -18,12 +18,13 @@ namespace EzBusiness_BL_Service
         IPurchaseMgmtORepository _purchaseRepo;
         IMaterialMgmtService _materialService;
 
-        
+        ICodeGenRepository _CodeRep;
 
         public PurchaseMgmtOService()
         {
             _purchaseRepo = new PurchaseMgmtORepository();
             _materialService = new MaterialMgmtService();
+            _CodeRep = new CodeGenRepository();
 
         }
         public bool DeletePurchaseOrder(string CmpyCode, string POCode)
@@ -167,6 +168,7 @@ namespace EzBusiness_BL_Service
         {
             return new PurchaseOrderVM
             {
+                MRCode =_CodeRep.GetCode(CmpyCode, "PurchaseOrder"),
                 ProjectList = GetProjects(CmpyCode),
                 ItemCodeList = GetItemCodeList(CmpyCode, "M"),
                 LocationList = GetLocationList(CmpyCode),

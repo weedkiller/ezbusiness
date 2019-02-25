@@ -569,6 +569,46 @@ namespace EzBusiness_DL_Repository
             return ObjList;
         }
 
+        public List<ExchangeRates> GetCurrencyExchangeList(string CompyCode)
+        {
+            List<ExchangeRates> ObjList = null;
+            ds = _EzBusinessHelper.ExecuteDataSet("SELECT CurCode, CurName,CurRate FROM PMEXCHNGRT001 WHERE Cmpycode ='" + CompyCode + "' Order By Curcode ");
+            if (ds.Tables.Count > 0)
+            {
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                ObjList = new List<ExchangeRates>();
+                foreach (DataRow dr in drc)
+                {
+                    ObjList.Add(new ExchangeRates()
+                    {
+                        CurCode = dr["CurCode"].ToString(),
+                        CurName = dr["CurName"].ToString(),
+                        CurRate = Convert.ToDecimal(dr["CurRate"]),
+                    });
+
+                }
+            }
+            return ObjList;
+        }
+
+        public List<Supplier> GetSupplierList(string Cmpycode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Name,Suppliercode from PMSUPH001 where CmpyCode='" + Cmpycode + "'  AND SupplierType='S' ");
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<Supplier> ObjList = new List<Supplier>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new Supplier()
+                {
+                    Name = dr["Name"].ToString(),
+                    Suppliercode = dr["Suppliercode"].ToString(),
+                });
+
+            }
+            return ObjList;
+        }
         //public List<dateYm> GetMonth()
         //{
         //    List<dateYm> ObjList = new List<dateYm>();          
