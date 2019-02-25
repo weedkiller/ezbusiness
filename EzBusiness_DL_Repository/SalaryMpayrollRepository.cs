@@ -88,7 +88,7 @@ namespace EzBusiness_DL_Repository
                 {
                     ds = _EzBusinessHelper.ExecuteDataSet("Select count(*) as [count1] from PRSMS001 where CmpyCode='" + Sry.CMPYCODE + "' and PRSM001_CODE='" + Sry.PRSM001_CODE + "'");
                     dt = ds.Tables[0];
-
+                    int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + Sry.CMPYCODE + "' and Code='PRSM' ");
 
                     int Sry1 = 0;
                     foreach (DataRow dr in dt.Rows)
@@ -167,6 +167,7 @@ namespace EzBusiness_DL_Repository
                         {
                             _EzBusinessHelper.ExecuteNonQuery("insert into PRSMS001(PRSM001_CODE,CMPYCODE,DIVISION,COUNTRY,EMPCODE,Entery_date,Effect_From,BASIC,BASICCAPTION,BASICACT,HRA,HRACAPTION,HRAACT,DA,DACAPTION,DAACT,TELE,TELECAPTION,TELEACT,TRANS,TRANSCAPTION,TRANSACT,CAR,CARCAPTION,CARACT,ALLOWANCE1,ALLOWANCE1CAPTION,ALLOWANCE1ACT,ALLOWANCE2,ALLOWANCE2CAPTION,ALLOWANCE2ACT,ALLOWANCE3,ALLOWANCE3CAPTION,ALLOWANCE3ACT,TOTAL) values(" + sb.ToString() + "");
 
+                            _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + Sry.CMPYCODE + "' and Code='PRSM'");
 
                             _EzBusinessHelper.ActivityLog(Sry.CMPYCODE, Sry.UserName, "Add Salary Master", Sry.PRSM001_CODE, Environment.MachineName);
                        
