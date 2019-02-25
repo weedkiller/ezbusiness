@@ -342,15 +342,9 @@ namespace EzBusiness_DL_Repository
                     int j = 0;
                     while (j < k)
                     {
-                        try
-                        {
-                            cmd.Parameters.AddWithValue(p[j].ParameterName, p[j].Value);
+                         cmd.Parameters.AddWithValue(p[j].ParameterName, p[j].Value);
                             j = j + 1;
-                        }
-                        catch(Exception ex)
-                        {
-
-                        }
+                        
                     }
 
                     try
