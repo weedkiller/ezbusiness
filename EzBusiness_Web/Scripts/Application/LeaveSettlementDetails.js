@@ -1,21 +1,18 @@
-﻿var LeaveSet = {
-
+﻿
+var LeaveSet = {
     initialize: function () {
         // var jq = $.noConflict(true);
    $('input[Type="date"]').val(new Date().getToday());
         $.fn.dataTable.ext.errorMode = 'none';
         LeaveSet.Attachevent();
-
     },
-    Attachevent: function () {
+    Attachevent: function (){
         $("#btnSearchData").click(function () {
             // alert("");
-
             LeaveSet.LeaveSettlementDetails();
         })
     },
-    LeaveSettlementDetails: function () {
-        
+    LeaveSettlementDetails: function () {       
         $("#displayleaveset").show();
         var Msg="";
         var fdate = Ezsetdtpkdate($("#fdatetxt").val());
@@ -112,7 +109,7 @@
             });
 
             $("select option").filter(function () {
-
+                var k = 0;
                 //may want to use $.trim in here
                 //return $(this).text() == text1;
                 if ($(this).text() == "All") {

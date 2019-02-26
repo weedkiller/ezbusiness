@@ -242,6 +242,7 @@
         });
 
         function ValidateForm(LeaveApp) {
+            debugger;
             var response = {
                 ErrorMessage: "",
                 formValid: false
@@ -257,6 +258,10 @@
             }           
             if (LeaveApp.EmpCode=="0") {
                 response.ErrorMessage += "EmpCode are mandatory Fields.";
+            }
+            if (LeaveApp.StartDate < LeaveApp.JoiningDate)
+            {
+                response.ErrorMessage += "start Date should be greater than joining Date ";
             }
 
             if (LeaveApp.LeaveType == "0") {
