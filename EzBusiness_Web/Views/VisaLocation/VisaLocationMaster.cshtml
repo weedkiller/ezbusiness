@@ -139,6 +139,7 @@
                 $.post("/VisaLocation/SaveVls", VisaMaster).done(function (response) {
                 if (response.Drecord == null)
                 {
+                    $("#tblUnits1").hide();
                     $("#tbldiv").show();
                     response.Drecord = 0;
                 }
@@ -317,14 +318,15 @@
                         if (result.value) {
                             code = $(tr).find("td:eq(0)").text().trim();
                             $.getJSON("/DeleteVls", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
-                                if (data.DeleteFlag) {
-                                    if ($('#tblUnits tbody tr').length == 2) {
-                                        //$(".dataTables_empty").replaceWith("No data available in table");
-                                        var firstRow = $('#tblUnits tbody tr:first');
-                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
-                                        $(firstRow).after(newRow);
-                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
-                                    }
+                                debugger;
+                                if (data.DeleteFlag==true) {
+                                    //if ($('#tblUnits tbody tr').length == 2) {
+                                    //    //$(".dataTables_empty").replaceWith("No data available in table");
+                                    //    var firstRow = $('#tblUnits tbody tr:first');
+                                    //    var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                    //    $(firstRow).after(newRow);
+                                    //    $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    //}
                                     tr.remove();
                                 }
                                 else {
@@ -419,7 +421,7 @@ $(document).ready(function(){
         <label class="row" id="ErrorMessage" style="color:red;">
             <strong></strong>
         </label>
-        <table class="table table-bordered" id="tblUnits1">
+        <table class="table table-bordered" id="tblUnits1" style="display:none">
             <thead>
                 <tr class="tr">
                     <th>

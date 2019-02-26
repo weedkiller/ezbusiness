@@ -14,6 +14,7 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
+        debugger;
        // EzsetDatetxt();
         counter = 1;
         drec = [];
@@ -130,7 +131,7 @@
             var fstyp = "";
             if (e.oldDate !== null) {
                 var tr = $(this).closest("tr");              
-                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val())) <= new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val())))) {//compare end <=, not >=
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='Effect_Date']").val())) < new Date(Ezsetdtpkdate(tr.find("[name*='Enttry_Date']").val())))) {//compare end <=, not >=
                     tr.find("[name*='Effect_Date']").val(tr.find("[name*='Enttry_Date']").val());
                     t = true;
                     EzAlerterrDt();

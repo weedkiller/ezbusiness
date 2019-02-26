@@ -22,8 +22,8 @@ namespace EzBusiness_DL_Repository
 
         public bool DeleteVls(string Code, string CmpyCode, string UserName)
         {
-            int Vls = _EzBusinessHelper.ExecuteScalar("Select count(*) from VLOC001 where CmpyCode='" + CmpyCode + "' and Code='" + Code + "'");
-            int EmpV = _EzBusinessHelper.ExecuteScalar("select count(*)  from MEM001 where VisaLocation='" + Code + "' and cmpycode='" + CmpyCode + "'");
+            int Vls = _EzBusinessHelper.ExecuteScalar("Select count(*) from VLOC001 where CmpyCode='" + CmpyCode + "' and Code='" + Code + "' and Flag=0");
+            int EmpV = _EzBusinessHelper.ExecuteScalar("select count(*)  from MEM001 where VisaLocation='" + Code + "' and cmpycode='" + CmpyCode + "' and Flag=0 ");
             if (Vls != 0 && EmpV==0)
             {
                 _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete Visa Location", Code, Environment.MachineName);
@@ -87,11 +87,15 @@ namespace EzBusiness_DL_Repository
 
                             using (TransactionScope scope1 = new TransactionScope())
                             {
-                                _EzBusinessHelper.ExecuteNonQuery("insert into VLOC001(CmpyCode,Code,Name,CompanyMolID) values(" + sb.ToString() + "");
+                               int i= _EzBusinessHelper.ExecuteNonQuery("insert into VLOC001(CmpyCode,Code,Name,CompanyMolID) values(" + sb.ToString() + "");
                                 _EzBusinessHelper.ActivityLog(Vls.CmpyCode, Vls.UserName, "Add Visa Location Master", Vls.Code, Environment.MachineName);
-                                scope1.Complete();
-                                Vls.SaveFlag = true;
-                                Vls.ErrorMessage = string.Empty;
+                                if(i>0)
+                                {
+                                    scope1.Complete();
+                                    Vls.SaveFlag = true;
+                                    Vls.ErrorMessage = string.Empty;
+                                }
+                               
                             }
                            
                         }
