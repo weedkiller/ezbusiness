@@ -54,7 +54,7 @@
         EztableTabEve("#tablePODetails1", "[name*='ObtainedYear']", "[name *= 'Specification']", "Please Enter ObtainedYear", 'N', "0");
 
         $("#tablePODetails2").on("change", "[name*='SourceFile']", function () {
-           
+            debugger;
             if(window.FormData!=undefined)
             {
                 //var FileUpload = $('#File').get(0);
@@ -85,6 +85,7 @@
             }
         });
         $("#sourcephoto").change(function () {
+            debugger;
             readURL(this);
            
             var data = new FormData();
@@ -400,7 +401,7 @@
             var fstyp = "";
             if (e.oldDate !== null) {
                 var tr = $(this).closest("tr");               
-                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())) >= new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())))) {//compare end <=, not >=
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())) > new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())))) {//compare end <=, not >=
                     tr.find("[name*='StartDate']").val(tr.find("[name*='EndDate']").val());
                     t = true;
                     EzAlerterrDt();
@@ -415,7 +416,7 @@
             var fstyp = "";
             if (e.oldDate !== null) {
                 var tr = $(this).closest("tr");
-                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())) <= new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())))) {//compare end <=, not >=
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())) < new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())))) {//compare end <=, not >=
                     tr.find("[name*='EndDate']").val(tr.find("[name*='StartDate']").val());
                     t = true;
                     EzAlerterrDt();
@@ -1069,7 +1070,7 @@
                                                 </tbody>
                                             </table>
                                             @Html.Hidden("counter1", (++counter1))
-                                        @*</div>*@
+                                        </div>
                                     </div>
                                     <div id="menu4" class="tab-pane fade">
                                         <br /><br />

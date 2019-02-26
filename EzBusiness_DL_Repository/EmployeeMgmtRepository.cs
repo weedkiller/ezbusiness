@@ -306,7 +306,17 @@ namespace EzBusiness_DL_Repository
                 EmpMs.BankAccNo = dr["BankAccNo"].ToString();
                 EmpMs.AccNo = dr["AccNo"].ToString();
 
-                EmpMs.ReportingEmp = dr["ReportingEmp"].ToString();
+
+                if (dr["ReportingEmp"].ToString() == dr["EmpCode"].ToString())
+                {
+                    EmpMs.ReportingEmp = "01";
+                }
+                else {
+                    EmpMs.ReportingEmp = dr["ReportingEmp"].ToString();
+                }
+                
+
+
                 EmpMs.MaritalStatus = dr["MaritalStatus"].ToString();
                 EmpMs.BloodGroup = dr["BloodGroup"].ToString();
                 //if (dr["PhysicallyDisabledYN"].ToString() == "Y")
@@ -475,8 +485,16 @@ namespace EzBusiness_DL_Repository
                     Emp.ProjectCode = EmpMs.ProjectCode;
                     Emp.BankCode = EmpMs.BankCode;
                     Emp.BankAccNo = EmpMs.BankAccNo;
-                    Emp.AccNo = EmpMs.AccNo;                              
-                    Emp.ReportingEmp = EmpMs.ReportingEmp;
+                    Emp.AccNo = EmpMs.AccNo;   
+                    if(EmpMs.ReportingEmp != "01")
+                    {
+                        Emp.ReportingEmp = EmpMs.ReportingEmp;
+                    }
+                    else
+                    {
+                        Emp.ReportingEmp = EmpMs.EmpCode;
+                    }                          
+                    
                     Emp.MaritalStatus = EmpMs.MaritalStatus;
                     Emp.BloodGroup = EmpMs.BloodGroup;
                     Emp.PhysicallyDisabledYN = EmpMs.PhysicallyDisabledYN;
@@ -864,8 +882,16 @@ namespace EzBusiness_DL_Repository
                             Emp.ProjectCode = EmpMs.ProjectCode;
                             Emp.BankCode = EmpMs.BankCode;
                             Emp.BankAccNo = EmpMs.BankAccNo;
-                            Emp.AccNo = EmpMs.AccNo;                         
-                            Emp.ReportingEmp = EmpMs.ReportingEmp;
+                            Emp.AccNo = EmpMs.AccNo;
+                            //  Emp.ReportingEmp = EmpMs.ReportingEmp;
+                            if (EmpMs.ReportingEmp != "01")
+                            {
+                                Emp.ReportingEmp = EmpMs.ReportingEmp;
+                            }
+                            else
+                            {
+                                Emp.ReportingEmp = EmpMs.EmpCode;
+                            }
                             Emp.MaritalStatus = EmpMs.MaritalStatus;
                             Emp.BloodGroup = EmpMs.BloodGroup;
                             Emp.PhysicallyDisabledYN = EmpMs.PhysicallyDisabledYN;
@@ -887,8 +913,11 @@ namespace EzBusiness_DL_Repository
                             Emp.LocCode = EmpMs.LocCode;
                             Emp.photpath = EmpMs.photpath;
                             Emp.wagesby = EmpMs.wagesby;
+
+                            Emp.Week_off1 = EmpMs.Week_off1;
+                            Emp.Week_off2 = EmpMs.Week_off2;
                             #endregion
-                           
+
                             _EzBusinessHelper.ExecuteNonQuery("delete from EMNM005 where CmpyCode='" + EmpMs.Cmpycode + "' and EmpCode='" + EmpMs.EmpCode + "'");
                             _EzBusinessHelper.ExecuteNonQuery("delete from EMPDET001 where CmpyCode='" + EmpMs.Cmpycode + "' and Code='" + EmpMs.EmpCode + "'");
                             _EzBusinessHelper.ExecuteNonQuery("delete from EMDET002 where CmpyCode='" + EmpMs.Cmpycode + "' and EmpCode='" + EmpMs.EmpCode + "'");

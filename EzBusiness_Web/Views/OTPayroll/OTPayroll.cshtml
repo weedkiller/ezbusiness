@@ -99,7 +99,7 @@
                                 var td5 = "<td><div class='form-group'><input type='number' " + Readonly1 + " class='form-control' name='Hhrs" + counter + "'></div></td>";
                                 var td6 = "<td><div class='form-group'><input type='number' " + Readonly1 + " class='form-control' name='ExtraHrs" + counter + "'></div></td>";
                                 var td7 = "<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
-                                var td12 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='ReportingEmp" + counter + "'></div></td>";
+                                var td12 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='EmpCode" + counter + "'></div></td>";
                                 $("#tablePODetails").append(tr1 + td + td12 + td1 + tdA + td2 + td3 + td4 + td5 + td6 + td7);
 
                                 var tr = $("#tablePODetails tbody tr");
@@ -110,7 +110,7 @@
                                 tr.find("[name='Ohrs" + counter + "']").val(ary[i].OTHrs);
                                 tr.find("[name='Hhrs" + counter + "']").val(ary[i].HOTHrs);
                                 tr.find("[name='ExtraHrs" + counter + "']").val(ary[i].ExtraHrs);
-                                tr.find("[name='ReportingEmp" + counter + "']").val(ary[i].ReportingEmp);
+                                tr.find("[name='EmpCode" + counter + "']").val(ary[i].EmpCode);
                                 counter++;
                             }
                         });
@@ -139,13 +139,13 @@
         $("#btnSave").click(function () {
             var OTPayroll = {
 
-                EmpCode: $("#EmpCode option:selected").val(),
+               EmpCode: $("#EmpCode option:selected").val(),
                 OTExtraDetailnews: [],
             };
             
             $("#tablePODetails tbody tr").each(function (index, item) {
                 debugger
-               
+                var EmpCodetxt = $(this).find("[name*='EmpCode']").val();
                 var Datesttxt = Ezsetdtpkdate($(this).find("[name*='Datest']").val());
                
                 var FOThrstxt = $(this).find("[name*='FOThrs']").val();
@@ -159,6 +159,7 @@
                         Ohrs: Ohrstxt,
                         Hhrs: Hhrstxt,
                         ExtraHrs: ExtraHrstxt,
+                        EmpCode: EmpCodetxt
                     };
                     OTPayroll.OTExtraDetailnews.push(OTExtraDetail);
                 }
@@ -192,7 +193,7 @@
 
             } else {
                
-                EzAlerterrtxt(response.ErrorMessage);
+                EzAlerterrtxt(validationResult.ErrorMessage);
             }
 
             function ValidateForm(OTPayroll) {
@@ -318,7 +319,7 @@
                                                                 <thead>
                                                                     <tr>
                                                                       <th>Sr No</th>
-                                                                        <th>Reporting Emp</th>
+                                                                        <th>EmpCode</th>
                                                                         <th>Date</th>
                                                                         <th>Att Type</th>
                                                                         <th>N HRS</th>

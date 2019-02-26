@@ -265,7 +265,7 @@ namespace EzBusiness_DL_Repository
         }
         public List<Employee> GetEmpList1(string CmpyCode, string empcode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("SELECT 'SELF' AS EmpCode, 'SELF' AS EmpName UNION ALL SELECT EmpCode,EmpName FROM MEM001 WHERE CmpyCode = N'" + CmpyCode + "' AND EmpCode <>'" + empcode + "'  and Flag=0 ORDER BY EmpCode");
+            ds = _EzBusinessHelper.ExecuteDataSet("SELECT '01' AS EmpCode, 'SELF' AS EmpName UNION ALL SELECT EmpCode,EmpName FROM MEM001 WHERE CmpyCode = N'" + CmpyCode + "' AND EmpCode <>'" + empcode + "'  and Flag=0 ORDER BY EmpCode");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<Employee> ObjList = new List<Employee>();

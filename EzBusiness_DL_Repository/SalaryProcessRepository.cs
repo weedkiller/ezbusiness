@@ -97,10 +97,10 @@ namespace EzBusiness_DL_Repository
                 List<SalaryProcessDetailsListItem> objList = null;
                 string yeardata = currDate.ToString("yyyy");
                 string monthdata = currDate.ToString("MM");
-                SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
-                                    new SqlParameter("@Year", yeardata),
-                                     new SqlParameter("@Month",monthdata)};         
-                ds = _EzBusinessHelper.ExecuteDataSet("usp_GetSlryProsesDetails", CommandType.StoredProcedure, param);
+                //SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
+                //                    new SqlParameter("@Year", yeardata),
+                //                     new SqlParameter("@Month",monthdata)};         
+                ds = _EzBusinessHelper.ExecuteDataSet("select emp.Empname,sal.cmpycode,sal.empcode,Total_Days,Worked_Days,a_basic,a_hra,a_Da,a_tele,a_trans,a_car,a_allowance1,a_allowance2,a_allowance3,a_Totalsalary,C_basic,C_hra,C_totalSalary,loan_amt,adn_amount, nothrs,extraOThrs,hothrs,wothrs,not_rate_perhr,ExtraOT_rate_perhr, hot_rate_perhr, wot_rate_perhr from vw_SalaryProcess sal inner join MEM001 emp on sal.empcode = emp.EmpCode where sal.cmpycode='" + CmpyCode+"' and Tmonth='"+monthdata+"' and Tyear='"+yeardata+"'");
             if (ds.Tables.Count > 0)
             {
 
@@ -113,28 +113,28 @@ namespace EzBusiness_DL_Repository
                     {
                         objList.Add(new SalaryProcessDetailsListItem()
                         {
-                            EmpCode = dr["EmpCode"].ToString(),
-                            EmpName = dr["empname"].ToString(),
-                            WorkingDay = Convert.ToDecimal(dr["workingday"].ToString()),
-                            Present = Convert.ToDecimal(dr["Present"].ToString()),
-                            Leaves = Convert.ToDecimal(dr["AnnualLeave"].ToString()),
-                            Absent = Convert.ToDecimal(dr["Absentt"].ToString()),
-                            SickLeaves = Convert.ToDecimal(dr["SickLeave"].ToString()),
-                            WeeklyOff = Convert.ToDecimal(dr["WeeklyOff"].ToString()),
-                            Holiday = Convert.ToDecimal(dr["Holiday"].ToString()),
-                            NormalOTHrs = Convert.ToDecimal(dr["NOTHrs"].ToString()),
-                            HolidayOTHrs = Convert.ToDecimal(dr["HOTHrs"].ToString()),
-                            WeeklyOffOTHrs = Convert.ToDecimal(dr["FOTHrs"].ToString()),
-                            ExtraOTHrs = Convert.ToDecimal(dr["ExtraOTHrs"].ToString()),
-                            TotalEarning = Convert.ToDecimal(dr["TotalEarningdata"].ToString()),
-                            TotalDeduction = Convert.ToDecimal(dr["Deduction"].ToString()),
-                            NetSalary = Convert.ToDecimal(dr["netsalarydata"].ToString()),
-                            MonthlyAddition = Convert.ToDecimal(dr["Addition"].ToString()),
-                            LoanDeduction = Convert.ToDecimal(dr["LoanDeductiondata"].ToString()),
+                            EmpCode = dr["empcode"].ToString(),
+                            EmpName = dr["Empname"].ToString(),
+                            WorkingDay = Convert.ToDecimal(dr["Total_Days"].ToString()),
+                            Present = Convert.ToDecimal(dr["Worked_Days"].ToString()),
+                            Leaves =0,// Convert.ToDecimal(dr["AnnualLeave"].ToString()),
+                            Absent =0, //Convert.ToDecimal(dr["Absentt"].ToString()),
+                            SickLeaves = 0,//Convert.ToDecimal(dr["SickLeave"].ToString()),
+                            WeeklyOff = 0,//Convert.ToDecimal(dr["WeeklyOff"].ToString()),
+                            Holiday = 0,//Convert.ToDecimal(dr["Holiday"].ToString()),
+                            NormalOTHrs = Convert.ToDecimal(dr["nothrs"].ToString()),
+                            HolidayOTHrs = Convert.ToDecimal(dr["hothrs"].ToString()),
+                            WeeklyOffOTHrs = Convert.ToDecimal(dr["wothrs"].ToString()),
+                            ExtraOTHrs = Convert.ToDecimal(dr["extraOThrs"].ToString()),
+                            TotalEarning = Convert.ToDecimal(dr["C_totalSalary"].ToString()),
+                           // TotalDeduction = Convert.ToDecimal(dr["Deduction"].ToString()),
+                            NetSalary =0, //Convert.ToDecimal(dr["netsalarydata"].ToString()),
+                            MonthlyAddition = Convert.ToDecimal(dr["adn_amount"].ToString()),
+                            LoanDeduction = Convert.ToDecimal(dr["loan_amt"].ToString()),
                             //ErrorMsg = (dr["Flag"].ToString()),
-                            ProjectCode = dr["Project_code"].ToString(),
+                            ProjectCode ="NA",//dr["Project_code"].ToString(),
 
-                            Salary = Convert.ToDecimal(dr["BasicSalary"].ToString()),
+                            Salary = Convert.ToDecimal(dr["a_basic"].ToString()),
 
                         });
                     }

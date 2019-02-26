@@ -40,7 +40,7 @@ namespace EzBusiness_DL_Repository
             dtstr1 = dte.ToString("yyyy-MM-dd");
 
             //
-            ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,EmpCode,EmpName,(select isnull(ReportingEmp,'-') from MEM001 b where b.Cmpycode=a.Cmpycode and a.EmpCode=b.ReportingEmp and b.ReportingEmp!='0') as [Reporting Emp],TYEAR,TMONTH,ATT,NHrs,OTHrs,HOTHrs,FOTHrs,ExtraHrs,TotalHrs from PRDTD002  a  where format(a.Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "'  and a.Empcode ='" + EmpCode + "' and a.cmpycode='" + CmpyCode + "'");
+            ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,EmpCode,EmpName,(select isnull(ReportingEmp,'-') from MEM001 b where b.Cmpycode=a.Cmpycode and  b.EmpCode=a.EmpCode and b.ReportingEmp!='0') as [Reporting Emp],TYEAR,TMONTH,ATT,NHrs,OTHrs,HOTHrs,FOTHrs,ExtraHrs,TotalHrs from PRDTD002  a  where format(a.Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "'  and a.Empcode in (SELECT EmpCode from MEM001 where  Flag=0 and (WorkingStatus='Y' Or WorkingStatus='W') And EmpCode='" + EmpCode + "'  or ReportingEmp='" + EmpCode + "'   and CmpyCode='" + CmpyCode + "')  and a.cmpycode='" + CmpyCode + "'");
             //dt = ds.Tables[0];
 
             //SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
@@ -65,7 +65,7 @@ namespace EzBusiness_DL_Repository
                     FOTHrs = dr["FOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["FOTHrs"].ToString()) : 0,
                     HOTHrs = dr["HOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["HOTHrs"].ToString()) : 0,
                     OTHrs = dr["OTHrs"].ToString() != "" ? Convert.ToDecimal(dr["OTHrs"].ToString()) : 0,
-                    ReportingEmp=dr["Reporting Emp"].ToString()
+                    EmpCode=dr["EmpCode"].ToString()
                 });
 
             }
@@ -80,7 +80,7 @@ namespace EzBusiness_DL_Repository
 
             dte = Convert.ToDateTime(dte1);
             dtstr1 = dte.ToString("yyyy-MM-dd");
-            ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,ATT from PRDTD002  where format(Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "'  and Empcode ='" + EmpCode + "' and cmpycode='" + CmpyCode + "'");
+            ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,ATT,EmpCode from PRDTD002  where format(Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "'  and Empcode in (SELECT EmpCode from MEM001 where  Flag=0 and (WorkingStatus='Y' Or WorkingStatus='W') And EmpCode='" + EmpCode + "'  or ReportingEmp='" + EmpCode + "'   and CmpyCode='" + CmpyCode + "') and cmpycode='" + CmpyCode + "'");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<TimeSheetDetail> ObjList = new List<TimeSheetDetail>();
@@ -90,7 +90,7 @@ namespace EzBusiness_DL_Repository
                 {
                     Att_Date = Convert.ToDateTime(dr["Att_Date"].ToString()),
                     ATT = dr["ATT"].ToString(),
-
+                    EmpCode=dr["EmpCode"].ToString()
                 });
 
             }
@@ -113,6 +113,7 @@ namespace EzBusiness_DL_Repository
                     HOTHrs = Convert.ToDecimal(m.Hhrs),
                     NHrs = Convert.ToDecimal(m.Nhrs),
                     OTHrs = Convert.ToDecimal(m.Ohrs),
+                    EmpCode=m.EmpCode
 
                 }).ToList());
             }
@@ -122,7 +123,7 @@ namespace EzBusiness_DL_Repository
             {
                 dte = Convert.ToDateTime(ObjList[n - 1].Att_Date);
                 dtstr1 = dte.ToString("yyyy-MM-dd");
-                _EzBusinessHelper.ExecuteNonQuery("update PRDTD002 set OTHrs='" + ObjList[n - 1].OTHrs + "',FOTHrs='" + ObjList[n - 1].FOTHrs + "',HOTHrs='" + ObjList[n - 1].HOTHrs + "',Extrahrs='" + ObjList[n - 1].ExtraHrs + "' where format(Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "' and Empcode ='" + OT.EmpCode + "' and cmpycode='" + OT.Cmpycode + "'");
+                _EzBusinessHelper.ExecuteNonQuery("update PRDTD002 set OTHrs='" + ObjList[n - 1].OTHrs + "',FOTHrs='" + ObjList[n - 1].FOTHrs + "',HOTHrs='" + ObjList[n - 1].HOTHrs + "',Extrahrs='" + ObjList[n - 1].ExtraHrs + "' where format(Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "' and Empcode ='" + ObjList[n - 1].EmpCode + "' and cmpycode='" + OT.Cmpycode + "'");
                 n = n - 1;
             }
 
@@ -147,6 +148,7 @@ namespace EzBusiness_DL_Repository
                 {
                     Att_Date = m.Att_Date,
                     ATT = (m.ATT).ToString(),
+                    EmpCode=m.EmpCode
 
                 }).ToList());
             }
@@ -156,7 +158,7 @@ namespace EzBusiness_DL_Repository
             {
                 dte = Convert.ToDateTime(ObjList[n - 1].Att_Date);
                 dtstr1 = dte.ToString("yyyy-MM-dd");
-                _EzBusinessHelper.ExecuteNonQuery("update PRDTD002 set NHrs=0, ATT='" + ObjList[n - 1].ATT + "' where format(Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "' and Empcode ='" + OT.EmpCode + "' and cmpycode='" + OT.Cmpycode + "'");
+                _EzBusinessHelper.ExecuteNonQuery("update PRDTD002 set NHrs=0, ATT='" + ObjList[n - 1].ATT + "' where format(Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "' and Empcode ='" + ObjList[n - 1].EmpCode + "' and cmpycode='" + OT.Cmpycode + "'");
                 n = n - 1;
             }
 

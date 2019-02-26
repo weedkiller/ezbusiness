@@ -12,6 +12,18 @@
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#user_img').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+
+    }
     $(function () {
         $('#user_img').attr("src", $('#photpath').val());
         var dte='';      
@@ -68,6 +80,32 @@
                 }
                 $('#DepartmentCode').val(0);
                 $('.selectpicker').selectpicker('refresh');
+            });
+        });
+        $("#sourcephoto").change(function () {
+            debugger;
+            readURL(this);
+
+            var data = new FormData();
+            var files = $("#sourcephoto").get(0).files;
+            if (files.length > 0) {
+                data.append("MyImages", files[0]);
+            }
+            $.ajax({
+                url: "/EmployeeMaster/UploadFile",
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: data,
+                success: function (response) {
+                    //code after success
+                    $("#user_img").val(response);
+                    $('input[name="photpath"]').val('/Images/' + response);
+
+                },
+                error: function (er) {
+                    EzAlerterrtxt(er);
+                }
             });
         });
         $("#tablePODetails2").on("change", "[name*='SourceFile']", function () {

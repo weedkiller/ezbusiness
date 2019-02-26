@@ -40,7 +40,7 @@ namespace EzBusiness_DL_Repository
         }
         public List<DutyResume> GetDrs(string Cmpycode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRDR001 where Cmpycode='" + Cmpycode + "'");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRDR001 where Cmpycode='" + Cmpycode + "' and flag=0");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<DutyResume> ObjList = new List<DutyResume>();
@@ -111,7 +111,7 @@ namespace EzBusiness_DL_Repository
         public List<LeaveApplication> GetLeaveData(string cmpycode, string LanNo)
         {
 
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRLR001 where CmpyCode='" + cmpycode + "' AND PRLR001_CODE='" + LanNo + "'");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRLR001 where CmpyCode='" + cmpycode + "' AND PRLR001_CODE='" + LanNo + "' and status!='D'");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<LeaveApplication> ObjList = new List<LeaveApplication>();
@@ -139,11 +139,11 @@ namespace EzBusiness_DL_Repository
         {
             if (typ != "Etyp")
             {
-                ds = _EzBusinessHelper.ExecuteDataSet("Select a.* from PRLR001 a where a.cmpycode='" + Cmpycode + "' and PRLR001_CODE Not in (Select PRLR001_CODE from PRDR001 where cmpycode=a.cmpycode) and PRLR001_CODE not in (Select PRLR001_CODE from PRDR001 where cmpycode=a.cmpycode) order by a.PRLR001_CODE");
+                ds = _EzBusinessHelper.ExecuteDataSet("Select a.* from PRLR001 a where a.cmpycode='" + Cmpycode + "' and a.Status!='D' and PRLR001_CODE Not in (Select PRLR001_CODE from PRDR001 where cmpycode=a.cmpycode and flag=0) and PRLR001_CODE not in (Select PRLR001_CODE from PRDR001 where cmpycode=a.cmpycode and flag=0) order by a.PRLR001_CODE");
             }
             else
             {
-                ds = _EzBusinessHelper.ExecuteDataSet("Select a.* from PRLR001 a where a.cmpycode='" + Cmpycode + "' and PRLR001_CODE  in (Select PRLR001_CODE from PRLS001 where cmpycode = a.cmpycode) order by a.PRLR001_CODE");
+                ds = _EzBusinessHelper.ExecuteDataSet("Select a.* from PRLR001 a where a.cmpycode='" + Cmpycode + "' and a.Status!='D' and PRLR001_CODE  in (Select PRLR001_CODE from PRLS001 where cmpycode = a.cmpycode and flag=0) order by a.PRLR001_CODE");
             }
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;

@@ -596,7 +596,7 @@ function EzdtePk(date1) {
         format: 'DD/MM/YYYY',
         showClose: true,
         showClear: true,
-        minDate: new Date(),       
+     //   minDate: new Date(),       
        
     });
 }
@@ -607,7 +607,7 @@ function tbldtpicker() {
         format: 'DD/MM/YYYY',
         showClose: true,
         showClear: true,
-        minDate: new Date(),
+       // minDate: new Date(),
        
     });
 }
@@ -629,7 +629,7 @@ function tbldtpickerYY() {
         format: 'YYYY',
         showClose: true,
         showClear: true,
-        minDate: new Date(),
+       // minDate: new Date(),
         
     });
 }
@@ -642,7 +642,7 @@ function Ezdteformtcur(date1,frmt) {
         format: frmt,
         showClose: true,
         showClear: true,
-        minDate: new Date(),       
+      //  minDate: new Date(),       
     });
 }
 function EzdteformtcurRep(date1, frmt) {
@@ -651,7 +651,7 @@ function EzdteformtcurRep(date1, frmt) {
         format: frmt,
         showClose: true,
         showClear: true,
-        maxDate: new Date(),
+       // maxDate: new Date(),
     });
 }
 
@@ -661,7 +661,7 @@ function EzdteformtDOB(date1, frmt) {
         format: frmt,
         showClose: true,
         showClear: true,
-        maxDate: new Date(),
+      //  maxDate: new Date(),
     });
 }
 
@@ -694,7 +694,7 @@ function EzdtePkEdit(date1, dtval, frmt) {
         format: frmt,
         showClose: true,
         showClear: true,
-        minDate: new Date($(dtval).val()),
+       // minDate: new Date($(dtval).val()),
         //toolbarPlacement: 'top'
          //widgetPositioning: {
          //           horizontal: 'right',
@@ -720,7 +720,7 @@ function EzdtePkyyyy(date1) {
         format: 'YYYY',
         showClose: true,
         showClear: true,
-        maxDate: new Date(),
+       // maxDate: new Date(),
        
 
     });

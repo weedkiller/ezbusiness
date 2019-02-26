@@ -15,19 +15,18 @@
     <link href="~/Scripts/datatables/css/dataTables.jqueryui.min.css" rel="stylesheet" />
     <link href="~/Scripts/datatables/css/buttons.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/css/sb-admin-2.css" rel="stylesheet" />
-    <link href="~/Content/lib/font/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/Content/css/style-responsive.css" rel="stylesheet" />
-    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/lib/font/font-awesome.min.css" rel="stylesheet"/>
+    <link href="~/Content/css/style-responsive.css" rel="stylesheet"/>
+    <link href="~/Content/css/style.css" rel="stylesheet"/>
     <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
     @*<link rel="stylesheet" href="~/Content/bootstrap-datetimepicker.min.css">*@
 
     <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     @*<link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
-
-        <link href="~/Content/css/sb-admin-2.css" rel="stylesheet" />
-        <link href="~/Content/lib/font/font-awesome.min.css" rel="stylesheet" />
-        <link href="~/Content/css/style-responsive.css" rel="stylesheet" />
-        <link href="~/Content/css/style.css" rel="stylesheet" />*@
+     <link href="~/Content/css/sb-admin-2.css" rel="stylesheet"/>
+     <link href="~/Content/lib/font/font-awesome.min.css" rel="stylesheet"/>
+     <link href="~/Content/css/style-responsive.css" rel="stylesheet"/>
+     <link href="~/Content/css/style.css" rel="stylesheet"/>*@
     <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
     <link href="~/Scripts/sweetalret/sweetalert2.min.css" rel="stylesheet" />
     
@@ -63,10 +62,11 @@
                     <ul class="sidebar-menu" id="nav-accordion">
                         <p class="centered">
                             <a href="#">
-                                <img src="~/Images/ui-sam.jpg" class="img-circle" width="80">
+                                <img id="loginuser_img" class="img-circle" width="80" height="100" style="display:none">
+                                @*src="~/Images/ui-sam.jpg"*@
                             </a>
                         </p>
-                        <h5 class="centered">Sam Soffes</h5>
+                        <h5 class="centered"><span id="empnamedata"></span></h5>
                         <hr />
                     </ul>
 
@@ -110,6 +110,11 @@
     <script src="~/Scripts/sweetalret/sweetalert2.all.min.js"></script>
     <script>
         $(document).ready(function () {
+            debugger;
+            $("#loginuser_img").show();
+            var empdata=@Html.Raw(Json.Encode(HttpContext.Current.Session["SesDet"]));
+            $("#empnamedata").text(empdata[0].EmpName);
+            $('#loginuser_img').attr("src",empdata[0].PhotoPath);
             $("#sidebar").hide();
             $("#sidebarCollapse").click(function () {
                 $("#sidebar").toggle();

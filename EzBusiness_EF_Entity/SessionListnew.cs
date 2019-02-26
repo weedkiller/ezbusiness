@@ -13,7 +13,8 @@ namespace EzBusiness_EF_Entity
         public string Utype { get; set; }
         public string Divcode { get; set; }
         public string BraCode { get; set; }
-
+        public string PhotoPath { get; set; }
+        public string EmpName { get; set; }
         public string DepCode { get; set; }
     }
 }

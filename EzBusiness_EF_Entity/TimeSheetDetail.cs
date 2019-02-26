@@ -64,6 +64,7 @@ namespace EzBusiness_EF_Entity
     public partial class OTExtraDetail
     {
 
+        public string EmpCode { get; set; }
         public DateTime? Att_Date { get; set; }
 
         public decimal NHrs { get; set; }
@@ -76,6 +77,7 @@ namespace EzBusiness_EF_Entity
     {
         public DateTime? Att_Date { get; set; }
         public string ATT { get; set; }
+        public string EmpCode { get; set; }
 
     }
 
