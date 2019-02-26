@@ -35,6 +35,7 @@ namespace EzBusiness_DL_Repository
             string[] InpAmts = InpAmt.Split(',');
             int n = 0;
             int i = 0;
+           
             foreach (string Emps in Emp)
             {
                 if (Emps != "")
@@ -44,8 +45,8 @@ namespace EzBusiness_DL_Repository
                     SqlParameter[] param = {new SqlParameter("@cmpyCode", CmpyCode),
                         new SqlParameter("@currDate", dtmonthyy),
             new SqlParameter("@EmpCode",Empcode)};
-                    decimal k = _EzBusinessHelper.ExecuteScalarDec("usp_ChecksalaryData", param);                   
-                    decimal t =Convert.ToDecimal(InpAmts[i]);
+                    decimal k = _EzBusinessHelper.ExecuteScalarDec("usp_ChecksalaryData", param);
+                    decimal t = Convert.ToDecimal(InpAmts[i]);
                     if (k > t)
                     {
                         n = 1;

@@ -14,6 +14,9 @@ namespace EzBusiness_BL_Interface
     public interface IOTPayrollService
     {
         List<SelectListItem> GetEmpCodeList(string CmpyCode);
+
+
+        List<Employee> GetEmpRepCodeList(string CmpyCode, string EmpCode);
         List<Attendence> GetLeaveTypList(string CmpyCode);
         List<TimeSheetDetail> GetLeaveAppDetailList(string CmpyCode, string EmpCode, DateTime dte);
 
