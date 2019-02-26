@@ -59,18 +59,20 @@
 
             if (hdnAddMode.val() == "true") {
                 var hdnCode = $(tr).find("td:eq(0)").text().trim();
+                var tf = true;
                 if (hdnCode == "") {
                     var hdnCode = $(tr).find("[name*='txtCode']").val().trim();
+                    tf = false;                    
                 }
-                
                 var nameAdd = $(tr).find("[name*='txtName']").val().trim();
-               
+
                 var Sals = {
                     CmpyCode: hdnCmpyCode,
                     Code: hdnCode,
-                    Name: nameAdd,                    
-                    EditFlag: false
+                    Name: nameAdd,
+                    EditFlag: tf
                 };
+               
                 if (hdnCode && hdnCmpyCode && nameAdd) {
                     $.post("/SalaryHead/SaveSals", Sals).done(function (response) {
                         console.log(response);
@@ -164,28 +166,29 @@
                     }
                 })
             }
-            else if ($(tr).find("[name*='txtCode']").val().trim() == "")
-            {
-                $(this).closest("tr").remove();
-            }
-            else {
+            else if (hdnAddMode.val() == "true") {
                
-                    var nameTd = $(tr).find("td:eq(1)");
+                var nameTd = $(tr).find("td:eq(1)");
 
-                    var nameEdit = $(tr).find("[name*='txtName']").val().trim();
-                    var hdnEditMode = $(this).parent().find('input:hidden:first');
-                    nameTd.html(nameEdit);
-                    tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
+                var nameEdit = $(tr).find("[name*='txtName']").val().trim();
+                var hdnEditMode = $(this).parent().find('input:hidden:first');
+                nameTd.html(nameEdit);
+                tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
 
-                    tr.find("[name^='Edit']").attr('title', 'Edit');
-                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
-                    //$(this).text("Delete");
-                    $(this).attr('title', 'Delete');
-                    hdnEditMode.val("false");
+                tr.find("[name^='Edit']").attr('title', 'Edit');
+                $(this).html('<span class="glyphicon glyphicon-trash"></span>');
+                //$(this).text("Delete");
+                $(this).attr('title', 'Delete');
+                hdnEditMode.val("false");
                
                 tableDis("F");
                 tr.find("[name^='Add']").html('<span class="glyphicon glyphicon-pencil"></span>');
             }
+            //else ($(tr).find("[name*='txtCode']").val().trim() == "")
+            //{
+            //    $(this).closest("tr").remove();
+            //}
+            
 
         });
 

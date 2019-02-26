@@ -78,6 +78,21 @@ namespace EzBusiness_Web.Controllers
             }
         }
 
+        [Route("GetEmpRep")]
+        public ActionResult GetOTDetailList( string EmpCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_OTPayrollService.GetEmpRepCodeList(list[0].CmpyCode, EmpCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         #endregion
 
 

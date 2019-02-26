@@ -99,7 +99,7 @@ namespace EzBusiness_DL_Repository
                     }
                     return Sals;
                 }
-                var SalsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from SHH004 where CmpyCode='" + Sals.CmpyCode + "' and Code='" + Sals.Code + "'");
+                var SalsEdit = _EzBusinessHelper.ExecuteScalar("Select count(*) from SHH004 where CmpyCode='" + Sals.CmpyCode + "' and Code='" + Sals.Code + "'");
                 if (SalsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update SHH004 set CmpyCode='" + Sals.CmpyCode + "',Code='" + Sals.Code + "',Name='" + Sals.Name + "' where CmpyCode='" + Sals.CmpyCode + "' and Code='" + Sals.Code + "'");

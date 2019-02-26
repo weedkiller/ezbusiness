@@ -36,7 +36,7 @@
         $("#btnadd").click(function () {
             var n = EzAuthenticationBtn("/OTPayroll", "NewIt");      
             if (n == 1 ) {
-                var e1 = $("#EmpCode option:selected").val();
+                
                 var dt2 = Ezsetdtpkdate($("#Att_Date").val());
                 var e1 = $("#EmpCode option:selected").val();
                 duplicates = false;
@@ -51,7 +51,29 @@
                     }
                     if (e1 != '0' && duplicates == false && Att_Date != '') {
                         var date1 = Ezsetdtpkdate($('#Att_Date').val());
-                        var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                        debugger;
+                        var a = [];
+                        var a1 = [];
+                        $.ajax({
+                            async: false,
+                            cache: false,
+                            type: "POST",
+                            data: "{EmpCode:'" + e1 + "'}",
+                            url: "/GetEmpRep",
+                            dataType: 'Json',
+                            contentType: "Application/json",
+                            success: function (data) {
+                                var k1=data.length;
+                                while(k1>0)
+                                {
+                                    a.push(data[k1 - 1].EmpCode);
+                                    a1.push(0);
+                                    k1--;
+                                }
+                                
+                            }
+                        });
+                        var k = EzSalrProcCondiont(a, date1);
                         if (k == 1){
                         $.get("/GetOTDet", { EmpCode: e1, dte: dt2 }).done(function (response) {                           
                             var ary = [];
