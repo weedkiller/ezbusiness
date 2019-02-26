@@ -233,7 +233,7 @@ namespace EzBusiness_DL_Repository
                     cmd = new SqlCommand(SqlCommondText, cn, trans);
                     rowaffected = cmd.ExecuteNonQuery();
                     trans.Commit();
-                    cn.Close();
+                  //  cn.Close();
                 }
                 catch (Exception ex)
                 {
