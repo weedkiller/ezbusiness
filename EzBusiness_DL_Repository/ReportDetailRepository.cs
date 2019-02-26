@@ -414,6 +414,7 @@ namespace EzBusiness_DL_Repository
                 {
                     objList.Add(new ShiftMaster()
                     {
+                        PRSFT001_code=dr["PRSFT001_code"].ToString(),
                         srno = Convert.ToInt32(dr["SrNo"].ToString()),
                         ShiftName = dr["ShiftName"].ToString(),
                         country = dr["country"].ToString(),

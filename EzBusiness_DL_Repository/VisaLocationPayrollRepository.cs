@@ -82,12 +82,13 @@ namespace EzBusiness_DL_Repository
                             StringBuilder sb = new StringBuilder();
                             sb.Append("'" + Vls.CmpyCode + "',");
                             sb.Append("'" + ObjList[n - 1].Code + "',");
-                            sb.Append("'" + ObjList[n - 1].Name + "',");                          
+                            sb.Append("'" + ObjList[n - 1].Name + "',");
+                            sb.Append("'" +""+"',");
                             sb.Append("'" + ObjList[n - 1].CompanyMolID + "')");
 
                             using (TransactionScope scope1 = new TransactionScope())
                             {
-                               int i= _EzBusinessHelper.ExecuteNonQuery("insert into VLOC001(CmpyCode,Code,Name,CompanyMolID) values(" + sb.ToString() + "");
+                               int i= _EzBusinessHelper.ExecuteNonQuery("insert into VLOC001(CmpyCode,Code,Name,UniCodeName,CompanyMolID) values(" + sb.ToString() + "");
                                 _EzBusinessHelper.ActivityLog(Vls.CmpyCode, Vls.UserName, "Add Visa Location Master", Vls.Code, Environment.MachineName);
                                 if(i>0)
                                 {
