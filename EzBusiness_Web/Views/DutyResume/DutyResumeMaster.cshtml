@@ -135,7 +135,7 @@
             }
         });
         $("#btnSave").click(function () {
-           
+            debugger;
             var n = EzAuthenticationBtn("/DutyResume", "EditIt");
 
             var date1 = Ezsetdtpkdate($('#ResumeDate1').val());
@@ -152,7 +152,8 @@
                     EmpCode: $("[name*='EmpCode'] option:selected").val(),
                     ResumeDate: Ezsetdtpkdate($("[name*='ResumeDate1']").val()),
                     PRLR001_CODE: $("[name*='PRLR001_CODE'] option:selected").val(),                   
-                    EndDate:  Ezsetdtpkdate($("[name*='EndDate1']").val()),                    
+                    EndDate: Ezsetdtpkdate($("[name*='EndDate1']").val()),
+                    StartDate: Ezsetdtpkdate($("[name*='StartDate1']").val()),
                     country: 0,
                     division: 0,
                     PRLS001_CODE: 0,
@@ -197,6 +198,7 @@
                         ResumeDate: Ezsetdtpkdate($("[name*='ResumeDate1']").val()),
                         PRLR001_CODE: $("[name*='PRLR001_CODE']").val(),
                         EndDate: Ezsetdtpkdate($("[name*='EndDate1']").val()),
+                        StartDate: Ezsetdtpkdate($("[name*='StartDate1']").val()),
                         country: 0,
                         division: 0,
                         PRLS001_CODE: 0,
@@ -237,6 +239,7 @@
         });
 
         function ValidateForm(dutyResume) {
+            debugger;
             var response = {
                 ErrorMessage: "",
                 formValid: false
@@ -255,7 +258,9 @@
                 response.ErrorMessage += "Emp Code ,";
             }
 
-        
+            if (dutyResume.ResumeDate < dutyResume.StartDate) {
+                response.ErrorMessage += "Resume date Should be greater than start Date";
+            }
                   
 
             if (response.ErrorMessage.length == 0) {
