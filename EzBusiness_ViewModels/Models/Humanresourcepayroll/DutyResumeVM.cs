@@ -51,16 +51,10 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? JoiningDate { get; set; }
 
-        
-
-
-
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? StartDate { get; set; }
 
-       
-            
         public bool SaveFlag { get; set; }
 
         public bool EditFlag { get; set; }
@@ -68,7 +62,6 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public string ErrorMessage { get; set; }
 
         public string BalanceLeave { get; set; }
-
 
         public int oldLeavedays { get; set; }
 
