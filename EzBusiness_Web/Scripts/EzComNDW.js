@@ -104,7 +104,24 @@ function EzSalrProcCondiont(Empcode, dtmonthyy) {
         }
     });
     
-}
+ }
+ function Ezjoindatetbl(EmpCode) {
+     debugger;
+     var a=''
+     $.ajax({
+         async: false,
+         cache: false,
+         type: "POST",
+         data: "{Empcode:'" + EmpCode + "'}",
+         url: "/LeaveApplication/GetJoiningdate",
+         dataType: 'Json',
+         contentType: "Application/json",
+         success: function (data) {
+             a= data;
+         }
+     });
+     return a;
+ }
 
 /*Salary last*/
 function EzSalrLast(Empcode, dtmonthyy,InpAmt,salmsg) {
