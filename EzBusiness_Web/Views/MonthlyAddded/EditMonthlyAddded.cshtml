@@ -20,11 +20,11 @@
 
         /*Retrive Data  */
         var tablePODetails = $("#tablePODetails tbody tr");
-        var k = $("#tablePODetails tbody").length;
-        var n = 0;
+        var k = $("#tablePODetails tbody tr").length;
+       // var n = 0;
         tablePODetails.each(function (index, item) {
             debugger;           
-            if (n != k) {
+            if (k>1) {
             $("[name*='EmpCode" + (index + 1) + "']").val($("[name*='hdnEmpCode" + (index + 1) + "']").val());
             var dt = Ezjoindatetbl($("[name*='hdnEmpCode" + (index + 1) + "']").val());
             $("[name*='joindate" + (index + 1) + "']").val(EzdatefrmtRes(dt));
@@ -32,7 +32,7 @@
             $("[name*='ADN_Act_code" + (index + 1) + "']").val($("[name*='hdnADN_Act_code" + (index + 1) + "']").val());
             $("[name*='Remarks" + (index + 1) + "']").val($("[name*='hdnRemarks" + (index + 1) + "']").val());            
             $("[name*='T_type" + (index + 1) + "']").val($("[name*='hdnT_type" + (index + 1) + "']").val());
-            n++;
+            k--;
             }
         });
 
