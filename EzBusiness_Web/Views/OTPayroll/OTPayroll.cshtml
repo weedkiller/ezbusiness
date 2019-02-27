@@ -11,7 +11,11 @@
 
 <script>
     $(function () {
+
+
         EzAuthentication("/OTPayroll");
+
+        $('.selectpicker').selectpicker('refresh');
         // EzsetDatetxt();
         EzdtePk('#Att_Date');
       //  var dt1 = new Date().getToday();
@@ -91,7 +95,7 @@
                             for (var i = 0; i < ary.length; i++) {
                                  var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-                                 var dy = new Date(EzdatefrmtRes(ary[i].Att_Date));
+                                 var dy = new Date(EzdatefrmtRes2(ary[i].Att_Date));
                                 dy = (weekday[dy.getDay()]);
                                 var Readonly1 = "Readonly = 'true'";
                                 var Readonly2 = '';
@@ -148,7 +152,7 @@
         $("#btnCancel").click(function () {
             arr.length = 0;
             counter = 1;                    
-            $('#EmpCode option:selected').val() == "0"
+           // $('#EmpCode option:selected').val() == "0"
             arr = [];
             $("#tablePODetails tbody tr").empty();
            // $("#Datest").val(dt1);
@@ -244,6 +248,17 @@
             $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                 console.log(thrownError);
             });
+        });
+
+
+        //$('.selectpicker').selectpicker({
+        //    style: 'btn-info',
+        //    size: 4,
+
+        //});
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
         });
         });                               
    

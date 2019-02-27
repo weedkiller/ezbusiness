@@ -87,6 +87,25 @@ function EzSalrProcCondiont(Empcode, dtmonthyy) {
     });
     return a;       
 }
+
+
+ function Ezjoindate(EmpCode, hidte) {
+    debugger;
+    $.ajax({
+        async: false,
+        cache: false,
+        type: "POST",
+        data: "{Empcode:'" + EmpCode + "'}",
+        url: "/LeaveApplication/GetJoiningdate",
+        dataType: 'Json',
+        contentType: "Application/json",
+        success: function (data) {
+            $(hidte).val(EzdatefrmtRes(data));
+        }
+    });
+    
+}
+
 /*Salary last*/
 function EzSalrLast(Empcode, dtmonthyy,InpAmt,salmsg) {
     debugger;
@@ -530,6 +549,65 @@ function EzDropChaEve(Ide, IdeSel, fIde, errmsg) {
 
     });
 }
+
+/* Effect Date shold be greater than equal to Entry Date  */
+function EzdateCond(EfIde, EnIde, errmsg) {
+    $(EfIde).on('dp.change', function (e) {
+        debugger;
+        if (e.oldDate !== null) {
+            var ab = 1;
+            if (new Date(Ezsetdtpkdate($(EfIde).val())) >= new Date(Ezsetdtpkdate($(EnIde).val()))) {
+                ab = 0;
+            }
+            if (ab == 1) {              
+                $(EfIde).focus();
+                $(EfIde).select();
+                $(EfIde).val(EzdteTblPkEdit(new Date()));
+                EzAlerterrtxt(errmsg);
+            }
+        }
+    });
+}
+/* Entry Date shold be greater than equal to Join Date */
+function Ezdatejoindate(Ide, JIde, fIde, errmsg) {
+    $(Ide).on('dp.change', function (e) {
+        debugger;      
+        if (e.oldDate !== null) {
+            var ab = 1;
+            if (new Date(Ezsetdtpkdate($(JIde).val())) <= new Date(Ezsetdtpkdate($(Ide).val()))) {
+                ab = 0;
+            }
+            if (ab == 0) {
+                $(fIde).focus();
+                $(fIde).select();
+            }
+            else {
+                $(Ide).focus();
+                $(Ide).select();                               
+                $(Ide).val(EzdteTblPkEdit(new Date()));
+                EzAlerterrtxt(errmsg);
+            }
+        }
+    });
+}
+function EzdatejoindateEmp(Ide, JIde, fIde, errmsg) {
+   
+            var ab = 1;
+            if (new Date(Ezsetdtpkdate($(JIde).val())) <= new Date(Ezsetdtpkdate($(Ide).val()))) {
+                ab = 0;
+            }
+            if (ab == 0) {
+                $(fIde).focus();
+                $(fIde).select();
+            }
+            else {
+                $(Ide).focus();
+                $(Ide).select();
+                $(Ide).val(EzdteTblPkEdit(new Date()));
+                EzAlerterrtxt(errmsg);
+            }
+        
+}
 //Text Number  N & Text T Tab Event
 function EzTxttabEve(Ide, fIde, errmsg, typ) {
     $(Ide).on('keydown', function (e) {
@@ -539,7 +617,7 @@ function EzTxttabEve(Ide, fIde, errmsg, typ) {
             var ab = '';
             if (typ == "N") {
                 ab = parseInt($(Ide).val()) || 0;
-            }
+            }           
             else {
                 ab = $(Ide).val();
             }
@@ -787,6 +865,14 @@ function EzdatefrmtRes(dte) {
     var day = ("0" + now.getDate()).slice(-2);
     var month = ("0" + (now.getMonth() + 1)).slice(-2);
     var today = (day) + "/" + (month) + "/" + now.getFullYear();
+    return today;
+}
+function EzdatefrmtRes2(dte) {
+    var now = new Date(parseInt(dte.substr(6)));
+    var now = new Date(now);
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear() + "-" + (month) + "-" + (day);
     return today;
 }
 

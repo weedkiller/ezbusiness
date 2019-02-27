@@ -42,7 +42,32 @@
         EzTxttabEve('#LoanAmount', '#NoOfInstalments', 'Enter Loan Amount', "N");
         EzTxttabEve('#NoOfInstalments', '#Balance', 'Enter No of Installment', "N");
         
-        EzdtePk('#Entry_Date1,#DeductionStartDate1');            
+        EzdtePk('#Entry_Date1,#DeductionStartDate1');
+
+
+        var e2 = $("#EmpCode option:selected").val();
+        if (e2 != '0') {
+            Ezdatejoindate('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
+        }
+        EzdateCond('#DeductionStartDate1', '#Entry_Date1', 'Deduction Date shold be greater than equal to Entry Date');
+        $("#EmpCode").change(function () {
+            debugger;
+            var e1 = $("#EmpCode option:selected").val();
+            if (e1 != '0') {
+                Ezjoindate(e1, '#joindate');
+                EzdatejoindateEmp('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
+            }
+        });
+        //$('.selectpicker').selectpicker({
+        //    style: 'btn-info',
+        //    size: 4,
+
+        //});
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
+
     });
    
 </script>
@@ -54,7 +79,7 @@
             <div class="custom-form-wrapper">
                 <div id="POContainer">
                     <div class="row">
-
+                        <input type="hidden" id="joindate" />
                         <div class="custom-form-wrapper">
                             <!-- BEGIN FORM-->
                             <div class="form-horizontal">

@@ -18,9 +18,9 @@
 
         EzdtePk('#Entery_date1,#Effect_From1');
         Ezsetzerotxt();
-
+        Ezdatejoindate('#Entery_date1', '#joindate', '#Effect_From1','Entery Date shold be greater than equal to Joindate');
        
-
+        EzdateCond('#Effect_From1', '#Entery_date1', 'Effect Date shold be greater than equal to Entry Date');
        
         //var rowCount = $('#tablePODetails tr').length;
         //if (rowCount = 2) {
@@ -32,7 +32,7 @@
             //$("#tablePODetails > tbody tr:last").remove();
             var e1 = $("#EMPCODE option:selected").val();
             if (e1 != '0') {
-
+                Ezjoindate(e1, '#joindate');
 
                 $.get("/GetSalGrid").done(function (response) {
                     var ary = [];
@@ -69,7 +69,7 @@
 
         });
 
-
+        
 
        
 
@@ -104,6 +104,16 @@
             }
 
 
+            $('.selectpicker').selectpicker({
+                style: 'btn-info',
+                size: 4,
+
+            });
+
+            $('body').on('focus', ':input', function () {
+                $(this).attr('autocomplete', 'off');
+            });
+
         });
     
 </script>
@@ -127,6 +137,7 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="row">
+                                                <input type="hidden" id="joindate"/>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Code</label>

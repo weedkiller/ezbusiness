@@ -10,6 +10,9 @@
 <script>
     var paydeductons = [];
     $(function () {
+
+        $('.selectpicker').selectpicker('refresh');
+
         GetDivisionList();
         //EzsetDatetxt();
         var dt1 = new Date().getToday();
@@ -88,15 +91,15 @@
                     for (var i = 0; i < ary.length; i++) {
                        // var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-                        var dy = new Date(EzdatefrmtRes1(ary[i].Att_Date));
-                        dy = (EzmonthNames[dy.getDay()]);
-                        var Readonly1 = "Readonly = 'true'";
-                        var Readonly2 = '';
-                        if (dy == "Friday")
-                        {
-                            Readonly1 = '';
-                            Readonly2 = "Readonly = 'true'";
-                        }
+                        //var dy = new Date(EzdatefrmtRes2(ary[i].Att_Date));
+                        //dy = (EzmonthNames[dy.getDay()]);
+                        //var Readonly1 = "Readonly = 'true'";
+                        //var Readonly2 = '';
+                        //if (dy == "Friday")
+                        //{
+                        //    Readonly1 = '';
+                        //    Readonly2 = "Readonly = 'true'";
+                        //}
                         var tr1 = "<tr>";
                         var td = "<td><div class='form-group'>" + counter + "</div></td>"
                         var td4 = "<td><div class='form-group'><input  Readonly='true' class='form-control' name='EmpCode" + counter + "'></div></td>"
@@ -122,6 +125,7 @@
         });
 
         $("#btnCancel").click(function () {
+           
             arr.length = 0;
             $("#tablePODetails tbody tr").empty();
             EzdtePk('#Att_Date');
@@ -133,8 +137,14 @@
             //$("select#EmpCode")[0].selectedIndex = 0;
            
             $('#EmpCode').val(0);
-            $('.selectpicker').selectpicker('refresh');                      
-           // $("#EmpCode > [value=0]").attr("selected", "true");
+            $('.selectpicker').selectpicker('refresh');
+
+            //$('.selectpicker').selectpicker({
+            //    style: 'btn-info',
+            //    size: 4,
+
+            //});
+            //$("#EmpCode > [value=0]").attr("selected", "true");
 
             //Ezerrormsg("#ErrorMessage", "");
         });
@@ -276,6 +286,16 @@
             error: function () {
                 EzAlerterr();
             }
+            });
+
+        //$('.selectpicker').selectpicker({
+        //    style: 'btn-info',
+        //    size: 4,
+
+        //});
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
         });
     }
 
