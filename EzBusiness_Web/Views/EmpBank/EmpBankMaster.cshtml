@@ -224,35 +224,36 @@
         });
 
         function ValidateForm(EmpBnk) {
+            debugger;
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
             if (EmpBnk.EditFlag == false) {
                 if (EmpBnk.PRBM003_CODE == "") {
-                    response.ErrorMessage += "Code";
+                    response.ErrorMessage += "Employee Bank Code,";
                 }
             } else if (EmpBnk.EditFlag == true) {
                 if (EmpBnk.PRBM003_CODE=="") {
-                    response.ErrorMessage += " Code,";
+                    response.ErrorMessage += " Employee Bank Code ,";
                 }
             }
 
             if (EmpBnk.EmpCode == '0')
             {
-                response.ErrorMessage += " Emp Code,";
+                response.ErrorMessage += "Employee Name,";
             }
 
             if (EmpBnk.PRBM001_code == '0') {
-                response.ErrorMessage += " PRBM001_code ,";
+                response.ErrorMessage += "Bank Name,";
             }
 
             if (EmpBnk.PRBM002_code == '0') {
-                response.ErrorMessage += " PRBM002_code ,";
+                response.ErrorMessage += "Branch Name,";
             }
 
             if (EmpBnk.Account_no == '') {
-                response.ErrorMessage += " Account_no ,";
+                response.ErrorMessage +="Account No,";
             }
 
             if (EmpBnk.EBAN_no == '') {
@@ -264,7 +265,10 @@
               
                 response.formValid = true;
             }
-
+            else
+            {
+                response.ErrorMessage ="Enter Mandatory fields " + response.ErrorMessage+"."
+            }
             return response;
         }
 

@@ -112,6 +112,7 @@ var LeaveSet = {
                 var k = 0;
                 //may want to use $.trim in here
                 //return $(this).text() == text1;
+                debugger;
                 if ($(this).text() == "All") {
                     var tabledata = $('#LeaveSetreport').dataTable();
                     //Get the total rows
