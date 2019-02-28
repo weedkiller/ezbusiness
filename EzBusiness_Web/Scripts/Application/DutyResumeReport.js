@@ -28,7 +28,7 @@
             EmpName: empname,
             EmpCode: empCode
         }
-        Msg = DutyResumeDetails.ValidateReports(newrow)
+        Msg = DutyResume.ValidateReports(newrow)
         if (Msg == "") {
             var empdt = $('#DutyResumereport').DataTable({
 
