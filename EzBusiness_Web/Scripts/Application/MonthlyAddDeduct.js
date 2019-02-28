@@ -43,7 +43,7 @@
 
                 "ColumnDefs": [{ "Width": "5%", "targets": 0, "searchable": false, "orderable": false }],
                 "order": [[0, 'asc']],
-                "scrollX": true,
+               // "scrollX": true,
                 "language":
                 {
                     "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
