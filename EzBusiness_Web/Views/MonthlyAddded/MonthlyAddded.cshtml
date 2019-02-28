@@ -1,6 +1,5 @@
 ﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.MonthlyAdddedVM
 
-
 @{
     ViewBag.Title = "Monthly Addition & Deduction";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,7 +10,6 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />*@
 
 <script src="~/Scripts/EzComNDW.js"></script>
-
 <script>
     $(function () {
 
@@ -315,11 +313,11 @@
             };
             if (Monthly.EditFlag == false) {
                 if (Monthly.PRADN001_CODE == "") {
-                    response.ErrorMessage += "Code,";
+                    response.ErrorMessage += "Addition-Deduction code,";
                 }
             } else if (Monthly.EditFlag == true) {
                 if (!Monthly.PRADN001_CODE) {
-                    response.ErrorMessage += "Code,";
+                    response.ErrorMessage += "Addition-Deduction code,";
                 }
             }
             //else if (Monthly.EditFlag== true) {
@@ -330,12 +328,16 @@
 
 
             if (Monthly.MonthlyAddded.length ==0) {
-                response.ErrorMessage += "Emp Code and Amount and Act_Code are mandatory Fields.";
+                response.ErrorMessage += "Emp Code,Amount and Act-Code";
             }
            
 
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
+            }
+            else
+            {
+                response.ErrorMessage = "Enter Mandatory Fields " + response.ErrorMessage + "."
             }
 
             return response;
@@ -500,9 +502,9 @@
                                                 <thead>
                                                     <tr>
                                                         <th>EmpCode</th>
-                                                        <th>ADN_Amount</th>
-                                                        <th>ADN_Act_code</th>
-                                                        <th>T_type</th>
+                                                        <th>Amount</th>
+                                                        <th>ACT-Code</th>
+                                                        <th>Addition-Deduction Type</th>
                                                         <th>Remarks</th>
 
 

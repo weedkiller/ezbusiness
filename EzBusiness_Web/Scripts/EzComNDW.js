@@ -184,7 +184,8 @@ function EzAlerterrtxt(txt) {
     Swal.queue([{
         type: 'error',
         title: 'Oops...',
-        text: txt,
+        html:'<p style="font-size: 12px;text-align:center">' + txt + '</p>',
+       // text:txt,        
         allowOutsideClick: false,
         showLoaderOnConfirm: true,
     }])
