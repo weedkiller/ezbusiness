@@ -99,5 +99,20 @@ namespace EzBusiness_BL_Service
                 EditFlag = false
             };
         }
+
+        public List<Employee> GetEmpRepCodeList(string CmpyCode, string EmpCode)
+        {
+            // return _OTPayrollRepository.GetEmpRepCodeList(CmpyCode, EmpCode);
+            //var itemCodes = _OTPayrollRepository.GetEmpRepCodeList(CmpyCode, EmpCode)
+            //                            .Select(m => new SelectListItem { Value = m.EmpCode, Text = m.EmpCode })
+            //                            .ToList();
+            //return itemCodes;
+
+            var poEmployeeList = _OTPayrollRepository.GetEmpRepCodeList(CmpyCode, EmpCode);
+            return poEmployeeList.Select(m => new Employee
+            {                
+                EmpCode = m.EmpCode
+            }).ToList();
+        }
     }
 }

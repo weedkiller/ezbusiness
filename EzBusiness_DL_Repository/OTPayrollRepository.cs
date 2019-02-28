@@ -167,5 +167,23 @@ namespace EzBusiness_DL_Repository
 
             return OT;
         }
+
+        public List<Employee> GetEmpRepCodeList(string CmpyCode, string EmpCode)
+        {
+            string qur = "SELECT EmpCode FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "' and Flag=0 And WorkingStatus = 'Y' and EmpCode='" + EmpCode + "'  or ReportingEmp='" + EmpCode + "'   and CmpyCode='" + CmpyCode + "'  Order By EmpCode";
+            ds = _EzBusinessHelper.ExecuteDataSet(qur);
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<Employee> ObjList = new List<Employee>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new Employee()
+                {                    
+                    EmpCode = dr["EmpCode"].ToString()
+                });
+
+            }
+            return ObjList;
+        }
     }
 }

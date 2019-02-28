@@ -64,6 +64,7 @@
                      "data": "srno",
                     
                  },
+               {"data":"PRSFT001_code"},
                { "data": "ShiftName" },
                { "data": "country" },
                { "data": "division" },

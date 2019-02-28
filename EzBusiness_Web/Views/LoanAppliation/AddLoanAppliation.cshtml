@@ -42,7 +42,39 @@
         EzTxttabEve('#LoanAmount', '#NoOfInstalments', 'Enter Loan Amount', "N");
         EzTxttabEve('#NoOfInstalments', '#Balance', 'Enter No of Installment', "N");
         
-        EzdtePk('#Entry_Date1,#DeductionStartDate1');            
+        EzdtePk('#Entry_Date1,#DeductionStartDate1');
+
+
+        
+        EzdateCond('#DeductionStartDate1', '#Entry_Date1', 'Deduction Date shold be greater than equal to Entry Date');
+
+        Ezdatejoindate('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
+
+        $("#EmpCode").change(function () {
+            debugger;
+            var e1 = $("#EmpCode option:selected").val();
+            if (e1 != '0') {
+                Ezjoindate(e1, '#joindate');
+                EzdatejoindateEmp('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
+            }
+        });
+
+        //var e2 = $("#EmpCode option:selected").val();
+        //if (e2 != '0') {
+           
+       // }
+
+
+        //$('.selectpicker').selectpicker({
+        //    style: 'btn-info',
+        //    size: 4,
+
+        //});
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
+
     });
    
 </script>
@@ -54,7 +86,7 @@
             <div class="custom-form-wrapper">
                 <div id="POContainer">
                     <div class="row">
-
+                        <input type="hidden" id="joindate" />
                         <div class="custom-form-wrapper">
                             <!-- BEGIN FORM-->
                             <div class="form-horizontal">
@@ -73,7 +105,7 @@
                                                         <label class="control-label col-md-4">Entry Date</label>
                                                         <div class="col-md-8 input-field">
                                                             
-                                                                <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" disabled="disabled"/>                                                           
+                                                                <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" />                                                           
                                                             
                                                             @*@Html.HiddenFor(m => m.Entry_Date, new { htmlAttributes = new { @class = "date1" } } )*@
                                                         </div>

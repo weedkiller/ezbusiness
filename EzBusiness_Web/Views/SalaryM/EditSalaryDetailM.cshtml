@@ -29,10 +29,15 @@
 
 
      
-
+        Ezjoindate($("#EMPCODE option:selected").val(), '#joindate');
 
         EzdtePkEdit('#Entery_date1', "#Entery_date", "DD/MM/YYYY");
         EzdtePkEdit('#Effect_From1', "#Effect_From", "DD/MM/YYYY");
+
+
+        Ezdatejoindate('#Entery_date1', '#joindate', '#Effect_From1', 'Entery Date shold be greater than equal to Joindate');
+
+        EzdateCond('#Effect_From1', '#Entery_date1', 'Effect Date shold be greater than equal to Entry Date');
 
         //$("#ProjectCode").change(function () {
         //    var projectName = $("#ProjectCode option:selected").val();
@@ -75,7 +80,15 @@
 
          });
 
-      
+       $('.selectpicker').selectpicker({
+           style: 'btn-info',
+           size: 4,
+
+       });
+
+       $('body').on('focus', ':input', function () {
+           $(this).attr('autocomplete', 'off');
+       });
 
        
     });
@@ -122,14 +135,7 @@
        
     }
 
-    Date.prototype.getToday = function () {
-        var now = new Date();
-        var day = ("0" + now.getDate()).slice(-2);
-        var month = ("0" + (now.getMonth() + 1)).slice(-2);
-
-        var today = now.getFullYear() + "-" + (month) + "-" + (day);
-        return today;
-    }
+   
 </script>
 
 <div class="row">
@@ -146,6 +152,7 @@
                     <div class="custom-form-wrapper">
                         <div id="SMAContainer">
                             <div class="row">
+                                <input type="hidden" id="joindate" />
                                 <div class="custom-form-wrapper">
                                     <!-- BEGIN FORM-->
                                     <div class="form-horizontal">

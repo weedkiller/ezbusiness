@@ -4,7 +4,6 @@
 @{
     var counter = 1;
 
-
 }
 
 <script src="~/Scripts/jquery-3.1.1.js"></script>
@@ -13,25 +12,20 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
-<script>
-    
-    $(function () {
-        
+<script>    
+    $(function () {        
         var arr1 = [];
         //EzsetDatetxt();
-        $('.selectpicker').selectpicker('refresh');
-       
+        $('.selectpicker').selectpicker('refresh');       
         EzdtePk('#Entry_Dates1,#StartDate1,#EndDate1,#JoiningDate1');
         halfday();
         Ezsetzerotxt();     
         var Ideary = [];
         Ideary.push("#LeaveType");
         Ideary.push('input[name="JoiningDate1"]');
-        Ideary.push('input[name="Entry_Dates1"]');       
+        //Ideary.push('input[name="Entry_Dates1"]');       
         EzDisabledT(Ideary);
-
-        function halfday(){
-           
+        function halfday(){           
             var start = new Date(Ezsetdtpkdate($("[name*='StartDate1']").val()));
             var end = new Date(Ezsetdtpkdate($("[name*='EndDate1']").val()));
             var diff = new Date(end - start);
@@ -49,6 +43,9 @@
                 $('#LeaveDays').val(a);
             }
         }
+
+
+
         $("#LeaveType").change(function () {
             debugger;
             var Emp = $("#EmpCode option:selected").val();
@@ -104,6 +101,13 @@
         });
 
         EzComapretxtval("#LeaveDays", "#TotalSanctioned", 'Sanction days not greater than leave days');
+
+
+        EzdateCond('#StartDate1', '#JoiningDate1', 'Start Date shold be greater than equal to Joining Date');
+        EzdateCond('#EndDate1', '#JoiningDate1', 'End Date shold be greater than equal to Joining Date');
+        EzdateCond('#EndDate1', '#StartDate1', 'End Date shold be greater than equal to Start Date');
+        EzdateCond('#Entry_Dates1', '#JoiningDate1', 'Entry Date shold be greater than equal to Joining Date');
+
               
         //$('#StartDate1').change(function () {
          
@@ -123,6 +127,18 @@
           
             halfday();
         });
+
+        //$('.selectpicker').selectpicker({
+        //    style: 'btn-info',
+        //    size: 4,
+
+        //});
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
+
+       
 
     });       
 </script>
@@ -166,7 +182,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Date</label>
                                                         <div class="col-md-8 input-field">
-                                                            <input id="Entry_Dates1" class="form-control datepicker" name="Entry_Dates1" disabled = "disabled"/>
+                                                            <input id="Entry_Dates1" class="form-control datepicker" name="Entry_Dates1" />
 
                                                             @*@Html.HiddenFor(m => m.Entry_Dates )*@
                                                         </div>

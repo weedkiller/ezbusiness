@@ -41,6 +41,25 @@
 
         EzdtePkEdit('#Entry_Date1', "#Entry_Date", "DD/MM/YYYY");
         EzdtePkEdit('#DeductionStartDate1', "#DeductionStartDate", "DD/MM/YYYY");
+
+
+        var e2 = $("#EmpCode option:selected").val();
+        if (e2 != '0') {
+            Ezjoindate(e2, '#joindate');
+            Ezdatejoindate('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
+        }
+        EzdateCond('#DeductionStartDate1', '#Entry_Date1', 'Deduction Date shold be greater than equal to Entry Date');
+
+        //$('.selectpicker').selectpicker({
+        //    style: 'btn-info',
+        //    size: 4,
+
+        //});
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
+
       
     });
     
@@ -66,6 +85,7 @@
 
                                 <div class="form-body">
                                     <div class="row">
+                                        <input type="hidden" id="joindate" />
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Code</label>
@@ -81,7 +101,7 @@
                                                 <label class="control-label col-md-4">Entry Date</label>
                                                 <div class="col-md-8 input-field">
                                                     @*@Html.EditorFor(m => m.Entry_Date, new { htmlAttributes = new { @class = "date1" } })*@
-                                                    <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" disabled = "disabled"/>
+                                                    <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" />
 
                                                     @Html.HiddenFor(m => m.Entry_Date, new { htmlAttributes = new { @class = "date1" } })
                                                 </div>

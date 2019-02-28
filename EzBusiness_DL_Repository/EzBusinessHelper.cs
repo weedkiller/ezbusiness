@@ -229,10 +229,10 @@ namespace EzBusiness_DL_Repository
                 {
                     //if (cn.State != ConnectionState.Open)
                         cn.Open();
-                    trans = cn.BeginTransaction();
+                   // trans = cn.BeginTransaction();
                     cmd = new SqlCommand(SqlCommondText, cn, trans);
                     rowaffected = cmd.ExecuteNonQuery();
-                    trans.Commit();
+                   // trans.Commit();
                     cn.Close();
                 }
                 catch (Exception ex)

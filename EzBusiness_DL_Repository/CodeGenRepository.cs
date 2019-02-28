@@ -35,17 +35,20 @@ namespace EzBusiness_DL_Repository
             string[] InpAmts = InpAmt.Split(',');
             int n = 0;
             int i = 0;
+           
             foreach (string Emps in Emp)
             {
+                
                 if (Emps != "")
                 {
+                    n = 0;
                     string Monthyy = dtmonthyy.ToString("MM-yyyy");
                     //decimal k = _EzBusinessHelper.ExecuteScalarDec("select a.TOTAL from PRSMS001 a where a.CMPYCODE ='" + CmpyCode + "' and a.Effect_From <='" + dtmonthyy + "' and a.EMPCODE='" + Emps + "' and a.Flag=0 and Effect_From =(select max(b.Effect_From) from PRSMS001 b where b.CMPYCODE =a.CMPYCODE and b.EMPCODE=a.EMPCODE and b.Effect_From <=a.Effect_From and a.Flag=b.Flag)");
                     SqlParameter[] param = {new SqlParameter("@cmpyCode", CmpyCode),
                         new SqlParameter("@currDate", dtmonthyy),
-            new SqlParameter("@EmpCode",Empcode)};
-                    decimal k = _EzBusinessHelper.ExecuteScalarDec("usp_ChecksalaryData", param);                   
-                    decimal t =Convert.ToDecimal(InpAmts[i]);
+            new SqlParameter("@EmpCode",Emps)};
+                    decimal k = _EzBusinessHelper.ExecuteScalarDec("usp_ChecksalaryData", param);
+                    decimal t = Convert.ToDecimal(InpAmts[i]);
                     if (k > t)
                     {
                         n = 1;
@@ -68,6 +71,7 @@ namespace EzBusiness_DL_Repository
             {
                 if(Emps!="")
                 {
+                    n = 0;
                     string Monthyy = dtmonthyy.ToString("MM-yyyy");
                     int k = _EzBusinessHelper.ExecuteScalar("select count(*) from PRSPD001 where flag=0 and EmpCode='" + Emps + "'  and CmpyCode='" + CmpyCode + "' and FORMAT(Dates,'MM-yyyy') = '" + Monthyy + "'");
                     if (k == 0)

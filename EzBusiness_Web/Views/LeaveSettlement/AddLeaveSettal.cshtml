@@ -25,11 +25,11 @@
           
         arr1.push("#LeaveType");
         arr1.push('input[name="JoiningDate1"]');
-        arr1.push('input[name="Entry_Dates1"]');
+        //arr1.push('input[name="Entry_Dates1"]');
         EzDisabledT(arr1);
         arr1 = [];
         $("#PRLR001_CODE").change(function () {
-           
+            debugger;
             var LCode = $("#PRLR001_CODE option:selected").val();
             if (LCode != '0')
             {
@@ -40,6 +40,7 @@
                     $('#LStartDate1').val(EzdatefrmtRes(arr1[0].LLSdate));
                     $('#LendDate1').val(EzdatefrmtRes(arr1[0].LendDate));
                     $('#JoiningDate1').val(EzdatefrmtRes(arr1[0].JoiningDate));
+                   // $('#DR_Date1').val(EzdatefrmtRes(arr1[0].DR_Date))
              //   ('#Empcode').attr("readonly", false);
                 $('#Total_LE_Days').val(arr1[0].Total_LE_Days);
                 $('#LB_CF_Days').val(arr1[0].LB_CF_Days);
@@ -65,9 +66,9 @@
                 arr1.push('#Actual_Salary');
                 arr1.push('#salary_effect_date1');
 
-                arr1.push('#LLSdate1');
+               // arr1.push('#LLSdate1');
                 arr1.push('#JoiningDate1');
-                arr1.push('#DR_Date1');
+                //arr1.push('#DR_Date1');
                 arr1.push('#LStartDate1');
                 arr1.push('#LendDate1');
 
@@ -82,6 +83,20 @@
                 cleardata();
             }
         });
+
+
+        EzdateCond('#LLSdate1', '#LStartDate1', 'Entery Date shold be greater than equal to Last Settlement Date');
+        EzdateCond('#DR_Date1', '#LStartDate1', 'Entery Date shold be greater than equal to Duty Resume Date');
+        //$('.selectpicker').selectpicker({
+        //    style: 'btn-info',
+        //    size: 4,
+
+        //});
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
+
         
     });
 
@@ -131,7 +146,7 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">Entry Date</label>
                                                         <div class="col-md-8">
-                                                            <input id="Entry_Date1" name="Entry_Date1" class="form-control datepicker" disabled = "disabled"/>
+                                                            <input id="Entry_Date1" name="Entry_Date1" class="form-control datepicker" />
                                                             @*@Html.HiddenFor(m => m.Entry_Date)*@
 
                                                         </div>

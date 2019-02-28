@@ -184,7 +184,7 @@
                     var T_typetxt = $(this).find("[name*='T_type'] option:selected").val();
                     var Remarkstxt = $(this).find("[name*='Remark']").val();
 
-                    if (EmpCodetxt != "0" && ADN_Amounttxt != "0.00" && ADN_Act_codetxt != '') {
+                    if (EmpCodetxt != "0" && ADN_Amounttxt !="" && ADN_Act_codetxt !="") {
                         var MonthlyAdddedM = {
                             EmpCode: EmpCodetxt,
                             ADN_Amount: ADN_Amounttxt,
@@ -257,7 +257,7 @@
                     var EmpNametxt = $(this).find("[name*='EmpCode'] option:selected").text();
                     var arrE = EmpNametxt.split('-');
                     EmpNametxt = arrE[2];
-                    if (EmpCodetxt != "0" && ADN_Amounttxt != "0.00" && ADN_Amounttxt != "" && ADN_Act_codetxt != '') {
+                    if (EmpCodetxt != "0" && ADN_Amounttxt !="" && ADN_Amounttxt != "" && ADN_Act_codetxt != '') {
                         var MonthlyAdddedM = {
                             EmpCode: EmpCodetxt,
                             ADN_Amount: ADN_Amounttxt,
@@ -308,6 +308,7 @@
         });
 
         function ValidateForm(Monthly) {
+            debugger;
             var response = {
                 ErrorMessage: "",
                 formValid: false
@@ -328,9 +329,10 @@
            // }
 
 
-            if (Monthly.MonthlyAddded.length == 0) {
-                response.ErrorMessage += "Emp Code  are mandatory Fields.";
+            if (Monthly.MonthlyAddded.length ==0) {
+                response.ErrorMessage += "Emp Code and Amount and Act_Code are mandatory Fields.";
             }
+           
 
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;

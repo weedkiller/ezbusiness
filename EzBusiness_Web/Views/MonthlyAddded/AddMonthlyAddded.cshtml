@@ -37,6 +37,15 @@
             });
             drec.splice($.inArray(tr.find("[name *= 'EmpCode']").val(), drec), 1);
 
+            var tf = true;
+            var dt = Ezjoindatetbl(tr.find("[name *= 'EmpCode']").val());
+            tr.find("[name *= 'joindate']").val(EzdatefrmtRes(dt));
+            if (new Date(Ezsetdtpkdate(tr.find("[name *= 'joindate']").val())) > new Date(Ezsetdtpkdate($('#Entry_Date1').val()))) {
+                tf = false;
+                EzAlerterrtxt("Entery Date shold be greater than equal to Joindate");
+            }
+
+
             if ($.inArray(tr.find("[name *= 'EmpCode']").val(), drec) >= 0) {
                 var dr = tr.find("[name *= 'EmpCode']").val();
                 tr.css("background", "red");
@@ -44,8 +53,9 @@
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'EmpCode']").val('0');
 
+                
             }
-            else {
+            else if(tf==true) {                                              
                 tr.css("background", "");
 
                 if (tr.is(":last-child")) {
@@ -57,11 +67,16 @@
 
                     var trLast1 = $("#tablePODetails tbody tr:last");
 
-                    trLast1.find("[name *= 'EmpCode']").val('0')
-                    trLast1.find("[name *= 'ADN_Amount']").val('')
-                    trLast1.find("[name *= 'ADN_Act_code']").val('')                    
-                    trLast1.find("[name *= 'Remarks']").val('')
+                    trLast1.find("[name *= 'EmpCode']").val('0');
+                    trLast1.find("[name *= 'ADN_Amount']").val('');
+                    trLast1.find("[name *= 'ADN_Act_code']").val('');
+                    trLast1.find("[name *= 'Remarks']").val('');
+                    trLast1.find("[name *='joindate']").val('');
 
+
+                    trLast.find("[name *= 'joindate']").attr({
+                        "name": ("joindate" + counter1)
+                    });
                     trLast.find("[name *= 'EmpCode']").attr({
                         "name": ("EmpCode" + counter1)
                     });
@@ -83,6 +98,10 @@
                 }
                 counter1++;
             }
+            else {
+                tr.find("[name *= 'EmpCode']").val('0');
+                tr.find("[name *= 'joindate']").val('');
+            }
         });
 
         EzGriddel("#tablePODetails", "[name*='btnDelete']");
@@ -97,10 +116,40 @@
         EzGetYear("#TYear", "#hdnTYear", new Date(Ezsetdtpkdate($("#Entry_Date1").val())));
 
         $('#Entry_Date1').on('dp.change', function (event) {
+            var k5 = 0;
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
+                debugger;                
+                var tr = $(this).closest("tr");
+                if (new Date(Ezsetdtpkdate(tr.find("[name *= 'joindate']").val())) > new Date(Ezsetdtpkdate($('#Entry_Date1').val()))) {
+                    tr.css("background", "red");
+                    k5 = 1;
+                                     
+                }
+                else
+                {
+                    tr.css("background", "");
+                }
+            });
+            if (k5 == 1) {
+                EzAlerterrtxt("Entery Date shold be greater than equal to Joindate");
+                $('#Entry_Date1').focus();
+                $('#Entry_Date1').val(EzdteTblPkEdit(new Date()));
+                
+            } 
+                dt = new Date(Ezsetdtpkdate($("#Entry_Date1").val()));
+                EzGetMonthName("#TMonth", "#hdnTMonth", dt);
+                EzGetYear("#TYear", "#hdnTYear", dt);
            
-            dt = new Date(Ezsetdtpkdate($("#Entry_Date1").val()));
-            EzGetMonthName("#TMonth", "#hdnTMonth", dt);
-            EzGetYear("#TYear", "#hdnTYear", dt);
+        });
+
+        $('.selectpicker').selectpicker({
+            style: 'btn-info',
+            size: 4,
+
+        });
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
         });
 
 
@@ -135,7 +184,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Entry Date</label>
                                                 <div class="col-md-8 input-field">
-                                                    <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" disabled = "disabled"/>
+                                                    <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" />
                                                     @Html.HiddenFor(m => m.Entry_Date)
                                                 </div>
                                             </div>
@@ -174,6 +223,7 @@
                                         <thead>
                                             <tr>
                                                 <th>EmpCode</th>
+                                                <th>Joining Date</th>
                                                 <th>ADN_Amount</th>
                                                 <th>ADN_Act_code</th>
                                                 <th>T_type</th>
@@ -187,6 +237,11 @@
                                                 <td>
                                                     <div class="grid-group">
                                                         @Html.DropDownList(string.Concat("EmpCode", counter), Model.EmpNameList, new { @class = "grid-control" })
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="grid-group">
+                                                        @Html.TextBox(string.Concat("joindate", counter), null, new { @class = "grid-control",@disabled = "disabled" })
                                                     </div>
                                                 </td>
                                                 <td>
