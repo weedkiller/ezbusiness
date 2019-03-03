@@ -50,7 +50,7 @@ namespace EzBusiness_DL_Repository
         {
             if (!Sft.EditFlag)
             {
-                int Exi = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSFT003 where CmpyCode='" + Sft.CmpyCode + "' and PRSFT003_code='" + Sft.PRSFT003_code + "'");
+                int Exi = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSFT003 where CmpyCode='" + Sft.CmpyCode + "' and PRSFT003_code='" + Sft.PRSFT003_code + "' and Flag=0");
 
                 int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + Sft.CmpyCode + "' and Code='PRSFT' ");
                 if (Exi==0)

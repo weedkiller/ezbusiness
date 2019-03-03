@@ -39,7 +39,9 @@
     @*<link href="~/Content/css/fancy-textbox.css" rel="stylesheet" />
     <script src="~/Content/assets/js/jquery.fancy-textbox.js"></script>
     <script src="~/Content/assets/js/jquery-1.10.2.min.js"></script>*@
-
+    <link href="~/Scripts/sweetalret/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/Scripts/sweetalret/sweetalert2.all.min.js"></script>
+    <script src="~/Scripts/EzComNDW.js"></script>
 </head>
 <!-- END HEAD -->
 
@@ -317,17 +319,23 @@
             DepCode: $("[name*='DepartmentCode']  option:selected").val(),
 
         };
+        
+            $.get("/InLogin1", ILogin).done(function (response) {
+                debugger;
+                if (response.CmpyCode != '0') {
+                    if (response.IsLogInFlag == true) {
+                        window.location.href = "/Index";
+                    }
+                    else {
+                        EzAlerterrtxt(response.ErrorMessage);
+                       
+                    }
+                }else
+                {
+                    EzAlerterrtxt("Company Code should be mandatory");
+                }
 
-
-        $.get("/InLogin1", ILogin).done(function (response) {         
-            debugger;
-            if (response!=null)
-            {
-              
-                window.location.href = "/Index";
-            }
-
-        });
+            });                 
         });
         });
 

@@ -232,9 +232,10 @@
                     var NomineeNameTxt = $(this).find("[name*='NomineeName']").val();
                     var NomineeAddressTxt = $(this).find("[name*='NomineeAddress']").val();
                     var NomineeRelationTxt = $(this).find("[name*='NomineeRelation']").val();
-                    var NomineeDOBTxt = Ezsetdtpkdate($(this).find("[name*='NomineeDOB']").val());
+                   
 
                     if ((NomineeNameTxt != "") && (NomineeRelationTxt != "")) {
+                        var NomineeDOBTxt = Ezsetdtpkdate($(this).find("[name*='NomineeDOB']").val());
                         var EmployeeNominee = {
                             NomineeName: NomineeNameTxt,
                             NomineeAddress: NomineeAddressTxt,
@@ -469,30 +470,30 @@
                     response.ErrorMessage += "Nationality ,";
                 }
                 if (employeemaster.DivisionCode == "0") {
-                    response.ErrorMessage += "DivisionCode ,";
+                    response.ErrorMessage += "DivisionCode  ,";
                 }
 
                 if (employeemaster.Empname == "") {
                     response.ErrorMessage += "Empname ,";
                 }
-                if (employeemaster.DOB == "") {
-                    response.ErrorMessage += "DOB ,";
-                }
+                //if (employeemaster.DOB == "") {
+                //    response.ErrorMessage += "DOB ,";
+                //}
                 if (employeemaster.Location == "") {
-                    response.ErrorMessage += "Location";
+                    response.ErrorMessage += "Location ";
                 }
                 if (employeemaster.VisaLocation == "") {
-                    response.ErrorMessage += "Visa Location";
+                    response.ErrorMessage += "Visa Location ";
                 }
-            if (!employeemaster.DOB) {
-                response.ErrorMessage += "Date of Birth,";
-            }
-            if (!employeemaster.JoiningDate) {
-                response.ErrorMessage += "JoiningDate ,";
-            }
+            //if (!employeemaster.DOB) {
+            //    response.ErrorMessage += "Date of Birth,";
+            //}
+            //if (!employeemaster.JoiningDate) {
+            //    response.ErrorMessage += "JoiningDate ,";
+            //}
           
-            if (!ValidateEmail(employeemaster.EMail)) {
-                response.ErrorMessage += "EmailId not Valid,";
+            if (employeemaster.EMail=="") {
+                response.ErrorMessage += "Email Id should be mandatory ,";
             }
             
             if (employeemaster.DOB >= employeemaster.JoiningDate) {
@@ -500,6 +501,9 @@
             }
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
+            }
+            else {
+                response.ErrorMessage = "Enter Mandatory fields  " + response.ErrorMessage + " "
             }
             //} else if (employeemaster.IsEditMode == true) {
             //    if (employeemaster.EmpCode=='') {
@@ -667,7 +671,7 @@
                                                                     <div class="clearfix"></div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
-                                                                            <label class="control-label col-md-5">Salutaion <i style="color:red;">*</i></label>
+                                                                            <label class="control-label col-md-5">Salutaion<i style="color:red;">*</i></label>
                                                                             <div class="col-md-7 input-field">
                                                                                 <select class="form-control" name="">
                                                                                     <option value="">---Select---</option>
