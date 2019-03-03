@@ -26,6 +26,16 @@ namespace EzBusiness_DL_Repository
             return GetCode;
         }
 
+        public string GetCountry(string Cmpycode, string Empcode)
+        {
+            return _EzBusinessHelper.ExecuteScalarS("select Nationality from MEM001 where EmpCode='"+ Empcode +"' and Flag =0 and Cmpycode='" + Cmpycode + "' ");
+        }
+
+        public string GetDiv(string Cmpycode, string Empcode)
+        {
+            return _EzBusinessHelper.ExecuteScalarS("select DivisionCode from MEM001 where EmpCode='" + Empcode + "' and Flag =0 and Cmpycode='" + Cmpycode + "' ");
+        }
+
         public bool GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy, string InpAmt)
         {
             //return _EzBusinessHelper.ExecuteScalarDec("select a.TOTAL from PRSMS001 a where a.CMPYCODE ='"+ CmpyCode +"' and a.Effect_From <='"+  dtmonthyy +"' and a.EMPCODE='"+ Empcode + "' and a.Flag=0 and Effect_From =(select max(b.Effect_From) from PRSMS001 b where b.CMPYCODE =a.CMPYCODE and b.EMPCODE=a.EMPCODE and b.Effect_From <=a.Effect_From and a.Flag=b.Flag)");

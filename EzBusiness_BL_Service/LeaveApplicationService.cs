@@ -123,6 +123,9 @@ namespace EzBusiness_BL_Service
             {
                 LeaveApp.PRLR001_CODE = _CodeRep.GetCode(LeaveApp.CmpyCode, "LeaveApplication");
             }
+
+            LeaveApp.COUNTRY = _CodeRep.GetCountry(LeaveApp.CmpyCode, LeaveApp.EmpCode);
+            LeaveApp.DIVISION = _CodeRep.GetDiv(LeaveApp.CmpyCode, LeaveApp.EmpCode);
             return _LeaveAppRepo.SaveLeaveApp(LeaveApp);
         }
 

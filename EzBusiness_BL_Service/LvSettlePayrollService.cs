@@ -117,6 +117,10 @@ namespace EzBusiness_BL_Service
             {
                 Liv.PRLS001_CODE = _CodeRep.GetCode(Liv.CMPYCODE, "LeaveSettlement");
             }
+
+            Liv.COUNTRY = _CodeRep.GetCountry(Liv.CMPYCODE, Liv.Empcode);
+            Liv.DIVISION = _CodeRep.GetDiv(Liv.CMPYCODE, Liv.Empcode);
+
             return _LvPayrollRepo.SaveLiv(Liv);
         }
 

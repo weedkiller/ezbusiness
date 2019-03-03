@@ -104,6 +104,8 @@ namespace EzBusiness_BL_Service
             {
                 LoanApp.PRLA001_CODE = _CodeRep.GetCode(LoanApp.CmpyCode, "LoanAppliation");
             }
+            LoanApp.COUNTRY = _CodeRep.GetCountry(LoanApp.CmpyCode, LoanApp.EmpCode);
+            
             return _LoanAppRepo.SaveLoanApp(LoanApp);
         }
     }
