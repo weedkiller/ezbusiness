@@ -31,6 +31,11 @@ namespace EzBusiness_DL_Repository
             return _EzBusinessHelper.ExecuteScalarS("select Nationality from MEM001 where EmpCode='"+ Empcode +"' and Flag =0 and Cmpycode='" + Cmpycode + "' ");
         }
 
+        public string GetCountryP(string Cmpycode, DateTime dt1)
+        {
+            return _EzBusinessHelper.ExecuteScalarS("select COUNTRY from PRCNF001 where FINYEARS='"+ dt1.ToString("yyyy") + "' and FINMONTH='" + dt1.ToString("MM") + "' and  Flag=0 and Cmpycode='" + Cmpycode + "' ");
+        }
+
         public string GetDiv(string Cmpycode, string Empcode)
         {
             return _EzBusinessHelper.ExecuteScalarS("select DivisionCode from MEM001 where EmpCode='" + Empcode + "' and Flag =0 and Cmpycode='" + Cmpycode + "' ");

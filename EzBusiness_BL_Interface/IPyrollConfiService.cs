@@ -7,7 +7,7 @@ using EzBusiness_DL_Interface;
 using EzBusiness_DL_Repository;
 using EzBusiness_EF_Entity;
 using EzBusiness_ViewModels.Models.Humanresourcepayroll;
-
+using System.Web.Mvc;
 
 namespace EzBusiness_BL_Interface
 {
@@ -23,7 +23,7 @@ namespace EzBusiness_BL_Interface
 
         // bool DeletePyrollConfi(string Code, string CmpyCode);
 
-
+        List<SelectListItem> GetNationList(string CmpyCode);
         List<PyrollConfi_Vm> GetPyrollConfiList(string CmpyCode);
 
         PyrollConfi_Vm SavePyrollConfi(PyrollConfi_Vm Lons);

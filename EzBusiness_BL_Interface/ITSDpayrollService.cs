@@ -15,7 +15,7 @@ namespace EzBusiness_BL_Interface
     {
         List<TimeSheetDetailVM> GetTSDList(string CmpyCode, string EmpCode, DateTime date);
         List<SelectListItem> GetEmpCodes(string CmpyCode);
-
+        string GetCountryP(string CmpyCode, DateTime dt);
         TimeSheetDetailVM GetOTVMNew(string CmpyCode);
 
 

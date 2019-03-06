@@ -17,7 +17,7 @@ namespace EzBusiness_EF_Entity
        
         public string EmpName { get; set; }
 
-        public DateTime? Entry_Date { get; set; }
+        public DateTime Entry_Date { get; set; }
        
         public DateTime? LLSdate { get; set; }
        

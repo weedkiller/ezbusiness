@@ -137,7 +137,7 @@
                 var Pyroll = {
                     EditFlag: false,
                     PRCNF001_CODE: $("[name='PRCNF001_CODE']").val(),
-                    COUNTRY: 0,
+                    COUNTRY: $("[name='Nationality']").val(),
                     SRNO: $("[name='SRNO']").val(),
                     FINYEAR: $("#hdnFINYEAR").val(),
                     FINMONTH: $("#hdnFINMONTH").val(),
@@ -170,7 +170,7 @@
                 var Pyroll = {
                     EditFlag: true,
                     PRCNF001_CODE: $("[name='PRCNF001_CODE']").val(),
-                    COUNTRY: 0,
+                    COUNTRY: $("[name='Nationality']").val(),
                     SRNO: $("[name='SRNO']").val(),
                     FINYEAR: $("#hdnFINYEAR").val(),
                     FINMONTH: $("#hdnFINMONTH").val(),
@@ -214,6 +214,8 @@
                     response.ErrorMessage = "Please Enter From Date.";
                 else if (Pyroll.TO_DATE == "")
                     response.ErrorMessage = "Please Enter To Date";
+                else if (Pyroll.COUNTRY == "0")
+                    response.ErrorMessage = "Please Select Country";
 
             } else if (Pyroll.EditFlag == true) {
                 if (Pyroll.PRCNF001_CODE == "") {
@@ -223,6 +225,8 @@
                     response.ErrorMessage = "Please Enter From Date.";
                 else if (Pyroll.TO_DATE == "")
                     response.ErrorMessage = "Please Enter To Date";
+                else if (Pyroll.COUNTRY == "0")
+                    response.ErrorMessage = "Please Select Country";
             }
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
@@ -417,7 +421,16 @@
 
                                             </div>
                                             <div class="row">
-
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Blood Group</label>
+                                                        <div class="col-md-8 input-field">
+                                                            <select class="form-control" name="">
+                                                                <option value="">---Select---</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">Lock</label>

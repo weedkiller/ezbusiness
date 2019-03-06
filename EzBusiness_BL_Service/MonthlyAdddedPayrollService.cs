@@ -97,7 +97,19 @@ namespace EzBusiness_BL_Service
             {
                 MonthlyAD.PRADN001_CODE = _CodeRep.GetCode(MonthlyAD.CmpyCode, "MonthlyAddded");
             }
-            return _MonthlyAdddedPayrollRepo.SaveMonthlyAD(MonthlyAD);
+
+            MonthlyAD.COUNTRY = _CodeRep.GetCountryP(MonthlyAD.CmpyCode, MonthlyAD.Entry_Date);
+
+            if (MonthlyAD.COUNTRY == null)
+            {
+                MonthlyAD.SaveFlag = false;
+                MonthlyAD.ErrorMessage = "PayRoll Config not Generated";
+                return MonthlyAD;
+            }
+            else
+            {
+                return _MonthlyAdddedPayrollRepo.SaveMonthlyAD(MonthlyAD);
+            }
         }
     }
 }

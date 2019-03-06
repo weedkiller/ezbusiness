@@ -104,9 +104,17 @@ namespace EzBusiness_BL_Service
             {
                 LoanApp.PRLA001_CODE = _CodeRep.GetCode(LoanApp.CmpyCode, "LoanAppliation");
             }
-            LoanApp.COUNTRY = _CodeRep.GetCountry(LoanApp.CmpyCode, LoanApp.EmpCode);
+            LoanApp.COUNTRY = _CodeRep.GetCountryP(LoanApp.CmpyCode, LoanApp.Entry_Date);
+            if (LoanApp.COUNTRY == null)
+            {
+                LoanApp.SaveFlag = false;
+                LoanApp.ErrorMessage = "PayRoll Config not Generated";
+                return LoanApp;
+            }else
+            {
+                return _LoanAppRepo.SaveLoanApp(LoanApp);
+            }
             
-            return _LoanAppRepo.SaveLoanApp(LoanApp);
         }
     }
 }

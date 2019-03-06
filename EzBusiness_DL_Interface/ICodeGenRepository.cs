@@ -17,5 +17,7 @@ namespace EzBusiness_DL_Interface
 
         string GetCountry(string Cmpycode, string Empcode);
 
+        string GetCountryP(string Cmpycode, DateTime dt1);
+
     }
 }

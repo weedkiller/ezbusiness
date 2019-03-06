@@ -118,10 +118,19 @@ namespace EzBusiness_BL_Service
                 Liv.PRLS001_CODE = _CodeRep.GetCode(Liv.CMPYCODE, "LeaveSettlement");
             }
 
-            Liv.COUNTRY = _CodeRep.GetCountry(Liv.CMPYCODE, Liv.Empcode);
+            Liv.COUNTRY = _CodeRep.GetCountryP(Liv.CMPYCODE, Liv.Entry_Date);
             Liv.DIVISION = _CodeRep.GetDiv(Liv.CMPYCODE, Liv.Empcode);
+            if (Liv.COUNTRY == null)
+            {
+                Liv.SaveFlag = false;
+                Liv.ErrorMessage = "PayRoll Config not Generated";
+                return Liv;
+            }
+            else
+            {
 
-            return _LvPayrollRepo.SaveLiv(Liv);
+                return _LvPayrollRepo.SaveLiv(Liv);
+            }
         }
 
         public LeaveSettlementVM GetLeaveSettlementNew(string CmpyCode)

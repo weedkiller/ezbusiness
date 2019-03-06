@@ -169,5 +169,10 @@ namespace EzBusiness_DL_Repository
             }
             return PayCnfg;
         }
+
+        public List<Nation> GetNationList(string CmpyCode)
+        {
+            return drop.GetNationList(CmpyCode);
+        }
     }
 }
