@@ -161,7 +161,8 @@
                 var EmpCodetxt = $(this).find("[name*='EmpCode']").val();
                 var Datesttxt = Ezsetdtpkdate($(this).find("[name*='Datest']").val());
                 var ddlPayDeductOn1 = $(this).find("[name*='ddlPayDeductOn1']").val();
-                if ((Datesttxt != "0")) {
+                debugger;
+                if ((Datesttxt != "0" && ddlPayDeductOn1 != "0" && EmpCodetxt != "0")) {
                     var OTExtraATT = {
                         Att_Date: Datesttxt,
                         ATT: ddlPayDeductOn1,
@@ -215,7 +216,7 @@
                     response.ErrorMessage += "Select Empcode,";
                 }
                 if (OTPayroll.OTExtraATTnews.length == 0) {
-                    response.ErrorMessage += "Enter at least one record ,";
+                    response.ErrorMessage += "Employee Code,Date and Attendance Type Mandatory,";
                 }
                 if (response.ErrorMessage.length == 0) {
                     response.formValid = true;
@@ -367,7 +368,7 @@
 
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">Employee</label>
+                                                        <label class="control-label col-md-3">Employee<i style="color:red;">*</i></label>
                                                         <div class="col-md-8">
                                                             @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
 
