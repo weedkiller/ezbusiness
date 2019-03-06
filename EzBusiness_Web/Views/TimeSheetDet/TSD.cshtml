@@ -42,6 +42,25 @@
             var e1 = $("#EmpCode option:selected").val();
 
             var date1 = Ezsetdtpkdate($('#Dates').val());
+            debugger;
+            var tf = false;
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "POST",
+                data: "{dt:'" + date1 + "'}",
+                url: "/TimeSheetDet/GetCountryP",
+                dataType: 'Json',
+                contentType: "Application/json",
+                success: function (data) {
+                    debugger;                    
+                    if (data == '0')
+                    {
+                        tf = true;
+                        EzAlerterrtxt("PayRoll Config not Generated");
+                    }
+                }
+            });
 
             var a = [];
             var a1 = [];
@@ -64,8 +83,10 @@
                 }
             });
 
-            var k = EzSalrLast(a, date1, a1,'Salary not set for this under employee');
-
+            var k = 0
+            if (tf == false) {
+                k = EzSalrLast(a, date1, a1, 'Salary not set for this under employee');
+            }           
             if (e1 != '0' && k==1)
                 {
                 //var date1 = Ezsetdtpkdate($('#Dates').val());

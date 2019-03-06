@@ -8,6 +8,8 @@ using EzBusiness_DL_Interface;
 using EzBusiness_DL_Repository;
 using EzBusiness_EF_Entity;
 using EzBusiness_ViewModels.Models.Humanresourcepayroll;
+using System.Web.Mvc;
+using EzBusiness_ViewModels;
 
 namespace EzBusiness_BL_Service
 {
@@ -39,6 +41,7 @@ namespace EzBusiness_BL_Service
             return new PyrollConfi_Vm
             {
                 PRCNF001_CODE = _codeRep.GetCode(CmpyCode, "PyrollConfi"),
+                NationalityList = GetNationList(CmpyCode),
                 EditFlag = false
             };
        }
@@ -71,6 +74,25 @@ namespace EzBusiness_BL_Service
                 Lons.PRCNF001_CODE = _codeRep.GetCode(Lons.CMPYCODE, "PyrollConfi");
             }
             return _Pyroll.SavePyrollConfi(Lons);
+        }
+
+        public List<SelectListItem> GetNationList(string CmpyCode)
+        {
+            var itemCodes = _Pyroll.GetNationList(CmpyCode)
+                                    .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
+                                    .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+        private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
+        {
+            items.Insert(0, new SelectListItem
+            {
+                Value = PurchaseMgmtConstants.DDLFirstVal,
+                Text = PurchaseMgmtConstants.DDLFirstText
+            });
+
+            return items;
         }
     }
 }

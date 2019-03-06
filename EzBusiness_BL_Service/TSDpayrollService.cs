@@ -16,9 +16,11 @@ namespace EzBusiness_BL_Service
     public class TSDpayrollService : ITSDpayrollService
     {
         ITSDpayrollRepository _TSDPayrollRepo;
+        ICodeGenRepository _CodeRep;
         public TSDpayrollService()
         {
             _TSDPayrollRepo = new TSDpayrollRepository();
+            _CodeRep = new CodeGenRepository();
         }
 
         public List<SelectListItem> GetEmpCodes(string CmpyCode)
@@ -77,7 +79,10 @@ namespace EzBusiness_BL_Service
             };
         }
 
-
+        public string GetCountryP(string CmpyCode, DateTime dt)
+        {
+            return _CodeRep.GetCountryP(CmpyCode, dt);
+        }
     }
     
 }

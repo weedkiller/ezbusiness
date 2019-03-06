@@ -46,11 +46,21 @@
         }
 </style>
 
+
 <div style="padding: 10px;background-color: #2F323A;margin-top: -70px;">
-    <div class="treeview">
+
+   
+        <label for="nav-search" class="col-2 col-form-label sr-only">Search links</label>
+        <div class="col p-2">
+            <input class="form-control form-control-sm search-filter" type="search" id="nav-search" placeholder="Search for Menu">
+        </div>
+    
+
+    <div class="treeview" id="link-content">   
+             
         @if (Model != null && Model.Count() > 0)
         {
-            <ul>
+            <ul class="abc">
                 @TreeviewMenu.GetTreeView(Model, Model.FirstOrDefault().ParentFormID)
             </ul>
         }
@@ -59,13 +69,37 @@
 
 
 <script>
+
+  
+
     $(document).ready(function () {
         $(".treeview li>ul").css('display', 'none'); // Hide all 2-level ul
         $(".collapsible").click(function (e) {
+            debugger;
             e.preventDefault();
             $(this).toggleClass("collapse expand");
             $(this).closest('li').children('ul').slideToggle();
+            jQuery.expr[':'].casecontains = (a, b, c) => jQuery(a).text().toUpperCase().indexOf(c[3].toUpperCase()) >= 0;
+
+            if ($('#search1').val() != '') {
+                $(".treeview li>ul").css('display', 'none');
+                // secretly unhide the collapsed links
+                $('#link-content li.nav-item ul').hide();
+                // if search is empty, show the div and reset columns
+                $('#link-content li').show();
+                $('#search1').val('');
+            }
         });
+
+
+       
+
+
+        // Or with jQuery
+
+       
+      
+        
 
         //$(".collapsible").on("click", function (e) {
         //    e.preventDefault();
@@ -126,4 +160,8 @@
 
         //});
     });
+
+   
 </script>
+
+

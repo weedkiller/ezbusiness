@@ -61,5 +61,23 @@ namespace EzBusiness_Web.Controllers
                 return Json(_TdsService.GetEmpCodes(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult GetCountryP(DateTime dt)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                var country = _TdsService.GetCountryP(list[0].CmpyCode, dt);
+                if (country == null)
+                {
+                    country = "0";
+                }
+                return Json(country, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
