@@ -455,7 +455,7 @@
         });
 
         function ValidateForm(employeemaster) {
-           
+            debugger;
             var response = {
                 ErrorMessage: "",
                 formValid: false
@@ -483,15 +483,15 @@
                 if (employeemaster.Location == "") {
                     response.ErrorMessage += "Location ";
                 }
-                if (employeemaster.VisaLocation == "") {
+                if (employeemaster.VisaLocation == "0") {
                     response.ErrorMessage += "Visa Location ";
                 }
             //if (!employeemaster.DOB) {
             //    response.ErrorMessage += "Date of Birth,";
             //}
-            //if (!employeemaster.JoiningDate) {
-            //    response.ErrorMessage += "JoiningDate ,";
-            //}
+            if (employeemaster.ReportingEmp =="0") {
+                response.ErrorMessage += "Reporting Employeee ,";
+            }
           
             if (employeemaster.EMail=="") {
                 response.ErrorMessage += "Email Id should be mandatory ,";
@@ -942,7 +942,7 @@
                                                                     <div class="row">
                                                                         <div class="col-md-6">
                                                                             <div class="form-group">
-                                                                                <label class="control-label col-md-3">Reporting To</label>
+                                                                                <label class="control-label col-md-3">Reporting To<i style="color:red;">*</i></label>
                                                                                 <div class="col-md-8 input-field">
 
                                                                                     <select class="form-control" name="">
