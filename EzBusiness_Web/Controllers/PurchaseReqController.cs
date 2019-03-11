@@ -21,7 +21,6 @@ namespace EzBusiness_Web.Controllers
         }
 
 
-
         #region Purchase Request
 
         [Route("PurchaseReq")]
@@ -37,8 +36,6 @@ namespace EzBusiness_Web.Controllers
                 return View();
             }
         }
-
-
 
         public ActionResult SiteRequest()
         {
@@ -85,8 +82,6 @@ namespace EzBusiness_Web.Controllers
                 return PartialView(_purchaseService.GetPOMasterDetailsNew(list[0].CmpyCode));
             }
         }
-
-
 
 
         [HttpPost]

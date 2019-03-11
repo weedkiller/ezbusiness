@@ -329,10 +329,7 @@ namespace EzBusiness_DL_Repository
         public List<Supplier> GetSupplierList(string Cmpycode)
         {
             return drop.GetSupplierList(Cmpycode);
-
         }
-
-       
 
         public PurchaseOrderVM SavePurchaseOrder(PurchaseOrderVM po)
         {
@@ -388,20 +385,20 @@ namespace EzBusiness_DL_Repository
                     Description = m.Description,
                     BaseUnitQty = 1,
                     BOQSno = 1,
-                  //  Specification = m.Specification ?? string.Empty,
+                    ////  Specification = m.Specification ?? string.Empty,
                     Sno = counter++,
                     ItemCode = m.ItemCode,
                     Unit = m.Unit,
                     LocCode = pt.LocCode,
-                   // AnalysisCode = string.Empty,
+                    //// AnalysisCode = string.Empty,
                     Asses_Amt = 0,
                     AvgCost = 0,
                     BaseDamage = 0,
                     BaseOrder = 0,
                     BaseReceived = 0,
-                    BoxOrdered = 0,                  
-                   //// Discount = m.DiscAmt.Value,
-                  // // DiscountP = m.Discper.Value,
+                    BoxOrdered = 0,
+                    ////// Discount = m.DiscAmt.Value,
+                    //// // DiscountP = m.Discper.Value,
                     Ex_Duty_Amt = 0,
                     Ex_Duty_Per = 0,
                     Ex_Ed_Cess_Amt = 0,
@@ -413,13 +410,13 @@ namespace EzBusiness_DL_Repository
                     IncludingVAT = 0,
                     InqNumber = string.Empty,
                     InvItemSno = counter++,
-                    ItemActualCost = m.ItemPriceTotal.Value,
+                  //  ItemActualCost = m.ItemPriceTotal.Value,
                     ItemSno = counter++,
-                    ItemTotal = m.ItemPriceTotal.Value,
-                    LNetAmount = m.NetAmt.Value,
-                    NetAmount = m.NetAmt.Value,
+                   // ItemTotal = m.ItemPriceTotal.Value,
+                  //  LNetAmount = m.NetAmt.Value,
+                  //  NetAmount = m.NetAmt.Value,
                     NetAmountWithTax = 0,
-                    NetPurchase = m.NetAmt.Value,
+                    //  NetPurchase = m.NetAmt.Value,
                     Notes = string.Empty,
                     OnOrderDiscAmt = 0,
                     OnOrderDiscPerc = 0,
@@ -659,7 +656,7 @@ namespace EzBusiness_DL_Repository
                 sb.Append("'" + pt.ReqtBy + "',");
                 sb.Append("'" + pt.ProjectLocation + "')");
 
-                _EzBusinessHelper.ExecuteNonQuery("insert into PoHeader" + sb + "");
+                _EzBusinessHelper.ExecuteNonQuery("insert into PMPOH001" + sb + "");
 
                
                 //_EzBusinessHelper.ExecuteNonQuery("insert into MReqHeader(MRCode,CmpyCode,ResourceType,Dates,Description,EmpCode,LocCode,ProjectCode,ApprovalYN,MRFrom,Status,DontShowJobInList,GenerateInquiry,IsPopUpCheckedByUser,JobNo,PreparedBy,Priority,RType,WONo) values('" + pt.MRCode + "','" + pt.CmpyCode + "','" + pt.ResourceType + "','" + pt.Dates + "','" + pt.Description + "','" + pt.EmpCode + "','" + pt.LocCode + "','" + pt.ProjectCode + "','" + pt.ApprovalYN + "','" + pt.MRFrom + "','" + pt.Status + "','" + pt.DontShowJobInList + "','" + pt.GenerateInquiry + "','" + pt.IsPopUpCheckedByUser + "','" + pt.JobNo + "','" + pt.PreparedBy + "','" + pt.Priority + "','" + pt.RType + "','" + pt.WONo + "')");

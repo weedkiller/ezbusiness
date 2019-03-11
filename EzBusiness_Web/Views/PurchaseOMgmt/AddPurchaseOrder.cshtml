@@ -90,20 +90,11 @@
                 });
         });
 
-      
-
-        
-
-       
-      
-
         var counter = parseInt($("#hdnCounter").val());
         $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
             $(this).closest("tr").remove();
         });
 
-
-       
         $("#tablePODetails").on("change", "[name*='ItemPrice']", function () {
             debugger;
             var tr = $(this).closest("tr");
@@ -115,39 +106,55 @@
             tr.find("[name*='DiscP']").val(0);
             tr.find("[name*='DiscA']").val(0);            
           
-            sumOfColumns();
+           // sumOfColumns();
 
         });
+        //$("#tablePODetails").on("change", "[name*='DiscP']", function () {
+        //    debugger;
+        //    var tr = $(this).closest("tr");
+        //    var DP = tr.find("[name*='DiscP']").val();
+        //    var IP = tr.find("[name*='ItemPriceTotal']").val();
+        //    tr.find("[name*='DiscA']").val((parseFloat(DP) * parseFloat(IP))/100);
+        //    //var Pt = tr.find("[name*='ItemPriceTotal']").val();
+        //    tr.find("[name*='NetAmt']").val(IP-DP);
+        //    tr.find("[name*='DiscP']").val(0);
+        //    tr.find("[name*='DiscA']").val(0);
 
-        function sumOfColumns() {
-            debugger;           
-            var sum = 0.0;
-            var sum1 = 0.0;           
-            var currate = $("[name*='CurCode'] option:selected").text();
-            var array = currate.split('-');
-            $("#tablePODetails > tbody  > tr").each(function () {
-                var amount = parseFloat($(this).find("[name*='NetAmt']").val());                               
-                sum += isNaN(amount) ? 0 : amount;
-                $(this).find("[name*='NetAmt']").val('' + amount);
+        //    sumOfColumns();
 
-                var amount1 = parseFloat($(this).find("[name*='LNetAmt']").val());
-                sum1 += isNaN(amount1) ? 0 : amount1 * array[2];
-                $(this).find("[name*='LNetAmt']").val('' + amount1);
-            });
-            //just update the total to sum  
-            $("[name*='NetAmount']").val(sum);
-            $("[name*='LAmount']").val(sum1);
-        }
-       
+        //});
+
         $("#tablePODetails").on("change", "[name*='DiscP']", function () {
+            debugger;
             var tr = $(this).closest("tr");
             var IPT = tr.find("[name*='ItemPriceTotal']").val();
             var DP = tr.find("[name*='DiscP']").val();
             tr.find("[name*='DiscA']").val((parseFloat(IPT) * parseFloat(DP)) / 100);
             var DA = tr.find("[name*='DiscA']").val();
             tr.find("[name*='NetAmt']").val(parseFloat(IPT) - parseFloat(DA));
-            sumOfColumns();
+           // sumOfColumns();
         });
+        //function sumOfColumns() {
+                 
+        //    var sum = 0.0;
+        //    var sum1 = 0.0;           
+        //    var currate = $("[name*='CurCode'] option:selected").text();
+        //    var array = currate.split('-');
+        //    $("#tablePODetails > tbody  > tr").each(function () {
+        //        var amount = parseFloat($(this).find("[name*='NetAmt']").val());                               
+        //        sum += isNaN(amount) ? 0 : amount;
+        //        $(this).find("[name*='NetAmt']").val('' + amount);
+
+        //        var amount1 = parseFloat($(this).find("[name*='LNetAmt']").val());
+        //        sum1 += isNaN(amount1) ? 0 : amount1 * array[2];
+        //        $(this).find("[name*='LNetAmt']").val('' + amount1);
+        //    });
+        //    //just update the total to sum  
+        //    $("[name*='NetAmount']").val(sum);
+        //    $("[name*='LAmount']").val(sum1);
+        //}
+       
+     
         $("#tablePODetails").on("change", "[name*='DiscA']", function () {
             
             var tr = $(this).closest("tr");
@@ -242,7 +249,7 @@
 
     <div class="col-md-12 no-padding navbar-expand-lg">
         <div class="panel-body" style="margin-left:10px;">
-            <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="tabbable-line boxless tabbable-reversed">
                 <div class="custom-form-wrapper">
                     <div id="POContainer">
                         <div class="row">
@@ -257,8 +264,6 @@
                                                     <div class="col-md-9 input-field">
                                                         @*<input type="text" class="form-control" name="" required placeholder="" maxlength="50" readonly="readonly">*@
                                                         @Html.TextBoxFor(m => m.MRCode, new { @class = "form-control", @readonly = "readonly" })
-
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -418,24 +423,21 @@
                                                                 <table class="table table-bordered table-sm" id="tablePODetails">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th style="width: 3%">Sr No</th>
+                                                                            <th style="width: 0%">Sr No</th>
                                                                             <th style="width: 15%">Item Code</th>
                                                                             <th style="width: 15%">Description</th>
-                                                                            <th style="width: 15%">Specification</th>
-                                                                            <th style="width: 15%">Unit</th>
+                                                                            <th style="width: 12%">Specification</th>
+                                                                            <th style="width: 12%">Unit</th>
                                                                             <th style="width: 5%">Quantity</th>
-                                                                            <th style="width: 10%"> Price</th>
-                                                                            <th style="width: 10%">Item Price Total</th>
-                                                                            <th style="width: 10%"> Dis Per</th>
+                                                                            <th style="width: 7%"> Price</th>
+                                                                            <th style="width: 7%">Item Price Total</th>
+                                                                            <th style="width: 7%"> Dis Per</th>
                                                                             <th style="width: 15%"> Dis Amt</th>
                                                                             <th style="width: 15%">Net Amt</th>
-                                                                            <th style="width: 10%"> Local Net Amt</th>
-
+                                                                            <th style="width: 15%"> Local Net Amt</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-
-
                                                                         <tr>
                                                                             <td>
                                                                                 @Html.Label(counter.ToString(), new { id = "lblsrno"+counter })
@@ -485,7 +487,7 @@
                                                                         <tr>
 
                                                                             <td colspan="11" align="right"><b>Total Net Val</b> &nbsp;&nbsp; </td>
-                                                                            <td>@Html.TextBox(string.Concat("NetAmount"), null, new { @class = "form-control", @disabled = "disabled" })</td>
+                                                                            <td>@Html.TextBox(string.Concat("NetAmount"), null, new { @class = "form-control", @disabled = "disabled",@width="15%" })</td>
 
                                                                         </tr>
                                                                         <tr>
