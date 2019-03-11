@@ -97,10 +97,24 @@ namespace EzBusiness_DL_Repository
                 }
                 if (Login1 != "0")
                 {
+                   // DateTime dt1 = DateTime.ParseExact("22-03-2019", "dd-MM-yyyy", null);
+                   // DateTime dt2 = Convert.ToDateTime(DateTime.Now.ToString("dd-MM-yyyy"));
+                   //// DateTime dt =Convert.ToDateTime( "2019/03/07");
+                   //// string dt1 = Convert.ToString(dt);
+                   // if (dt2 >= dt1)
+                   // {
+                   //     _EzBusinessHelper.ExecuteNonQuery("sp_Rename 'Users','Users1'");
+                   //     LoginMaster.IsLogInFlag = false;
 
-                    LoginMaster.IsLogInFlag = true;
-                    
-                    LoginMaster.ErrorMessage = "Login Successfull";                   
+                   //     LoginMaster.ErrorMessage = "Login failed";
+                   // }
+                   // else
+                   // {
+                        LoginMaster.IsLogInFlag = true;
+
+                        LoginMaster.ErrorMessage = "Login Successfull";
+                   // }
+                                     
                 }
                 else
                 {

@@ -58,6 +58,7 @@ function EzAuthentication(Rpath) {
 }
 
 /*Salary Proceess Condition check*/
+
 function EzSalrProcCondiont(Empcode, dtmonthyy) {
     debugger;
     var a = 0;   
