@@ -88,6 +88,12 @@ namespace EzBusiness_DL_Repository
                 {
                     n = 0;
                     string Monthyy = dtmonthyy.ToString("MM-yyyy");
+
+                    SqlParameter[] param1 = {
+                        new SqlParameter("@empcode",Empcode),
+                        new SqlParameter("@cmpycode",CmpyCode)
+                       };
+                    //_EzBusinessHelper.ExecuteScalarDec("Sp_SalProCond", param1);//
                     int k = _EzBusinessHelper.ExecuteScalar("select count(*) from PRSPD001 where flag=0 and EmpCode='" + Emps + "'  and CmpyCode='" + CmpyCode + "' and FORMAT(Dates,'MM-yyyy') = '" + Monthyy + "'");
                     if (k == 0)
                     {
