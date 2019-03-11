@@ -17,6 +17,11 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 
         public string Code { get; set; }
         public List<SelectListItem> EmpCodeList { get; set; }
+
+
+        public string DivCode { get; set; }
+        public List<SelectListItem> DivCodeList { get; set; }
+
         public int Tyear { get; set; }
         public int Tmonth { get; set; }
         public int SrNo { get; set; }

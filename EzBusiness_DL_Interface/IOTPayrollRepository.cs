@@ -14,11 +14,14 @@ namespace EzBusiness_DL_Interface
         #region OTPayroll
         List<Employee> GetEmpCodeList(string CmpyCode);
 
+
+        List<Division>  GetDivCodeList(string CmpyCode);
+
         List<Employee> GetEmpRepCodeList(string CmpyCode,string EmpCode);
 
         List<Attendence> GetLeaveTypList(string CmpyCode);
 
-        List<TimeSheetDetail> GetOTDetailList(string CmpyCode, string EmpCode, DateTime dte);
+        List<TimeSheetDetail> GetOTDetailList(string CmpyCode, string EmpCode, DateTime dte, DateTime dte1,string typ);
 
         List<TimeSheetDetail> GetAPDetailList(string CmpyCode, string EmpCode, DateTime dte);
 

@@ -31,11 +31,7 @@ namespace EzBusiness_DL_Repository
             }
             return false;
         }
-
-        //public List<ExchangeRates> GetPOReqList(string CmpyCode)
-        //{
-
-        //}
+     
         public List<ExchangeRates> GetCurList(string CmpyCode)
         {
             return drop.GetCurrencyExchangeList(CmpyCode);

@@ -30,17 +30,29 @@ namespace EzBusiness_DL_Repository
             return drop.GetAtens(CmpyCode);
         }
 
-        public List<TimeSheetDetail> GetOTDetailList(string CmpyCode, string EmpCode, DateTime dte1)
+        public List<TimeSheetDetail> GetOTDetailList(string CmpyCode, string EmpCode, DateTime dte1, DateTime dte2,string typ)
         {
 
-            string dtstr1 = null;
+            string dtstr1, dtstr2 = null;
             DateTime dte;
 
             dte = Convert.ToDateTime(dte1);
             dtstr1 = dte.ToString("yyyy-MM-dd");
 
+            dte = Convert.ToDateTime(dte2);
+            dtstr2 = dte.ToString("yyyy-MM-dd");
+
             //
-            ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,EmpCode,EmpName,(select isnull(ReportingEmp,'-') from MEM001 b where b.Cmpycode=a.Cmpycode and  b.EmpCode=a.EmpCode and b.ReportingEmp!='0') as [Reporting Emp],TYEAR,TMONTH,ATT,NHrs,OTHrs,HOTHrs,FOTHrs,ExtraHrs,TotalHrs from PRDTD002  a  where format(a.Att_Date,'yyyy-MM-dd') ='" + dtstr1 + "'  and a.Empcode in (SELECT EmpCode from MEM001 where  Flag=0 and (WorkingStatus='Y' Or WorkingStatus='W') And EmpCode='" + EmpCode + "'  or ReportingEmp='" + EmpCode + "'   and CmpyCode='" + CmpyCode + "')  and a.cmpycode='" + CmpyCode + "'");
+            if (typ == "E")
+            {
+                ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,EmpCode,EmpName,(select isnull(ReportingEmp,'-') from MEM001 b where b.Cmpycode=a.Cmpycode and  b.EmpCode=a.EmpCode ) as [Reporting Emp],TYEAR,TMONTH,ATT,NHrs,OTHrs,HOTHrs,FOTHrs,ExtraHrs,TotalHrs from PRDTD002  a  where format(a.Att_Date,'yyyy-MM-dd') >='" + dtstr1 + "' and format(a.Att_Date,'yyyy-MM-dd') <='" + dtstr2 + "'  and a.EmpCode in (SELECT EmpCode from MEM001 where  Flag=0 and (WorkingStatus='Y' Or WorkingStatus='W') And (ReportingEmp='" + EmpCode + "' or EmpCode='" + EmpCode + "')  and CmpyCode=a.cmpycode)  and a.cmpycode='" + CmpyCode + "'");
+
+            }
+            else
+            {
+                ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,EmpCode,EmpName,(select isnull(ReportingEmp,'-') from MEM001 b where b.Cmpycode=a.Cmpycode and  b.EmpCode=a.EmpCode ) as [Reporting Emp],TYEAR,TMONTH,ATT,NHrs,OTHrs,HOTHrs,FOTHrs,ExtraHrs,TotalHrs from PRDTD002  a  where format(a.Att_Date,'yyyy-MM-dd') >='" + dtstr1 + "' and format(a.Att_Date,'yyyy-MM-dd') <='" + dtstr2 + "'  and a.EmpCode in (SELECT EmpCode from MEM001 where  Flag=0 and (WorkingStatus='Y' Or WorkingStatus='W') And DIVISION='" + EmpCode + "' )  and CmpyCode=a.cmpycode)  and a.cmpycode='" + CmpyCode + "'");
+            }
+            
             //dt = ds.Tables[0];
 
             //SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
@@ -184,6 +196,11 @@ namespace EzBusiness_DL_Repository
 
             }
             return ObjList;
+        }
+
+        public List<Division> GetDivCodeList(string CmpyCode)
+        {
+            return drop.GetDivCode(CmpyCode);
         }
     }
 }
