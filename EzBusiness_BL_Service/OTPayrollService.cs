@@ -50,9 +50,9 @@ namespace EzBusiness_BL_Service
             return Attendence;
         }
 
-        public List<TimeSheetDetail> GetLeaveAppDetailList(string CmpyCode, string EmpCode, DateTime dte)
+        public List<TimeSheetDetail> GetLeaveAppDetailList(string CmpyCode, string EmpCode, DateTime dte, DateTime dte1, string typ)
         {
-            var poEmployeeList = _OTPayrollRepository.GetOTDetailList(CmpyCode, EmpCode, dte);
+            var poEmployeeList = _OTPayrollRepository.GetOTDetailList(CmpyCode, EmpCode, dte, dte1,typ);
             return poEmployeeList.Select(m => new TimeSheetDetail
             {
                 Att_Date = m.Att_Date,
@@ -96,6 +96,7 @@ namespace EzBusiness_BL_Service
             {
 
                 EmpCodeList = GetEmpCodeList(CmpyCode),
+                DivCodeList = GetDivCodeList(CmpyCode),
                 EditFlag = false
             };
         }
@@ -113,6 +114,15 @@ namespace EzBusiness_BL_Service
             {                
                 EmpCode = m.EmpCode
             }).ToList();
+        }
+
+        public List<SelectListItem> GetDivCodeList(string CmpyCode)
+        {
+            var itemCodes = _OTPayrollRepository.GetDivCodeList(CmpyCode)
+                                      .Select(m => new SelectListItem { Value = m.DivisionCode, Text = string.Concat(m.DivisionCode, " - ", m.DivisionName) })
+                                      .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
         }
     }
 }

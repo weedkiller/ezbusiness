@@ -17,13 +17,26 @@
 
         $('.selectpicker').selectpicker('refresh');
         // EzsetDatetxt();
-        EzdtePk('#Att_Date');
+        EzdtePk('#Att_Date,#Tdate');
       //  var dt1 = new Date().getToday();
       //  $("#tablePODetails tbody tr").find('td:eq(1)').find("[name*='Dates']").prop("value", dt1);       
         //$("#Dates").val(dt1);      
         var arr = [];
         counter = 1;
 
+        $('#Att_Date').on('dp.change', function (event) {
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+        });
+
+        $('#Tdate').on('dp.change', function (event) {
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+        });
         $("#EmpCode").change(function () {
            
             counter = 1;
@@ -43,7 +56,18 @@
             if (n == 1 ) {
                 
                 var dt2 = Ezsetdtpkdate($("#Att_Date").val());
-                var e1 = $("#EmpCode option:selected").val();
+                var dt3 = Ezsetdtpkdate($("#Tdate").val());
+                var typ1 = $("input:radio[id=optionsRadios1]:checked").val();
+                var e1 = '';
+                if (typ1 == 'true')
+                {
+                    e1 = $("#EmpCode option:selected").val();
+                    typ1 = 'E';
+                }
+                else {
+                    typ1 = 'D';
+                    e1 = $("#DivCode option:selected").val();
+                }
                 duplicates = false;
                 var value = $("#Att_Date").val();
                 if (e1 != '0' && Att_Date != '') {
@@ -79,8 +103,9 @@
                             }
                         });
                         var k = EzSalrProcCondiont(a, date1);
-                        if (k == 1){
-                        $.get("/GetOTDet", { EmpCode: e1, dte: dt2 }).done(function (response) {                           
+                        if (k == 1) {                           
+                            $.get("/GetOTDet", { EmpCode: e1, dte: dt2, dte1: dt3, typ:typ1 }).done(function (response) {
+                           // $.get("/GetTSDList", { EmpCode: e1, date1: dt2 }).done(function (response) {
                             var ary = [];
                             ary = response;
                             if (ary.length == 0) {
@@ -101,7 +126,7 @@
                                 var Readonly1 = "Readonly = 'true'";
                                 var Readonly2 = '';
                                 var Readonly3 = "Readonly = 'true'";
-                                if (ary[i].ATT == 'H' || ary[i].ATT == 'W') {
+                                if (ary[i].ATT == 'H' || ary[i].Attendance == 'W') {
                                     Readonly1 = '';
                                     Readonly2 = "Readonly = 'true'";
                                 }
@@ -135,7 +160,7 @@
                                 tr.find("[name='Nhrs" + counter + "']").val(ary[i].NHrs);
                                 tr.find("[name='FOThrs" + counter + "']").val(ary[i].FOTHrs);
                                 tr.find("[name='Ohrs" + counter + "']").val(ary[i].OTHrs);
-                                tr.find("[name='Hhrs" + counter + "']").val(ary[i].HOTHrs);
+                                tr.find("[name='Hhrs" + counter + "']").val(ary[i].Hhrs);
                                 tr.find("[name='ExtraHrs" + counter + "']").val(ary[i].ExtraHrs);
                                 tr.find("[name='EmpCode" + counter + "']").val(ary[i].EmpCode);
                                 counter++;
@@ -252,6 +277,23 @@
         });
 
 
+        $('#Hemp').show();
+        $('#Hdiv').hide();
+
+        $('input[type=radio][name=optionsRadios]').change(function () {
+            debugger;
+            if (this.value == "true") {
+                $('#Hemp').show();
+                $('#Hdiv').hide();
+            }
+            else
+            {
+                $('#Hemp').hide();
+                $('#Hdiv').show();
+            }
+           
+        });
+
         //$('.selectpicker').selectpicker({
         //    style: 'btn-info',
         //    size: 4,
@@ -311,35 +353,71 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="row">
-                                                <!--/span-->
-
-                                                <div class="col-md-4">
+                                                <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">Employee<i style="color:red;">*</i></label>
-                                                        <div class="col-md-8">
-                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        <label class="control-label col-md-4">Type</label>
+                                                        <div class="col-md-8 input-field radiobtn1">
+                                                            <label>
+                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="true" checked="checked">
+                                                                Employee
+                                                            </label>
+                                                            &nbsp;
+                                                            <label>
+                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="false" >
+                                                                Division code
+                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Date</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input id="Att_Date" class="form-control datepicker" name="Att_Date">
-                                                            @*@Html.HiddenFor(m => m.Att_Date)*@
+                                                </div>
+                                                <div class="row">
+                                                    <!--/span-->
+
+                                                    <div class="col-md-4" id="Hemp">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Employee<i style="color:red;">*</i></label>
+                                                            <div class="col-md-8">
+                                                                @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <button type="submit" class="btn btn-primary btn1" id="btnadd"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Add</button>
-                                                       </div>
+                                                    <div class="col-md-4" id="Hdiv">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Division<i style="color:red;">*</i></label>
+                                                            <div class="col-md-8">
+                                                                @Html.DropDownListFor(m => m.DivCode, Model.DivCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                        <!--/span-->
-                                                    </div>
-                                                    <!--/row-->
 
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">From Date</label>
+                                                            <div class="col-md-9 input-field">
+                                                                <input id="Att_Date" class="form-control datepicker" name="Att_Date">
+                                                                @*@Html.HiddenFor(m => m.Att_Date)*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">To Date</label>
+                                                            <div class="col-md-9 input-field">
+                                                                <input id="Tdate" class="form-control datepicker" name="Att_Date">
+                                                                @*@Html.HiddenFor(m => m.Att_Date)*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-primary btn1" id="btnadd"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Add</button>
+                                                        </div>
+                                                    </div>
+                                                    <!--/span-->
                                                 </div>
+                                                <!--/row-->
+
+                                            </div>
                                             </div><br />
                                     <!-- END FORM-->
                                     <div class="">
