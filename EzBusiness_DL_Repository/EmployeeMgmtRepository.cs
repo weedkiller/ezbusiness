@@ -33,14 +33,14 @@ namespace EzBusiness_DL_Repository
             return false;
         }
         #region DropDownFill
-        public List<EmployeeTypeMaster> GetEmployeeTypeMasterList(string CmpyCode)
-        {
-            return drop.GetEmployeeTypeMasterList(CmpyCode);
-        }
-        public List<Accounts_Tbl> GetAccList(string CmpyCode, string Typeofacc)
-        {
-            return drop.GetAccList(CmpyCode, Typeofacc);
-        }
+        //public List<EmployeeTypeMaster> GetEmployeeTypeMasterList(string CmpyCode)
+        //{
+        //    return drop.GetEmployeeTypeMasterList(CmpyCode);
+        //}
+        //public List<Accounts_Tbl> GetAccList(string CmpyCode, string Typeofacc)
+        //{
+        //    return drop.GetAccList(CmpyCode, Typeofacc);
+        //}
         public List<BankBranchTbl> GetBankBranchList(string CmpyCode, string BranchCode)
         {
             return drop.GetBranchCode(CmpyCode, BranchCode);
@@ -57,10 +57,10 @@ namespace EzBusiness_DL_Repository
         {
             return drop.GetDepCode(CmpyCode, divcode, Brancode);
         }
-        public List<Discipline> GetDisciplineList(string CmpyCode)
-        {
-            return drop.GetDisciplineList(CmpyCode);
-        }
+        //public List<Discipline> GetDisciplineList(string CmpyCode)
+        //{
+        //    return drop.GetDisciplineList(CmpyCode);
+        //}
         public List<Division> GetDivisionList(string CmpyCode)
         {
             return drop.GetDivCode(CmpyCode);

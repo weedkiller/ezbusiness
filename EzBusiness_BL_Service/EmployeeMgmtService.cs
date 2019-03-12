@@ -83,14 +83,14 @@ namespace EzBusiness_BL_Service
             return InsertFirstElementDDL(itemCodes);
         }
 
-        public List<SelectListItem> GetDisciplineList(string CmpyCode)
-        {
-            var itemCodes = _EmployeeMgmtRepo.GetDisciplineList(CmpyCode)
-                                      .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
-                                      .ToList();
+        //public List<SelectListItem> GetDisciplineList(string CmpyCode)
+        //{
+        //    var itemCodes = _EmployeeMgmtRepo.GetDisciplineList(CmpyCode)
+        //                              .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
+        //                              .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
-        }
+        //    return InsertFirstElementDDL(itemCodes);
+        //}
 
         public List<SelectListItem> GetDivisionList(string CmpyCode)
         {
@@ -183,15 +183,15 @@ namespace EzBusiness_BL_Service
         public Employee_VM GetEmployeeMasterDetailsEdit(string CmpyCode, string EmpCode)
         {
             var poEdit = _EmployeeMgmtRepo.GetEmployeeMasterDetailsEdit(CmpyCode, EmpCode);
-            poEdit.AccNoList = GetAccList(CmpyCode,"EXP");           
+          //  poEdit.AccNoList = GetAccList(CmpyCode,"EXP");           
             poEdit.BankList = GetBankList(CmpyCode);
 
             poEdit.BankBranchCodeList = GetBankBranchList(CmpyCode,poEdit.BankCode);            
-            poEdit.DiciplineList = GetDisciplineList(CmpyCode);
+           // poEdit.DiciplineList = GetDisciplineList(CmpyCode);
             poEdit.DivisionList = GetDivisionList(CmpyCode);
             poEdit.BranchCodeList = GetBranchCodeList(CmpyCode,poEdit.DivisionCode);
             poEdit.DepartmentList = GetDepartmentList(CmpyCode, poEdit.DivisionCode, poEdit.BranchCode);
-            poEdit.EmployeeTypeList = GetEmployeeTypeMasterList(CmpyCode);
+           // poEdit.EmployeeTypeList = GetEmployeeTypeMasterList(CmpyCode);
             poEdit.WorkingStatusList = GetStatusMasterList(CmpyCode);           
             poEdit.VisaLocationList = GetVisaLocationList(CmpyCode);
             poEdit.Week_offList = GetWeekdaysList(CmpyCode);         
@@ -226,14 +226,14 @@ namespace EzBusiness_BL_Service
 
             return new Employee_VM
             {
-                AccNoList = GetAccList(CmpyCode, "EXP"),
+               // AccNoList = GetAccList(CmpyCode, "EXP"),
                 EmpCode = _CodeRep.GetCode(CmpyCode, "EmployeeMaster"),
 
                 BankList = GetBankList(CmpyCode),
                 
                 BankBranchCodeList = GetBankBranchList(CmpyCode,""),
 
-                DiciplineList = GetDisciplineList(CmpyCode),
+              //  DiciplineList = GetDisciplineList(CmpyCode),
                 DivisionList = GetDivisionList(CmpyCode),
                 DivisionCode = list[0].Divcode.ToString(),
 
@@ -245,7 +245,7 @@ namespace EzBusiness_BL_Service
                 DepartmentList = GetDepartmentList(CmpyCode, list[0].Divcode, list[0].BraCode),
                 DepartmentCode = list[0].DepCode.ToString(),
 
-                EmployeeTypeList = GetEmployeeTypeMasterList(CmpyCode),
+                //EmployeeTypeList = GetEmployeeTypeMasterList(CmpyCode),
                 WorkingStatusList = GetStatusMasterList(CmpyCode),
                 WorkingStatus = "Y",
                 VisaLocationList = GetVisaLocationList(CmpyCode),
@@ -294,14 +294,14 @@ namespace EzBusiness_BL_Service
 
         }
 
-        public List<SelectListItem> GetEmployeeTypeMasterList(string CmpyCode)
-        {
-            var itemCodes = _EmployeeMgmtRepo.GetEmployeeTypeMasterList(CmpyCode)
-                                     .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
-                                     .ToList();
+        //public List<SelectListItem> GetEmployeeTypeMasterList(string CmpyCode)
+        //{
+        //    var itemCodes = _EmployeeMgmtRepo.GetEmployeeTypeMasterList(CmpyCode)
+        //                             .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
+        //                             .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
-        }
+        //    return InsertFirstElementDDL(itemCodes);
+        //}
 
     
         public List<SelectListItem> GetLocationList(string CmpyCode)
@@ -432,14 +432,14 @@ namespace EzBusiness_BL_Service
             return InsertFirstElementDDL(itemCodes);
         }
 
-        public List<SelectListItem> GetAccList(string CmpyCode, string Typeofacc)
-        {
-            var itemCodes = _EmployeeMgmtRepo.GetAccList(CmpyCode, Typeofacc)
-                                       .Select(m => new SelectListItem { Value = m.AccNo, Text = string.Concat(m.AccNo, "-", m.Description) })
-                                       .ToList();
+        //public List<SelectListItem> GetAccList(string CmpyCode, string Typeofacc)
+        //{
+        //    var itemCodes = _EmployeeMgmtRepo.GetAccList(CmpyCode, Typeofacc)
+        //                               .Select(m => new SelectListItem { Value = m.AccNo, Text = string.Concat(m.AccNo, "-", m.Description) })
+        //                               .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
-        }
+        //    return InsertFirstElementDDL(itemCodes);
+        //}
 
         public List<SelectListItem> GetEmpList1(string cmpycode, string empcode)
         {

@@ -63,6 +63,7 @@ namespace EzBusiness_BL_Service
         public PyrollConfi_Vm GetPyrollConfiDet(string CmpyCode, string Code)
         {
             var poPyroll = _Pyroll.GetPyrollConfiDet(CmpyCode, Code);
+            poPyroll.NationalityList = GetNationList(CmpyCode);
             poPyroll.EditFlag = true;
             return poPyroll;
         }
