@@ -25,6 +25,13 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? TO_DATE { get; set; }
+
+
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? D_DATE { get; set; }
+
         public string LOCK { get; set; }
 
         public int NOOFDAYS { get; set; }

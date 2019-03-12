@@ -20,7 +20,9 @@ namespace EzBusiness_DL_Repository
         public bool DeleteEmployee(string CmpyCode, string EmpCode, string username)
         {
             int unit = _EzBusinessHelper.ExecuteScalar("Select count(*) from MEM001 where CmpyCode='" + CmpyCode + "' and EmpCode='" + EmpCode + "'");
-            if (unit != 0)
+            int k = _EzBusinessHelper.ExecuteScalar("select count(*) from PRDTD002 where EmpCode='" + EmpCode + "' and Cmpycode='" + CmpyCode + "'");
+
+            if (unit != 0 && k==0)
             {
                 _EzBusinessHelper.ExecuteNonQuery("update MEM001 set Flag=1 where CmpyCode='" + CmpyCode + "' and EmpCode='" + EmpCode + "'");
                 _EzBusinessHelper.ExecuteNonQuery("update EMNM005 set Flag=1 where CmpyCode='" + CmpyCode + "' and EmpCode='" + EmpCode + "'");
