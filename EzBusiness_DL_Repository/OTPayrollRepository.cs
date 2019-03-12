@@ -23,7 +23,7 @@ namespace EzBusiness_DL_Repository
         DropListFillFun drop = new DropListFillFun();
         public List<Employee> GetEmpCodeList(string CmpyCode)
         {
-            return drop.GetEmpCodes(CmpyCode, "A");
+            return drop.GetEmpCodes(CmpyCode, "T");
         }
         public List<Attendence> GetLeaveTypList(string CmpyCode)
         {

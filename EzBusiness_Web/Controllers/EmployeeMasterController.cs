@@ -278,18 +278,18 @@ namespace EzBusiness_Web.Controllers
             }
 
         }
-        public ActionResult GetDisciplineList()
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(_employeeService.GetDisciplineList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
-            }               
-        }
+        //public ActionResult GetDisciplineList()
+        //{
+        //    List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+        //    if (list == null)
+        //    {
+        //        return Redirect("Login/InLogin");
+        //    }
+        //    else
+        //    {
+        //        return Json(_employeeService.GetDisciplineList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+        //    }               
+        //}
         public ActionResult GetDivisionList()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -302,18 +302,18 @@ namespace EzBusiness_Web.Controllers
                 return Json(_employeeService.GetDivisionList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
             }           
         }
-        public ActionResult GetEmployeeTypeMasterList()
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(_employeeService.GetEmployeeTypeMasterList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
-            }            
-        }
+        //public ActionResult GetEmployeeTypeMasterList()
+        //{
+        //    List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+        //    if (list == null)
+        //    {
+        //        return Redirect("Login/InLogin");
+        //    }
+        //    else
+        //    {
+        //        return Json(_employeeService.GetEmployeeTypeMasterList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+        //    }            
+        //}
         public ActionResult GetWeekdaysList()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;

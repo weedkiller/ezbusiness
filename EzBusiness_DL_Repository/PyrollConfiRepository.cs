@@ -115,14 +115,27 @@ namespace EzBusiness_DL_Repository
 
                         using (TransactionScope scope = new TransactionScope())
                         {
-                            PayCnfg.SaveFlag = _EzBusinessHelper.ExecuteNonQuery1("insert into PRCNF001(PRCNF001_CODE,CMPYCODE,COUNTRY,SRNO,FINYEARS,FINMONTH,FROM_DATE,TO_DATE,NOOFDAYS,LOCK) values(" + sb.ToString() + "");
-                            //PayCnfg.SaveFlag = true;
+                            int k =_EzBusinessHelper.ExecuteScalar("Select Count(*) from PRCNF001 where CmpyCode='" + PayCnfg.CMPYCODE + "' and FINYEARS='" + PayCnfg.FINYEAR + "' and FINMONTH='" + PayCnfg.FINMONTH + "' and COUNTRY ='" + PayCnfg.COUNTRY + "'");
 
-                            _EzBusinessHelper.ExecuteNonQuery("UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + PayCnfg.CMPYCODE + "' and Code='PRCNF'");
-                            _EzBusinessHelper.ActivityLog(PayCnfg.CMPYCODE, PayCnfg.UserName, "Added PayRoll Config Master", PayCnfg.PRCNF001_CODE, Environment.MachineName);
 
-                            PayCnfg.ErrorMessage = string.Empty;
-                            scope.Complete();
+                            if (k == 0)
+                            {
+                                PayCnfg.SaveFlag = _EzBusinessHelper.ExecuteNonQuery1("insert into PRCNF001(PRCNF001_CODE,CMPYCODE,COUNTRY,SRNO,FINYEARS,FINMONTH,FROM_DATE,TO_DATE,NOOFDAYS,LOCK) values(" + sb.ToString() + "");
+                                //PayCnfg.SaveFlag = true;
+
+                                _EzBusinessHelper.ExecuteNonQuery("UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + PayCnfg.CMPYCODE + "' and Code='PRCNF'");
+                                _EzBusinessHelper.ActivityLog(PayCnfg.CMPYCODE, PayCnfg.UserName, "Added PayRoll Config Master", PayCnfg.PRCNF001_CODE, Environment.MachineName);
+                                PayCnfg.ErrorMessage = string.Empty;
+                                scope.Complete();
+                            }
+                            else
+                            {
+                                PayCnfg.ErrorMessage = "Alredy PayRoll Config created";
+                                PayCnfg.SaveFlag = false;
+                            }
+
+
+                            
                         }
                     }
                 }
@@ -133,25 +146,38 @@ namespace EzBusiness_DL_Repository
                     {
                         using (TransactionScope scope1 = new TransactionScope())
                         {
-                            _EzBusinessHelper.ExecuteNonQuery("Delete from PRCNF001 where CmpyCode='" + PayCnfg.CMPYCODE + "' and PRCNF001_CODE='" + PayCnfg.PRCNF001_CODE + "' ");
+                            //_EzBusinessHelper.ExecuteNonQuery("Delete from PRCNF001 where CmpyCode='" + PayCnfg.CMPYCODE + "' and PRCNF001_CODE='" + PayCnfg.PRCNF001_CODE + "' ");
 
                             StringBuilder sb = new StringBuilder();
                             //sb.Append("'" + Sry.PRSM001UID + "',");
-                            sb.Append("'" + PayCnfg.PRCNF001_CODE + "',");
-                            sb.Append("'" + PayCnfg.CMPYCODE + "',");
-                            sb.Append("'" + PayCnfg.COUNTRY + "',");
-                            sb.Append("'" + PayCnfg.SRNO + "',");
-                            sb.Append("'" + PayCnfg.FINYEAR + "',");
-                            sb.Append("'" + PayCnfg.FINMONTH + "',");
-                            sb.Append("'" + dtstr + "',");
-                            sb.Append("'" + dtstr1 + "',");
-                            sb.Append("'" + PayCnfg.NOOFDAYS + "',");
-                            sb.Append("'" + PayCnfg.LOCK + "')");
+                           // sb.Append("'" + PayCnfg.PRCNF001_CODE + "',");
+                            //sb.Append("CMPYCODE='" + PayCnfg.CMPYCODE + "',");
+                            sb.Append("COUNTRY='" + PayCnfg.COUNTRY + "',");
+                            sb.Append("SRNO='" + PayCnfg.SRNO + "',");
+                            sb.Append("FINYEARS='" + PayCnfg.FINYEAR + "',");
+                            sb.Append("FINMONTH='" + PayCnfg.FINMONTH + "',");
+                            sb.Append("FROM_DATE='" + dtstr + "',");
+                            sb.Append("TO_DATE='" + dtstr1 + "',");
+                            sb.Append("NOOFDAYS='" + PayCnfg.NOOFDAYS + "',");
+                            sb.Append("LOCK='" + PayCnfg.LOCK + "'");
 
-                            PayCnfg.SaveFlag = _EzBusinessHelper.ExecuteNonQuery1("insert into PRCNF001(PRCNF001_CODE,CMPYCODE,COUNTRY,SRNO,FINYEARS,FINMONTH,FROM_DATE,TO_DATE,NOOFDAYS,LOCK) values(" + sb.ToString() + "");
-                            _EzBusinessHelper.ActivityLog(PayCnfg.CMPYCODE, PayCnfg.UserName, "Update PayRoll Config Master", PayCnfg.PRCNF001_CODE, Environment.MachineName);
-                            PayCnfg.ErrorMessage = string.Empty;
-                            scope1.Complete();
+                            int k = _EzBusinessHelper.ExecuteScalar("Select Count(*) from PRCNF001 where CmpyCode='" + PayCnfg.CMPYCODE + "' and FINYEARS='" + PayCnfg.FINYEAR + "' and FINMONTH='" + PayCnfg.FINMONTH + "' and COUNTRY ='" + PayCnfg.COUNTRY + "' and CMPYCODE='" + PayCnfg.CMPYCODE + "' and PRCNF001_CODE !='"+ PayCnfg.PRCNF001_CODE +"'");
+
+
+                            if (k == 0)
+                            {
+                                PayCnfg.SaveFlag = _EzBusinessHelper.ExecuteNonQuery1("update PRCNF001 set " + sb + " where PRCNF001_CODE='" + PayCnfg.PRCNF001_CODE + "' and CMPYCODE='" + PayCnfg.CMPYCODE + "'");
+
+                                // PayCnfg.SaveFlag = _EzBusinessHelper.ExecuteNonQuery1("insert into PRCNF001(PRCNF001_CODE,CMPYCODE,COUNTRY,SRNO,FINYEARS,FINMONTH,FROM_DATE,TO_DATE,NOOFDAYS,LOCK) values(" + sb.ToString() + "");
+                                _EzBusinessHelper.ActivityLog(PayCnfg.CMPYCODE, PayCnfg.UserName, "Update PayRoll Config Master", PayCnfg.PRCNF001_CODE, Environment.MachineName);
+                                PayCnfg.ErrorMessage = string.Empty;
+                                scope1.Complete();
+                            }
+                            else
+                            {
+                                PayCnfg.ErrorMessage = "Alredy PayRoll Config created";
+                                PayCnfg.SaveFlag = false;
+                            }
                         }
                     }
                    
