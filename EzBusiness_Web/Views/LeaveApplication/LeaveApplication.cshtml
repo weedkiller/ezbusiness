@@ -257,7 +257,7 @@
             if (LeaveApp.EmpCode=="0") {
                 response.ErrorMessage += "EmpCode,";
             }
-            if (LeaveApp.StartDate < LeaveApp.JoiningDate)
+            if (new Date(LeaveApp.StartDate) < new Date(LeaveApp.JoiningDate))
             {
                 response.ErrorMessage += "start Date should be greater than joining Date ";
             }
@@ -265,9 +265,9 @@
             if (LeaveApp.LeaveType == "0") {
                 response.ErrorMessage += "LeaveType,";
             }        
-            var lSdt=new Date(LeaveApp.StartDate);
-            var lEdt=new Date(LeaveApp.EndDate);
-            if (lSdt > lEdt) {
+          //  var lSdt=new Date(LeaveApp.StartDate);
+           // var lEdt=new Date(LeaveApp.EndDate);
+            if (new Date(LeaveApp.StartDate) > new Date(LeaveApp.EndDate)) {
                 response.ErrorMessage += "Start Date Less than End Date.";
             }
            
