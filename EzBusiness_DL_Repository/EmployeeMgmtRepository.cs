@@ -20,7 +20,9 @@ namespace EzBusiness_DL_Repository
         public bool DeleteEmployee(string CmpyCode, string EmpCode, string username)
         {
             int unit = _EzBusinessHelper.ExecuteScalar("Select count(*) from MEM001 where CmpyCode='" + CmpyCode + "' and EmpCode='" + EmpCode + "'");
-            if (unit != 0)
+            int k = _EzBusinessHelper.ExecuteScalar("select count(*) from PRDTD002 where EmpCode='" + EmpCode + "' and Cmpycode='" + CmpyCode + "'");
+
+            if (unit != 0 && k==0)
             {
                 _EzBusinessHelper.ExecuteNonQuery("update MEM001 set Flag=1 where CmpyCode='" + CmpyCode + "' and EmpCode='" + EmpCode + "'");
                 _EzBusinessHelper.ExecuteNonQuery("update EMNM005 set Flag=1 where CmpyCode='" + CmpyCode + "' and EmpCode='" + EmpCode + "'");
@@ -33,14 +35,14 @@ namespace EzBusiness_DL_Repository
             return false;
         }
         #region DropDownFill
-        public List<EmployeeTypeMaster> GetEmployeeTypeMasterList(string CmpyCode)
-        {
-            return drop.GetEmployeeTypeMasterList(CmpyCode);
-        }
-        public List<Accounts_Tbl> GetAccList(string CmpyCode, string Typeofacc)
-        {
-            return drop.GetAccList(CmpyCode, Typeofacc);
-        }
+        //public List<EmployeeTypeMaster> GetEmployeeTypeMasterList(string CmpyCode)
+        //{
+        //    return drop.GetEmployeeTypeMasterList(CmpyCode);
+        //}
+        //public List<Accounts_Tbl> GetAccList(string CmpyCode, string Typeofacc)
+        //{
+        //    return drop.GetAccList(CmpyCode, Typeofacc);
+        //}
         public List<BankBranchTbl> GetBankBranchList(string CmpyCode, string BranchCode)
         {
             return drop.GetBranchCode(CmpyCode, BranchCode);
@@ -57,10 +59,10 @@ namespace EzBusiness_DL_Repository
         {
             return drop.GetDepCode(CmpyCode, divcode, Brancode);
         }
-        public List<Discipline> GetDisciplineList(string CmpyCode)
-        {
-            return drop.GetDisciplineList(CmpyCode);
-        }
+        //public List<Discipline> GetDisciplineList(string CmpyCode)
+        //{
+        //    return drop.GetDisciplineList(CmpyCode);
+        //}
         public List<Division> GetDivisionList(string CmpyCode)
         {
             return drop.GetDivCode(CmpyCode);

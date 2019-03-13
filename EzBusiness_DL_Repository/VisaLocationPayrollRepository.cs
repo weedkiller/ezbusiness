@@ -89,7 +89,7 @@ namespace EzBusiness_DL_Repository
                             using (TransactionScope scope1 = new TransactionScope())
                             {
                                int i= _EzBusinessHelper.ExecuteNonQuery("insert into VLOC001(CmpyCode,Code,Name,UniCodeName,CompanyMolID) values(" + sb.ToString() + "");
-                                _EzBusinessHelper.ActivityLog(Vls.CmpyCode, Vls.UserName, "Add Visa Location Master", Vls.Code, Environment.MachineName);
+                                _EzBusinessHelper.ActivityLog(Vls.CmpyCode, Vls.UserName, "Add Visa Location Master", ObjList[n - 1].Code, Environment.MachineName);
                                 if(i>0)
                                 {
                                     scope1.Complete();

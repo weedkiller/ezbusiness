@@ -135,11 +135,9 @@
                 }
             }
         });
-        $("#btnSave").click(function () {
-            
+        $("#btnSave").click(function () {            
             var date1 = Ezsetdtpkdate($('#StartDate1').val());
             var k =0;
-
             var n = EzAuthenticationBtn("/LeaveApplication", "EditIt");
             $("#editshow").hide();
            
@@ -257,24 +255,28 @@
                 }
             }           
             if (LeaveApp.EmpCode=="0") {
-                response.ErrorMessage += "EmpCode are mandatory Fields.";
+                response.ErrorMessage += "EmpCode,";
             }
-            if (LeaveApp.StartDate < LeaveApp.JoiningDate)
+            if (new Date(LeaveApp.StartDate) < new Date(LeaveApp.JoiningDate))
             {
                 response.ErrorMessage += "start Date should be greater than joining Date ";
             }
 
             if (LeaveApp.LeaveType == "0") {
-                response.ErrorMessage += "LeaveType are mandatory Fields.";
+                response.ErrorMessage += "LeaveType,";
             }        
-            var lSdt=new Date(LeaveApp.StartDate);
-            var lEdt=new Date(LeaveApp.EndDate);
-            if (lSdt > lEdt) {
+          //  var lSdt=new Date(LeaveApp.StartDate);
+           // var lEdt=new Date(LeaveApp.EndDate);
+            if (new Date(LeaveApp.StartDate) > new Date(LeaveApp.EndDate)) {
                 response.ErrorMessage += "Start Date Less than End Date.";
             }
            
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
+            }
+            else
+            {
+                response.ErrorMessage="Mandatory fields are "+response.ErrorMessage
             }
 
             return response;
@@ -413,7 +415,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">Employee</label>
+                                                        <label class="control-label col-md-3">Employee<i style="color:red;">*</i></label>
                                                         <div class="col-md-8 input-field">
                                                             <select class="form-control" name="">
                                                                 <option value="">---Select---</option>
@@ -460,7 +462,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">Leave Type</label>
+                                                        <label class="control-label col-md-3">Leave Type<i style="color:red;">*</i></label>
                                                         <div class="col-md-8 input-field">
                                                             <select class="form-control" name="">
                                                                 <option value="">---Select---</option>

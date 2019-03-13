@@ -78,6 +78,8 @@ namespace EzBusiness_BL_Service
             {
                 Fins.PRFSET001_code = _CodeRep.GetCode(Fins.Cmpycode, "FinalSettalment");
             }
+           
+            
             return _FinRepo.SaveFinalSettalment(Fins);
         }
 

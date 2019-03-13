@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EzBusiness_EF_Entity;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 {
@@ -24,6 +25,13 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? TO_DATE { get; set; }
+
+
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? D_DATE { get; set; }
+
         public string LOCK { get; set; }
 
         public int NOOFDAYS { get; set; }
@@ -35,5 +43,8 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public string ErrorMessage { get; set; }
 
         public string UserName { get; set; }
+
+        public string Nationality { get; set; }
+        public List<SelectListItem> NationalityList { get; set; }
     }
 }

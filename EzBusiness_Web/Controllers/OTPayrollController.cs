@@ -65,7 +65,7 @@ namespace EzBusiness_Web.Controllers
         }
 
         [Route("GetOTDet")]
-        public ActionResult GetOTDetailList(string CmpyCode, string EmpCode, DateTime dte)
+        public ActionResult GetOTDetailList(string CmpyCode, string EmpCode, DateTime dte, DateTime dte1, string typ)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -74,7 +74,7 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_OTPayrollService.GetLeaveAppDetailList(list[0].CmpyCode,EmpCode, dte), JsonRequestBehavior.AllowGet);
+                return Json(_OTPayrollService.GetLeaveAppDetailList(list[0].CmpyCode,EmpCode, dte, dte1, typ), JsonRequestBehavior.AllowGet);
             }
         }
 

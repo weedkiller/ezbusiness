@@ -123,7 +123,21 @@ namespace EzBusiness_BL_Service
             {
                 LeaveApp.PRLR001_CODE = _CodeRep.GetCode(LeaveApp.CmpyCode, "LeaveApplication");
             }
-            return _LeaveAppRepo.SaveLeaveApp(LeaveApp);
+
+            LeaveApp.COUNTRY = _CodeRep.GetCountryP(LeaveApp.CmpyCode, LeaveApp.Entry_Dates);
+            LeaveApp.DIVISION = _CodeRep.GetDiv(LeaveApp.CmpyCode, LeaveApp.EmpCode);
+
+            if (LeaveApp.COUNTRY == null)
+            {
+                LeaveApp.IsSavedFlag = false;
+                LeaveApp.ErrorMessage = "PayRoll Config not Generated";
+                return LeaveApp;
+            }
+            else
+            {
+
+                return _LeaveAppRepo.SaveLeaveApp(LeaveApp);
+            }
         }
 
         public List<LeaveApplicationDetail> GetLeaveAppDetailList(string CmpyCode, string EmpCode)

@@ -340,13 +340,17 @@ namespace EzBusiness_DL_Repository
                     cmd.CommandType = CommandType.StoredProcedure;
                     int k = p.Length;
                     int j = 0;
+                    
                     while (j < k)
                     {
-                         cmd.Parameters.AddWithValue(p[j].ParameterName, p[j].Value);
-                            j = j + 1;
-                        
-                    }
 
+                         cmd.Parameters.AddWithValue(p[j].ParameterName, p[j].Value);
+                            
+                        
+                        j = j + 1;
+
+                    }
+                   
                     try
                     {
                         //if (cn.State != ConnectionState.Open)

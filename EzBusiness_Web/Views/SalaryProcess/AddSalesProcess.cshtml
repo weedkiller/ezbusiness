@@ -17,7 +17,8 @@
 @*<script src="~/Scripts/datatables/dataTables.rowReorder.min.js"></script>*@
 <script>
 
-        $(function () {
+    $(function () {
+        debugger;
             EzdtePkMMyy('#DateINMonth');
             var dt = $('#DateINMonth').val();
             var currdat = $('#DateINMonth').val();
@@ -31,7 +32,7 @@
                 $("#SMAListContainer").html(response);
             });
             $('#DateINMonth').on('dp.change', function (event) {
-               
+                debugger;
                 dt = $("#DateINMonth").val();
                 currdat = $("#DateINMonth").val();
                 dt = dt + "-" + '01';
@@ -47,22 +48,22 @@
                 var CurrentDate = currmonthyear;
                    // Code=$("#Code").val()
                 //}
-                    //$.get("GetTimeSheetDetailsByMonth",{CurrentDate:CurrentDate}).done(function (obj) {
+                    $.get("GetTimeSheetDetailsByMonth",{CurrentDate:CurrentDate}).done(function (obj) {
                        
-                    //    var arr = [];
-                    //    arr = obj;
-                    //    if (arr.data.length > 0) {
-                    //    $('#empContaint').show();
-                    //    $('#salrcontainer').hide();
-                    //    $('#spnmonth').text(currdat);
-                    //        // $("#tabletimeDetails").empty().append(d);
-                    //    $("#tabletimeDetails td").remove();
-                    //    for (var i = 0; i <= arr.data.length; i++) {
+                        var arr = [];
+                        arr = obj;
+                        if (arr.data.length > 0) {
+                        $('#empContaint').show();
+                        $('#salrcontainer').hide();
+                        $('#spnmonth').text(currdat);
+                            // $("#tabletimeDetails").empty().append(d);
+                        $("#tabletimeDetails td").remove();
+                        for (var i = 0; i <= arr.data.length; i++) {
                            
-                    //        $('#tabletimeDetails').append("<tr><td>"+arr.data[i].Sno+"</td><td>"+arr.data[i].EmpCode + "</td><td>" + arr.data[i].EmpName + "</td></tr>");
-                    //    }
-                    //}
-                    //else {
+                            $('#tabletimeDetails').append("<tr><td>"+arr.data[i].Sno+"</td><td>"+arr.data[i].EmpCode + "</td><td>" + arr.data[i].EmpName + "</td></tr>");
+                        }
+                    }
+                    else {
                         $('#empContaint').hide();
                         $('#salrcontainer').show();
                         debugger;
@@ -129,7 +130,7 @@
                                        { "data": "TotalDeduction" },
                                        { "data": "LoanDeduction" },
                                        { "data": "TotalEarning" },
-                                       { "data": "NetSalary" },
+                                       //{ "data": "NetSalary" },
                                     ]
                                 });
 
@@ -146,8 +147,8 @@
                                 });
                             }
                         });
-                    // }
-               // });         
+                    }
+               });         
             });
 
             //function GetSryData()
@@ -259,7 +260,7 @@
                                             <th>Monthly Deduction</th>
                                             <th>Loan Deduction</th>
                                             <th>Total Earning</th>                         
-                                            <th>Net Salary</th>
+                                            @*<th>Net Salary</th>*@
                                          </tr>
                                     </thead>
                                     <tbody>

@@ -26,6 +26,21 @@ namespace EzBusiness_DL_Repository
             return GetCode;
         }
 
+        public string GetCountry(string Cmpycode, string Empcode)
+        {
+            return _EzBusinessHelper.ExecuteScalarS("select Nationality from MEM001 where EmpCode='"+ Empcode +"' and Flag =0 and Cmpycode='" + Cmpycode + "' ");
+        }
+
+        public string GetCountryP(string Cmpycode, DateTime dt1)
+        {
+            return _EzBusinessHelper.ExecuteScalarS("select COUNTRY from PRCNF001 where FINYEARS='"+ dt1.ToString("yyyy") + "' and FINMONTH='" + dt1.ToString("MM") + "' and  Flag=0 and Cmpycode='" + Cmpycode + "' ");
+        }
+
+        public string GetDiv(string Cmpycode, string Empcode)
+        {
+            return _EzBusinessHelper.ExecuteScalarS("select DivisionCode from MEM001 where EmpCode='" + Empcode + "' and Flag =0 and Cmpycode='" + Cmpycode + "' ");
+        }
+
         public bool GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy, string InpAmt)
         {
             //return _EzBusinessHelper.ExecuteScalarDec("select a.TOTAL from PRSMS001 a where a.CMPYCODE ='"+ CmpyCode +"' and a.Effect_From <='"+  dtmonthyy +"' and a.EMPCODE='"+ Empcode + "' and a.Flag=0 and Effect_From =(select max(b.Effect_From) from PRSMS001 b where b.CMPYCODE =a.CMPYCODE and b.EMPCODE=a.EMPCODE and b.Effect_From <=a.Effect_From and a.Flag=b.Flag)");
@@ -73,6 +88,12 @@ namespace EzBusiness_DL_Repository
                 {
                     n = 0;
                     string Monthyy = dtmonthyy.ToString("MM-yyyy");
+
+                    SqlParameter[] param1 = {
+                        new SqlParameter("@empcode",Empcode),
+                        new SqlParameter("@cmpycode",CmpyCode)
+                       };
+                    //_EzBusinessHelper.ExecuteScalarDec("Sp_SalProCond", param1);//
                     int k = _EzBusinessHelper.ExecuteScalar("select count(*) from PRSPD001 where flag=0 and EmpCode='" + Emps + "'  and CmpyCode='" + CmpyCode + "' and FORMAT(Dates,'MM-yyyy') = '" + Monthyy + "'");
                     if (k == 0)
                     {

@@ -16,9 +16,11 @@ namespace EzBusiness_BL_Service
     public class DutyResumePayrollService : IDutyResumePayrollService
     {
         IDutyResumePayrollRepository _DrRepo;
+        ICodeGenRepository _codeRep;
         public DutyResumePayrollService()
         {
             _DrRepo = new DutyResumePayrollRepository();
+            _codeRep = new CodeGenRepository();
         }
         public bool DeleteDrs(string Cmpycode, string PRDR001_CODE, string oldLeavedays, string EmpCode, string UserName)
         {
@@ -113,13 +115,22 @@ namespace EzBusiness_BL_Service
                                         .ToList();
             return InsertFirstElementDDL(LsNo);
         }
-
-
-
-
         public DutyResumeVM SaveDrs(DutyResumeVM Drs)
-        {
-            return _DrRepo.SaveDrs(Drs);
+        {          
+            Drs.division = _codeRep.GetDiv(Drs.Cmpycode, Drs.EmpCode);
+            Drs.country = _codeRep.GetCountryP(Drs.Cmpycode, Drs.ResumeDate);
+            if (Drs.country == null)
+            {
+                Drs.SaveFlag = false;
+                Drs.ErrorMessage = "PayRoll Config not Generated";
+                return Drs;
+            }
+            else
+            {
+                return _DrRepo.SaveDrs(Drs);
+            }
+
+           // return _DrRepo.SaveDrs(Drs);
         }
         
 

@@ -13,5 +13,11 @@ namespace EzBusiness_DL_Interface
 
         bool GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy,string InpAmt);
 
+        string GetDiv(string Cmpycode, string Empcode);
+
+        string GetCountry(string Cmpycode, string Empcode);
+
+        string GetCountryP(string Cmpycode, DateTime dt1);
+
     }
 }

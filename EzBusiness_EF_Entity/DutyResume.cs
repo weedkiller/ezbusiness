@@ -17,7 +17,7 @@ namespace EzBusiness_EF_Entity
         public string PRLS001_CODE { get; set; }
         public string EmpCode { get; set; }
         public string EmpName { get; set; }
-        public DateTime? ResumeDate { get; set; }
+        public DateTime ResumeDate { get; set; }
         public string Actual_Leave_Type { get; set; }
         public string Duty_Rm_type { get; set; }
         public string Approve_Days { get; set; }

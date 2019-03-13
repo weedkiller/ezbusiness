@@ -20,7 +20,7 @@ namespace EzBusiness_BL_Interface
         List<SelectListItem> GetProfList(string CmpyCode);
 
         List<SelectListItem>  GetBankList(string CmpyCode);
-        List<SelectListItem> GetAccList(string CmpyCode, string Typeofacc);
+       // List<SelectListItem> GetAccList(string CmpyCode, string Typeofacc);
       
 
 
@@ -36,7 +36,7 @@ namespace EzBusiness_BL_Interface
 
         List<SelectListItem> GetNationList(string CmpyCode);
 
-        List<SelectListItem> GetDisciplineList(string CmpyCode);
+      //  List<SelectListItem> GetDisciplineList(string CmpyCode);
 
         List<SelectListItem> GetSubTrademaster(string CmpyCode);
 
@@ -50,7 +50,7 @@ namespace EzBusiness_BL_Interface
 
         List<SelectListItem> GetTDSSection(string CmpyCode);
 
-        List<SelectListItem> GetEmployeeTypeMasterList(string CmpyCode);
+       // List<SelectListItem> GetEmployeeTypeMasterList(string CmpyCode);
 
         List<SelectListItem> GetLocationList(string CmpyCode);
 

@@ -24,7 +24,7 @@ namespace EzBusiness_DL_Interface
         List<ProjectMaster> GetProjects(string CmpyCode);
 
         List<BankMaster> GetBankList(string CmpyCode);
-        List<Accounts_Tbl> GetAccList(string CmpyCode,string Typeofacc);
+      //  List<Accounts_Tbl> GetAccList(string CmpyCode,string Typeofacc);
 
       
 
@@ -43,7 +43,7 @@ namespace EzBusiness_DL_Interface
 
         List<Nation> GetNationList(string CmpyCode);
 
-        List<Discipline> GetDisciplineList(string CmpyCode);
+      //  List<Discipline> GetDisciplineList(string CmpyCode);
 
         List<SubTrademaster> GetSubTrademaster(string CmpyCode);
 
@@ -57,7 +57,7 @@ namespace EzBusiness_DL_Interface
 
         List<TDSSection> GetTDSSection(string CmpyCode);
 
-        List<EmployeeTypeMaster> GetEmployeeTypeMasterList(string CmpyCode);
+       // List<EmployeeTypeMaster> GetEmployeeTypeMasterList(string CmpyCode);
 
         List<Location> GetLocationList(string CmpyCode);
 

@@ -69,9 +69,11 @@ namespace EzBusiness_DL_Repository
             List<SalaryProcessDetailsListItem> objList = null;
             string yeardata = currDate.ToString("yyyy");
             string monthdata = currDate.ToString("MM");
+            var lastDayOfMonth = DateTime.DaysInMonth(Convert.ToInt32(currDate.ToString("yyyy")), Convert.ToInt32(currDate.ToString("MM")));
             SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
                                     new SqlParameter("@Year", yeardata),
-                                     new SqlParameter("@Month",monthdata)};
+                                     new SqlParameter("@Month",monthdata),
+                                     new SqlParameter("@lastdate",lastDayOfMonth)};
             ds = _EzBusinessHelper.ExecuteDataSet("usp_GetEmployeeNotInDTSbMonthly", CommandType.StoredProcedure, param);
             if (ds.Tables.Count >= 0)
             {

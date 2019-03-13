@@ -148,6 +148,11 @@ namespace EzBusiness_BL_Service
             {
                 Sry.PRSM001_CODE = _codeRep.GetCode(Sry.CMPYCODE, "Salary Master");
             }
+
+            Sry.COUNTRY = _codeRep.GetCountry(Sry.CMPYCODE, Sry.EMPCODE);
+            Sry.DIVISION = _codeRep.GetDiv(Sry.CMPYCODE, Sry.EMPCODE);
+
+
             return _SalzPayrollRepo.SaveSry(Sry);
         }
     }

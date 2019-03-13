@@ -20,6 +20,8 @@ namespace EzBusiness_DL_Interface
 
         bool DeletePyrollConfi(string Code, string CmpyCode, string username);
 
+        List<Nation> GetNationList(string CmpyCode);
+
         #endregion
     }
 }

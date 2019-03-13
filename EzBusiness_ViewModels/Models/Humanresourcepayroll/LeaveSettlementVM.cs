@@ -30,7 +30,7 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 
 
         //public List<SelectListItem> EmployeeTypeList { get; set; }
-        public DateTime? Entry_Date { get; set; }
+        public DateTime Entry_Date { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? LLSdate { get; set; }
