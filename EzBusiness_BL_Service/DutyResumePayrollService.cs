@@ -115,17 +115,22 @@ namespace EzBusiness_BL_Service
                                         .ToList();
             return InsertFirstElementDDL(LsNo);
         }
-
-
-
-
         public DutyResumeVM SaveDrs(DutyResumeVM Drs)
-        {
-
-            Drs.country = _codeRep.GetCountry(Drs.Cmpycode, Drs.EmpCode);
+        {          
             Drs.division = _codeRep.GetDiv(Drs.Cmpycode, Drs.EmpCode);
+            Drs.country = _codeRep.GetCountryP(Drs.Cmpycode, Drs.ResumeDate);
+            if (Drs.country == null)
+            {
+                Drs.SaveFlag = false;
+                Drs.ErrorMessage = "PayRoll Config not Generated";
+                return Drs;
+            }
+            else
+            {
+                return _DrRepo.SaveDrs(Drs);
+            }
 
-            return _DrRepo.SaveDrs(Drs);
+           // return _DrRepo.SaveDrs(Drs);
         }
         
 
