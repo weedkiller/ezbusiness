@@ -45,6 +45,8 @@
                 </div>
                 <!--logo start-->
                 <a href="#" class="logo"><b>HR & PAYROLL</b></a>
+
+                <div class="bredcrumb"></div>
                 <!--logo end-->
 
                 <div class="top-menu">
@@ -122,9 +124,13 @@
 
             $("#sidebarCollapse").click(function () {
                 $("#sidebar").toggle();
-               
-            });      
+                debugger;
+                
+            });   
+            
           
+           
+
             jQuery.expr[':'].casecontains = (a, b, c) => jQuery(a).text().toUpperCase().indexOf(c[3].toUpperCase()) >= 0;
             var pathname = document.location.pathname;              
             $('a[href*="' + pathname + '"]').each(function () {
@@ -143,8 +149,12 @@
                     $('#link-content li:casecontains("' + $('#search1').val() + '")').show();
                 
 
-                });  
-                           
+            });  
+
+          
+          
+           
+                  //         
                 $('.search-filter').on('keyup', function () {
                     debugger;
                     var input = $('.search-filter').val();
@@ -166,6 +176,19 @@
                         $('#link-content li').show();
                     }
                 });
+
+
+             
+
+              
+                var url = pathname;
+                var currentItem = $(".treeview").find("[href$='" + url + "']");
+                var path = "home";
+                $(currentItem.parents("li").get().reverse()).each(function () {
+                    path += "/" + $(this).attr('value');
+                });
+                $(".bredcrumb").html(path);
+               
         });
     </script>
 

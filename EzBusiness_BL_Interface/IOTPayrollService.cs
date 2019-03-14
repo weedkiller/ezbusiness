@@ -15,6 +15,7 @@ namespace EzBusiness_BL_Interface
     {
         List<SelectListItem> GetEmpCodeList(string CmpyCode);
         List<SelectListItem> GetDivCodeList(string CmpyCode);
+        List<SelectListItem> GetPrjCodeList(string Cmpycode);
         List<Employee> GetEmpRepCodeList(string CmpyCode, string EmpCode);
         List<Attendence> GetLeaveTypList(string CmpyCode);
         List<TimeSheetDetail> GetLeaveAppDetailList(string CmpyCode, string EmpCode, DateTime dte, DateTime dte1, string typ);
