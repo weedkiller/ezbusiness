@@ -478,6 +478,31 @@
   
 </script>
 
+<style>
+    .upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btnup {
+  border: 2px solid gray;
+    color: gray;
+    background-color: white;
+    padding: 1px 5px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+</style>
 <div class="row">
     <div class="col-md-12">
         <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
@@ -495,504 +520,513 @@
                             <div class="form-horizontal">
                                 <div class="form-body">
                                     <div class="col-md-4" style="float:right">
-                                        <div class="form-group" style="float: right;">
-                                            <div class="input-field" style="margin-right:67px;">
-                                                <img id="user_img" style="border:1px solid silver;border-radius: 60px;height: 115px;width: 115px;"  />
+                                        <div class="form-group" style="margin-left:141px;">
+                                            <div class="input-field">
+                                                <img id="user_img" style="border:1px solid silver;border-radius: 50%;height: 115px;width: 85px;"  />
                                                 <div>
                                                     <div class="clearfix" style="height: 10px;"></div>
-                                                    @Html.HiddenFor(model => model.photpath)
-                                                    @Html.TextBoxFor(m => m.sourcephoto, new { type = "file", multiple = "multiple" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                                    @*@Html.HiddenFor(model => model.photpath)
+                                                    @Html.TextBoxFor(m => m.sourcephoto, new { type = "file", multiple = "multiple" })*@
+                                                    
+                                                    <div class="upload-btn-wrapper">
+                                                        <button class="btnup" >Upload a file</button>
+                                                        @Html.HiddenFor(model => model.photpath)
+                                                       @Html.TextBoxFor(m => m.sourcephoto, new { type = "file", multiple = "multiple" })
 
-                                    <div class="col-md-8 row" style="float: left; text-align: left;">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-5">Emp Code</label>
-                                                <div class="col-md-7 input-field">
-                                                    @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @disabled = "disabled" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--/span-->
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Joining Date</label>
-                                                <div class="col-md-9 input-field">
-                                                    <input id="JoiningDate1" class="form-control datepicker" name="JoiningDate1" />
-                                                    @Html.HiddenFor(m => m.JoiningDate)
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-5">Salutaion</label>
-                                                <div class="col-md-7 input-field">
-                                                    @Html.DropDownListFor(m => m.Salutaion, Model.SalutaionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Emp Name</label>
-                                                <div class="col-md-9 input-field">
-                                                    @Html.TextBoxFor(m => m.Empname, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-5">Contact No.</label>
-                                                <div class="col-md-7 input-field">
-                                                    @Html.TextBoxFor(m => m.ContactNo, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Gender</label>
-                                                <div class="col-md-9 input-field">
-                                                    <label class="radio-inline" checked="checked">
-                                                        @Html.RadioButtonFor(m => m.Sex, "M", new { @checked = "checked" }) Male
-                                                    </label>
-                                                    <label class="radio-inline">
-                                                        @Html.RadioButtonFor(m => m.Sex, "F") Female
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-5">On Leave</label>
-                                                <div class="col-md-7 input-field">
-                                                    <div class="icheck-inline checkbox1">
-                                                        <label>
-                                                            @Html.CheckBox("LeaveStatus", false)
-                                                        </label>
                                                     </div>
+
+
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Date Of Birth</label>
-                                                <div class="col-md-9 input-field">
-                                                    <input id="DOB1" class="form-control datepicker" name="DOB1" />
-                                                    @Html.HiddenFor(m => m.DOB)
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-5">Email Id</label>
-                                                <div class="col-md-7 input-field">
-                                                    @Html.TextBoxFor(m => m.EMail, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Location</label>
-                                                <div class="col-md-9 input-field">
-                                                    @Html.DropDownListFor(m => m.LocCode, Model.LocationList, new { @class = "form-control dropdown-control selectpicker", @data_live_search = "true" })
-                                                </div>
-                                            </div>
-                                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 row" style="float: left; text-align: left;">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Code</label>
+                        <div class="col-md-7 input-field">
+                            @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Joining Date</label>
+                        <div class="col-md-9 input-field">
+                            <input id="JoiningDate1" class="form-control datepicker" name="JoiningDate1" />
+                            @Html.HiddenFor(m => m.JoiningDate)
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Salutaion</label>
+                        <div class="col-md-7 input-field">
+                            @Html.DropDownListFor(m => m.Salutaion, Model.SalutaionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Name</label>
+                        <div class="col-md-9 input-field">
+                            @Html.TextBoxFor(m => m.Empname, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Contact No.</label>
+                        <div class="col-md-7 input-field">
+                            @Html.TextBoxFor(m => m.ContactNo, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Gender</label>
+                        <div class="col-md-9 input-field">
+                            <label class="radio-inline" checked="checked">
+                                @Html.RadioButtonFor(m => m.Sex, "M", new { @checked = "checked" }) Male
+                            </label>
+                            <label class="radio-inline">
+                                @Html.RadioButtonFor(m => m.Sex, "F") Female
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-5">On Leave</label>
+                        <div class="col-md-7 input-field">
+                            <div class="icheck-inline checkbox1">
+                                <label>
+                                    @Html.CheckBox("LeaveStatus", false)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Date Of Birth</label>
+                        <div class="col-md-9 input-field">
+                            <input id="DOB1" class="form-control datepicker" name="DOB1" />
+                            @Html.HiddenFor(m => m.DOB)
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Email Id</label>
+                        <div class="col-md-7 input-field">
+                            @Html.TextBoxFor(m => m.EMail, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Location</label>
+                        <div class="col-md-9 input-field">
+                            @Html.DropDownListFor(m => m.LocCode, Model.LocationList, new { @class = "form-control dropdown-control selectpicker", @data_live_search = "true" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <!--/row-->
+            <div class="col-md-4" style="float:right">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Last Resume</label>
+                        <div class="col-md-8 input-field">
+                            <input id="LastRetDate1" class="form-control datepicker" name="LastRetDate1" />
+                            @Html.HiddenFor(m => m.LastRetDate)
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Status</label>
+                        <div class="col-md-8 input-field">
+                            @Html.DropDownListFor(m => m.WorkingStatus, Model.WorkingStatusList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 row" style="float: left; text-align: left;">
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-5">Permanent Address</label>
+                        <div class="col-md-7 input-field">
+                            @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @placeholder = "Permanent Address" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Local Address</label>
+                        <div class="col-md-9 input-field">
+                            @Html.TextAreaFor(m => m.AddressLocal, new { @class = "form-control", @placeholder = "Local Address" })
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+    </div><br />
+    <!-- END FORM-->
+
+    <div class="">
+        <ul class="nav nav-tabs">
+            <li class="active b1"><a data-toggle="tab" href="#home">General</a></li>
+            <li class="b1"><a data-toggle="tab" href="#menu1">Additional Information</a></li>
+            <li class="b1"><a data-toggle="tab" href="#menu2">Documents</a></li>
+            <li class="b1"><a data-toggle="tab" href="#menu3">Nominee Information</a></li>
+            <li class="b1"><a data-toggle="tab" href="#menu4">Education</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <br /><br />
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Group</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                     </div>
-                                    <div class="clearfix"></div>
-                                    <!--/row-->
-                                    <div class="col-md-4" style="float:right">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4">Last Resume</label>
-                                                <div class="col-md-8 input-field">
-                                                    <input id="LastRetDate1" class="form-control datepicker" name="LastRetDate1" />
-                                                    @Html.HiddenFor(m => m.LastRetDate)
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4">Status</label>
-                                                <div class="col-md-8 input-field">
-                                                    @Html.DropDownListFor(m => m.WorkingStatus, Model.WorkingStatusList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-8 row" style="float: left; text-align: left;">
-
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-5">Permanent Address</label>
-                                                <div class="col-md-7 input-field">
-                                                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @placeholder = "Permanent Address" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-3">Local Address</label>
-                                                <div class="col-md-9 input-field">
-                                                    @Html.TextAreaFor(m => m.AddressLocal, new { @class = "form-control", @placeholder = "Local Address" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
-
-                                    </div>
-                                    <div class="clearfix"></div>
                                 </div>
-
-                            </div><br />
-                            <!-- END FORM-->
-
-                            <div class="">
-                                <ul class="nav nav-tabs">
-                                    <li class="active b1"><a data-toggle="tab" href="#home">General</a></li>
-                                    <li class="b1"><a data-toggle="tab" href="#menu1">Additional Information</a></li>
-                                    <li class="b1"><a data-toggle="tab" href="#menu2">Documents</a></li>
-                                    <li class="b1"><a data-toggle="tab" href="#menu3">Nominee Information</a></li>
-                                    <li class="b1"><a data-toggle="tab" href="#menu4">Education</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div id="home" class="tab-pane fade in active">
-                                        <br /><br />
-                                        <div class="form-horizontal">
-                                            <div class="form-body">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Group</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--/span-->
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Bank</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.BankCode, Model.BankList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Branch Code</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.BranchCode, Model.BranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Bank Branch</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.BankBranchCode, Model.BankBranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/row-->
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Department</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.DepartmentCode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--/span-->
-
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Bank Acct</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.TextBoxFor(m => m.BankAccNo, new { @class = "form-control" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--/span-->
-                                                </div>
-
-                                                <!--/row-->
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Project</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Marital Status</label>
-                                                            <div class="col-md-9 input-field radiobtn1">
-
-                                                                <label class="radio-inline">
-                                                                    @Html.RadioButtonFor(m => m.MaritalStatus, "S", new { @checked = "checked" }) Married
-                                                                </label>
-                                                                <label class="radio-inline">
-                                                                    @Html.RadioButtonFor(m => m.MaritalStatus, "D")  Unmarried
-                                                                </label>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--/span-->
-                                                    <!--/span-->
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Reporting To<i style="color:red;">*</i></label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.ReportingEmp, Model.ReportingEmpList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--/span-->
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Profession<i style="color:red;">*</i></label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.ProfCode, Model.ProfList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Blood Group</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.BloodGroup, Model.BloodGroupList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Physically Disabled</label>
-                                                            <div class="col-md-1 icheck-inline checkbox1">
-                                                                @Html.CheckBox("PhysicallyDisabledYN", false)
-                                                            </div>
-                                                            <div class="col-md-8 input-field">
-                                                                @Html.TextBoxFor(m => m.PhysicallyDisabled, new { @style = "width: 40%;display:none", @class = "form-control" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Weekly Off 1</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.Week_off1, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Pay Rule</label>
-                                                            <div class="col-md-8 input-field">
-                                                                <label class="radio-inline">
-                                                                    @Html.RadioButtonFor(m => m.wagesby, "M", new { @checked = "checked" }) Monthly
-                                                                </label>
-                                                                <label class="radio-inline">
-                                                                    @Html.RadioButtonFor(m => m.wagesby, "D") Daily
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Weekly Off 2</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.Week_off2, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Bank</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.BankCode, Model.BankList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Branch Code</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.BranchCode, Model.BranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Bank Branch</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.BankBranchCode, Model.BankBranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/row-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Department</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.DepartmentCode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
 
-                                    <div id="menu1" class="tab-pane fade">
-                                        <br /><br />
-                                        <div class="form-horizontal">
-                                            <div class="form-body">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Contact Date</label>
-                                                            <div class="col-md-9 input-field">
-                                                                <input id="ContactDate1" class="form-control datepicker" name="ContactDate1" />
-                                                                @Html.HiddenFor(m => m.ContactDate)
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--/span-->
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Ticket Type</label>
-                                                            <div class="col-md-8 input-field">
 
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Bank Acct</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.TextBoxFor(m => m.BankAccNo, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
 
-                                                                <label class="radio-inline">
-                                                                    @Html.RadioButtonFor(m => m.TicketType, "E", new { @checked = "checked" }) Economy
-                                                                </label>
-                                                                <label class="radio-inline">
-                                                                    @Html.RadioButtonFor(m => m.TicketType, "B") Business
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/row-->
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Absconding</label>
-                                                            <div class="col-md-9 input-field checkbox1">
-                                                                <label>
-                                                                    @Html.CheckBox("AbscondingYN", false)
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--/span-->
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Supervisor</label>
-                                                            <div class="col-md-9 input-field checkbox1">
-                                                                <label>
-                                                                    @Html.CheckBox("SupervisorYN", false)
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                        <!--/row-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Project</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Marital Status</label>
+                                    <div class="col-md-9 input-field radiobtn1">
 
-                                                    <!--/span-->
-                                                </div>
-
-                                                <!--/row-->
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Absconding Date</label>
-                                                            <div class="col-md-9 input-field checkbox1">
-                                                                <input id="AbscondingDate1" class="form-control datepicker" name="AbscondingDate1" />
-                                                                @Html.HiddenFor(m => m.AbscondingDate)
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">No. of Tickets</label>
-                                                            <div class="col-md-8 input-field">
-
-                                                                <label class="radio-inline">
-                                                                    @Html.RadioButtonFor(m => m.TicketNo, "O", new { @checked = "checked" })  1 YR - Tkt
-                                                                </label>
-                                                                <label class="radio-inline">
-                                                                    @Html.RadioButtonFor(m => m.TicketNo, "T")  2 YR - TKT
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Nationality<i style="color:red;">*</i></label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.Nationality, Model.NationalityList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--/span-->
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Contract</label>
-                                                            <div class="col-md-8 input-field">
-                                                                @Html.RadioButtonFor(m => m.Contract, "S", new { @checked = "checked" }) Single
-                                                                @Html.RadioButtonFor(m => m.Contract, "F") Family
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Language Known</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.TextBoxFor(m => m.LanguageKnown, new { @class = "form-control" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Employee type</label>
-                                                            <div class="col-md-8 input-field">
-                                                                @Html.RadioButtonFor(m => m.EmpType, "SS", new { @checked = "checked" }) staff
-
-                                                                @Html.RadioButtonFor(m => m.EmpType, "OS") Labour
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label col-md-3">Visa Location</label>
-                                                            <div class="col-md-9 input-field">
-                                                                @Html.DropDownListFor(m => m.VisaLocation, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!--/span-->
-
-                                                </div>
-
-                                            </div>
-                                        </div>
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.MaritalStatus, "S", new { @checked = "checked" }) Married
+                                        </label>
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.MaritalStatus, "D")  Unmarried
+                                        </label>
 
                                     </div>
-                                    <div id="menu2" class="tab-pane fade">
-                                        <br /><br />
-                                        <div >@*style="overflow-x:auto;"*@
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Reporting To<i style="color:red;">*</i></label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.ReportingEmp, Model.ReportingEmpList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Profession<i style="color:red;">*</i></label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.ProfCode, Model.ProfList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Blood Group</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.BloodGroup, Model.BloodGroupList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Physically Disabled</label>
+                                    <div class="col-md-1 icheck-inline checkbox1">
+                                        @Html.CheckBox("PhysicallyDisabledYN", false)
+                                    </div>
+                                    <div class="col-md-8 input-field">
+                                        @Html.TextBoxFor(m => m.PhysicallyDisabled, new { @style = "width: 40%;display:none", @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Weekly Off 1</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.Week_off1, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Pay Rule</label>
+                                    <div class="col-md-8 input-field">
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.wagesby, "M", new { @checked = "checked" }) Monthly
+                                        </label>
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.wagesby, "D") Daily
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Weekly Off 2</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.Week_off2, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="menu1" class="tab-pane fade">
+                <br /><br />
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Contact Date</label>
+                                    <div class="col-md-9 input-field">
+                                        <input id="ContactDate1" class="form-control datepicker" name="ContactDate1" />
+                                        @Html.HiddenFor(m => m.ContactDate)
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Ticket Type</label>
+                                    <div class="col-md-8 input-field">
+
+
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.TicketType, "E", new { @checked = "checked" }) Economy
+                                        </label>
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.TicketType, "B") Business
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/row-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Absconding</label>
+                                    <div class="col-md-9 input-field checkbox1">
+                                        <label>
+                                            @Html.CheckBox("AbscondingYN", false)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Supervisor</label>
+                                    <div class="col-md-9 input-field checkbox1">
+                                        <label>
+                                            @Html.CheckBox("SupervisorYN", false)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--/span-->
+                        </div>
+
+                        <!--/row-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Absconding Date</label>
+                                    <div class="col-md-9 input-field checkbox1">
+                                        <input id="AbscondingDate1" class="form-control datepicker" name="AbscondingDate1" />
+                                        @Html.HiddenFor(m => m.AbscondingDate)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">No. of Tickets</label>
+                                    <div class="col-md-8 input-field">
+
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.TicketNo, "O", new { @checked = "checked" })  1 YR - Tkt
+                                        </label>
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.TicketNo, "T")  2 YR - TKT
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Nationality<i style="color:red;">*</i></label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.Nationality, Model.NationalityList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Contract</label>
+                                    <div class="col-md-8 input-field">
+                                        @Html.RadioButtonFor(m => m.Contract, "S", new { @checked = "checked" }) Single
+                                        @Html.RadioButtonFor(m => m.Contract, "F") Family
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Language Known</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.TextBoxFor(m => m.LanguageKnown, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Employee type</label>
+                                    <div class="col-md-8 input-field">
+                                        @Html.RadioButtonFor(m => m.EmpType, "SS", new { @checked = "checked" }) staff
+
+                                        @Html.RadioButtonFor(m => m.EmpType, "OS") Labour
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Visa Location</label>
+                                    <div class="col-md-9 input-field">
+                                        @Html.DropDownListFor(m => m.VisaLocation, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div id="menu2" class="tab-pane fade">
+                <br /><br />
+                <div >@*style="overflow-x:auto;"*@
                                             <table class="table table-bordered table-sm" id="tablePODetails2">
                                                 <thead>
                                                     <tr >
-                                                        <th>Doc Code</th>
-                                                        <th>Document Name</th>
-                                                        <th>Document No.</th>
+                                                        <th>Code</th>
+                                                        <th>Name</th>
+                                                        <th>Number</th>
                                                         <th>Issue Place</th>
-                                                        <th>Document Status</th>
+                                                        <th>Status</th>
                                                         <th>Issue Date</th>
                                                         <th>Expiry Date</th>
                                                         <th>Description</th>
@@ -1138,9 +1172,9 @@
                                                 <thead>
                                                     <tr >
                                                         @*<th>Sr No.</th>*@
-                                                        <th>Name Of the Nominee</th>
+                                                        <th>Name</th>
                                                         <th>Address</th>
-                                                        <th>Nominee's Relation With</th>
+                                                        <th>Relation With Nominee's</th>
                                                         <th>Date Of Birth</th>
                                                     </tr>
                                                 </thead>
