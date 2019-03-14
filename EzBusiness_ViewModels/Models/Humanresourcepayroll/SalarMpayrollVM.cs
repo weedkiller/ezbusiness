@@ -26,7 +26,7 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? Entery_date { get; set; }
+        public DateTime Entery_date { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

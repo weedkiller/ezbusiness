@@ -249,6 +249,14 @@ namespace EzBusiness_DL_Repository
                     EmpCode = dr["EmpCode"].ToString(),
                     Empname = dr["Empname"].ToString(),
                     EmpType = dr["EmpType"].ToString(),
+                    DOB =Convert.ToDateTime(dr["DOB"].ToString()),
+                    LocCode = dr["LocCode"].ToString(),
+                    VisaLocation = dr["VisaLocation"].ToString(),
+                    ContactNo = dr["ContactNo"].ToString(),
+                    EMail = dr["EMail"].ToString(),
+                    Nationality = dr["Nationality"].ToString(),
+                    DivisionCode = dr["DivisionCode"].ToString(),
+                    ReportingEmp = dr["ReportingEmp"].ToString()
                 });
 
             }

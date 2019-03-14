@@ -149,11 +149,21 @@ namespace EzBusiness_BL_Service
                 Sry.PRSM001_CODE = _codeRep.GetCode(Sry.CMPYCODE, "Salary Master");
             }
 
-            Sry.COUNTRY = _codeRep.GetCountry(Sry.CMPYCODE, Sry.EMPCODE);
+            Sry.COUNTRY = _codeRep.GetCountryP(Sry.CMPYCODE, Sry.Entery_date);
             Sry.DIVISION = _codeRep.GetDiv(Sry.CMPYCODE, Sry.EMPCODE);
+            
+            if (Sry.COUNTRY == null)
+            {
+                Sry.SaveFlag = false;
+                Sry.ErrorMessage = "PayRoll Config not Generated";
+                return Sry;
+            }
+            else
+            {
+                return _SalzPayrollRepo.SaveSry(Sry);
+            }
 
-
-            return _SalzPayrollRepo.SaveSry(Sry);
+           
         }
     }
 }
