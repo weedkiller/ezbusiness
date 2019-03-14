@@ -45,23 +45,18 @@
                 </div>
                 <!--logo start-->
                 <a href="#" class="logo"><b>HR & PAYROLL</b></a>
-                <div class="col-md-6">
-                    <ul class="breadcrumb">
-                        <li><a href="#">( Ez Business</a></li>
-                        <li><a href="#">Human Resource &Aacute; payroll</a></li>
-                        <li><a href="#">Master </a></li>
-                        <li>Employee )</li>
-                    </ul>
-                </div>
+    <div class="col-md-6">
+        <ul class="breadcrumb">
+
+            @*<li><a href="#">( Ez Business</a></li>
+            <li><a href="#">Human Resource &Aacute; payroll</a></li>
+            <li><a href="#">Master </a></li>
+            <li>Employee )</li>*@
+        </ul>
+    </div>
+                @*<div class="bredcrumb"></div>*@
                 <!--logo end-->
-                <div class="col-md-6 bread1">
-                    <ul class="breadcrumb">
-                        <li><a href="#">Ez Business System</a></li>
-                        <li><a href="#">Setting</a></li>
-                        <li><a href="#">master</a></li>
-                        <li>Italy</li>
-                    </ul>
-                </div>
+                
 
                 <div class="top-menu">
                     <ul class="nav pull-right top-menu">
@@ -141,7 +136,8 @@
             $("#sidebar").hide();
 
             $("#sidebarCollapse").click(function () {
-                $("#sidebar").toggle();               
+                $("#sidebar").toggle();
+               
             });      
           
             jQuery.expr[':'].casecontains = (a, b, c) => jQuery(a).text().toUpperCase().indexOf(c[3].toUpperCase()) >= 0;
@@ -161,8 +157,14 @@
                     $('#link-content li.nav-item ul').show();
                     // then filter in the matching links only
                     $('#link-content li:casecontains("' + $('#search1').val() + '")').show();
-                });  
-                           
+                
+
+            });  
+
+          
+          
+           
+                  //         
                 $('.search-filter').on('keyup', function () {
                     debugger;
                     var input = $('.search-filter').val();
@@ -183,7 +185,20 @@
                         // if search is empty, show the div and reset columns
                         $('#link-content li').show();
                     }
-              });
+                });
+
+
+             
+
+              
+                var url = pathname;
+                var currentItem = $(".treeview").find("[href$='" + url + "']");
+                var path = "";
+                $(currentItem.parents("li").get().reverse()).each(function () {
+                    path += "<li>" + $(this).attr('value') +"</li>";
+                });
+                $(".breadcrumb").html(path);
+               
         });
     </script>
 </body>

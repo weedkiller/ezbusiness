@@ -168,16 +168,9 @@ namespace EzBusiness_DL_Repository
 
                             int k = _EzBusinessHelper.ExecuteScalar("Select Count(*) from PRCNF001 where CmpyCode='" + PayCnfg.CMPYCODE + "' and FINYEARS='" + PayCnfg.FINYEAR + "' and FINMONTH='" + PayCnfg.FINMONTH + "' and COUNTRY ='" + PayCnfg.COUNTRY + "' and CMPYCODE='" + PayCnfg.CMPYCODE + "' and PRCNF001_CODE !='"+ PayCnfg.PRCNF001_CODE +"'");
 
-
                             if (k == 0)
-                            {
-
-                               
-                                PayCnfg.SaveFlag = _EzBusinessHelper.ExecuteNonQuery1("update PRCNF001 set " + sb + " where PRCNF001_CODE='" + PayCnfg.PRCNF001_CODE + "' and CMPYCODE='" + PayCnfg.CMPYCODE + "'");
-
-                               
-
-
+                            {                               
+                                PayCnfg.SaveFlag = _EzBusinessHelper.ExecuteNonQuery1("update PRCNF001 set " + sb + " where PRCNF001_CODE='" + PayCnfg.PRCNF001_CODE + "' and CMPYCODE='" + PayCnfg.CMPYCODE + "'");                              
                                 // PayCnfg.SaveFlag = _EzBusinessHelper.ExecuteNonQuery1("insert into PRCNF001(PRCNF001_CODE,CMPYCODE,COUNTRY,SRNO,FINYEARS,FINMONTH,FROM_DATE,TO_DATE,NOOFDAYS,LOCK) values(" + sb.ToString() + "");
                                 _EzBusinessHelper.ActivityLog(PayCnfg.CMPYCODE, PayCnfg.UserName, "Update PayRoll Config Master", PayCnfg.PRCNF001_CODE, Environment.MachineName);
                                 PayCnfg.ErrorMessage = string.Empty;

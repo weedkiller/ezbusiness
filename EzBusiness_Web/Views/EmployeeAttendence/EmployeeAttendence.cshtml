@@ -18,20 +18,72 @@
         var dt1 = new Date().getToday();
         //$("#tablePODetails tbody tr").find('td:eq(1)').find("[name*='Dates']").prop("value", dt1);
         //$("#Dates").val(dt1);
-        EzdtePk('#Att_Date');
+        EzdtePk('#Att_Date,#Tdate');
         var arr = [];
         counter = 1;
+
+        $('#Att_Date').on('dp.change', function (event) {
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+        });
+
+        $('#Tdate').on('dp.change', function (event) {
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+        });
+        $("#EmpCode").change(function () {
+
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+        });
+        $("#PrjCode").change(function () {
+
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+        });
+        $("#DivCode").change(function () {
+
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+        });
 
         $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
             arr.pop($(this).find("[name*='Datest']").val());
             counter--;
             $(this).closest("tr").remove();
         });
-
-        $("#btnadd").click(function () {          
-            var e1 = $("#EmpCode option:selected").val();
+        var err = '';
+        $("#btnadd").click(function () {
+            err = '';
             var dt2 = Ezsetdtpkdate($("#Att_Date").val());
-            var e1 = $("#EmpCode option:selected").val();
+            var dt3 = Ezsetdtpkdate($("#Tdate").val());
+            var typ1 = $("input:radio[name=optionsRadios]:checked").val();
+            var e1 = '';
+            if (typ1 == 'E') {
+                err = 'Employee';
+                e1 = $("#EmpCode option:selected").val();
+                typ1 = 'Emp';
+            } else if (typ1 == 'P') {
+                err = 'Project';
+                typ1 = 'Prj';
+                e1 = $("#PrjCode option:selected").val();
+
+            }
+            else {
+                err = 'Division';
+                typ1 = 'Div';
+                e1 = $("#DivCode option:selected").val();
+            }
             duplicates = false;
             var value = Ezsetdtpkdate($("#Att_Date").val());
             if (e1 != '0'  && Att_Date !='') {
@@ -67,12 +119,13 @@
                         }
                     });
 
-                    var k = EzSalrProcCondiont(a, date1);
-                    if (k == 1){
+                    //var k = EzSalrProcCondiont(a, date1);
+                    //if (k == 1){
                     var newRow1;
                     newRow1 = GetPayDeductOnDDL(counter);
                     var dropAttendence = newRow1;
-                    $.get("/GetAPDetailList", { EmpCode: e1, dte: dt2 }).done(function (response) {
+                    //   $.get("/GetAPDetailList", { EmpCode: e1, dte: dt2 }).done(function (response) {
+                    $.get("/GetOTDet", { EmpCode: e1, dte: dt2, dte1: dt3, typ: typ1 }).done(function (response) {
                    
                     var ary = [];
                     ary = response;
@@ -116,11 +169,11 @@
                         counter++;
                     }
                     });
-                    }
+                   // }
             }
             }
             else {
-                EzAlerterrtxt("Select Employee");
+                EzAlerterrtxt("Select " + err);
             }
         });
 
@@ -243,6 +296,38 @@
             $("#tablePODetails > tbody tr").empty();
             $("#tablePODetails > tbody tr").remove();
         });
+
+        $('#Hemp').show();
+        $('#Hdiv').hide();
+        $('#HPrj').hide();
+
+        $('input[type=radio][name=optionsRadios]').change(function () {
+            debugger;
+
+            if (this.value == "E") {
+                $("#EmpCode").val(0);
+                $('#Hemp').show();
+                $('#Hdiv').hide();
+                $('#HPrj').hide();
+            }
+            else if (this.value == "D") {
+                $("#DivCode").val(0);
+                $('#Hemp').hide();
+                $('#Hdiv').show();
+                $('#HPrj').hide();
+            } else {
+                $("#PrjCode").val(0);
+                $('#Hemp').hide();
+                $('#Hdiv').hide();
+                $('#HPrj').show();
+            }
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+            $('.selectpicker').selectpicker('refresh');
+
+        });
     });
 
 
@@ -364,23 +449,71 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="row">
+                                                @*style="display:none;"*@
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-4">Type</label>
+                                                        <div class="col-md-8 input-field radiobtn1">
+                                                            <label>
+                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="E" checked="checked">
+                                                                Employee
+                                                            </label>
+                                                            &nbsp;
+                                                            <label>
+                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="D">
+                                                                Division code
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="P">
+                                                                Project code
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 <!--/span-->
+
+                                                <div class="col-md-4" id="Hemp">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Reporting Employee<i style="color:red;">*</i></label>
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4" id="Hdiv">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Division<i style="color:red;">*</i></label>
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(m => m.DivCode, Model.DivCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4" id="HPrj">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Project<i style="color:red;">*</i></label>
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(m => m.PrjCode, Model.PrjCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">Employee<i style="color:red;">*</i></label>
-                                                        <div class="col-md-8">
-                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-
+                                                        <label class="control-label col-md-3">From Date</label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input id="Att_Date" class="form-control datepicker" name="Att_Date">
+                                                            @*@Html.HiddenFor(m => m.Att_Date)*@
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3">Date</label>
+                                                        <label class="control-label col-md-3">To Date</label>
                                                         <div class="col-md-9 input-field">
-                                                            @*@Html.EditorFor(m => m.Att_Date, new { htmlAttributes = new { @class = "date1" } })*@
-                                                            <input id="Att_Date" class="form-control datepicker" name="Att_Date" />
+                                                            <input id="Tdate" class="form-control datepicker" name="Att_Date">
+                                                            @*@Html.HiddenFor(m => m.Att_Date)*@
                                                         </div>
                                                     </div>
                                                 </div>

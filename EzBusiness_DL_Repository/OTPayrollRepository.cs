@@ -43,16 +43,23 @@ namespace EzBusiness_DL_Repository
             dtstr2 = dte.ToString("yyyy-MM-dd");
 
             //
-            if (typ == "E")
-            {
-                ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,EmpCode,EmpName,(select isnull(ReportingEmp,'-') from MEM001 b where b.Cmpycode=a.Cmpycode and  b.EmpCode=a.EmpCode ) as [Reporting Emp],TYEAR,TMONTH,ATT,NHrs,OTHrs,HOTHrs,FOTHrs,ExtraHrs,TotalHrs from PRDTD002  a  where format(a.Att_Date,'yyyy-MM-dd') >='" + dtstr1 + "' and format(a.Att_Date,'yyyy-MM-dd') <='" + dtstr2 + "'  and a.EmpCode in (SELECT EmpCode from MEM001 where  Flag=0 and (WorkingStatus='Y' Or WorkingStatus='W') And (ReportingEmp='" + EmpCode + "' or EmpCode='" + EmpCode + "')  and CmpyCode=a.cmpycode)  and a.cmpycode='" + CmpyCode + "'");
+            //if (typ == "E")
+            //{
+            //    ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,EmpCode,EmpName,(select isnull(ReportingEmp,'-') from MEM001 b where b.Cmpycode=a.Cmpycode and  b.EmpCode=a.EmpCode ) as [Reporting Emp],TYEAR,TMONTH,ATT,NHrs,OTHrs,HOTHrs,FOTHrs,ExtraHrs,TotalHrs from PRDTD002  a  where format(a.Att_Date,'yyyy-MM-dd') >='" + dtstr1 + "' and format(a.Att_Date,'yyyy-MM-dd') <='" + dtstr2 + "'  and a.EmpCode in (SELECT EmpCode from MEM001 where  Flag=0 and (WorkingStatus='Y' Or WorkingStatus='W') And (ReportingEmp='" + EmpCode + "' or EmpCode='" + EmpCode + "')  and CmpyCode=a.cmpycode)  and a.cmpycode='" + CmpyCode + "'");
 
-            }
-            else
-            {
-                ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,EmpCode,EmpName,(select isnull(ReportingEmp,'-') from MEM001 b where b.Cmpycode=a.Cmpycode and  b.EmpCode=a.EmpCode ) as [Reporting Emp],TYEAR,TMONTH,ATT,NHrs,OTHrs,HOTHrs,FOTHrs,ExtraHrs,TotalHrs from PRDTD002  a  where format(a.Att_Date,'yyyy-MM-dd') >='" + dtstr1 + "' and format(a.Att_Date,'yyyy-MM-dd') <='" + dtstr2 + "'  and a.EmpCode in (SELECT EmpCode from MEM001 where  Flag=0 and (WorkingStatus='Y' Or WorkingStatus='W') And DIVISION='" + EmpCode + "' )  and CmpyCode=a.cmpycode)  and a.cmpycode='" + CmpyCode + "'");
-            }
-            
+            //}
+            //else
+            //{
+            //    ds = _EzBusinessHelper.ExecuteDataSet("select Att_Date,EmpCode,EmpName,(select isnull(ReportingEmp,'-') from MEM001 b where b.Cmpycode=a.Cmpycode and  b.EmpCode=a.EmpCode ) as [Reporting Emp],TYEAR,TMONTH,ATT,NHrs,OTHrs,HOTHrs,FOTHrs,ExtraHrs,TotalHrs from PRDTD002  a  where format(a.Att_Date,'yyyy-MM-dd') >='" + dtstr1 + "' and format(a.Att_Date,'yyyy-MM-dd') <='" + dtstr2 + "'  and a.EmpCode in (SELECT EmpCode from MEM001 where  Flag=0 and (WorkingStatus='Y' Or WorkingStatus='W') And DIVISION='" + EmpCode + "' )  and CmpyCode=a.cmpycode)  and a.cmpycode='" + CmpyCode + "'");
+            //}
+            SqlParameter[] param = { new SqlParameter("@mod", typ),
+                                     new SqlParameter("@PassVal",EmpCode),
+                                     new SqlParameter("@Cmpycode", CmpyCode),
+                                     new SqlParameter("@fdate",dtstr1),
+                                     new SqlParameter("@tdate",dtstr2)
+                                    };
+            ds = _EzBusinessHelper.ExecuteDataSet("Sp_OTDropdownFill", CommandType.StoredProcedure, param);
+
             //dt = ds.Tables[0];
 
             //SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
@@ -60,27 +67,31 @@ namespace EzBusiness_DL_Repository
             //new SqlParameter("@EmpCode",EmpCode)};
 
             //ds = _EzBusinessHelper.ExecuteDataSet("retrieve_timesheetDet", CommandType.StoredProcedure, param);
-
-            dt = ds.Tables[0];
-
-            DataRowCollection drc = dt.Rows;
-            List<TimeSheetDetail> ObjList = new List<TimeSheetDetail>();
-            foreach (DataRow dr in drc)
+            List<TimeSheetDetail> ObjList = null;
+            if (ds.Tables.Count != 0)
             {
-                ObjList.Add(new TimeSheetDetail()
-                {
-                    Tmonth = Convert.ToInt16(dr["Tmonth"].ToString()),
-                    ATT = dr["ATT"].ToString(),
-                    Att_Date = Convert.ToDateTime(dr["Att_Date"].ToString()),
-                     NHrs = dr["NHrs"].ToString() != "" ? Convert.ToDecimal(dr["NHrs"].ToString()) : 0,
-                    ExtraHrs = dr["ExtraHrs"].ToString() != "" ? Convert.ToDecimal(dr["ExtraHrs"].ToString()) : 0,
-                    FOTHrs = dr["FOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["FOTHrs"].ToString()) : 0,
-                    HOTHrs = dr["HOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["HOTHrs"].ToString()) : 0,
-                    OTHrs = dr["OTHrs"].ToString() != "" ? Convert.ToDecimal(dr["OTHrs"].ToString()) : 0,
-                    EmpCode=dr["EmpCode"].ToString()
-                });
+                dt = ds.Tables[0];
 
+                DataRowCollection drc = dt.Rows;
+                ObjList = new List<TimeSheetDetail>();
+                foreach (DataRow dr in drc)
+                {
+                    ObjList.Add(new TimeSheetDetail()
+                    {
+                        Tmonth = Convert.ToInt16(dr["Tmonth"].ToString()),
+                        ATT = dr["ATT"].ToString(),
+                        Att_Date = Convert.ToDateTime(dr["Att_Date"].ToString()),
+                        NHrs = dr["NHrs"].ToString() != "" ? Convert.ToDecimal(dr["NHrs"].ToString()) : 0,
+                        ExtraHrs = dr["ExtraHrs"].ToString() != "" ? Convert.ToDecimal(dr["ExtraHrs"].ToString()) : 0,
+                        FOTHrs = dr["FOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["FOTHrs"].ToString()) : 0,
+                        HOTHrs = dr["HOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["HOTHrs"].ToString()) : 0,
+                        OTHrs = dr["OTHrs"].ToString() != "" ? Convert.ToDecimal(dr["OTHrs"].ToString()) : 0,
+                        EmpCode = dr["EmpCode"].ToString()
+                    });
+
+                }
             }
+           
             return ObjList;
         }
 
@@ -201,6 +212,11 @@ namespace EzBusiness_DL_Repository
         public List<Division> GetDivCodeList(string CmpyCode)
         {
             return drop.GetDivCode(CmpyCode);
+        }
+
+        public List<ProjectMaster> GetPrjCodeList(string CmpyCode)
+        {
+            return drop.GetProjects(CmpyCode);
         }
     }
 }

@@ -44,28 +44,52 @@
             $("#tablePODetails > tbody tr").empty();
             $("#tablePODetails > tbody tr").remove();
         });
+        $("#PrjCode").change(function () {
+
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+        });
+        $("#DivCode").change(function () {
+
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+        });
+
         $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
             arr.pop($(this).find("[name*='Datest']").val());
             counter--;
             $(this).closest("tr").remove();
         });
-
+        var err = '';
         $("#btnadd").click(function () {
             debugger;
+            err = '';
             var n = EzAuthenticationBtn("/OTPayroll", "NewIt");      
             if (n == 1 ) {
                 
                 var dt2 = Ezsetdtpkdate($("#Att_Date").val());
                 var dt3 = Ezsetdtpkdate($("#Tdate").val());
-                var typ1 = $("input:radio[id=optionsRadios1]:checked").val();
+                var typ1 = $("input:radio[name=optionsRadios]:checked").val();
                 var e1 = '';
-                if (typ1 == 'true')
+                if (typ1 == 'E')
                 {
+                    err = 'Employee';
                     e1 = $("#EmpCode option:selected").val();
-                    typ1 = 'E';
+                    typ1 = 'Emp';
+                }else if(typ1=='P')
+                {
+                    err = 'Project';
+                    typ1 = 'Prj';
+                    e1 = $("#PrjCode option:selected").val();
+                
                 }
                 else {
-                    typ1 = 'D';
+                    err = 'Division';
+                    typ1 = 'Div';
                     e1 = $("#DivCode option:selected").val();
                 }
                 duplicates = false;
@@ -102,10 +126,10 @@
                                 
                             }
                         });
-                        var k = EzSalrProcCondiont(a, date1);
-                        if (k == 1) {                           
-                            $.get("/GetOTDet", { EmpCode: e1, dte: dt2, dte1: dt3, typ:typ1 }).done(function (response) {
-                           // $.get("/GetTSDList", { EmpCode: e1, date1: dt2 }).done(function (response) {
+                        //  var k = EzSalrProcCondiont(a, date1);
+                        // if (k == 1) {                           
+                        $.get("/GetOTDet", { EmpCode: e1, dte: dt2, dte1: dt3, typ:typ1 }).done(function (response) {
+                            // $.get("/GetTSDList", { EmpCode: e1, date1: dt2 }).done(function (response) {
                             var ary = [];
                             ary = response;
                             if (ary.length == 0) {
@@ -119,11 +143,11 @@
                             }
 
                             for (var i = 0; i < ary.length; i++) {
-                                 var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                                var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-                                 var dy = new Date(EzdatefrmtRes2(ary[i].Att_Date));
+                                var dy = new Date(EzdatefrmtRes2(ary[i].Att_Date));
                                 dy = (weekday[dy.getDay()]);
-                                var Readonly1 = "Readonly = 'true'";
+                                var Readonly1 = "";
                                 var Readonly2 = '';
                                 var Readonly3 = "Readonly = 'true'";
                                 if (ary[i].ATT == 'H' || ary[i].Attendance == 'W') {
@@ -148,7 +172,7 @@
                                 var td2 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='Nhrs" + counter + "'></div></td>";
                                 var td3 = "<td><div class='form-group'><input type='number' " + Readonly2 + " class='form-control' name='Ohrs" + counter + "'></div></td>";
                                 var td4 = "<td><div class='form-group'><input type='number' " + Readonly3 + " class='form-control' name='FOThrs" + counter + "'></div></td>";
-                                var td5 = "<td><div class='form-group'><input type='number' " + Readonly1 + " class='form-control' name='Hhrs" + counter + "'></div></td>";
+                                var td5 = "<td><div class='form-group'><input type='number' " + Readonly3 + " class='form-control' name='Hhrs" + counter + "'></div></td>";
                                 var td6 = "<td><div class='form-group'><input type='number' " + Readonly1 + " class='form-control' name='ExtraHrs" + counter + "'></div></td>";
                                 var td7 = "<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
                                 var td12 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='EmpCode" + counter + "'></div></td>";
@@ -166,11 +190,11 @@
                                 counter++;
                             }
                         });
-                        }
+                    //}  
                     }
                 }
                 else {
-                    EzAlerterrtxt("Select Employee");
+                    EzAlerterrtxt("Select " + err);
                 }
             }
         });
@@ -279,18 +303,34 @@
 
         $('#Hemp').show();
         $('#Hdiv').hide();
+        $('#HPrj').hide();
 
         $('input[type=radio][name=optionsRadios]').change(function () {
             debugger;
-            if (this.value == "true") {
+           
+            if (this.value == "E") {
+                $("#EmpCode").val(0);
                 $('#Hemp').show();
                 $('#Hdiv').hide();
+                $('#HPrj').hide();
             }
-            else
+            else if (this.value == "D")
             {
+                $("#DivCode").val(0);
                 $('#Hemp').hide();
                 $('#Hdiv').show();
+                $('#HPrj').hide();
+            } else {
+                $("#PrjCode").val(0);
+                $('#Hemp').hide();
+                $('#Hdiv').hide();
+                $('#HPrj').show();
             }
+            counter = 1;
+            arr = [];
+            $("#tablePODetails > tbody tr").empty();
+            $("#tablePODetails > tbody tr").remove();
+            $('.selectpicker').selectpicker('refresh');
            
         });
 
@@ -352,19 +392,23 @@
                                     <!-- BEGIN FORM-->
                                     <div class="form-horizontal">
                                         <div class="form-body">
-                                            <div class="row" style="display:none;">
+                                            <div class="row" > @*style="display:none;"*@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">Type</label>
                                                         <div class="col-md-8 input-field radiobtn1">
                                                             <label>
-                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="true" checked="checked">
+                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="E" checked="checked">
                                                                 Employee
                                                             </label>
                                                             &nbsp;
                                                             <label>
-                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="false" >
+                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="D" >
                                                                 Division code
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="P">
+                                                                Project code
                                                             </label>
                                                         </div>
                                                     </div>
@@ -386,6 +430,14 @@
                                                             <label class="control-label col-md-3">Division<i style="color:red;">*</i></label>
                                                             <div class="col-md-8">
                                                                 @Html.DropDownListFor(m => m.DivCode, Model.DivCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4" id="HPrj">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3">Project<i style="color:red;">*</i></label>
+                                                            <div class="col-md-8">
+                                                                @Html.DropDownListFor(m => m.PrjCode, Model.PrjCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                                             </div>
                                                         </div>
                                                     </div>

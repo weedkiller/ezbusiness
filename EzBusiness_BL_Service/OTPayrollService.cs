@@ -97,6 +97,7 @@ namespace EzBusiness_BL_Service
 
                 EmpCodeList = GetEmpCodeList(CmpyCode),
                 DivCodeList = GetDivCodeList(CmpyCode),
+                PrjCodeList=GetPrjCodeList(CmpyCode),
                 EditFlag = false
             };
         }
@@ -121,6 +122,15 @@ namespace EzBusiness_BL_Service
             var itemCodes = _OTPayrollRepository.GetDivCodeList(CmpyCode)
                                       .Select(m => new SelectListItem { Value = m.DivisionCode, Text = string.Concat(m.DivisionCode, " - ", m.DivisionName) })
                                       .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+
+        public List<SelectListItem> GetPrjCodeList(string Cmpycode)
+        {
+            var itemCodes = _OTPayrollRepository.GetPrjCodeList(Cmpycode)
+                                       .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
+                                       .ToList();
 
             return InsertFirstElementDDL(itemCodes);
         }
