@@ -47,7 +47,7 @@
                 </div>
                 <!--logo start-->
                 <a href="#" class="logo"><b>HR & PAYROLL</b></a>
-    <div class="col-md-6">
+    <div class="col-md-8">
         <ul class="breadcrumb">
 
             @*<li><a href="#">( Ez Business</a></li>
@@ -142,6 +142,7 @@
 
             $("#loginuser_img").show();
             var empdata=@Html.Raw(Json.Encode(HttpContext.Current.Session["SesDet"]));
+            debugger;
             $("#empnamedata").text(empdata[0].EmpName);
             $('#loginuser_img').attr("src",empdata[0].PhotoPath);
             $("#sidebar").hide();
@@ -211,11 +212,16 @@
               
                 var url = pathname;
                 var currentItem = $(".treeview").find("[href$='" + url + "']");
-                var path = "";
+                var path1 = "";
+                var i=0;
                 $(currentItem.parents("li").get().reverse()).each(function () {
-                    path += "<li>" + $(this).attr('value') +"</li>";
+                    if(i!=0){
+                        path1 += "<li>" + $(this).attr('value') +"</li>";
+                    }
+                    i=i+1;
+                    
                 });
-                $(".breadcrumb").html(path);
+                $(".breadcrumb").html(path1);
                
         });
     </script>

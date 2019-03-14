@@ -29,6 +29,16 @@ function ezValidateNumbers(tableid, ids) {
 //    })
   
 //}
+
+function EzAlertSave() {
+    Swal.queue([{
+        type: 'success',
+        title: 'Success..',
+        text: 'Save Successfully!',
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+    }])
+}
 function EzHeadTxtvalid(ide, tbl, tblid, errmsg, typH,typ) {
    
     if ($(ide).val() == typH) {
@@ -201,15 +211,7 @@ function EzAlertUpd(code) {
     }])
 }
 
-function EzAlertSave() {
-    Swal.queue([{
-        type: 'success',
-        title: 'Success..',
-        text: 'Save Successfully!',
-        allowOutsideClick: false,
-        showLoaderOnConfirm: true,
-    }])
-}
+
 function EzAuthenticationBtn(Rpath, btnR) {    
     var a = 0;
      $.ajax({
@@ -442,11 +444,27 @@ function EzbtnNewAc() {
     $("#btnSave").prop("disabled", false);
     //$("#POListContainer1").hide();
 }
+function EzbtnNewAcVis() {
+    $("#btnEdit").css("visibility", "hidden");
+    $("#btnDelete").css("visibility", "hidden");
+    $("#hdnOperationMode").val("Add");
+    $("#btnSave").css("visibility", "");
+    $("#btnCancel").css("visibility", "");
+    //$("#POListContainer1").hide();
+}
 //Edit  Button
 function EzbtnEditAc() {
     $("#btnNew").prop("disabled", true);
     $("#hdnOperationMode").val("Edit");
     $("#btnSave").prop("disabled", false);
+    // $("#POListContainer1").show();
+}
+function EzbtnEditAcVis() {
+    $("#btnNew").css("visibility", "hidden");
+    $("#hdnOperationMode").val("Edit");
+    $("#btnSave").css("visibility", "");
+    $("#btnCancel").css("visibility", "");
+      $("#btnDelete").css("visibility", "");
     // $("#POListContainer1").show();
 }
 //Cancel  Button
@@ -459,6 +477,16 @@ function EzbtnCancelAc() {
     $("#ErrorMessage").text('');
     //$("#POListContainer1").hide();
 }
+function EzbtnCancelAcVis() {
+    $("#btnNew").css("visibility", "");
+    $("#btnEdit").css("visibility", "hidden");
+    $("#btnDelete").css("visibility", "hidden");
+    $("#hdnOperationMode").val("");
+    $("#btnSave").css("visibility", "hidden");
+    $("#btnCancel").css("visibility", "hidden");
+    $("#ErrorMessage").text('');
+    //$("#POListContainer1").hide();
+}
 //Save & Modify  Button
 function EzbtnsaveAc(Idsucc) {
     $(Idsucc).html("<div class='row'><div class='col-lg-12 col-sm-12'><div class='alert alert-danger'><strong>Saved Successfully</strong></div></div></div>");
@@ -467,6 +495,17 @@ function EzbtnsaveAc(Idsucc) {
     $("#btnNew").prop("disabled", false);
     $("#btnSave").prop("disabled", true);
     $("#hdnOperationMode").val("");
+}
+//Save & Modify  Button
+function EzbtnsaveAcVis(Idsucc) {    
+    $("#btnNew").css("visibility", "");
+    $("#btnEdit").css("visibility", "hidden");
+    $("#btnDelete").css("visibility", "hidden");
+    $("#hdnOperationMode").val("");
+    $("#btnSave").css("visibility", "hidden");
+    $("#btnCancel").css("visibility", "hidden");
+    $("#hdnOperationMode").val("");
+   
 }
 //error msg
 function Ezerrormsg(idl, msg) {
@@ -657,10 +696,14 @@ function EzTxttabEve(Ide, fIde, errmsg, typ) {
 function Ezsidetbl(ide, idef, lk) {
     $(document).ready(function () {
         // Setup - add a text input to each footer cell
+        debugger;
         $(idef).each(function () {
             var title = $(this).text();
-            $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            $(this).html('<input type="text" placeholder="Search ' + title + '"  />');
+      
         });
+
+      
 
         // DataTable
         var tableInstance = $(ide).DataTable({

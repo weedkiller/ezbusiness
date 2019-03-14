@@ -28,8 +28,8 @@
     }
 
     div.scroll {
-        width: 300px;
-        height: 500px;
+        width: 100%;
+        height: 100%;
         overflow: scroll;
     }
 
@@ -63,8 +63,9 @@
                 jq2.get("EmpBank/AddEmpBankMaster", function (response) {
                     jq2("#POContainer").html(response);
                 });
-                jq2(this).prop("disabled", true);
-                EzbtnNewAc();
+               // jq2(this).prop("disabled", true);
+                jq2(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
                 jq2("#POListContainer1").hide();
             }
         });
@@ -85,7 +86,7 @@
         $("#btnCancel").click(function () {
            
             $("#POContainer").html(lvHtml);
-            EzbtnCancelAc();
+            EzbtnCancelAcVis();
             EzdtePk('#Entry_Date1');
             $("#POListContainer1").hide();
             $("#editshow").hide();
@@ -116,6 +117,8 @@
                             if (data.DeleteFlag) {
                                 GetLeaveList();
                                 $("#btnCancel").trigger("click");
+                                EzbtnsaveAcVis("#POContainer")
+                                $("#POContainer").html(lvHtml);
                             } else {
                                 EzAlertdele(PRBM003_CODE);
                             }
@@ -176,8 +179,11 @@
                 if (validationResult.formValid) {
                     $.post("/SaveEmpBnk", EmpBnk).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            EzbtnsaveAc("#POContainer");
+                           
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
                             GetLeaveList();
+                            $("#POContainer").html(lvHtml);
                         } else {
                             //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -206,8 +212,10 @@
                 if (validationResult.formValid) {
                     $.post("/SaveEmpBnk", EmpBnk).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            EzbtnsaveAc("#POContainer");
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
                             GetLeaveList();
+                            $("#POContainer").html(lvHtml);
                         } else {
                             // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -283,7 +291,7 @@
         });
 
         $(document).on("click", "#POList tbody tr", function () {
-           
+            EzbtnEditAcVis();
             var operationMode = $("#hdnOperationMode").val();
             if (operationMode == "Edit") {
                 $("#POList > tbody").children().removeClass("active");
@@ -291,7 +299,8 @@
                 var PRBM003_CODE = $(this).find("#hdnprbmCode").val();
                 $.get("EditEmpBankMaster", { PRBM003_CODE: PRBM003_CODE }).done(function (response) {
                     $("#POContainer").html(response);
-                    $("#btnDelete").prop("disabled", false);
+                    //  $("#btnDelete").css("disabled", false);
+                    $("#btnDelete").css("visibility", "");
                 });
             }
         });
@@ -308,17 +317,13 @@
             </li>
         </ol>
         <div class="title-action">
-            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
-            <button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>
-
-            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-
-            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
-
-            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
+
+            <button class="btn btn-primary btn1" style="margin-left:48em;" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
 
         </div>
     </div>
@@ -342,93 +347,10 @@
                                     <!-- BEGIN FORM-->
                                     <div class="form-horizontal">
                                         <div class="form-body">
-
-                                            <div class="row">
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Code</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="text" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Employee</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <select class="form-control" name="">
-                                                                <option value="">---Select---</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>                              
+                                            <div class="container scroll" id="POListContainer">
+                                                @Html.Action("GetEmpBankMasterList", "EmpBank")
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Bank</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <select class="form-control" name="">
-                                                                <option value="">---Select---</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Branch</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <select class="form-control" name="">
-                                                                <option value="">---Select---</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Account No</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="text" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">EBAN No.</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="text" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="row">
-                                                
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Remarks</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="text" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Entry Date</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1"  />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
                                             <!--/row-->
                                             <!--/row-->
 
@@ -458,9 +380,9 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="container scroll" id="POListContainer">
+                    @*<div class="container scroll" id="POListContainer">
                         @Html.Action("GetEmpBankMasterList", "EmpBank")
-                    </div>
+                    </div>*@
                 </div>
 
 
