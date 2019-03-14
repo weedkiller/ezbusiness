@@ -453,6 +453,31 @@
 
 </script>
 
+<style>
+    .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .btnup {
+        border: 2px solid gray;
+        color: gray;
+        background-color: white;
+        padding: 1px 5px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .upload-btn-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+    }
+</style>
 
 <!-- Row end -->
 <!-- Row start -->
@@ -469,13 +494,21 @@
                             <div class="form-horizontal">
                                 <div class="form-body">
                                     <div class="col-md-4" style="float:right">
-                                        <div class="form-group" style="float: right;">
+                                        <div class="form-group" style="margin-left:141px;">
                                             <div class="input-field" >
-                                                <img id="user_img"  style="border:1px solid silver;border-radius: 60px;height: 115px;width: 115px;" />
+                                                <img id="user_img"  style="border:1px solid silver;border-radius: 50%;height: 115px;width: 85px;" />
                                                 <div>
                                                     <div class="clearfix" style="height: 10px;"></div>
-                                                    @Html.HiddenFor(model => model.photpath)
-                                                    @Html.TextBoxFor(m => m.sourcephoto, new { type = "file", multiple = "multiple" })
+                                                    @*@Html.HiddenFor(model => model.photpath)
+                                                    @Html.TextBoxFor(m => m.sourcephoto, new { type = "file", multiple = "multiple" })*@
+
+                                                    <div class="upload-btn-wrapper">
+                                                        <button class="btnup">Upload a file</button>
+                                                        @Html.HiddenFor(model => model.photpath)
+                                                        @Html.TextBoxFor(m => m.sourcephoto, new { type = "file", multiple = "multiple" })
+
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -484,7 +517,7 @@
                                     <div class="col-md-8 row" style="float: left; text-align: left;">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-md-5">Employee Code</label>
+                                                <label class="control-label col-md-5">Code</label>
                                                 <div class="col-md-7 input-field">
                                                     @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control"  ,@readonly="readonly"})
                                                     @*<input type="text" class="form-control" id="empcodetxt" name="" required placeholder="" maxlength="50" readonly="readonly">*@
@@ -512,7 +545,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">Employee Name<i style="color:red;">*</i></label>
+                                                <label class="control-label col-md-4">sName<i style="color:red;">*</i></label>
                                                 <div class="col-md-8 input-field">
                                                     @Html.TextBoxFor(m => m.Empname, new { @class = "form-control" })
                                                 </div>
@@ -960,11 +993,11 @@
                                         <table class="table table-bordered table-sm" id="tablePODetails2">
                                             <thead>
                                                 <tr >
-                                                    <th>Doc Code</th>
-                                                    <th>Document Name</th>
-                                                    <th>Document No.</th>
+                                                    <th>Code</th>
+                                                    <th>Name</th>
+                                                    <th>Number</th>
                                                     <th>Issue Place</th>
-                                                    <th>Document Status</th>
+                                                    <th>Status</th>
                                                     <th>Issue Date</th>
                                                     <th>Expiry Date</th>
                                                     <th>Description</th>
@@ -1043,7 +1076,7 @@
                                                         @*<th>Sr No.</th>*@
                                                         <th>Name Of the Nominee</th>
                                                         <th>Address</th>
-                                                        <th>Nominee's Relation With</th>
+                                                        <th>Relation With Nominee's</th>
                                                         <th>Date Of Birth</th>
                                                     </tr>
                                                 </thead>
