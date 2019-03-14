@@ -17,6 +17,7 @@
                 $("#POListContainer").html(response);
             });
         }
+      
         $("#btnNew").click(function () {                      
             var n = EzAuthenticationBtn("/EmployeeMaster", "NewIt");
             if (n == 1)
@@ -30,7 +31,15 @@
                     $("#POListContainer1").hide();
             }
         });
-
+        var n = EzAuthenticationBtn("/EmployeeMaster", "ViewIt");
+        if (n == 1) {
+            $(this).prop("disabled", true);
+            EzbtnEditAc();
+            $("#POListContainer1").show();
+            $("#POContainer").html();
+            GetPurchaseOrderList();
+            $("#editshow").show();
+        }
         $("#btnEdit").click(function () {
             var n = EzAuthenticationBtn("/EmployeeMaster", "ViewIt");
              if (n == 1) {
