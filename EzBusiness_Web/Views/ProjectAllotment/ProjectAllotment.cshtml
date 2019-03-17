@@ -73,13 +73,12 @@
                 }).then((result) => {
                     if (result.value) {
                         var PRPRJE001_code = $("[name*='PRPRJE001_code']").val();
-                            $.getJSON("/DeleteProjectAllotment", { PRPRJE001_code: PRPRJE001_code }).done(function (data) {
-                           
-                            if (data.DeleteFlag) {
-                                GetLeaveList();
-                                EzbtnsaveAcVis("#SMAContainer")
-                                $("#SMAContainer").html(lvHtml);
+                            $.getJSON("/DeleteProjectAllotment", { PRPRJE001_code: PRPRJE001_code }).done(function (data) {                           
+                            if (data.DeleteFlag) {                              
+                                EzbtnsaveAcVis("#POContainer")
+                                $("#POContainer").html(lvHtml);                               
                                 $("#btnCancel").trigger("click");
+                                GetLeaveList();
                             } else {
                                 EzAlertdele(PRSFT003_code);
                             }
@@ -141,14 +140,11 @@
                     k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
                     if(k==1){
                     $.post("/SaveProjectAllotment", PrjAll).done(function (response) {
-                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            //EzbtnsaveAc("#POContainer");
-                            ////Ezerrormsg("#ErrorMessage", response.ErrorMessage);
-                            //GetLeaveList();
-                            EzbtnsaveAcVis("#SMAContainer");
-                            EzAlertSave();
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {                            
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();                           
+                            $("#POContainer").html(lvHtml);
                             GetLeaveList();
-                            $("#SMAContainer").html(lvHtml);
                         } else {
                             //  Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -175,10 +171,10 @@
                     if (k == 1) {
                         $.post("/SaveProjectAllotment", PrjAll).done(function (response) {
                             if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                                EzbtnsaveAcVis("#SMAContainer");
-                                EzAlertSave();
+                                EzbtnsaveAcVis("#POContainer");
+                                EzAlertSave();                               
+                                $("#POContainer").html(lvHtml);
                                 GetLeaveList();
-                                $("#SMAContainer").html(lvHtml);
                             } else {
                                 //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                                 EzAlerterrtxt(response.ErrorMessage);

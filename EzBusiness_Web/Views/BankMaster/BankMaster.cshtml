@@ -90,10 +90,11 @@
                             var PRSR001_CODE = $("[name*='prbm001_code']").val();
                             $.getJSON("/DeleteBnk", { PRBM001_code: PRSR001_CODE }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    GetLeaveList();
+                                   
                                     $("#btnCancel").trigger("click");
                                     EzbtnsaveAcVis("#POContainer")
                                     $("#POContainer").html(lvHtml);
+                                    GetLeaveList();
                             } else {
                                     EzAlertdele(PRSR001_CODE);
                             }
@@ -176,9 +177,9 @@
                             //$("#btnSave").prop("disabled", true);
                             //$("#hdnOperationMode").val("");
                             EzbtnsaveAcVis("#POContainer");
-                            EzAlertSave();
-                            GetLeaveList();
+                            EzAlertSave();                           
                             $("#POContainer").html(lvHtml);
+                            GetLeaveList();
                             //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             
                         } else {
@@ -233,9 +234,9 @@
                             //$("#btnSave").prop("disabled", true);
                             //$("#hdnOperationMode").val("");
                             EzbtnsaveAcVis("#POContainer");
-                            EzAlertSave();
-                            GetLeaveList();
+                            EzAlertSave();                            
                             $("#POContainer").html(lvHtml);
+                            GetLeaveList();
                         } else {
                             // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -263,11 +264,11 @@
                 }
             } else if (Bnk.EditFlag ) {
                 if (Bnk.prbm001_code=="") {
-                    response.ErrorMessage += "** Bank Branch CODE is Mondatory Fields.";
+                    response.ErrorMessage += "** Bank CODE is Mondatory Fields.";
                 }
             }
             if (Bnk.country=="0") {
-                response.ErrorMessage += "**Country  is mandatory Fields.";
+                response.ErrorMessage += "**Country  is Mandatory Fields.";
             }
             if (Bnk.Branch.length == 0)
                 response.ErrorMessage +="Please Add Bank Branch/Branches"

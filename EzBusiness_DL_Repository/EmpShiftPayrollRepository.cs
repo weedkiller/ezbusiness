@@ -143,6 +143,7 @@ namespace EzBusiness_DL_Repository
                     ShiftName = dr["ShiftName"].ToString(),
                     division = dr["division"].ToString(),
                     StTime = dr["StTime"].ToString(),
+                    
 
                 });
 

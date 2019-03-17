@@ -31,8 +31,8 @@
                 $.get("/MonthlyAddded/AddMonthlyAddded", function (response) {
                     $("#POContainer").html(response);
                 });
-                $(this).prop("disabled", true);
-                EzbtnNewAc();
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
                 $("#POListContainer1").hide();
                 $("#editshow").hide();
             }
@@ -43,8 +43,8 @@
         $("#btnEdit").click(function () {
             var n = EzAuthenticationBtn("/MonthlyAddded", "ViewIt");
             if (n == 1) {
-                $(this).prop("disabled", true);
-                EzbtnEditAc();
+                $(this).css("visibility", "hidden");
+                EzbtnEditAcVis();
                 $("#POListContainer1").show();
                 GetLeaveList();
                 $("#editshow").show();
@@ -53,7 +53,7 @@
 
         $("#btnCancel").click(function () {
             $("#POContainer").html(lvHtml);           
-            EzbtnCancelAc();
+            EzbtnCancelAcVis();
             $("#POListContainer1").hide();
             EzdtePk('#Entry_Date1');
             EzGetMonthName1("#mont", new Date());
@@ -98,11 +98,11 @@
                     if (result.value) {
                         var PRADN001_CODE = $("[name*='PRADN001_CODE']").val();
                             $.getJSON("/DeleteMonthly", { PRADN001_CODE: PRADN001_CODE }).done(function (data) {
-                                if (data.DeleteFlag) {
-                                   
-                                    GetLeaveList();
-
+                                if (data.DeleteFlag) {                                   
+                                    EzbtnsaveAcVis("#POContainer");                                    
+                                    $("#POContainer").html(lvHtml);                                  
                                     $("#btnCancel").trigger("click");
+                                    GetLeaveList();
                                   //  Ezerrormsg("#ErrorMessage", "Record Deleted");
 
                                 } else {
@@ -217,8 +217,9 @@
                     if (k == 1 && SA==1) {
                         $.post("/SaveMonthly", Monthly).done(function (response) {
                             if (response.SaveFlag && !response.ErrorMessage.length > 0 ) {
-                                EzbtnsaveAc("#POContainer");
-                                //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzbtnsaveAcVis("#POContainer");
+                                EzAlertSave();
+                                $("#POContainer").html(lvHtml);
                                 GetLeaveList();
                             } else {
                                 //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
@@ -288,8 +289,9 @@
                     if (k == 1 && SA == 1) {
                         $.post("/SaveMonthly", Monthly).done(function (response) {
                             if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                                EzbtnsaveAc("#POContainer");
-                                //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzbtnsaveAcVis("#POContainer");
+                                EzAlertSave();
+                                $("#POContainer").html(lvHtml);
                                 GetLeaveList();
                             } else {
                                 //  Ezerrormsg("#ErrorMessage", response.ErrorMessage);
@@ -353,7 +355,7 @@
         });
 
         $(document).on("click", "#POList tbody tr", function () {
-            EzbtnEditAc();
+            EzbtnEditAcVis();
             var operationMode = $("#hdnOperationMode").val();
             if (operationMode == "Edit") {
                 $("#POList > tbody").children().removeClass("active");
@@ -412,17 +414,13 @@
             </li>
         </ol>
         <div class="title-action">
-            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
-            @*<button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>*@
-
-            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-
-            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
-
-            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
+
+            <button class="btn btn-primary btn1" style="margin-left:48em;" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
 
         </div>
     </div>

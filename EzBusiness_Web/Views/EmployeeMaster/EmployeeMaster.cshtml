@@ -40,13 +40,16 @@
                  $("#POListContainer1").show();
                  $("#POContainer").html();
                  GetPurchaseOrderList();
+                 
                  $("#editshow").show();
              }
         });
 
         $("#btnCancel").click(function (){
             $("#editshow").hide();
-            $("#POContainer").html(poHtml);
+             $("#POContainer").html(poHtml);
+             GetPurchaseOrderList();
+             $('input[type=search]').addClass('form-control input-sm');             
             EzbtnCancelAcVis();
             EzdtePk('#JoiningDate1,#DOB1,#LastRetDate1,#ContactDate,#AbscondingDate');
             EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
@@ -82,11 +85,11 @@
                         if (result.value) {
                             var EmpCode = $("[name*='EmpCode']").val();
                                 $.getJSON("/DeleteEmployeeMaster", { EmpCode: EmpCode }).done(function (data) {
-                                    if (data.DeleteFlag) {
-                                        GetPurchaseOrderList();
+                                    if (data.DeleteFlag) {                                      
                                         $("#btnCancel").trigger("click");
                                         EzbtnsaveAcVis("#POContainer")
                                         $("#POContainer").html(poHtml);
+                                        GetPurchaseOrderList();
                                     } else {
                                         EzAlertdele(EmpCode);
                                     }
@@ -273,14 +276,12 @@
 
                 var validationResult = ValidateForm(employeemaster);
                 if (validationResult.formValid) {
-                    $.post("/SaveEmployeeMaster", employeemaster).done(function (response) {
-                       
-                            if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {
-                             
+                    $.post("/SaveEmployeeMaster", employeemaster).done(function (response) {                       
+                            if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {                             
                                 EzbtnsaveAcVis("#POContainer");
                                 EzAlertSave();
-                                GetPurchaseOrderList();
                                 $("#POContainer").html(poHtml);
+                                GetPurchaseOrderList();
                             } else {
                                 //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                                 EzAlerterrtxt(response.ErrorMessage);
@@ -440,11 +441,11 @@
                     var validationResult = ValidateForm(employeemaster);
                     if (validationResult.formValid) {
                         $.post("/SaveEmployeeMaster", employeemaster).done(function (response) {
-                            if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {
+                            if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {                               
                                 EzbtnsaveAcVis("#POContainer");
                                 EzAlertSave();
-                                GetPurchaseOrderList();
                                 $("#POContainer").html(poHtml);
+                                GetPurchaseOrderList();
                                // $("#ErrorMessage").html("<div class='row'><div class='col-lg-12 col-sm-12'><div class='alert alert-danger'><strong>Saved Successfully</strong></div></div></div>");
 
                                 
@@ -615,6 +616,8 @@
   top: 0;
   opacity: 0;
 }
+
+   
 </style>
 
 
@@ -667,14 +670,11 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
-                                        <div class="custom-form-wrapper">
-                                            <div id="POContainer">
+                                    
+                                        <div class="custom-form-wrapper">                                         
                                                 <div class="scroll" id="POListContainer">
                                                     @Html.Action("GetEmployeeMasterList", "EmployeeMaster")
-                                                </div>
-                                            </div>
-                                        </div>
+                                                </div>                                                                                  
                                     </div>
                                 </div>
                             </div>

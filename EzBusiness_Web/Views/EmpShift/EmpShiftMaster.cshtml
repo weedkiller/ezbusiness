@@ -79,11 +79,11 @@
                             var PRSFT003_code = $("[name*='PRSFT003_code']").val();
                             $.getJSON("/DeleteEmpShift", { PRSFT003_code: PRSFT003_code }).done(function (data) {
                            
-                            if (data.DeleteFlag) {                                
-                                GetLeaveList();
+                            if (data.DeleteFlag) {                                                              
                                 $("#btnCancel").trigger("click");
                                 EzbtnsaveAcVis("#POContainer")
                                 $("#POContainer").html(lvHtml);
+                                GetLeaveList();
                             } else {
                                 EzAlertdele(PRSFT003_code);
                             }
@@ -138,13 +138,10 @@
                 if (validationResult.formValid){
                     $.post("/SaveEmpShift", Sft).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-
                             EzbtnsaveAcVis("#POContainer");
-                            EzAlertSave();
-                            GetLeaveList();
+                            EzAlertSave();                           
                             $("#POContainer").html(lvHtml);
-
-                            
+                            GetLeaveList();                            
                         } else {                         
                             // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -169,9 +166,9 @@
                     $.post("/SaveEmpShift", Sft).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                          
                             EzbtnsaveAcVis("#POContainer");
-                            EzAlertSave();
-                            GetLeaveList();
+                            EzAlertSave();                           
                             $("#POContainer").html(lvHtml);
+                            GetLeaveList();
                         } else {                            
                             // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -305,17 +302,13 @@
             </li>
         </ol>
         <div class="title-action">
-            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
-
             <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
             <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
 
-            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
-
-
+            <button class="btn btn-primary btn1" style="margin-left:48em;" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
         </div>
     </div>
 

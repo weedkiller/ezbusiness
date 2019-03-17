@@ -29,8 +29,8 @@
                 $.get("LeaveSettlement/AddLeaveSettal", function (response) {
                     $("#LVContainer").html(response);
                 });
-                EzbtnNewAc();
-                $(this).prop("disabled", true);
+                EzbtnNewAcVis();
+                $(this).css("visibility", "hidden");
                 $("#LVListContainer1").hide();
             }
         });
@@ -41,8 +41,8 @@
             var n = EzAuthenticationBtn("/LeaveSettlement", "ViewIt");
             if (n == 1) {
                 Ezsetzerotxt();
-                $(this).prop("disabled", true);
-                EzbtnEditAc();
+                $(this).css("visibility", "hidden");
+                EzbtnEditAcVis();
                 $("#LVListContainer1").show();
                 GetLeaveList();
                 $("#editshow").show();
@@ -51,7 +51,7 @@
 
         $("#btnCancel").click(function () {
             $("#LVContainer").html(lvHtml);
-            EzbtnCancelAc();
+            EzbtnCancelAcVis();
             $("#LVListContainer1").hide();
             Ezsetzerotxt();
             //  EzsetDatetxt();
@@ -86,8 +86,9 @@
                         var PRLS001_CODE = $("[name*='PRLS001_CODE']").val();
                             $.getJSON("/DeleteLeaveSettal", { PRSR001_CODE: PRLS001_CODE }).done(function (data) {
                                 if (data.DeleteFlag) {
+                                    EzbtnsaveAcVis("#LVContainer");                                  
+                                    $("#LVContainer").html(lvHtml);
                                     GetLeaveList();
-                                    $("#btnCancel").trigger("click");
                                 } else {
                                     EzAlertdele(PRLS001_CODE);
                                 }
@@ -169,7 +170,9 @@
                     if(k==1){
                     $.post("/SaveLeaveSettal", LeaveSett).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                            
-                            EzbtnsaveAc("#LVContainer");
+                            EzbtnsaveAcVis("#LVContainer");
+                            EzAlertSave();
+                            $("#LVContainer").html(lvHtml);
                             GetLeaveList();
                         } else {
                             //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
@@ -221,8 +224,9 @@
                     if (k == 1) {
                         $.post("/SaveLeaveSettal", LeaveSett).done(function (response) {
                             if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                                EzbtnsaveAc("#LVContainer");
-                                //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzbtnsaveAcVis("#LVContainer");
+                                EzAlertSave();
+                                $("#LVContainer").html(lvHtml);
                                 GetLeaveList();
                             } else {
                                 //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
@@ -277,7 +281,7 @@
         });
 
         $(document).on("click", "#LVList tbody tr", function () {
-            EzbtnEditAc();
+            EzbtnEditAcVis();
             var operationMode = $("#hdnOperationMode").val();
             if (operationMode == "Edit") {
                 $("#LVList > tbody").children().removeClass("active");
@@ -336,17 +340,14 @@
             </li>
         </ol>
         <div class="title-action">
-            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
-            @*<button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>*@
-
-            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-
-            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
-
-            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
+
+            <button class="btn btn-primary btn1" style="margin-left:48em;" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
 
         </div>
     </div>

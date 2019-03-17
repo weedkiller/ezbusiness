@@ -114,11 +114,11 @@
                             var PRBM003_CODE = $("[name*='PRBM003_CODE']").val();
                             jq2.getJSON("/DeleteEmpBnk", { PRBM003_CODE: PRBM003_CODE }).done(function (data) {
                            
-                            if (data.DeleteFlag) {
-                                GetLeaveList();
+                            if (data.DeleteFlag) {                               
                                 $("#btnCancel").trigger("click");
                                 EzbtnsaveAcVis("#POContainer")
                                 $("#POContainer").html(lvHtml);
+                                GetLeaveList();
                             } else {
                                 EzAlertdele(PRBM003_CODE);
                             }
@@ -178,12 +178,11 @@
                 var validationResult = ValidateForm(EmpBnk);
                 if (validationResult.formValid) {
                     $.post("/SaveEmpBnk", EmpBnk).done(function (response) {
-                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                           
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {                           
                             EzbtnsaveAcVis("#POContainer");
-                            EzAlertSave();
-                            GetLeaveList();
+                            EzAlertSave();                            
                             $("#POContainer").html(lvHtml);
+                            GetLeaveList();
                         } else {
                             //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -213,9 +212,9 @@
                     $.post("/SaveEmpBnk", EmpBnk).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
                             EzbtnsaveAcVis("#POContainer");
-                            EzAlertSave();
-                            GetLeaveList();
+                            EzAlertSave();                           
                             $("#POContainer").html(lvHtml);
+                            GetLeaveList();
                         } else {
                             // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);

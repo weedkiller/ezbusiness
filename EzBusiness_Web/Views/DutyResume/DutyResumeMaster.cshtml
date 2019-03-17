@@ -28,8 +28,8 @@
                 $.get("DutyResume/AddDutyResume", function (response) {
                     $("#DRContainer").html(response);
                 });
-                $(this).prop("disabled", true);
-                EzbtnNewAc();
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
                 $("#btnEdit").prop("disabled", true);
                 $("#DRListContainer1").hide();
             }
@@ -40,9 +40,9 @@
         $("#btnEdit").click(function () {
             var n = EzAuthenticationBtn("/DutyResume", "ViewIt");
             if (n == 1) {
-                $(this).prop("disabled", true);
+                $(this).css("visibility", "hidden");
                 Ezsetzerotxt();
-                EzbtnEditAc();
+                EzbtnEditAcVis();
                 $("#DRListContainer1").show();
                 GetDrs();
                 $("#editshow").show();
@@ -51,7 +51,7 @@
 
         $("#btnCancel").click(function () {
             $("#DRContainer").html(drHtml);
-            EzbtnCancelAc();
+            EzbtnCancelAcVis();
             $("#DRListContainer1").hide();
             Ezsetzerotxt();
             //EzsetDatetxt();     
@@ -94,6 +94,8 @@
                             var EmpCode = $("[name*='EmpCode']").val();
                             $.getJSON("/DeleteDrs", { Cmpycode: Cmpycode, PRDR001_CODE: PRDR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
                                 if (data.DeleteFlag) {
+                                    EzbtnsaveAcVis("#DRContainer");                                 
+                                    $("#DRContainer").html(drHtml);
                                     GetDrs();
                                 $("#btnCancel").trigger("click");
                             } else {
@@ -175,8 +177,9 @@
                     if(k == 1){
                     $.post("/SaveDrs", dutyResume).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                           
-                            EzbtnsaveAc("#DRContainer");
-                           // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                            EzbtnsaveAcVis("#DRContainer");
+                            EzAlertSave();
+                            $("#DRContainer").html(drHtml);
                             GetDrs();
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
@@ -220,9 +223,12 @@
                         if (k == 1) {
                             $.post("/SaveDrs", dutyResume).done(function (response) {
                                 if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                                    EzbtnsaveAc("#DRContainer");
-                                    //  Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+
+                                    EzbtnsaveAcVis("#DRContainer");
+                                    EzAlertSave();
+                                    $("#DRContainer").html(drHtml);
                                     GetDrs();
+                                    
                                 } else {
                                     //  Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                                     EzAlerterrtxt(response.ErrorMessage);
@@ -285,7 +291,7 @@
 
                 $(document).on("click", "#DRList tbody tr", function ()
                 {
-                    EzbtnEditAc();
+                    EzbtnEditAcVis();
                     var operationMode = $("#hdnOperationMode").val();
                     if (operationMode == "Edit")
                     {
@@ -351,17 +357,14 @@
             </li>
         </ol>
         <div class="title-action">
-            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
-            @*<button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>*@
-
-            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-
-            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
-
-            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
+
+            <button class="btn btn-primary btn1" style="margin-left:48em;" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
 
         </div>
     </div>
