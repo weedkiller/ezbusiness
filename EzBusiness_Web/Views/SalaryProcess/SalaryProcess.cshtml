@@ -7,13 +7,14 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
-
+     
         EzAuthentication("/SalaryProcess");
-
+      //  var lvHtml = $("#POContainer").html();
         EzdtePkMMyy('#DateINMonth');
 
         var smaHtml = $("#SMAContainer").html();
         $("#SMAListContainer1").hide();
+        
         function GetSlry() {
             $.get("/SalaryProcess/GetSalaryDetails", function (response) {
                 $("#SMAListContainer").html(response);
@@ -27,8 +28,8 @@
                     $("#SMAContainer").html(response);
                 });
 
-                $(this).prop("disabled", true);
-                EzbtnNewAc();
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
                 $("#SMAListContainer1").hide();
                 $("#editshow").hide();
             }
@@ -54,11 +55,12 @@
 
         $("#btnCancel").click(function () {
             $("#SMAContainer").html(smaHtml);
-            $("#btnNew").prop("disabled", false);
-            $("#btnEdit").prop("disabled", false);
-            $("#btnDelete").prop("disabled", true);
-            $("#hdnOperationMode").val("");
-            $("#btnSave").prop("disabled", true);
+            EzbtnCancelAcVis();
+            //$("#btnNew").prop("disabled", false);
+            //$("#btnEdit").prop("disabled", false);
+            //$("#btnDelete").prop("disabled", true);
+            //$("#hdnOperationMode").val("");
+            //$("#btnSave").prop("disabled", true);
             $("#SMAListContainer1").hide();
             $("#editshow").hide();
         });
@@ -96,9 +98,16 @@
                                     contentType: "Application/json",
                                     success: function (data) {                                     
                                         if (data=true) {
-                                            debugger;
-                                            RefreshDatatable();
-                                            $("#btnCancel").trigger("click");
+                                            //debugger;
+                                            //RefreshDatatable();
+                                            //$("#btnCancel").trigg  
+                                            //var smaHtml = $("#SMAContainer").html();
+                                            GetSlry();
+                                            EzbtnsaveAcVis("#SMAContainer");
+                                            $("#SMAContainer").html(smaHtml);
+                                           //  $("#btnCancel").trigger("click");
+                                                
+                                                //  Ezerrormsg("#ErrorMessage", "Record Deleted");
                                         } else {
                                             EzAlertdele(Code);
                                         }
@@ -256,10 +265,14 @@
                     $.post("/SaveSalaryProcess", salarym).done(function (response) {
                        
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                          
-                            EzbtnsaveAc("#SMAContainer");
-                           // ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             GetSry();
+                            EzbtnsaveAcVis("#SMAContainer");
+                            $("#SMAContainer").html(lvHtml);
+                          //  $("#btnCancel").trigger("click");
+                          
+                           // EzbtnsaveAc("#SMAContainer");
+                           //// ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                           // GetSry();
                         } else {
                             //Ezerrormsg("#ErrorMessage",response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -277,10 +290,10 @@
                     // Code for Adding Purchase order
                 //
                 var i = 0;
-                $("#btnDelete").prop("disabled", true);
-                $("#btnSave").prop("disabled", true);
+                $("#btnDelete").css("visibility", "");
+                $("#btnSave").css("visibility", "");
                 EzAlerterrtxt("Can't Edit Data");
-                if (i = 1) {
+                if (i == 1) {
                     var salarym = {
                         EditFlag: true,
                         //PRSM001UID :$("[name*='PRSM001UID']").val(),
@@ -470,7 +483,7 @@
          $(document).on("click", "#SalaryList tbody tr", function ()
                 {
              debugger;
-             EzbtnEditAc();
+             EzbtnEditAcVis();
                     var operationMode = $("#hdnOperationMode").val();
                     if (operationMode == "Edit")
                     {
@@ -482,7 +495,9 @@
                         {
                             debugger;
                             $("#SMAContainer").html(response);
-                            $("#btnDelete").prop("disabled", false);
+                            $("#btnDelete").css("visibility","");;
+                            $("#btncalculate").css("visibility", "hidden");
+                          //  $("#btnSave").css("visibility", "hidden");
                          
                         });
                     }
@@ -525,23 +540,16 @@
 
 <div class="row">
     <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 15px">
-        <ol class="breadcrumb">
-            <li class="active strong1">
-                <strong>Salary Process</strong>
-            </li>
-        </ol>
+      
         <div class="title-action">
-            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
-            <button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>
-
-            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-
-            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
-
-            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
+
+            <button class="btn btn-primary btn1" style="margin-left:48em;" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
 
         </div>
     </div>

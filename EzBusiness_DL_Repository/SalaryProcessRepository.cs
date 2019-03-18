@@ -559,7 +559,7 @@ namespace EzBusiness_DL_Repository
         {
             string dtesly = CurrDate.ToString("MM");
             string dtesly1 = CurrDate.ToString("yyyy");
-            int slrydata = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRSPD001 where CmpyCode='" + CmpyCode + "' and Flag=0 and month(Dates)='" + dtesly + "' and year(Dates)='"+dtesly1+"'");
+            int slrydata = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRSP001 where CmpyCode='" + CmpyCode + "' and Flag=0 and Tmonth='" + dtesly + "' and Tyear='"+dtesly1+"'");
             if (slrydata > 0)
             {
                 return true;
