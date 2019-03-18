@@ -15,7 +15,7 @@ namespace EzBusiness_DL_Interface
         SalaryProcessDetailsVM GetSalaryProcessEdit(string CmpyCode, string PRSPD001_code);
 
         List<SalaryProcessDetailsListItem> GetTimeSheetDetailsByMonth(string CmpyCode, DateTime currDate);
-        List<SalaryProcessDetailsListItem> GetSalaryProcessGridEdit(string CmpyCode, string PRSPD001_code);
+        List<SalaryProcessDetailsListItem> GetSalaryProcessGridEdit(int year, int month, string CmpyCode);
         bool DeleteSalaryProcess(string CmpyCode, string Code, DateTime CurrDate, string UserName);
         string GetSalaryProcessId(string CmpyCode);
         bool CheckslryDataCalculated(string CmpyCode, DateTime CurrDate);

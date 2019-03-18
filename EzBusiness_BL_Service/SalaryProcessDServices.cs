@@ -32,8 +32,14 @@ namespace EzBusiness_BL_Service
             var poEmployeeList = _salaryrepo.GetSalaryDetailsList(CmpyCode);
             return poEmployeeList.Select(m => new SalaryProcessDetailsVM
             {
-               Code=m.Code,
-               CurrentDate=m.CurrentDate,
+               PRSP001_Code=m.PRSP001_Code,
+               Process_Date=m.Process_Date,
+              Country=m.Country,
+              Division=m.Division,
+              Deptcode=m.Deptcode,
+              year=m.year,
+              Month=m.Month,
+              VisaLocation=m.VisaLocation
 
             }).ToList();
         }
@@ -55,7 +61,7 @@ namespace EzBusiness_BL_Service
         public SalaryProcessDetailsVM GetSalaryProcessEdit(string CmpyCode, string PRSFT001_code)
         {
             var poedit = _salaryrepo.GetSalaryProcessEdit(CmpyCode, PRSFT001_code);
-           // poedit.salaryList = GetSalaryProcessGridEdit(CmpyCode, PRSFT001_code);
+            poedit.salaryList = GetSalaryProcessGridEdit(poedit.year,poedit.Month,poedit.CmpyCode);
             return poedit;
         }
       
@@ -73,27 +79,64 @@ namespace EzBusiness_BL_Service
             return _salaryrepo.GetSalaryProcessId(CmpyCode);
         }
 
-        public List<SalaryProcessDetailsListItem> GetSalaryProcessGridEdit(string CmpyCode, string PRSPD001_code)
+        public List<SalaryProcessDetailsListItem> GetSalaryProcessGridEdit(int year,int month,string CmpyCode)
         {
-            //var poEmployeeList = _salaryrepo.GetSalaryProcessGridEdit(CmpyCode, PRSPD001_code);
-            //return poEmployeeList.Select(m => new SalaryProcessDetailsListItem
-            //{
-            //   // Sno=m.Sno    ,
-            //    Code = m.Code,
-            //    EmpCode=m.EmpCode,
-            //    EmpName=m.EmpName,
-            //    WorkingDay=m.WorkingDay,
-            //    Present=m.Present,
-            //    Leaves=m.Leaves,
-            //    Absent=m.Absent,
-            //    SickLeaves=m.SickLeaves,
-            //    WeeklyOff=m.WeeklyOff,
-            //    Holiday=m.Holiday,
-            //    NormalOTHrs=m.NormalOTHrs,
-            //    TotalDeduction=m.TotalDeduction,
-            //    MonthlyAddition=m.MonthlyAddition,              
-            //}).ToList();
-            return _salaryrepo.GetSalaryProcessGridEdit(CmpyCode, PRSPD001_code);
+            var poEmployeeList = _salaryrepo.GetSalaryProcessGridEdit(year,month,CmpyCode);
+            return poEmployeeList.Select(m => new SalaryProcessDetailsListItem
+            {
+                // Sno=m.Sno    ,
+                cmpycode = m.cmpycode,
+                country = m.country,
+                Division = m.Division,
+                Tyear = m.Tyear,
+                Tmonth = m.Tmonth,
+                Empcode = m.Empcode,
+                Empname = m.Empname,
+                ProfCode = m.ProfCode,
+                DepCode = m.DepCode,
+                ComnPrjcode = m.ComnPrjcode,
+                VisaLocation = m.VisaLocation,
+                WorkLocation = m.WorkLocation,
+                Total_Days = m.Total_Days,
+                Worked_Days = m.Worked_Days,
+                a_basic = m.a_basic,
+                a_hra = m.a_hra,
+                a_Da = m.a_Da,
+                a_tele = m.a_tele,
+                a_trans = m.a_trans,
+                a_car = m.a_car,
+                a_allowance1 = m.a_allowance1,
+                a_allowance2 = m.a_allowance2,
+                a_allowance3 = m.a_allowance3,
+                a_Totalsalary = m.a_Totalsalary,
+                C_basic = m.C_basic,
+                C_hra = m.C_hra,
+                C_da = m.C_da,
+                C_tele = m.C_tele,
+                C_trans = m.C_trans,
+                C_car = m.C_car,
+                C_allowance1 = m.C_allowance1,
+                C_allowance2 = m.C_allowance2,
+                C_allowance3 = m.C_allowance3,
+                C_totalSalary = m.C_totalSalary,
+                loan_amt = m.loan_amt,
+                adn_amount = m.adn_amount,
+                nothrs = m.nothrs,
+                extraOThrs = m.extraOThrs,
+                hothrs = m.hothrs,
+                wothrs = m.wothrs,
+                not_rate_perhr = m.not_rate_perhr,
+                ExtraOT_rate_perhr = m.ExtraOT_rate_perhr,
+                hot_rate_perhr = m.hot_rate_perhr,
+                wot_rate_perhr = m.wot_rate_perhr,
+                ExtraOTAmt = m.ExtraOTAmt,
+                NOTAmt = m.NOTAmt,
+                HOTAmt = m.HOTAmt,
+                WOTAmt = m.WOTAmt,
+                NetSalary = m.NetSalary,
+
+            }).ToList();
+            return _salaryrepo.GetSalaryProcessGridEdit(year, month, CmpyCode);
 
         }
 

@@ -109,7 +109,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<SalaryProcessDetailsListItem> data = _SalService.GetSalaryProcessGrid(list[0].CmpyCode, slryVM.CurrentDate);
+                    List<SalaryProcessDetailsListItem> data = _SalService.GetSalaryProcessGrid(list[0].CmpyCode, slryVM.Process_Date);
                     // Total record count.
                     int totalRecords = 0;
                     if (data != null)
@@ -123,13 +123,27 @@ namespace EzBusiness_Web.Controllers
                         !string.IsNullOrWhiteSpace(search))
                     {
                         // Apply search
-                        data = data.Where(p => p.EmpCode.ToString().ToLower().Contains(search.ToLower()) ||
-                                               p.EmpName.ToLower().Contains(search.ToLower()) ||
-                                               p.WorkingDay.ToString().ToLower().Contains(search.ToLower()) ||
-                                               p.Present.ToString().ToLower().Contains(search.ToLower()) ||
-                                               p.Absent.ToString().ToLower().Contains(search.ToLower()) ||
-                                               p.TotalEarning.ToString().ToLower().Contains(search.ToLower()) ||
-                                               p.NetSalary.ToString().ToLower().Contains(search.ToLower())).ToList();
+                        data = data.Where(p => p.srno.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.Empcode.ToLower().Contains(search.ToLower()) ||
+                                               p.Empname.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.country.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.Tmonth.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.Tyear.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.cmpycode.ToString().ToLower().Contains(search.ToLower())).ToList();
+                                               //p.ProfCode.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.DepCode.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.ComnPrjcode.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.Division.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.VisaLocation.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.WorkLocation.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.Total_Days.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.Worked_Days.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.VisaLocation.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.loan_amt.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.adn_amount.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.nothrs.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.extraOThrs.ToString().ToLower().Contains(search.ToLower()) ||
+                                               //p.hothrs.ToString().ToLower().Contains(search.ToLower())).ToList();
                     }
 
                     // Sorting.
@@ -159,8 +173,8 @@ namespace EzBusiness_Web.Controllers
             }
 
             // Return info.
-            return result;
-        }
+           return result;
+          }
         [HttpPost]
         [Route("SaveSalaryProcess")]
         public ActionResult SaveSalaryProcess(SalaryProcessDetailsVM salarym)
@@ -214,8 +228,11 @@ namespace EzBusiness_Web.Controllers
                 return PartialView(_SalService.GetSalaryProcessEdit(list[0].CmpyCode, salP_code));
             }
         }
-        public ActionResult GetSalaryProcessGridEdit(string salP_code)
+        public ActionResult GetSalaryProcessGridEdit(string SPDate)
         {
+            DateTime processDate = Convert.ToDateTime(SPDate.ToString());
+            string year = processDate.ToString("yyyy");
+            string month = processDate.ToString("MM");
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
 
             if (list == null)
@@ -224,7 +241,7 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_SalService.GetSalaryProcessGridEdit(list[0].CmpyCode, salP_code), JsonRequestBehavior.AllowGet);
+                return Json(_SalService.GetSalaryProcessGridEdit(Convert.ToInt32(year.ToString()), Convert.ToInt32(month.ToString()), list[0].CmpyCode), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -253,45 +270,45 @@ namespace EzBusiness_Web.Controllers
                 {
                     case "0":
                         // Setting.
-                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EmpCode).ToList()
-                                                                                                 : data.OrderBy(p => p.EmpCode).ToList();
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.srno).ToList()
+                                                                                                 : data.OrderBy(p => p.srno).ToList();
                         break;
 
                     case "1":
                         // Setting.
-                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EmpName).ToList()
-                                                                                                 : data.OrderBy(p => p.EmpName).ToList();
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Empcode).ToList()
+                                                                                                 : data.OrderBy(p => p.Empcode).ToList();
                         break;
 
                     case "2":
                         // Setting.
-                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.WorkingDay).ToList()
-                                                                                                 : data.OrderBy(p => p.WorkingDay).ToList();
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Empname).ToList()
+                                                                                                 : data.OrderBy(p => p.Empname).ToList();
                         break;
 
                     case "3":
                         // Setting.
-                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Present).ToList()
-                                                                                                 : data.OrderBy(p => p.Present).ToList();
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.country).ToList()
+                                                                                                 : data.OrderBy(p => p.country).ToList();
                         break;
 
                     case "4":
                         // Setting.
-                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Absent).ToList()
-                                                                                                   : data.OrderBy(p => p.Absent).ToList();
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Tmonth).ToList()
+                                                                                                   : data.OrderBy(p => p.Tmonth).ToList();
                         break;
 
                     case "5":
                         // Setting.
-                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.TotalEarning).ToList()
-                                                                                                   : data.OrderBy(p => p.TotalEarning).ToList();
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Tyear).ToList()
+                                                                                                   : data.OrderBy(p => p.Tyear).ToList();
                         break;
 
 
                     default:
                         // Setting.
-                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.NetSalary).ToList()
-                                                                                                 : data.OrderBy(p => p.NetSalary).ToList();
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.cmpycode).ToList()
+                                                                                                 : data.OrderBy(p => p.cmpycode).ToList();
                         break;
 
                 }

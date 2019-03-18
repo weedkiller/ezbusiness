@@ -7,30 +7,35 @@
 <script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Scripts/moment.min.js"></script>
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
-<script src="~/Scripts/EzComNDW.js"></script>
+
 <script src="~/Content/assets/js/jquery.dataTables.min.js"></script>
 <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+@*<script src="~/Scripts/EzComNDW.js"></script>*@
 <script>
 
-    EzdtePkMMyyEdit('#DateINMonth', "#CurrentDate");
-
+    EzdtePkMMyyEdit('#DateINMonth', "#Process_Date");
+    debugger;
     var jq = $.noConflict(true);
     $(function () {
-        var Code = $(this).find("#hdnprbmCode").val();
-
-        $.get("/SalaryProcess/GetSalaryProcessGridEdit", { salP_code: Code }).done(function (responce) {
-          
+      //  var Code = $(this).find("#hdnprbmCode").val();
+        debugger;
+        var Pdate = $(this).find("#Process_Date").val();
+        //var month = $(this).find("#hdnprscssMonth").val();
+        $.get("/SalaryProcess/GetSalaryProcessGridEdit", { SPDate: Pdate }).done(function (responce) {
+            debugger;
             if(responce!=null)
             {
-                        
+                debugger;
                 GetslryDetailsDatatable(responce);
             }
         });
    
            function GetslryDetailsDatatable(responce)
-            {
+        {
+               debugger;
                 jq.fn.dataTable.ext.errorMode = 'none';
                 var t = jq('#tableslryDetails1').DataTable({
                     "ColumnDefs": [{ "targets": [0], "Visible": false, "searchable": false }],
@@ -39,34 +44,56 @@
                     "scrollX": true,
                     "destroy": true,
                     "columns": [
-                         { "data": null },
-                        //{"data":null,
-                        //"render": function (data) {
-                        //    return "<label class='containerone'>" + "<input type='checkbox' class='chck' value='" + data.EmpCode + "'>" + "<span class='chekmark></span>" + "</label>";
-                        //}
-                       // },
-                      
-                               { "data": "EmpCode" },
-                               { "data": "EmpName" },
-                               { "data": "ProjectCode" },
-                               { "data": "WorkingDay" },
-                               { "data": "Present" },
-                               { "data": "Leaves" },
-                               { "data": "Absent" },
-                               { "data": "SickLeaves" },
-                               { "data": "WeeklyOff" },
-                               { "data": "Holiday" },
-                               { "data": "NormalOTHrs" },
-                               { "data": "HolidayOTHrs" },
-                               { "data": "WeeklyOffOTHrs" },
-                               { "data": "ExtraOTHrs" },
-                               { "data": "Salary" },
-                               { "data": "MonthlyAddition" },
-                               { "data": "TotalDeduction" },
-                               { "data": "LoanDeduction" },
-                               { "data": "TotalEarning" },
-                               //{ "data": "NetSalary" },
-                     
+                         //{ "data": "srno" },
+                       { "data": "Empcode" },
+                       { "data": "Empname" },
+                       { "data": "country" },
+                       { "data": "Tmonth" },
+                       { "data": "Tyear" },
+                       { "data": "cmpycode" },
+                       { "data": "ProfCode" },
+                       { "data": "DepCode" },
+                       { "data": "ComnPrjcode" },
+                       { "data": "Division" },
+                       { "data": "VisaLocation" },
+                       { "data": "WorkLocation" },
+                       { "data": "Total_Days" },
+                       { "data": "Worked_Days" },
+                       { "data": "a_basic" },
+                       { "data": "a_hra" },
+                       { "data": "a_Da" },
+                       { "data": "a_tele" },
+                       { "data": "a_trans" },
+                       { "data": "a_car" },
+                       { "data": "a_allowance1" },
+                       { "data": "a_allowance2" },
+                       { "data": "a_allowance3" },
+                       { "data": "a_Totalsalary" },
+                       { "data": "C_basic" },
+                       { "data": "C_hra" },
+                       { "data": "C_da" },
+                       { "data": "C_tele" },
+                       { "data": "C_trans" },
+                       { "data": "C_car" },
+                       { "data": "C_allowance1" },
+                       { "data": "C_allowance2" },
+                       { "data": "C_allowance3" },
+                       { "data": "C_totalSalary" },
+                       { "data": "loan_amt" },
+                       { "data": "adn_amount" },
+                       { "data": "nothrs" },
+                       { "data": "extraOThrs" },
+                       { "data": "hothrs" },
+                       { "data": "wothrs" },
+                       { "data": "not_rate_perhr" },
+                       { "data": "hot_rate_perhr" },
+                       { "data": "ExtraOT_rate_perhr" },
+                       { "data": "wot_rate_perhr" },
+                       { "data": "ExtraOTAmt" },
+                       { "data": "NOTAmt" },
+                       { "data": "HOTAmt" },
+                       { "data": "WOTAmt" },
+                       { "data": "NetSalary" },
                     ]
                 });
                 t.on('order.dt search.dt', function () {
@@ -102,7 +129,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">CODE</label>
                             <div class="col-md-8 input-field">
-                                @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @placeholder = "" })
+                                @Html.TextBoxFor(m => m.PRSP001_Code, new { @class = "form-control", @placeholder = "" })
                             </div>
                         </div>
                     </div>
@@ -114,7 +141,8 @@
                             <label class="control-label col-md-3">Date</label>
                             <div class="col-md-8 input-field">
                                 <input id="DateINMonth" class="form-control datepicker" name="DateINMonth">
-                                @Html.HiddenFor(m => m.CurrentDate)
+                                @*@Html.TextBoxFor(m => m.Process_Date, new { @class = "form-control", @placeholder = "" })*@
+                                @Html.HiddenFor(m => m.Process_Date)
                             </div>
                         </div>
                     </div>
@@ -144,29 +172,57 @@
                                 <table class="table table-bordered table-sm" id="tableslryDetails1">
                                     <thead>
                                         <tr>
-                                            <th>Sr No</th>
-                                            @*<th><label class="containerone" style="padding-left:35px"><input type="checkbox" class="chck chckheaderdata"><span class="chekmark"></span></label></th>*@
-                                          
+                                           
+                                            @*<th>Sr No</th>*@
                                             <th>Emp_Code</th>
                                             <th>Employee Name</th>
-                                            <th>ProjectCode</th>
-                                            <th>Working Days</th>
-                                            <th>Present</th>
-                                            <th>Absent</th>
-                                            <th>Leaves</th>
-                                            <th>Sick Leaves</th>
-                                            <th>Weekly Off</th>
-                                            <th>Holiday</th>
-                                            <th>NOT Hrs</th>
-                                            <th>HOT Hrs</th>
-                                            <th>WOT hrs</th>
-                                            <th>Extra OT Hrs</th>
-                                            <th>Basic Salary</th>
-                                            <th>Monthly Addition</th>
-                                            <th>Monthly Deduction</th>
-                                            <th>Loan Deduction</th>
-                                            <th>Total Earning</th>
-                                            @*<th>Net Salary</th>*@
+                                            <th>country</th>
+                                            <th>Tmonth</th>
+                                            <th>Tyear</th>
+                                            <th>cmpycode</th>
+                                            <th>ProfCode</th>
+                                            <th>DepCode</th>
+                                            <th>ComnPrjcode</th>
+                                            <th>Division</th>
+                                            <th>VisaLocation</th>
+                                            <th>WorkLocation</th>
+                                            <th>Total_Days</th>
+                                            <th>Worked_Days</th>
+                                            <th>a_basic</th>
+                                            <th>a_hra</th>
+                                            <th>a_Da</th>
+                                            <th>a_tele</th>
+                                            <th>a_trans</th>
+                                            <th>a_car</th>
+                                            <th>a_allowance1</th>
+                                            <th>a_allowance2</th>
+                                            <th>a_allowance3</th>
+                                            <th>a_Totalsalary</th>
+                                            <th>C_basic</th>
+                                            <th>C_hra</th>
+                                            <th>C_da</th>
+                                            <th>C_tele</th>
+                                            <th>C_trans</th>
+                                            <th>C_car</th>
+                                            <th>C_allowance1</th>
+                                            <th>C_allowance2</th>
+                                            <th>C_allowance3</th>
+                                            <th>C_totalSalary</th>
+                                            <th>loan_amt</th>
+                                            <th>adn_amount</th>
+                                            <th>nothrs</th>
+                                            <th>extraOThrs</th>
+                                            <th>hothrs</th>
+                                            <th>wothrs</th>
+                                            <th>not_rate_perhr</th>
+                                            <th>hot_rate_perhr</th>
+                                            <th>ExtraOT_rate_perhr</th>
+                                            <th>wot_rate_perhr</th>
+                                            <th>ExtraOTAmt</th>
+                                            <th>NOTAmt</th>
+                                            <th>HOTAmt</th>
+                                            <th>WOTAmt</th>
+                                            <th>NetSalary</th> 
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
