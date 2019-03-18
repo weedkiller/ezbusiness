@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EzBusiness_EF_Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 {
     public class GroupVM
     {
         public string CmpyCode { get; set; }
-
+        [Display(Name = "Code")]
         public string DivisionCode { get; set; }
-
+        [Display(Name = "Name")]
         public string DivisionName { get; set; }
 
 

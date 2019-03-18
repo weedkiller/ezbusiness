@@ -21,10 +21,12 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public string Dates { get; set; }
 
         public string HRPH001_UID { get; set; }
+
+        [Display(Name = "Code")]
         public string HRPH001_CODE { get; set; }
 
-       
 
+        [Display(Name = "Leave Type Code")]
         public string LEAVE_TYPECODE { get; set; }
 
         public List<SelectListItem> LEAVE_TYPECODEList { get; set; }
