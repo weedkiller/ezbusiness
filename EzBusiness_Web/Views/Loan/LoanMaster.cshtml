@@ -3,13 +3,14 @@
     ViewBag.Title = "LoanMaster";
     var counter = 1;
 }
+<script src="~/Content/assets/js/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
         EzAuthentication("/Loan");
         var n = EzAuthenticationBtn("/Loan", "ViewIt");
         if (n == 1) {
-            Ezsidetbl('#tblUnits', '#tblUnits tfoot th', true);
+            Ezsidetbl('#tblUnits', '#tblUnits tfoot th', true, "#tblUnits thead");
             $('#tblUnits').show();
 
         } else {
@@ -392,11 +393,11 @@ $(document).ready(function(){
 </script>
 
 <br />
-<ol class="breadcrumb">
+@*<ol class="breadcrumb">
     <li class="active strong1">
         <strong>Loan Master</strong>
     </li>
-</ol>
+</ol>*@
 <div class="title-action">
     <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
     <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
@@ -427,6 +428,7 @@ $(document).ready(function(){
                     <th></th>
                 </tr>
             </thead>
+            
 
             <tbody>
                 <tr>
@@ -450,43 +452,58 @@ $(document).ready(function(){
             </tbody>
         </table>
         <div id="tbldiv">
-            <table class="table" id="tblUnits" >
+            <table id="tblUnits" class="table table-bordered table-hover editlist" >
                 <thead>
-                    <tr class="tr">
+                    <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.PRLM001_CODE)
+                            Code
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Name)
+                           Name
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Act_code)
+                           Account Code
                         </th>
 
                         <th></th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <th>
+                            Code
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Account Code
+                        </th>
+                        <th></th>
+
+                    </tr>
+                </tfoot>
 
                 <tbody>                   
-                    @foreach (var item in Model)
+                    @foreach (var po in Model)
                     {
                         <tr>
 
                             <td>
-                                @Html.DisplayFor(modelItem => item.PRLM001_CODE)
+                               @po.PRLM001_CODE
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Name)
+                                @po.Name
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Act_code)
+                             @po.Act_code
                             </td>
 
                             <td>
                                 <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
                                 <button class="btn btn-danger delete" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
                                 <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
-                                @Html.HiddenFor(m => item.CmpyCode)
+                                @Html.HiddenFor(m => @po.CmpyCode)
                             </td>
                         </tr>
                         counter++;

@@ -31,8 +31,8 @@
                 $.get("FinalSettalment/AddFinalSettalment", function (response) {
                     $("#LVContainer").html(response);
                 });
-                $(this).prop("disabled", true);
-                EzbtnNewAc();
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
                 $("#LVListContainer1").hide();
             }
         });
@@ -43,8 +43,8 @@
             var n = EzAuthenticationBtn("/FinalSettalment", "ViewIt");
             if (n == 1) {
                 Ezsetzerotxt();
-                $(this).prop("disabled", true);
-                EzbtnEditAc();
+                $(this).css("visibility", "hidden");
+                EzbtnEditAcVis();
                 $("#LVListContainer1").show();
                 GetLeaveList();
                 $("#editshow").show();
@@ -53,7 +53,7 @@
         $("#btnCancel").click(function () {
             $("#editshow").hide();
             $("#LVContainer").html(lvHtml);          
-            EzbtnCancelAc();
+            EzbtnCancelAcVis();
             $("#LVListContainer1").hide();
             Ezsetzerotxt();
             //EzsetDatetxt();
@@ -87,6 +87,8 @@
                         $.getJSON("/DeleteFinalSettalment", { PRFSET001_code: PRSR001_CODE }).done(function (data) {
                            
                                 if (data.DeleteFlag) {
+                                    EzbtnsaveAcVis("#LVContainer");                                   
+                                    $("#LVContainer").html(lvHtml);
                                     GetLeaveList();
                                     $("#btnCancel").trigger("click");
                                 } else {
@@ -210,7 +212,9 @@
                     if (k == 1){
                     $.post("/SaveFinalSettalment", finset).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                           
-                            EzbtnsaveAc("#LVContainer");
+                            EzbtnsaveAcVis("#LVContainer");
+                            EzAlertSave();
+                            $("#LVContainer").html(lvHtml);
                             GetLeaveList();
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
@@ -295,7 +299,9 @@
                     if (k == 1) {
                         $.post("/SaveFinalSettalment", finset).done(function (response) {
                             if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                                EzbtnsaveAc("#LVContainer");
+                                EzbtnsaveAcVis("#LVContainer");
+                                EzAlertSave();
+                                $("#LVContainer").html(lvHtml);
                                 GetLeaveList();
                             } else {
                                 // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
@@ -354,15 +360,22 @@
         });
 
         $(document).on("click", "#POList tbody tr", function () {
+            EzbtnEditAcVis();
             var operationMode = $("#hdnOperationMode").val();
             if (operationMode == "Edit") {
-                $("#LVList > tbody").children().removeClass("active");
-                $(this).addClass("active");
-                var PRFSET001_code = $(this).find("#hdnPRFSET001Code").val();
-                $.get("EditFinalSettalment", { PRFSET001_code: PRFSET001_code }).done(function (response) {
-                    $("#LVContainer").html(response);
-                    $("#btnDelete").prop("disabled", false);
-                });
+                debugger;
+
+               var k5= $('#LVList tbody tr').length
+               if (K5 > 0) {
+                   $("#LVList > tbody").children().removeClass("active");
+                   $(this).addClass("active");
+                   var PRFSET001_code = $(this).find("#hdnPRFSET001Code").val();
+
+                   $.get("EditFinalSettalment", { PRFSET001_code: PRFSET001_code }).done(function (response) {
+                       $("#LVContainer").html(response);
+                       $("#btnDelete").prop("disabled", false);
+                   });
+               }
             }
         });
     });
@@ -392,8 +405,8 @@
     }
 
     div.scroll {
-        width: 300px;
-        height: 500px;
+        width: 100%;
+        height: 100%;
         overflow: scroll;
     }
 
@@ -432,17 +445,14 @@
             </li>
         </ol>
         <div class="title-action">
-            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
-            <button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>
-
-            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-
-            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
-
-            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
+
+            <button class="btn btn-primary btn1" style="margin-left:48em;" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
 
         </div>
     </div>
@@ -468,465 +478,11 @@
                                     <!-- BEGIN FORM-->
                                     <div class="form-horizontal">
                                         <div class="form-body">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Date</label>
-                                                        <div class="col-md-9 input-field">
-
-                                                            <input id="Dates1" class="form-control datepicker" name="Dates1" />                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Code</label>
-                                                        <div class="col-md-9">
-                                                            <input type="text" class="form-control" name="" required placeholder="" maxlength="50" disabled>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        @*<label class="control-label col-md-1"></label>*@
-                                                        <div class="col-md-11 input-field radiobtn1">
-                                                            <label>
-                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                                                                Termination
-                                                            </label>
-                                                            &nbsp;
-                                                            <label>
-                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                                                                Resignation
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @*<div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Notice</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <div class="icheck-inline">
-                                                                <label>
-                                                                    <input type="checkbox" required name="" value="1" id="" class="radio-inline checkbox1" data-radio="iradio_square-grey">
-
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>*@
-                                            </div>
-                                            <hr />
-
-
-
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Employee<i style="color:red;">*</i></label>
-                                                        <div class="col-md-8 input-field">
-                                                            <select class="form-control" name="">
-                                                                <option value="">---Select---</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Reason</label>
-                                                        <div class="col-md-8">
-                                                            <input type="text" class="form-control" name="" required placeholder="" maxlength="50" >
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Joining Date</label>
-                                                        <div class="col-md-8">
-                                                            <input id="JoiningDate1" class="form-control datepicker" name="JoiningDate1" />                                                            
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Release Date</label>
-                                                        <div class="col-md-8">
-                                                            <input id="DateofRelease1" class="form-control datepicker" name="DateofRelease1" />                                                            
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Gratuity Days</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50" >
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Deduction Days</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50" >
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                            <!--/row-->
-                                            <div class="row">
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">No of Days Absent</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50" >
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Gratuity Amount</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50" >
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!--/span-->
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Days Worked</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50" >
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Total(Days)</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50" >
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr />
-
-                                            <div class="row">
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Last Leave Date</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input id="LLSDate1" class="form-control datepicker" name="LLSDate1" />                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Leave B/F</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Basic</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="row">
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Housing</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Food</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Tel. Allowance</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Transport</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Other Allowances</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">OT Hrs.</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                            <div class="row">
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Days Worked</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">No of days</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">A+LWP+EL+CL</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                            <div class="row">
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Deduction Days</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Last Duty Resume</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input id="DutyResume1" class="form-control datepicker" name="DutyResume1" />                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Basic</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                            <div class="row">
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Housing</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Leave Entitled</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Food</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="Number" required name="" id="datepicker" placeholder="" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                            <div class="row">
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Tel. Allowance</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Total Entitled</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Transport</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!--/row-->
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Others</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Leave Salary</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Pending Salary</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Other Deduction</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Loan Deduction </label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="row">
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Deduction</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Addition</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Net Amount</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" maxlength="50">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Remarks</label>
-                                                        <div class="col-md-8 input-field">
-
-
-
-
-
-                                                            <textarea rows="4" cols="50" placeholder="Remark"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div class="container scroll" id="LVListContainer">
+                                                @Html.Action("GetFinalSettalmentList", "FinalSettalment")
                                             </div>
                                         </div>
-                                        <div class="">
-                                            <button class="btn btn-primary" style="width:100px;float:right" type="button">Calculate</button>
-                                        </div>
+                                        
                                     </div><br />
                                     <!-- END FORM-->
                                     <!-- <button>Hey, click me!</button> -->
@@ -951,9 +507,9 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="container scroll" id="LVListContainer">
+                    @*<div class="container scroll" id="LVListContainer">
                         @Html.Action("GetFinalSettalmentList", "FinalSettalment")
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>

@@ -176,7 +176,16 @@ namespace EzBusiness_BL_Service
                 EmpCode=m.EmpCode,
                 Empname=m.Empname,
                 DepartmentCode=m.DepartmentCode,
-                EmpType=m.EmpType
+                EmpType=m.EmpType,
+                DOB=m.DOB,
+                LocCode=m.LocCode,
+                VisaLocation=m.VisaLocation,
+                ContactNo=m.ContactNo,
+                EMail=m.EMail,
+                Nationality=m.Nationality,
+                DivisionCode=m.DivisionCode,
+                ReportingEmp=m.ReportingEmp
+               
             }).ToList();
         }
 

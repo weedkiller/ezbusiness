@@ -29,6 +29,16 @@ function ezValidateNumbers(tableid, ids) {
 //    })
   
 //}
+
+function EzAlertSave() {
+    Swal.queue([{
+        type: 'success',
+        title: 'Success..',
+        text: 'Save Successfully!',
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+    }])
+}
 function EzHeadTxtvalid(ide, tbl, tblid, errmsg, typH,typ) {
    
     if ($(ide).val() == typH) {
@@ -201,15 +211,7 @@ function EzAlertUpd(code) {
     }])
 }
 
-function EzAlertSave() {
-    Swal.queue([{
-        type: 'success',
-        title: 'Success..',
-        text: 'Save Successfully!',
-        allowOutsideClick: false,
-        showLoaderOnConfirm: true,
-    }])
-}
+
 function EzAuthenticationBtn(Rpath, btnR) {    
     var a = 0;
      $.ajax({
@@ -442,11 +444,27 @@ function EzbtnNewAc() {
     $("#btnSave").prop("disabled", false);
     //$("#POListContainer1").hide();
 }
+function EzbtnNewAcVis() {
+    $("#btnEdit").css("visibility", "hidden");
+    $("#btnDelete").css("visibility", "hidden");
+    $("#hdnOperationMode").val("Add");
+    $("#btnSave").css("visibility", "");
+    $("#btnCancel").css("visibility", "");
+    //$("#POListContainer1").hide();
+}
 //Edit  Button
 function EzbtnEditAc() {
     $("#btnNew").prop("disabled", true);
     $("#hdnOperationMode").val("Edit");
     $("#btnSave").prop("disabled", false);
+    // $("#POListContainer1").show();
+}
+function EzbtnEditAcVis() {
+    $("#btnNew").css("visibility", "hidden");
+    $("#hdnOperationMode").val("Edit");
+    $("#btnSave").css("visibility", "");
+    $("#btnCancel").css("visibility", "");
+      $("#btnDelete").css("visibility", "");
     // $("#POListContainer1").show();
 }
 //Cancel  Button
@@ -456,6 +474,16 @@ function EzbtnCancelAc() {
     $("#btnDelete").prop("disabled", true);
     $("#hdnOperationMode").val("");
     $("#btnSave").prop("disabled", true);
+    $("#ErrorMessage").text('');
+    $("#POListContainer1").hide();
+}
+function EzbtnCancelAcVis() {
+    $("#btnNew").css("visibility", "");
+    $("#btnEdit").css("visibility", "hidden");
+    $("#btnDelete").css("visibility", "hidden");
+    $("#hdnOperationMode").val("");
+    $("#btnSave").css("visibility", "hidden");
+    $("#btnCancel").css("visibility", "hidden");
     $("#ErrorMessage").text('');
     //$("#POListContainer1").hide();
 }
@@ -467,6 +495,17 @@ function EzbtnsaveAc(Idsucc) {
     $("#btnNew").prop("disabled", false);
     $("#btnSave").prop("disabled", true);
     $("#hdnOperationMode").val("");
+}
+//Save & Modify  Button
+function EzbtnsaveAcVis(Idsucc) {    
+    $("#btnNew").css("visibility", "");
+    $("#btnEdit").css("visibility", "hidden");
+    $("#btnDelete").css("visibility", "hidden");
+    $("#hdnOperationMode").val("");
+    $("#btnSave").css("visibility", "hidden");
+    $("#btnCancel").css("visibility", "hidden");
+    $("#hdnOperationMode").val("");
+   
 }
 //error msg
 function Ezerrormsg(idl, msg) {
@@ -654,13 +693,28 @@ function EzTxttabEve(Ide, fIde, errmsg, typ) {
     });
 }
 //Side Grid with searching
-function Ezsidetbl(ide, idef, lk) {
+function Ezsidetbl(ide, idef, lk,idfoot) {
     $(document).ready(function () {
         // Setup - add a text input to each footer cell
+        debugger;
+       // $(ide).addClass('');
+        var k = $(idef).length;
         $(idef).each(function () {
-            var title = $(this).text();
-            $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+            if (lk == true) {
+                if (k > 1) {
+                    var title = '';//$(this).text();
+                    $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                    k = k - 1;
+                }
+            } else {
+                var title = '';//$(this).text();
+                $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+            }
+           
+            
         });
+
+       
 
         // DataTable
         var tableInstance = $(ide).DataTable({
@@ -668,20 +722,35 @@ function Ezsidetbl(ide, idef, lk) {
             "ordering": true,
             "info": true
         });
-        if (lk == true) {
-            $("#tblUnits_length").hide();
-        }
+        //if (lk == true) {
+        //    $("#tblUnits_length").hide();
+        //}
 
         tableInstance.columns().every(function () {
             var that = this;
-            $('input', this.footer()).on('keydown', function (ev) {
-                if (ev.keyCode == 13) { //only on enter keypress (code 13)
+
+            $('input', this.footer()).on('keyup change', function (ev) {
+                debugger;
+                if (that.search() !== this.value) { //only on enter keypress (code 13)
                     that
                         .search(this.value)
                         .draw();
                 }
             });
         });
+
+
+        var r = $(idef);
+        r.find('th').each(function () {
+            $(this).css('padding', 8);
+           
+        });
+        $(idfoot).append(r);
+        $('#search_0').css('text-align', 'center');
+
+        $('div.dataTables_filter input').addClass('form-control input-sm');
+
+        $('' + ide + '_length').hide();
 
 
     });

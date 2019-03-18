@@ -9,7 +9,7 @@
         EzAuthentication("/Documents");
         var n = EzAuthenticationBtn("/DutyResume", "ViewIt");
         if (n == 1) {
-            Ezsidetbl("#tblUnits", "#tblUnits tfoot th", true);
+            Ezsidetbl("#tblUnits", "#tblUnits tfoot th", true, "#tblUnits thead");
             $('#tblUnits').show();
         } else {
             $('#tblUnits').hide();
@@ -388,11 +388,7 @@ $(document).ready(function(){
 </script>
 
 <br />
-<ol class="breadcrumb">
-    <li class="active  strong1">
-        <strong>Documents Master</strong>
-    </li>
-</ol>
+
 
 <div class="title-action">
     <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
@@ -424,6 +420,7 @@ $(document).ready(function(){
             <th></th>
         </tr>
     </thead>
+          
 
     <tbody>
         <tr>
@@ -458,6 +455,19 @@ $(document).ready(function(){
                       
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr class="tr">
+                        <th>
+                            @Html.DisplayNameFor(model => model.DocCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DocName)
+                        </th>
+
+
+                        <th></th>
+                    </tr>
+                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
                     {

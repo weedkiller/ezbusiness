@@ -25,8 +25,8 @@
                 $.get("LoanAppliation/AddLoanAppliation", function (response) {
                     $("#POContainer").html(response);
                 });
-                $(this).prop("disabled", true);
-                EzbtnNewAc();
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
                 $("#POListContainer1").hide();
             }
         });
@@ -36,9 +36,9 @@
         $("#btnEdit").click(function () {
             var n = EzAuthenticationBtn("/LoanAppliation", "ViewIt");
             if (n == 1) {
-                $(this).prop("disabled", true);
+                $(this).css("visibility", "hidden");
                 $("#POContainer").html();
-                EzbtnEditAc();
+                EzbtnEditAcVis();
                 $("#POListContainer1").show();
                 GetLeaveList();
                 $("#editshow").show();
@@ -47,7 +47,7 @@
         $("#btnCancel").click(function () {
             $("#editshow").hide();
             $("#POContainer").html(lvHtml);         
-            EzbtnCancelAc();
+            EzbtnCancelAcVis();
             Ezsetzerotxt();
             //EzsetDatetxt();
             $("#POListContainer1").hide();
@@ -79,9 +79,10 @@
                         var PRLA001_CODE = $("[name*='PRLA001_CODE']").val();
                             $.getJSON("/DeleteLoanApp", { PRLA001_CODE: PRLA001_CODE }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    GetLeaveList();
+                                    EzbtnsaveAcVis("#POContainer");
+                                    $("#POContainer").html(lvHtml);
                                     $("#btnCancel").trigger("click");
-                                   
+                                    GetLeaveList();
                                 } else {
                                     EzAlertdele(PRLA001_CODE);
                                 }
@@ -163,7 +164,9 @@
                     if (k == 1 && SA == 1) {
                     $.post("/SaveLoanAppliation", LoanApp).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                           
-                            EzbtnsaveAc("#POContainer");
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
+                            $("#POContainer").html(lvHtml);
                             GetLeaveList();
                            // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                         } else {
@@ -212,9 +215,10 @@
                     if (k == 1 && SA == 1){
                     $.post("/SaveLoanAppliation", LoanApp).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                            
-                            EzbtnsaveAc("#POContainer");
-                           // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
-                            GetLeaveList();                            
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
+                            $("#POContainer").html(lvHtml);
+                            GetLeaveList();
                         } else {
                            // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -274,7 +278,8 @@
             console.log(thrownError);
         });
         $(document).on("click", "#POList tbody tr", function () {
-           
+            debugger;
+            EzbtnEditAcVis();
             var operationMode = $("#hdnOperationMode").val();
             if (operationMode == "Edit") {
                 $("#POList > tbody").children().removeClass("active");
@@ -317,8 +322,8 @@
     }
 
     div.scroll {
-        width: 300px;
-        height: 500px;
+        width: 100%;
+        height: 100%;
         overflow: scroll;
     }
 
@@ -336,17 +341,14 @@
             </li>
         </ol>
         <div class="title-action">
-            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
-            <button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>
-
-            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-
-            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
-
-            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
+
+            <button class="btn btn-primary btn1" style="margin-left:48em;" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
 
         </div>
     </div>
@@ -372,185 +374,8 @@
                                     <!-- BEGIN FORM-->
                                     <div class="form-horizontal">
                                         <div class="form-body">
-                                            <div class="row">
-                                                @*<input class="datepicker" data-date-format="mm/dd/yyyy">*@
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Code<i style="color:red;">*</i></label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="text" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Entry Date</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input id="Entry_Date1" class="form-control datepicker"  name="Entry_Date1" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Employee<i style="color:red;">*</i></label>
-                                                        <div class="col-md-8 input-field">
-                                                            <select class="form-control" name="">
-                                                                <option value="">---Select---</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Loan Amount<i style="color:red;">*</i></label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">No Of Instalments</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Instalment</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Deduction</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Balance</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Remarks</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="text" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Status</label>
-                                                        <div class="col-md-8 input-field">
-                                                            @*<select class="form-control" name="">
-                                                                <option value="Y">Yes</option>
-                                                                <option value="N">No</option>
-
-                                                            </select>*@
-                                                            <div class="col-md-8 input-field radiobtn1">
-                                                                <label>
-                                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                                                                    Yes
-                                                                </label>
-                                                                &nbsp;
-                                                                <label>
-                                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                                                                    No
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Auto Deduction Y/N</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="checkbox" required name="" value="1" id="" class="radio-inline checkbox1" data-radio="iradio_square-grey">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Deduction Start Date</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input id="DeductionStartDate1" class="form-control datepicker" name="DeductionStartDate1"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Account Code<i style="color:red;">*</i></label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="text" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Loan Type<i style="color:red;">*</i></label>
-                                                        <div class="col-md-8 input-field">
-                                                            <select class="form-control" name="">
-                                                                <option value="">---Select---</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-
-
-                                            </div>
-                                            <div class="row">
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Approval Y/N</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="checkbox" required name="" value="1" id="" class="radio-inline checkbox1" data-radio="iradio_square-grey">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-4">Applied Amt</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="number" class="form-control" name="" required placeholder="" />
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            <div class="container scroll" id="POListContainer">
+                                                @Html.Action("GetLoanAppliationList", "LoanAppliation")
                                             </div>
                                         </div>
                                     </div><br />
@@ -579,9 +404,9 @@
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="container scroll" id="POListContainer">
+                    @*<div class="container scroll" id="POListContainer">
                         @Html.Action("GetLoanAppliationList", "LoanAppliation")
-                    </div>
+                    </div>*@
                 </div>
 
 

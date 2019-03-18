@@ -3,10 +3,11 @@
 
 <script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Content/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
-        Ezsidetbl("#POList", "#POList tfoot th", false);
+        Ezsidetbl("#POList", "#POList tfoot th", false, "#POList thead");
     });
    // Ezsidetbl("#POList", "#POList tfoot th", false);
 </script>
@@ -15,10 +16,23 @@
     <thead>
         <tr>
             <th>Code</th>
-            <th>Bank Name</th>
-            <th>Country</th>
+            <th>Employee Code</th>           
+            <th>Bank Code</th>
+            <th>Branch Code</th>
+            <th>Account No</th>
+            <th>EBAN No</th>
         </tr>
     </thead>
+    <tfoot>
+        <tr>
+            <th>Code</th>
+            <th>Employee Code</th>
+            <th>Bank Code</th>
+            <th>Branch Code</th>
+            <th>Account No</th>
+            <th>EBAN No</th>
+        </tr>
+    </tfoot>
     <tbody>
         @foreach (var po in Model)
         {
@@ -29,6 +43,15 @@
                 </td>
                 <td>
                     @po.EmpCode
+                </td>
+                <td>
+                    @po.PRBM001_code
+                </td>
+                <td>
+                    @po.PRBM002_code
+                </td>
+                <td>
+                    @po.Account_no
                 </td>
                 <td>
                     @po.EBAN_no

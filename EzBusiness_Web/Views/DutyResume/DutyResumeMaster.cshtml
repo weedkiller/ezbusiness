@@ -28,8 +28,8 @@
                 $.get("DutyResume/AddDutyResume", function (response) {
                     $("#DRContainer").html(response);
                 });
-                $(this).prop("disabled", true);
-                EzbtnNewAc();
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
                 $("#btnEdit").prop("disabled", true);
                 $("#DRListContainer1").hide();
             }
@@ -40,9 +40,9 @@
         $("#btnEdit").click(function () {
             var n = EzAuthenticationBtn("/DutyResume", "ViewIt");
             if (n == 1) {
-                $(this).prop("disabled", true);
+                $(this).css("visibility", "hidden");
                 Ezsetzerotxt();
-                EzbtnEditAc();
+                EzbtnEditAcVis();
                 $("#DRListContainer1").show();
                 GetDrs();
                 $("#editshow").show();
@@ -51,7 +51,7 @@
 
         $("#btnCancel").click(function () {
             $("#DRContainer").html(drHtml);
-            EzbtnCancelAc();
+            EzbtnCancelAcVis();
             $("#DRListContainer1").hide();
             Ezsetzerotxt();
             //EzsetDatetxt();     
@@ -94,6 +94,8 @@
                             var EmpCode = $("[name*='EmpCode']").val();
                             $.getJSON("/DeleteDrs", { Cmpycode: Cmpycode, PRDR001_CODE: PRDR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
                                 if (data.DeleteFlag) {
+                                    EzbtnsaveAcVis("#DRContainer");                                 
+                                    $("#DRContainer").html(drHtml);
                                     GetDrs();
                                 $("#btnCancel").trigger("click");
                             } else {
@@ -175,8 +177,9 @@
                     if(k == 1){
                     $.post("/SaveDrs", dutyResume).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                           
-                            EzbtnsaveAc("#DRContainer");
-                           // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                            EzbtnsaveAcVis("#DRContainer");
+                            EzAlertSave();
+                            $("#DRContainer").html(drHtml);
                             GetDrs();
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
@@ -220,9 +223,12 @@
                         if (k == 1) {
                             $.post("/SaveDrs", dutyResume).done(function (response) {
                                 if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                                    EzbtnsaveAc("#DRContainer");
-                                    //  Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+
+                                    EzbtnsaveAcVis("#DRContainer");
+                                    EzAlertSave();
+                                    $("#DRContainer").html(drHtml);
                                     GetDrs();
+                                    
                                 } else {
                                     //  Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                                     EzAlerterrtxt(response.ErrorMessage);
@@ -285,6 +291,7 @@
 
                 $(document).on("click", "#DRList tbody tr", function ()
                 {
+                    EzbtnEditAcVis();
                     var operationMode = $("#hdnOperationMode").val();
                     if (operationMode == "Edit")
                     {
@@ -331,8 +338,8 @@
     }
 
     div.scroll {
-        width: 300px;
-        height: 500px;
+        width: 100%;
+        height: 100%;
         overflow: scroll;
     }
 
@@ -350,17 +357,14 @@
             </li>
         </ol>
         <div class="title-action">
-            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
-            <button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>
-
-            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-
-            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
-
-            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
+
+            <button class="btn btn-primary btn1" style="margin-left:48em;" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
 
         </div>
     </div>
@@ -387,163 +391,12 @@
                                     <!-- BEGIN FORM-->
                                     <div class="form-horizontal">
                                         <div class="form-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Sanction Code<i style="color:red;">*</i></label>
-                                                        <div class="col-md-9 input-field">
-                                                            <select class="form-control" name="">
-                                                                <option value="">---Select---</option>
-
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Employee</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <select class="form-control" name="">
-                                                                <option value="">---Select---</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                            </div>
-                                            <!--/row-->
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Start Date</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input id="StartDate1" class="form-control datepicker" name="StartDate1" disabled="disabled"  />
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">End Date</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input id="EndDate1" class="form-control datepicker" name="EndDate1" disabled="disabled" />                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                            </div>
-
-                                            @*<div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Resume Date</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input id="ResumeDate1" class="form-control datepicker" name="ResumeDate1" disabled="disabled"  />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                /span
-                                                <div class="col-md-6">  
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Reason</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <textarea class="form-control " id="ccomment" name="comment" required></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>*@
-
-
-
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Actual Leave Type</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <select class="form-control" name="">
-                                                                <option value="">---Select---</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Duty Resume Type</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <select class="form-control" name="">
-                                                                <option value="">---Select---</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
+                                            <div class="container scroll" id="DRListContainer">
+                                                @Html.Action("GetDrs", "DutyResume")
 
 
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Approve Days</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="number" required name="" id="" placeholder="" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Balance Leave Days</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="number" required name="" id="" placeholder="" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Resume Date</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input id="ResumeDate1" class="form-control datepicker" name="ResumeDate1"  />
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Excess Days</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="number" required name="" id="" placeholder="" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Approve Days full</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="number" required name="" id="" placeholder="" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Approve Days Half</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="number" required name="" id="" placeholder="" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
                                         </div>
                                     </div><br />
                                     <!-- END FORM-->
@@ -581,11 +434,11 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="container scroll" id="DRListContainer">
+                    @*<div class="container scroll" id="DRListContainer">
                         @Html.Action("GetDrs", "DutyResume")
 
 
-                    </div>
+                    </div>*@
                 </div>
 
 

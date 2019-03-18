@@ -14,7 +14,7 @@ namespace EzBusiness_EF_Entity
         public string DIVISION { get; set; }
         public string COUNTRY { get; set; }
         public string EMPCODE { get; set; }        
-        public DateTime? Entery_date { get; set; }        
+        public DateTime Entery_date { get; set; }        
         public DateTime? Effect_From { get; set; }
         public decimal? BASIC { get; set; }
         public string BASICCAPTION { get; set; }

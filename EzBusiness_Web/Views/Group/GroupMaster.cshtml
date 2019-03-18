@@ -11,7 +11,7 @@
         EzAuthentication("/Group");
         var n = EzAuthenticationBtn("/Group", "ViewIt");
         if (n == 1) {
-            Ezsidetbl("#tblUnits", "#tblUnits tfoot th", true);
+            Ezsidetbl("#tblUnits", "#tblUnits tfoot th", true, "#tblUnits thead");
             $('#tblUnits').show();
 
         } else {
@@ -391,11 +391,7 @@ $(document).ready(function(){
 </script>
 
 <br />
-<ol class="breadcrumb">
-    <li class="active strong1">
-        <strong>Group Master</strong>
-    </li>
-</ol>
+
 
 <div class="title-action">
     <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
@@ -427,6 +423,7 @@ $(document).ready(function(){
                    
                 </tr>
             </thead>
+            
 
             <tbody>
                 <tr>
@@ -464,6 +461,17 @@ $(document).ready(function(){
                         <th></th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr class="tr">
+                        <th>
+                            @Html.DisplayNameFor(model => model.DivisionCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DivisionName)
+                        </th>
+
+                    </tr>
+                </tfoot>
                 <tbody>
                     @foreach (var item in Model)
                 {

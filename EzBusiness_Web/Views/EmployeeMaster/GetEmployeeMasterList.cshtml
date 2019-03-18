@@ -5,24 +5,88 @@
 
 }
 
+
+
+
+
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Content/assets/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+
+
 <script src="~/Scripts/EzComNDW.js"></script>
     <script>
        
          
-        Ezsidetbl("#POList", "#POList tfoot th", true);
+        Ezsidetbl("#POList", "#POList tfoot th", false, "#POList thead");
         //a++;
      
     </script>
 
-<table id="POList" class="table table-bordered table-hover editlist">
+<button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
+<table id="POList" class="table table-bordered table-hover editlist" >
     <thead>
         <tr>
-            <th>Emp Code</th>
-            <th>Emp Name</th>
-
+            <th>Code</th>
+            <th>Name</th>
+            <th>
+                Date Of Birth
+            </th>
+            <th>
+                Contact No
+            </th>
+            <th>
+                EMail Id
+            </th>
+            <th>
+                Nationality
+            </th>
+            @*<th>
+                Division Code
+            </th>*@
+            <th>
+                Location Code
+            </th>
+            <th>
+                VisaLocation Code
+            </th>
+            <th>
+                Reporting Employee
+            </th>
         </tr>
     </thead>
+    <tfoot>
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>
+                Date Of Birth
+            </th>
+            <th>
+                Contact No
+            </th>
+            <th>
+                EMail Id
+            </th>
+            <th>
+                Nationality
+            </th>
+            @*<th>
+                    Division Code
+                </th>*@
+            <th>
+                Location Code
+            </th>
+            <th>
+                VisaLocation Code
+            </th>
+            <th>
+                Reporting Employee
+            </th>
+        </tr>
+    </tfoot>
     <tbody>
         @foreach (var po in Model)
         {
@@ -34,8 +98,35 @@
                 <td>
                     @po.Empname
                 </td>
+                <td>
+                    @Convert.ToDateTime(@po.DOB).ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @po.ContactNo
+                </td>
+                <td>
+                    @po.EMail
+                </td>
+                <td>
+                    @po.Nationality
+                </td>
+                @*<td>
+                    @po.DivisionCode
+                </td>*@
+                <td>
+                    @po.LocCode
+                </td>
+                <td>
+                    @po.VisaLocation
+                </td>
+                <td>
+                    @po.ReportingEmp
+                </td>
 
             </tr>
         }
     </tbody>
+
+   
+   
 </table>

@@ -11,10 +11,12 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
     public class OTVM
     {
         public string Cmpycode { get; set; }
+
+        [Display(Name = "Employee Code")]
         public string EmpCode { get; set; }
-
+        [Display(Name = "Name")]
         public string UserName { get; set; }
-
+        [Display(Name = "Code")]
         public string Code { get; set; }
         public List<SelectListItem> EmpCodeList { get; set; }
 
