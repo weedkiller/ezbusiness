@@ -7,13 +7,14 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
-
+     
         EzAuthentication("/SalaryProcess");
-
+      //  var lvHtml = $("#POContainer").html();
         EzdtePkMMyy('#DateINMonth');
 
         var smaHtml = $("#SMAContainer").html();
         $("#SMAListContainer1").hide();
+        
         function GetSlry() {
             $.get("/SalaryProcess/GetSalaryDetails", function (response) {
                 $("#SMAListContainer").html(response);
@@ -27,8 +28,8 @@
                     $("#SMAContainer").html(response);
                 });
 
-                $(this).prop("disabled", true);
-                EzbtnNewAc();
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
                 $("#SMAListContainer1").hide();
                 $("#editshow").hide();
             }
@@ -54,11 +55,12 @@
 
         $("#btnCancel").click(function () {
             $("#SMAContainer").html(smaHtml);
-            $("#btnNew").prop("disabled", false);
-            $("#btnEdit").prop("disabled", false);
-            $("#btnDelete").prop("disabled", true);
-            $("#hdnOperationMode").val("");
-            $("#btnSave").prop("disabled", true);
+            EzbtnCancelAcVis();
+            //$("#btnNew").prop("disabled", false);
+            //$("#btnEdit").prop("disabled", false);
+            //$("#btnDelete").prop("disabled", true);
+            //$("#hdnOperationMode").val("");
+            //$("#btnSave").prop("disabled", true);
             $("#SMAListContainer1").hide();
             $("#editshow").hide();
         });
@@ -84,7 +86,7 @@
                     }).then((result) => {
                         if (result.value) {
                             debugger;
-                            var Code = $("#Code").val();
+                            var Code = $("#PRSP001_Code").val();
                             var currdate = $("[name*='DateINMonth']").val();
                                 $.ajax({
                                     async: false,
@@ -96,9 +98,16 @@
                                     contentType: "Application/json",
                                     success: function (data) {                                     
                                         if (data=true) {
-                                            debugger;
-                                            RefreshDatatable();
-                                            $("#btnCancel").trigger("click");
+                                            //debugger;
+                                            //RefreshDatatable();
+                                            //$("#btnCancel").trigg  
+                                            //var smaHtml = $("#SMAContainer").html();
+                                            GetSlry();
+                                            EzbtnsaveAcVis("#SMAContainer");
+                                            $("#SMAContainer").html(smaHtml);
+                                           //  $("#btnCancel").trigger("click");
+                                                
+                                                //  Ezerrormsg("#ErrorMessage", "Record Deleted");
                                         } else {
                                             EzAlertdele(Code);
                                         }
@@ -125,11 +134,9 @@
                 }
         });
         $("#btnSave").click(function () {
-
-            var n = EzAuthenticationBtn("/SalaryProcess", "EditIt");
-            
-            $("#editshow").hide();
-           
+            debugger;
+            var n = EzAuthenticationBtn("/SalaryProcess", "EditIt");            
+            $("#editshow").hide();           
             var opMode = $("#hdnOperationMode").val();
             var currdate = $("[name*='DateINMonth']").val();
             if (opMode == "Add") {
@@ -137,60 +144,118 @@
                 var salarym = {
                     EditFlag: false,
                     //PRSM001UID :$("[name*='PRSM001UID']").val(),
-                    Code: $("[name*='Code']").val(),
-                    CurrentDate: $("[name*='DateINMonth']").val(),
-                
+                    PRSP001_Code: $("[name*='PRSP001_Code']").val(),
+                    Process_Date: $("[name*='DateINMonth']").val(),
                     salaryList: [],
-
                 };
                 $("#tableslryDetails tbody tr").each(function (index, item) {
                 
                     var SnoTxt = $(this).find('td:eq(0)').text();
                     var EmpCodeTxt = $(this).find('td:eq(1)').text();
                     var EmpNameTxt = $(this).find('td:eq(2)').text();
-                    var ProjectCodeTxt = $(this).find('td:eq(3)').text();
-                    var WorkingDay = $(this).find('td:eq(4)').text();
-                    var Present = $(this).find('td:eq(5)').text();
-                    var Absent = $(this).find('td:eq(6)').text();
-                    var Leaves = $(this).find('td:eq(7)').text();
-                    var SickLeaves = $(this).find('td:eq(8)').text();
-                    var WeeklyOff = $(this).find('td:eq(9)').text();
-                    var Holiday = $(this).find('td:eq(10)').text();
-                    var NormalOTHrs = $(this).find('td:eq(11)').text();
-                    var HolidayOTHrs = $(this).find('td:eq(12)').text();
-                    var WeeklyOffOTHrs = $(this).find('td:eq(13)').text();
-                    var ExtraOTHrs = $(this).find('td:eq(14)').text();
-                    var BasicSalary = $(this).find('td:eq(15)').text();
-                    var MonthlyAddition = $(this).find('td:eq(16)').text();
-                    var TotalDeduction  = $(this).find('td:eq(17)').text();
-                    var LoanDeduction = $(this).find('td:eq(18)').text();
-                    var TotalEarning = $(this).find('td:eq(19)').text();
-                    var NetSalary = $(this).find('td:eq(20)').text();
-                    var FExtraOTHrs = 0;
+                    var countrytxt = $(this).find('td:eq(3)').text();
+                    var tmonth = $(this).find('td:eq(4)').text();
+                    var tyear = $(this).find('td:eq(5)').text();
+                    var cmpycodetxt = $(this).find('td:eq(6)').text();
+                    var profcode = $(this).find('td:eq(7)').text();
+                    var Deptcode = $(this).find('td:eq(8)').text();
+                    var comnprjcode = $(this).find('td:eq(9)').text();
+                    var Division = $(this).find('td:eq(10)').text();
+                    var VisaLocation = $(this).find('td:eq(11)').text();
+                    var workLocation = $(this).find('td:eq(12)').text();
+                    var total_days = $(this).find('td:eq(13)').text();
+                    var work_Days = $(this).find('td:eq(14)').text();
+                    var a_basic = $(this).find('td:eq(15)').text();
+                    var a_hra = $(this).find('td:eq(16)').text();
+                    var a_da  = $(this).find('td:eq(17)').text();
+                    var a_tele = $(this).find('td:eq(18)').text();
+                    var a_trans = $(this).find('td:eq(19)').text();
+                    var a_car = $(this).find('td:eq(20)').text();
+                    var a_allownce1 = $(this).find('td:eq(21)').text();
+                    var a_allownce2 = $(this).find('td:eq(22)').text();
+                    var a_allownce3 = $(this).find('td:eq(23)').text();
+                    var a_totalSalary = $(this).find('td:eq(24)').text();
+                    var c_basic = $(this).find('td:eq(25)').text();
+                    var c_hra = $(this).find('td:eq(26)').text();
+                    var c_da = $(this).find('td:eq(27)').text();
+                    var c_tele = $(this).find('td:eq(28)').text();
+                    var c_trans = $(this).find('td:eq(29)').text();
+                    var c_car = $(this).find('td:eq(30)').text();
+                    var c_allownce1 = $(this).find('td:eq(31)').text();
+                    var c_allownce2 = $(this).find('td:eq(32)').text();
+                    var c_allownce3 = $(this).find('td:eq(33)').text();
+                    var c_totalSalary = $(this).find('td:eq(34)').text();
+                    var loanamt = $(this).find('td:eq(35)').text();
+                    var adn_amount = $(this).find('td:eq(36)').text();
+                    var nothrs = $(this).find('td:eq(37)').text();
+                    var extraothrs = $(this).find('td:eq(38)').text();
+                    var hothrs = $(this).find('td:eq(39)').text();
+                    var wothrs = $(this).find('td:eq(40)').text();
+                    var not_rate_perhrs = $(this).find('td:eq(41)').text();
+                    var hot_rate_perhrs = $(this).find('td:eq(42)').text();
+                    var extraot_rate_perhrs = $(this).find('td:eq(43)').text();
+                    var wot_rate_perhrs = $(this).find('td:eq(44)').text();
+                    var extraotamt = $(this).find('td:eq(45)').text();
+                    var notamt = $(this).find('td:eq(46)').text();
+                    var HOTamt = $(this).find('td:eq(47)').text();
+                    var wotamt = $(this).find('td:eq(48)').text();
+                    var netsalary = $(this).find('td:eq(49)').text();
+                 
 
                     if ((EmpCodeTxt != "")) {
                         var salarydetail = {
-                            Sno: SnoTxt,
-                            EmpCode: EmpCodeTxt,
-                            EmpName: EmpNameTxt,
-                            ProjectCode:ProjectCodeTxt,
-                            WorkingDay: WorkingDay,
-                            Present: Present,
-                            Absent: Absent,
-                            Leaves: Leaves,
-                            SickLeaves: SickLeaves,
-                            WeeklyOff: WeeklyOff,
-                            Holiday: Holiday,
-                            NormalOTHrs: NormalOTHrs,
-                            HolidayOTHrs: HolidayOTHrs,
-                            WeeklyOffOTHrs: WeeklyOffOTHrs,
-                            ExtraOTHrs: ExtraOTHrs,
-                            FExtraOTHrs: FExtraOTHrs,
-                            MonthlyAddition: MonthlyAddition,
-                            TotalEarning: TotalEarning,
-                            TotalDeduction: TotalDeduction,
-                            LoanDeduction: LoanDeduction,
-                            NetSalary: NetSalary
+                            srno: SnoTxt,
+                            cmpycode:cmpycodetxt, 
+                            country:countrytxt, 
+                            Division:Division, 
+                            Tyear:tyear,
+                            Tmonth:tmonth, 
+                            Empcode:EmpCodeTxt ,
+                            Empname:EmpNameTxt,
+                        ProfCode:profcode,
+                        DepCode:Deptcode,
+                        ComnPrjcode:comnprjcode ,
+                        VisaLocation:VisaLocation,
+                            WorkLocation:workLocation,
+                        Total_Days:total_days ,
+                        Worked_Days:work_Days ,
+                        a_basic:a_basic, 
+                        a_hra:a_hra ,
+                        a_Da:a_da, 
+                        a_tele:a_tele,  
+                        a_trans:a_trans ,
+                        a_car:a_car ,
+                        a_allowance1:a_allownce1,
+                        a_allowance2:a_allownce2,
+                        a_allowance3:a_allownce3 ,
+                        a_Totalsalary:a_totalSalary,
+                        C_basic:c_basic,
+                        C_hra:c_hra,
+                        C_da:c_da,
+                        C_tele:c_tele,
+                        C_trans:c_trans,
+                        C_car:c_car,
+                        C_allowance1:c_allownce1,
+                        C_allowance2:c_allownce2,
+                        C_allowance3:c_allownce3,
+                        C_totalSalary:c_totalSalary,
+                        loan_amt:loanamt,
+                        adn_amount:adn_amount ,
+                        nothrs:nothrs,
+                        extraOThrs:extraothrs ,
+                        hothrs:hothrs,
+                        wothrs:wothrs ,
+                        not_rate_perhr:not_rate_perhrs ,
+                        ExtraOT_rate_perhr:extraot_rate_perhrs,
+                        hot_rate_perhr:hot_rate_perhrs ,
+                        wot_rate_perhr:wot_rate_perhrs ,
+                        ExtraOTAmt:extraotamt ,
+                        NOTAmt:notamt,
+                        HOTAmt:HOTamt, 
+                        WOTAmt:wotamt,
+                        NetSalary:netsalary,
+                                
+
                         };
                         salarym.salaryList.push(salarydetail);
                      }
@@ -200,10 +265,14 @@
                     $.post("/SaveSalaryProcess", salarym).done(function (response) {
                        
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                          
-                            EzbtnsaveAc("#SMAContainer");
-                           // ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             GetSry();
+                            EzbtnsaveAcVis("#SMAContainer");
+                            $("#SMAContainer").html(lvHtml);
+                          //  $("#btnCancel").trigger("click");
+                          
+                           // EzbtnsaveAc("#SMAContainer");
+                           //// ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                           // GetSry();
                         } else {
                             //Ezerrormsg("#ErrorMessage",response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -221,10 +290,10 @@
                     // Code for Adding Purchase order
                 //
                 var i = 0;
-                $("#btnDelete").prop("disabled", true);
-                $("#btnSave").prop("disabled", true);
+                $("#btnDelete").css("visibility", "");
+                $("#btnSave").css("visibility", "");
                 EzAlerterrtxt("Can't Edit Data");
-                if (i = 1) {
+                if (i == 1) {
                     var salarym = {
                         EditFlag: true,
                         //PRSM001UID :$("[name*='PRSM001UID']").val(),
@@ -283,7 +352,7 @@
                             salarym.salaryList.push(salarydetail);
                         }
                     });
-                    var validationResult = ValidateForm(salarydetail);
+                    var validationResult = ValidateForm(salarym);
                     if (validationResult.formValid) {
                         $.post("/SaveSalaryProcess", salarym).done(function (response) {
                             if (response.SaveFlag && !response.ErrorMessage.length > 0) {
@@ -308,20 +377,20 @@
         });
 
         function ValidateForm(salarym) {
-          
+            debugger;
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
 
-            if (!salarym.CurrentDate) {
-                response.ErrorMessage += "CurrentDate";
+            if (salarym.Process_Date=="") {
+                response.ErrorMessage += "CurrentDate,";
             }
             //if (!salarym.Effect_From) {
             //    response.ErrorMessage += "Effect_From,";
             //}
 
-            if (!salarym.Code) {
+            if (salarym.PRSP001_Code=="") {
                 response.ErrorMessage += "Code are mandatory Fields.";
             }
 
@@ -338,9 +407,9 @@
                 }
         function RefreshDatatable()
         {
-            var Code = $("#Code").val();
+            var SPDate = $("[name*='DateINMonth']").val();
 
-            $.get("/SalaryProcess/GetSalaryProcessGridEdit", { salP_code: Code }).done(function (responce) {
+            $.get("/SalaryProcess/GetSalaryProcessGridEdit", { SPDate: SPDate }).done(function (responce) {
                     GetslryDetailsDatatable(responce);
               
             });
@@ -355,34 +424,53 @@
                 "scrollX": true,
                 "destroy": true,
                 "columns": [
-                     { "data": null },
-                    //{"data":null,
-                    //"render": function (data) {
-                    //    return "<label class='containerone'>" + "<input type='checkbox' class='chck' value='" + data.EmpCode + "'>" + "<span class='chekmark></span>" + "</label>";
-                    //}
-                   // },
-
-                           { "data": "EmpCode" },
-                           { "data": "EmpName" },
-                           { "data": "ProjectCode" },
-                           { "data": "WorkingDay" },
-                           { "data": "Present" },
-                           { "data": "Leaves" },
-                           { "data": "Absent" },
-                           { "data": "SickLeaves" },
-                           { "data": "WeeklyOff" },
-                           { "data": "Holiday" },
-                           { "data": "NormalOTHrs" },
-                           { "data": "HolidayOTHrs" },
-                           { "data": "WeeklyOffOTHrs" },
-                           { "data": "ExtraOTHrs" },
-                           { "data": "Salary" },
-                           { "data": "MonthlyAddition" },
-                           { "data": "TotalDeduction" },
-                           { "data": "LoanDeduction" },
-                           { "data": "TotalEarning" },
-                           //{ "data": "NetSalary" },
-
+                     { "data": "srno" },
+                                       { "data": "Empcode" },
+                                       { "data": "Empname" },
+                                       { "data": "country" },
+                                       { "data": "ProfCode" },
+                                       { "data": "DepCode" },
+                                       { "data": "ComnPrjcode" },
+                                       { "data": "Division" },
+                                       { "data": "VisaLocation" },
+                                       { "data": "WorkLocation" },
+                                       { "data": "Total_Days" },
+                                       { "data": "Worked_Days" },
+                                       { "data": "a_basic" },
+                                       { "data": "a_hra" },
+                                       { "data": "a_Da" },
+                                       { "data": "a_tele" },
+                                       { "data": "a_trans" },
+                                       { "data": "a_car" },
+                                       { "data": "a_allowance1" },
+                                       { "data": "a_allowance2" },
+                                       { "data": "a_allowance3" },
+                                       { "data": "a_Totalsalary" },
+                                       { "data": "C_basic" },
+                                       { "data": "C_hra" },
+                                       { "data": "C_da" },
+                                       { "data": "C_tele" },
+                                       { "data": "C_trans" },
+                                       { "data": "C_car" },
+                                       { "data": "C_allowance1" },
+                                       { "data": "C_allowance2" },
+                                       { "data": "C_allowance3" },
+                                       { "data": "C_totalSalary" },
+                                       { "data": "loan_amt" },
+                                       { "data": "adn_amount" },
+                                       { "data": "nothrs" },
+                                       { "data": "extraOThrs" },
+                                       { "data": "hothrs" },
+                                       { "data": "wothrs" },
+                                       { "data": "not_rate_perhr" },
+                                       { "data": "hot_rate_perhr" },
+                                       { "data": "ExtraOT_rate_perhr" },
+                                       { "data": "wot_rate_perhr" },
+                                       { "data": "ExtraOTAmt" },
+                                       { "data": "NOTAmt" },
+                                       { "data": "HOTAmt" },
+                                       { "data": "WOTAmt" },
+                                       { "data": "NetSalary" },
                 ]
             });
             t.on('order.dt search.dt', function () {
@@ -394,7 +482,8 @@
 
          $(document).on("click", "#SalaryList tbody tr", function ()
                 {
-
+             debugger;
+             EzbtnEditAcVis();
                     var operationMode = $("#hdnOperationMode").val();
                     if (operationMode == "Edit")
                     {
@@ -404,8 +493,11 @@
                         var Code = $(this).find("#hdnprbmCode").val();
                         $.get("EditSalaryProcess", { salP_code: Code }).done(function (response)
                         {
+                            debugger;
                             $("#SMAContainer").html(response);
-                            $("#btnDelete").prop("disabled", false);
+                            $("#btnDelete").css("visibility","");;
+                            $("#btncalculate").css("visibility", "hidden");
+                          //  $("#btnSave").css("visibility", "hidden");
                          
                         });
                     }
@@ -448,23 +540,16 @@
 
 <div class="row">
     <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 15px">
-        <ol class="breadcrumb">
-            <li class="active strong1">
-                <strong>Salary Process</strong>
-            </li>
-        </ol>
+      
         <div class="title-action">
-            <button class="btn btn-primary btn1" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
-            <button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>
-
-            <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-
-            <button class="btn btn-danger btn1" id="btnDelete" disabled><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
-
-            <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
+
+            <button class="btn btn-primary btn1" style="margin-left:48em;" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
 
         </div>
     </div>
@@ -488,91 +573,19 @@
                     </label>
                     <div class="custom-form-wrapper">
                         <div id="SMAContainer">
-                            <div class="row">
-                                <div class="custom-form-wrapper">
-                                    <!-- BEGIN FORM-->
-                                    <div class="form-horizontal">
-                                        <div class="form-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">CODE</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input type="text" class="form-control" name="" required placeholder="" maxlength="50" disabled>
-                                                        </div>
-                                                    </div>
+                            <div class="row" >
+                                <div class="col-md-12">
+                                    <div class="custom-form-wrapper">
+                                        <!-- BEGIN FORM-->
+                                        <div class="row">
+                                            <div class="custom-form-wrapper">
+                                                <div class="container" id="SMAListContainer">
+                                                    @Html.Action("GetSalaryDetails", "SalaryProcess")
                                                 </div>
                                             </div>
-                                            <!--/row-->
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Date</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input id="DateINMonth" class="form-control datepicker" name="DateINMonth">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                                <div class="col-md-6">
-                                                    <button class="btn btn-warning"   type="submit" style="width:10em">Calculate</button>
-                                                </div>
-                                                <!--/span-->
-                                            </div>
-                                        </div>
-                                    </div><br />
-                                    <!-- END FORM-->
-                                    <div class="">
-                                        <ul class="nav nav-tabs">
-                                            <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+                                        </div><br />
 
-                                        </ul>
-                                        <div class="tab-content" style="display:none" id="divsrly">
-                                            <div id="home" class="tab-pane fade in active">
-                                                <br /><br />
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div style="overflow-x:auto;">
-                                                            <table class="table table-bordered" id="srlyprocssdatatabl">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Sr No</th>
-                                                                        @*<th><label class="containerone" style="padding-left:35px"><input type="checkbox" class="chck chckheaderdata"><span class="chekmark"></span></label></th>*@
-
-                                                                        <th>Emp_Code</th>
-                                                                        <th>Employee Name</th>
-                                                                        <th>ProjectCode</th>
-                                                                        <th>Working Days</th>
-                                                                        <th>Present</th>
-                                                                        <th>Absent</th>
-                                                                        <th>Leaves</th>
-                                                                        <th>Sick Leaves</th>
-                                                                        <th>Weekly Off</th>
-                                                                        <th>Holiday</th>
-                                                                        <th>NOT Hrs</th>
-                                                                        <th>HOT Hrs</th>
-                                                                        <th>WOT hrs</th>
-                                                                        <th>Extra OT Hrs</th>
-                                                                        <th>Basic Salary</th>
-                                                                        <th>Monthly Addition</th>
-                                                                        <th>Monthly Deduction</th>
-                                                                        <th>Loan Deduction</th>
-                                                                        <th>Total Earning</th>
-                                                                        @*<th>Net Salary</th>*@
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody></tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                        </div>
                                     </div>
-
-                                    <!-- <button>Hey, click me!</button> -->
                                 </div>
                             </div>
                         </div>
@@ -583,27 +596,7 @@
     </div>
 
 
-    <div class="modal" id="editshow" role="dialog">
-            <div class="modal-dialog m1" data-keyboard="false" style="width: 350px;height: auto;margin-left:800px;margin-top:50px;">
-                <div class="modal-content">
-
-
-                    <div class="modal-header">
-                        <h4 class="modal-title">Ez Business System</h4>
-                        <button type="button" style="float: right;margin-top: -26px;" class="btn btn-danger alert-close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
-
-                    </div>
-
-
-                    <div class="modal-body">
-                        <div class="container scroll" id="SMAListContainer">
-                            @Html.Action("GetSalaryDetails", "SalaryProcess")
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+    
     <!-- Purchase Request List End -->
     <!-- Row end -->
 </div>

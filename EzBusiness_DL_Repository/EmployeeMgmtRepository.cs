@@ -237,7 +237,7 @@ namespace EzBusiness_DL_Repository
         }
         public List<Employee> GetEmployeeList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select b.Empname as ReportingEmp,a.*from MEM001 a inner join  MEM001 b on a.Cmpycode=b.Cmpycode and a.ReportingEmp = b.EmpCode where a.CmpyCode='" + CmpyCode + "' and a.Flag=0 ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select b.Empname as ReportingEmp,a.* ,c.Name as [VisaLocationName], d.LocName  as [Locname]  from MEM001 a inner join  MEM001 b on a.Cmpycode=b.Cmpycode and a.ReportingEmp = b.EmpCode inner join VLOC001 c on a.Cmpycode=c.CmpyCode and a.Flag=0 and a.VisaLocation=c.Code inner join MLOC018 d on a.Cmpycode=d.Cmpycode and  a.LocCode=d.LocCode where a.CmpyCode='"+CmpyCode +"' and a.Flag=0  ");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<Employee> ObjList = new List<Employee>();
@@ -250,8 +250,8 @@ namespace EzBusiness_DL_Repository
                     Empname = dr["Empname"].ToString(),
                     EmpType = dr["EmpType"].ToString(),
                     DOB =Convert.ToDateTime(dr["DOB"].ToString()),
-                    LocCode = dr["LocCode"].ToString(),
-                    VisaLocation = dr["VisaLocation"].ToString(),
+                    LocCode = dr["Locname"].ToString(),
+                    VisaLocation = dr["VisaLocationName"].ToString(),
                     ContactNo = dr["ContactNo"].ToString(),
                     EMail = dr["EMail"].ToString(),
                     Nationality = dr["Nationality"].ToString(),
