@@ -700,11 +700,8 @@ function Ezsidetbl(ide, idef, lk) {
         $(idef).each(function () {
             var title = '';//$(this).text();
             $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
-      
+            
         });
-
-       
-
         // DataTable
         var tableInstance = $(ide).DataTable({
             "paging": true,
@@ -727,9 +724,8 @@ function Ezsidetbl(ide, idef, lk) {
             });
         });
 
-
         var r = $(idef);
-        r.find('th').each(function () {
+        r.find('td').each(function () {
             $(this).css('padding', 8);
            
         });
@@ -737,8 +733,16 @@ function Ezsidetbl(ide, idef, lk) {
         $('#search_0').css('text-align', 'center');
 
         $('div.dataTables_filter input').addClass('form-control input-sm');
+        
+        //$('label select').addClass('form-control input-sm');
 
+        $(''+ide +'_length').hide();
 
+        //$('#tblUnits_length').html("<div class='col-md-6'></div>");
+        //$('#tblUnits_length').html("<div class='dataTables_length' id='POList_length'></div>");
+
+        //$().html("<div class='col-md-6'></div>");
+        //$().html("<div class='dataTables_filter' id='dataTables_filter'></div>");
     });
 }
 /*tbl class date formate DD/MM/YYYY get current */
