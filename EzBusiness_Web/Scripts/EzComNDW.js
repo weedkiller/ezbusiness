@@ -741,7 +741,7 @@ function Ezsidetbl(ide, idef, lk,idfoot) {
 
 
         var r = $(idef);
-        r.find('th').each(function () {
+        r.find('td').each(function () {
             $(this).css('padding', 8);
            
         });
