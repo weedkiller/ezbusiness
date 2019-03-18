@@ -99,9 +99,13 @@
                         var PRADN001_CODE = $("[name*='PRADN001_CODE']").val();
                             $.getJSON("/DeleteMonthly", { PRADN001_CODE: PRADN001_CODE }).done(function (data) {
                                 if (data.DeleteFlag) {                                   
-                                    EzbtnsaveAcVis("#POContainer");                                    
-                                    $("#POContainer").html(lvHtml);                                  
-                                    $("#btnCancel").trigger("click");
+                                    //EzbtnsaveAcVis("#POContainer");                                    
+                                    //$("#POContainer").html(lvHtml);                                  
+                                    //$("#btnCancel").trigger("click");
+                                    //GetLeaveList();
+                                    EzbtnsaveAcVis("#POContainer");
+                                    
+                                    $("#POContainer").html(lvHtml);
                                     GetLeaveList();
                                   //  Ezerrormsg("#ErrorMessage", "Record Deleted");
 
@@ -256,7 +260,7 @@
                     var EmpNametxt = $(this).find("[name*='EmpCode'] option:selected").text();
                     var arrE = EmpNametxt.split('-');
                     EmpNametxt = arrE[2];
-                    if (EmpCodetxt != "0" && ADN_Amounttxt !="" && ADN_Amounttxt != "" && ADN_Act_codetxt != '') {
+                    if (EmpCodetxt != "0" && ADN_Amounttxt !=""  && ADN_Act_codetxt != '') {
                         var MonthlyAdddedM = {
                             EmpCode: EmpCodetxt,
                             ADN_Amount: ADN_Amounttxt,
@@ -327,8 +331,21 @@
             //        response.ErrorMessage += "PO Code,";
             //    }
            // }
-
-
+            var k1 = Monthly.MonthlyAddded.length;
+            var k2 = [];
+            while (k1 > 0)
+            {
+                var em1 = Monthly.MonthlyAddded[k1 - 1].EmpCode + '' + Monthly.MonthlyAddded[k1 - 1].T_type;
+                if (k2.indexOf(em1) == -1) {
+                    k2.push(em1);
+                } else {
+                    response.ErrorMessage += "Emp Code,Deduction Type";
+                   
+                }                               
+                k1 = k1 - 1;
+            }
+            
+            
             if (Monthly.MonthlyAddded.length ==0) {
                 response.ErrorMessage += "Emp Code,Amount and Act-Code";
             }
@@ -408,11 +425,11 @@
 
 <div class="row">
     <div class="col-md-6 col-sm-6 col-xs-6" style="margin-top: 15px">
-        <ol class="breadcrumb">
+        @*<ol class="breadcrumb">
             <li class="active strong1">
                 <strong>Monthly Addition & Deduction </strong>
             </li>
-        </ol>
+        </ol>*@
         <div class="title-action">
             <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 

@@ -87,7 +87,7 @@
                             var EmpCode = $("[name*='EmpCode']").val();
                                 $.getJSON("/DeleteEmployeeMaster", { EmpCode: EmpCode }).done(function (data) {
                                     if (data.DeleteFlag) {                                      
-                                        $("#btnCancel").trigger("click");
+                                        //$("#btnCancel").trigger("click");
                                         EzbtnsaveAcVis("#POContainer")
                                         $("#POContainer").html(poHtml);
                                         GetPurchaseOrderList();
@@ -492,7 +492,7 @@
                 //if (employeemaster.DOB == "") {
                 //    response.ErrorMessage += "DOB ,";
                 //}
-                if (employeemaster.Location == "") {
+                if (employeemaster.LocCode == "0") {
                     response.ErrorMessage += "Location ";
                 }
                 if (employeemaster.VisaLocation == "0") {
@@ -642,7 +642,7 @@
             <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
 
-            @*<button class="btn btn-primary btn1 newbtn"  id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>*@
+            <button class="btn btn-primary btn1 newbtn"  id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
 
         </div>
     </div>
@@ -668,8 +668,19 @@
                   
                     <div class="custom-form-wrapper">
                         <div id="POContainer">
-
                             <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="container scroll" id="SMAListContainer">
+                                        @Html.Action("GetEmployeeMasterList", "EmployeeMaster")
+                                    </div>
+
+                                    <!-- <button>Hey, click me!</button> -->
+                                </div>
+                            </div>
+                            @*<div class="row">
+                              
+
                                 <div class="col-md-12">
                                     
                                                                            
@@ -678,7 +689,7 @@
                                                 </div>                                                                                  
                                    
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                 </div>
