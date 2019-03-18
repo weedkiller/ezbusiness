@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EzBusiness_EF_Entity;
 using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 {
@@ -12,8 +13,10 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
     {
         public string Code { get; set; }
 
+        [Display(Name = "Division Code")]
         public string DivCode { get; set; }
 
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         public string CmpyCode { get; set; }

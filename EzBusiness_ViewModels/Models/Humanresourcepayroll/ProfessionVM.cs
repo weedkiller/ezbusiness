@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EzBusiness_EF_Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 {
@@ -11,8 +12,9 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
     {
         public string CmpyCode { get; set; }
 
+        [Display(Name = "Code")]
         public string ProfCode { get; set; }
-
+        [Display(Name = "Name")]
         public string ProfName { get; set; }
 
         public string UniCodeName { get; set; }

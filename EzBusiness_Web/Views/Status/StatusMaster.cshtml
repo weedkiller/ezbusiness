@@ -15,7 +15,7 @@
         EzAuthentication("/StatusMaster");
         var n = EzAuthenticationBtn("/StatusMaster", "ViewIt");
         if (n == 1) {
-            Ezsidetbl("#tblUnits1", "#tblUnits1 tfoot th", true);
+            Ezsidetbl("#tblUnits1", "#tblUnits1 tfoot th", true, "#tblUnits1 thead");
             $('#tblUnits').show();
 
         } else {
@@ -426,6 +426,7 @@ $(document).ready(function(){
                    
                 </tr>
             </thead>
+           
 
             <tbody>
                 <tr>
@@ -463,7 +464,17 @@ $(document).ready(function(){
                         <th>Action</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr class="tr">
+                        <th>
+                            @Html.DisplayNameFor(model => model.Code)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
 
+                    </tr>
+                </tfoot>
                 <tbody>
 
                     @foreach (var item in Model)

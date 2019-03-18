@@ -475,7 +475,7 @@ function EzbtnCancelAc() {
     $("#hdnOperationMode").val("");
     $("#btnSave").prop("disabled", true);
     $("#ErrorMessage").text('');
-    //$("#POListContainer1").hide();
+    $("#POListContainer1").hide();
 }
 function EzbtnCancelAcVis() {
     $("#btnNew").css("visibility", "");
@@ -693,14 +693,25 @@ function EzTxttabEve(Ide, fIde, errmsg, typ) {
     });
 }
 //Side Grid with searching
-function Ezsidetbl(ide, idef, lk) {
+function Ezsidetbl(ide, idef, lk,idfoot) {
     $(document).ready(function () {
         // Setup - add a text input to each footer cell
         debugger;
+       // $(ide).addClass('');
+        var k = $(idef).length;
         $(idef).each(function () {
-            var title = '';//$(this).text();
-            $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
-      
+            if (lk == true) {
+                if (k > 1) {
+                    var title = '';//$(this).text();
+                    $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                    k = k - 1;
+                }
+            } else {
+                var title = '';//$(this).text();
+                $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+            }
+           
+            
         });
 
        
@@ -711,15 +722,16 @@ function Ezsidetbl(ide, idef, lk) {
             "ordering": true,
             "info": true
         });
-        if (lk == true) {
-            $("#tblUnits_length").hide();
-        }
+        //if (lk == true) {
+        //    $("#tblUnits_length").hide();
+        //}
 
         tableInstance.columns().every(function () {
             var that = this;
 
             $('input', this.footer()).on('keyup change', function (ev) {
-                if (ev.keyCode == 13) { //only on enter keypress (code 13)
+                debugger;
+                if (that.search() !== this.value) { //only on enter keypress (code 13)
                     that
                         .search(this.value)
                         .draw();
@@ -733,10 +745,12 @@ function Ezsidetbl(ide, idef, lk) {
             $(this).css('padding', 8);
            
         });
-        $('#POList thead').append(r);
+        $(idfoot).append(r);
         $('#search_0').css('text-align', 'center');
 
         $('div.dataTables_filter input').addClass('form-control input-sm');
+
+        $('' + ide + '_length').hide();
 
 
     });
