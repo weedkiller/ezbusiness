@@ -693,29 +693,29 @@ function EzTxttabEve(Ide, fIde, errmsg, typ) {
     });
 }
 //Side Grid with searching
-function Ezsidetbl(ide, idef, lk,idfoot) {
-    //$(document).ready(function () {
+function Ezsidetbl(ide, idef, lk, idfoot) {
+    var jq = jQuery.noConflict(true);
+    jq(document).ready(function () {
         // Setup - add a text input to each footer cell
         debugger;
        // $(ide).addClass('');
-        var k = $(idef).length;
-        $(idef).each(function () {
+        var k = jq(idef).length;
+        jq(idef).each(function () {
             if (lk == true) {
                 if (k > 1) {
                     var title = '';//$(this).text();
-                    $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                    jq(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
                     k = k - 1;
                 }
             } else {
                 var title = '';//$(this).text();
-                $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                jq(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
             }
            
             
-        });
-
+        });     
         // DataTable
-        var tableInstance = $(ide).DataTable({
+        var tableInstance = jq(ide).DataTable({
             "paging": true,
             "ordering": true,
             "info": true
@@ -727,7 +727,7 @@ function Ezsidetbl(ide, idef, lk,idfoot) {
         tableInstance.columns().every(function () {
             var that = this;
 
-            $('input', this.footer()).on('keyup change', function (ev) {
+            jq('input', this.footer()).on('keyup change', function (ev) {
                 debugger;
                 if (that.search() !== this.value) { //only on enter keypress (code 13)
                     that
@@ -738,20 +738,20 @@ function Ezsidetbl(ide, idef, lk,idfoot) {
         });
 
 
-        var r = $(idef);
+        var r = jq(idef);
         r.find('td').each(function () {
-            $(this).css('padding', 8);
+            jq(this).css('padding', 8);
            
         });
-        $(idfoot).append(r);
-        $('#search_0').css('text-align', 'center');
+        jq(idfoot).append(r);
+        jq('#search_0').css('text-align', 'center');
 
-        $('div.dataTables_filter input').addClass('form-control input-sm');
+        jq('div.dataTables_filter input').addClass('form-control input-sm');
 
-        $('' + ide + '_length').hide();
+        jq('' + ide + '_length').hide();
 
 
-  //  });
+    });
 }
 /*tbl class date formate DD/MM/YYYY get current */
 function EzdtePk(date1) {    
