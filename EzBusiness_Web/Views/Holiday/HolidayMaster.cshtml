@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Holiday Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
     var counter = 1;
 }
 
@@ -11,7 +13,7 @@
         EzAuthentication("/HolidayMaster");
         var n = EzAuthenticationBtn("/HolidayMaster", "ViewIt");
         if(n==1){
-            Ezsidetbl("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
+            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
             $('#tblUnits').show();
 
         } else {
@@ -24,6 +26,7 @@
     var drec = new Array();
     $(function () {
         $("#tblUnits1").hide();
+        debugger;
         Ezdteformtcur('#datepicker1', 'DD/MM/YYYY');
 
         /*Add Record*/
@@ -519,86 +522,33 @@ $(document).ready(function(){
 
 
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <div class="form-group">
-            <label class="control-label col-md-3">Date</label>
-            <div class="col-md-9 input-field">
-                @*<input type="date" required name="" id="datepicker1" placeholder="" class="date1" style="width:188px">*@
-                <input id="datepicker1" class="form-control datepicker" name="datepicker1" />
-            </div>
-        </div>
-    </div>
-    @*<div class="col-md-4">
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn1" id="btnadd"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Add</button>
-            </div>
-        </div>*@
-</div>
+
 <div class="panel panel-default panl">
     <div class="panel-body">
-        
-        <input id="hldte" type="hidden" />
-        <input id="hltyp" type="hidden" />
-        <input id="hlDesc" type="hidden" />
-        <label class="row" id="ErrorMessage" style="display:none"></label>
 
-        <table class="table table-bordered table-sm" id="tblUnits1">
-            <thead>
-                <tr class="tr">
-                    <th>
-                        @Html.DisplayNameFor(model => model.HRPH001_CODE)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Dates)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.LEAVE_TYPECODE)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Description)
-                    </th>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label col-md-3">Date</label>
+                    <div class="col-md-9 input-field">
+                        @*<input type="date" required name="" id="datepicker1" placeholder="" class="date1" style="width:188px">*@
+                        <input id="datepicker1" class="form-control" name="datepicker1" />
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-md-4">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn1" id="btnadd"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Add</button>
+                </div>
+            </div>*@
+        </div>
+        <div class="row"></diV>
+            <input id="hldte" type="hidden" />
+            <input id="hltyp" type="hidden" />
+            <input id="hlDesc" type="hidden" />
+            <label class="row" id="ErrorMessage" style="display:none"></label>
 
-                    <th></th>
-                </tr>
-            </thead>
-           
-
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtHRPH001_CODE", counter), null, new { @class = "grid-control" })
-                        </div>                   
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtDates", counter), null, new { @class = "grid-control datepicker" })
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                           @* @Html.TextBox(string.Concat("txtLEAVE_TYPECODE", counter), null, new { @class = "grid-control" })*@
-                            @Html.DropDownList(string.Concat("txtLEAVE_TYPECODE", counter), new List<SelectListItem> { new SelectListItem { Text = "Holiday", Value = "H" }, }, new { @class = "grid-control" })
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtDescription", counter), null, new { @class = "grid-control" })
-                        </div>
-                    </td>
-
-                </tr>
-            </tbody>
-        </table>
-
-        <!--//comment table-->
-
-
-        <div id="tbldiv">
-
-
-            <table class="table table-bordered" id="tblUnits">
+            <table class="table table-bordered table-sm" id="tblUnits1">
                 <thead>
                     <tr class="tr">
                         <th>
@@ -617,58 +567,113 @@ $(document).ready(function(){
                         <th></th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr class="tr">
-                        <td>
-                            @Html.DisplayNameFor(model => model.HRPH001_CODE)
-                        </td>
-                        <td>
-                            @Html.DisplayNameFor(model => model.Dates)
-                        </td>
-                        <td>
-                            @Html.DisplayNameFor(model => model.LEAVE_TYPECODE)
-                        </td>
-                        <td>
-                            @Html.DisplayNameFor(model => model.Description)
-                        </td>
 
-                        <td></td>
-                    </tr>
-                </tfoot>
+
                 <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.HRPH001_CODE)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Dates)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LEAVE_TYPECODE)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
+                    <tr>
+                        <td>
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("txtHRPH001_CODE", counter), null, new { @class = "grid-control" })
+                            </div>
+                        </td>
+                        <td>
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("txtDates", counter), null, new { @class = "grid-control datepicker" })
+                            </div>
+                        </td>
+                        <td>
+                            <div class="grid-group">
+                                @* @Html.TextBox(string.Concat("txtLEAVE_TYPECODE", counter), null, new { @class = "grid-control" })*@
+                                @Html.DropDownList(string.Concat("txtLEAVE_TYPECODE", counter), new List<SelectListItem> { new SelectListItem { Text = "Holiday", Value = "H" }, }, new { @class = "grid-control" })
+                            </div>
+                        </td>
+                        <td>
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("txtDescription", counter), null, new { @class = "grid-control" })
+                            </div>
+                        </td>
 
-                            <td>
-                                <button class="btn btn-primary" data-toggle="tooltip" title="edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span> @*Edit*@</button>
-                                <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span> @*Delete*@</button>
-                                <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
-                                @Html.HiddenFor(m => item.CmpyCode)
-                            </td>
-                        </tr>
-                        counter++;
-                    }
+                    </tr>
                 </tbody>
-
             </table>
 
+            <!--//comment table-->
 
+
+            <div id="tbldiv">
+
+
+                <table class="table table-bordered" id="tblUnits">
+                    <thead>
+                        <tr class="tr">
+                            <th>
+                                @Html.DisplayNameFor(model => model.HRPH001_CODE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Dates)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LEAVE_TYPECODE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr class="tr">
+                            <td>
+                                @Html.DisplayNameFor(model => model.HRPH001_CODE)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Dates)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.LEAVE_TYPECODE)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </td>
+
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HRPH001_CODE)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Dates)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LEAVE_TYPECODE)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+
+                        <td>
+                            <button class="btn btn-primary" data-toggle="tooltip" title="edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span> @*Edit*@</button>
+                            <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span> @*Delete*@</button>
+                            <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                            @Html.HiddenFor(m => item.CmpyCode)
+                        </td>
+                    </tr>
+                        counter++;
+                    }
+                    </tbody>
+
+                </table>
+
+
+            </div>
+            @Html.Hidden("Counter", counter)
         </div>
-        @Html.Hidden("Counter", counter)
-    </div>
 </div>
 
 
