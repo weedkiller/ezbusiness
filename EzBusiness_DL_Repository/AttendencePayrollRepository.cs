@@ -56,7 +56,7 @@ namespace EzBusiness_DL_Repository
        
         public List<Country> GetCountryCodes(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("SELECT Code, Name FROM CTY085 Order By Code");
+            ds = _EzBusinessHelper.ExecuteDataSet("SELECT Code, Name FROM MNAT019 Order By Code");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<Country> ObjList = new List<Country>();
