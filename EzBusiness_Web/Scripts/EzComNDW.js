@@ -719,7 +719,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
             "paging": true,
             "ordering": true,
             "info": true,
-            "scrollX": true,
+            "scrollX": true 
         });
         //if (lk == true) {
         //    $("#tblUnits_length").hide();
