@@ -714,8 +714,6 @@ function Ezsidetbl(ide, idef, lk,idfoot) {
             
         });
 
-       
-
         // DataTable
         var tableInstance = $(ide).DataTable({
             "paging": true,
