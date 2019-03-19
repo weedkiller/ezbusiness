@@ -718,7 +718,8 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         var tableInstance = jq(ide).DataTable({
             "paging": true,
             "ordering": true,
-            "info": true
+            "info": true,
+            "scrollX": true,
         });
         //if (lk == true) {
         //    $("#tblUnits_length").hide();

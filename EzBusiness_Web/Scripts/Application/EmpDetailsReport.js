@@ -75,8 +75,9 @@ var Empreport = {
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL'
 
-                            }
-               ],
+                            },
+                            
+                             ],
                //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
                //    var oSettings = this.fnSettings();
                //    $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
