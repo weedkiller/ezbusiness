@@ -46,8 +46,9 @@ namespace EzBusiness_BL_Service
                 ResumeDate = m.ResumeDate,
                 Approve_Days_in_full=m.Approve_Days_in_full,
                 Actual_Leave_Type=m.Actual_Leave_Type,
-                Approve_Days=m.Approve_Days
-
+                Approve_Days=m.Approve_Days,
+                PRLR001_CODE=m.PRLR001_CODE
+                
 
             }).ToList();
         }

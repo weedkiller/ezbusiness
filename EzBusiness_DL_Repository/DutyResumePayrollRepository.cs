@@ -52,6 +52,7 @@ namespace EzBusiness_DL_Repository
                     PRDR001_CODE = dr["PRDR001_CODE"].ToString(),
                     EmpCode = dr["EmpCode"].ToString(),
                     ResumeDate = Convert.ToDateTime(dr["ResumeDate"]),
+                    PRLR001_CODE= dr["PRLR001_CODE"].ToString(),
                 });
             }
             return ObjList;

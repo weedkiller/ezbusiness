@@ -748,7 +748,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         jq('#search_0').css('text-align', 'center');
 
         jq('div.dataTables_filter input').addClass('form-control input-sm');       
-        jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i class='fa fa-microphone'></i></button>"));
+        jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
 
         jq('' + ide + '_length').hide();
 
@@ -812,11 +812,11 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
 
         $('div.dataTables_filter input').addClass('form-control input-sm');
 
-        jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i class='fa fa-microphone'></i></button>"));
+        $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
 
         $('' + ide + '_length').hide();
 
-
+        
    //});
 }
 /*tbl class date formate DD/MM/YYYY get current */
