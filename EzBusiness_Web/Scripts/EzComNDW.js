@@ -816,7 +816,7 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
 
         $('' + ide + '_length').hide();
 
-        
+
    //});
 }
 /*tbl class date formate DD/MM/YYYY get current */
