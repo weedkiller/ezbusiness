@@ -812,7 +812,7 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
 
         $('div.dataTables_filter input').addClass('form-control input-sm');
 
-        jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i class='fa fa-microphone'></i></button>"));
+        $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i class='fa fa-microphone'></i></button>"));
 
         $('' + ide + '_length').hide();
 
@@ -820,7 +820,8 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
    //});
 }
 /*tbl class date formate DD/MM/YYYY get current */
-function EzdtePk(date1) {    
+function EzdtePk(date1) {
+    debugger;
     $(date1).datetimepicker({
         defaultDate: new Date(),
         format: 'DD/MM/YYYY',
