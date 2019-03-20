@@ -747,7 +747,8 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         jq(idfoot).append(r);
         jq('#search_0').css('text-align', 'center');
 
-        jq('div.dataTables_filter input').addClass('form-control input-sm');
+        jq('div.dataTables_filter input').addClass('form-control input-sm');       
+        jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i class='fa fa-microphone'></i></button>"));
 
         jq('' + ide + '_length').hide();
 
@@ -810,6 +811,8 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
         $('#search_0').css('text-align', 'center');
 
         $('div.dataTables_filter input').addClass('form-control input-sm');
+
+        jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i class='fa fa-microphone'></i></button>"));
 
         $('' + ide + '_length').hide();
 
