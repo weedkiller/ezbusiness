@@ -758,7 +758,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
 function Ezsidetbl1(ide, idef, lk, idfoot) {
    
-    $(document).ready(function () {
+    //$(document).ready(function () {
         // Setup - add a text input to each footer cell
         debugger;
         // $(ide).addClass('');
@@ -814,7 +814,7 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
         $('' + ide + '_length').hide();
 
 
-    });
+   //});
 }
 /*tbl class date formate DD/MM/YYYY get current */
 function EzdtePk(date1) {    
