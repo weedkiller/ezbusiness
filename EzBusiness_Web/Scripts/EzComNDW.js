@@ -693,6 +693,68 @@ function EzTxttabEve(Ide, fIde, errmsg, typ) {
     });
 }
 //Side Grid with searching
+function Ezsidetblnew(ide, idef, lk, idfoot) {
+    var jq = jQuery.noConflict(true);
+    jq(document).ready(function () {
+        // Setup - add a text input to each footer cell
+        debugger;
+        // $(ide).addClass('');
+        var k = jq(idef).length;
+        jq(idef).each(function () {
+            if (lk == true) {
+                if (k > 1) {
+                    var title = '';//$(this).text();
+                    jq(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                    k = k - 1;
+                }
+            } else {
+                var title = '';//$(this).text();
+                jq(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+            }
+
+
+        });
+        // DataTable
+        var tableInstance = jq(ide).DataTable({
+            "paging": true,
+            "ordering": true,
+            "info": true
+           
+        });
+        //if (lk == true) {
+        //    $("#tblUnits_length").hide();
+        //}
+
+        tableInstance.columns().every(function () {
+            var that = this;
+
+            jq('input', this.footer()).on('keyup change', function (ev) {
+                debugger;
+                if (that.search() !== this.value) { //only on enter keypress (code 13)
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+
+
+        var r = jq(idef);
+        r.find('td').each(function () {
+            jq(this).css('padding', 8);
+
+        });
+        jq(idfoot).append(r);
+        jq('#search_0').css('text-align', 'center');
+
+        jq('div.dataTables_filter input').addClass('form-control input-sm');
+        jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+
+        jq('' + ide + '_length').hide();
+
+
+    });
+}
 function Ezsidetbl(ide, idef, lk, idfoot) {
     var jq = jQuery.noConflict(true);
     jq(document).ready(function () {
@@ -748,7 +810,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         jq('#search_0').css('text-align', 'center');
 
         jq('div.dataTables_filter input').addClass('form-control input-sm');       
-        jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i class='fa fa-microphone'></i></button>"));
+        jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
 
         jq('' + ide + '_length').hide();
 
@@ -812,7 +874,7 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
 
         $('div.dataTables_filter input').addClass('form-control input-sm');
 
-        $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i class='fa fa-microphone'></i></button>"));
+        $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
 
         $('' + ide + '_length').hide();
 
@@ -820,8 +882,7 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
    //});
 }
 /*tbl class date formate DD/MM/YYYY get current */
-function EzdtePk(date1) {
-    debugger;
+function EzdtePk(date1) {    
     $(date1).datetimepicker({
         defaultDate: new Date(),
         format: 'DD/MM/YYYY',

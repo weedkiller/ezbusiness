@@ -110,6 +110,7 @@
         });
 
         $("#tblUnits").on("click", "[name*='NewDelete']", function () {
+            debugger;
             tableDis("F");
             var tr = $(this).closest("tr");
             var hdnAddMode = $(this).parent().find('input:hidden:first');
@@ -167,7 +168,12 @@
                     }
                 })
             }
-            else if (hdnAddMode.val() == "true") {
+            else if ($(tr).find("[name*='txtCode']").val().trim() == "") {
+                $(this).closest("tr").remove();
+            }
+            //else if (hdnAddMode.val() == "true")
+            else
+            {
                
                 var nameTd = $(tr).find("td:eq(1)");
 
@@ -392,12 +398,14 @@
         if (k == "T") {
             $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", true);
             $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", true);
-            $("#btnAdd").prop('disabled', true);
+            // $("#btnAdd").prop('disabled', true);
+            $("#btnAdd").css("visibility", "hidden");
         }
         else {
             $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
             $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
-            $("#btnAdd").prop('disabled', false);
+            //$("#btnAdd").prop('disabled', false);
+            $("#btnAdd").css("visibility", "");
 
         }
     }
