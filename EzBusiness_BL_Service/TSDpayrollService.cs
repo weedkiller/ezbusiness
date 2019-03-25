@@ -17,10 +17,12 @@ namespace EzBusiness_BL_Service
     {
         ITSDpayrollRepository _TSDPayrollRepo;
         ICodeGenRepository _CodeRep;
+        IOTPayrollRepository _OTPayrollRepository;
         public TSDpayrollService()
         {
             _TSDPayrollRepo = new TSDpayrollRepository();
             _CodeRep = new CodeGenRepository();
+            _OTPayrollRepository = new OTPayrollRepository();
         }
 
         public List<SelectListItem> GetEmpCodes(string CmpyCode)
@@ -46,9 +48,9 @@ namespace EzBusiness_BL_Service
             return items;
         }
 
-        public List<TimeSheetDetailVM> GetTSDList(string CmpyCode, string EmpCode, DateTime date)
+        public List<TimeSheetDetailVM> GetTSDList(string CmpyCode, string EmpCode, string Divcode, DateTime date)
         {
-            return _TSDPayrollRepo.GetTSDList(CmpyCode, EmpCode, date).Select(m => new TimeSheetDetailVM
+            return _TSDPayrollRepo.GetTSDList(CmpyCode, EmpCode,Divcode, date).Select(m => new TimeSheetDetailVM
             {
                 //PRSM001UID = m.PRSM001UID,
                 Cmpycode = m.Cmpycode,
@@ -75,8 +77,27 @@ namespace EzBusiness_BL_Service
             {
 
                 EmpCodeList = GetEmpCodes(CmpyCode),
+                DivCodeList = GetDivCodeList(CmpyCode),
+               // PrjCodeList = GetPrjCodeList(CmpyCode),
                 EditFlag = false
             };
+        }
+        public List<SelectListItem> GetDivCodeList(string CmpyCode)
+        {
+            var itemCodes = _OTPayrollRepository.GetDivCodeList(CmpyCode)
+                                      .Select(m => new SelectListItem { Value = m.DivisionCode, Text = string.Concat(m.DivisionCode, " - ", m.DivisionName) })
+                                      .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+
+        public List<SelectListItem> GetPrjCodeList(string Cmpycode)
+        {
+            var itemCodes = _OTPayrollRepository.GetPrjCodeList(Cmpycode)
+                                       .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
+                                       .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
         }
 
         public string GetCountryP(string CmpyCode, DateTime dt)

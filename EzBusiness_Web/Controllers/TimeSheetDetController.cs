@@ -33,7 +33,7 @@ namespace EzBusiness_Web.Controllers
             }
         }
         [Route("GetTSDList")]
-        public ActionResult GetTSDList( string EmpCode, DateTime date1)
+        public ActionResult GetTSDList( string EmpCode, string Divcode, DateTime date1)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -44,7 +44,7 @@ namespace EzBusiness_Web.Controllers
             {
                 //return PartialView(_TdsService.GetTSDList(list[0].CmpyCode, EmpCode, date1));
 
-                return Json(_TdsService.GetTSDList(list[0].CmpyCode, EmpCode, date1), JsonRequestBehavior.AllowGet);
+                return Json(_TdsService.GetTSDList(list[0].CmpyCode, EmpCode, Divcode, date1), JsonRequestBehavior.AllowGet);
             }
         }
 

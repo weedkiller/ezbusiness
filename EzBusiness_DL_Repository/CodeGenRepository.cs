@@ -68,6 +68,11 @@ namespace EzBusiness_DL_Repository
                     {
                         n = 1;
                     }
+
+                    if (n == 0)
+                    {
+                        return false;
+                    }
                 }
                 i++;
             }

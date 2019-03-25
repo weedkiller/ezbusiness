@@ -102,7 +102,7 @@ namespace EzBusiness_BL_Service
             };
         }
 
-        public List<Employee> GetEmpRepCodeList(string CmpyCode, string EmpCode)
+        public List<Employee> GetEmpRepCodeList(string CmpyCode, string EmpCode, string DivCode, string prjCode)
         {
             // return _OTPayrollRepository.GetEmpRepCodeList(CmpyCode, EmpCode);
             //var itemCodes = _OTPayrollRepository.GetEmpRepCodeList(CmpyCode, EmpCode)
@@ -110,7 +110,7 @@ namespace EzBusiness_BL_Service
             //                            .ToList();
             //return itemCodes;
 
-            var poEmployeeList = _OTPayrollRepository.GetEmpRepCodeList(CmpyCode, EmpCode);
+            var poEmployeeList = _OTPayrollRepository.GetEmpRepCodeList(CmpyCode, EmpCode, DivCode, prjCode);
             return poEmployeeList.Select(m => new Employee
             {                
                 EmpCode = m.EmpCode

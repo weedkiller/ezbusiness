@@ -20,7 +20,7 @@ namespace EzBusiness_DL_Interface
 
         List<ProjectMaster> GetPrjCodeList(string CmpyCode);
 
-        List<Employee> GetEmpRepCodeList(string CmpyCode,string EmpCode);
+        List<Employee> GetEmpRepCodeList(string CmpyCode,string EmpCode, string DivCode,string prjCode);
 
         List<Attendence> GetLeaveTypList(string CmpyCode);
 
