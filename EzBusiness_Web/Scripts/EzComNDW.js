@@ -460,11 +460,12 @@ function EzbtnEditAc() {
     // $("#POListContainer1").show();
 }
 function EzbtnEditAcVis() {
-    $("#btnNew").css("visibility", "hidden");
+   
     $("#hdnOperationMode").val("Edit");
     $("#btnSave").css("visibility", "");
     $("#btnCancel").css("visibility", "");
       $("#btnDelete").css("visibility", "");
+       $("#btnNew").css("visibility", "hidden");
     // $("#POListContainer1").show();
 }
 //Cancel  Button
@@ -748,10 +749,10 @@ function Ezsidetblnew(ide, idef, lk, idfoot) {
         jq('#search_0').css('text-align', 'center');
 
         jq('div.dataTables_filter input').addClass('form-control input-sm');
-        jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
-
+       
         jq('' + ide + '_length').hide();
 
+         jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
 
     });
 }
@@ -775,17 +776,30 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
             }
            
             
-        });     
+        });
+
+      //  $(ide).DataTable().clear();
+       
+        
+
         // DataTable
         var tableInstance = jq(ide).DataTable({
             "paging": true,
             "ordering": true,
             "info": true,
-            "scrollX": true 
+            "scrollX": true,
+            "destroy":true,
         });
+
+       
+        
+       
+
         //if (lk == true) {
         //    $("#tblUnits_length").hide();
         //}
+
+      
 
         tableInstance.columns().every(function () {
             var that = this;
@@ -810,12 +824,53 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         jq('#search_0').css('text-align', 'center');
 
         jq('div.dataTables_filter input').addClass('form-control input-sm');       
-        jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+       
+    
 
         jq('' + ide + '_length').hide();
 
+        
+
+         jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+
 
     });
+}
+
+
+function ReloadDataTablDocumentDetails(tableId, urlData) {
+    // alert("reload");
+    debugger;
+    //  var myObject ='';
+    $.ajax({
+        async: false,
+        cache: false,
+        type: "GET",
+        data: {},
+        url: urlData,
+        dataType: 'Json',
+        contentType: "Application/json",
+        success: function (data) {
+            var table = $(tableId).dataTable();
+              var  oSettings = table.fnSettings();
+                table.fnClearTable(this);
+                for (var i = 0; i < response.length; i++) {
+                    table.oApi._fnAddData(oSettings, response[i]);
+                }
+                oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+                table.fnDraw();
+        }
+    });
+    //$.get("/EmployeeMaster/GetEmployeeMasterList", function (response) {
+    //  var  table = $(tableId).dataTable();
+    //  var  oSettings = table.fnSettings();
+    //    table.fnClearTable(this);
+    //    for (var i = 0; i < response.length; i++) {
+    //        table.oApi._fnAddData(oSettings, response[i]);
+    //    }
+    //    oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+    //    table.fnDraw();
+    //})
 }
 
 
@@ -844,7 +899,8 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
         var tableInstance = $(ide).DataTable({
             "paging": true,
             "ordering": true,
-            "info": true
+            "info": true,
+            
         });
         //if (lk == true) {
         //    $("#tblUnits_length").hide();
@@ -872,11 +928,10 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
         $(idfoot).append(r);
         $('#search_0').css('text-align', 'center');
 
-        $('div.dataTables_filter input').addClass('form-control input-sm');
-
-        $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+        $('div.dataTables_filter input').addClass('form-control input-sm');        
 
         $('' + ide + '_length').hide();
+        $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
 
 
    //});
