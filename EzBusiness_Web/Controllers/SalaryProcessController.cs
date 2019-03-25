@@ -42,26 +42,26 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return PartialView();
+                return PartialView(_SalService.GetSalaryProcessDetailList(list[0].CmpyCode));
 
-               // return PartialView();
+                // return PartialView(); 
             }
         }
-        public ActionResult GetSalaryProcessId()
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(_SalService.GetSalaryProcessId(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+        //public ActionResult GetSalaryProcessId()
+        //{
+        //    List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+        //    if (list == null)
+        //    {
+        //        return Redirect("Login/InLogin");
+        //    }
+        //    else
+        //    {
+        //        return Json(_SalService.GetSalaryProcessId(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
 
-            }
-        }
+        //    }
+        //}
         [Route("GetTimeSheetDetailsByMonth")]
-       public ActionResult GetTimeSheetDetailsByMonth(string CurrentDate)
+       public ActionResult GetTimeSheetDetailsByMonth(string CurrentDate,string divcode)
         {
             List<SalaryProcessDetailsListItem> data = null;
             try
@@ -73,7 +73,7 @@ namespace EzBusiness_Web.Controllers
                 }
                 else
                 {
-                    data = _SalService.GetTimeSheetDetailsByMonth(list[0].CmpyCode,Convert.ToDateTime(CurrentDate));
+                    data = _SalService.GetTimeSheetDetailsByMonth(list[0].CmpyCode,Convert.ToDateTime(CurrentDate), divcode);
                 }
             }
             catch(Exception ex)
@@ -109,7 +109,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<SalaryProcessDetailsListItem> data = _SalService.GetSalaryProcessGrid(list[0].CmpyCode, slryVM.Process_Date);
+                    List<SalaryProcessDetailsListItem> data = _SalService.GetSalaryProcessGrid(list[0].CmpyCode, slryVM.Process_Date,slryVM.GroupItems);
                     // Total record count.
                     int totalRecords = 0;
                     if (data != null)

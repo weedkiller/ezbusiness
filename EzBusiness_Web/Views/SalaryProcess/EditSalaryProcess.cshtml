@@ -3,28 +3,44 @@
     var counter = 1;
 
 }
+
 <script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Scripts/moment.min.js"></script>
-<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
-<link href="~/Scripts/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+
+@*<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/moment.min.js"></script>
+
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>*@
+@*<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<link href="~/Scripts/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+
 @*<link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />*@
 
-@*<script src="~/Scripts/EzComNDW.js"></script>*@
+<script src="~/scripts/ezcomndw.js"></script>
 <script>
 
     EzdtePkMMyyEdit('#DateINMonth', "#Process_Date");
     debugger;
     var jq = $.noConflict(true);
-    $(function () {
+    jq(function () {
       //  var Code = $(this).find("#hdnprbmCode").val();
         debugger;
       //  $("#btncalculate").css("visibility", "hidden");
-      //  $("#btnSave").css("visibility", "hidden");
-        var Pdate = $(this).find("#Process_Date").val();
+        //  $("#btnSave").css("visibility", "hidden");
+        jq('.selectpicker').selectpicker('refresh');
+        var Pdate = jq(this).find("#Process_Date").val();
         //var month = $(this).find("#hdnprscssMonth").val();
-        $.get("/SalaryProcess/GetSalaryProcessGridEdit", { SPDate: Pdate }).done(function (responce) {
+      
+        jq.get("/SalaryProcess/GetSalaryProcessGridEdit", { SPDate: Pdate }).done(function (responce) {
             debugger;
             if(responce!=null)
             {
@@ -32,7 +48,8 @@
                 GetslryDetailsDatatable(responce);
             }
         });
-   
+       
+      
            function GetslryDetailsDatatable(responce)
         {
                debugger;
@@ -44,7 +61,7 @@
                     "scrollX": true,
                     "destroy": true,
                     "columns": [
-                         //{ "data": "srno" },
+                       { "data": "srno" },
                        { "data": "Empcode" },
                        { "data": "Empname" },
                        { "data": "country" },
@@ -133,6 +150,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Division</label>
+                           
+                                <div class="col-md-9 input-field">
+                                    @Html.TextBoxFor(m => m.Division, new { @class = "form-control", @data_live_search = "true" })
+                                </div>
+                          
+                        </div>
+                    </div>
                 </div>
                 <!--/row-->
                 <div class="row">
@@ -173,7 +200,7 @@
                                     <thead>
                                         <tr>
                                            
-                                            @*<th>Sr No</th>*@
+                                            <th>Sr No</th>
                                             <th>Employee Code</th>
                                             <th>Employee Name</th>
                                             <th>country</th>

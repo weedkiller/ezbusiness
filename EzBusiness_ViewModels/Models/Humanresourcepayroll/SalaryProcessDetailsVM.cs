@@ -29,7 +29,8 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public List<SelectListItem>  GroupList { get; set; }
         public List<SalaryProcessDetailsListItem> salaryList { get; set; }
         public SalaryProcessDetailsListItem salaryListItems { get; set; }
-       
+       // public string DivisionCode { get; set; }
+       // public List<SelectListItem> DivisionList { get; set; }
         public List<string> Drecord { get; set; }
         public DateTime created_on { get; set; }
         public DateTime Updated_on { get; set; }

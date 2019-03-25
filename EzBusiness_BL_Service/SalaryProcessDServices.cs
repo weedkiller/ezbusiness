@@ -7,16 +7,21 @@ using System.Threading.Tasks;
 using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using EzBusiness_DL_Interface;
 using EzBusiness_DL_Repository;
+using EzBusiness_EF_Entity;
+using System.Web;
 
 namespace EzBusiness_BL_Service
 {
     public class SalaryProcessDServices : ISalaryProcessDService
     {
         ISalaryProcessDRepository _salaryrepo;
-
+        ICodeGenRepository _CodeRep;
+        IEmployeeMgmtService _employeeService;
         public SalaryProcessDServices()
         {
             _salaryrepo = new SalaryProcessRepository();
+            _CodeRep = new CodeGenRepository();
+            _employeeService = new EmployeeMgmtService();
         }
 
         public bool DeleteSalaryProcess(string CmpyCode, string Code, DateTime CurrDate, string UserName)
@@ -43,12 +48,12 @@ namespace EzBusiness_BL_Service
 
             }).ToList();
         }
-        public List<SalaryProcessDetailsListItem> GetTimeSheetDetailsByMonth(string CmpyCode, DateTime currDate)
+        public List<SalaryProcessDetailsListItem> GetTimeSheetDetailsByMonth(string CmpyCode, DateTime currDate,string divcode)
         {
             //return _salaryrepo.GetSalaryDetailsList(CmpyCode);
 
 
-            return  _salaryrepo.GetTimeSheetDetailsByMonth(CmpyCode,currDate);
+            return  _salaryrepo.GetTimeSheetDetailsByMonth(CmpyCode,currDate,divcode);
             //return poEmployeeList.Select(m => new SalaryProcessDetailsVM
             //{
             //    em = m.Code,
@@ -61,22 +66,34 @@ namespace EzBusiness_BL_Service
         public SalaryProcessDetailsVM GetSalaryProcessEdit(string CmpyCode, string PRSFT001_code)
         {
             var poedit = _salaryrepo.GetSalaryProcessEdit(CmpyCode, PRSFT001_code);
-            poedit.salaryList = GetSalaryProcessGridEdit(poedit.year,poedit.Month,poedit.CmpyCode);
+            poedit.GroupList = _employeeService.GetDivisionList(CmpyCode);
+           
+         //   poedit.salaryList = GetSalaryProcessGridEdit(poedit.year,poedit.Month,poedit.CmpyCode);
+            
             return poedit;
         }
       
-        public List<SalaryProcessDetailsListItem> GetSalaryProcessGrid(string CmpyCode,DateTime CurrDate)
+        public List<SalaryProcessDetailsListItem> GetSalaryProcessGrid(string CmpyCode,DateTime CurrDate,string DivCode)
         {
-            return _salaryrepo.GetSalaryProcessGrid(CmpyCode, CurrDate);
+            return _salaryrepo.GetSalaryProcessGrid(CmpyCode, CurrDate,DivCode);
         }
 
         public SalaryProcessDetailsVM SaveSalaryProcessD(SalaryProcessDetailsVM salary)
         {
             return _salaryrepo.SaveSalaryProcessD(salary);
         }
-        public string GetSalaryProcessId(string CmpyCode)
+        public SalaryProcessDetailsVM GetSalaryProcessDetailList(string CmpyCode)
         {
-            return _salaryrepo.GetSalaryProcessId(CmpyCode);
+            List<SessionListnew> list = HttpContext.Current.Session["SesDet"] as List<SessionListnew>;
+
+            return new SalaryProcessDetailsVM
+            {
+                // AccNoList = GetAccList(CmpyCode, "EXP"),
+                PRSP001_Code = _CodeRep.GetCode(CmpyCode,"SalaryProcess"),
+                GroupList = _employeeService.GetDivisionList(CmpyCode),
+              //  DivisionCode = list[0].Divcode.ToString(),
+
+            };
         }
 
         public List<SalaryProcessDetailsListItem> GetSalaryProcessGridEdit(int year,int month,string CmpyCode)

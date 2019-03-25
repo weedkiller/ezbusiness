@@ -842,35 +842,17 @@ function ReloadDataTablDocumentDetails(tableId, urlData) {
     // alert("reload");
     debugger;
     //  var myObject ='';
-    $.ajax({
-        async: false,
-        cache: false,
-        type: "GET",
-        data: {},
-        url: urlData,
-        dataType: 'Json',
-        contentType: "Application/json",
-        success: function (data) {
-            var table = $(tableId).dataTable();
-              var  oSettings = table.fnSettings();
-                table.fnClearTable(this);
-                for (var i = 0; i < response.length; i++) {
-                    table.oApi._fnAddData(oSettings, response[i]);
-                }
-                oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
-                table.fnDraw();
+  
+    $.get("/EmployeeMaster/GetEmployeeMasterList", function (response) {
+      var  table = $(tableId).dataTable();
+        oSettings = table.fnSettings();
+        table.fnClearTable(this);
+        for (var i = 0; i < response.length; i++) {
+            table.oApi._fnAddData(oSettings, response[i]);
         }
-    });
-    //$.get("/EmployeeMaster/GetEmployeeMasterList", function (response) {
-    //  var  table = $(tableId).dataTable();
-    //  var  oSettings = table.fnSettings();
-    //    table.fnClearTable(this);
-    //    for (var i = 0; i < response.length; i++) {
-    //        table.oApi._fnAddData(oSettings, response[i]);
-    //    }
-    //    oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
-    //    table.fnDraw();
-    //})
+        oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+        table.fnDraw();
+    })
 }
 
 

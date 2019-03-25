@@ -73,13 +73,14 @@ namespace EzBusiness_DL_Repository
             }
             return ObjList;
         }
-       public  List<SalaryProcessDetailsListItem> GetTimeSheetDetailsByMonth(string CmpyCode, DateTime currDate)
+       public  List<SalaryProcessDetailsListItem> GetTimeSheetDetailsByMonth(string CmpyCode, DateTime currDate,string divcode)
         {
             List<SalaryProcessDetailsListItem> objList = null;
             string yeardata = currDate.ToString("yyyy");
             string monthdata = currDate.ToString("MM");
             var lastDayOfMonth = DateTime.DaysInMonth(Convert.ToInt32(currDate.ToString("yyyy")), Convert.ToInt32(currDate.ToString("MM")));
             SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
+                                     new SqlParameter("@divcode", divcode),
                                     new SqlParameter("@Year", yeardata),
                                      new SqlParameter("@Month",monthdata),
                                      new SqlParameter("@lastdate",lastDayOfMonth)};
@@ -102,13 +103,14 @@ namespace EzBusiness_DL_Repository
             }
             return objList;
         }
-        public List<SalaryProcessDetailsListItem> GetSalaryProcessGrid(string CmpyCode, DateTime currDate)
+        public List<SalaryProcessDetailsListItem> GetSalaryProcessGrid(string CmpyCode, DateTime currDate,string DivCode)
         {
            
                 List<SalaryProcessDetailsListItem> objList = null;
                 string yeardata = currDate.ToString("yyyy");
                 string monthdata = currDate.ToString("MM");
             SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
+                                    new SqlParameter("@DivCode",DivCode),
                                     new SqlParameter("@Year", yeardata),
                                      new SqlParameter("@Month",monthdata)};
             ds = _EzBusinessHelper.ExecuteDataSet("GetCalculatedSalaryDetails", CommandType.StoredProcedure,param);
@@ -277,7 +279,7 @@ namespace EzBusiness_DL_Repository
                         {
 
 
-                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from PRSPD001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.PRSP001_Code + "' and flag=0 and not in (EmpCode='" + ObjList[n - 1].Empcode + "')");
+                            decimal Stats1 = _EzBusinessHelper.ExecuteScalarDec("Select count(*) as [count1] from PRSP002 where CmpyCode='" + SPDV.CmpyCode + "'  and flag=0 and empcode='" + ObjList[n - 1].Empcode + "'");
                             if (Stats1 == 0)
                             {
                                 StringBuilder sb = new StringBuilder();
@@ -477,12 +479,12 @@ namespace EzBusiness_DL_Repository
 
             return SPDV;
         }
-        public string GetSalaryProcessId(string CmpyCode)
-        {
-           int slrycode = _EzBusinessHelper.ExecuteScalar("select Nos from PARTTBL001 where CmpyCode='" + CmpyCode + "' and Code='SP'" );
-           string SprocessCode = string.Concat(PurchaseMgmtConstants.SalaryProcessHeader, "-", (Convert.ToInt16(slrycode)).ToString().PadLeft(4, '0')).ToString();
-           return SprocessCode;
-        }
+        //public string GetSalaryProcessId(string CmpyCode)
+        //{
+        //   int slrycode = _EzBusinessHelper.ExecuteScalar("select Nos from PARTTBL001 where CmpyCode='" + CmpyCode + "' and Code='SP'" );
+        //   string SprocessCode = string.Concat(PurchaseMgmtConstants.SalaryProcessHeader, "-", (Convert.ToInt16(slrycode)).ToString().PadLeft(4, '0')).ToString();
+        //   return SprocessCode;
+        //}
 
         public List<SalaryProcessDetailsListItem> GetSalaryProcessGridEdit(int year, int month, string cmpycode)
         {

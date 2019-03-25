@@ -10,14 +10,14 @@ namespace EzBusiness_DL_Interface
     public interface ISalaryProcessDRepository
     {
         List<SalaryProcessDetailsVM> GetSalaryDetailsList(string CmpyCode);
-        List<SalaryProcessDetailsListItem> GetSalaryProcessGrid(string CmpyCode,DateTime CurrDate);
+        List<SalaryProcessDetailsListItem> GetSalaryProcessGrid(string CmpyCode,DateTime CurrDate,string DivCode);
         SalaryProcessDetailsVM SaveSalaryProcessD(SalaryProcessDetailsVM salary);
         SalaryProcessDetailsVM GetSalaryProcessEdit(string CmpyCode, string PRSPD001_code);
 
-        List<SalaryProcessDetailsListItem> GetTimeSheetDetailsByMonth(string CmpyCode, DateTime currDate);
+        List<SalaryProcessDetailsListItem> GetTimeSheetDetailsByMonth(string CmpyCode, DateTime currDate,string divcode);
         List<SalaryProcessDetailsListItem> GetSalaryProcessGridEdit(int year, int month, string CmpyCode);
         bool DeleteSalaryProcess(string CmpyCode, string Code, DateTime CurrDate, string UserName);
-        string GetSalaryProcessId(string CmpyCode);
+        //SalaryProcessDetailsVM GetSalaryProcessDetailList(string CmpyCode);
         bool CheckslryDataCalculated(string CmpyCode, DateTime CurrDate);
         #region SalaryProcess Request
 
