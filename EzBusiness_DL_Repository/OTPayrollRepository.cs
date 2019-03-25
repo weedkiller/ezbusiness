@@ -191,9 +191,9 @@ namespace EzBusiness_DL_Repository
             return OT;
         }
 
-        public List<Employee> GetEmpRepCodeList(string CmpyCode, string EmpCode)
+        public List<Employee> GetEmpRepCodeList(string CmpyCode, string EmpCode, string DivCode, string prjCode)
         {
-            string qur = "SELECT EmpCode FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "' and Flag=0 And WorkingStatus = 'Y' and EmpCode='" + EmpCode + "'  or ReportingEmp='" + EmpCode + "'   and CmpyCode='" + CmpyCode + "'  Order By EmpCode";
+            string qur = "SELECT EmpCode FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "' and Flag=0 And WorkingStatus = 'Y' and ((EmpCode='" + EmpCode + "'  or ReportingEmp='" + EmpCode + "')  or DivisionCode='"+ DivCode +"')   and CmpyCode='" + CmpyCode + "'  Order By EmpCode";
             ds = _EzBusinessHelper.ExecuteDataSet(qur);
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;

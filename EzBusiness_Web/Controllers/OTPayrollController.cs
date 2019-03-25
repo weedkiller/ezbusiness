@@ -79,7 +79,7 @@ namespace EzBusiness_Web.Controllers
         }
 
         [Route("GetEmpRep")]
-        public ActionResult GetOTDetailList( string EmpCode)
+        public ActionResult GetOTDetailList( string EmpCode, string DivCode, string prjCode)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -88,7 +88,7 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_OTPayrollService.GetEmpRepCodeList(list[0].CmpyCode, EmpCode), JsonRequestBehavior.AllowGet);
+                return Json(_OTPayrollService.GetEmpRepCodeList(list[0].CmpyCode, EmpCode, DivCode, prjCode), JsonRequestBehavior.AllowGet);
             }
         }
 

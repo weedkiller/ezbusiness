@@ -24,15 +24,16 @@ namespace EzBusiness_DL_Repository
             return drop.GetEmpCodes(CmpyCode,"T");
         }
 
-        public List<TimeSheetDetail> GetTSDList(string CmpyCode, string EmpCode, DateTime date)
+        public List<TimeSheetDetail> GetTSDList(string CmpyCode, string EmpCode, string Divcode, DateTime date)
         {
            
 
             SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
                         new SqlParameter("@date1", date),
-            new SqlParameter("@EmpCode",EmpCode)};
+            new SqlParameter("@EmpCode",EmpCode),
+             new SqlParameter("@divisioncode",Divcode)};
 
-            ds = _EzBusinessHelper.ExecuteDataSet("retrieve_timesheetDet", CommandType.StoredProcedure, param);
+            ds = _EzBusinessHelper.ExecuteDataSet("retrieve_timesheetDetnew", CommandType.StoredProcedure, param);
 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;

@@ -13,8 +13,12 @@ namespace EzBusiness_BL_Interface
 {
     public interface ITSDpayrollService
     {
-        List<TimeSheetDetailVM> GetTSDList(string CmpyCode, string EmpCode, DateTime date);
+        List<TimeSheetDetailVM> GetTSDList(string CmpyCode, string EmpCode, string Divcode, DateTime date);
         List<SelectListItem> GetEmpCodes(string CmpyCode);
+        List<SelectListItem>  GetDivCodeList(string CmpyCode);
+
+        List<SelectListItem> GetPrjCodeList(string CmpyCode);
+
         string GetCountryP(string CmpyCode, DateTime dt);
         TimeSheetDetailVM GetOTVMNew(string CmpyCode);
 

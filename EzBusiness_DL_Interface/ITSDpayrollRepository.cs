@@ -10,7 +10,7 @@ namespace EzBusiness_DL_Interface
 {
     public interface ITSDpayrollRepository
     {
-        List<TimeSheetDetail> GetTSDList(string CmpyCode,string EmpCode,DateTime date);
+        List<TimeSheetDetail> GetTSDList(string CmpyCode,string EmpCode, string Divcode, DateTime date);
         List<Employee> GetEmpCodes(string CmpyCode);
 
     }

@@ -19,6 +19,54 @@
         EzAuthentication("/TSD");
         EzdtePkMMyy('#DateINMonth');
        
+        $('#Hemp').show();
+        $('#Hdiv').hide();
+      //  $('#HPrj').hide();
+
+        $('input[type=radio][name=optionsRadios]').change(function () {
+            debugger;
+
+            if (this.value == "E") {
+                $('.selectpicker').selectpicker('refresh');
+                $("#EmpCode").val('0');
+                $('#Hemp').show();
+                $('#Hdiv').hide();
+                $('#HPrj').hide();
+                $("#tblUnits > tbody tr").empty();
+                $("#tblUnits > tbody tr").remove();
+            }
+            else if (this.value == "D") {
+                $('.selectpicker').selectpicker('refresh');
+                $("#DivCode").val('0');
+                $('#Hemp').hide();
+                $('#Hdiv').show();
+                $('#HPrj').hide();
+                $("#tblUnits > tbody tr").empty();
+                $("#tblUnits > tbody tr").remove();
+            } 
+            //else {
+            //    $("#PrjCode").val(0);
+            //    $('#Hemp').hide();
+            //    $('#Hdiv').hide();
+            //    $('#HPrj').show();
+            //}
+        });
+        //$("#EmpCode").change(function () {
+
+        //    counter = 1;
+        //    arr = [];
+        //    $("#tablePODetails > tbody tr").empty();
+        //    $("#tablePODetails > tbody tr").remove();
+        //});
+        //$("#PrjCode").change(function () {
+
+        //    counter = 1;
+        //    arr = [];
+        //    $("#tablePODetails > tbody tr").empty();
+        //    $("#tablePODetails > tbody tr").remove();
+        //});
+       
+
         var Eary = [];
         Eary.push('#Dates');
         EzsetTodayDte(Eary);
@@ -68,7 +116,7 @@
                 async: false,
                 cache: false,
                 type: "POST",
-                data: "{EmpCode:'" + e1 + "'}",
+                data: "{EmpCode:'" + e1 + "',DivCode:'-1',prjCode:'-1'}",
                 url: "/GetEmpRep",
                 dataType: 'Json',
                 contentType: "Application/json",
@@ -87,10 +135,11 @@
             if (tf == false) {
                 k = EzSalrLast(a, date1, a1, 'Salary not set for this under employee');
             }           
-            if (e1 != '0' && k==1)
-                {
-                //var date1 = Ezsetdtpkdate($('#Dates').val());
-                    $.get("/GetTSDList", { EmpCode: e1, date1: date1 }).done(function (response) {
+             if (e1 != '0' && k==1)
+            //if (e1 != '0')
+            {
+               // var date1 = Ezsetdtpkdate($('#Dates').val());
+                $.get("/GetTSDList", { EmpCode: e1,Divcode:'-1', date1: date1 }).done(function (response) {
                         var ary = [];
                         ary = response;
                         counter = 1;
@@ -146,6 +195,120 @@
             }
         });
 
+
+
+
+        $("#DivCode").change(function () {
+
+            $("#tblUnits > tbody tr").empty();
+            $("#tblUnits > tbody tr").remove();
+            var d1 = $("#DivCode option:selected").val();
+
+            var date1 = Ezsetdtpkdate($('#Dates').val());
+            debugger;
+            var tf = false;
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "POST",
+                data: "{dt:'" + date1 + "'}",
+                url: "/TimeSheetDet/GetCountryP",
+                dataType: 'Json',
+                contentType: "Application/json",
+                success: function (data) {
+                    debugger;
+                    if (data == '0') {
+                        tf = true;
+                        EzAlerterrtxt("PayRoll Config not Generated");
+                    }
+                }
+            });
+
+            var a = [];
+            var a1 = [];
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "POST",
+                data: "{EmpCode:'-1',DivCode:'"+ d1 +"',prjCode:'-1'}",
+                url: "/GetEmpRep",
+                dataType: 'Json',
+                contentType: "Application/json",
+                success: function (data) {
+                    var k1 = data.length;
+                    while (k1 > 0) {
+                        a.push(data[k1 - 1].EmpCode);
+                        a1.push(0);
+                        k1--;
+                    }
+
+                }
+            });
+
+            var k = 0
+            if (tf == false) {
+                k = EzSalrLast(a, date1, a1, 'Salary not set for this under employee');
+            }           
+             if (d1 != '0' && k==1)
+                 // if (d1 != '0') 
+             {
+                // var date1 = Ezsetdtpkdate($('#Dates').val());
+                $.get("/GetTSDList", { EmpCode: '-1', Divcode: d1, date1: date1 }).done(function (response) {
+                    var ary = [];
+                    ary = response;
+                    counter = 1;
+                    if (ary.length == 0) {
+                        Swal.queue([{
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'Employee Not Joining this Month  !',
+                            allowOutsideClick: false,
+                            showLoaderOnConfirm: true,
+                        }])
+                        return;
+                    }
+                    for (var i = 0; i < ary.length; i++) {
+                        var tr1 = "<tr>";
+                        //var td ="<td><div class='form-group'>" + counter + "</div></td>"
+                        //var td1="<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='EmpCode" + counter + "'></div></td>"
+                        var td11 = "<td><div class='grid-group'><input type='text' class='grid-control' name='EmpCode" + counter + "'></div></td>";
+                        var td1 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Tmonth" + counter + "'></div></td>";
+                        var td2 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Tyear" + counter + "'></div></td>";
+                        var td3 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='SrNo" + counter + "'></div></td>";
+                        var td12 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='ReportingEmp" + counter + "'></div></td>";
+                        var td4 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='Dates" + counter + "'></div></td>";
+                        var td13 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='Project_code" + counter + "'></div></td>";
+                        var td5 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='Attendance" + counter + "'></div></td>";
+                        var td6 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Nhrs" + counter + "'></div></td>";
+                        var td7 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='ExtraHrs" + counter + "'></div></td>";
+                        var td8 = "<td><div class='grid-group'><input type='number'  Readonly='true' class='grid-control' name='FOThrs" + counter + "'></div></td>";
+                        var td9 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Hhrs" + counter + "'></div></td>";
+                        var td10 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Ohrs" + counter + "'></div></td></tr>";
+                        //var td4 = "<td><div class='grid-group'><input type='number' class='grid-control' name='AMOUNT" + counter + "'></div></td></tr>";
+                        $("#tblUnits").append(tr1 + td11 + td1 + td2 + td3 + td12 + td4 + td13 + td5 + td6 + td7 + td8 + td9 + td10);
+                        var tr = $("#tblUnits tbody tr");
+                        tr.find("[name='EmpCode" + counter + "']").val(ary[i].EmpCode);
+
+                        tr.find("[name='Tmonth" + counter + "']").val(ary[i].Tmonth);
+                        tr.find("[name='Tyear" + counter + "']").val(ary[i].Tyear);
+                        tr.find("[name='SrNo" + counter + "']").val(counter);
+                        tr.find("[name='ReportingEmp" + counter + "']").val(ary[i].ReportingEmp);
+                        tr.find("[name='Dates" + counter + "']").val(EzdatefrmtRes(ary[i].Dates));
+                        tr.find("[name='Project_code" + counter + "']").val(ary[i].Project_code);
+                        tr.find("[name='Attendance" + counter + "']").val(ary[i].Attendance);
+                        tr.find("[name='Nhrs" + counter + "']").val(ary[i].Nhrs);
+                        tr.find("[name='ExtraHrs" + counter + "']").val(ary[i].ExtraHrs);
+                        tr.find("[name='FOThrs" + counter + "']").val(ary[i].FOThrs);
+                        tr.find("[name='Hhrs" + counter + "']").val(ary[i].Hhrs);
+                        tr.find("[name='Ohrs" + counter + "']").val(ary[i].Ohrs);
+                        //tr.find("[name='Amount" + counter + "']").val(ary[i].Amount);
+                        // tr.clone(true, true).insertAfter(tr);
+                        counter++;
+                    }
+                });
+            }
+        });
+
         $(".datepicker").on("dp.show", function (e) {
             $(e.target).data("DateTimePicker").viewMode("months");
         });
@@ -181,28 +344,58 @@
             <button class="btn btn-danger" id="btnCancel" style="float:right">Cancel</button>*@
 
         <div class="row">
+           
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Month & Year</label>
-                    <div class="col-md-8 input-field">
-                        <input  id="DateINMonth" class="form-control datepicker" name="DateINMonth">
-                         @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
-                        @Html.HiddenFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })                       
+                    <label class="control-label col-md-1">Type</label>
+                    <div class="col-md-8 input-field radiobtn1">
+                        <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="E" checked="checked">
+                            Employee
+                        </label>
+                        &nbsp;
+                        <label>
+                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="D">
+                            Division code
+                        </label>
+                      
                     </div>
                 </div>
             </div>
+
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Reporting EmpCode</label>
+                    <label class="control-label col-md-3">Month & Year</label>
+                    <div class="col-md-4 input-field">
+                        <input id="DateINMonth" class="form-control datepicker" name="DateINMonth">
+                        @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.HiddenFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+        <div class="row">
+            <!--/span-->
+
+            <div class="col-md-4" id="Hemp">
+                <div class="form-group">
+                    <label class="control-label col-md-3">Reporting Employee<i style="color:red;">*</i></label>
                     <div class="col-md-8">
-                        @*<select class="form-control" name="EmpCode" id="EmpCode">
-                            <option value="">---Select---</option>
-                        </select>*@
                         @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                     </div>
                 </div>
             </div>
-           
+            <div class="col-md-4" id="Hdiv">
+                <div class="form-group">
+                    <label class="control-label col-md-3">Division<i style="color:red;">*</i></label>
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(m => m.DivCode, Model.DivCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                    </div>
+                </div>
+            </div>
+          
         </div>
           <br />  
 

@@ -792,7 +792,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         });
 
        
-        
+       
        
 
         //if (lk == true) {
@@ -833,7 +833,8 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
          jq("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
 
-
+         
+         
     });
 }
 
