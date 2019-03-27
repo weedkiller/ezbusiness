@@ -13,20 +13,25 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public string Country { get; set; }
         
         public string PRSP001_Code { get; set; }
-        public string Division { get; set; }
+        public string DivisionCode { get; set; }
+        public string DivisionName { get; set; }
+        public List<SelectListItem> DivisionList { get; set; }
         public string CmpyCode { get; set; }
         public string Deptcode { get; set; }
-        public string VisaLocation { get; set; }
+        public string DeptName { get; set; }
+        public List<SelectListItem> DepartmentList { get; set; }
+        public string VisaLocation1 { get; set; }
+        public string VisaLocationName { get; set; }
+        public List<SelectListItem> VisaLocationList { get; set; }
         public Int32 year { get; set; }
         public Int32 Month { get; set; }
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
         public bool SaveFlag { get; set; }
-        public string GroupItems { get; set; }
+        
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Process_Date { get; set; }
-        public List<SelectListItem>  GroupList { get; set; }
         public List<SalaryProcessDetailsListItem> salaryList { get; set; }
         public SalaryProcessDetailsListItem salaryListItems { get; set; }
        // public string DivisionCode { get; set; }
@@ -93,7 +98,9 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public Int32 srno { get; set; }
         public bool flag { get; set; }
 
+        public string Salary_Paid { get; set; }
 
+        public string Incentive_Paid { get; set; }
 
     }
 

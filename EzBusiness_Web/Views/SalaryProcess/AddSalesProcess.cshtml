@@ -27,14 +27,7 @@
             var dt = $('#DateINMonth').val();
             var currdat = $('#DateINMonth').val();
             $('.selectpicker').selectpicker('refresh');
-            //$.get("/SalaryProcess/GetSalaryProcessId", function (response) {
-           
-            //    //get & set code
-            //    if (response != null) {
-            //        $('input[name="PRSP001_Code"]').val(response);
-            //    }
-            //    $("#SMAListContainer").html(response);
-            //});
+         
             $('#DateINMonth').on('dp.change', function (event) {
                 debugger;
                 dt = $("#DateINMonth").val();
@@ -42,20 +35,38 @@
                 dt = dt + "-" + '01';
                 $('#CurrentDate').val(dt);
             });
-           
+            $('#DivisionCode').change(function () {
+                debugger;
+                var divcode = $('#DivisionCode option:selected').val();
+                $.get("SalaryProcess/GetDepartmentList", { divcode: divcode }).done(function (response) {
+                    
+                    $('#Deptcode').empty();
+                    var ary = [];
+                    ary = response;
+                    for (var i = 0; i < ary.length; i++) {
+                        $('#Deptcode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                    }
+                    
+                    $('#Deptcode').val(0);
+                 
+                    $('.selectpicker').selectpicker('refresh');
+                });
+            });
             //calculate salary Process
             $.fn.dataTable.ext.errorMode = 'none';
             $("#btncalculate").click(function () {
                 debugger;
                 var currmonthyear = dt;
                 var CurrentDate = currmonthyear;
-                var divcode = $('#GroupItems option:selected').val();
+                var divcode = $('#DivisionCode option:selected').val();
+                var Deptcode = $('#Deptcode option:selected').val();
+                var VisaLocation1 = $('#VisaLocation1 option:selected').val();
                    // Code=$("#Code").val()
                 //}
-                $.get("GetTimeSheetDetailsByMonth", { CurrentDate: CurrentDate, divcode: divcode }).done(function (obj) {
+                $.get("GetTimeSheetDetailsByMonth", { CurrentDate: CurrentDate, divcode: divcode, Deptcode: Deptcode, VisaLocation1: VisaLocation1 }).done(function (obj) {
                         var arr = [];
                         arr = obj;
-                        if (arr.data.length > 0) {
+                        if (arr.data.length>0) {
                         $('#empContaint').show();
                         $('#salrcontainer').hide();
                         $('#spnmonth').text(currdat);
@@ -69,7 +80,7 @@
                         $('#empContaint').hide();
                         $('#salrcontainer').show();
                         debugger;
-                        $.get("CheckslryDataCalculated", { CurrentDate: CurrentDate }).done(function (obj) {
+                        $.get("CheckslryDataCalculated", { CurrentDate: CurrentDate, divcode: divcode, Deptcode: Deptcode, VisaLocation1: VisaLocation1 }).done(function (obj) {
                             debugger;
                             if (obj.data == true) {
                                 EzAlerterrtxt("This Month Of Salary Alredy Calculated");
@@ -80,7 +91,9 @@
                                    {
                                        Process_Date: currmonthyear,
                                        PRSP001_Code: $("#PRSP001_Code").val(),
-                                       GroupItems: divcode
+                                       DivisionCode: divcode,
+                                       Deptcode: Deptcode,
+                                       VisaLocation1: VisaLocation1
                                    }
                                 var validationResult = ValidateForm(divcode);
                                 if (validationResult.ErrorMessage=="") {
@@ -121,48 +134,48 @@
                                          { "data": "srno" },
                                        { "data": "Empcode" },
                                        { "data": "Empname" },
-                                       { "data": "country" },
-                                       { "data": "Tmonth" },
-                                       { "data": "Tyear" },
-                                       { "data": "cmpycode" },
+                                       //{ "data": "country" },
+                                       //{ "data": "Tmonth" },
+                                       //{ "data": "Tyear" },
+                                       //{ "data": "cmpycode" },
                                        {"data":  "ProfCode"},
                                        { "data": "DepCode" },
                                        { "data": "ComnPrjcode" },
-                                       { "data": "Division" },
+                                       //{ "data": "Division" },
                                        { "data": "VisaLocation" },
                                        { "data": "WorkLocation" },
                                        { "data": "Total_Days" },
                                        { "data": "Worked_Days" },
-                                       { "data": "a_basic" },
-                                       { "data": "a_hra" },
-                                       { "data": "a_Da" },
-                                       { "data": "a_tele" },
-                                       { "data": "a_trans" },
-                                       { "data": "a_car" },
-                                       { "data": "a_allowance1" },
-                                       { "data": "a_allowance2" },
-                                       { "data": "a_allowance3" },
+                                       //{ "data": "a_basic" },
+                                       //{ "data": "a_hra" },
+                                       //{ "data": "a_Da" },
+                                       //{ "data": "a_tele" },
+                                       //{ "data": "a_trans" },
+                                       //{ "data": "a_car" },
+                                       //{ "data": "a_allowance1" },
+                                       //{ "data": "a_allowance2" },
+                                       //{ "data": "a_allowance3" },
                                        { "data": "a_Totalsalary" },
-                                       { "data": "C_basic" },
-                                       { "data": "C_hra" },
-                                       { "data": "C_da" },
-                                       { "data": "C_tele" },
-                                       { "data": "C_trans" },
-                                       { "data": "C_car" },
-                                       { "data": "C_allowance1" },
-                                       { "data": "C_allowance2" },
-                                       { "data": "C_allowance3" },
+                                       //{ "data": "C_basic" },
+                                       //{ "data": "C_hra" },
+                                       //{ "data": "C_da" },
+                                       //{ "data": "C_tele" },
+                                       //{ "data": "C_trans" },
+                                       //{ "data": "C_car" },
+                                       //{ "data": "C_allowance1" },
+                                       //{ "data": "C_allowance2" },
+                                       //{ "data": "C_allowance3" },
                                        { "data": "C_totalSalary" },
                                        { "data": "loan_amt" },
                                        { "data": "adn_amount" },
-                                       { "data": "nothrs" },
-                                       { "data": "extraOThrs" },
-                                       { "data": "hothrs" },
-                                       { "data": "wothrs" },
-                                       { "data": "not_rate_perhr" },
-                                       { "data": "hot_rate_perhr" },
-                                       { "data": "ExtraOT_rate_perhr" },
-                                       { "data": "wot_rate_perhr" },
+                                       //{ "data": "nothrs" },
+                                       //{ "data": "extraOThrs" },
+                                       //{ "data": "hothrs" },
+                                       //{ "data": "wothrs" },
+                                       //{ "data": "not_rate_perhr" },
+                                       //{ "data": "hot_rate_perhr" },
+                                       //{ "data": "ExtraOT_rate_perhr" },
+                                       //{ "data": "wot_rate_perhr" },
                                        { "data": "ExtraOTAmt" },
                                        { "data": "NOTAmt" },
                                        { "data": "HOTAmt" },
@@ -231,157 +244,168 @@
         });
 
 </script>
-<div class="row">
-    <div class="custom-form-wrapper">
-        <!-- BEGIN FORM-->
-        <div class="form-horizontal">
-            <div class="form-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label col-md-2">CODE</label>
-                            <div class="col-md-8 input-field">
-                                @Html.TextBoxFor(m => m.PRSP001_Code, new { @class = "form-control", @placeholder = "Code" })       
-                            </div>
-                        </div>
-                    </div>
-                    <!--/span-->
-                    <div class="col-md-6">
+
+    <div class="row">
+        <div class="custom-form-wrapper">
+            <!-- BEGIN FORM-->
+            <div class="form-horizontal">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label col-md-2">Division</label>
-                                <div class="col-md-9 input-field">
-                                    @Html.DropDownListFor(m => m.GroupItems, Model.GroupList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                <label class="control-label col-md-2">CODE</label>
+                                <div class="col-md-8 input-field">
+                                    @Html.TextBoxFor(m => m.PRSP001_Code, new { @class = "form-control", @placeholder = "Code" })
                                 </div>
                             </div>
                         </div>
-                    <!--/span-->
-                </div>
-                <!--/row-->
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label col-md-2">Date</label>
-                            <div class="col-md-8 input-field">
-                                @*<input type="month" id="DateINMonth" class="date1 date-picker" >*@
-                                <input id="DateINMonth" class="form-control datepicker" name="DateINMonth" autocomplete="false">
-
-                                @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
-                                @*@Html.TextBoxFor(m => m.CurrentDate, new { @class = "form-control", @placeholder = "Code" })*@
-                                @Html.HiddenFor(m => m.Process_Date)
+                        <!--/span-->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Division<i style="color:red;">*</i></label>
+                                <div class="col-md-9 input-field">
+                                    @Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!--/span-->
-                    <div class="col-md-6">
-                        <button class="btn btn-warning" id="btncalculate" type="text" style="width:10em">Calculate</button>
-                    </div>
-                    <!--/span-->
-                </div>
-            </div>
-        </div><br />
-        <!-- END FORM-->
-        <div class="">
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
-            </ul>
-            <div class="tab-content" style="display:none" id="salrcontainer">
-                <div id="home" class="tab-pane fade in active">
-                    <br /><br />
-                    <div class="row"  >
-                        <div class="col-md-12">
-                            <div style="overflow-x:auto;">                 
-                                <table class="table table-bordered" id="tableslryDetails">
-                                    <thead>
-                                        <tr> 
-                                            <th>Sr No</th>
-                                            <th>Emp_Code</th>
-                                            <th>Employee Name</th>
-                                            <th>country</th>
-                                            <th>Tmonth</th>
-                                            <th>Tyear</th>
-                                            <th>cmpycode</th>
-                                            <th>ProfCode</th>
-                                            <th>DepCode</th>
-                                            <th>ComnPrjcode</th>
-                                            <th>Division</th>
-                                            <th>VisaLocation</th>              
-                                            <th>WorkLocation</th>
-                                            <th>Total_Days</th>
-                                            <th>Worked_Days</th>
-                                            <th>a_basic</th>
-                                            <th>a_hra</th>
-                                            <th>a_Da</th>
-                                            <th>a_tele</th>
-                                            <th>a_trans</th>       
-                                            <th>a_car</th> 
-                                            <th>a_allowance1</th>       
-                                            <th>a_allowance2</th>       
-                                            <th>a_allowance3</th>       
-                                            <th>a_Totalsalary</th>       
-                                            <th>C_basic</th>       
-                                            <th>C_hra</th> 
-                                            <th>C_da</th>
-                                            <th>C_tele</th> 
-                                            <th>C_trans</th>
-                                            <th>C_car</th> 
-                                            <th>C_allowance1</th>
-                                            <th>C_allowance2</th>  
-                                            <th>C_allowance3</th>
-                                            <th>C_totalSalary</th>
-                                            <th>loan_amt</th>
-                                            <th>adn_amount</th>
-                                            <th>nothrs</th>
-                                            <th>extraOThrs</th>
-                                            <th>hothrs</th>
-                                            <th>wothrs</th> 
-                                            <th>not_rate_perhr</th>
-                                            <th>hot_rate_perhr</th>
-                                            <th>ExtraOT_rate_perhr</th>
-                                            <th>wot_rate_perhr</th> 
-                                            <th>ExtraOTAmt</th>
-                                            <th>NOTAmt</th>
-                                            <th>HOTAmt</th>
-                                            <th>WOTAmt</th>
-                                            <th>NetSalary</th>                        
-                                            @*<th>Net Salary</th>*@
-                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                                @Html.Hidden("hdnCounter", (++counter))
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Department</label>
+                                <div class="col-md-9 input-field">
+                                    @Html.DropDownListFor(m => m.Deptcode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                </div>
                             </div>
                         </div>
-
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">VisaLocation</label>
+                                <div class="col-md-9 input-field">
+                                    @Html.DropDownListFor(m => m.VisaLocation1, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
                     </div>
-                </div>
-
-            </div>
-            <div class="tab-content" style="display:none;text-align:center" id="empContaint">
-                <label class="id2">Timesheet Not Generated for following Employee in Month  <span style="color:red" id="spnmonth"></span> </label>
-                <div id="home" class="tab-pane fade in active">
-                    <br /><br />
+                    <!--/row-->
                     <div class="row">
-                        <div class="col-md-12">
-                            <div style="overflow-x:auto;">
-                                <table class="table table-bordered id3" id="tabletimeDetails">
-                                    <thead>
-                                        <tr>
-                                            <th>Sr No</th>
-                                            <th>Emp_Code</th>
-                                            <th>Employee Name</th>                                           
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                                @Html.Hidden("hdnCounter", (++counter))
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-2">Date</label>
+                                <div class="col-md-8 input-field">
+                                    @*<input type="month" id="DateINMonth" class="date1 date-picker" >*@
+                                    <input id="DateINMonth" class="form-control datepicker" name="DateINMonth" autocomplete="false">
+
+                                    @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
+                                    @*@Html.TextBoxFor(m => m.CurrentDate, new { @class = "form-control", @placeholder = "Code" })*@
+                                    @Html.HiddenFor(m => m.Process_Date)
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                        <div class="col-md-6">
+                            <button class="btn btn-warning" id="btncalculate" type="text" style="width:10em">Calculate</button>
+                        </div>
+                        <!--/span-->
+                    </div>
+                </div>
+            </div><br />
+            <!-- END FORM-->
+            <div class="">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+                </ul>
+                <div class="tab-content" style="display:none" id="salrcontainer">
+                    <div id="home" class="tab-pane fade in active">
+                        <br /><br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div style="overflow-x:auto;">
+                                    <table class="table table-bordered" id="tableslryDetails">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr No</th>
+                                                <th>Emp_Code</th>
+                                                <th>Employee Name</th>                                              
+                                                <th>ProfCode</th>
+                                                <th>DepCode</th>
+                                                <th>ComnPrjcode</th>                                             
+                                                <th>VisaLocation</th>
+                                                <th>WorkLocation</th>
+                                                <th>Total_Days</th>
+                                                <th>Worked_Days</th>
+                                                @*<th>a_basic</th>
+                                                <th>a_hra</th>
+                                                <th>a_Da</th>
+                                                <th>a_tele</th>
+                                                <th>a_trans</th>
+                                                <th>a_car</th>
+                                                <th>a_allowance1</th>
+                                                <th>a_allowance2</th>
+                                                <th>a_allowance3</th>*@
+                                                <th>a_Totalsalary</th>
+                                                @*<th>C_basic</th>
+                                                <th>C_hra</th>
+                                                <th>C_da</th>
+                                                <th>C_tele</th>
+                                                <th>C_trans</th>
+                                                <th>C_car</th>
+                                                <th>C_allowance1</th>
+                                                <th>C_allowance2</th>
+                                                <th>C_allowance3</th>*@
+                                                <th>C_totalSalary</th>
+                                                <th>loan_amt</th>
+                                                <th>adn_amount</th>
+                                                @*<th>nothrs</th>
+                                                <th>extraOThrs</th>
+                                                <th>hothrs</th>
+                                                <th>wothrs</th>
+                                                <th>not_rate_perhr</th>
+                                                <th>hot_rate_perhr</th>
+                                                <th>ExtraOT_rate_perhr</th>
+                                                <th>wot_rate_perhr</th>*@
+                                                <th>ExtraOTAmt</th>
+                                                <th>NOTAmt</th>
+                                                <th>HOTAmt</th>
+                                                <th>WOTAmt</th>
+                                                <th>NetSalary</th>
+                                                @*<th>Net Salary</th>*@
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    @Html.Hidden("hdnCounter", (++counter))
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-content" style="display:none;text-align:center" id="empContaint">
+                    <label class="id2">Timesheet Not Generated for following Employee in Month  <span style="color:red" id="spnmonth"></span> </label>
+                    <div id="home" class="tab-pane fade in active">
+                        <br /><br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div style="overflow-x:auto;">
+                                    <table class="table table-bordered id3" id="tabletimeDetails">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr No</th>
+                                                <th>Emp_Code</th>
+                                                <th>Employee Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    @Html.Hidden("hdnCounter", (++counter))
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- <button>Hey, click me!</button> -->
         </div>
-        <!-- <button>Hey, click me!</button> -->
     </div>
-</div>
 

@@ -61,7 +61,7 @@ namespace EzBusiness_Web.Controllers
         //    }
         //}
         [Route("GetTimeSheetDetailsByMonth")]
-       public ActionResult GetTimeSheetDetailsByMonth(string CurrentDate,string divcode)
+       public ActionResult GetTimeSheetDetailsByMonth(string CurrentDate,string divcode,string Deptcode,string VisaLocation1)
         {
             List<SalaryProcessDetailsListItem> data = null;
             try
@@ -73,7 +73,7 @@ namespace EzBusiness_Web.Controllers
                 }
                 else
                 {
-                    data = _SalService.GetTimeSheetDetailsByMonth(list[0].CmpyCode,Convert.ToDateTime(CurrentDate), divcode);
+                    data = _SalService.GetTimeSheetDetailsByMonth(list[0].CmpyCode,Convert.ToDateTime(CurrentDate), divcode,Deptcode,VisaLocation1);
                 }
             }
             catch(Exception ex)
@@ -109,7 +109,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<SalaryProcessDetailsListItem> data = _SalService.GetSalaryProcessGrid(list[0].CmpyCode, slryVM.Process_Date,slryVM.GroupItems);
+                    List<SalaryProcessDetailsListItem> data = _SalService.GetSalaryProcessGrid(list[0].CmpyCode, slryVM.Process_Date,slryVM.DivisionCode,slryVM.Deptcode,slryVM.VisaLocation1);
                     // Total record count.
                     int totalRecords = 0;
                     if (data != null)
@@ -324,7 +324,7 @@ namespace EzBusiness_Web.Controllers
 
         }
         [Route("CheckslryDataCalculated")]
-        public ActionResult CheckslryDataCalculated(string CurrentDate)
+        public ActionResult CheckslryDataCalculated(string CurrentDate, string divcode, string Deptcode, string VisaLocation1)
         {
             bool flag=false;
             try
@@ -336,7 +336,7 @@ namespace EzBusiness_Web.Controllers
                 }
                 else
                 {
-                    flag = _SalService.CheckslryDataCalculated(list[0].CmpyCode, Convert.ToDateTime(CurrentDate));
+                    flag = _SalService.CheckslryDataCalculated(list[0].CmpyCode, Convert.ToDateTime(CurrentDate),divcode,Deptcode,VisaLocation1);
                 }
             }
             catch (Exception ex)
@@ -344,6 +344,30 @@ namespace EzBusiness_Web.Controllers
 
             }
             return Json(new { data = flag }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetDivisionList()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_SalService.GetDivCodeList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetDepartmentList(string divcode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_SalService.GetDepartmentList(list[0].CmpyCode, divcode), JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }
