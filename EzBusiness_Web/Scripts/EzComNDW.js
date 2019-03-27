@@ -844,41 +844,6 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
 
 
-function Ezsidetbl2(ide, idef, lk, idfoot) {
-   // var jq = jQuery.noConflict(true);
-    $(document).ready(function () {
-        // Setup - add a text input to each footer cell
-        debugger;
-        // $(ide).addClass('');
-        var k = $(idef).length;
-        $(idef).each(function () {
-            if (lk == true) {
-                if (k > 1) {
-                    var title = '';//$(this).text();
-                    $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
-                    k = k - 1;
-                }
-            } else {
-                var title = '';//$(this).text();
-                $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
-            }
-
-
-        });
-
-        //  $(ide).DataTable().clear();
-
-
-
-        // DataTable
-        var tableInstance = $(ide).DataTable({
-            "paging": true,
-            "ordering": true,
-            "info": true,
-            "scrollX": true,
-
-        });
-
 
 
 
