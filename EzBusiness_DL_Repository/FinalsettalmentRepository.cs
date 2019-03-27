@@ -37,7 +37,7 @@ namespace EzBusiness_DL_Repository
 
         public List<FinalSettalment> GetFinalSettalment(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRFSET001 where CmpyCode='" + CmpyCode + "' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select a.*,b.Empname from PRFSET001 a inner join MEM001 b on a.Cmpycode=b.Cmpycode and a.EmpCode=b.EmpCode and a.Flag=b.Flag where a.CmpyCode='" + CmpyCode + "' and a.Flag=0");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FinalSettalment> ObjList = new List<FinalSettalment>();
@@ -50,6 +50,7 @@ namespace EzBusiness_DL_Repository
                     EmpCode = dr["EmpCode"].ToString(),
                     SettledDate = Convert.ToDateTime(dr["SettledDate"].ToString()),
                     Dates = Convert.ToDateTime(dr["Dates"].ToString()),
+                    EmpName=dr["EmpName"].ToString(),
                 });
 
             }

@@ -54,6 +54,7 @@ namespace EzBusiness_BL_Service
                EmpCode=m.EmpCode,
                SettledDate=m.SettledDate,
                Dates=m.Dates,
+                EmpName=m.EmpName
             }).ToList();
         }
         public Finalsettalment_VM GetFinalSettalmentEdit(string CmpyCode, string Code)

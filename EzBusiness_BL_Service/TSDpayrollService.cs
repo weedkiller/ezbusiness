@@ -66,7 +66,9 @@ namespace EzBusiness_BL_Service
                 Nhrs = m.NHrs,
                 Ohrs = m.OTHrs,
                 ReportingEmp=m.ReportingEmp,
-                Project_code=m.Project_code
+                Project_code=m.Project_code,
+                EmpName=m.EmpName
+
 
             }).ToList();
         }

@@ -73,7 +73,8 @@ namespace EzBusiness_BL_Service
                 Account_no =m.Account_no,
                 Entry_Date =m.Entry_Date,
                 EBAN_no=m.EBAN_no,
-                Remarks =m.Remarks,                
+                Remarks =m.Remarks,
+                EmpName = m.EmpName
             }).ToList();
         }
 

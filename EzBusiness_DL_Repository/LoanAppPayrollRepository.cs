@@ -72,7 +72,7 @@ namespace EzBusiness_DL_Repository
 
         public List<LoanAppliationVM> GetLoanAppList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRLA001 where CmpyCode='" + CmpyCode + "' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select a.*,b.Empname from PRLA001 a inner join MEM001 b on a.Cmpycode=b.Cmpycode and a.EmpCode=b.EmpCode and a.Flag=b.Flag where a.CmpyCode='" + CmpyCode + "' and a.Flag=0");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<LoanAppliationVM> ObjList = new List<LoanAppliationVM>();
@@ -82,6 +82,7 @@ namespace EzBusiness_DL_Repository
                 {
                     CmpyCode = dr["Cmpycode"].ToString(),
                     EmpCode = dr["EmpCode"].ToString(),
+                    EmpName = dr["Empname"].ToString(),
                     Act_code = dr["Act_code"].ToString(),
                     AppliedAmt = Convert.ToDecimal(dr["AppliedAmt"].ToString()),
                     ApprovalYN = dr["ApprovalYN"].ToString(),

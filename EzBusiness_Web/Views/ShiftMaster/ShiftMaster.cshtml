@@ -88,10 +88,11 @@
                         var PRSR001_CODE = $("[name*='PRSFT001_code']").val();
                         $.getJSON("/DeleteShift", { PRSFT001_code: PRSR001_CODE }).done(function (data) {
                             if (data.DeleteFlag) {
-                                GetLeaveList();
-                                //$("#btnCancel").trigger("click");
-                                EzbtnsaveAcVis("#POContainer")
-                                $("#POContainer").html(lvHtml);
+                                //GetLeaveList();
+                                ////$("#btnCancel").trigger("click");
+                                //EzbtnsaveAcVis("#POContainer")
+                                //$("#POContainer").html(lvHtml);
+                                window.location = '/ShiftMaster'
                             } else {
                                 EzAlertdele(PRSR001_CODE);
                             }
@@ -234,8 +235,9 @@
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                           
                             EzbtnsaveAcVis("#POContainer");
                             EzAlertSave();
-                            GetLeaveList();
+                            //GetLeaveList();
                             $("#POContainer").html(lvHtml);
+                           // window.location = '/ShiftMaster'
                         } else {                         
                             EzAlerterrtxt(response.ErrorMessage);
                         }

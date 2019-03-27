@@ -158,6 +158,7 @@
                             //var td ="<td><div class='form-group'>" + counter + "</div></td>"
                             //var td1="<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='EmpCode" + counter + "'></div></td>"
                             var td11 = "<td><div class='grid-group'><input type='text' class='grid-control' name='EmpCode" + counter + "'></div></td>";
+                            var td14 = "<td><div class='grid-group'><input type='text' class='grid-control' name='EmpName" + counter + "'></div></td>";
                             var td1 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Tmonth" + counter + "'></div></td>";
                             var td2 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Tyear" + counter + "'></div></td>";
                             var td3 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='SrNo" + counter + "'></div></td>";
@@ -171,9 +172,10 @@
                             var td9 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Hhrs" + counter + "'></div></td>";
                             var td10 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Ohrs" + counter + "'></div></td></tr>";
                             //var td4 = "<td><div class='grid-group'><input type='number' class='grid-control' name='AMOUNT" + counter + "'></div></td></tr>";
-                            $("#tblUnits").append(tr1 + td11 + td1 + td2 + td3 + td12 + td4 + td13 + td5 + td6 + td7 + td8 + td9 + td10);
+                            $("#tblUnits").append(tr1 + td11 + td14 + td1 + td2 + td3 + td12 + td4 + td13 + td5 + td6 + td7 + td8 + td9 + td10);
                             var tr = $("#tblUnits tbody tr");
                             tr.find("[name='EmpCode" + counter + "']").val(ary[i].EmpCode);
+                            tr.find("[name='EmpName" + counter + "']").val(ary[i].EmpName);
 
                             tr.find("[name='Tmonth" + counter + "']").val(ary[i].Tmonth);
                             tr.find("[name='Tyear" + counter + "']").val(ary[i].Tyear);
@@ -272,6 +274,7 @@
                         //var td ="<td><div class='form-group'>" + counter + "</div></td>"
                         //var td1="<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='EmpCode" + counter + "'></div></td>"
                         var td11 = "<td><div class='grid-group'><input type='text' class='grid-control' name='EmpCode" + counter + "'></div></td>";
+                        var td14 = "<td><div class='grid-group'><input type='text' class='grid-control' name='EmpName" + counter + "'></div></td>";
                         var td1 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Tmonth" + counter + "'></div></td>";
                         var td2 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Tyear" + counter + "'></div></td>";
                         var td3 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='SrNo" + counter + "'></div></td>";
@@ -285,10 +288,10 @@
                         var td9 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Hhrs" + counter + "'></div></td>";
                         var td10 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='Ohrs" + counter + "'></div></td></tr>";
                         //var td4 = "<td><div class='grid-group'><input type='number' class='grid-control' name='AMOUNT" + counter + "'></div></td></tr>";
-                        $("#tblUnits").append(tr1 + td11 + td1 + td2 + td3 + td12 + td4 + td13 + td5 + td6 + td7 + td8 + td9 + td10);
+                        $("#tblUnits").append(tr1 + td11 + td14 +td1 + td2 + td3 + td12 + td4 + td13 + td5 + td6 + td7 + td8 + td9 + td10);
                         var tr = $("#tblUnits tbody tr");
                         tr.find("[name='EmpCode" + counter + "']").val(ary[i].EmpCode);
-
+                        tr.find("[name='EmpName" + counter + "']").val(ary[i].EmpName);                        
                         tr.find("[name='Tmonth" + counter + "']").val(ary[i].Tmonth);
                         tr.find("[name='Tyear" + counter + "']").val(ary[i].Tyear);
                         tr.find("[name='SrNo" + counter + "']").val(counter);
@@ -399,7 +402,7 @@
         </div>
           <br />  
 
-            <table class="table table-bordered table-hover" id="tblUnits" >
+            <table class="table table-bordered emptbl" id="tblUnits" >
                 <thead>
                     <tr class="tr">
                         <th>
@@ -407,8 +410,12 @@
                             @Html.DisplayNameFor(model => model.EmpCode)
                         </th>
                         <th>
+                            @Html.DisplayNameFor(model => model.EmpName)
+                        </th>
+                        <th>
                             @Html.DisplayNameFor(model => model.Tmonth)
                         </th>
+                        
                         <th>
                             @Html.DisplayNameFor(model => model.Tyear)
                         </th>

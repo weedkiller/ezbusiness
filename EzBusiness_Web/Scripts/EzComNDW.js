@@ -705,12 +705,12 @@ function Ezsidetblnew(ide, idef, lk, idfoot) {
             if (lk == true) {
                 if (k > 1) {
                     var title = '';//$(this).text();
-                    jq(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                    jq(this).html('<input type="text"   placeholder="Search ' + title + '"  />');
                     k = k - 1;
                 }
             } else {
                 var title = '';//$(this).text();
-                jq(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                jq(this).html('<input type="text"   placeholder="Search ' + title + '"  />');
             }
 
 
@@ -748,7 +748,7 @@ function Ezsidetblnew(ide, idef, lk, idfoot) {
         jq(idfoot).append(r);
         jq('#search_0').css('text-align', 'center');
 
-        jq('div.dataTables_filter input').addClass('form-control input-sm');
+       jq('div.dataTables_filter input').addClass('form-control input-sm');
        
         jq('' + ide + '_length').hide();
 
@@ -761,18 +761,22 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
     jq(document).ready(function () {
         // Setup - add a text input to each footer cell
         debugger;
+
+       
+
+
        // $(ide).addClass('');
         var k = jq(idef).length;
         jq(idef).each(function () {
             if (lk == true) {
                 if (k > 1) {
                     var title = '';//$(this).text();
-                    jq(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                    jq(this).html('<input type="text"  placeholder="Search ' + title + '"  />');
                     k = k - 1;
                 }
             } else {
                 var title = '';//$(this).text();
-                jq(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                jq(this).html('<input type="text"  placeholder="Search ' + title + '"  />');
             }
            
             
@@ -781,14 +785,14 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
       //  $(ide).DataTable().clear();
        
         
-
+       
         // DataTable
         var tableInstance = jq(ide).DataTable({
             "paging": true,
             "ordering": true,
             "info": true,
             "scrollX": true,
-            "destroy":true,
+          
         });
 
        
@@ -839,6 +843,89 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 }
 
 
+
+function Ezsidetbl2(ide, idef, lk, idfoot) {
+   // var jq = jQuery.noConflict(true);
+    $(document).ready(function () {
+        // Setup - add a text input to each footer cell
+        debugger;
+        // $(ide).addClass('');
+        var k = $(idef).length;
+        $(idef).each(function () {
+            if (lk == true) {
+                if (k > 1) {
+                    var title = '';//$(this).text();
+                    $(this).html('<input type="text"   placeholder="Search ' + title + '"  />');
+                    k = k - 1;
+                }
+            } else {
+                var title = '';//$(this).text();
+                $(this).html('<input type="text"   placeholder="Search ' + title + '"  />');
+            }
+
+
+        });
+
+        //  $(ide).DataTable().clear();
+
+
+
+        // DataTable
+        var tableInstance = $(ide).DataTable({
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "scrollX": true,
+
+        });
+
+
+
+
+
+        //if (lk == true) {
+        //    $("#tblUnits_length").hide();
+        //}
+
+
+
+        tableInstance.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function (ev) {
+                debugger;
+                if (that.search() !== this.value) { //only on enter keypress (code 13)
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+
+
+        var r = $(idef);
+        r.find('td').each(function () {
+            $(this).css('padding', 8);
+
+        });
+        $(idfoot).append(r);
+        $('#search_0').css('text-align', 'center');
+
+        $('div.dataTables_filter input').addClass('form-control input-sm');
+
+
+
+        $('' + ide + '_length').hide();
+
+
+
+        $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+
+
+
+    });
+}
+
 function ReloadDataTablDocumentDetails(tableId, urlData) {
     // alert("reload");
     debugger;
@@ -859,7 +946,7 @@ function ReloadDataTablDocumentDetails(tableId, urlData) {
 
 function Ezsidetbl1(ide, idef, lk, idfoot) {
    
-    //$(document).ready(function () {
+    $(document).ready(function () {
         // Setup - add a text input to each footer cell
         debugger;
         // $(ide).addClass('');
@@ -868,12 +955,12 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
             if (lk == true) {
                 if (k > 1) {
                     var title = '';//$(this).text();
-                    $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                    $(this).html('<input type="text"   placeholder="Search ' + title + '"  />');
                     k = k - 1;
                 }
             } else {
                 var title = '';//$(this).text();
-                $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                $(this).html('<input type="text"   placeholder="Search ' + title + '"  />');
             }
 
 
@@ -917,7 +1004,7 @@ function Ezsidetbl1(ide, idef, lk, idfoot) {
         $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
 
 
-   //});
+   });
 }
 /*tbl class date formate DD/MM/YYYY get current */
 function EzdtePk(date1) {    

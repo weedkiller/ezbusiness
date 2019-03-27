@@ -76,6 +76,7 @@ namespace EzBusiness_BL_Service
                 LoanType = m.LoanType,
                 ApprovalYN = m.ApprovalYN,
                 AppliedAmt = m.AppliedAmt,
+                EmpName=m.EmpName
             }).ToList();
         }
 
