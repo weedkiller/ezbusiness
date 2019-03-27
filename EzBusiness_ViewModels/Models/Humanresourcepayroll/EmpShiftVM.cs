@@ -31,5 +31,8 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 
         public string UserName { get; set; }
 
+        public string Empname { get; set; }
+        public string ShiftName { get; set; }
+
     }
 }

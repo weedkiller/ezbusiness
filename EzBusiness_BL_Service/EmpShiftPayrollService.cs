@@ -60,13 +60,16 @@ namespace EzBusiness_BL_Service
         {
             return _EmpShiftRepo.GetEmpShiftList(CmpyCode).Select(m => new EmpShiftVM
             {
-                CmpyCode = m.CmpyCode,
-                PRSFT001_code = m.PRSFT001_code,
+                //CmpyCode = m.CmpyCode,
+                //PRSFT001_code = m.PRSFT001_code,
                 EmpCode = m.EmpCode,
                 PRSFT002_code = m.PRSFT002_code,
                 PRSFT003_code = m.PRSFT003_code,
-                SNO = m.SNO,
-                Remarks=m.Remarks,
+                //SNO = m.SNO,
+                //Remarks=m.Remarks,
+                Empname=m.Empname,
+                ShiftName=m.ShiftName
+
                 
             }).ToList();
         }

@@ -23,7 +23,9 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 
         public List<SelectListItem> LeaveList { get; set; }
         public string Empcode { get; set; }
-        
+
+        public string EmpName { get; set; }
+
         public List<SelectListItem> EmpCodeList { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

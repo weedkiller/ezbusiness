@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EzBusiness_EF_Entity;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 {
@@ -18,7 +19,12 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public string ErrorMessage { get; set; }
 
         public string Cmpycode { get; set; }
+
+        [DisplayName("Employee Code")]
         public string EmpCode { get; set; }
+
+        [DisplayName("Employee Name")]
+        public string EmpName { get; set; }
 
         public List<SelectListItem> EmpCodeList { get; set; }
 
@@ -52,6 +58,9 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public decimal? ExtraHrs { get; set; }
 
         public string UserName { get; set; }
+
+
+        [DisplayName("Reporting Employee")]
         public string ReportingEmp { get; set; }
         public string Project_code { get; set; }
 

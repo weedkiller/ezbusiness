@@ -17,6 +17,8 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public string CmpyCode { get; set; }
 
         public string EmpCode { get; set; }
+
+        public string EmpName { get; set; }
         public List<SelectListItem> EmpCodeList { get; set; }
         public string PRBM001_code { get; set; }
         public List<SelectListItem> PRBM001_codeList { get; set; }

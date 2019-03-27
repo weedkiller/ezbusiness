@@ -21,7 +21,7 @@ namespace EzBusiness_DL_Repository
 
         public List<LeaveSettlement> GetLivlist(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRLS001 where cmpycode='" + CmpyCode + "' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select a.*,b.Empname from PRLS001 a inner join MEM001 b on a.Cmpycode=b.Cmpycode and a.EmpCode=b.EmpCode and a.Flag=b.Flag where a.cmpycode='" + CmpyCode + "' and a.Flag=0");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<LeaveSettlement> ObjList = new List<LeaveSettlement>();
@@ -29,10 +29,11 @@ namespace EzBusiness_DL_Repository
             {
                 ObjList.Add(new LeaveSettlement()
                 {
-                    Empcode= dr["Empcode"].ToString(),
-                    PRLS001_CODE= dr["PRLS001_CODE"].ToString(),
-                    LLSdate=Convert.ToDateTime(dr["LLSdate"].ToString()),
-                    Entry_Date=Convert.ToDateTime(dr["Entry_Date"].ToString())
+                    Empcode = dr["Empcode"].ToString(),
+                    PRLS001_CODE = dr["PRLS001_CODE"].ToString(),
+                    LLSdate = Convert.ToDateTime(dr["LLSdate"].ToString()),
+                    Entry_Date = Convert.ToDateTime(dr["Entry_Date"].ToString()),
+                    EmpName = dr["EmpName"].ToString()
                 });
 
             }

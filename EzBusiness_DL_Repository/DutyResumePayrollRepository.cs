@@ -40,7 +40,7 @@ namespace EzBusiness_DL_Repository
         }
         public List<DutyResume> GetDrs(string Cmpycode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRDR001 where Cmpycode='" + Cmpycode + "' and flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select a.*,b.Empname from PRDR001 a inner join MEM001 b on a.Cmpycode=b.Cmpycode and a.EmpCode=b.EmpCode and a.Flag=b.Flag where a.Cmpycode='" + Cmpycode + "' and a.flag=0");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<DutyResume> ObjList = new List<DutyResume>();
@@ -53,6 +53,7 @@ namespace EzBusiness_DL_Repository
                     EmpCode = dr["EmpCode"].ToString(),
                     ResumeDate = Convert.ToDateTime(dr["ResumeDate"]),
                     PRLR001_CODE= dr["PRLR001_CODE"].ToString(),
+                    EmpName=dr["EmpName"].ToString()
                 });
             }
             return ObjList;
