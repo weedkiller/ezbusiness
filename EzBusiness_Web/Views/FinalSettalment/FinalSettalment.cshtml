@@ -87,9 +87,10 @@
                         $.getJSON("/DeleteFinalSettalment", { PRFSET001_code: PRSR001_CODE }).done(function (data) {
                            
                                 if (data.DeleteFlag) {
-                                    EzbtnsaveAcVis("#LVContainer");                                   
-                                    $("#LVContainer").html(lvHtml);
-                                    GetLeaveList();
+                                    //EzbtnsaveAcVis("#LVContainer");                                   
+                                    //$("#LVContainer").html(lvHtml);
+                                    //GetLeaveList();
+                                    window.location = '/FinalSettalment'
                                     //$("#btnCancel").trigger("click");
                                 } else {
                                     EzAlertdele(PRSR001_CODE);
@@ -299,10 +300,11 @@
                     if (k == 1) {
                         $.post("/SaveFinalSettalment", finset).done(function (response) {
                             if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                                EzbtnsaveAcVis("#LVContainer");
+                                //EzbtnsaveAcVis("#LVContainer");
                                 EzAlertSave();
                                 $("#LVContainer").html(lvHtml);
-                                GetLeaveList();
+                                //GetLeaveList();
+                               // window.location = '/FinalSettalment'
                             } else {
                                 // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                                 EzAlerterrtxt(response.ErrorMessage);

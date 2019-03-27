@@ -15,6 +15,8 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public string COUNTRY { get; set; }
         public string CmpyCode { get; set; }
         public string EmpCode { get; set; }
+
+        public string EmpName { get; set; }
         public List<SelectListItem> EmpCodeList { get; set; }
 
         [DataType(DataType.Date)]

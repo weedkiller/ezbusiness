@@ -94,9 +94,10 @@
                             var EmpCode = $("[name*='EmpCode']").val();
                             $.getJSON("/DeleteDrs", { Cmpycode: Cmpycode, PRDR001_CODE: PRDR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    EzbtnsaveAcVis("#DRContainer");                                 
-                                    $("#DRContainer").html(drHtml);
-                                    GetDrs();
+                                    //EzbtnsaveAcVis("#DRContainer");                                 
+                                    //$("#DRContainer").html(drHtml);
+                                    //GetDrs();
+                                    window.location = '/DutyResume'
                                 //$("#btnCancel").trigger("click");
                             } else {
                                     EzAlertdele(PRDR001_CODE);
@@ -224,10 +225,11 @@
                             $.post("/SaveDrs", dutyResume).done(function (response) {
                                 if (response.SaveFlag && !response.ErrorMessage.length > 0) {
 
-                                    EzbtnsaveAcVis("#DRContainer");
+                                    //EzbtnsaveAcVis("#DRContainer");
                                     EzAlertSave();
                                     $("#DRContainer").html(drHtml);
-                                    GetDrs();
+                                   //GetDrs();
+                                   // window.location = '/DutyResume'
                                     
                                 } else {
                                     //  Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);

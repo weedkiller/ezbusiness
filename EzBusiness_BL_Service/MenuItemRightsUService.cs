@@ -62,6 +62,7 @@ namespace EzBusiness_BL_Service
             {
                 EmpCode = m.EmpCode,
                 user_name = m.user_name,
+                Utype=m.Utype
             }).ToList();
         }
 

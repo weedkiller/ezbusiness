@@ -97,7 +97,9 @@ namespace EzBusiness_BL_Service
                Empcode=m.Empcode,
                PRLS001_CODE=m.PRLS001_CODE,
                LLSdate=m.LLSdate,
-               Entry_Date=m.Entry_Date
+               Entry_Date=m.Entry_Date,
+               EmpName=m.EmpName
+
             }).ToList();
         }
 

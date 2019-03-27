@@ -56,7 +56,13 @@ namespace EzBusiness_DL_Repository
 
         public List<EmpBankDetail> GetEmpBnkList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRBM003 where CmpyCode='" + CmpyCode + "'and Flag=0");
+            // ds = _EzBusinessHelper.ExecuteDataSet("Select a.*,b.Empname from PRBM003 a inner join MEM001 b on a.Cmpycode=b.Cmpycode and a.EmpCode=b.EmpCode and a.Flag=b.Flag where a.CmpyCode='" + CmpyCode + "'and a.Flag=0");
+            string qur = "Select a.*,b.Empname,c.Bank_name,d.Bank_branch_name from PRBM003 a " +
+                         "inner join MEM001 b on a.Cmpycode = b.Cmpycode and a.EmpCode = b.EmpCode and b.Flag = a.Flag " +
+                         "inner join PRBM001 c on c.CmpyCode = a.CMPYCODE and c.PRBM001_code = a.PRBM001_code and c.Flag = a.Flag " +
+                         "inner join PRBM002 d on d.CmpyCode = a.CMPYCODE and d.PRBM002_code = a.PRBM002_code " +
+                         "and d.PRBM001_code = a.PRBM001_code and d.Flag = a.Flag where a.CmpyCode='" + CmpyCode + "'and a.Flag=0 order by a.EmpCode ";
+            ds = _EzBusinessHelper.ExecuteDataSet(qur);
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<EmpBankDetail> ObjList = new List<EmpBankDetail>();
@@ -69,11 +75,11 @@ namespace EzBusiness_DL_Repository
                     PRBM003_CODE = dr["PRBM003_CODE"].ToString(),
                     Entry_Date = Convert.ToDateTime(dr["Entry_Date"].ToString()),
                     Remarks = dr["Remarks"].ToString(),
-                    PRBM001_code = dr["PRBM001_code"].ToString(),
-                    PRBM002_code = dr["PRBM002_code"].ToString(),
+                    PRBM001_code = dr["Bank_name"].ToString(),
+                    PRBM002_code = dr["Bank_branch_name"].ToString(),
                     Account_no = dr["Account_no"].ToString(),
                     EBAN_no = dr["EBAN_no"].ToString(),
-                    
+                    EmpName=dr["EmpName"].ToString()
                 });
             }
             return ObjList;

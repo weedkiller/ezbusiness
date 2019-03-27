@@ -22,7 +22,10 @@ namespace EzBusiness_DL_Repository
 
         public List<EmpShift> GetEmpShiftList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRSFT003 where CmpyCode='" + CmpyCode + "' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select a.PRSFT003_code,a.EmpCode,b.Empname,a.PRSFT002_code,c.ShiftName from PRSFT003  a inner join MEM001 b "+
+                                                    " on a.CmpyCode = b.Cmpycode and a.EmpCode = b.EmpCode and a.Flag=b.Flag " +
+                                                    " inner join  PRSFT001 c "+
+                                                    " on c.PRSFT001_code = a.PRSFT001_code and a.CmpyCode = c.Cmpycode and a.Flag=c.Flag where a.CmpyCode='" + CmpyCode + "' and a.Flag=0");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<EmpShift> ObjList = new List<EmpShift>();
@@ -30,14 +33,18 @@ namespace EzBusiness_DL_Repository
             {
                 ObjList.Add(new EmpShift()
                 {
-                    CmpyCode = dr["CmpyCode"].ToString(),
-                    PRSFT002_code = dr["PRSFT002_code"].ToString(),
+                    //CmpyCode = dr["CmpyCode"].ToString(),
+                    //PRSFT002_code = dr["PRSFT002_code"].ToString(),
+                    //EmpCode = dr["EmpCode"].ToString(),
+                    //Remarks = dr["Remarks"].ToString(),
+                    //PRSFT003_code = dr["PRSFT003_code"].ToString(),
+                    //PRSFT001_code = dr["PRSFT001_code"].ToString(),
+                    //SNO = Convert.ToInt32(dr["SNO"].ToString()),
+                    PRSFT003_code =dr["PRSFT003_code"].ToString(),
                     EmpCode = dr["EmpCode"].ToString(),
-                    Remarks = dr["Remarks"].ToString(),
-                    PRSFT003_code = dr["PRSFT003_code"].ToString(),
-                    PRSFT001_code = dr["PRSFT001_code"].ToString(),
-                    SNO = Convert.ToInt32(dr["SNO"].ToString()),
-                  
+                    Empname = dr["Empname"].ToString(),
+                    PRSFT002_code = dr["PRSFT002_code"].ToString(),
+                    ShiftName = dr["ShiftName"].ToString(),
                 });
 
             }

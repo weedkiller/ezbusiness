@@ -116,9 +116,10 @@
                            
                             if (data.DeleteFlag) {                               
                                 //$("#btnCancel").trigger("click");
-                                EzbtnsaveAcVis("#POContainer")
-                                $("#POContainer").html(lvHtml);
-                                GetLeaveList();
+                                //EzbtnsaveAcVis("#POContainer")
+                                //$("#POContainer").html(lvHtml);
+                                //GetLeaveList();
+                                window.location = '/EmpBankMaster'
                             } else {
                                 EzAlertdele(PRBM003_CODE);
                             }
@@ -210,10 +211,11 @@
                 if (validationResult.formValid) {
                     $.post("/SaveEmpBnk", EmpBnk).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            EzbtnsaveAcVis("#POContainer");
+                            //EzbtnsaveAcVis("#POContainer");
                             EzAlertSave();                           
                             $("#POContainer").html(lvHtml);
-                            GetLeaveList();
+                            //GetLeaveList();
+                           // window.location = '/EmpBankMaster'
                         } else {
                             // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);

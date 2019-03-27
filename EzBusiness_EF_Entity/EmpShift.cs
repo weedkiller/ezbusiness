@@ -15,5 +15,8 @@ namespace EzBusiness_EF_Entity
         public string Remarks { get; set; }
         public int SNO { get; set; }
         public string CmpyCode { get; set; }
+
+        public string Empname { get; set; }
+        public string ShiftName { get; set; }
     }
 }

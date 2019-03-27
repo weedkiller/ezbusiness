@@ -51,13 +51,15 @@ namespace EzBusiness_DL_Repository
                         //  SrNo = Convert.ToInt16(dr["SrNo"]),
                         Att_Date = Convert.ToDateTime(dr["Att_Date"]),
                         ATT = dr["ATT"].ToString(),
-                        NHrs = dr["NHrs"].ToString() !="" ?Convert.ToDecimal(dr["NHrs"].ToString()):0,
-                        ExtraHrs = dr["ExtraHrs"].ToString() !="" ?Convert.ToDecimal(dr["ExtraHrs"].ToString()):0,
-                        FOTHrs = dr["FOTHrs"].ToString() !="" ?Convert.ToDecimal(dr["FOTHrs"].ToString()):0,
-                        HOTHrs = dr["HOTHrs"].ToString() !="" ?Convert.ToDecimal(dr["HOTHrs"].ToString()):0,
-                        OTHrs = dr["OTHrs"].ToString() !="" ?Convert.ToDecimal(dr["OTHrs"].ToString()):0,
-                        ReportingEmp=dr["Reporting Emp"].ToString(),
-                        Project_code=dr["Project_code"].ToString() !=""? dr["Project_code"].ToString():"-"
+                        NHrs = dr["NHrs"].ToString() != "" ? Convert.ToDecimal(dr["NHrs"].ToString()) : 0,
+                        ExtraHrs = dr["ExtraHrs"].ToString() != "" ? Convert.ToDecimal(dr["ExtraHrs"].ToString()) : 0,
+                        FOTHrs = dr["FOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["FOTHrs"].ToString()) : 0,
+                        HOTHrs = dr["HOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["HOTHrs"].ToString()) : 0,
+                        OTHrs = dr["OTHrs"].ToString() != "" ? Convert.ToDecimal(dr["OTHrs"].ToString()) : 0,
+                        ReportingEmp = dr["Reporting Emp"].ToString(),
+                        Project_code = dr["Project_code"].ToString() != "" ? dr["Project_code"].ToString() : "-",
+                        EmpName = dr["EmpName"].ToString()
+                        
                     });
 
                 }

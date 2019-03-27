@@ -19,6 +19,9 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 
 @*<script src="~/Scripts/datatables/dataTables.rowReorder.min.js"></script>*@
+
+
+
 <script>
 
     $(function () {
@@ -295,87 +298,217 @@
                                     @*<input type="month" id="DateINMonth" class="date1 date-picker" >*@
                                     <input id="DateINMonth" class="form-control datepicker" name="DateINMonth" autocomplete="false">
 
-                                    @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
-                                    @*@Html.TextBoxFor(m => m.CurrentDate, new { @class = "form-control", @placeholder = "Code" })*@
-                                    @Html.HiddenFor(m => m.Process_Date)
-                                </div>
+                                @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @*@Html.TextBoxFor(m => m.CurrentDate, new { @class = "form-control", @placeholder = "Code" })*@
+                                @Html.HiddenFor(m => m.Process_Date)
                             </div>
                         </div>
-                        <!--/span-->
-                        <div class="col-md-6">
-                            <button class="btn btn-warning" id="btncalculate" type="text" style="width:10em">Calculate</button>
-                        </div>
-                        <!--/span-->
                     </div>
-                </div>
-            </div><br />
-            <!-- END FORM-->
-            <div class="">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
-                </ul>
-                <div class="tab-content" style="display:none" id="salrcontainer">
-                    <div id="home" class="tab-pane fade in active">
-                        <br /><br />
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div style="overflow-x:auto;">
-                                    <table class="table table-bordered" id="tableslryDetails">
-                                        <thead>
-                                            <tr>
-                                                <th>Sr No</th>
-                                                <th>Emp_Code</th>
-                                                <th>Employee Name</th>                                              
-                                                <th>ProfCode</th>
-                                                <th>DepCode</th>
-                                                <th>ComnPrjcode</th>                                             
-                                                <th>VisaLocation</th>
-                                                <th>WorkLocation</th>
-                                                <th>Total_Days</th>
-                                                <th>Worked_Days</th>
-                                                @*<th>a_basic</th>
-                                                <th>a_hra</th>
-                                                <th>a_Da</th>
-                                                <th>a_tele</th>
-                                                <th>a_trans</th>
-                                                <th>a_car</th>
-                                                <th>a_allowance1</th>
-                                                <th>a_allowance2</th>
-                                                <th>a_allowance3</th>*@
-                                                <th>a_Totalsalary</th>
-                                                @*<th>C_basic</th>
-                                                <th>C_hra</th>
-                                                <th>C_da</th>
-                                                <th>C_tele</th>
-                                                <th>C_trans</th>
-                                                <th>C_car</th>
-                                                <th>C_allowance1</th>
-                                                <th>C_allowance2</th>
-                                                <th>C_allowance3</th>*@
-                                                <th>C_totalSalary</th>
-                                                <th>loan_amt</th>
-                                                <th>adn_amount</th>
-                                                @*<th>nothrs</th>
-                                                <th>extraOThrs</th>
-                                                <th>hothrs</th>
-                                                <th>wothrs</th>
-                                                <th>not_rate_perhr</th>
-                                                <th>hot_rate_perhr</th>
-                                                <th>ExtraOT_rate_perhr</th>
-                                                <th>wot_rate_perhr</th>*@
-                                                <th>ExtraOTAmt</th>
-                                                <th>NOTAmt</th>
-                                                <th>HOTAmt</th>
-                                                <th>WOTAmt</th>
-                                                <th>NetSalary</th>
-                                                @*<th>Net Salary</th>*@
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                    @Html.Hidden("hdnCounter", (++counter))
+                    <!--/span-->
+                    <div class="col-md-6">
+                        <button class="btn btn-warning" id="" data-toggle="modal" data-target="#myModal" type="button">Calculate Salary</button>
+                        <button class="btn btn-danger" id="" data-toggle="modal" data-target="#myModal1" type="button">Actual Salary</button>
+                        <button class="btn btn-info" id="" data-toggle="modal" data-target="#myModal2" type="button">OT Details</button>
+
+                        <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                                        <h4 class="modal-title">Ready modal popup</h4>
+                                    </div>
+                                    <form action="" method="post">
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="userEmail">Email Address</label>
+                                                <input type="text" class="form-control" required="" name="userEmail" value="">
+                                                <span class="help-block">Your email address is also used to log in.</span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="password">Password</label>
+                                                        <input type="password" class="form-control" required="" name="password" value="">
+                                                        <span class="help-block">Choose a password for your new account.</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="passwordr">Repeat Password</label>
+                                                        <input type="password" class="form-control" required="" name="passwordr" value="">
+                                                        <span class="help-block">Type the password again. Passwords must match.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="hidden" name="isEmpty" value="">
+                                            <button type="input" name="submit" value="newAccount" class="btn btn-success btn-icon"><i class="fa fa-check"></i> Create My Account</button>
+                                            <button type="button" class="btn btn-default btn-icon" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancel</button>
+                                        </div>
+                                    </form>
                                 </div>
+                           
+                        </div>
+
+                        <div class="modal fade" id="myModal1" role="dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                                    <h4 class="modal-title">Ready modal popup</h4>
+                                </div>
+                                <form action="" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="userEmail">Email Address</label>
+                                            <input type="text" class="form-control" required="" name="userEmail" value="">
+                                            <span class="help-block">Your email address is also used to log in.</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" class="form-control" required="" name="password" value="">
+                                                    <span class="help-block">Choose a password for your new account.</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="passwordr">Repeat Password</label>
+                                                    <input type="password" class="form-control" required="" name="passwordr" value="">
+                                                    <span class="help-block">Type the password again. Passwords must match.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" name="isEmpty" value="">
+                                        <button type="input" name="submit" value="newAccount" class="btn btn-success btn-icon"><i class="fa fa-check"></i> Create My Account</button>
+                                        <button type="button" class="btn btn-default btn-icon" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancel</button>
+                                    </div>
+                                </form>
                             </div>
+
+                        </div>
+
+                        <div class="modal fade" id="myModal2" role="dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                                    <h4 class="modal-title">Ready modal popup</h4>
+                                </div>
+                                <form action="" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="userEmail">Email Address</label>
+                                            <input type="text" class="form-control" required="" name="userEmail" value="">
+                                            <span class="help-block">Your email address is also used to log in.</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" class="form-control" required="" name="password" value="">
+                                                    <span class="help-block">Choose a password for your new account.</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="passwordr">Repeat Password</label>
+                                                    <input type="password" class="form-control" required="" name="passwordr" value="">
+                                                    <span class="help-block">Type the password again. Passwords must match.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" name="isEmpty" value="">
+                                        <button type="input" name="submit" value="newAccount" class="btn btn-success btn-icon"><i class="fa fa-check"></i> Create My Account</button>
+                                        <button type="button" class="btn btn-default btn-icon" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <!--/span-->
+                </div>
+            </div>
+        </div><br />
+        <!-- END FORM-->
+        <div class="">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+            </ul>
+            <div class="tab-content" style="display:none" id="salrcontainer">
+                <div id="home" class="tab-pane fade in active">
+                    <br /><br />
+                    <div class="row"  >
+                        <div class="col-md-12">
+                            <div style="overflow-x:auto;">                 
+                                <table class="table table-bordered" id="tableslryDetails">
+                                    <thead>
+                                        <tr> 
+                                            <th>Sr No</th>
+                                            <th>Emp_Code</th>
+                                            <th>Employee Name</th>
+                                            <th>country</th>
+                                            <th>Tmonth</th>
+                                            <th>Tyear</th>
+                                            <th>cmpycode</th>
+                                            <th>ProfCode</th>
+                                            <th>DepCode</th>
+                                            <th>ComnPrjcode</th>
+                                            <th>Division</th>
+                                            <th>VisaLocation</th>              
+                                            <th>WorkLocation</th>
+                                            <th>Total_Days</th>
+                                            <th>Worked_Days</th>
+                                            <th>a_basic</th>
+                                            <th>a_hra</th>
+                                            <th>a_Da</th>
+                                            <th>a_tele</th>
+                                            <th>a_trans</th>       
+                                            <th>a_car</th> 
+                                            <th>a_allowance1</th>       
+                                            <th>a_allowance2</th>       
+                                            <th>a_allowance3</th>       
+                                            <th>a_Totalsalary</th>       
+                                            <th>C_basic</th>       
+                                            <th>C_hra</th> 
+                                            <th>C_da</th>
+                                            <th>C_tele</th> 
+                                            <th>C_trans</th>
+                                            <th>C_car</th> 
+                                            <th>C_allowance1</th>
+                                            <th>C_allowance2</th>  
+                                            <th>C_allowance3</th>
+                                            <th>C_totalSalary</th>
+                                            <th>loan_amt</th>
+                                            <th>adn_amount</th>
+                                            <th>nothrs</th>
+                                            <th>extraOThrs</th>
+                                            <th>hothrs</th>
+                                            <th>wothrs</th> 
+                                            <th>not_rate_perhr</th>
+                                            <th>hot_rate_perhr</th>
+                                            <th>ExtraOT_rate_perhr</th>
+                                            <th>wot_rate_perhr</th> 
+                                            <th>ExtraOTAmt</th>
+                                            <th>NOTAmt</th>
+                                            <th>HOTAmt</th>
+                                            <th>WOTAmt</th>
+                                            <th>NetSalary</th>                        
+                                            @*<th>Net Salary</th>*@
+                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                @Html.Hidden("hdnCounter", (++counter))
+                            </div>
+                        </div>
 
                         </div>
                     </div>

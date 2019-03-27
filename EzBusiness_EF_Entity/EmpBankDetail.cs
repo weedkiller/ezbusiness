@@ -12,6 +12,7 @@ namespace EzBusiness_EF_Entity
         public DateTime Entry_Date { get; set; }
         public string CmpyCode { get; set; }
         public string EmpCode { get; set; }
+        public string EmpName { get; set; }
         public string PRBM001_code { get; set; }
 
         public string PRBM002_code { get; set; }
