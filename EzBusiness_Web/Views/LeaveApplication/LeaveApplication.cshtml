@@ -92,10 +92,11 @@
                         $.getJSON("/DeleteLeaveApp", { PRLR001_CODE: PRLR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode, LeaveType: LeaveType }).done(function (data) {
                             if (data.DeleteFlag)
                             {
-                                EzbtnsaveAcVis("#LVContainer");
-                                $("#LVContainer").html(lvHtml);
-                                //$("#btnCancel").trigger("click");
-                                GetLeaveList();
+                                //EzbtnsaveAcVis("#LVContainer");
+                                //$("#LVContainer").html(lvHtml);
+                                ////$("#btnCancel").trigger("click");
+                                //GetLeaveList();
+                                window.location = '/LeaveApplication'
                             }
                             else {
                                 EzAlertdele(PRLR001_CODE);
@@ -221,10 +222,11 @@
                             var arr = [];
                             arr = response;
                             if (response.IsSavedFlag && !response.ErrorMessage.length > 0) {
-                                EzbtnsaveAcVis("#LVContainer");
+                                //EzbtnsaveAcVis("#LVContainer");
                                 EzAlertSave();
-                                $("#LVContainer").html(lvHtml);
-                                GetLeaveList();
+                                //$("#LVContainer").html(lvHtml);
+                                //GetLeaveList();
+                                window.location = '/LeaveApplication'
                             } else {
                                 //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                                 EzAlerterrtxt(response.ErrorMessage);

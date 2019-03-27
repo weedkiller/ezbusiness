@@ -761,6 +761,10 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
     jq(document).ready(function () {
         // Setup - add a text input to each footer cell
         debugger;
+
+       
+
+
        // $(ide).addClass('');
         var k = jq(idef).length;
         jq(idef).each(function () {
@@ -781,14 +785,14 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
       //  $(ide).DataTable().clear();
        
         
-
+       
         // DataTable
         var tableInstance = jq(ide).DataTable({
             "paging": true,
             "ordering": true,
             "info": true,
             "scrollX": true,
-            "destroy":true,
+          
         });
 
        
@@ -838,6 +842,89 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
     });
 }
 
+
+
+function Ezsidetbl2(ide, idef, lk, idfoot) {
+   // var jq = jQuery.noConflict(true);
+    $(document).ready(function () {
+        // Setup - add a text input to each footer cell
+        debugger;
+        // $(ide).addClass('');
+        var k = $(idef).length;
+        $(idef).each(function () {
+            if (lk == true) {
+                if (k > 1) {
+                    var title = '';//$(this).text();
+                    $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+                    k = k - 1;
+                }
+            } else {
+                var title = '';//$(this).text();
+                $(this).html('<input type="text" class="form-control input-sm"  placeholder="Search ' + title + '"  />');
+            }
+
+
+        });
+
+        //  $(ide).DataTable().clear();
+
+
+
+        // DataTable
+        var tableInstance = $(ide).DataTable({
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "scrollX": true,
+
+        });
+
+
+
+
+
+        //if (lk == true) {
+        //    $("#tblUnits_length").hide();
+        //}
+
+
+
+        tableInstance.columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change', function (ev) {
+                debugger;
+                if (that.search() !== this.value) { //only on enter keypress (code 13)
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+
+
+        var r = $(idef);
+        r.find('td').each(function () {
+            $(this).css('padding', 8);
+
+        });
+        $(idfoot).append(r);
+        $('#search_0').css('text-align', 'center');
+
+        $('div.dataTables_filter input').addClass('form-control input-sm');
+
+
+
+        $('' + ide + '_length').hide();
+
+
+
+        $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+
+
+
+    });
+}
 
 function ReloadDataTablDocumentDetails(tableId, urlData) {
     // alert("reload");

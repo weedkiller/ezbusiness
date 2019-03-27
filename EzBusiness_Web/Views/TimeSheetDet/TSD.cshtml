@@ -331,11 +331,6 @@
 
 
 <br />
-@*<ol class="breadcrumb">
-    <li class="active strong1">
-        <strong>TimeSheetDetail</strong>
-    </li>
-</ol>*@
 
 <div class="panel panel-default">
     <div class="panel-body">
@@ -347,8 +342,8 @@
            
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label col-md-1">Type</label>
-                    <div class="col-md-8 input-field radiobtn1">
+                    <label class="control-label col-md-4">Type</label>
+                    <div class="col-md-8 input-field">
                         <label>
                             <input type="radio" name="optionsRadios" id="optionsRadios1" value="E" checked="checked">
                             Employee
@@ -366,7 +361,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="control-label col-md-3">Month & Year</label>
-                    <div class="col-md-4 input-field">
+                    <div class="col-md-8 input-field">
                         <input id="DateINMonth" class="form-control datepicker" name="DateINMonth">
                         @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
                         @Html.HiddenFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })
@@ -379,17 +374,17 @@
         <div class="row">
             <!--/span-->
 
-            <div class="col-md-4" id="Hemp">
+            <div class="col-md-6" id="Hemp">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Reporting Employee<i style="color:red;">*</i></label>
+                    <label class="control-label col-md-4">Reporting Employee<i class="star">*</i></label>
                     <div class="col-md-8">
                         @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                     </div>
                 </div>
             </div>
-            <div class="col-md-4" id="Hdiv">
+            <div class="col-md-6" id="Hdiv">
                 <div class="form-group">
-                    <label class="control-label col-md-3">Division<i style="color:red;">*</i></label>
+                    <label class="control-label col-md-3">Division<i class="star">*</i></label>
                     <div class="col-md-8">
                         @Html.DropDownListFor(m => m.DivCode, Model.DivCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                     </div>
@@ -399,60 +394,92 @@
         </div>
           <br />  
 
-            <table class="table table-bordered table-hover" id="tblUnits" >
-                <thead>
-                    <tr class="tr">
-                        <th>
-                            @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @data_live_search = "true" })*@
-                            @Html.DisplayNameFor(model => model.EmpCode)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Tmonth)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Tyear)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.SrNo)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ReportingEmp)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Dates)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Project_code)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Attendance)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Nhrs)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ExtraHrs)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.FOThrs)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Hhrs)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Ohrs)
-                        </th>
+        <div class="">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                    <br /><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="overflow-x:auto;">
+                                <table class="table table-bordered table-hover" id="tblUnits">
+                                    <thead>
+                                        <tr class="tr">
+                                            <th>
+                                                @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @data_live_search = "true" })*@
+                                                @Html.DisplayNameFor(model => model.EmpCode)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Tmonth)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Tyear)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.SrNo)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ReportingEmp)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Dates)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Project_code)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Attendance)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Nhrs)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.ExtraHrs)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.FOThrs)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Hhrs)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Ohrs)
+                                            </th>
 
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        
-                    </tr>                   
-                </tbody>
-            </table>
-            @Html.Hidden("Counter", counter)
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr></tr>
+                                    </tbody>
+                                </table>
+                                @Html.Hidden("Counter", counter)
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
         </div>
    
 </div>

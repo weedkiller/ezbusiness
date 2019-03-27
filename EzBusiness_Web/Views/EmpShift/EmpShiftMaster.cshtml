@@ -77,9 +77,10 @@
                            
                             if (data.DeleteFlag) {                                                              
                                 $("#btnCancel").trigger("click");
-                                EzbtnsaveAcVis("#POContainer")
-                                $("#POContainer").html(lvHtml);
-                                GetLeaveList();
+                                //EzbtnsaveAcVis("#POContainer")
+                                //$("#POContainer").html(lvHtml);
+                                //GetLeaveList();
+                                window.location = '/EmpShiftMaster'
                             } else {
                                 EzAlertdele(PRSFT003_code);
                             }
@@ -161,10 +162,11 @@
                 if (validationResult.formValid) {
                     $.post("/SaveEmpShift", Sft).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                          
-                            EzbtnsaveAcVis("#POContainer");
+                            //EzbtnsaveAcVis("#POContainer");
                             EzAlertSave();                           
-                            $("#POContainer").html(lvHtml);
-                            GetLeaveList();
+                            //$("#POContainer").html(lvHtml);
+                            //GetLeaveList();
+                            window.location = '/EmpShiftMaster'
                         } else {                            
                             // Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
