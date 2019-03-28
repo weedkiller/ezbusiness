@@ -13,6 +13,7 @@
             // alert("");
             //
             Profdata.ProfessionReportDetails();
+ $('.dataTables_scrollHead').css('margin-bottom', '0px');
         })
         $("#btncancel").click(function () {
             $("#fdatetxt").val("");

@@ -13,6 +13,7 @@
             // alert("");
             //
             loandata.LoanApplicationReportDetails();
+             $('.dataTables_scrollHead').css('margin-bottom', '0px');
         })
           $("#btncancel").click(function () {
               EzdtePk('#fdatetxt,#tdatetxt');
@@ -113,6 +114,9 @@
                     { "data": "AppliedAmt" }
                 ]
             });
+
+           
+
             //fnldt.on('order.dt search.dt', function () {
             //    fnldt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
             //        cell.innerHTML = i + 1;
@@ -130,6 +134,9 @@
                     $(this).val(k);
                 }
             });
+
+
+            
         }
         else
         {
