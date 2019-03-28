@@ -92,14 +92,15 @@ namespace EzBusiness_DL_Repository
                 if(Emps!="")
                 {
                     n = 0;
-                    string Monthyy = dtmonthyy.ToString("MM-yyyy");
+                    string Month = dtmonthyy.ToString("MM");
+                    string yy = dtmonthyy.ToString("yyyy");
 
                     SqlParameter[] param1 = {
                         new SqlParameter("@empcode",Empcode),
                         new SqlParameter("@cmpycode",CmpyCode)
                        };
                     //_EzBusinessHelper.ExecuteScalarDec("Sp_SalProCond", param1);//
-                    int k = _EzBusinessHelper.ExecuteScalar("select count(*) from PRSPD001 where flag=0 and EmpCode='" + Emps + "'  and CmpyCode='" + CmpyCode + "' and FORMAT(Dates,'MM-yyyy') = '" + Monthyy + "'");
+                    int k = _EzBusinessHelper.ExecuteScalar("select count(*) from PRSP002 where flag=0 and EmpCode='" + Emps + "'  and CmpyCode='" + CmpyCode + "' and Tyear = '" + yy + "' and tmonth='"+ Month + "'");
                     if (k == 0)
                     {
                         n = 1;

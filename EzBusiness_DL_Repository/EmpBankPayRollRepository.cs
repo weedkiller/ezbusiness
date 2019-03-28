@@ -84,9 +84,9 @@ namespace EzBusiness_DL_Repository
             }
             return ObjList;
         }
-        public List<Employee> GetEmpCodes(string CmpyCode)
+        public List<Employee> GetEmpCodes(string CmpyCode, string typ)
         {          
-            return drop.GetEmpCodes(CmpyCode,"B");
+            return drop.GetEmpCodes(CmpyCode,typ);
         }
         public List<BankMaster> GetPRBM001_code(string CmpyCode)
         {

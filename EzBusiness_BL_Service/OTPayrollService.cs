@@ -63,9 +63,10 @@ namespace EzBusiness_BL_Service
                 NHrs = m.NHrs,
                 OTHrs = m.OTHrs,
                 ATT = m.ATT,
-               // ReportingEmp=m.EmpCode,
-               
-                
+                EmpName=m.EmpName
+                // ReportingEmp=m.EmpCode,
+
+
             }).ToList();
         }
 

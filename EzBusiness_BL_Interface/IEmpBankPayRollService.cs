@@ -15,7 +15,7 @@ namespace EzBusiness_BL_Interface
     {
         List<EmpBankVM> GetEmpBnkList(string CmpyCode);        
         EmpBankVM SaveEmpBnk(EmpBankVM EmpBnk);      
-        List<SelectListItem> GetEmpCodes(string CmpyCode);
+        List<SelectListItem> GetEmpCodes(string CmpyCode, string typ);
         List<SelectListItem> GetPRBM001_code(string CmpyCode);
         List<SelectListItem> GetPRBM002_code(string CmpyCode, string PRBM001_code);     
         bool DeleteEmpBnk(string CmpyCode, string PRBM003_CODE, string UserName);
