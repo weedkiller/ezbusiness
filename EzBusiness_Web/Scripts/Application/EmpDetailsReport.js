@@ -18,7 +18,7 @@ var Empreport = {
           $('select').val('10');
            Empreport.EmpReportDetails();
           
-          
+           $('.dataTables_scrollHead').css('margin-bottom', '0px');
           
        })
         $("#fnlbtnSearchData").click(function () {

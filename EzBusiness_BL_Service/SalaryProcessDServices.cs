@@ -89,6 +89,10 @@ namespace EzBusiness_BL_Service
 
         public SalaryProcessDetailsVM SaveSalaryProcessD(SalaryProcessDetailsVM salary)
         {
+            if(!salary.EditFlag)
+            {
+                salary.PRSP001_Code = _CodeRep.GetCode(salary.CmpyCode, "SalaryProcess");
+            }
             return _salaryrepo.SaveSalaryProcessD(salary);
         }
         public SalaryProcessDetailsVM GetSalaryProcessDetailList(string CmpyCode)

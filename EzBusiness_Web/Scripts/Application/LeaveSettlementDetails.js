@@ -10,6 +10,7 @@ var LeaveSet = {
         $("#btnSearchData").click(function () {
             // alert("");
             LeaveSet.LeaveSettlementDetails();
+            $('.dataTables_scrollHead').css('margin-bottom', '0px');
         })
     },
     LeaveSettlementDetails: function () {       
@@ -27,7 +28,7 @@ var LeaveSet = {
             EmpCode: empCode
         }
         
-        $('#LeaveSetreport').empty();
+        $('#LeaveSettreport').empty();
         Msg = LeaveSet.ValidateReports(newrow)
         if (Msg == "") {
             var empdt = $('#LeaveSettreport').DataTable({
@@ -114,7 +115,7 @@ var LeaveSet = {
                 //return $(this).text() == text1;
                 debugger;
                 if ($(this).text() == "All") {
-                    var tabledata = $('#LeaveSetreport').dataTable();
+                    var tabledata = $('#LeaveSettreport').dataTable();
                     //Get the total rows
                     k = tabledata.fnSettings().fnRecordsTotal();
                     $(this).val(k);

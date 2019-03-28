@@ -34,8 +34,9 @@ namespace EzBusiness_DL_Repository
                 if (i > 0)
                 {
                    _EzBusinessHelper.ExecuteNonQuery("update  PRSP001 set flag=1 where CmpyCode='" + CmpyCode + "' and PRSP001_Code='" + Code + "'");
+                    _EzBusinessHelper.ExecuteNonQuery("update  PRSP001 set flag=1 where CmpyCode='" + CmpyCode + "' and PRSP001_Code='" + Code + "'");
 
-                   _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete Salary Process", Code, Environment.MachineName);
+                    _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete Salary Process", Code, Environment.MachineName);
 
                    return true;
                 }
@@ -217,8 +218,7 @@ namespace EzBusiness_DL_Repository
             string vloc1 = SPDV.VisaLocation1 == "0" ? "" : SPDV.VisaLocation1;
             string Month = "";
             string year = "";
-            List<SalaryProcessDetailsListItem> objList = null;
-           
+            List<SalaryProcessDetailsListItem> objList = null;           
             try
             {
                 var Drecord = new List<string>();
