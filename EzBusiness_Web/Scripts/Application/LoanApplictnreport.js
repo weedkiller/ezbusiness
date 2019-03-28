@@ -113,6 +113,9 @@
                     { "data": "AppliedAmt" }
                 ]
             });
+
+           
+
             //fnldt.on('order.dt search.dt', function () {
             //    fnldt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
             //        cell.innerHTML = i + 1;
@@ -130,6 +133,9 @@
                     $(this).val(k);
                 }
             });
+
+
+            
         }
         else
         {

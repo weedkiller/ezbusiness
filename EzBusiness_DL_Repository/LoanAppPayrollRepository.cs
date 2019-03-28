@@ -35,7 +35,7 @@ namespace EzBusiness_DL_Repository
 
         public List<Employee> GetEmpCodes(string CmpyCode)
         {
-            return drop.GetEmpCodes(CmpyCode, "B");
+            return drop.GetEmpCodes(CmpyCode, "NA");
         }
 
         public LoanAppliationVM GetLoanAppEdit(string CmpyCode, string PRLA001_CODE)
