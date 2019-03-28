@@ -74,9 +74,11 @@ namespace EzBusiness_BL_Service
         {
             var poedit = _salaryrepo.GetSalaryProcessEdit(CmpyCode, PRSFT001_code);
             poedit.DivisionList = GetDivCodeList(CmpyCode);
+            poedit.VisaLocationList = GetVisLocList(CmpyCode);               
             poedit.VisaLocationList = GetVisLocList(CmpyCode);
+            poedit.DepartmentList = GetDepartmentList(CmpyCode, poedit.DivisionCode);
          //   poedit.salaryList = GetSalaryProcessGridEdit(poedit.year,poedit.Month,poedit.CmpyCode);
-            
+
             return poedit;
         }
       

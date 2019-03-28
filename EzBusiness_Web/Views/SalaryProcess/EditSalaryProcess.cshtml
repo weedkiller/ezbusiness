@@ -58,56 +58,56 @@
                     "scrollX": true,
                     "destroy": true,
                     "columns": [
-                       { "data": "srno" },
-                       { "data": "Empcode" },
-                       { "data": "Empname" },
-                       { "data": "country" },
-                       { "data": "Tmonth" },
-                       { "data": "Tyear" },
-                       { "data": "cmpycode" },
-                       { "data": "ProfCode" },
-                       { "data": "DepCode" },
-                       { "data": "ComnPrjcode" },
-                       { "data": "Division" },
-                       { "data": "VisaLocation" },
-                       { "data": "WorkLocation" },
-                       { "data": "Total_Days" },
-                       { "data": "Worked_Days" },
-                       { "data": "a_basic" },
-                       { "data": "a_hra" },
-                       { "data": "a_Da" },
-                       { "data": "a_tele" },
-                       { "data": "a_trans" },
-                       { "data": "a_car" },
-                       { "data": "a_allowance1" },
-                       { "data": "a_allowance2" },
-                       { "data": "a_allowance3" },
-                       { "data": "a_Totalsalary" },
-                       { "data": "C_basic" },
-                       { "data": "C_hra" },
-                       { "data": "C_da" },
-                       { "data": "C_tele" },
-                       { "data": "C_trans" },
-                       { "data": "C_car" },
-                       { "data": "C_allowance1" },
-                       { "data": "C_allowance2" },
-                       { "data": "C_allowance3" },
-                       { "data": "C_totalSalary" },
-                       { "data": "loan_amt" },
-                       { "data": "adn_amount" },
-                       { "data": "nothrs" },
-                       { "data": "extraOThrs" },
-                       { "data": "hothrs" },
-                       { "data": "wothrs" },
-                       { "data": "not_rate_perhr" },
-                       { "data": "hot_rate_perhr" },
-                       { "data": "ExtraOT_rate_perhr" },
-                       { "data": "wot_rate_perhr" },
-                       { "data": "ExtraOTAmt" },
-                       { "data": "NOTAmt" },
-                       { "data": "HOTAmt" },
-                       { "data": "WOTAmt" },
-                       { "data": "NetSalary" },
+                      { "data": "srno" },
+                                       { "data": "Empcode" },
+                                       { "data": "Empname" },
+                                       //{ "data": "country" },
+                                       //{ "data": "Tmonth" },
+                                       //{ "data": "Tyear" },
+                                       //{ "data": "cmpycode" },
+                                       { "data": "ProfCode" },
+                                       { "data": "DepCode" },
+                                       { "data": "ComnPrjcode" },
+                                       //{ "data": "Division" },
+                                       { "data": "VisaLocation" },
+                                       { "data": "WorkLocation" },
+                                       { "data": "Total_Days" },
+                                       { "data": "Worked_Days" },
+                                       //{ "data": "a_basic" },
+                                       //{ "data": "a_hra" },
+                                       //{ "data": "a_Da" },
+                                       //{ "data": "a_tele" },
+                                       //{ "data": "a_trans" },
+                                       //{ "data": "a_car" },
+                                       //{ "data": "a_allowance1" },
+                                       //{ "data": "a_allowance2" },
+                                       //{ "data": "a_allowance3" },
+                                       { "data": "a_Totalsalary" },
+                                       //{ "data": "C_basic" },
+                                       //{ "data": "C_hra" },
+                                       //{ "data": "C_da" },
+                                       //{ "data": "C_tele" },
+                                       //{ "data": "C_trans" },
+                                       //{ "data": "C_car" },
+                                       //{ "data": "C_allowance1" },
+                                       //{ "data": "C_allowance2" },
+                                       //{ "data": "C_allowance3" },
+                                       { "data": "C_totalSalary" },
+                                       { "data": "loan_amt" },
+                                       { "data": "adn_amount" },
+                                       //{ "data": "nothrs" },
+                                       //{ "data": "extraOThrs" },
+                                       //{ "data": "hothrs" },
+                                       //{ "data": "wothrs" },
+                                       //{ "data": "not_rate_perhr" },
+                                       //{ "data": "hot_rate_perhr" },
+                                       //{ "data": "ExtraOT_rate_perhr" },
+                                       //{ "data": "wot_rate_perhr" },
+                                       { "data": "ExtraOTAmt" },
+                                       { "data": "NOTAmt" },
+                                       { "data": "HOTAmt" },
+                                       { "data": "WOTAmt" },
+                                       { "data": "NetSalary" },
                     ]
                 });
                 t.on('order.dt search.dt', function () {
@@ -141,36 +141,181 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label col-md-3">CODE</label>
+                            <label class="control-label col-md-2">CODE</label>
                             <div class="col-md-8 input-field">
-                                @Html.TextBoxFor(m => m.PRSP001_Code, new { @class = "form-control", @placeholder = "" })
+                                @Html.TextBoxFor(m => m.PRSP001_Code, new { @class = "form-control", @placeholder = "Code" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Division<i style="color:red;">*</i></label>
+                            <div class="col-md-9 input-field">
+                                @Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label col-md-3">Division</label>                           
-                                <div class="col-md-9 input-field">
-                                    @Html.TextBoxFor(m => m.DivisionCode, new { @class = "form-control", @data_live_search = "true" })
-                                </div>                         
+                            <label class="control-label col-md-2">Department</label>
+                            <div class="col-md-9 input-field">
+                                @Html.DropDownListFor(m => m.Deptcode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                            </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">VisaLocation</label>
+                            <div class="col-md-9 input-field">
+                                @Html.DropDownListFor(m => m.VisaLocation1, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
                 </div>
                 <!--/row-->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label col-md-3">Date</label>
+                            <label class="control-label col-md-2">Date</label>
                             <div class="col-md-8 input-field">
-                                <input id="DateINMonth" class="form-control datepicker" name="DateINMonth">
-                                @*@Html.TextBoxFor(m => m.Process_Date, new { @class = "form-control", @placeholder = "" })*@
+                                @*<input type="month" id="DateINMonth" class="date1 date-picker" >*@
+                                <input id="DateINMonth" class="form-control datepicker" name="DateINMonth" autocomplete="false">
+
+                                @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @*@Html.TextBoxFor(m => m.CurrentDate, new { @class = "form-control", @placeholder = "Code" })*@
                                 @Html.HiddenFor(m => m.Process_Date)
                             </div>
                         </div>
                     </div>
                     <!--/span-->
                     <div class="col-md-6">
-                        <button class="btn btn-warning" type="text" id="btncalculate" style="width:10em">Calculate</button>
+                        <button class="btn btn-warning" id="btncalculate" type="button">Calculate Salary</button>
+                        <button class="btn btn-danger" id="" data-toggle="modal" data-target="#myModal1" type="button">Actual Salary</button>
+                        <button class="btn btn-info" id="" data-toggle="modal" data-target="#myModal2" type="button">OT Details</button>
+
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                                    <h4 class="modal-title">Ready modal popup</h4>
+                                </div>
+                                <form action="" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="userEmail">Email Address</label>
+                                            <input type="text" class="form-control" required="" name="userEmail" value="">
+                                            <span class="help-block">Your email address is also used to log in.</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" class="form-control" required="" name="password" value="">
+                                                    <span class="help-block">Choose a password for your new account.</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="passwordr">Repeat Password</label>
+                                                    <input type="password" class="form-control" required="" name="passwordr" value="">
+                                                    <span class="help-block">Type the password again. Passwords must match.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" name="isEmpty" value="">
+                                        <button type="input" name="submit" value="newAccount" class="btn btn-success btn-icon"><i class="fa fa-check"></i> Create My Account</button>
+                                        <button type="button" class="btn btn-default btn-icon" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                        <div class="modal fade" id="myModal1" role="dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                                    <h4 class="modal-title">Ready modal popup</h4>
+                                </div>
+                                <form action="" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="userEmail">Email Address</label>
+                                            <input type="text" class="form-control" required="" name="userEmail" value="">
+                                            <span class="help-block">Your email address is also used to log in.</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" class="form-control" required="" name="password" value="">
+                                                    <span class="help-block">Choose a password for your new account.</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="passwordr">Repeat Password</label>
+                                                    <input type="password" class="form-control" required="" name="passwordr" value="">
+                                                    <span class="help-block">Type the password again. Passwords must match.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" name="isEmpty" value="">
+                                        <button type="input" name="submit" value="newAccount" class="btn btn-success btn-icon"><i class="fa fa-check"></i> Create My Account</button>
+                                        <button type="button" class="btn btn-default btn-icon" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                        <div class="modal fade" id="myModal2" role="dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                                    <h4 class="modal-title">Ready modal popup</h4>
+                                </div>
+                                <form action="" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="userEmail">Email Address</label>
+                                            <input type="text" class="form-control" required="" name="userEmail" value="">
+                                            <span class="help-block">Your email address is also used to log in.</span>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="password">Password</label>
+                                                    <input type="password" class="form-control" required="" name="password" value="">
+                                                    <span class="help-block">Choose a password for your new account.</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="passwordr">Repeat Password</label>
+                                                    <input type="password" class="form-control" required="" name="passwordr" value="">
+                                                    <span class="help-block">Type the password again. Passwords must match.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" name="isEmpty" value="">
+                                        <button type="input" name="submit" value="newAccount" class="btn btn-success btn-icon"><i class="fa fa-check"></i> Create My Account</button>
+                                        <button type="button" class="btn btn-default btn-icon" data-dismiss="modal"><i class="fa fa-times-circle"></i> Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+
                     </div>
                     <!--/span-->
                 </div>
@@ -194,57 +339,58 @@
                                 <table class="table table-bordered table-sm" id="tableslryDetails1">
                                     <thead>
                                         <tr>
-                                           
+
                                             <th>Sr No</th>
-                                            <th>Employee Code</th>
+                                            <th>Emp_Code</th>
                                             <th>Employee Name</th>
-                                            <th>country</th>
-                                            <th>Month</th>
-                                            <th>Year</th>
-                                            <th>Company Code</th>
-                                            <th>Prof Code</th>
-                                            <th>Dept Code</th>
-                                            <th>Comman Project Code</th>
-                                            <th>Division</th>
+                                            @*<th>country</th>
+            <th>Tmonth</th>
+            <th>Tyear</th>*@
+                                            @*<th>cmpycode</th>*@
+                                            <th>ProfCode</th>
+                                            <th>DepCode</th>
+                                            <th>ComnPrjcode</th>
+                                            @*<th>Division</th>*@
                                             <th>VisaLocation</th>
                                             <th>WorkLocation</th>
                                             <th>Total_Days</th>
                                             <th>Worked_Days</th>
-                                            <th>a_basic</th>
-                                            <th>a_hra</th>
-                                            <th>a_Da</th>
-                                            <th>a_tele</th>
-                                            <th>a_trans</th>
-                                            <th>a_car</th>
-                                            <th>a_allowance1</th>
-                                            <th>a_allowance2</th>
-                                            <th>a_allowance3</th>
+                                            @*<th>a_basic</th>
+            <th>a_hra</th>
+            <th>a_Da</th>
+            <th>a_tele</th>
+            <th>a_trans</th>
+            <th>a_car</th>
+            <th>a_allowance1</th>
+            <th>a_allowance2</th>
+            <th>a_allowance3</th>*@
                                             <th>a_Totalsalary</th>
-                                            <th>C_basic</th>
-                                            <th>C_hra</th>
-                                            <th>C_da</th>
-                                            <th>C_tele</th>
-                                            <th>C_trans</th>
-                                            <th>C_car</th>
-                                            <th>C_allowance1</th>
-                                            <th>C_allowance2</th>
-                                            <th>C_allowance3</th>
+                                            @*<th>C_basic</th>
+            <th>C_hra</th>
+            <th>C_da</th>
+            <th>C_tele</th>
+            <th>C_trans</th>
+            <th>C_car</th>
+            <th>C_allowance1</th>
+            <th>C_allowance2</th>
+            <th>C_allowance3</th>*@
                                             <th>C_totalSalary</th>
-                                            <th>Loan Amount</th>
-                                            <th>Addition/Deduction Amount</th>
-                                            <th>Nothrs</th>
-                                            <th>extraOThrs</th>
-                                            <th>hothrs</th>
-                                            <th>wothrs</th>
-                                            <th>not_rate_perhr</th>
-                                            <th>hot_rate_perhr</th>
-                                            <th>ExtraOT_rate_perhr</th>
-                                            <th>wot_rate_perhr</th>
+                                            <th>loan_amt</th>
+                                            <th>adn_amount</th>
+                                            @*<th>nothrs</th>
+            <th>extraOThrs</th>
+            <th>hothrs</th>
+            <th>wothrs</th>
+            <th>not_rate_perhr</th>
+            <th>hot_rate_perhr</th>
+            <th>ExtraOT_rate_perhr</th>
+            <th>wot_rate_perhr</th>*@
                                             <th>ExtraOTAmt</th>
                                             <th>NOTAmt</th>
                                             <th>HOTAmt</th>
                                             <th>WOTAmt</th>
-                                            <th>NetSalary</th> 
+                                            <th>NetSalary</th>
+
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
