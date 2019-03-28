@@ -284,6 +284,10 @@ namespace EzBusiness_DL_Repository
             {
                 qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "' and Flag=0 And WorkingStatus = 'Y'  Order By EmpCode";
             }
+            else if (typ == "B")
+            {
+                qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode ='" + CmpyCode + "' and Flag=0 and EmpCode not in (Select EmpCode from PRBM003 where Cmpycode=MEM001.Cmpycode)";
+            }
             else
             {
                 qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "'  And WorkingStatus = 'Y' and Flag=0  Order By EmpCode";

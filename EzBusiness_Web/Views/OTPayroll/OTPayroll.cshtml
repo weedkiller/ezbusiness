@@ -75,22 +75,31 @@
                 var dt3 = Ezsetdtpkdate($("#Tdate").val());
                 var typ1 = $("input:radio[name=optionsRadios]:checked").val();
                 var e1 = '';
+                var Emp, Prj, Div = '';
                 if (typ1 == 'E')
                 {
                     err = 'Employee';
                     e1 = $("#EmpCode option:selected").val();
                     typ1 = 'Emp';
+                    Emp = e1;
+                    Prj = '-1';
+                    Div1 = '-1';
                 }else if(typ1=='P')
                 {
                     err = 'Project';
                     typ1 = 'Prj';
                     e1 = $("#PrjCode option:selected").val();
-                
+                    Emp = '-1'
+                    Prj = e1;
+                    Div1 = '-1';
                 }
                 else {
                     err = 'Division';
                     typ1 = 'Div';
                     e1 = $("#DivCode option:selected").val();
+                    Emp = '-1'
+                    Prj = '-1';
+                    Div1 = e1;
                 }
                 duplicates = false;
                 var value = $("#Att_Date").val();
@@ -107,6 +116,27 @@
                         debugger;
                         var a = [];
                         var a1 = [];
+                       
+                            $.ajax({
+                                async: false,
+                                cache: false,
+                                type: "POST",
+                                data: "{EmpCode:'" + Emp + "',DivCode:'" + Div1 + "',prjCode:'" + Prj + "'}",
+                                url: "/GetEmpRep",
+                                dataType: 'Json',
+                                contentType: "Application/json",
+                                success: function (data) {
+                                    var k1 = data.length;
+                                    while (k1 > 0) {
+                                        a.push(data[k1 - 1].EmpCode);
+                                        a1.push(0);
+                                        k1--;
+                                    }
+
+                                }
+                            });
+                       
+                       
                         //$.ajax({
                         //    async: false,
                         //    cache: false,
@@ -126,8 +156,8 @@
                                 
                         //    }
                         //});
-                        //  var k = EzSalrProcCondiont(a, date1);
-                        // if (k == 1) {                           
+                          var k = EzSalrProcCondiont(a, date1);
+                         if (k == 1) {                           
                         $.get("/GetOTDet", { EmpCode: e1, dte: dt2, dte1: dt3, typ:typ1 }).done(function (response) {
                             // $.get("/GetTSDList", { EmpCode: e1, date1: dt2 }).done(function (response) {
                             var ary = [];
@@ -176,7 +206,9 @@
                                 var td6 = "<td><div class='form-group'><input type='number' " + Readonly1 + " class='form-control' name='ExtraHrs" + counter + "'></div></td>";
                                 var td7 = "<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
                                 var td12 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='EmpCode" + counter + "'></div></td>";
-                                $("#tablePODetails").append(tr1 + td + td12 + td1 + tdA + td2 + td3 + td4 + td5 + td6 + td7);
+                                var td13 = "<td><div class='grid-group'><input type='text' Readonly='true' class='grid-control' name='EmpName" + counter + "'></div></td>";
+
+                                $("#tablePODetails").append(tr1 + td + td12 +td13+ td1 + tdA + td2 + td3 + td4 + td5 + td6 + td7);
 
                                 var tr = $("#tablePODetails tbody tr");
                                 tr.find("[name='Datest" + counter + "']").val(EzdatefrmtRes(ary[i].Att_Date));
@@ -187,10 +219,11 @@
                                 tr.find("[name='Hhrs" + counter + "']").val(ary[i].Hhrs);
                                 tr.find("[name='ExtraHrs" + counter + "']").val(ary[i].ExtraHrs);
                                 tr.find("[name='EmpCode" + counter + "']").val(ary[i].EmpCode);
+                                tr.find("[name='EmpName" + counter + "']").val(ary[i].EmpName);
                                 counter++;
                             }
                         });
-                    //}  
+                    }  
                     }
                 }
                 else {
@@ -479,9 +512,10 @@
                                                         <div style="overflow-x:auto;">
                                                             <table class="table table-bordered table-sm" id="tablePODetails">
                                                                 <thead>
-                                                                    <tr>
+                                                                    <tr class="tr">
                                                                       <th>Sr No</th>
-                                                                        <th>EmpCode</th>
+                                                                        <th>Employee Code</th>
+                                                                        <th>Employee Name</th>
                                                                         <th>Date</th>
                                                                         <th>Att Type</th>
                                                                         <th>N HRS</th>

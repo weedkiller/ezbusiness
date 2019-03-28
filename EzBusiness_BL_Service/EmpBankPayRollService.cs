@@ -30,7 +30,7 @@ namespace EzBusiness_BL_Service
         public EmpBankVM GetEmpBankPayRollEdit(string CmpyCode, string PRBM003_CODE)
         {
          var poEdit = _bkRepo.GetEmpBnkEdit(CmpyCode, PRBM003_CODE);
-            poEdit.EmpCodeList = GetEmpCodes(CmpyCode);
+            poEdit.EmpCodeList = GetEmpCodes(CmpyCode,"A");
             poEdit.PRBM001_codeList = GetPRBM001_code(CmpyCode);
             poEdit.PRBM002_codeList = GetPRBM002_code(CmpyCode, poEdit.PRBM001_code);
             poEdit.EditFlag = true;
@@ -42,7 +42,7 @@ namespace EzBusiness_BL_Service
             return new EmpBankVM
             {
 
-                EmpCodeList = GetEmpCodes(CmpyCode),
+                EmpCodeList = GetEmpCodes(CmpyCode,"B"),
                 PRBM001_codeList=GetPRBM001_code(CmpyCode),
                 PRBM002_codeList=GetPRBM002_code(CmpyCode,"0"),                
                 EditFlag = false
@@ -78,9 +78,9 @@ namespace EzBusiness_BL_Service
             }).ToList();
         }
 
-        public List<SelectListItem> GetEmpCodes(string CmpyCode)
+        public List<SelectListItem> GetEmpCodes(string CmpyCode, string typ)
         {
-            var EmpCodes = _bkRepo.GetEmpCodes(CmpyCode)
+            var EmpCodes = _bkRepo.GetEmpCodes(CmpyCode, typ)
                                        .Select(m => new SelectListItem { Value = m.EmpCode, Text = string.Concat(m.EmpCode, " - ", m.Empname) })
                                        .ToList();
             return InsertFirstElementDDL(EmpCodes);

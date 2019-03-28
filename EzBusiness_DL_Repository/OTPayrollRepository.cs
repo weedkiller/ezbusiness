@@ -86,7 +86,8 @@ namespace EzBusiness_DL_Repository
                         FOTHrs = dr["FOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["FOTHrs"].ToString()) : 0,
                         HOTHrs = dr["HOTHrs"].ToString() != "" ? Convert.ToDecimal(dr["HOTHrs"].ToString()) : 0,
                         OTHrs = dr["OTHrs"].ToString() != "" ? Convert.ToDecimal(dr["OTHrs"].ToString()) : 0,
-                        EmpCode = dr["EmpCode"].ToString()
+                        EmpCode = dr["EmpCode"].ToString(),
+                        EmpName=dr["EmpName"].ToString()
                     });
 
                 }

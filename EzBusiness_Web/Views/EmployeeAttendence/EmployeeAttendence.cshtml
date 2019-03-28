@@ -69,20 +69,29 @@
             var dt3 = Ezsetdtpkdate($("#Tdate").val());
             var typ1 = $("input:radio[name=optionsRadios]:checked").val();
             var e1 = '';
+            var Emp, Prj, Div = '';
             if (typ1 == 'E') {
                 err = 'Employee';
                 e1 = $("#EmpCode option:selected").val();
                 typ1 = 'Emp';
+                Emp = e1;
+                Prj = '-1';
+                Div1 = '-1';
             } else if (typ1 == 'P') {
                 err = 'Project';
                 typ1 = 'Prj';
                 e1 = $("#PrjCode option:selected").val();
-
+                Emp = '-1';
+                Prj = e1;
+                Div1 = '-1';
             }
             else {
                 err = 'Division';
                 typ1 = 'Div';
                 e1 = $("#DivCode option:selected").val();
+                Emp = '-1';
+                Prj = '-1';
+                Div1 = e1;
             }
             duplicates = false;
             var value = Ezsetdtpkdate($("#Att_Date").val());
@@ -100,6 +109,24 @@
                     var date1 = Ezsetdtpkdate($('#Att_Date').val());
                     var a = [];
                     var a1 = [];
+                    $.ajax({
+                        async: false,
+                        cache: false,
+                        type: "POST",
+                        data: "{EmpCode:'" + Emp + "',DivCode:'" + Div1 + "',prjCode:'" + Prj + "'}",
+                        url: "/GetEmpRep",
+                        dataType: 'Json',
+                        contentType: "Application/json",
+                        success: function (data) {
+                            var k1 = data.length;
+                            while (k1 > 0) {
+                                a.push(data[k1 - 1].EmpCode);
+                                a1.push(0);
+                                k1--;
+                            }
+
+                        }
+                    });
                     //$.ajax({
                     //    async: false,
                     //    cache: false,
@@ -119,8 +146,8 @@
                     //    }
                     //});
 
-                    //var k = EzSalrProcCondiont(a, date1);
-                    //if (k == 1){
+                    var k = EzSalrProcCondiont(a, date1);
+                    if (k == 1){
                     var newRow1;
                     newRow1 = GetPayDeductOnDDL(counter);
                     var dropAttendence = newRow1;
@@ -156,20 +183,21 @@
                         var tr1 = "<tr>";
                         var td = "<td><div class='form-group'>" + counter + "</div></td>"
                         var td4 = "<td><div class='form-group'><input  Readonly='true' class='form-control' name='EmpCode" + counter + "'></div></td>"
-
+                        var td13 = "<td><div class='grid-group'><input type='text' Readonly='true' class='form-control' name='EmpName" + counter + "'></div></td>";
                         var td1 = "<td><div class='form-group'><input  Readonly='true' class='form-control' name='Datest" + counter + "'></div></td>"
                         var td2 = "<td><div>" + dropAttendence + "</div></td>";
                         var td3 = "<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td></tr>";
-                        $("#tablePODetails").append(tr1 + td + td4 + td1 + td2 + td3);
+                        $("#tablePODetails").append(tr1 + td + td4 + td13 + td1 + td2 + td3);
 
                         var tr = $("#tablePODetails tbody tr");
                         tr.find("[name='Datest" + counter + "']").val(EzdatefrmtRes1(ary[i].Att_Date));
                         tr.find("[name='ATT" + counter + "']").val(ary[i].NHrs);
                         tr.find("[name='EmpCode" + counter + "']").val(ary[i].EmpCode);
+                        tr.find("[name='EmpName" + counter + "']").val(ary[i].EmpName);
                         counter++;
                     }
                     });
-                   // }
+                    }
             }
             }
             else {
@@ -472,11 +500,10 @@
 
 
                                             <div class="row">
-                                               
                                                 <div class="col-md-4" id="Hemp">
                                                     <div class="form-group">
-                                                        <label class="control-label col-md-3 ">Reporting Employee<i class="star">*</i></label>
-                                                        <div class="col-md-8">
+                                                        <label class="control-label col-md-5 ">Reporting Employee<i class="star">*</i></label>
+                                                        <div class="col-md-7">
                                                             @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                                         </div>
                                                     </div>
@@ -484,7 +511,7 @@
                                                 <div class="col-md-4" id="Hdiv">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Division<i class="star">*</i></label>
-                                                        <div class="col-md-8">
+                                                        <div class="col-md-9">
                                                             @Html.DropDownListFor(m => m.DivCode, Model.DivCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                                         </div>
                                                     </div>
@@ -492,7 +519,7 @@
                                                 <div class="col-md-4" id="HPrj">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Project<i class="star">*</i></label>
-                                                        <div class="col-md-8">
+                                                        <div class="col-md-9">
                                                             @Html.DropDownListFor(m => m.PrjCode, Model.PrjCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                                         </div>
                                                     </div>
@@ -516,12 +543,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!--/span-->
+                                            </div>
+
+                                            <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <button type="submit" class="btn btn-primary btn1" id="btnadd"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Add</button>
                                                     </div>
                                                 </div>
-                                                <!--/span-->
                                             </div>
                                             <!--/row-->
 
@@ -542,7 +572,8 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Sr No</th>
-                                                                        <th>EmpCode</th>
+                                                                        <th>Employee Code</th>
+                                                                        <th>Employee Name</th>
                                                                         <th>Date</th>
                                                                         <th>Attendence Type</th>
                                                                         <th></th>
