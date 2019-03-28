@@ -114,7 +114,7 @@ var LeaveSet = {
                 //return $(this).text() == text1;
                 debugger;
                 if ($(this).text() == "All") {
-                    var tabledata = $('#LeaveSetreport').dataTable();
+                    var tabledata = $('#LeaveSettreport').dataTable();
                     //Get the total rows
                     k = tabledata.fnSettings().fnRecordsTotal();
                     $(this).val(k);
