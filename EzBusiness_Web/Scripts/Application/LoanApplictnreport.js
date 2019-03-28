@@ -13,6 +13,7 @@
             // alert("");
             //
             loandata.LoanApplicationReportDetails();
+             $('.dataTables_scrollHead').css('margin-bottom', '0px');
         })
           $("#btncancel").click(function () {
               EzdtePk('#fdatetxt,#tdatetxt');

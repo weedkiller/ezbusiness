@@ -12,6 +12,7 @@
             // alert("");
 
             ShiftMaster.ShiftMasterDetails();
+ $('.dataTables_scrollHead').css('margin-bottom', '0px');
         })
     },
     ShiftMasterDetails: function () {

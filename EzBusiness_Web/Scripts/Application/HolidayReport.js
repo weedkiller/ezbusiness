@@ -13,6 +13,7 @@
             // alert("");
             //
             holidaydata.HolidayReportDetails();
+            $('.dataTables_scrollHead').css('margin-bottom', '0px');
         })
         $("#btncancel").click(function () {
           

@@ -13,6 +13,7 @@
             // alert("");
             //
             loanmastr.LoanReportDetails();
+ $('.dataTables_scrollHead').css('margin-bottom', '0px');
         })
         $("#btncancel").click(function () {
             //$("#fdatetxt").val("");

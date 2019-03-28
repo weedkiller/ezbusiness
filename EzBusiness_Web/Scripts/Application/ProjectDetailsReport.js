@@ -16,6 +16,7 @@ var prjreport = {
                               
           $('select').val('10');
            prjreport.ProjectReportDetails();
+ $('.dataTables_scrollHead').css('margin-bottom', '0px');
        })
        
         $("#btncancel").click(function () {
