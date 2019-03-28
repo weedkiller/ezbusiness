@@ -757,5 +757,30 @@ namespace EzBusiness_DL_Repository
         //    return ObjList;
         //}
 
+        public List<Department> GetDepCodebyDivision(string CmpyCode, string DivCode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from MDEP009 where CmpyCode='" + CmpyCode + "'and DivisionCode='" + DivCode + "' and Flag=0");
+            List<Department> ObjList = null;
+            if (ds.Tables.Count > 0)
+            {
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                ObjList = new List<Department>();
+                foreach (DataRow dr in drc)
+                {
+                    ObjList.Add(new Department()
+                    {
+                        Cmpycode = dr["CmpyCode"].ToString(),
+                        DepartmentCode = dr["DepartmentCode"].ToString(),
+                        DepartmentName = dr["DepartmentName"].ToString(),
+                        //  UniCodeName = dr["UniCodeName"].ToString(),
+                    });
+
+                }
+            }
+            return ObjList;
+
+        }
+
     }
 }

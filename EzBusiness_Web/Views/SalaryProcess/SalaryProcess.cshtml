@@ -146,6 +146,9 @@
                     //PRSM001UID :$("[name*='PRSM001UID']").val(),
                     PRSP001_Code: $("[name*='PRSP001_Code']").val(),
                     Process_Date: $("[name*='DateINMonth']").val(),
+                    DivisionCode: $('#DivisionCode option:selected').val(),
+                     Deptcode : $('#Deptcode option:selected').val(),
+                       VisaLocation1 : $('#VisaLocation1 option:selected').val(),
                     salaryList: [],
                 };
                 $("#tableslryDetails tbody tr").each(function (index, item) {
@@ -153,106 +156,101 @@
                     var SnoTxt = $(this).find('td:eq(0)').text();
                     var EmpCodeTxt = $(this).find('td:eq(1)').text();
                     var EmpNameTxt = $(this).find('td:eq(2)').text();
-                    var countrytxt = $(this).find('td:eq(3)').text();
-                    var tmonth = $(this).find('td:eq(4)').text();
-                    var tyear = $(this).find('td:eq(5)').text();
-                    var cmpycodetxt = $(this).find('td:eq(6)').text();
-                    var profcode = $(this).find('td:eq(7)').text();
-                    var Deptcode = $(this).find('td:eq(8)').text();
-                    var comnprjcode = $(this).find('td:eq(9)').text();
-                    var Division = $(this).find('td:eq(10)').text();
-                    var VisaLocation = $(this).find('td:eq(11)').text();
-                    var workLocation = $(this).find('td:eq(12)').text();
-                    var total_days = $(this).find('td:eq(13)').text();
-                    var work_Days = $(this).find('td:eq(14)').text();
-                    var a_basic = $(this).find('td:eq(15)').text();
-                    var a_hra = $(this).find('td:eq(16)').text();
-                    var a_da  = $(this).find('td:eq(17)').text();
-                    var a_tele = $(this).find('td:eq(18)').text();
-                    var a_trans = $(this).find('td:eq(19)').text();
-                    var a_car = $(this).find('td:eq(20)').text();
-                    var a_allownce1 = $(this).find('td:eq(21)').text();
-                    var a_allownce2 = $(this).find('td:eq(22)').text();
-                    var a_allownce3 = $(this).find('td:eq(23)').text();
-                    var a_totalSalary = $(this).find('td:eq(24)').text();
-                    var c_basic = $(this).find('td:eq(25)').text();
-                    var c_hra = $(this).find('td:eq(26)').text();
-                    var c_da = $(this).find('td:eq(27)').text();
-                    var c_tele = $(this).find('td:eq(28)').text();
-                    var c_trans = $(this).find('td:eq(29)').text();
-                    var c_car = $(this).find('td:eq(30)').text();
-                    var c_allownce1 = $(this).find('td:eq(31)').text();
-                    var c_allownce2 = $(this).find('td:eq(32)').text();
-                    var c_allownce3 = $(this).find('td:eq(33)').text();
-                    var c_totalSalary = $(this).find('td:eq(34)').text();
-                    var loanamt = $(this).find('td:eq(35)').text();
-                    var adn_amount = $(this).find('td:eq(36)').text();
-                    var nothrs = $(this).find('td:eq(37)').text();
-                    var extraothrs = $(this).find('td:eq(38)').text();
-                    var hothrs = $(this).find('td:eq(39)').text();
-                    var wothrs = $(this).find('td:eq(40)').text();
-                    var not_rate_perhrs = $(this).find('td:eq(41)').text();
-                    var hot_rate_perhrs = $(this).find('td:eq(42)').text();
-                    var extraot_rate_perhrs = $(this).find('td:eq(43)').text();
-                    var wot_rate_perhrs = $(this).find('td:eq(44)').text();
-                    var extraotamt = $(this).find('td:eq(45)').text();
-                    var notamt = $(this).find('td:eq(46)').text();
-                    var HOTamt = $(this).find('td:eq(47)').text();
-                    var wotamt = $(this).find('td:eq(48)').text();
-                    var netsalary = $(this).find('td:eq(49)').text();
+                    var profcode = $(this).find('td:eq(3)').text();
+                    var Deptcode = $(this).find('td:eq(4)').text();
+                    var comnprjcode = $(this).find('td:eq(5)').text();
+                    var VisaLocation = $(this).find('td:eq(6)').text();
+                    var workLocation = $(this).find('td:eq(7)').text();
+                    var total_days = $(this).find('td:eq(8)').text();
+                    var work_Days = $(this).find('td:eq(9)').text();
+                    //var a_basic = $(this).find('td:eq(15)').text();
+                    //var a_hra = $(this).find('td:eq(16)').text();
+                    //var a_da  = $(this).find('td:eq(17)').text();
+                    //var a_tele = $(this).find('td:eq(18)').text();
+                    //var a_trans = $(this).find('td:eq(19)').text();
+                    //var a_car = $(this).find('td:eq(20)').text();
+                    //var a_allownce1 = $(this).find('td:eq(21)').text();
+                    //var a_allownce2 = $(this).find('td:eq(22)').text();
+                    //var a_allownce3 = $(this).find('td:eq(23)').text();
+                    var a_totalSalary = $(this).find('td:eq(10)').text();
+                    //var c_basic = $(this).find('td:eq(25)').text();
+                    //var c_hra = $(this).find('td:eq(26)').text();
+                    //var c_da = $(this).find('td:eq(27)').text();
+                    //var c_tele = $(this).find('td:eq(28)').text();
+                    //var c_trans = $(this).find('td:eq(29)').text();
+                    //var c_car = $(this).find('td:eq(30)').text();
+                    //var c_allownce1 = $(this).find('td:eq(31)').text();
+                    //var c_allownce2 = $(this).find('td:eq(32)').text();
+                    //var c_allownce3 = $(this).find('td:eq(33)').text();
+                    var c_totalSalary = $(this).find('td:eq(11)').text();
+                    var loanamt = $(this).find('td:eq(12)').text();
+                    var adn_amount = $(this).find('td:eq(13)').text();
+                    //var nothrs = $(this).find('td:eq(37)').text();
+                    //var extraothrs = $(this).find('td:eq(38)').text();
+                    //var hothrs = $(this).find('td:eq(39)').text();
+                    //var wothrs = $(this).find('td:eq(40)').text();
+                    //var not_rate_perhrs = $(this).find('td:eq(41)').text();
+                    //var hot_rate_perhrs = $(this).find('td:eq(42)').text();
+                    //var extraot_rate_perhrs = $(this).find('td:eq(43)').text();
+                    //var wot_rate_perhrs = $(this).find('td:eq(44)').text();
+                    var extraotamt = $(this).find('td:eq(14)').text();
+                    var notamt = $(this).find('td:eq(15)').text();
+                    var HOTamt = $(this).find('td:eq(16)').text();
+                    var wotamt = $(this).find('td:eq(17)').text();
+                    var netsalary = $(this).find('td:eq(18)').text();
 
                     if ((EmpCodeTxt != "")) {
                         var salarydetail = {
-                            srno: SnoTxt,
-                            cmpycode:cmpycodetxt, 
-                            country:countrytxt, 
-                            Division:Division, 
-                            Tyear:tyear,
-                            Tmonth:tmonth, 
+                            //srno: SnoTxt,
+                            ////cmpycode:cmpycodetxt, 
+                            //country:countrytxt, 
+                            //Division:Division, 
+                            //Tyear:tyear,
+                            //Tmonth:tmonth, 
                             Empcode:EmpCodeTxt ,
-                            Empname:EmpNameTxt,
-                        ProfCode:profcode,
-                        DepCode:Deptcode,
-                        ComnPrjcode:comnprjcode ,
-                        VisaLocation:VisaLocation,
-                            WorkLocation:workLocation,
-                        Total_Days:total_days ,
-                        Worked_Days:work_Days ,
-                        a_basic:a_basic, 
-                        a_hra:a_hra ,
-                        a_Da:a_da, 
-                        a_tele:a_tele,  
-                        a_trans:a_trans ,
-                        a_car:a_car ,
-                        a_allowance1:a_allownce1,
-                        a_allowance2:a_allownce2,
-                        a_allowance3:a_allownce3 ,
-                        a_Totalsalary:a_totalSalary,
-                        C_basic:c_basic,
-                        C_hra:c_hra,
-                        C_da:c_da,
-                        C_tele:c_tele,
-                        C_trans:c_trans,
-                        C_car:c_car,
-                        C_allowance1:c_allownce1,
-                        C_allowance2:c_allownce2,
-                        C_allowance3:c_allownce3,
-                        C_totalSalary:c_totalSalary,
-                        loan_amt:loanamt,
-                        adn_amount:adn_amount ,
-                        nothrs:nothrs,
-                        extraOThrs:extraothrs ,
-                        hothrs:hothrs,
-                        wothrs:wothrs ,
-                        not_rate_perhr:not_rate_perhrs ,
-                        ExtraOT_rate_perhr:extraot_rate_perhrs,
-                        hot_rate_perhr:hot_rate_perhrs ,
-                        wot_rate_perhr:wot_rate_perhrs ,
-                        ExtraOTAmt:extraotamt ,
-                        NOTAmt:notamt,
-                        HOTAmt:HOTamt, 
-                        WOTAmt:wotamt,
-                        NetSalary:netsalary,
+                        //    Empname:EmpNameTxt,
+                        //ProfCode:profcode,
+                        //DepCode:Deptcode,
+                        //ComnPrjcode:comnprjcode ,
+                        //VisaLocation:VisaLocation,
+                        //    WorkLocation:workLocation,
+                        //Total_Days:total_days ,
+                        //Worked_Days:work_Days ,
+                        //a_basic:a_basic, 
+                        //a_hra:a_hra ,
+                        //a_Da:a_da, 
+                        //a_tele:a_tele,  
+                        //a_trans:a_trans ,
+                        //a_car:a_car ,
+                        //a_allowance1:a_allownce1,
+                        //a_allowance2:a_allownce2,
+                        //a_allowance3:a_allownce3 ,
+                       // a_Totalsalary:a_totalSalary,
+                        //C_basic:c_basic,
+                        //C_hra:c_hra,
+                        //C_da:c_da,
+                        //C_tele:c_tele,
+                        //C_trans:c_trans,
+                        //C_car:c_car,
+                        //C_allowance1:c_allownce1,
+                        //C_allowance2:c_allownce2,
+                        //C_allowance3:c_allownce3,
+                        //C_totalSalary:c_totalSalary,
+                        //loan_amt:loanamt,
+                        //adn_amount:adn_amount ,
+                        //nothrs:nothrs,
+                        //extraOThrs:extraothrs ,
+                        //hothrs:hothrs,
+                        //wothrs:wothrs ,
+                        //not_rate_perhr:not_rate_perhrs ,
+                        //ExtraOT_rate_perhr:extraot_rate_perhrs,
+                        //hot_rate_perhr:hot_rate_perhrs ,
+                        //wot_rate_perhr:wot_rate_perhrs ,
+                        //ExtraOTAmt:extraotamt ,
+                        //NOTAmt:notamt,
+                        //HOTAmt:HOTamt, 
+                        //WOTAmt:wotamt,
+                        //NetSalary:netsalary,
                      };
                         salarym.salaryList.push(salarydetail);
                      }
@@ -260,12 +258,13 @@
                 var validationResult = ValidateForm(salarym);
                 if (validationResult.formValid) {
                     $.post("/SaveSalaryProcess", salarym).done(function (response) {
-                       
+                        debugger;
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            GetSry();
+                            
                             EzbtnsaveAcVis("#SMAContainer");
-                            $("#SMAContainer").html(lvHtml);
-                            EzAlerterrtxt("Successfully Saved");
+                            $("#SMAContainer").html(smaHtml);
+                            EzAlertSave();
+                            GetSlry();
                           //  $("#btnCancel").trigger("click");
                           
                            // EzbtnsaveAc("#SMAContainer");

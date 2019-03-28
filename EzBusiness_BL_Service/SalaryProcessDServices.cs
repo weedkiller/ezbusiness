@@ -9,6 +9,8 @@ using EzBusiness_DL_Interface;
 using EzBusiness_DL_Repository;
 using EzBusiness_EF_Entity;
 using System.Web;
+using System.Web.Mvc;
+using EzBusiness_ViewModels;
 
 namespace EzBusiness_BL_Service
 {
@@ -16,12 +18,14 @@ namespace EzBusiness_BL_Service
     {
         ISalaryProcessDRepository _salaryrepo;
         ICodeGenRepository _CodeRep;
-        IEmployeeMgmtService _employeeService;
+        IOTPayrollRepository _OTPayrollRepository;
+        IEmployeeMgmtRepository _empservice;
         public SalaryProcessDServices()
         {
             _salaryrepo = new SalaryProcessRepository();
             _CodeRep = new CodeGenRepository();
-            _employeeService = new EmployeeMgmtService();
+            _OTPayrollRepository = new OTPayrollRepository();
+            _empservice = new EmployeeMgmtRepository();
         }
 
         public bool DeleteSalaryProcess(string CmpyCode, string Code, DateTime CurrDate, string UserName)
@@ -40,20 +44,23 @@ namespace EzBusiness_BL_Service
                PRSP001_Code=m.PRSP001_Code,
                Process_Date=m.Process_Date,
               Country=m.Country,
-              Division=m.Division,
+              DivisionCode=m.DivisionCode,
               Deptcode=m.Deptcode,
               year=m.year,
               Month=m.Month,
-              VisaLocation=m.VisaLocation
+              DeptName=m.DeptName,
+              DivisionName=m.DivisionName,
+              VisaLocationName=m.VisaLocationName,
+              VisaLocation1=m.VisaLocation1
 
             }).ToList();
         }
-        public List<SalaryProcessDetailsListItem> GetTimeSheetDetailsByMonth(string CmpyCode, DateTime currDate,string divcode)
+        public List<SalaryProcessDetailsListItem> GetTimeSheetDetailsByMonth(string CmpyCode, DateTime currDate,string divcode,string Deptcode, string VisaLocation1)
         {
             //return _salaryrepo.GetSalaryDetailsList(CmpyCode);
 
 
-            return  _salaryrepo.GetTimeSheetDetailsByMonth(CmpyCode,currDate,divcode);
+            return  _salaryrepo.GetTimeSheetDetailsByMonth(CmpyCode,currDate,divcode,Deptcode,VisaLocation1);
             //return poEmployeeList.Select(m => new SalaryProcessDetailsVM
             //{
             //    em = m.Code,
@@ -66,16 +73,18 @@ namespace EzBusiness_BL_Service
         public SalaryProcessDetailsVM GetSalaryProcessEdit(string CmpyCode, string PRSFT001_code)
         {
             var poedit = _salaryrepo.GetSalaryProcessEdit(CmpyCode, PRSFT001_code);
-            poedit.GroupList = _employeeService.GetDivisionList(CmpyCode);
-           
+            poedit.DivisionList = GetDivCodeList(CmpyCode);
+            poedit.VisaLocationList = GetVisLocList(CmpyCode);               
+            poedit.VisaLocationList = GetVisLocList(CmpyCode);
+            poedit.DepartmentList = GetDepartmentList(CmpyCode, poedit.DivisionCode);
          //   poedit.salaryList = GetSalaryProcessGridEdit(poedit.year,poedit.Month,poedit.CmpyCode);
-            
+
             return poedit;
         }
       
-        public List<SalaryProcessDetailsListItem> GetSalaryProcessGrid(string CmpyCode,DateTime CurrDate,string DivCode)
+        public List<SalaryProcessDetailsListItem> GetSalaryProcessGrid(string CmpyCode,DateTime CurrDate,string DivCode,string deptcode,string visaloc)
         {
-            return _salaryrepo.GetSalaryProcessGrid(CmpyCode, CurrDate,DivCode);
+            return _salaryrepo.GetSalaryProcessGrid(CmpyCode, CurrDate,DivCode,deptcode,visaloc);
         }
 
         public SalaryProcessDetailsVM SaveSalaryProcessD(SalaryProcessDetailsVM salary)
@@ -90,8 +99,10 @@ namespace EzBusiness_BL_Service
             {
                 // AccNoList = GetAccList(CmpyCode, "EXP"),
                 PRSP001_Code = _CodeRep.GetCode(CmpyCode,"SalaryProcess"),
-                GroupList = _employeeService.GetDivisionList(CmpyCode),
-              //  DivisionCode = list[0].Divcode.ToString(),
+                DivisionList = GetDivCodeList(CmpyCode),
+                DivisionCode = list[0].Divcode.ToString(),
+                VisaLocationList =GetVisLocList(CmpyCode),
+               DepartmentList =GetDepartmentList(CmpyCode,list[0].Divcode)
 
             };
         }
@@ -156,10 +167,51 @@ namespace EzBusiness_BL_Service
             return _salaryrepo.GetSalaryProcessGridEdit(year, month, CmpyCode);
 
         }
-
-        public bool CheckslryDataCalculated(string CmpyCode, DateTime CurrDate)
+        public bool CheckslryDataCalculated(string CmpyCode, DateTime CurrDate, string Divcode, string DeptCode, string Visaloc)
         {
-            return _salaryrepo.CheckslryDataCalculated(CmpyCode, CurrDate);
+            return _salaryrepo.CheckslryDataCalculated(CmpyCode, CurrDate,Divcode,DeptCode,Visaloc);
         }
+
+        public List<SelectListItem> GetDivCodeList(string CmpyCode)
+        {
+            var itemCodes = _OTPayrollRepository.GetDivCodeList(CmpyCode)
+                                     .Select(m => new SelectListItem { Value = m.DivisionCode, Text = string.Concat(m.DivisionCode, " - ", m.DivisionName) })
+                                     .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+        private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
+        {
+            items.Insert(0, new SelectListItem
+            {
+                Value = PurchaseMgmtConstants.DDLFirstVal,
+                Text = PurchaseMgmtConstants.DDLFirstText
+            });
+            //items.Insert(1, new SelectListItem
+            //{
+            //    Value= "All",
+            //    Text ="All"
+            //});
+
+            return items;
+        }
+
+        public List<SelectListItem> GetVisLocList(string CmpyCode)
+        {
+            var itemCodes = _empservice.GetVisaLocationList(CmpyCode)
+                                    .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
+                                    .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+        public List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode)
+        {
+            var itemCodes = _salaryrepo.GetDepartmentList(CmpyCode, divcode)
+                                      .Select(m => new SelectListItem { Value = m.DepartmentCode, Text = string.Concat(m.DepartmentCode, "-", m.DepartmentName) })
+                                      .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+
     }
 }
