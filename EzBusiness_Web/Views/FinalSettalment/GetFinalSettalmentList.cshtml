@@ -17,41 +17,43 @@
     });
 </script>
 
-<table id="POList" class="table table-bordered table-hover emptbl">
-    <thead>
-        <tr class="tr">
-            <th>Code</th>
-            <th>Employee Code</th>
-            <th>Employee Name</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <td>Code</td>
-            <td>Employee Code</td>
-            <td>Employee Name</td>
-            <td>Date</td>
-        </tr>
-    </tfoot>
-    <tbody>
-        @foreach (var po in Model)
-        {
-            <tr>
-                <td>
-                    @Html.Hidden("hdnPRFSET001Code", po.PRFSET001_code)
-                    @po.PRFSET001_code
-                </td>
-                <td>
-                    @po.EmpCode
-                </td>
-                <th>@po.EmpName</th>
-                <td>
-                  
-                    @Convert.ToDateTime(@po.Dates).ToString("dd/MM/yyyy") 
-                </td>
-
+<div class="col-md-12 portal-drivers">
+    <table id="POList" class="table table-bordered table-hover emptbl">
+        <thead>
+            <tr class="tr">
+                <th>Code</th>
+                <th>Employee Code</th>
+                <th>Employee Name</th>
+                <th>Date</th>
             </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td>Code</td>
+                <td>Employee Code</td>
+                <td>Employee Name</td>
+                <td>Date</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var po in Model)
+        {
+        <tr>
+            <td>
+                @Html.Hidden("hdnPRFSET001Code", po.PRFSET001_code)
+                @po.PRFSET001_code
+            </td>
+            <td>
+                @po.EmpCode
+            </td>
+            <th>@po.EmpName</th>
+            <td>
+
+                @Convert.ToDateTime(@po.Dates).ToString("dd/MM/yyyy")
+            </td>
+
+        </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>

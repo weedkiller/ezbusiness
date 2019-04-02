@@ -12,55 +12,55 @@
 
     //Ezsidetbl('#DRList', '#DRList tfoot td', false, "#DRList thead");
     </script>
+<div class="col-md-12 portal-drivers">
+    <table id="DRList" class="table table-bordered table-hover emptbl">
+        <thead>
+            <tr class="tr">
+                <th>Duty Resume No</th>
+                <th>Employee Code</th>
+                <th>Employee Name</th>
+                <th>Resume Date</th>
+                <th>Leave Application No</th>
 
-<table id="DRList" class="table table-bordered table-hover emptbl portal-drivers" style="width:100%">
-    <thead>
-        <tr class="tr">
-            <th>Duty Resume No</th>
-            <th>Employee Code</th>
-            <th>Employee Name</th>
-            <th>Resume Date</th>
-            <th>Leave Application No</th>
-            
-            
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <td>Duty Resume No</td>
-            <td>Employee Code</td>
-            <td>Employee Name</td>
-            <td>Resume Date</td>
-            <td>Leave Application No</td>
-            
-
-        </tr>
-    </tfoot>
-    <tbody>
-        @foreach (var sm in Model)
-        {
-            <tr>
-                <td>
-                    @Html.Hidden("hdnCmpycode", sm.Cmpycode)
-                    @Html.Hidden("hdnDrNo", sm.PRDR001_CODE)
-                    @sm.PRDR001_CODE
-                </td>
-                <td>
-                    @sm.EmpCode
-                </td>
-                <td>@sm.EmpName</td>
-                <td>                   
-                    @Convert.ToDateTime(@sm.ResumeDate).ToString("dd/MM/yyyy")
-                </td>
-                <td>
-                    @sm.PRLR001_CODE
-                </td>
-              
 
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tfoot>
+            <tr>
+                <td>Duty Resume No</td>
+                <td>Employee Code</td>
+                <td>Employee Name</td>
+                <td>Resume Date</td>
+                <td>Leave Application No</td>
 
+
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var sm in Model)
+        {
+        <tr>
+            <td>
+                @Html.Hidden("hdnCmpycode", sm.Cmpycode)
+                @Html.Hidden("hdnDrNo", sm.PRDR001_CODE)
+                @sm.PRDR001_CODE
+            </td>
+            <td>
+                @sm.EmpCode
+            </td>
+            <td>@sm.EmpName</td>
+            <td>
+                @Convert.ToDateTime(@sm.ResumeDate).ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @sm.PRLR001_CODE
+            </td>
+
+
+        </tr>
+        }
+        </tbody>
+    </table>
+</div>
 
 
