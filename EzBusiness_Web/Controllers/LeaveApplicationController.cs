@@ -78,6 +78,22 @@ namespace EzBusiness_Web.Controllers
             }
         }
 
+
+        [Route("PrintLeaveApplication")]
+        public ActionResult PrintLeaveApplication(string Code)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_LeaveAppService.GetLeaveAppDetailsEdit(list[0].CmpyCode, Code));
+            }
+        }
+
         public ActionResult AddLeaveApplication()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;

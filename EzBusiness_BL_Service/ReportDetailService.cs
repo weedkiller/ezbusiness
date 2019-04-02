@@ -2,21 +2,31 @@
 using EzBusiness_DL_Interface;
 using EzBusiness_DL_Repository;
 using EzBusiness_EF_Entity;
+using EzBusiness_ViewModels;
 using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace EzBusiness_BL_Service
 {
   public class ReportDetailService : IReportDetailsServices
     {
         IReportDetailsRepository _reportdetail;
+        ISalaryProcessDRepository _salaryrepo;
+        IOTPayrollRepository _OTPayrollRepository;
+        IEmployeeMgmtRepository _empservice;
+
         public ReportDetailService()
         {
+            _salaryrepo = new SalaryProcessRepository();
             _reportdetail = new ReportDetailRepository();
+            _OTPayrollRepository = new OTPayrollRepository();
+            _empservice = new EmployeeMgmtRepository();
         }
 
         public List<Employee> GetEmpReportDetails(string CmpyCode, DateTime Fromdate, DateTime Todate, string EmpName, string EmpCode,string search)
@@ -1001,6 +1011,146 @@ namespace EzBusiness_BL_Service
             }
             // info.
             return lst;
+        }
+
+
+        public List<SalaryProcessDetailsRep> SalaryProcessDetailsRepColumnWithOrder(string order, string orderDir, List<SalaryProcessDetailsRep> data)
+        {
+            // Initialization.
+            List<SalaryProcessDetailsRep> lst = new List<SalaryProcessDetailsRep>();
+
+            try
+            {
+                // Sorting
+                switch (order)
+                {
+                    case "0":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.srno).ToList()
+                                                                                                 : data.OrderBy(p => p.srno).ToList();
+                        break;
+
+                    case "1":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Empcode).ToList()
+                                                                                                 : data.OrderBy(p => p.Empcode).ToList();
+                        break;
+
+                    case "2":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Empname).ToList()
+                                                                                                 : data.OrderBy(p => p.Empname).ToList();
+                        break;
+
+                    case "3":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.country).ToList()
+                                                                                                 : data.OrderBy(p => p.country).ToList();
+                        break;
+
+                    case "4":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Tmonth).ToList()
+                                                                                                   : data.OrderBy(p => p.Tmonth).ToList();
+                        break;
+
+                    case "5":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Tyear).ToList()
+                                                                                                   : data.OrderBy(p => p.Tyear).ToList();
+                        break;
+
+
+                    default:
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.cmpycode).ToList()
+                                                                                                 : data.OrderBy(p => p.cmpycode).ToList();
+                        break;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                // info.
+                Console.Write(ex);
+            }
+
+            // info.
+            return lst;
+
+        }
+        public List<SalaryProcessDetailsRep> GetSalaryProcessDetails(string CmpyCode, DateTime CurrDate, string DivCode, string deptcode, string visaloc,string search)
+        {
+
+            List<SalaryProcessDetailsRep> data = _reportdetail.GetSalaryProcessDetails(CmpyCode, CurrDate, DivCode, deptcode, visaloc);
+            if (!string.IsNullOrEmpty(search) &&
+                     !string.IsNullOrWhiteSpace(search))
+            {
+                // Apply search
+                data = data.Where(p => p.srno.ToString().ToLower().Contains(search.ToLower()) ||
+                                   p.Empcode.ToLower().Contains(search.ToLower()) ||
+                                   p.Empname.ToString().ToLower().Contains(search.ToLower()) ||
+                                   p.country.ToString().ToLower().Contains(search.ToLower()) ||
+                                   p.Tmonth.ToString().ToLower().Contains(search.ToLower()) ||
+                                   p.Tyear.ToString().ToLower().Contains(search.ToLower()) ||
+                                   p.cmpycode.ToString().ToLower().Contains(search.ToLower())).ToList();
+            }
+            return data;
+
+              }
+
+
+
+
+        public SalaryProcessDetailsRep GetSalaryProcessDetailList(string CmpyCode)
+        {
+            List<SessionListnew> list = HttpContext.Current.Session["SesDet"] as List<SessionListnew>;
+
+            return new SalaryProcessDetailsRep
+            {
+               
+                DivisionList = GetDivCodeList(CmpyCode),
+                Division = list[0].Divcode.ToString(),
+                VisaLocationList = GetVisLocList(CmpyCode),
+                DepartmentList = GetDepartmentList(CmpyCode, list[0].Divcode)
+
+            };
+        }
+
+
+        public List<SelectListItem> GetDivCodeList(string CmpyCode)
+        {
+            var itemCodes = _OTPayrollRepository.GetDivCodeList(CmpyCode)
+                                     .Select(m => new SelectListItem { Value = m.DivisionCode, Text = string.Concat(m.DivisionCode, " - ", m.DivisionName) })
+                                     .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+        private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
+        {
+            items.Insert(0, new SelectListItem
+            {
+                Value = PurchaseMgmtConstants.DDLFirstVal,
+                Text = PurchaseMgmtConstants.DDLFirstText
+            });
+            return items;
+        }
+
+        public List<SelectListItem> GetVisLocList(string CmpyCode)
+        {
+            var itemCodes = _empservice.GetVisaLocationList(CmpyCode)
+                                    .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
+                                    .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+        public List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode)
+        {
+            var itemCodes = _salaryrepo.GetDepartmentList(CmpyCode, divcode)
+                                      .Select(m => new SelectListItem { Value = m.DepartmentCode, Text = string.Concat(m.DepartmentCode, "-", m.DepartmentName) })
+                                      .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
         }
     }
 }

@@ -25,6 +25,8 @@
         $(".alert-close").click(function () {
             $("#editshow").hide();
         });
+        
+
         $("#btnNew").click(function () {
             var n = EzAuthenticationBtn("/LeaveApplication", "NewIt");
             if (n == 1) {
@@ -37,6 +39,9 @@
                 $("#LVListContainer1").hide();
             }
         });
+
+
+        
 
         $("#btnEdit").click(function () {
             var n = EzAuthenticationBtn("/LeaveApplication", "ViewIt");
@@ -297,6 +302,7 @@
 
         $(document).on("click", "#LVList tbody tr", function () {
             EzbtnEditAcVis();
+            $('#btnPrint').css("visibility", "");
             var operationMode = $("#hdnOperationMode").val();
             if (operationMode == "Edit") {
                 $("#LVList > tbody").children().removeClass("active");
@@ -353,6 +359,8 @@
 
             <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
             <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+
+           
             <input type="hidden" id="hdnOperationMode" value="" />
         </div>
     </div>

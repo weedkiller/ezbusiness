@@ -66,9 +66,14 @@ var Empreport = {
                {
                    "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
                },
-               "dom": 'Blfrtip',
+              
+              
 
+
+              "dom": 'Blfrtip',
+                         
                "buttons": [
+                 
                          'excel',
                             {
                                 extend: 'pdfHtml5',
@@ -76,8 +81,28 @@ var Empreport = {
                                 pageSize: 'LEGAL'
 
                             },
+                            {
+                                        extend: 'print',                                        
+                                        title: 'Employee Detail',
+                                        text: 'Print',
+                                        orientation: 'landscape',
+                                        pageSize: 'LEGAL',
+                                        customize: function ( win ) {
+                                            $(win.document.body)
+                                                .css( 'font-size', '12px' );
+
+                                            $(win.document.body).find( 'table' )
+                                                .css('font-size', '12px');
+
+                                            $(win.document.body).find('h1').css('font-size', '15pt');
+                                            $(win.document.body).find('h1').css('text-align', 'center');
+                                        }
+                                                                         
+                                    }
                             
-                             ],
+                            
+               ],
+              
                //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
                //    var oSettings = this.fnSettings();
                //    $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
@@ -129,6 +154,9 @@ var Empreport = {
 
                ]
            });
+
+
+          
            empdt.on('order.dt search.dt', function () {
 
                empdt.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
