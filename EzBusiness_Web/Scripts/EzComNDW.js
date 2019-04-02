@@ -331,7 +331,16 @@ function EzcheckedFn(Idinp, Idnme) {
         }
     });
 }
-
+function EzcheckedFnInt(Idinp, Idnme) {
+    $(Idinp).change(function () {
+        if ($(Idnme).is(":checked") == true) {
+            $(Idinp).val(1);
+        }
+        else {
+            $(Idinp).val(0);
+        }
+    });
+}
 function EzcheckedFnD(Idinp, Idnme, Idtxt) {   
     $(Idinp).change(function () {
         if ($(Idnme).is(":checked") == true) {
@@ -366,6 +375,19 @@ function EzcheckedFnE(Idinp, Idnme) {
         }
         else {
             $(Idinp).val("Y");
+            $(Idnme).attr("checked", "checked");
+        }
+    });
+}
+
+function EzcheckedFnEint(Idinp, Idnme) {
+    $(Idinp).change(function () {
+        if ($(Idinp).val() == "1") {
+            $(Idinp).val("0");
+            $(Idnme).removeAttr("checked", "checked");
+        }
+        else {
+            $(Idinp).val("1");
             $(Idnme).attr("checked", "checked");
         }
     });
@@ -409,6 +431,16 @@ function EzcheckedFnEdit(Idinp, Idnme, Idhid) {
     }
     else {
         $(Idinp).val("N");
+        $(Idnme).removeAttr("checked", "checked");
+    }
+}
+function EzcheckedFnEditint(Idinp, Idnme, Idhid) {
+    if ($(Idhid).val() == "1") {
+        $(Idinp).val("1");
+        $(Idnme).attr("checked", "checked");
+    }
+    else {
+        $(Idinp).val("0");
         $(Idnme).removeAttr("checked", "checked");
     }
 }
@@ -712,15 +744,12 @@ function Ezsidetblnew(ide, idef, lk, idfoot) {
                 var title = '';//$(this).text();
                 jq(this).html('<input type="text"   placeholder="Search ' + title + '"  />');
             }
-
-
-        });
+      });
         // DataTable
-        var tableInstance = jq(ide).DataTable({
+     var tableInstance = jq(ide).DataTable({
             "paging": true,
             "ordering": true,
-            "info": true
-           
+            "info": true           
         });
         //if (lk == true) {
         //    $("#tblUnits_length").hide();
@@ -739,11 +768,9 @@ function Ezsidetblnew(ide, idef, lk, idfoot) {
             });
         });
 
-
         var r = jq(idef);
         r.find('td').each(function () {
             jq(this).css('padding', 8);
-
         });
         jq(idfoot).append(r);
         jq('#search_0').css('text-align', 'center');
@@ -761,10 +788,6 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
     jq(document).ready(function () {
         // Setup - add a text input to each footer cell
         debugger;
-
-       
-
-
         // $(ide).addClass('');
         var k = jq(idef).length;
         jq(idef).each(function () {
@@ -778,8 +801,6 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                 var title = '';//$(this).text();
                 jq(this).html('<input type="text"  placeholder="Search ' + title + '"  />');
             }
-           
-            
         });
 
         //  $(ide).DataTable().clear();

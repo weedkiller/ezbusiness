@@ -542,54 +542,9 @@ $(document).ready(function(){
             <button class="btn btn-danger" id="btnCancel" style="float:right">Cancel</button>*@
         <input type="hidden" id="Ecode1"/>
         <input type="hidden" id="EAct1" />
-        <table class="table table-bordered table-sm" id="tblUnits1">
-            <thead>
-                <tr class="tr">
-                    <th>
-                        @Html.DisplayNameFor(model => model.Code)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Active)
-                    </th>
 
-                    <th></th>
-                </tr>
-            </thead>
-            
-
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtCode", counter), null, new { @class = "grid-control" })
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtName", counter), null, new { @class = "grid-control" })
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                            <div class="col-md-9 input-field">
-                                @*<input id="Active" name="Yes" value="1" type="radio"> Yes 
-                                <input id="Active" name="No" value="0" type="radio"> No*@
-                                @Html.DropDownList(string.Concat("txtActive", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
-                                @*@Html.RadioButton(string.Concat("txtActive", counter), "1", new {@class= "radioActive", @checked = "checked" }) Yes
-                                @Html.RadioButton(string.Concat("txtActive", counter), "0", new { @class = "radioActive" }) No*@
-                                
-                            </div>
-                        </div>
-                    </td>
-
-                </tr>
-            </tbody>
-        </table>
-        <div id="tbldiv">
-            <table class="table" id="tblUnits" >
+        <div class="col-md-12">
+            <table class="table table-bordered table-sm" id="tblUnits1">
                 <thead>
                     <tr class="tr">
                         <th>
@@ -605,24 +560,74 @@ $(document).ready(function(){
                         <th></th>
                     </tr>
                 </thead>
-                <tfoot>
+
+
+                <tbody>
                     <tr>
                         <td>
-                            @Html.DisplayNameFor(model => model.Code)
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("txtCode", counter), null, new { @class = "grid-control" })
+                            </div>
                         </td>
                         <td>
-                            @Html.DisplayNameFor(model => model.Name)
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("txtName", counter), null, new { @class = "grid-control" })
+                            </div>
                         </td>
                         <td>
-                            @Html.DisplayNameFor(model => model.Active)
+                            <div class="grid-group">
+                                <div class="col-md-9 input-field">
+                                    @*<input id="Active" name="Yes" value="1" type="radio"> Yes
+                                    <input id="Active" name="No" value="0" type="radio"> No*@
+                                    @Html.DropDownList(string.Concat("txtActive", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
+                                    @*@Html.RadioButton(string.Concat("txtActive", counter), "1", new {@class= "radioActive", @checked = "checked" }) Yes
+                                    @Html.RadioButton(string.Concat("txtActive", counter), "0", new { @class = "radioActive" }) No*@
+
+                                </div>
+                            </div>
                         </td>
 
-                        <td></td>
                     </tr>
-                </tfoot>
-                <tbody>
+                </tbody>
+            </table>
+        </div>
 
-                    @*<tr>
+      
+            <div id="tbldiv" class="col-md-12  portal-drivers ">
+                <table class="table" id="tblUnits">
+                    <thead>
+                        <tr class="tr">
+                            <th>
+                                @Html.DisplayNameFor(model => model.Code)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Active)
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Code)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Active)
+                            </td>
+
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+
+                        @*<tr>
                             <td>
                                 @Html.TextBox(string.Concat("Code"), null, new { @class = "form-control" })
                             </td>
@@ -633,34 +638,38 @@ $(document).ready(function(){
                                 @Html.TextBox(string.Concat("UniCodeName"), null, new { @class = "form-control" })
                             </td>
                         </tr>*@
-                    @foreach (var item in Model)
+                        @foreach (var item in Model)
                     {
-                        <tr>
+                            <tr>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Code)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Active)
-                            </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Code)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Active)
+                                </td>
 
-                            <td>
-                                <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
-                                <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
-                                @Html.HiddenFor(m => item.CmpyCode)
-                            </td>
-                        </tr>
+                                <td>
+                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                                    @Html.HiddenFor(m => item.CmpyCode)
+                                </td>
+                            </tr>
                         counter++;
                     }
-                </tbody>
+                    </tbody>
 
-            </table>
-            @Html.Hidden("Counter", counter)
-        </div>
+                </table>
+                @Html.Hidden("Counter", counter)
+            </div>
+
+       
+
+
     </div>
 </div>
 

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.Humanresourcepayroll.SalaryProcessDVM>
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(document).ready(function () {
+        Ezsidetbl('#SalarypaymntList', '#SalarypaymntList tfoot td', false, '#SalarypaymntList thead');
+    });
+</script>
+<table id="SalarypaymntList" class="table table-bordered">
+    <thead>
+
+        <tr class="tr">
+            <th>code</th>          
+            <th>Year</th>
+            <th>Month</th>
+            <th>Country</th>
+            <th>Division</th>
+           
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td>code</td>
+            <td>Year</td>
+            <td>Month</td>
+            <td>Country</td>
+            <td>Division</td>
+           
+
+
+        </tr>
+    </tfoot>
+    <tbody>
+        @foreach (var sal in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnprbmCode", sal.PRSPD001_CODE)
+                    @sal.PRSPD001_CODE
+                </td>
+               
+                <td>
+                    @Html.Hidden("hdnprscssyear", sal.TYEAR)
+                    @sal.TYEAR
+                </td>
+                <td>
+                    @Html.Hidden("hdnprscssMonth", sal.TMONTH)
+                    @sal.TMONTH
+                </td>
+
+                <td>
+                    @Html.Hidden("hdnprscsscountry", sal.COUNTRY)
+                    @sal.COUNTRY
+                </td>
+                <td>
+                    @Html.Hidden("hdnprscssDivision", sal.DivisionName)
+                    @sal.DivisionName
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
