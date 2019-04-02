@@ -40,8 +40,7 @@ namespace EzBusiness_Web.Controllers
             rptDoc.Load(Path.Combine(Server.MapPath("~/crystal"), "Report1.rpt"), OpenReportMethod.OpenReportByDefault);
             setDbInfo(rptDoc, ServerName, DatabaseName, UserName, Password);
             //rd.SetDataSource(allCustomer);
-          
-
+                      
             Response.Buffer = false;
             Response.ClearContent();
             Response.ClearHeaders();

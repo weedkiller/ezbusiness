@@ -1,0 +1,217 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.SalaryProcessDVM
+@{
+    var counter = 1;
+
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+    var currrd = $('#TYEAR').val() + '/' + $('#TMONTH').val() + '/01';
+    $('#Process_Date').val(currrd);
+    EzdtePkMMyyEdit('#DateINMonth', "#Process_Date");
+    debugger;
+    var jq = $.noConflict(true);
+    jq(function () {
+        var Code = $('#PRSPD001_CODE').val();
+        debugger;
+      //  $("#btncalculate").css("visibility", "hidden");
+        //  $("#btnSave").css("visibility", "hidden");
+        jq('.selectpicker').selectpicker('refresh');
+        var Pdate = jq(this).find("#Process_Date").val();
+        //var month = $(this).find("#hdnprscssMonth").val();
+
+        EzcheckedFnEditint('input[name="PAIDTYPE"]', "[name*='PAIDTYPE']", 'input[name="PAIDTYPE"]:hidden');
+        EzcheckedFnEint('input[name="PAIDTYPE"]', "[name*='PAIDTYPE']");
+        jq.get("/SalaryProcessPayment/GetSalaryProcessPaymentGridEdit", { SalCode: Code, paidtype:'0' }).done(function (responce) {
+            debugger;
+            if(responce!=null)
+            {
+                debugger;
+                GetslryDetailsDatatable(responce);
+            }
+        });
+
+
+           function GetslryDetailsDatatable(responce)
+         {
+               debugger;
+                jq.fn.dataTable.ext.errorMode = 'none';
+                var t = jq('#tableslrypymntDetails1').DataTable({
+                    "ColumnDefs": [{ "searchable": false, "orderable": false }],
+                    "order": [[1, 'asc']],
+                    data: responce,
+                   // "scrollX": true,
+                    "destroy": true,
+                    "columns": [
+                                        { "data": "srno" },
+                                        { "data": "EMPCODE" },
+                                        { "data": "EMPNAME" },
+                                         { "data": "BANKCODE" },
+                                        //{ "data": "BANKName" },
+                                        { "data": "BRANCHCODE" },
+                                        //{ "data": "BANkBrachName" },
+                                        { "data": "ACCOUNTNO" },
+                                        { "data": "AMOUNT" },
+
+                    ]
+                });
+                t.on('order.dt search.dt', function () {
+                    t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+                //jq('#tableslryDetails1').DataTable().columns([0,10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27, 28, 32, 33, 34, 35, 36, 37, 38, 39]).visible(false);
+                //jq('#tableslryActualsalDetails').DataTable().columns([0,3, 4, 5, 6, 7, 8, 9, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]).visible(false);
+                //jq('#tableslryOTsalDetails').DataTable().columns([0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 44]).visible(false);
+
+                jq('.dataTables_scrollHead').css('margin-bottom', '0px');
+            }
+    });
+
+    $(".chckheaderdata").click(function () {
+
+        if ($(this).prop('checked')) {
+
+            $('#tableslryDetails1 tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
+        }
+        else {
+            $('#tableslryDetails1 tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
+        }
+    });
+    $(".datepicker").on("dp.show", function (e) {
+        $(e.target).data("DateTimePicker").viewMode("months");
+    });
+
+</script>
+<div class="row">
+    <div class="custom-form-wrapper">
+        <!-- BEGIN FORM-->
+        <div class="form-horizontal">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">CODE</label>
+                            <div class="col-md-8 input-field">
+                                @Html.TextBoxFor(m => m.PRSPD001_CODE, new { @class = "form-control", @placeholder = "Code" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Division<i style="color:red;">*</i></label>
+                            <div class="col-md-8 input-field">
+                                @Html.DropDownListFor(m => m.DIVISION, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Department</label>
+                            <div class="col-md-8 input-field">
+                                @Html.DropDownListFor(m => m.Deptcode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">VisaLocation</label>
+                            <div class="col-md-8 input-field">
+                                @Html.DropDownListFor(m => m.VisaLocation1, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                            </div>
+                        </div>
+                    </div>*@
+                    <!--/span-->
+                </div>
+                <!--/row-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Date</label>
+                            <div class="col-md-8 input-field">
+                                @*<input type="month" id="DateINMonth" class="date1 date-picker" >*@
+                                <input id="DateINMonth" class="form-control datepicker" name="DateINMonth" autocomplete="false">
+                                <input type="hidden" id="Process_Date" >
+                                @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
+                                @*@Html.TextBoxFor(m => m.CurrentDate, new { @class = "form-control", @placeholder = "Code" })*@
+                                @Html.HiddenFor(m => m.TYEAR)
+                                @Html.HiddenFor(m => m.TMONTH)
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                    <div class="col-md-2">
+                        <button class="btn btn-warning" id="btncalculate" type="button">Search</button>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="icheck-inline checkbox1">
+
+                            <label>
+                                @Html.HiddenFor(m => m.PAIDTYPE)
+                                Paid
+                                @Html.CheckBox("PAIDTYPE", false)
+                            </label>
+
+                        </div>
+                    </div>
+                    <!--/span-->
+                    <!--/span-->
+                </div>
+
+
+            </div>
+        </div><br />
+        <!-- END FORM-->
+        <div class="">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+
+            </ul>
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                    <br /><br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="overflow-x:auto;">
+
+                                <table class="table table-bordered table-sm" id="tableslrypymntDetails1">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No</th>
+                                            <th>Emp_Code</th>
+                                            <th>Employee Name</th>
+                                            <th>BankCode</th>
+                                            @*<th>BankName</th>*@
+                                            <th>Branch-Code</th>
+                                            @*<th>Branch-Name</th>*@
+                                            <th>ACCOUNTNO</th>
+                                            <th>Amount</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- <button>Hey, click me!</button> -->
+    </div>
+</div>
+

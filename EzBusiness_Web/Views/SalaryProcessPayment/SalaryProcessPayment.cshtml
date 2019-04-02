@@ -1,0 +1,521 @@
+﻿
+@{
+    ViewBag.Title = "SalaryProcessPayment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(function () {
+
+        EzAuthentication("/SalaryProcessPayment");
+      //  var lvHtml = $("#POContainer").html();
+        EzdtePkMMyy('#DateINMonth');
+
+        var smaHtml = $("#SMAContainer").html();
+        $("#SMAListContainer1").hide();
+
+        function GetSlry() {
+            $.get("/SalaryProcessPayment/GetSalaryprocessPymntDetailList", function (response) {
+                $("#SMAListContainer").html(response);
+            });
+        }
+        $("#btnNew").click(function () {
+            //
+            var n = EzAuthenticationBtn("/SalaryProcessPayment", "NewIt");
+            if (n == 1) {
+                $.get("SalaryProcessPayment/AddSalesProcessPayment", function (response) {
+                    $("#SMAContainer").html(response);
+                });
+
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
+                $("#SMAListContainer1").hide();
+                $("#editshow").hide();
+            }
+        });
+
+        $(".alert-close").click(function () {
+            $("#editshow").hide();
+        });
+
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/SalaryProcessPayment", "ViewIt");
+            if (n == 1) {
+                $(this).prop("disabled", true);
+                $("#btnNew").prop("disabled", true);
+                $("#SMAContainer").html();
+                $("#hdnOperationMode").val("Edit");
+                $("#btnSave").prop("disabled", false);
+                $("#SMAListContainer1").show();
+                GetSlry();
+                $("#editshow").show();
+            }
+        });
+
+        $("#btnCancel").click(function () {
+            $("#SMAContainer").html(smaHtml);
+            EzbtnCancelAcVis();
+            //$("#btnNew").prop("disabled", false);
+            //$("#btnEdit").prop("disabled", false);
+            //$("#btnDelete").prop("disabled", true);
+            //$("#hdnOperationMode").val("");
+            //$("#btnSave").prop("disabled", true);
+            $("#SMAListContainer1").hide();
+            $("#editshow").hide();
+        });
+
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/SalaryProcessPayment", "DeleteIt");
+            if (n == 1) {
+                $("#editshow").hide();
+                debugger;
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            debugger;
+                            var Code = $("#PRSPD001_CODE").val();
+                            var currdate = $("[name*='DateINMonth']").val();
+                                $.ajax({
+                                    async: false,
+                                    cache: false,
+                                    type: "POST",
+                                    data: "{SalCode:'" + Code + "',currdate:'" + currdate + "'}",//ids:'" + ids + "',
+                                    url: "/SalaryProcessPayment/DeleteSalaryProcessPayment",
+                                    dataType: 'Json',
+                                    contentType: "Application/json",
+                                    success: function (data) {
+                                        if (data=true) {
+                                            //debugger;
+                                            //RefreshDatatable();
+                                            //$("#btnCancel").trigg
+                                            //var smaHtml = $("#SMAContainer").html();
+                                            GetSlry();
+                                            EzbtnsaveAcVis("#SMAContainer");
+                                            $("#SMAContainer").html(smaHtml);
+                                           //  $("#btnCancel").trigger("click");
+
+                                                //  Ezerrormsg("#ErrorMessage", "Record Deleted");
+                                        } else {
+                                            EzAlertdele(Code);
+                                        }
+                                    }
+                                });
+
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
+                        }
+                    })
+                }
+        });
+        $("#btnSave").click(function () {
+            debugger;
+            var n = EzAuthenticationBtn("/SalaryProcessPayment", "EditIt");
+            $("#editshow").hide();
+            var opMode = $("#hdnOperationMode").val();
+            var currdate = $("[name*='DateINMonth']").val();
+            if (opMode == "Add") {
+                // Code for Adding MainTable
+                var salarym = {
+                    EditFlag: false,
+                    //PRSM001UID :$("[name*='PRSM001UID']").val(),
+                    PRSPD001_CODE: $("[name*='PRSPD001_CODE']").val(),
+                    SalProcess_Date: $("[name*='DateINMonth']").val(),
+                    DIVISION: $('#DIVISION option:selected').val(),
+                    PAIDTYPE:$("[name='PAIDTYPE']").val(),
+                     //Deptcode : $('#Deptcode option:selected').val(),
+                     //  VisaLocation1 : $('#VisaLocation1 option:selected').val(),
+                    salaryList: [],
+                };
+                $("#tableslrypaymntDetails tbody tr").each(function (index, item) {
+
+                    //var SnoTxt = $(this).find('td:eq(0)').text();
+                    var EmpCodeTxt = $(this).find('td:eq(1)').text();
+                    //var EmpNameTxt = $(this).find('td:eq(2)').text();
+                    //var profcode = $(this).find('td:eq(3)').text();
+                    //var Deptcode = $(this).find('td:eq(4)').text();
+                    //var comnprjcode = $(this).find('td:eq(5)').text();
+                    //var VisaLocation = $(this).find('td:eq(6)').text();
+                    //var workLocation = $(this).find('td:eq(7)').text();
+                    //var total_days = $(this).find('td:eq(8)').text();
+                    //var work_Days = $(this).find('td:eq(9)').text();
+                   
+                    //var a_totalSalary = $(this).find('td:eq(10)').text();
+                   
+                
+
+                    if ((EmpCodeTxt != "")) {
+                        var salarydetail = {
+                            EMPCODE: EmpCodeTxt,
+                         };
+                        salarym.salaryList.push(salarydetail);
+                     }
+                });
+                var validationResult = ValidateForm(salarym);
+                if (validationResult.formValid) {
+                    $.post("SalaryProcessPayment/SaveSalryProcessPaymentDetails", salarym).done(function (response) {
+                        debugger;
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+
+                            EzbtnsaveAcVis("#SMAContainer");
+                            $("#SMAContainer").html(smaHtml);
+                            EzAlertSave();
+                            GetSlry();
+                          //  $("#btnCancel").trigger("click");
+
+                           // EzbtnsaveAc("#SMAContainer");
+                           //// ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                           // GetSry();
+                        } else {
+                            //Ezerrormsg("#ErrorMessage",response.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
+
+                        }
+                    });
+
+                } else {
+                    $("#ErrorMessage").show();
+                    //Ezerrormsg("#ErrorMessage",validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+            }
+            else if (opMode == "Edit" && n == 1) {
+                    // Code for Adding Purchase order
+                //
+                var i = 0;
+                $("#btnDelete").css("visibility", "");
+                $("#btnSave").css("visibility", "");
+                EzAlerterrtxt("Can't Edit Data");
+                if (i == 1) {
+                    var salarym = {
+                        EditFlag: true,
+                        //PRSM001UID :$("[name*='PRSM001UID']").val(),
+                        PRSM001_CODE: $("[name*='Code']").val(),
+                        CurrentDate: $("[name*='CurrentDate']").val(),
+
+                        salaryList: []
+
+                    };
+                    $("#tableslryDetails tbody tr").each(function (index, item) {
+
+                        var SnoTxt = $(this).find("[name*='Sno']").val();
+                        var EmpCodeTxt = $(this).find("[name*='EmpCode']").val();
+                        var EmpNameTxt = $(this).find("[name*='EmpName']").val();
+                        var WorkingDay = $(this).find("[name*='WorkingDay']").val();
+                        var Present = $(this).find("[name*='Present']").val();
+                        var Absent = $(this).find("[name*='Absent']").val();
+                        var Leaves = $(this).find("[name*='Leaves']").val();
+                        var SickLeaves = $(this).find("[name*='SickLeaves']").val();
+                        var WeeklyOff = $(this).find("[name*='WeeklyOff']").val();
+                        var Holiday = $(this).find("[name*='Holiday']").val();
+                        var NormalOTHrs = $(this).find("[name*='NormalOTHrs']").val();
+                        var HolidayOTHrs = $(this).find("[name*='HolidayOTHrs']").val();
+                        var WeeklyOffOTHrs = $(this).find("[name*='WeeklyOffOTHrs']").val();
+                        var ExtraOTHrs = $(this).find("[name*='ExtraOTHrs']").val();
+                        var FExtraOTHrs = $(this).find("[name*='FExtraOTHrs']").val();
+                        var MonthlyAddition = $(this).find("[name*='MonthlyAddition']").val();
+                        var TotalEarning = $(this).find("[name*='TotalEarning']").val();
+                        var TotalDeduction = $(this).find("[name*='TotalDeduction']").val();
+                        var LoanDeduction = $(this).find("[name*='LoanDeduction']").val();
+                        var NetSalary = $(this).find("[name*='NetSalary']").val();
+
+                        if ((EmpCodeTxt != "")) {
+                            var salarydetail = {
+                                Sno: SnoTxt,
+                                EmpCode: EmpCodeTxt,
+                                EmpName: EmpNameTxt,
+                                WorkingDay: WorkingDay,
+                                Present: Present,
+                                Absent: Absent,
+                                Leaves: Leaves,
+                                SickLeaves: SickLeaves,
+                                WeeklyOff: WeeklyOff,
+                                Holiday: Holiday,
+                                NormalOTHrs: NormalOTHrs,
+                                HolidayOTHrs: HolidayOTHrs,
+                                WeeklyOffOTHrs: WeeklyOffOTHrs,
+                                ExtraOTHrs: ExtraOTHrs,
+                                FExtraOTHrs: FExtraOTHrs,
+                                MonthlyAddition: MonthlyAddition,
+                                TotalEarning: TotalEarning,
+                                TotalDeduction: TotalDeduction,
+                                LoanDeduction: LoanDeduction,
+                                NetSalary: NetSalary
+                            };
+                            salarym.salaryList.push(salarydetail);
+                        }
+                    });
+                    var validationResult = ValidateForm(salarym);
+                    if (validationResult.formValid) {
+                        $.post("/SaveSalaryProcess", salarym).done(function (response) {
+                            if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                                EzbtnsaveAc("#SMAContainer");
+                               // ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                GetSry();
+                            } else {
+                                //ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzAlerterrtxt(response.ErrorMessage);
+                            }
+                        });
+                    } else {
+                        $("#ErrorMessage").show();
+                        //ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+
+                    }
+                }
+
+            }
+
+
+        });
+
+        function ValidateForm(salarym) {
+            debugger;
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+
+            if (salarym.Process_Date=="") {
+                response.ErrorMessage += "CurrentDate,";
+            }
+            //if (!salarym.Effect_From) {
+            //    response.ErrorMessage += "Effect_From,";
+            //}
+
+            if (salarym.PRSP001_Code=="") {
+                response.ErrorMessage += "Code are mandatory Fields.";
+            }
+
+
+
+                //if (salarym.salarydetail.length == 0) {
+                //        response.ErrorMessage += "Please Enter atleast One Item code Details";
+                //    }
+                    if (response.ErrorMessage.length == 0) {
+                        response.formValid = true;
+                    }
+
+                    return response;
+                }
+        function RefreshDatatable()
+        {
+            var SPDate = $("[name*='DateINMonth']").val();
+
+            $.get("/SalaryProcess/GetSalaryProcessGridEdit", { SPDate: SPDate }).done(function (responce) {
+                    GetslryDetailsDatatable(responce);
+
+            });
+        }
+        function GetslryDetailsDatatable(responce) {
+            $("#divsrly").show();
+            jq.fn.dataTable.ext.errorMode = 'none';
+            var t = jq('#srlyprocssdatatabl').DataTable({
+                "ColumnDefs": [{ "targets": [0], "Visible": false, "searchable": false }],
+                data: responce,
+                "order": [[1, "desc"]],
+                "scrollX": true,
+                "destroy": true,
+                "columns": [
+                     { "data": "srno" },
+                                       { "data": "Empcode" },
+                                       { "data": "Empname" },
+                                       { "data": "country" },
+                                       { "data": "ProfCode" },
+                                       { "data": "DepCode" },
+                                       { "data": "ComnPrjcode" },
+                                       { "data": "Division" },
+                                       { "data": "VisaLocation" },
+                                       { "data": "WorkLocation" },
+                                       { "data": "Total_Days" },
+                                       { "data": "Worked_Days" },
+                                       { "data": "a_basic" },
+                                       { "data": "a_hra" },
+                                       { "data": "a_Da" },
+                                       { "data": "a_tele" },
+                                       { "data": "a_trans" },
+                                       { "data": "a_car" },
+                                       { "data": "a_allowance1" },
+                                       { "data": "a_allowance2" },
+                                       { "data": "a_allowance3" },
+                                       { "data": "a_Totalsalary" },
+                                       { "data": "C_basic" },
+                                       { "data": "C_hra" },
+                                       { "data": "C_da" },
+                                       { "data": "C_tele" },
+                                       { "data": "C_trans" },
+                                       { "data": "C_car" },
+                                       { "data": "C_allowance1" },
+                                       { "data": "C_allowance2" },
+                                       { "data": "C_allowance3" },
+                                       { "data": "C_totalSalary" },
+                                       { "data": "loan_amt" },
+                                       { "data": "adn_amount" },
+                                       { "data": "nothrs" },
+                                       { "data": "extraOThrs" },
+                                       { "data": "hothrs" },
+                                       { "data": "wothrs" },
+                                       { "data": "not_rate_perhr" },
+                                       { "data": "hot_rate_perhr" },
+                                       { "data": "ExtraOT_rate_perhr" },
+                                       { "data": "wot_rate_perhr" },
+                                       { "data": "ExtraOTAmt" },
+                                       { "data": "NOTAmt" },
+                                       { "data": "HOTAmt" },
+                                       { "data": "WOTAmt" },
+                                       { "data": "NetSalary" },
+                ]
+            });
+            t.on('order.dt search.dt', function () {
+                t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+        }
+
+        $(document).on("click", "#SalarypaymntList tbody tr", function ()
+                {
+             debugger;
+             EzbtnEditAcVis();
+                    var operationMode = $("#hdnOperationMode").val();
+                    if (operationMode == "Edit")
+                    {
+                       //
+                        $("#SalarypaymntList > tbody").children().removeClass("active");
+                        $(this).addClass("active");
+                        var Code = $(this).find("#hdnprbmCode").val();
+                        $.get("EditSalaryProcessPayment", { salP_code: Code }).done(function (response)
+                        {
+                            debugger;
+                            $("#SMAContainer").html(response);
+                            $("#btnDelete").css("visibility","");;
+                            $("#btncalculate").css("visibility", "hidden");
+                          //  $("#btnSave").css("visibility", "hidden");
+
+                        });
+                    }
+                });
+
+    });
+    $(".datepicker").on("dp.show", function (e) {
+        $(e.target).data("DateTimePicker").viewMode("months");
+    });
+</script>
+<style>
+    .top-buffer {
+        margin-top: 15px;
+    }
+
+    .fixed-width {
+        width: 100px;
+        float: left;
+    }
+
+    .fluid.row-fluid {
+        margin-right: 100px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .customSpace {
+        content: " ";
+        display: inline-block;
+        width: 40px;
+    }
+
+    div.scroll {
+        width: 300px;
+        height: 500px;
+        overflow: scroll;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
+
+        <div class="title-action">
+
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+
+
+
+        </div>
+    </div>
+
+</div><hr />
+<!-- Row end -->
+<!-- Row start -->
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary panl">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <div class="tabbable-line boxless tabbable-reversed" id="SMAContainer">
+                    <label class="row" id="ErrorMessage" style="color:red">
+                        <strong></strong>
+                    </label>
+                    <div class="custom-form-wrapper">
+                        <div id="SMAContainer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="custom-form-wrapper">
+                                        <!-- BEGIN FORM-->
+                                        <div class="row">
+                                            <div class="custom-form-wrapper">
+                                                <div class="container" id="SMAListContainer">
+                                                    @Html.Action("GetSalaryprocessPymntDetailList", "SalaryProcessPayment")
+                                                </div>
+                                            </div>
+                                        </div><br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+</div>
+
+
