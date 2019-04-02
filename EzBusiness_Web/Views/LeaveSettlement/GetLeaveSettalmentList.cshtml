@@ -10,52 +10,53 @@
     });
 </script>
 
+<div class="col-md-12 portal-drivers">
+    <table id="LVList" class="table table-bordered table-hover editlist">
+        <thead>
+            <tr class="tr">
+                <th>Leave Settalment No</th>
+                <th>Employee Code</th>
+                <th>Employee Name</th>
+                <th>LS Date</th>
+                <th>Entry Date</th>
 
-<table id="LVList" class="table table-bordered table-hover editlist">
-    <thead>
-        <tr class="tr">
-            <th>Leave Settalment No</th>
-            <th>Employee Code</th>
-            <th>Employee Name</th>
-            <th>LS Date</th>
-            <th>Entry Date</th>
-
-
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <td>Leave Settalment No</td>
-            <td>Employee Code</td>
-            <td>Employee Name</td>
-            <td>LS Date</td>
-            <td>Entry Date</td>
-
-
-        </tr>
-    </tfoot>
-    <tbody>
-        @foreach (var sm in Model)
-        {
-            <tr>
-                <td>
-                    @Html.Hidden("hdnPRSR001_CODE", sm.PRLS001_CODE)
-                    @sm.PRLS001_CODE
-                </td>
-                <td>
-                    @sm.Empcode
-                </td>
-                <td>
-                    @sm.EmpName
-                </td>
-                <td>
-                    @Convert.ToDateTime(@sm.LLSdate).ToString("dd/MM/yyyy")
-                </td>
-                <td>
-                    @Convert.ToDateTime(@sm.Entry_Date).ToString("dd/MM/yyyy")
-                </td>
 
             </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td>Leave Settalment No</td>
+                <td>Employee Code</td>
+                <td>Employee Name</td>
+                <td>LS Date</td>
+                <td>Entry Date</td>
+
+
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var sm in Model)
+        {
+        <tr>
+            <td>
+                @Html.Hidden("hdnPRSR001_CODE", sm.PRLS001_CODE)
+                @sm.PRLS001_CODE
+            </td>
+            <td>
+                @sm.Empcode
+            </td>
+            <td>
+                @sm.EmpName
+            </td>
+            <td>
+                @Convert.ToDateTime(@sm.LLSdate).ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @Convert.ToDateTime(@sm.Entry_Date).ToString("dd/MM/yyyy")
+            </td>
+
+        </tr>
         }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>

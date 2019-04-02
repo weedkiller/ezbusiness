@@ -392,11 +392,7 @@ $(document).ready(function(){
 
 <div class="title-action">
     <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
-
     <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-
-
-
     <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
 
     <input type="hidden" id="hdnOperationMode" value="" />
@@ -440,61 +436,62 @@ $(document).ready(function(){
     </tbody>
 </table>
 
-        <div id="tbldiv">
-            <table class="table" id="tblUnits">
-                <thead>
-                    <tr class="tr">
-                        <th>
-                            @Html.DisplayNameFor(model => model.DocCode)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DocName)
-                        </th>
-                      
-                        <th></th>
-                      
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr class="tr">
-                        <td>
-                            @Html.DisplayNameFor(model => model.DocCode)
-                        </td>
-                        <td>
-                            @Html.DisplayNameFor(model => model.DocName)
-                        </td>
+        <div class="col-md-12 portal-drivers">
+            <div id="tbldiv">
+                <table class="table table-bordered" id="tblUnits">
+                    <thead>
+                        <tr class="tr">
+                            <th>
+                                @Html.DisplayNameFor(model => model.DocCode)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DocName)
+                            </th>
 
+                            <th></th>
 
-                        <td></td>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DocCode)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DocName)
-                            </td>
-                           
-
-                            <td>
-                                <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
-                                <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
-                                @Html.HiddenFor(m => item.CmpyCode)
-                            </td>
                         </tr>
+                    </thead>
+                    <tfoot>
+                        <tr class="tr">
+                            <td>
+                                @Html.DisplayNameFor(model => model.DocCode)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.DocName)
+                            </td>
+
+
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                    <tbody  style="overflow:scroll">
+                        @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocName)
+                        </td>
+
+
+                        <td>
+                            <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
+                            <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
+                            <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                            @Html.HiddenFor(m => item.CmpyCode)
+                        </td>
+                    </tr>
                         counter++;
                     }
-                </tbody>
+                    </tbody>
 
-            </table>
+                </table>
 
             </div>
-
+        </div>
 
             @Html.Hidden("Counter", counter)
         </div>
