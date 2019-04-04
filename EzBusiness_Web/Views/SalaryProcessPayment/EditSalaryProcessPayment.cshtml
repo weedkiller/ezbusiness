@@ -28,8 +28,8 @@
         var Pdate = jq(this).find("#Process_Date").val();
         //var month = $(this).find("#hdnprscssMonth").val();
 
-        EzcheckedFnEditint('input[name="PAIDTYPE"]', "[name*='PAIDTYPE']", 'input[name="PAIDTYPE"]:hidden');
-        EzcheckedFnEint('input[name="PAIDTYPE"]', "[name*='PAIDTYPE']");
+      // EzcheckedFnEditint('input[name="PAIDTYPE"]', "[name*='PAIDTYPE']", 'input[name="PAIDTYPE"]:hidden');
+      //  EzcheckedFnEint('input[name="PAIDTYPE"]', "[name*='PAIDTYPE']");
         jq.get("/SalaryProcessPayment/GetSalaryProcessPaymentGridEdit", { SalCode: Code, paidtype:'0' }).done(function (responce) {
             debugger;
             if(responce!=null)
@@ -60,6 +60,17 @@
                                         //{ "data": "BANkBrachName" },
                                         { "data": "ACCOUNTNO" },
                                         { "data": "AMOUNT" },
+                                          {
+                                              "data": "PAID_TYPE",
+                                              "render": function (data) {
+                                                  if (data == 1) {
+                                                      return "<span><input type='Checkbox'  class='chck' checked value=" + data + "></span>";
+                                                  } else {
+                                                      return "<span><input type='Checkbox'  class='chck' value=" + data + "></span>";
+                                                  }
+                                                  
+                                              }
+                                          }
 
                     ]
                 });
@@ -149,19 +160,22 @@
                         </div>
                     </div>
                     <!--/span-->
-                    <div class="col-md-2">
-                        <button class="btn btn-warning" id="btncalculate" type="button">Search</button>
-                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Paid Type</label>
+                            <div class="col-md-3 input-field">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.PAIDTYPE,Convert.ToInt32("1"),new { @checked = "checked", @disabled="disabled" }) Salary
+                                    @Html.HiddenFor(m => m.PAIDTYPE) 
 
-                    <div class="col-md-3">
-                        <div class="icheck-inline checkbox1">
+                                </label>
 
-                            <label>
-                                @Html.HiddenFor(m => m.PAIDTYPE)
-                                Paid
-                                @Html.CheckBox("PAIDTYPE", false)
-                            </label>
-
+                            </div>
+                            <div class="col-md-3 input-field">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.PAIDTYPE,Convert.ToInt32("0"), new {  @disabled = "disabled" }) Incentive
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <!--/span-->
@@ -196,6 +210,7 @@
                                             @*<th>Branch-Name</th>*@
                                             <th>ACCOUNTNO</th>
                                             <th>Amount</th>
+                                            <th>Paid</th>
 
                                         </tr>
                                     </thead>

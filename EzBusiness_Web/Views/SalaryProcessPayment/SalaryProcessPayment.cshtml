@@ -133,161 +133,210 @@
         });
         $("#btnSave").click(function () {
             debugger;
-            var n = EzAuthenticationBtn("/SalaryProcessPayment", "EditIt");
+            var n = 1;// EzAuthenticationBtn("/SalaryProcessPayment", "EditIt");
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
             var currdate = $("[name*='DateINMonth']").val();
             if (opMode == "Add") {
                 // Code for Adding MainTable
-                var salarym = {
-                    EditFlag: false,
-                    //PRSM001UID :$("[name*='PRSM001UID']").val(),
-                    PRSPD001_CODE: $("[name*='PRSPD001_CODE']").val(),
-                    SalProcess_Date: $("[name*='DateINMonth']").val(),
-                    DIVISION: $('#DIVISION option:selected').val(),
-                    PAIDTYPE:$("[name='PAIDTYPE']").val(),
-                     //Deptcode : $('#Deptcode option:selected').val(),
-                     //  VisaLocation1 : $('#VisaLocation1 option:selected').val(),
-                    salaryList: [],
-                };
-                $("#tableslrypaymntDetails tbody tr").each(function (index, item) {
+                debugger;
+                var selectedrow = $(".chck:checked").length;
+                if (selectedrow > 0) {
+                    var salarym = {
+                        EditFlag: false,
+                        //PRSM001UID :$("[name*='PRSM001UID']").val(),
+                        PRSPD001_CODE: $("[name*='PRSPD001_CODE']").val(),
+                        SalProcess_Date: $("[name*='DateINMonth']").val(),
+                        DIVISION: $('#DIVISION option:selected').val(),
+                        PAIDTYPE: $("input:radio[name=PAIDTYPE]:checked").val(),
+                        //Deptcode : $('#Deptcode option:selected').val(),
+                        //  VisaLocation1 : $('#VisaLocation1 option:selected').val(),
+                        salaryList: [],
+                    };
+                    $(".chck:checked").each(function (index, item) {
+                        $(".chck:checked").val('1');
 
-                    //var SnoTxt = $(this).find('td:eq(0)').text();
-                    var EmpCodeTxt = $(this).find('td:eq(1)').text();
-                    //var EmpNameTxt = $(this).find('td:eq(2)').text();
-                    //var profcode = $(this).find('td:eq(3)').text();
-                    //var Deptcode = $(this).find('td:eq(4)').text();
-                    //var comnprjcode = $(this).find('td:eq(5)').text();
-                    //var VisaLocation = $(this).find('td:eq(6)').text();
-                    //var workLocation = $(this).find('td:eq(7)').text();
-                    //var total_days = $(this).find('td:eq(8)').text();
-                    //var work_Days = $(this).find('td:eq(9)').text();
-                   
-                    //var a_totalSalary = $(this).find('td:eq(10)').text();
-                   
-                
+                    })
 
-                    if ((EmpCodeTxt != "")) {
-                        var salarydetail = {
-                            EMPCODE: EmpCodeTxt,
-                         };
-                        salarym.salaryList.push(salarydetail);
-                     }
-                });
-                var validationResult = ValidateForm(salarym);
-                if (validationResult.formValid) {
-                    $.post("SalaryProcessPayment/SaveSalryProcessPaymentDetails", salarym).done(function (response) {
-                        debugger;
-                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-
-                            EzbtnsaveAcVis("#SMAContainer");
-                            $("#SMAContainer").html(smaHtml);
-                            EzAlertSave();
-                            GetSlry();
-                          //  $("#btnCancel").trigger("click");
-
-                           // EzbtnsaveAc("#SMAContainer");
-                           //// ezerrormsg("#ErrorMessage", response.ErrorMessage);
-                           // GetSry();
-                        } else {
-                            //Ezerrormsg("#ErrorMessage",response.ErrorMessage);
-                            EzAlerterrtxt(response.ErrorMessage);
-
+                    $(".case").click(function () {
+                        if ($(".case").length == $(".case:checked").length) {
+                            $("#selectall").attr("checked", "checked");
+                        }
+                        else {
+                            $("#selectall").removeAttr("checked");
                         }
                     });
 
-                } else {
-                    $("#ErrorMessage").show();
-                    //Ezerrormsg("#ErrorMessage",validationResult.ErrorMessage);
-                    EzAlerterrtxt(validationResult.ErrorMessage);
+                    $("#tableslrypaymntDetails tbody tr input[type=checkbox]:checked").each(function (index, item) {
+                        debugger;
+                        var tr = $(this).closest('tr');                      
+
+                        var PaidType = tr.find('.chck').val();
+                                            
+                        if (PaidType != "0") {
+
+                            var SnoTxt = tr.find('td:eq(0)').text();
+                            var EmpCodeTxt = tr.find('td:eq(1)').text()//$(this).attr('value');
+                            var EmpNameTxt = tr.find('td:eq(2)').text();
+                            var BankCode = tr.find('td:eq(3)').text();
+                            var BrnchCode = tr.find('td:eq(5)').text();
+                            var AccountNo = tr.find('td:eq(7)').text();
+                            var Amount = tr.find('td:eq(8)').text();
+
+                            var salarydetail = {
+                                srno: SnoTxt,
+                                EMPCODE: EmpCodeTxt,
+                                EMPNAME: EmpNameTxt,
+                                BANKCODE: BankCode,
+                                BRANCHCODE: BrnchCode,
+                                ACCOUNTNO: AccountNo,
+                                AMOUNT: Amount,
+                                // PAID_TYPE:PaidType
+                            };
+                            salarym.salaryList.push(salarydetail);
+                             }
+                        //});
+                    });
+                    var validationResult = ValidateForm(salarym);
+                    if (validationResult.formValid) {
+                        $.post("SalaryProcessPayment/SaveSalryProcessPaymentDetails", salarym).done(function (response) {
+                            debugger;
+                            if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+
+                                EzbtnsaveAcVis("#SMAContainer");
+                                $("#SMAContainer").html(smaHtml);
+                                EzAlertSave();
+                                GetSlry();
+                                //  $("#btnCancel").trigger("click");
+
+                                // EzbtnsaveAc("#SMAContainer");
+                                //// ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                // GetSry();
+                            } else {
+                                //Ezerrormsg("#ErrorMessage",response.ErrorMessage);
+                                EzAlerterrtxt(response.ErrorMessage);
+
+                            }
+                        });
+
+                    } else {
+                        $("#ErrorMessage").show();
+                        //Ezerrormsg("#ErrorMessage",validationResult.ErrorMessage);
+                        EzAlerterrtxt(validationResult.ErrorMessage);
+                    }
+                }
+                else
+                {
+                    alert("select checkbox");
                 }
             }
             else if (opMode == "Edit" && n == 1) {
                     // Code for Adding Purchase order
                 //
-                var i = 0;
+               /// var i = 0;
                 $("#btnDelete").css("visibility", "");
                 $("#btnSave").css("visibility", "");
-                EzAlerterrtxt("Can't Edit Data");
-                if (i == 1) {
+                // EzAlerterrtxt("Can't Edit Data");
+
+               
                     var salarym = {
                         EditFlag: true,
                         //PRSM001UID :$("[name*='PRSM001UID']").val(),
-                        PRSM001_CODE: $("[name*='Code']").val(),
-                        CurrentDate: $("[name*='CurrentDate']").val(),
-
-                        salaryList: []
-
+                        PRSPD001_CODE: $("[name*='PRSPD001_CODE']").val(),
+                        SalProcess_Date: $("[name*='DateINMonth']").val(),
+                        DIVISION: $('#DIVISION option:selected').val(),
+                        PAIDTYPE: $("input:radio[name=PAIDTYPE]:checked").val(),
+                        //Deptcode : $('#Deptcode option:selected').val(),
+                        //  VisaLocation1 : $('#VisaLocation1 option:selected').val(),
+                        salaryList: [],
                     };
-                    $("#tableslryDetails tbody tr").each(function (index, item) {
+                    $(".chck:checked").each(function (index, item) {
+                        $(".chck:checked").val('1');
 
-                        var SnoTxt = $(this).find("[name*='Sno']").val();
-                        var EmpCodeTxt = $(this).find("[name*='EmpCode']").val();
-                        var EmpNameTxt = $(this).find("[name*='EmpName']").val();
-                        var WorkingDay = $(this).find("[name*='WorkingDay']").val();
-                        var Present = $(this).find("[name*='Present']").val();
-                        var Absent = $(this).find("[name*='Absent']").val();
-                        var Leaves = $(this).find("[name*='Leaves']").val();
-                        var SickLeaves = $(this).find("[name*='SickLeaves']").val();
-                        var WeeklyOff = $(this).find("[name*='WeeklyOff']").val();
-                        var Holiday = $(this).find("[name*='Holiday']").val();
-                        var NormalOTHrs = $(this).find("[name*='NormalOTHrs']").val();
-                        var HolidayOTHrs = $(this).find("[name*='HolidayOTHrs']").val();
-                        var WeeklyOffOTHrs = $(this).find("[name*='WeeklyOffOTHrs']").val();
-                        var ExtraOTHrs = $(this).find("[name*='ExtraOTHrs']").val();
-                        var FExtraOTHrs = $(this).find("[name*='FExtraOTHrs']").val();
-                        var MonthlyAddition = $(this).find("[name*='MonthlyAddition']").val();
-                        var TotalEarning = $(this).find("[name*='TotalEarning']").val();
-                        var TotalDeduction = $(this).find("[name*='TotalDeduction']").val();
-                        var LoanDeduction = $(this).find("[name*='LoanDeduction']").val();
-                        var NetSalary = $(this).find("[name*='NetSalary']").val();
+                    })
 
-                        if ((EmpCodeTxt != "")) {
-                            var salarydetail = {
-                                Sno: SnoTxt,
-                                EmpCode: EmpCodeTxt,
-                                EmpName: EmpNameTxt,
-                                WorkingDay: WorkingDay,
-                                Present: Present,
-                                Absent: Absent,
-                                Leaves: Leaves,
-                                SickLeaves: SickLeaves,
-                                WeeklyOff: WeeklyOff,
-                                Holiday: Holiday,
-                                NormalOTHrs: NormalOTHrs,
-                                HolidayOTHrs: HolidayOTHrs,
-                                WeeklyOffOTHrs: WeeklyOffOTHrs,
-                                ExtraOTHrs: ExtraOTHrs,
-                                FExtraOTHrs: FExtraOTHrs,
-                                MonthlyAddition: MonthlyAddition,
-                                TotalEarning: TotalEarning,
-                                TotalDeduction: TotalDeduction,
-                                LoanDeduction: LoanDeduction,
-                                NetSalary: NetSalary
-                            };
-                            salarym.salaryList.push(salarydetail);
+                    $(".case").click(function () {
+                        if ($(".case").length == $(".case:checked").length) {
+                            $("#selectall").attr("checked", "checked");
+                        }
+                        else {
+                            $("#selectall").removeAttr("checked");
                         }
                     });
-                    var validationResult = ValidateForm(salarym);
-                    if (validationResult.formValid) {
-                        $.post("/SaveSalaryProcess", salarym).done(function (response) {
+
+                    $("#tableslrypymntDetails1 tbody tr").each(function (index, item) {
+                        debugger;
+                       var tr = $(this).closest('tr');
+
+                        //var PaidType = tr.find('.chck').val();
+
+                        //if (PaidType != "0") {
+
+                            var SnoTxt = tr.find('td:eq(0)').text();
+                            var EmpCodeTxt = tr.find('td:eq(1)').text()//$(this).attr('value');
+                            var EmpNameTxt = tr.find('td:eq(2)').text();
+                            var BankCode = tr.find('td:eq(3)').text();
+                            var BrnchCode = tr.find('td:eq(4)').text();
+                            var AccountNo = tr.find('td:eq(5)').text();
+                            var Amount = tr.find('td:eq(6)').text();
+                            var PaidTypeee = tr.find('.chck').val();
+                            var salarydetail = {
+                                srno:SnoTxt,
+                                EMPCODE:EmpCodeTxt,
+                                EMPNAME:EmpNameTxt,
+                                BANKCODE:BankCode,
+                                BRANCHCODE:BrnchCode,
+                                ACCOUNTNO:AccountNo,
+                                AMOUNT:Amount,
+                                Paid:PaidTypeee
+                                // PAID_TYPE:PaidType
+                            };
+                            salarym.salaryList.push(salarydetail);
+                        //}
+                        //});
+                    });
+                    //var validationResult = ValidateForm(salarym);
+                    //if (validationResult.formValid) {
+                        $.post("SalaryProcessPayment/SaveSalryProcessPaymentDetails", salarym).done(function (response) {
+                            debugger;
                             if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                                EzbtnsaveAc("#SMAContainer");
-                               // ezerrormsg("#ErrorMessage", response.ErrorMessage);
-                                GetSry();
+
+                                EzbtnsaveAcVis("#SMAContainer");
+                                $("#SMAContainer").html(smaHtml);
+                                EzAlertSave();
+                                GetSlry();
+                                //  $("#btnCancel").trigger("click");
+
+                                // EzbtnsaveAc("#SMAContainer");
+                                //// ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                // GetSry();
                             } else {
-                                //ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                //Ezerrormsg("#ErrorMessage",response.ErrorMessage);
                                 EzAlerterrtxt(response.ErrorMessage);
+
                             }
                         });
-                    } else {
-                        $("#ErrorMessage").show();
-                        //ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
 
-                    }
+                    //} else {
+                    //    $("#ErrorMessage").show();
+                    //    //Ezerrormsg("#ErrorMessage",validationResult.ErrorMessage);
+                    //    EzAlerterrtxt(validationResult.ErrorMessage);
+                    //}
                 }
+               
+                    //var salarym = {
+                    //    EditFlag: true,
+                    //    //PRSM001UID :$("[name*='PRSM001UID']").val(),
+                    //    PRSM001_CODE: $("[name*='Code']").val(),
+                    //    CurrentDate: $("[name*='CurrentDate']").val(),
 
-            }
+                    //    salaryList: []
+
+                    //};
+                  
+              //  }
+
+           // }
 
 
         });

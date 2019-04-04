@@ -34,11 +34,11 @@
         //$('#PAIDTYPE').val(false);
             debugger;
 
-            Eary = [];
-            Eary.push("input[name='PAIDTYPE']");
+            //Eary = [];
+            //Eary.push("input[name='PAIDTYPE']");
            
-            EzsetNtxt(Eary);
-            EzcheckedFnInt("input[name='PAIDTYPE']", "[name = 'PAIDTYPE']");
+            //EzsetNtxt(Eary);
+            //EzcheckedFnInt("input[name='PAIDTYPE']", "[name = 'PAIDTYPE']");
             $('#DateINMonth').on('dp.change', function (event) {
                 debugger;
                 dt = $("#DateINMonth").val();
@@ -73,26 +73,26 @@
                 var divcode = $('#DIVISION option:selected').val();
                 var currmonthyear = dt;
                 var CurrentDate = currmonthyear;                
-                //var Deptcode = $('#Deptcode option:selected').val();
-                //var VisaLocation1 = $('#VisaLocation1 option:selected').val();
-                //// Code=$("#Code").val()
-                ////}
-                //$.get("GetEmployeeNotInBank", { CurrentDate: CurrentDate, divcode: divcode, Deptcode: Deptcode, VisaLocation1: VisaLocation1 }).done(function (obj) {
-                //    var arr = [];
-                //    arr = obj;
-                //    if (arr.data.length>0) {
-                //        $('#empContaint').show();
-                //        $('#salrcontainer').hide();
-                //        $('#spnmonth').text(currdat);
-                //        // $("#tabletimeDetails").empty().append(d);
-                //        $("#tabletimeDetails td").remove();
-                //        for (var i = 0; i <= arr.data.length; i++) {                           
-                //            $('#tabletimeDetails').append("<tr><td>" + arr.data[i].srno + "</td><td>" + arr.data[i].Empcode + "</td><td>" + arr.data[i].Empname + "</td></tr>");
-                //        }
-                //    }
-                    //else {
-                        //$('#empContaint').hide();
-                        //$('#salrcontainer').show();
+                var Deptcode = $('#Deptcode option:selected').val();
+                var VisaLocation1 = $('#VisaLocation1 option:selected').val();
+                // Code=$("#Code").val()
+                //}
+                $.get("GetEmployeeNotInBank", { CurrentDate: CurrentDate, divcode: divcode, Deptcode: Deptcode, VisaLocation1: VisaLocation1 }).done(function (obj) {
+                    var arr = [];
+                    arr = obj;
+                    if (arr.data.length>0) {
+                        $('#empContaint').show();
+                        $('#salrcontainer').hide();
+                        $('#spnmonth').text(currdat);
+                        // $("#tabletimeDetails").empty().append(d);
+                        $("#tabletimeDetails td").remove();
+                        for (var i = 0; i < arr.data.length; i++) {                           
+                            $('#tabletimeDetails').append("<tr><td>" + arr.data[i].srno + "</td><td>" + arr.data[i].Empcode + "</td><td>" + arr.data[i].Empname + "</td></tr>");
+                        }
+                    }
+                    else {
+                        $('#empContaint').hide();
+                        $('#salrcontainer').show();
                         debugger;
               
                                 var newrow =
@@ -108,7 +108,7 @@
 
 
                                     var t = $('#tableslrypaymntDetails').DataTable({
-                                        "ColumnDefs": [{ "searchable": false, "orderable": false }],
+                                        "ColumnDefs": [{ "searchable": false, "orderable": true }],
                                         "order": [[1, 'asc']],
                                         //"scrollY": true, 
                                       //  "scrollX": true,
@@ -150,6 +150,13 @@
                                            { "data": "BANkBrachName" },
                                            { "data": "ACCOUNTNO" },
                                            { "data": "AMOUNT" },
+                                           {
+                                               "data": null,
+                                               "render":function(data)
+                                               {
+                                                   return "<span><input type='Checkbox' class='chck' value='0'></span>";
+                                               }
+                                           }
                                           
                                         ]
                                     });
@@ -173,9 +180,9 @@
                                 else {
                                     EzAlerterrtxt("Select Division");
                                 }
-                          //  }
+                            }
                        
-               // });
+                });
             });
             //function GetSryData()
             //{
@@ -200,15 +207,18 @@
 
 
         $(".chckheader").click(function () {
+            debugger;
+            if ($(this).prop('checked')) {
 
-            if (jq(this).prop('checked')) {
-
-                jq('#tableslryDetails tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
+                $('#tableslrypaymntDetails tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
             }
             else {
-                jq('#tableslryDetails tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
+                $('#tableslrypaymntDetails tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
             }
         });
+
+
+        
 
         $(".datepicker").on("dp.show", function (e) {
             $(e.target).data("DateTimePicker").viewMode("months");
@@ -258,21 +268,64 @@
                         </div>
                     </div>
                     <!--/span-->
-                    <div class="col-md-2">
+                    @*<div class="col-md-2">
                         <button class="btn btn-warning" id="btncalculate" type="button">Search</button>
-                    </div>
+                    </div>*@
 
-                    <div class="col-md-3">
-                        <div class="icheck-inline checkbox1">
-                           
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Paid Type</label>
+                            <div class="col-md-3 input-field">
+                                <label class="radio-inline" checked="checked">
+                                    @Html.RadioButtonFor(m => m.PAIDTYPE, "1", new { @checked = "checked" }) Salary
+                                </label>
+
+                            </div>
+                            <div class="col-md-3 input-field">
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.PAIDTYPE, "0") Incentive
+                                </label>
+                            </div>
+                        </div>
+                     </div>
+                        @*<div class="col-md-2">
+                            <div class="icheck-inline checkbox1">
+
                                 <label>
                                     Paid<i style="color:red;">*</i>
                                     @Html.CheckBox("PAIDTYPE", false)
                                 </label>
-                           
+
+                            </div>
+                        </div>*@
+
+
+                        <!--/span-->
+                    </div>
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="col-md-3">
+                            <div class="col-md-6 input-field">
+                                <button class="btn btn-warning" id="btncalculate" type="button">Search</button>
+                            </div>
                         </div>
                     </div>
-                    <!--/span-->
+
+                    <div class="col-md-6">
+
+                        <div class="col-md-6">
+                            <div class="icheck-inline checkbox1">
+
+                                <label>
+                                    Paid  ALL
+                                    @Html.CheckBox("PAIDTYPE", false, new { @class = "chckheader" })
+                                </label>
+
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div><br />
@@ -299,7 +352,7 @@
                                             <th>Branch-Name</th>
                                             <th>ACCOUNTNO</th>
                                             <th>Amount</th>
-                                           
+                                           <th>Paid</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
