@@ -124,6 +124,10 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
 
         public string UserName { get; set; }
 
+       
+
+        public string Country { get; set; }
+
     }   
     public class EmployeeDetailnew
     {

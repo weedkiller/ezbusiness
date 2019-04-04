@@ -114,5 +114,7 @@ namespace EzBusiness_EF_Entity
         //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Tdate { get; set; }
 
+        public string Country { get; set; }
+
     }
 }
