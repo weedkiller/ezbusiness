@@ -44,7 +44,7 @@
          {
                debugger;
                 jq.fn.dataTable.ext.errorMode = 'none';
-                var t = jq('#tableslrypymntDetails1').DataTable({
+                var t = jq('#tableslrypaymntDetails').DataTable({
                     "ColumnDefs": [{ "searchable": false, "orderable": false }],
                     "order": [[1, 'asc']],
                     data: responce,
@@ -64,9 +64,9 @@
                                               "data": "PAID_TYPE",
                                               "render": function (data) {
                                                   if (data == 1) {
-                                                      return "<span><input type='Checkbox'  class='chck' checked value=" + data + "></span>";
+                                                      return "<span><input type='Checkbox'  class='chck' checked value=0></span>";
                                                   } else {
-                                                      return "<span><input type='Checkbox'  class='chck' value=" + data + "></span>";
+                                                      return "<span><input type='Checkbox'  class='chck' value=0></span>";
                                                   }
                                                   
                                               }
@@ -91,12 +91,50 @@
 
         if ($(this).prop('checked')) {
 
-            $('#tableslryDetails1 tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
+            $('#tableslrypaymntDetails tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
         }
         else {
-            $('#tableslryDetails1 tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
+            $('#tableslrypaymntDetails tbody').find("input[type='checkbox']").prop('checked', $(this).prop('checked'));
         }
     });
+
+
+    $(".chck").click(function () {
+        var tr = "";
+    });
+    //$('#tableslryDetails1').on('click', '.chck', function () {
+    //    debugger;
+    //    var tr = $(this).closest('tr');
+    //    if (tr.prop('checked')) {
+
+    //        tr.prop('checked', $(this).prop('checked'));
+    //    }
+    //    else {
+    //        tr.prop('checked', $(this).prop('checked'));
+    //    }
+    //});
+
+
+    //$('#tableslrypaymntDetails tbody tr').on('click', 'input[type="checkbox"]', function (e) {
+    //    var tr = $(this).closest('tr');
+
+    //    debugger;
+    //    var tr = $(this).closest('tr');
+    //    if (tr.prop('checked')) {
+
+    //        tr.prop('checked', $(this).prop('checked'));
+    //    }
+    //    else {
+    //        tr.prop('checked', $(this).prop('checked'));
+    //    }
+    //});
+
+
+   
+   
+
+    
+
     $(".datepicker").on("dp.show", function (e) {
         $(e.target).data("DateTimePicker").viewMode("months");
     });
@@ -198,7 +236,7 @@
                         <div class="col-md-12">
                             <div style="overflow-x:auto;">
 
-                                <table class="table table-bordered table-sm" id="tableslrypymntDetails1">
+                                <table class="table table-bordered table-sm" id="tableslrypaymntDetails">
                                     <thead>
                                         <tr>
                                             <th>Sr No</th>
