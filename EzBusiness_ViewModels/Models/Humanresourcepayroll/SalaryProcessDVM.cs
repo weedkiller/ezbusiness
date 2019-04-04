@@ -24,6 +24,7 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public Int64 PAIDTYPE { get; set; }
         public bool Flag { get; set; }
         public bool EditFlag { get; set; }
+       
         public string ErrorMessage { get; set; }
         public bool SaveFlag { get; set; }
         public List<SalaryprocesspaymentDetails> salaryList { get; set; }
@@ -31,6 +32,7 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
     }
    public class SalaryprocesspaymentDetails
     {
+        public Int64 Paid { get; set; }
         public Int64 PRSPD002_UID { get; set; }
         public string PRSPD001_CODE { get; set; }
         public string EMPCODE { get; set; }
