@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace EzBusiness_BL_Interface
 {
@@ -44,5 +45,17 @@ namespace EzBusiness_BL_Interface
         List<ShiftMaster> ShiftMasterReportDetailsColumnWithOrder(string order, string orderDir, List<ShiftMaster> data);
         List<TimeSheetDetail> GetProjectDetailsEmployeeWise(string CmpyCode,DateTime CurrentDate);
         List<TimeSheetDetail> ProjectReportDetailsColumnWithOrder(string order, string orderDir, List<TimeSheetDetail> data);
+
+        List<SalaryProcessDetailsRep> GetSalaryProcessDetails(string CmpyCode, DateTime CurrDate, string DivCode, string deptcode, string visaloc, string search);
+
+
+        List<SalaryProcessDetailsRep> SalaryProcessDetailsRepColumnWithOrder(string order, string orderDir, List<SalaryProcessDetailsRep> data);
+
+        SalaryProcessDetailsRep GetSalaryProcessDetailList(string CmpyCode);
+
+        List<SelectListItem> GetDivCodeList(string CmpyCode);
+
+        List<SelectListItem> GetVisLocList(string CmpyCode);
+        List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode);
     }
 }

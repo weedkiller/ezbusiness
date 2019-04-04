@@ -1,11 +1,13 @@
 ﻿using EzBusiness_BL_Interface;
 using EzBusiness_BL_Service;
 using EzBusiness_EF_Entity;
+using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
 
 namespace EzBusiness_Web.Controllers
 {
@@ -925,5 +927,75 @@ namespace EzBusiness_Web.Controllers
         }
 
 
-    }
+
+
+
+        [Route("GetSalaryReportDetails")]
+        public ActionResult GetSalaryReportDetails(SalaryProcessDetailsRep SPDR)
+        {
+            JsonResult result = new JsonResult();
+            try
+            {
+                List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+                if (list == null)
+                {
+                    return Redirect("Login/InLogin");
+                }
+                else
+                {
+                    // Initialization.
+                    string search = Request.Form.GetValues("search[value]")[0];
+                    string draw = Request.Form.GetValues("draw")[0];
+                    string order = Request.Form.GetValues("order[0][column]")[0];
+                    string orderDir = Request.Form.GetValues("order[0][dir]")[0];
+                    int startRec = Convert.ToInt32(Request.Form.GetValues("start")[0]);
+                    int pageSize = Convert.ToInt32(Request.Form.GetValues("length")[0]);
+
+                    if (pageSize == -1)
+                    {
+                        draw = "2";
+                    }
+                    List<SalaryProcessDetailsRep> data = _reportdetail.GetSalaryProcessDetails(list[0].CmpyCode, SPDR.Process_Date, SPDR.Division,SPDR.DepCode, SPDR.VisaLocation, search);
+                    // Total record count.
+                    int totalRecords = data.Count;
+                    data = _reportdetail.SalaryProcessDetailsRepColumnWithOrder(order, orderDir, data);
+                    int recFilter = data.Count;
+                    if (pageSize != -1)
+                        data = data.Skip(startRec).Take(pageSize).ToList();
+                    else
+                        data = data.ToList();
+
+                    // Loading drop down lists.
+                    result = this.Json(new { draw = Convert.ToInt32(draw), recordsTotal = totalRecords, recordsFiltered = recFilter, data = data }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Info
+                Console.Write(ex);
+            }
+
+            // Return info.
+            return result;
+        }
+
+        [Route("SalaryReportDetails")]
+        public ActionResult SalaryReportDetails()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_reportdetail.GetSalaryProcessDetailList(list[0].CmpyCode));
+
+                // return PartialView(); 
+            }
+        }
+
+
+
+        }
 }

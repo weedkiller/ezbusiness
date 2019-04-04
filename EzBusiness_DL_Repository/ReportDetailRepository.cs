@@ -461,5 +461,91 @@ namespace EzBusiness_DL_Repository
             }
             return objList;
         }
+
+        public List<SalaryProcessDetailsRep> GetSalaryProcessDetails(string CmpyCode, DateTime CurrDate, string DivCode, string deptcode, string visaloc)
+        {
+            string deptcode1 = deptcode == "0" ? "" : deptcode;
+            string vloc1 = visaloc == "0" ? "" : visaloc;
+            List<SalaryProcessDetailsRep> objList = null;
+            string yeardata = CurrDate.ToString("yyyy");
+            string monthdata = CurrDate.ToString("MM");
+            SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
+                                    new SqlParameter("@DivCode",DivCode),
+                                    new SqlParameter("@deptcode",deptcode1),
+                                    new SqlParameter("@vloc",vloc1),
+                                    new SqlParameter("@Year", yeardata),
+                                    new SqlParameter("@Month",monthdata)};
+            ds = _EzBusinessHelper.ExecuteDataSet("usp_GetSalaryProcessRep", CommandType.StoredProcedure, param);
+            if (ds.Tables.Count > 0)
+            {
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                objList = new List<SalaryProcessDetailsRep>();
+                foreach (DataRow dr in drc)
+                {
+
+                   
+
+
+                    objList.Add(new SalaryProcessDetailsRep()
+                    {
+                        srno = Convert.ToInt32(dr["SrNo"].ToString()),
+                        Empcode = dr["empcode"].ToString(),
+                        Empname = dr["Empname"].ToString(),
+                       
+                       
+                        
+                        ProfCode = dr["ProfCode"].ToString(),
+                        DepCode = dr["DepCode"].ToString(),
+                        ComnPrjcode = dr["ComnPrjcode"].ToString(),
+                     
+                        VisaLocation = dr["VisaLocation"].ToString(),
+                        WorkLocation = dr["WorkLocation"].ToString(),
+                        Total_Days = Convert.ToInt32(dr["Total_Days"].ToString()),
+                        Worked_Days = Convert.ToInt32(dr["Worked_Days"].ToString()),
+                        a_basic = Convert.ToDecimal(dr["a_basic"].ToString()),
+                        a_hra = Convert.ToDecimal(dr["a_hra"].ToString()),
+                        a_Da = Convert.ToDecimal(dr["a_Da"].ToString()),
+                        a_tele = Convert.ToDecimal(dr["a_tele"].ToString()),
+                        a_trans = Convert.ToDecimal(dr["a_trans"].ToString()),
+                        a_car = Convert.ToDecimal(dr["a_car"].ToString()),
+                        a_allowance1 = Convert.ToDecimal(dr["a_allowance1"].ToString()),
+                        a_allowance2 = Convert.ToDecimal(dr["a_allowance2"].ToString()),
+                        a_allowance3 = Convert.ToDecimal(dr["a_allowance3"].ToString()),
+                        a_Totalsalary = Convert.ToDecimal(dr["a_Totalsalary"].ToString()),
+                        C_basic = Convert.ToDecimal(dr["C_basic"].ToString()),
+                        C_hra = Convert.ToDecimal(dr["C_hra"].ToString()),
+                        C_da = Convert.ToDecimal(dr["C_da"].ToString()),
+                        C_tele = Convert.ToDecimal(dr["C_tele"].ToString()),
+                        C_trans = Convert.ToDecimal(dr["C_trans"].ToString()),
+                        C_car = Convert.ToDecimal(dr["C_car"].ToString()),
+                        C_allowance1 = Convert.ToDecimal(dr["C_allowance1"].ToString()),
+                        C_allowance2 = Convert.ToDecimal(dr["C_allowance2"].ToString()),
+                        C_allowance3 = Convert.ToDecimal(dr["C_allowance3"].ToString()),
+                        C_totalSalary = Convert.ToDecimal(dr["C_totalSalary"].ToString()),
+                        loan_amt = Convert.ToDecimal(dr["loan_amt"].ToString()),
+                        adn_amount = Convert.ToDecimal(dr["adn_amount"].ToString()),
+                        nothrs = Convert.ToDecimal(dr["nothrs"].ToString()),
+                        extraOThrs = Convert.ToDecimal(dr["extraOThrs"].ToString()),
+                        hothrs = Convert.ToDecimal(dr["hothrs"].ToString()),
+                        wothrs = Convert.ToDecimal(dr["wothrs"].ToString()),
+                        not_rate_perhr = Convert.ToDecimal(dr["not_rate_perhr"].ToString()),
+                        hot_rate_perhr = Convert.ToDecimal(dr["hot_rate_perhr"].ToString()),
+                        ExtraOT_rate_perhr = Convert.ToDecimal(dr["ExtraOT_rate_perhr"].ToString()),
+                        wot_rate_perhr = Convert.ToDecimal(dr["wot_rate_perhr"].ToString()),
+                        ExtraOTAmt = Convert.ToDecimal(dr["ExtraOTAmt"].ToString()),
+                        NOTAmt = Convert.ToDecimal(dr["NOTAmt"].ToString()),
+                        HOTAmt = Convert.ToDecimal(dr["HOTAmt"].ToString()),
+                        WOTAmt = Convert.ToDecimal(dr["WOTAmt"].ToString()),
+                        NetSalary = Convert.ToDecimal(dr["NetSalary"].ToString()),
+                        Salary_Paid= dr["Salary_paid"].ToString(),
+                        Incentive_Paid= dr["incentive_paid"].ToString()
+
+                    });
+                }
+            }
+
+            return objList;
+        }
     }
 }

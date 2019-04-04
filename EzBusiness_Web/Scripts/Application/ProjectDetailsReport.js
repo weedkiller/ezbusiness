@@ -59,8 +59,25 @@ var prjreport = {
                                 orientation: 'landscape',
                                 pageSize: 'LEGAL'
 
-                            }
+                            },
+                            {
+                extend: 'print',                                        
+                title: 'Project Detail',
+                text: 'Print',
+                orientation: 'landscape',
+                pageSize: 'LEGAL'   ,
+                    customize: function ( win ) {
+                        $(win.document.body)
+                            .css( 'font-size', '12px' );
+
+                        $(win.document.body).find( 'table' )
+                            .css( 'font-size', '12px' );
+                    }
+                                                                         
+        }                                  
+            
                ],
+
                "processing": true,
                "serverSide": true,
                //"stateSave": true,

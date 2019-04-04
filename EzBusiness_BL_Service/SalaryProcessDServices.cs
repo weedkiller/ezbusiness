@@ -190,13 +190,7 @@ namespace EzBusiness_BL_Service
             {
                 Value = PurchaseMgmtConstants.DDLFirstVal,
                 Text = PurchaseMgmtConstants.DDLFirstText
-            });
-            //items.Insert(1, new SelectListItem
-            //{
-            //    Value= "All",
-            //    Text ="All"
-            //});
-
+            });          
             return items;
         }
 
