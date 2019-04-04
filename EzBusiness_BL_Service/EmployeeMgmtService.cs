@@ -184,8 +184,9 @@ namespace EzBusiness_BL_Service
                 EMail=m.EMail,
                 Nationality=m.Nationality,
                 DivisionCode=m.DivisionCode,
-                ReportingEmp=m.ReportingEmp
-               
+                ReportingEmp=m.ReportingEmp,
+                Country=m.Country
+
             }).ToList();
         }
 
@@ -212,6 +213,7 @@ namespace EzBusiness_BL_Service
             poEdit.ProfList = GetProfList(CmpyCode);
             poEdit.ReportingEmpList = GetEmpList1(CmpyCode, "SELF");
             poEdit.NationalityList = GetNationList(CmpyCode);
+            
             poEdit.DocList = GetDocList(CmpyCode);
             poEdit.ResidingYNList = GetResidingYNList("YN");
             poEdit.ProjectList = GetProjectList(CmpyCode);

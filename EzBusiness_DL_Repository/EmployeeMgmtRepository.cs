@@ -416,6 +416,7 @@ namespace EzBusiness_DL_Repository
                 EmpMs.DepartmentCode = dr["DepartmentCode"].ToString();
                 EmpMs.BranchCode = dr["BranchCode"].ToString();
                 EmpMs.photpath = dr["photpath"].ToString();
+                EmpMs.Country = dr["country"].ToString();
 
             }
             return EmpMs;
@@ -648,6 +649,7 @@ namespace EzBusiness_DL_Repository
                         sb.Append("Week_off1,");
                         sb.Append("Week_off2,");
                         sb.Append("wagesby,");
+                        sb.Append("country,");
                         sb.Append("BranchCode)");
 
                         sb.Append(" values(");
@@ -699,6 +701,7 @@ namespace EzBusiness_DL_Repository
                         sb.Append("'" + Emp.Week_off1 + "',");
                         sb.Append("'" + Emp.Week_off2 + "',");
                         sb.Append("'" + Emp.wagesby + "',");
+                        sb.Append("'" + Emp.Country + "',");
 
                         sb.Append("'" + Emp.BranchCode + "')");
 
@@ -926,6 +929,8 @@ namespace EzBusiness_DL_Repository
 
                             Emp.Week_off1 = EmpMs.Week_off1;
                             Emp.Week_off2 = EmpMs.Week_off2;
+
+                            Emp.Country = EmpMs.Country;
                             #endregion
 
                             _EzBusinessHelper.ExecuteNonQuery("delete from EMNM005 where CmpyCode='" + EmpMs.Cmpycode + "' and EmpCode='" + EmpMs.EmpCode + "'");
@@ -1078,7 +1083,7 @@ namespace EzBusiness_DL_Repository
                             sb.Append("Week_off1='" + Emp.Week_off1 + "',");
                             sb.Append("Week_off2='" + Emp.Week_off2 + "',");
                             sb.Append("wagesby='" + Emp.wagesby + "',");
-
+                            sb.Append("country='" + Emp.Country + "',");
                             sb.Append("BranchCode='" + Emp.BranchCode + "'");
 
                             _EzBusinessHelper.ExecuteNonQuery("update MEM001 set " + sb + " where Cmpycode='" + Emp.Cmpycode + "' and EmpCode='" + Emp.EmpCode + "'");
