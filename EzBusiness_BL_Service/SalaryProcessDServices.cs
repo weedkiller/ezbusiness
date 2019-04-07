@@ -116,7 +116,7 @@ namespace EzBusiness_BL_Service
             var poEmployeeList = _salaryrepo.GetSalaryProcessGridEdit(year,month,CmpyCode);
             return poEmployeeList.Select(m => new SalaryProcessDetailsListItem
             {
-                // Sno=m.Sno    ,
+                 srno=m.srno,
                 cmpycode = m.cmpycode,
                 country = m.country,
                 Division = m.Division,
