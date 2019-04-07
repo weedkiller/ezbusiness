@@ -392,7 +392,7 @@ namespace EzBusiness_DL_Repository
         public List<SalaryProcessDetailsListItem> GetSalaryProcessGridEdit(int year, int month, string cmpycode)
         {
             List<SalaryProcessDetailsListItem> objList = null;
-            ds = _EzBusinessHelper.ExecuteDataSet("select * from PRSP002 where CmpyCode='" + cmpycode + "'  and flag=0 and Tyear='" + year + "' and Tmonth='" + month + "'");
+            ds = _EzBusinessHelper.ExecuteDataSet("select ROW_NUMBER() over(partition by cmpycode order by empcode) as SrNo,* from PRSP002 where CmpyCode='" + cmpycode + "'  and flag=0 and Tyear='" + year + "' and Tmonth='" + month + "'");
             if (ds.Tables.Count > 0)
             {
                 dt = ds.Tables[0];
@@ -402,7 +402,7 @@ namespace EzBusiness_DL_Repository
                 {
                     objList.Add(new SalaryProcessDetailsListItem()
                     {
-                       // srno = Convert.ToInt32(dr["SrNo"].ToString()),
+                        srno = Convert.ToInt32(dr["SrNo"].ToString()),
                         Empcode = dr["empcode"].ToString(),
                         Empname = dr["Empname"].ToString(),
                         country = dr["country"].ToString(),
