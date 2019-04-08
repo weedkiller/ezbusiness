@@ -3,9 +3,9 @@
     ViewBag.Title = "SalaryReportDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Scripts/datatables-responsive/dataTables.responsive.js"></script>
-<link href="~/Scripts/responsive/responsive.dataTables.min.css" rel="stylesheet" />
-
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/datatables.responsive.js"></script>
+<link href="~/Scripts/datatables-responsive/dataTables.responsive.css" rel="stylesheet" />
 <script src="~/Scripts/EzComNDW.js"></script>
 
 @*<script src="~/Scripts/datatables/dataTables.rowReorder.min.js"></script>*@
@@ -103,11 +103,11 @@
                     }
                 }
                                         ],
-                                        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                                            var oSettings = this.fnSettings();
-                                            $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-                                            return nRow;
-                                        },
+                                        //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                                        //    var oSettings = this.fnSettings();
+                                        //    $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+                                        //    return nRow;
+                                        //},
                                         "processing": true,
                                         "serverSide": true,
                                         "ajax":
@@ -120,26 +120,13 @@
                                             "data": newrow,
                                         },
                                         "destroy": true,
-
-                                       //// "responsive": true,
-                                        //"responsive": {
-                                        //    "details": {
-                                        //        "type": 'column',
-                                        //        "target": 'tr'
-                                        //    }
-                                        //},
                                         "columns": [
-                                               {
-                                                   "className": 'control',
-                                                   "orderable": false,
-                                                   "data": null,
-                                                   "defaultContent": ''
-                                               },
-
-                                       
-                                      
-
-                                             
+                                                               {
+                                                                   "className": 'control',
+                                                                   "orderable": false,
+                                                                   "data": null,
+                                                                   "defaultContent": '',                                                                  
+                                                               },                                                                                                                       
                                              { "data": "srno" },
                                            { "data": "Empcode" },
                                            { "data": "Empname" },
@@ -585,10 +572,10 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div style="overflow-x:auto;">
-                                    <table class="display nowrap" style="width:100%" id="tableslryDetails">
+                                    <table class="table table-bordered display responsive nowrap table-sm"  style="width:100%" id="tableslryDetails">
                                         <thead>
                                             <tr>
-                                                <th></th>
+                                               <th></th> 
                                                 <th>Sr No</th>
                                                 <th>Emp_Code</th>
                                                 <th>Employee Name</th>
