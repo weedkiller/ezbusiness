@@ -389,10 +389,10 @@ namespace EzBusiness_DL_Repository
             return drc;
 
         }
-        public List<SalaryprocesspaymentDetails> GetSalaryProcessPaymentGridEdit(string salcode,string paidtype)
+        public List<SalaryprocesspaymentDetails> GetSalaryProcessPaymentGridEdit(string cmpycode,string salcode,string paidtype)
         {
             List<SalaryprocesspaymentDetails> objList = null;
-            ds = _EzBusinessHelper.ExecuteDataSet("select * from PRSPD002 where PRSPD001_CODE='"+salcode+"' and flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("select ROW_NUMBER() over(partition by sp2.CMPYCODE order by sp.EMPCODE) as SrNo,sp.PRSPD001_CODE,sp.* from PRSPD002 sp inner join PRSPD001 sp2 on sp2.PRSPD001_CODE = sp.PRSPD001_CODE where sp.PRSPD001_CODE='"+salcode+ "' and sp.flag=0 and sp2.Flag=0");
             if (ds.Tables.Count > 0)
             {
                 dt = ds.Tables[0];
@@ -400,17 +400,17 @@ namespace EzBusiness_DL_Repository
                 objList = new List<SalaryprocesspaymentDetails>();
                 foreach (DataRow dr in drc)
                 {
-                    objList.Add(new SalaryprocesspaymentDetails()
-                    {
+                  objList.Add(new SalaryprocesspaymentDetails()
+                   {
                         EMPCODE = dr["EMPCODE"].ToString(),
                         EMPNAME = dr["EMPNAME"].ToString(),
                         BANKCODE = dr["BANKCODE"].ToString(),
-                      //  BANKName = dr["BANKName"].ToString(),
+                      //BANKName = dr["BANKName"].ToString(),
                         BRANCHCODE = dr["BRANCHCODE"].ToString(),
-                      //  BANkBrachName = dr["Bank_branch_name"].ToString(),
+                      //BANkBrachName = dr["Bank_branch_name"].ToString(),
                         AMOUNT = Convert.ToDouble(dr["AMOUNT"].ToString()),
                         ACCOUNTNO = dr["ACCOUNTNO"].ToString(),
-                         PAID_TYPE = dr["PAID_TYPE"].ToString(),
+                        PAID_TYPE = dr["PAID_TYPE"].ToString(),
                        // srno = Convert.ToInt32(dr["srno"].ToString()),
                     });
                 }

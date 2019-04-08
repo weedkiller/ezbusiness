@@ -123,10 +123,10 @@ namespace EzBusiness_BL_Service
 
             return poedit;
         }
-       public List<SalaryprocesspaymentDetails> GetSalaryProcessPaymentGridEdit(string salcode, string paidtype)
+       public List<SalaryprocesspaymentDetails> GetSalaryProcessPaymentGridEdit(string cmpyCode,string salcode, string paidtype)
         {
              
-            var poEmployeeList = _slpay.GetSalaryProcessPaymentGridEdit(salcode,paidtype);
+            var poEmployeeList = _slpay.GetSalaryProcessPaymentGridEdit(cmpyCode,salcode, paidtype);
             return poEmployeeList.Select(m => new SalaryprocesspaymentDetails
             {
                 srno = m.srno,
@@ -138,11 +138,8 @@ namespace EzBusiness_BL_Service
                 ACCOUNTNO = m.ACCOUNTNO,
                 AMOUNT = m.AMOUNT,
                 PAID_TYPE = m.PAID_TYPE,
-              
-
             }).ToList();
-            return _slpay.GetSalaryProcessPaymentGridEdit(salcode, paidtype);
-
+            return _slpay.GetSalaryProcessPaymentGridEdit(cmpyCode, salcode, paidtype);
     }
     }
 }

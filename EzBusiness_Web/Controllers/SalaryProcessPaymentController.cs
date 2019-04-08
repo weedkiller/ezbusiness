@@ -316,7 +316,7 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_SalpaymntService.GetSalaryProcessPaymentGridEdit(SalCode, paidtype), JsonRequestBehavior.AllowGet);
+                return Json(_SalpaymntService.GetSalaryProcessPaymentGridEdit(list[0].CmpyCode, SalCode, paidtype), JsonRequestBehavior.AllowGet);
             }
         }
     }

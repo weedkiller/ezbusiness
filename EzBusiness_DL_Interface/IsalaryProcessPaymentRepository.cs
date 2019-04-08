@@ -19,6 +19,6 @@ namespace EzBusiness_DL_Interface
         List<SalaryProcessDetailsListItem> GetBankNotDetails(string CmpyCode, DateTime currDate, string divcode, string deptcode, string Visalocation1);
 
         SalaryProcessDVM GetsalryprocessPaymentEdit(string CmpyCode, string PRSPD001_COD);
-        List<SalaryprocesspaymentDetails> GetSalaryProcessPaymentGridEdit(string salcode, string paidtype);
+        List<SalaryprocesspaymentDetails> GetSalaryProcessPaymentGridEdit(string cmpyCode,string salcode, string paidtype);
     }
 }

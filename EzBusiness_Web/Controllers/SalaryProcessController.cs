@@ -129,21 +129,21 @@ namespace EzBusiness_Web.Controllers
                                                p.country.ToString().ToLower().Contains(search.ToLower()) ||
                                                p.Tmonth.ToString().ToLower().Contains(search.ToLower()) ||
                                                p.Tyear.ToString().ToLower().Contains(search.ToLower()) ||
-                                               p.cmpycode.ToString().ToLower().Contains(search.ToLower())).ToList();
-                                               //p.ProfCode.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.DepCode.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.ComnPrjcode.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.Division.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.VisaLocation.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.WorkLocation.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.Total_Days.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.Worked_Days.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.VisaLocation.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.loan_amt.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.adn_amount.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.nothrs.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.extraOThrs.ToString().ToLower().Contains(search.ToLower()) ||
-                                               //p.hothrs.ToString().ToLower().Contains(search.ToLower())).ToList();
+                                               p.cmpycode.ToString().ToLower().Contains(search.ToLower())||
+                                               p.ProfCode.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.DepCode.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.ComnPrjcode.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.Division.ToString().ToLower().Contains(search.ToLower()) ||
+                                               p.VisaLocation.ToString().ToLower().Contains(search.ToLower()) ||
+                        p.WorkLocation.ToString().ToLower().Contains(search.ToLower()) ||
+                        p.Total_Days.ToString().ToLower().Contains(search.ToLower()) ||
+                        p.Worked_Days.ToString().ToLower().Contains(search.ToLower()) ||
+                        p.VisaLocation.ToString().ToLower().Contains(search.ToLower()) ||
+                        p.loan_amt.ToString().ToLower().Contains(search.ToLower()) ||
+                        p.adn_amount.ToString().ToLower().Contains(search.ToLower()) ||
+                        p.nothrs.ToString().ToLower().Contains(search.ToLower()) ||
+                        p.extraOThrs.ToString().ToLower().Contains(search.ToLower()) ||
+                        p.hothrs.ToString().ToLower().Contains(search.ToLower())).ToList();
                     }
 
                     // Sorting.
