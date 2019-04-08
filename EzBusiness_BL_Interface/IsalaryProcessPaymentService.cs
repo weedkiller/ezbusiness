@@ -21,6 +21,6 @@ namespace EzBusiness_BL_Interface
         List<SalaryprocesspaymentDetails> GetSalaryPrcessDetailsList(SalaryProcessDVM slrypymnt);
 
         List<SalaryProcessDetailsListItem> GetBankNotDetails(string CmpyCode, DateTime CurrentDate, string divcode, string Deptcode, string VisaLocation1);
-        List<SalaryprocesspaymentDetails> GetSalaryProcessPaymentGridEdit(string salcode, string paidtype);
+        List<SalaryprocesspaymentDetails> GetSalaryProcessPaymentGridEdit(string cmpycode,string salcode, string paidtype);
     }
 }
