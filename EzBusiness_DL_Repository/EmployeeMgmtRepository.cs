@@ -299,7 +299,7 @@ namespace EzBusiness_DL_Repository
 
 
                 EmpMs.WorkingStatus = dr["WorkingStatus"].ToString();
-                EmpMs.LastRetDate = Convert.ToDateTime(dr["LastRetDate"].ToString());
+                //EmpMs.LastRetDate = Convert.ToDateTime(dr["LastRetDate"].ToString());
 
                 EmpMs.VisaLocation = dr["VisaLocation"].ToString();
                 EmpMs.Nationality = dr["Nationality"].ToString();
@@ -468,8 +468,8 @@ namespace EzBusiness_DL_Repository
                    
                     dte = Convert.ToDateTime(EmpMs.JoiningDate.ToString());
                     dtstr1 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");                   
-                    dte = Convert.ToDateTime(EmpMs.LastRetDate.ToString());
-                    dtstr3 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
+                    //dte = Convert.ToDateTime(EmpMs.LastRetDate.ToString());
+                    //dtstr3 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
                     dte = Convert.ToDateTime(EmpMs.DOB.ToString());
                     dtstr5 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
                     dte = Convert.ToDateTime(EmpMs.ContactDate.ToString());
@@ -614,7 +614,7 @@ namespace EzBusiness_DL_Repository
                         sb.Append("Address,");                       
                         sb.Append("LeaveStatus,");
                         sb.Append("WorkingStatus,");
-                        sb.Append("LastRetDate,");
+                        //sb.Append("LastRetDate,");
                         sb.Append("VisaLocation,");
                         sb.Append("Nationality,");
                         sb.Append("DOB,");
@@ -665,7 +665,7 @@ namespace EzBusiness_DL_Repository
                         sb.Append("'" + Emp.Address + "',");                      
                         sb.Append("'" + Emp.LeaveStatus + "',");
                         sb.Append("'" + Emp.WorkingStatus + "',");
-                        sb.Append("'" + dtstr3 + "',");
+                        //sb.Append("'" + dtstr3 + "',");
                         sb.Append("'" + Emp.VisaLocation + "',");
                         sb.Append("'" + Emp.Nationality + "',");
                         sb.Append("'" + dtstr5 + "',");
@@ -864,8 +864,8 @@ namespace EzBusiness_DL_Repository
                             dte = EmpMs.JoiningDate.Value;
                             dtstr1 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
                            
-                            dte = EmpMs.LastRetDate.Value;
-                            dtstr3 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
+                            //dte = EmpMs.LastRetDate.Value;
+                            //dtstr3 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
 
                             dte = EmpMs.DOB.Value;
                             dtstr5 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
@@ -1047,7 +1047,7 @@ namespace EzBusiness_DL_Repository
                             // sb.Append("'" + dtstr2 + "',");
                             sb.Append("LeaveStatus='" + Emp.LeaveStatus + "',");
                             sb.Append("WorkingStatus='" + Emp.WorkingStatus + "',");
-                            sb.Append("LastRetDate='" + dtstr3 + "',");
+                            //sb.Append("LastRetDate='" + dtstr3 + "',");
                             sb.Append("VisaLocation='" + Emp.VisaLocation + "',");
                             sb.Append("Nationality='" + Emp.Nationality + "',");
                             sb.Append("DOB='" + dtstr5 + "',");
