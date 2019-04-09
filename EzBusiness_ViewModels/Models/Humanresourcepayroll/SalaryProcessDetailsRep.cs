@@ -19,6 +19,7 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public int Tmonth { get; set; }
         public string Empcode { get; set; }
         public string Empname { get; set; }
+        public string Absent { get; set; }
         public string ProfCode { get; set; }
         public string DepCode { get; set; }
         public List<SelectListItem> DepartmentList { get; set; }

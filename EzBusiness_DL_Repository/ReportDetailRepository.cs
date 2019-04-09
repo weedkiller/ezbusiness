@@ -492,8 +492,8 @@ namespace EzBusiness_DL_Repository
                         srno = Convert.ToInt32(dr["SrNo"].ToString()),
                         Empcode = dr["empcode"].ToString(),
                         Empname = dr["Empname"].ToString(),
-                       
-                       
+                        Absent=dr["absentt"].ToString(),
+                       Division=dr["Division"].ToString(),
                         
                         ProfCode = dr["ProfCode"].ToString(),
                         DepCode = dr["DepCode"].ToString(),
