@@ -492,8 +492,8 @@ namespace EzBusiness_DL_Repository
                         srno = Convert.ToInt32(dr["SrNo"].ToString()),
                         Empcode = dr["empcode"].ToString(),
                         Empname = dr["Empname"].ToString(),
-                       
-                       
+                        Absent=dr["absentt"].ToString(),
+                       Division=dr["Division"].ToString(),
                         
                         ProfCode = dr["ProfCode"].ToString(),
                         DepCode = dr["DepCode"].ToString(),
@@ -540,6 +540,41 @@ namespace EzBusiness_DL_Repository
                         NetSalary = Convert.ToDecimal(dr["NetSalary"].ToString()),
                         Salary_Paid= dr["Salary_paid"].ToString(),
                         Incentive_Paid= dr["incentive_paid"].ToString()
+
+                    });
+                }
+            }
+
+            return objList;
+        }
+
+        public List<GetEmpBankTrf> GetEmpBankTrf(string cmpycode, DateTime CurrDate)
+        {
+           
+            List<GetEmpBankTrf> objList = null;
+            string yeardata = CurrDate.ToString("yyyy");
+            string monthdata = CurrDate.ToString("MM");
+          
+            ds = _EzBusinessHelper.ExecuteDataSet("Select SrNo,EMPCODE,EMPNAME,ACCOUNTNO,BANKCODE +' - '+ Bank_name as [BANKCODE],AMOUNT,Bank_name,PRSPD001_CODE from  Usp_GetEmpBankTrans  where tmonth =" + monthdata + " and tyear="+ yeardata + " and cmpycode='"+ cmpycode + "'");
+            if (ds.Tables.Count > 0)
+            {
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                objList = new List<GetEmpBankTrf>();
+                foreach (DataRow dr in drc)
+                {
+                    objList.Add(new GetEmpBankTrf()
+                    {
+                        SrNo = Convert.ToInt32(dr["SrNo"].ToString()),
+                        EMPCODE = dr["EMPCODE"].ToString(),
+                        EMPNAME = dr["EMPNAME"].ToString(),
+                        ACCOUNTNO=dr["ACCOUNTNO"].ToString(),
+                        BANKCODE=dr["BANKCODE"].ToString(),
+                        AMOUNT=Convert.ToDecimal(dr["AMOUNT"].ToString()),
+                        Bank_name=dr["Bank_name"].ToString(),                      
+                        PRSPD001_CODE=dr["PRSPD001_CODE"].ToString(),
+                       
+                       
 
                     });
                 }
