@@ -31,5 +31,7 @@ namespace EzBusiness_DL_Interface
         List<ShiftMaster> GetShiftMasterDetails(string CmpyCode, string ShiftCode);
         List<TimeSheetDetail> GetProjectDetailsEmployeeWise(string CmpyCode, DateTime CurrentDate);
         List<SalaryProcessDetailsRep> GetSalaryProcessDetails(string CmpyCode, DateTime CurrDate, string DivCode, string deptcode, string visaloc);
+
+        List<GetEmpBankTrf> GetEmpBankTrf(string cmpycode, DateTime CurrDate);
     }
 }

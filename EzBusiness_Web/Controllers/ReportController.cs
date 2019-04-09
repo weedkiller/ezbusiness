@@ -2,12 +2,16 @@
 using EzBusiness_BL_Service;
 using EzBusiness_EF_Entity;
 using EzBusiness_ViewModels.Models.Humanresourcepayroll;
+using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using Microsoft.Reporting.WebForms;
+using System.Data.SqlClient;
+using System.Data;
+using System.Configuration;
 
 namespace EzBusiness_Web.Controllers
 {
@@ -61,7 +65,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<Employee> data = _reportdetail.GetEmpReportDetails(list[0].CmpyCode,emp.Fdate,emp.Tdate,emp.Empname,emp.EmpCode, search);
+                    List<Employee> data = _reportdetail.GetEmpReportDetails(list[0].CmpyCode, emp.Fdate, emp.Tdate, emp.Empname, emp.EmpCode, search);
                     // Total record count.
                     int totalRecords = data.Count;
                     data = _reportdetail.EmpReportDetailsColumnWithOrder(order, orderDir, data);
@@ -123,12 +127,12 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<FinalSettalment> data = _reportdetail.GetFinalSettlementDetails(list[0].CmpyCode, fnl.Fdate, fnl.Tdate,fnl.EmpName,fnl.EmpCode, search);
+                    List<FinalSettalment> data = _reportdetail.GetFinalSettlementDetails(list[0].CmpyCode, fnl.Fdate, fnl.Tdate, fnl.EmpName, fnl.EmpCode, search);
                     // Total record count.
                     int totalRecords = data.Count;
 
                     // Verification.
-                   
+
 
                     // Sorting.
                     data = _reportdetail.FinalsettlementDetailsColumnWithOrder(order, orderDir, data);
@@ -198,7 +202,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<MonthlyAdddedDet> data = _reportdetail.GetMonthlyAddDeductDetails(list[0].CmpyCode, mad.Fdate, mad.Tdate, mad.EmpName, mad.EmpCode,search);
+                    List<MonthlyAdddedDet> data = _reportdetail.GetMonthlyAddDeductDetails(list[0].CmpyCode, mad.Fdate, mad.Tdate, mad.EmpName, mad.EmpCode, search);
                     // Total record count.
                     int totalRecords = data.Count;
                     data = _reportdetail.MonthlyAddDeductDetailsColumnWithOrder(order, orderDir, data);
@@ -262,7 +266,7 @@ namespace EzBusiness_Web.Controllers
 
                     if (pageSize == -1)
                         draw = "2";
-                    
+
                     List<LoanAppliation> data = _reportdetail.GetLoanApplicatnDetails(list[0].CmpyCode, lp.Fdate, lp.Tdate, lp.EmpName, lp.EmpCode, search);
                     // Total record count.
                     int totalRecords = data.Count;
@@ -274,7 +278,7 @@ namespace EzBusiness_Web.Controllers
                         data = data.Skip(startRec).Take(pageSize).ToList();
                     else
                         data = data.ToList();
- 
+
                     result = this.Json(new { draw = Convert.ToInt32(draw), recordsTotal = totalRecords, recordsFiltered = recFilter, data = data }, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -391,7 +395,7 @@ namespace EzBusiness_Web.Controllers
                     if (pageSize == -1)
                         draw = "2";
 
-                    List<Loan> data = _reportdetail.GetLoanDetails(list[0].CmpyCode, lp.PRLM001_CODE,lp.Name,search);
+                    List<Loan> data = _reportdetail.GetLoanDetails(list[0].CmpyCode, lp.PRLM001_CODE, lp.Name, search);
                     // Total record count.
                     int totalRecords = data.Count;
                     // Sorting.
@@ -519,7 +523,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<LeaveApplication> data = _reportdetail.GetLeaveAppDetails(list[0].CmpyCode, emp1.Fdate, emp1.Tdate,emp1.EmpCode,emp1.EmpName);
+                    List<LeaveApplication> data = _reportdetail.GetLeaveAppDetails(list[0].CmpyCode, emp1.Fdate, emp1.Tdate, emp1.EmpCode, emp1.EmpName);
                     // Total record count.
                     int totalRecords = data.Count;
 
@@ -609,7 +613,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<LeaveSettlement> data = _reportdetail.GetLeaveSettlemenntReportDetails(list[0].CmpyCode, emp2.Fdate, emp2.Tdate,emp2.Empcode,emp2.EmpName);
+                    List<LeaveSettlement> data = _reportdetail.GetLeaveSettlemenntReportDetails(list[0].CmpyCode, emp2.Fdate, emp2.Tdate, emp2.Empcode, emp2.EmpName);
                     // Total record count.
                     int totalRecords = data.Count;
 
@@ -707,7 +711,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<DutyResume> data = _reportdetail.GetDutyResumeDetails(list[0].CmpyCode, emp1.Fdate, emp1.Tdate,emp1.EmpCode,emp1.EmpName);
+                    List<DutyResume> data = _reportdetail.GetDutyResumeDetails(list[0].CmpyCode, emp1.Fdate, emp1.Tdate, emp1.EmpCode, emp1.EmpName);
                     // Total record count.
                     int totalRecords = data.Count;
 
@@ -881,7 +885,7 @@ namespace EzBusiness_Web.Controllers
                         draw = "2";
                     }
 
-                    List<TimeSheetDetail> data = _reportdetail.GetProjectDetailsEmployeeWise(list[0].CmpyCode,emp1.CurrentDate);
+                    List<TimeSheetDetail> data = _reportdetail.GetProjectDetailsEmployeeWise(list[0].CmpyCode, emp1.CurrentDate);
                     // Total record count.
                     int totalRecords = data.Count;
                     // Verification.
@@ -955,7 +959,7 @@ namespace EzBusiness_Web.Controllers
                     {
                         draw = "2";
                     }
-                    List<SalaryProcessDetailsRep> data = _reportdetail.GetSalaryProcessDetails(list[0].CmpyCode, SPDR.Process_Date, SPDR.Division,SPDR.DepCode, SPDR.VisaLocation, search);
+                    List<SalaryProcessDetailsRep> data = _reportdetail.GetSalaryProcessDetails(list[0].CmpyCode, SPDR.Process_Date, SPDR.Division, SPDR.DepCode, SPDR.VisaLocation, search);
                     // Total record count.
                     int totalRecords = data.Count;
                     data = _reportdetail.SalaryProcessDetailsRepColumnWithOrder(order, orderDir, data);
@@ -996,6 +1000,114 @@ namespace EzBusiness_Web.Controllers
         }
 
 
-
+        [Route("EmpBankTrfreport")]
+        public ActionResult EmpBankTrfreport()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return View();
+            }
         }
+
+
+        [Route("GetEmpBankTrf")]
+        public ActionResult GetEmpBankTrf(DateTime dte)
+        {
+
+            JsonResult result = new JsonResult();
+            try
+            {
+                List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+                if (list == null)
+                {
+                    return Redirect("Login/InLogin");
+                }
+                else
+                {
+                    // Initialization.
+                    string search = Request.Form.GetValues("search[value]")[0];
+                    string draw = Request.Form.GetValues("draw")[0];
+                    string order = Request.Form.GetValues("order[0][column]")[0];
+                    string orderDir = Request.Form.GetValues("order[0][dir]")[0];
+                    int startRec = Convert.ToInt32(Request.Form.GetValues("start")[0]);
+                    int pageSize = Convert.ToInt32(Request.Form.GetValues("length")[0]);
+
+                    if (pageSize == -1)
+                    {
+                        draw = "2";
+                    }
+
+                    List<GetEmpBankTrf> data = _reportdetail.GetEmpBankTrf(list[0].CmpyCode, dte);
+
+                   
+                    // Total record count.
+                    int totalRecords = data.Count;
+
+
+                    // Sorting.
+                    data = _reportdetail.EmpBankTrfColumnWithOrder(order, orderDir, data);
+
+                    // Filter record count.
+                    int recFilter = data.Count;
+
+                    if (pageSize != -1)
+                    {
+                        data = data.Skip(startRec).Take(pageSize).ToList();
+                    }
+                    else
+                    {
+                        data = data.ToList();
+                    }
+
+                    // Loading drop down lists.
+                    result = this.Json(new { draw = Convert.ToInt32(draw), recordsTotal = totalRecords, recordsFiltered = recFilter, data = data }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Info
+                Console.Write(ex);
+            }
+
+            // Return info.
+            return result;
+            //return PartialView(_reportdetail.GetEmpBankTrf(list[0].CmpyCode, dte));                
+        }
+    
+
+
+        [Route("testrep")]
+        public ActionResult Report1()
+        {
+
+            ReportViewer rptViewer = new ReportViewer();
+
+            // ProcessingMode will be Either Remote or Local  
+            rptViewer.ProcessingMode = ProcessingMode.Remote;
+            rptViewer.SizeToReportContent = true;
+            rptViewer.ZoomMode = ZoomMode.PageWidth;
+           
+            rptViewer.AsyncRendering = true;
+            //rptViewer.ServerReport.ReportServerUrl = new Uri("http://localhost/ReportServer/");
+
+            //rptViewer.ServerReport.ReportPath = this.SetReportPath();
+
+
+
+            rptViewer.ServerReport.ReportServerUrl = new Uri("http://localhost/reportserver");
+            rptViewer.ServerReport.ReportPath = "../EzBusinessReport/Report1.rdl";
+
+
+            ViewBag.ReportViewer = rptViewer;
+            return View();
+        }
+
+
+
+    }
 }
