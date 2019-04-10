@@ -24,7 +24,6 @@
             $('#CurrentDate').val(dt);
         });
 
-
         $('#Division').change(function () {
             debugger;
             var divcode = $('#Division option:selected').val();
@@ -79,9 +78,17 @@
                                    extend: 'pdfHtml5',
                                    title: 'EZ-Technology'+'\n'+'Office No.304, Al Ain Tower, Hamdan Street,'+'\n'+' Abu Dhabi, UAE, P.O. Box 43673.'+'\n'+' Tel : +971 2 672 1405 / Fax : +971 2 6725594.',
                                    orientation: 'landscape',
-                                   pageSize: 'LEGAL',
+                                   pageSize: 'A3',
                                    exportOptions: {
-                                       columns: ':visible'
+                                      stripNewlines:false
+                                   },
+                                   customize: function (doc) {
+                                       doc.styles.title = {
+                                          // color: 'red',
+                                           fontSize: '15',
+                                           //background: 'blue',
+                                           alignment: 'center'
+                                       }
                                    }
                                },
                                {
@@ -93,13 +100,13 @@
                                    exportOptions: {
                                        columns: ['ALL', ':visible']
                                    },
-                                   customize: function (win) {
-                                       $(win.document.body)
-                                           .css('font-size', '6px');
+                                   //customize: function (win) {
+                                   //    $(win.document.body)
+                                   //        .css('font-size', '6px');
 
-                                       $(win.document.body).find('table')
-                                           .css('font-size', '6px');
-                                   }
+                                   //    $(win.document.body).find('table')
+                                   //        .css('font-size', '6px');
+                                   //}
                                }
                     ],
                     "autoWidth": true,

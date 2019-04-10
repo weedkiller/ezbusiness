@@ -57,5 +57,7 @@ namespace EzBusiness_BL_Interface
 
         List<SelectListItem> GetVisLocList(string CmpyCode);
         List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode);
+        List<TimeSheetDetail> DailyTimeSheetDetailsReport(string CmpyCode,DateTime Fromdate, DateTime Todate);
+
     }
 }

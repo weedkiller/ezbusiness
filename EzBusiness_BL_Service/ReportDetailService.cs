@@ -1152,5 +1152,10 @@ namespace EzBusiness_BL_Service
 
             return InsertFirstElementDDL(itemCodes);
         }
+
+        public List<TimeSheetDetail> DailyTimeSheetDetailsReport(string CmpyCode, DateTime Fromdate, DateTime Todate)
+        {
+            return _reportdetail.DailyTimeSheetDetailsReport(CmpyCode,Fromdate,Todate);
+        }
     }
 }

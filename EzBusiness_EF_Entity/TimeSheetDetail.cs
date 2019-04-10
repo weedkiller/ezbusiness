@@ -41,15 +41,18 @@ namespace EzBusiness_EF_Entity
         public string WAGESBY { get; set; }
 
         public string ReportingEmp { get; set; }
-
+       
         //Report for Project Details
         public Int32 Srno { get; set; }
         public string ProjectDuration { get; set; }
         public string ProjectCode { get; set; }
         public string ProjectName { get; set; }
         public DateTime CurrentDate { get; set; }
-        
-        //public string EmpCode { get; set; }
+        public DateTime Adate { get; set; }
+        public List<DayStatus> Attendanclist { get; set; }
+        public string FDate { get; set; }
+        public string TDate { get; set; }
+
         //public int Tyear { get; set; }
         //public int Tmonth { get; set; }
         //public int SrNo { get; set; }
@@ -79,6 +82,12 @@ namespace EzBusiness_EF_Entity
         public string ATT { get; set; }
         public string EmpCode { get; set; }
 
+    }
+    public class DayStatus
+    {
+        public string Day { get; set; }
+        public string AttenStatus { get; set; }
+        public string Daydata { get; set; }
     }
 
 }
