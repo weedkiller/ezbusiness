@@ -1153,6 +1153,84 @@ namespace EzBusiness_BL_Service
             return InsertFirstElementDDL(itemCodes);
         }
 
+        public List<GetEmpBankTrf> GetEmpBankTrf(string cmpycode, DateTime CurrDate)
+        {
+            List<GetEmpBankTrf> data = _reportdetail.GetEmpBankTrf(cmpycode, CurrDate);
+            return data;
+        }
+
+
+        public List<GetEmpBankTrf> EmpBankTrfColumnWithOrder(string order, string orderDir, List<GetEmpBankTrf> data)
+        {
+            // Initialization.
+            List<GetEmpBankTrf> lst = new List<GetEmpBankTrf>();
+
+            try
+            {
+                // Sorting
+                switch (order)
+                {
+                    case "0":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.SrNo).ToList()
+                                                                                                 : data.OrderBy(p => p.SrNo).ToList();
+                        break;
+                    case "1":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.PRSPD001_CODE).ToList()
+                                                                                                 : data.OrderBy(p => p.PRSPD001_CODE).ToList();
+                        break;
+
+                    case "2":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EMPCODE).ToList()
+                                                                                                 : data.OrderBy(p => p.EMPCODE).ToList();
+                        break;
+
+                    case "3":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.EMPNAME).ToList()
+                                                                                                 : data.OrderBy(p => p.EMPNAME).ToList();
+                        break;
+
+                    case "4":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.Bank_name).ToList()
+                                                                                                 : data.OrderBy(p => p.Bank_name).ToList();
+                        break;
+
+                    case "5":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.BANKCODE).ToList()
+                                                                                                   : data.OrderBy(p => p.BANKCODE).ToList();
+                        break;
+
+                    case "6":
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.ACCOUNTNO).ToList()
+                                                                                                   : data.OrderBy(p => p.ACCOUNTNO).ToList();
+                        break;
+
+                   
+                    default:
+                        // Setting.
+                        lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.AMOUNT).ToList()
+                                                                                                 : data.OrderBy(p => p.AMOUNT).ToList();
+                        break;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                // info.
+                Console.Write(ex);
+            }
+
+            // info.
+            return lst;
+
+        }
+
         public List<TimeSheetDetail> DailyTimeSheetDetailsReport(string CmpyCode, DateTime Fromdate, DateTime Todate)
         {
             return _reportdetail.DailyTimeSheetDetailsReport(CmpyCode,Fromdate,Todate);

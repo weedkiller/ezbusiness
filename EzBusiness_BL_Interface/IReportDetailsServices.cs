@@ -57,6 +57,10 @@ namespace EzBusiness_BL_Interface
 
         List<SelectListItem> GetVisLocList(string CmpyCode);
         List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode);
+
+
+        List<GetEmpBankTrf> GetEmpBankTrf(string cmpycode, DateTime CurrDate);
+        List<GetEmpBankTrf> EmpBankTrfColumnWithOrder(string order, string orderDir, List<GetEmpBankTrf> data);
         List<TimeSheetDetail> DailyTimeSheetDetailsReport(string CmpyCode,DateTime Fromdate, DateTime Todate);
 
     }
