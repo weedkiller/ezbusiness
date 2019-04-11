@@ -89,7 +89,7 @@ namespace EzBusiness_DL_Repository
 
         public ProjectAllotmentVM SaveProjectAllotment(ProjectAllotmentVM PrjAlt)
         {
-
+           
             DateTime dte;
             string dtstr1, dtstr2;
             dte = Convert.ToDateTime(PrjAlt.Entery_date.ToString());

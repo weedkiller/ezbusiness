@@ -1,0 +1,138 @@
+﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.PRPJXDTDVM
+
+@{
+    var counter = 1;
+
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+
+
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+
+<script>
+    $(function () {
+        EzdtePk('#Entery_date1');
+
+        $('.selectpicker').selectpicker('refresh');
+
+        EzTxttabEve('#PRPRJE001_code', '#EmpCode', 'Please Enter Code', "T");
+        EzDropTabEve("[name='EmpCode']", "[name='EmpCode'] option:selected", "[name='PRPRJE001_code']", 'Select Emp Code');
+        EzDropChaEve("[name='EmpCode']", "[name='EmpCode'] option:selected", "[name='PRPRJE001_code']", 'Select Emp Code');
+
+        $('.selectpicker').selectpicker({
+            style: 'btn-info',
+            size: 4,
+
+        });
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
+
+        Ezdteformtcurtime();
+        $(".datepicker").datetimepicker("destroy");
+
+    });
+
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+
+
+
+                                <div class="form-body">
+
+                                    <div class="row">
+
+                                        @*<div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Code</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.PRPJXDTD001_UID, new { @class = "form-control", @placeholder = "Code", @readonly = "readonly" })
+                                                </div>
+                                            </div>
+                                        </div>*@
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Employee</label>
+                                                <div class="col-md-8 input-field">
+
+                                                    @Html.DropDownListFor(m => m.empcode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Project Code</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.DropDownListFor(m => m.Project_code, Model.CCH004_codeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Entry Date</label>
+                                                <div class="col-md-8 input-field">
+                                                    <input id="Entery_date1" class="form-control datepicker" name="Entery_date1" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Time in</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.TimeIn, new { @class = "form-control time1" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Time out</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.TimeOut, new { @class = "form-control time1" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <!--/row-->
+                                    <!--/row-->
+
+
+
+
+                                </div>
+
+                            </div><br />
+                            <!-- END FORM-->
+                            <!-- <button>Hey, click me!</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

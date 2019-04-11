@@ -1,0 +1,53 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.Humanresourcepayroll.PRPJXDTDVM>
+
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    Ezsidetbl1('#POList', '#POList tfoot td', false, "#POList thead");
+</script>
+
+<div class="col-md-12 portal-drivers">
+    <table id="POList" class="table table-bordered">
+        <thead>
+            <tr class="tr">
+                <th>Employee Code</th>
+                <th>Project Code</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+            </tr>
+        </thead>
+        @*<tfoot>
+            <tr>
+                <th>Employee Code</th>
+                <th>Project Code</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+            </tr>
+        </tfoot>*@
+        <tbody>
+            @foreach (var po in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.Hidden("hdnPRPRJE001code", po.PRPJXDTD001_UID)
+                        @po.empcode
+                    </td>
+                    <td>
+                        @po.Project_code
+                    </td>
+                    <td>
+                        @po.TimeIn
+                    </td>
+                    <td>
+                        @po.TimeOut
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
