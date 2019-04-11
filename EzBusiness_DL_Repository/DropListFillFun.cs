@@ -594,8 +594,9 @@ namespace EzBusiness_DL_Repository
         }
         public List<Documents> GetDocList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select DocCode,DocName from MDOC012 where CmpyCode='" + CmpyCode + "' and Flag=0");
-           
+            //ds = _EzBusinessHelper.ExecuteDataSet("Select DocCode,DocName from MDOC012 where CmpyCode='" + CmpyCode + "' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select HRDOCM001_CODE,Name from HRDOCM001 where CmpyCode='" + CmpyCode + "' ");
+
             List<Documents> ObjList = null;
             if (ds.Tables.Count > 0)
             {
@@ -606,8 +607,8 @@ namespace EzBusiness_DL_Repository
                 {
                     ObjList.Add(new Documents()
                     {
-                        DocCode = dr["DocCode"].ToString(),
-                        DocName = dr["DocName"].ToString(),
+                        DocCode = dr["HRDOCM001_CODE"].ToString(),
+                        DocName = dr["Name"].ToString(),
                     });
                 }
             }

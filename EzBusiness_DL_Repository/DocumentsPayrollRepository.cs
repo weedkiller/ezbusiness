@@ -21,12 +21,14 @@ namespace EzBusiness_DL_Repository
 
         public bool DeleteDoks(string DocCode, string CmpyCode, string username)
         {
-            int Doks = _EzBusinessHelper.ExecuteScalar("Select count(*) from MDOC012 where CmpyCode='" + CmpyCode + "' and DocCode='" + DocCode + "'");
+            //HRDOCM001_CODE, CMPYCODE
+            int Doks = _EzBusinessHelper.ExecuteScalar("Select count(*) from HRDOCM001 where CMPYCODE='" + CmpyCode + "' and HRDOCM001_CODE='" + DocCode + "'");
             if (Doks != 0)
             {
                 _EzBusinessHelper.ActivityLog(CmpyCode, username, "Delete Document Master", DocCode, Environment.MachineName);
-                return _EzBusinessHelper.ExecuteNonQuery1("update MDOC012 set Flag=1 where CmpyCode='" + CmpyCode + "' and DocCode='" + DocCode + "'");
-               // return true;
+                //return _EzBusinessHelper.ExecuteNonQuery1("update MDOC012 set Flag=1 where CmpyCode='" + CmpyCode + "' and DocCode='" + DocCode + "'");
+                return _EzBusinessHelper.ExecuteNonQuery1("delete from HRDOCM001  where CMPYCODE='" + CmpyCode + "' and HRDOCM001_CODE='" + DocCode + "'");
+                // return true;
             }
             return false;
 
@@ -34,7 +36,7 @@ namespace EzBusiness_DL_Repository
 
         public List<Documents> GetDoks(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from MDOC012 where CmpyCode='"+CmpyCode+"' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from HRDOCM001 where CmpyCode='" + CmpyCode+"'"); // and Flag=0
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<Documents> ObjList = new List<Documents>();
@@ -42,10 +44,15 @@ namespace EzBusiness_DL_Repository
             {
                 ObjList.Add(new Documents()
                 {
-                    Cmpycode = dr["CmpyCode"].ToString(),
-                    DocCode = dr["DocCode"].ToString(),
-                    DocName = dr["DocName"].ToString(),
-                    UniCodeName = dr["UniCodeName"].ToString(),
+//                    HRDOCM001_UID
+//CMPYCODE
+//HRDOCM001_CODE
+//NAME
+
+                    Cmpycode = dr["CMPYCODE"].ToString(),
+                    DocCode = dr["HRDOCM001_CODE"].ToString(),
+                    DocName = dr["NAME"].ToString(),
+                   
                 });
 
             }
@@ -65,8 +72,8 @@ namespace EzBusiness_DL_Repository
                     {
                         CmpyCode = m.CmpyCode,
                        DocCode= m.DocCode,
-                        DocName = m.DocName,
-                        UniCodeName = m.UniCodeName
+                        DocName = m.DocName
+                        
                     }).ToList());
                     int n = 0;
                     n = ObjList.Count;
@@ -74,15 +81,19 @@ namespace EzBusiness_DL_Repository
 
                     while (n > 0)
                     {
-                        int Doks1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from MDOC012 where CmpyCode='" + Doks.CmpyCode + "' and DocCode='" + ObjList[n - 1].DocCode + "'");
+                        // int Doks1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from MDOC012 where CmpyCode='" + Doks.CmpyCode + "' and DocCode='" + ObjList[n - 1].DocCode + "'");
+                        int Doks1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from HRDOCM001 where CmpyCode='" + Doks.CmpyCode + "' and HRDOCM001_CODE='" + ObjList[n - 1].DocCode + "'");
                         if (Doks1 == 0)
                         {
+
+
                             StringBuilder sb = new StringBuilder();
                             sb.Append("'" + Doks.CmpyCode + "',");
                             sb.Append("'" + ObjList[n - 1].DocCode + "',");
-                            sb.Append("'" + ObjList[n - 1].DocName + "',");
-                            sb.Append("'" + ObjList[n - 1].UniCodeName + "')");
-                            _EzBusinessHelper.ExecuteNonQuery("insert into MDOC012(CmpyCode,DocCode,DocName,UniCodeName) values(" + sb.ToString() + "");
+                            sb.Append("'" + ObjList[n - 1].DocName + "')");
+                            //sb.Append("'" + ObjList[n - 1].UniCodeName + "')");
+                            //_EzBusinessHelper.ExecuteNonQuery("insert into MDOC012(CmpyCode,DocCode,DocName,UniCodeName) values(" + sb.ToString() + "");
+                            _EzBusinessHelper.ExecuteNonQuery("insert into HRDOCM001(CMPYCODE,HRDOCM001_CODE,NAME) values(" + sb.ToString() + "");
                             Doks.SaveFlag = true;
                             Doks.ErrorMessage = string.Empty;
                         }
@@ -101,10 +112,14 @@ namespace EzBusiness_DL_Repository
 
                     return Doks;
                 }
-                var DoksEdit = _EzBusinessHelper.ExecuteScalar("Select count(*) from MDOC012 where CmpyCode='" + Doks.CmpyCode + "' and DocCode='" + Doks.DocCode + "'");
+
+                //                            CMPYCODE
+                //HRDOCM001_CODE
+                //NAME
+                var DoksEdit = _EzBusinessHelper.ExecuteScalar("Select count(*) from HRDOCM001 where CmpyCode='" + Doks.CmpyCode + "' and HRDOCM001_CODE='" + Doks.DocCode + "'");
                 if (DoksEdit != 0)
                 {
-                    _EzBusinessHelper.ExecuteNonQuery("update MDOC012 set CmpyCode='" + Doks.CmpyCode + "',DocCode='" + Doks.DocCode + "',DocName='" + Doks.DocName + "',UniCodeName='" + Doks.UniCodeName + "' where CmpyCode='" + Doks.CmpyCode + "' and DocCode='" + Doks.DocCode + "'");
+                    _EzBusinessHelper.ExecuteNonQuery("update HRDOCM001 set CmpyCode='" + Doks.CmpyCode + "',HRDOCM001_CODE='" + Doks.DocCode + "',NAME='" + Doks.DocName + "' where CmpyCode='" + Doks.CmpyCode + "' and HRDOCM001_CODE='" + Doks.DocCode + "'");
                     Doks.SaveFlag = true;
                     Doks.ErrorMessage = string.Empty;
                 }
