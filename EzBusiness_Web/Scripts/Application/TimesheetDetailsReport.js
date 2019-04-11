@@ -36,10 +36,12 @@
                 $('#dailytimesheetreport tbody').empty();
                 if(data!=null)
                 {
+                    var temp = 0;
                     for (var i = 0; i < data.length; i++) {
                         var AttnList = data[i].Attendanclist;
+                        var temp1=temp;
                         for (var j = 0; j < AttnList.length; j++) {
-                            if (j == 0) {
+                         if (j == 0) {
                                 if (i == 0) {
                                     $('#dailytimesheetreport thead').append("<tr>")
                                     $('#dailytimesheetreport thead').append("<th>Emp Code</th>")
@@ -59,10 +61,22 @@
                             }
                             if (i == 0) {
                                 $('#dailytimesheetreport thead').append("<th>" + AttnList[j].Day + "</th>")
+                                temp=temp + 1;
                             }
-                           
-                            $('#dailytimesheetreport tbody').append("<td>" + AttnList[j].AttenStatus + "</td>")
+                            //if (i > 0)
+                            //{
+                            //    if (AttnList[j].Daydata==null)
+                            //    {
+                            //        $('#dailytimesheetreport tbody').append("<td>NA</td>")
 
+                            //    }
+                            //    $('#dailytimesheetreport tbody').append("<td>" + AttnList[j].AttenStatus + "</td>")
+                            //}
+                            //else
+                            //{
+                                $('#dailytimesheetreport tbody').append("<td>" + AttnList[j].AttenStatus + "</td>")
+                          //  }
+                            
                         }
                         $('#dailytimesheetreport tbody').append("</tr>")
                     }
