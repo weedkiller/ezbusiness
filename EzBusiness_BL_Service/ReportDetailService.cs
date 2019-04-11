@@ -1230,5 +1230,10 @@ namespace EzBusiness_BL_Service
             return lst;
 
         }
+
+        public List<TimeSheetDetail> DailyTimeSheetDetailsReport(string CmpyCode, DateTime Fromdate, DateTime Todate)
+        {
+            return _reportdetail.DailyTimeSheetDetailsReport(CmpyCode,Fromdate,Todate);
+        }
     }
 }

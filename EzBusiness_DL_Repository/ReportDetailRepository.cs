@@ -1,4 +1,5 @@
 ﻿using EzBusiness_DL_Interface;
+using EzBusiness_DL_Repository;
 using EzBusiness_EF_Entity;
 using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using System;
@@ -582,5 +583,41 @@ namespace EzBusiness_DL_Repository
 
             return objList;
         }
+        public List<TimeSheetDetail> DailyTimeSheetDetailsReport(string CmpyCode, DateTime Fromdate, DateTime Todate)
+        {
+
+            List<TimeSheetDetail> objList = null;
+            string yeardata = Todate.ToString("yyyy/MM/dd");
+            string monthdata = Fromdate.ToString("yyyy/MM/dd");
+            SqlParameter[] param = {new SqlParameter("@CmpyCode", CmpyCode),
+                                    new SqlParameter("@Fromdate", yeardata),
+                                    new SqlParameter("@Tdate",monthdata)};
+            ds = _EzBusinessHelper.ExecuteDataSet("web_DailyTimeSheetDetailsReport", CommandType.StoredProcedure, param);
+            if (ds.Tables.Count > 0)
+            {
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                objList = new List<TimeSheetDetail>();
+                foreach (DataRow dr in drc)
+                {
+
+                    objList.Add(new TimeSheetDetail()
+                    {
+                        // srno = Convert.ToInt32(dr["SrNo"].ToString()),
+                        EmpCode = dr["EmpCode"].ToString(),
+                        EmpName = dr["EmpName"].ToString(),
+                        DIVISION = dr["DivisionName"].ToString(),
+                        DeptCode = dr["DepartmentName"].ToString(),
+                        Att_Date = Convert.ToDateTime(dr["Att_Date"].ToString()),
+                        ATT = dr["ATT"].ToString(),
+                        ProjectCode = dr["Project_code"].ToString(),
+                    });
+                }
+            }
+
+            return objList;
+        }
     }
-}
+      
+ } 
+
