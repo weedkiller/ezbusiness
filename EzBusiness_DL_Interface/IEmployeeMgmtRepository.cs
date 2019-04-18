@@ -71,7 +71,7 @@ namespace EzBusiness_DL_Interface
 
         List<Employee> GetEmployeeList(string CmpyCode);
 
-        List<EmployeeDetail> GetEmployeeDetailList(string CmpyCode, string EmpCode);
+        List<EmployeeDetail> GetEmployeeDetailList(string CmpyCode, string EmpCode,string DivCode);
 
         //List<LeaveApplication> GetLeaveApplicationList(string CmpyCode, string EmpCode);
 

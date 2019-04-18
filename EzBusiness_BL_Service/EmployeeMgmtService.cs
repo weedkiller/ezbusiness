@@ -143,26 +143,27 @@ namespace EzBusiness_BL_Service
             return InsertFirstElementDDL(itemCodes);
 
         }
-        public List<EmployeeDetailnew> GetEmployeeDetailList(string CmpyCode, string EmpCode)
+        public List<EmployeeDetailnew> GetEmployeeDetailList(string CmpyCode, string EmpCode,string DivCode)
         {
-            var poEducationList = _EmployeeMgmtRepo.GetEmployeeDetailList(CmpyCode, EmpCode);
+            var poEducationList = _EmployeeMgmtRepo.GetEmployeeDetailList(CmpyCode, EmpCode,DivCode);
             return poEducationList.Select(m => new EmployeeDetailnew
             {
                Description=m.Description,
               // Doc=m.Doc,
-               DocCode=m.DocCode,
+               DocCode=m.HRDOCM001_CODE,
                DocName=m.DocName,
-               DocStatus=m.DocStatus,
-               DocNo=m.DocNo,
+               //DocStatus=m.DocStatus,
+             //  DocNo=m.DocNo,
                EndDate=m.EndDate,
 //FileType=m.FileType,
               // FormType=m.FormType,
-               IssuePlace=m.IssuePlace,
+             //  IssuePlace=m.IssuePlace,
                //IssueState=m.IssueState,
-               Preview=m.Preview,
-               Sno=m.Sno,
+             //  Preview=m.Preview,
+              // Sno=m.Sno,
                StartDate=m.StartDate,
-               DocumentPath=m.DocumentPath
+               AlertBefore=m.AlertBefore,
+              // DocumentPath=m.DocumentPath
              
             }).ToList();
         }
@@ -190,7 +191,7 @@ namespace EzBusiness_BL_Service
             }).ToList();
         }
 
-        public Employee_VM GetEmployeeMasterDetailsEdit(string CmpyCode, string EmpCode)
+        public Employee_VM GetEmployeeMasterDetailsEdit(string CmpyCode, string EmpCode,string DivCode)
         {
             var poEdit = _EmployeeMgmtRepo.GetEmployeeMasterDetailsEdit(CmpyCode, EmpCode);
           //  poEdit.AccNoList = GetAccList(CmpyCode,"EXP");           
@@ -225,7 +226,7 @@ namespace EzBusiness_BL_Service
             poEdit.EmployeeNominee = new EmployeeNomineenew();
             poEdit.EmployeeNomineenews = GetEmployeeNomineeList(CmpyCode, EmpCode);
             poEdit.EmployeeDetail = new EmployeeDetailnew();
-            poEdit.EmployeeDetailnews = GetEmployeeDetailList(CmpyCode, EmpCode);
+            poEdit.EmployeeDetailnews = GetEmployeeDetailList(CmpyCode, EmpCode,DivCode);
             poEdit.IsEditMode = true;
             return poEdit;
         }

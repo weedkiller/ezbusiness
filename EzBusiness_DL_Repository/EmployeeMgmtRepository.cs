@@ -27,7 +27,7 @@ namespace EzBusiness_DL_Repository
                 _EzBusinessHelper.ExecuteNonQuery("update MEM001 set Flag=1 where CmpyCode='" + CmpyCode + "' and EmpCode='" + EmpCode + "'");
                 _EzBusinessHelper.ExecuteNonQuery("update EMNM005 set Flag=1 where CmpyCode='" + CmpyCode + "' and EmpCode='" + EmpCode + "'");
                 _EzBusinessHelper.ExecuteNonQuery("update EMPDET001 set Flag=1 where CmpyCode='" + CmpyCode + "' and Code='" + EmpCode + "'");
-                _EzBusinessHelper.ExecuteNonQuery("update EMDET002 set Flag=1 where CmpyCode='" + CmpyCode + "' and EmpCode='" + EmpCode + "'");
+                _EzBusinessHelper.ExecuteNonQuery("DELETE from HRDOCE001  where CmpyCode='" + CmpyCode + "' and EmpCode='" + EmpCode + "'");
                 // _EzBusinessHelper.ExecuteNonQuery("update SA001 set Flag=1 where CmpyCode='" + CmpyCode + "' and Salesmancode='" + EmpCode + "'");
                 _EzBusinessHelper.ActivityLog(CmpyCode, username, "Delete Emp  Master", EmpCode, Environment.MachineName);
                 return true;
@@ -171,19 +171,19 @@ namespace EzBusiness_DL_Repository
             }
             return ObjList;
         }
-        public List<EmployeeDetail> GetEmployeeDetailList(string CmpyCode, string EmpCode)
+        public List<EmployeeDetail> GetEmployeeDetailList(string CmpyCode, string EmpCode,string DivCode)
         {
             DateTime dte;
             string dtstr4, dtstr9;
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from EMDET002 where CmpyCode='" + CmpyCode + "' and EmpCode='" + EmpCode + "'and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select doc.DIVISION,div.NAME,doc.CMPYCODE,EXPIRED_DATE,ENTRY_DATE,ALERT_BEFORE,REMARKS,doc.HRDOCM001_CODE from HRDOCE001 doc inner join HRDOCM001 div on doc.HRDOCM001_CODE=div.HRDOCM001_CODE where doc.CMPYCODE='" + CmpyCode + "' and doc.EMPCODE='" + EmpCode + "'and doc.DIVISION='" + DivCode + "'");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<EmployeeDetail> ObjList = new List<EmployeeDetail>();
             foreach (DataRow dr in drc)
             {
-                dte = Convert.ToDateTime(dr["EndDate"].ToString());
+                dte = Convert.ToDateTime(dr["EXPIRED_DATE"].ToString());
                 dtstr4 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
-                dte = Convert.ToDateTime(dr["StartDate"].ToString());
+                dte = Convert.ToDateTime(dr["ENTRY_DATE"].ToString());
                 dtstr9 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
 
 
@@ -191,19 +191,22 @@ namespace EzBusiness_DL_Repository
                 {
 
 
-                    Description = dr["Description"].ToString(),
+                    Description = dr["REMARKS"].ToString(),
                     //Doc = dr["Doc"].ToString(),
-                    DocName = dr["DocName"].ToString(),
-                    DocNo = dr["DocNo"].ToString(),
-                    DocCode = dr["DocCode"].ToString(),
-                    DocStatus = dr["DocStatus"].ToString(),
+                   DivisionCode = dr["DIVISION"].ToString(),
+                    DocName = dr["NAME"].ToString(),
+                    //  DocNo = dr["DocNo"].ToString(),
+                    HRDOCM001_CODE = dr["HRDOCM001_CODE"].ToString(),
+                    //  DocStatus = dr["DocStatus"].ToString(),
+                    AlertBefore =Convert.ToInt32(dr["ALERT_BEFORE"].ToString()),
                     EndDate = dtstr4,
-                    DocumentPath = dr["DocumentPath"].ToString(),
+                   // EndDate =dr["EXPIRED_DATE"].ToString(),
+                    // DocumentPath = dr["DocumentPath"].ToString(),
                     //FormType=dr["FormType"].ToString(),
-                    IssuePlace = dr["IssuePlace"].ToString(),
+                    //  IssuePlace = dr["IssuePlace"].ToString(),
                     //IssueState=Convert.ToInt16(dr["IssueState"].ToString()),
-                    Preview = dr["Preview"].ToString(),
-                    Sno = Convert.ToInt16(dr["Sno"].ToString()),
+                    //Preview = dr["Preview"].ToString(),
+                    // Sno = Convert.ToInt16(dr["Sno"].ToString()),
                     StartDate = dtstr9,
                 });
 
@@ -536,7 +539,8 @@ namespace EzBusiness_DL_Repository
                         {
                             Cmpycode = EmpMs.Cmpycode,
                             EmpCode = Emp.EmpCode,
-                            DocCode = m.DocCode,
+                            DivisionCode = Emp.DivisionCode,
+                            HRDOCM001_CODE = m.DocCode,
                             DocName = m.DocName,
                             DocNo = m.DocNo,
                             StartDate = m.StartDate.ToString(),
@@ -547,6 +551,7 @@ namespace EzBusiness_DL_Repository
                             IssuePlace = m.IssuePlace,
                             DocStatus = m.DocStatus,
                             DocumentPath = m.DocumentPath,
+                            AlertBefore=m.AlertBefore
                         }).ToList());
                     }
                     #endregion
@@ -728,34 +733,38 @@ namespace EzBusiness_DL_Repository
 
                                 sb.Append("(Cmpycode,");
                                 sb.Append("EmpCode,");
-                                sb.Append("DocCode,");
-                                sb.Append("DocName,");
-                                sb.Append("DocNo,");
-                                sb.Append("StartDate,");
-                                sb.Append("EndDate,");
-                                sb.Append("Description,");
-                                sb.Append("Sno,");
-                                sb.Append("IssuePlace,");
-                                sb.Append("DocStatus,");
-                                sb.Append("DocumentPath)");
+                                sb.Append("DIVISION,");
+                                sb.Append("HRDOCM001_CODE,");
+                                //sb.Append("DocName,");
+                                //sb.Append("DocNo,");
+                                sb.Append("ENTRY_DATE,");
+                                sb.Append("EXPIRED_DATE,");
+                                sb.Append("ALERT_BEFORE,");
+                                sb.Append("REMARKS)");
+                                //sb.Append("Sno,");
+                                //sb.Append("IssuePlace,");
+                                //sb.Append("DocStatus,");
+                                //sb.Append("DocumentPath)");
 
                                 sb.Append(" values(");
 
                                 sb.Append("'" + ObjList[n - 1].Cmpycode + "',");
                                 sb.Append("'" + ObjList[n - 1].EmpCode + "',");
-                                sb.Append("'" + ObjList[n - 1].DocCode + "',");
-                                sb.Append("'" + ObjList[n - 1].DocName + "',");
-                                sb.Append("'" + ObjList[n - 1].DocNo + "',");
+                                sb.Append("'" + ObjList[n - 1].DivisionCode + "',");
+                                sb.Append("'" + ObjList[n - 1].HRDOCM001_CODE + "',");
+                                //sb.Append("'" + ObjList[n - 1].DocName + "',");
+                                //sb.Append("'" + ObjList[n - 1].DocNo + "',");
                                 sb.Append("'" + dtstr4 + "',");
                                 sb.Append("'" + dtstr9 + "',");
-                                sb.Append("'" + ObjList[n - 1].Description + "',");
-                                sb.Append("'" + ObjList[n - 1].Sno + "',");
-                                sb.Append("'" + ObjList[n - 1].IssuePlace + "',");
-                                sb.Append("'" + ObjList[n - 1].DocStatus + "',");
-                                sb.Append("'" + ObjList[n - 1].DocumentPath + "')");
+                                sb.Append("'" + ObjList[n - 1].AlertBefore + "',");
+                                sb.Append("'" + ObjList[n - 1].Description + "')");
+                                //sb.Append("'" + ObjList[n - 1].Sno + "',");
+                                //sb.Append("'" + ObjList[n - 1].IssuePlace + "',");
+                                //sb.Append("'" + ObjList[n - 1].DocStatus + "',");
+                                //sb.Append("'" + ObjList[n - 1].DocumentPath + "')");
 
 
-                                _EzBusinessHelper.ExecuteNonQuery("insert into EMDET002" + sb + " ");
+                                _EzBusinessHelper.ExecuteNonQuery("insert into HRDOCE001" + sb + " ");
                                 n = n - 1;
                             }
 
@@ -935,7 +944,7 @@ namespace EzBusiness_DL_Repository
 
                             _EzBusinessHelper.ExecuteNonQuery("delete from EMNM005 where CmpyCode='" + EmpMs.Cmpycode + "' and EmpCode='" + EmpMs.EmpCode + "'");
                             _EzBusinessHelper.ExecuteNonQuery("delete from EMPDET001 where CmpyCode='" + EmpMs.Cmpycode + "' and Code='" + EmpMs.EmpCode + "'");
-                            _EzBusinessHelper.ExecuteNonQuery("delete from EMDET002 where CmpyCode='" + EmpMs.Cmpycode + "' and EmpCode='" + EmpMs.EmpCode + "'");
+                            _EzBusinessHelper.ExecuteNonQuery("delete from HRDOCE001 where CmpyCode='" + EmpMs.Cmpycode + "' and EmpCode='" + EmpMs.EmpCode + "' and DIVISION='" + EmpMs.DivisionCode + "'");
                           
                             #region ObjectList
                             List<EmployeeDetail> ObjList = new List<EmployeeDetail>();
@@ -946,17 +955,19 @@ namespace EzBusiness_DL_Repository
                                 {
                                     Cmpycode = EmpMs.Cmpycode,
                                     EmpCode = Emp.EmpCode,
-                                    DocCode = m.DocCode,
+                                    DivisionCode = Emp.DivisionCode,
+                                    HRDOCM001_CODE = m.DocCode,
                                     DocName = m.DocName,
-                                    DocNo = m.DocNo,
+                                    //DocNo = m.DocNo,
                                     StartDate = m.StartDate.ToString(),
                                     EndDate = m.EndDate.ToString(),
                                     Description = m.Description,
                                     Preview = m.Preview,                                   
                                     Sno = counter++,
-                                    IssuePlace = m.IssuePlace,
-                                    DocStatus = m.DocStatus,
-                                    DocumentPath = m.DocumentPath
+                                    //IssuePlace = m.IssuePlace,
+                                    //DocStatus = m.DocStatus,
+                                    AlertBefore=m.AlertBefore,
+                                    //DocumentPath = m.DocumentPath
                                    
 
                                 }).ToList());
@@ -1097,46 +1108,55 @@ namespace EzBusiness_DL_Repository
 
                             while (n > 0)
                             {
-                                dte = Convert.ToDateTime(ObjList[n - 1].StartDate.ToString());
-                                dtstr4 = dte.ToString("yyyy-MM-dd hh:mm:ss");
-                                dte = Convert.ToDateTime(ObjList[n - 1].EndDate.ToString());
-                                dtstr9 = dte.ToString("yyyy-MM-dd hh:mm:ss");
+                              //DateTime dtedata = Convert.ToDateTime(ObjList[n - 1].StartDate.ToString());
+                              // string dtstr4data = dtedata.ToString("yyyy-MM-dd");
+                              // DateTime dtedata2 = Convert.ToDateTime(ObjList[n - 1].EndDate.ToString());
+                              // string dtstr9data = dtedata2.ToString("yyyy-MM-dd hh:mm:ss");
 
                                 sb.Clear();
 
                                 sb.Append("(Cmpycode,");
                                 sb.Append("EmpCode,");
-                                sb.Append("DocCode,");
-                                sb.Append("DocName,");
-                                sb.Append("DocNo,");
-                                sb.Append("StartDate,");
-                                sb.Append("EndDate,");
-                                sb.Append("Description,");
-                                sb.Append("DocumentPath,");
-                                
-                                sb.Append("Sno,");
-                                sb.Append("IssuePlace,");
-                                sb.Append("DocStatus)");
-                               
+                                sb.Append("DIVISION,");
+                                sb.Append("HRDOCM001_CODE,");
+                                //sb.Append("DocName,");
+                                //sb.Append("DocNo,");
+                                //sb.Append("StartDate,");
+                                //sb.Append("EndDate,");
+                                sb.Append("ENTRY_DATE,");
+                                sb.Append("EXPIRED_DATE,");
+                                sb.Append("ALERT_BEFORE,");
+                                sb.Append("REMARKS)");
+                                //sb.Append("Description,");
+                                //sb.Append("DocumentPath,");
+
+                                //sb.Append("Sno,");
+                                //sb.Append("IssuePlace,");
+                                //sb.Append("DocStatus)");
+
 
                                 sb.Append(" values(");
 
                                 sb.Append("'" + ObjList[n - 1].Cmpycode + "',");
                                 sb.Append("'" + ObjList[n - 1].EmpCode + "',");
-                                sb.Append("'" + ObjList[n - 1].DocCode + "',");
-                                sb.Append("'" + ObjList[n - 1].DocName + "',");
-                                sb.Append("'" + ObjList[n - 1].DocNo + "',");
-                                sb.Append("'" + dtstr4 + "',");
-                                sb.Append("'" + dtstr9 + "',");
-                                sb.Append("'" + ObjList[n - 1].Description + "',");
-                              
-                                sb.Append("'" + ObjList[n - 1].DocumentPath + "',");
-                                sb.Append("'" + ObjList[n - 1].Sno + "',");
-                                sb.Append("'" + ObjList[n - 1].IssuePlace + "',");
-                                sb.Append("'" + ObjList[n - 1].DocStatus + "')");
-                                
+                                sb.Append("'" + ObjList[n - 1].DivisionCode + "',");
+                                sb.Append("'" + ObjList[n - 1].HRDOCM001_CODE + "',");
+                                //sb.Append("'" + ObjList[n - 1].DocName + "',");
+                                //sb.Append("'" + ObjList[n - 1].DocNo + "',");
+                                sb.Append("'" + ObjList[n - 1].StartDate + "',");
+                                sb.Append("'" + ObjList[n - 1].EndDate + "',");
+                                sb.Append("'" + ObjList[n - 1].AlertBefore + "',");
 
-                                _EzBusinessHelper.ExecuteNonQuery("insert into EMDET002" + sb + " ");
+                                sb.Append("'" + ObjList[n - 1].Description + "')");
+                                //sb.Append("'" + ObjList[n - 1].Description + "',");
+
+                                //sb.Append("'" + ObjList[n - 1].DocumentPath + "',");
+                                //sb.Append("'" + ObjList[n - 1].Sno + "',");
+                                //sb.Append("'" + ObjList[n - 1].IssuePlace + "',");
+                                //sb.Append("'" + ObjList[n - 1].DocStatus + "')");
+
+
+                                _EzBusinessHelper.ExecuteNonQuery("insert into HRDOCE001" + sb + " ");
                                 n = n - 1;
                             }
 

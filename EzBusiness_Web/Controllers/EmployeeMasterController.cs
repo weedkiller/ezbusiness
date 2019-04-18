@@ -51,7 +51,7 @@ namespace EzBusiness_Web.Controllers
         }
 
         [Route("EditEmployeeMasternew")]
-        public ActionResult EditEmployeeMaster(string EmpCode)
+        public ActionResult EditEmployeeMaster(string EmpCode,string DivisionCode)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
 
@@ -61,7 +61,7 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return PartialView(_employeeService.GetEmployeeMasterDetailsEdit(list[0].CmpyCode, EmpCode));
+                return PartialView(_employeeService.GetEmployeeMasterDetailsEdit(list[0].CmpyCode, EmpCode, DivisionCode));
             }
         }
 

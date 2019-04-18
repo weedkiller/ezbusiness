@@ -158,6 +158,7 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public int IssueState { get; set; }
         public HttpPostedFileBase SourceFile { get; set; }
         public string DocumentPath { get; set; }
+        public Int32 AlertBefore { get; set; }
     }
     public  class EducationDetailnew
     {
