@@ -1159,7 +1159,7 @@ namespace EzBusiness_Web.Controllers
         public ActionResult LeaveAppFormReport()
         {
            // EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
-            EZMVCPRJDataSet1 ds = new EZMVCPRJDataSet1();
+            //EZMVCPRJDataSet1 ds = new EZMVCPRJDataSet1();
             ReportViewer reportViewer = new ReportViewer();
             reportViewer.ProcessingMode = ProcessingMode.Local;
             reportViewer.SizeToReportContent = true;
@@ -1172,7 +1172,7 @@ namespace EzBusiness_Web.Controllers
             //SqlConnection conx = new SqlConnection(connectionString);
             SqlDataAdapter adp = new SqlDataAdapter("select * from PRLR002", con);
 
-            adp.Fill(ds,ds.PRLR002.TableName);
+          //  adp.Fill(ds,ds.PRLR002.TableName);
             // _EzBusinessHelper.ExecuteNonQuery(")
 
             reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\LeaveApplication.rdlc";
