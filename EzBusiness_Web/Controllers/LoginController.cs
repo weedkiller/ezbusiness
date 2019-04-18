@@ -98,8 +98,20 @@ namespace EzBusiness_Web.Controllers
 
             return Redirect("Login/InLogin");
         }
-       
 
+        public ActionResult ReportTemplate(string ReportName, string ReportDescription, int Width, int Height)
+        {
+            var rptInfo = new ReportInfo
+            {
+                ReportName = ReportName,
+                ReportDescription = ReportDescription,
+                ReportURL = String.Format("../../Reports/ReportTemplate.aspx?ReportName={0}&Height={1}", ReportName, Height),
+                Width = Width,
+                Height = Height
+            };
+
+            return View(rptInfo);
+        }
 
     }
 }
