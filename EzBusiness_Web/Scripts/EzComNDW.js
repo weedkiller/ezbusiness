@@ -1035,7 +1035,8 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
             });
         }
         /*tbl class date formate DD/MM/YYYY get current */
-        function EzdtePk(date1) {    
+        function EzdtePk(date1) {
+            debugger;
             $(date1).datetimepicker({
                 defaultDate: new Date(),
                 format: 'DD/MM/YYYY',
@@ -1134,6 +1135,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         //}
         /* date formate MMMM-yyyy get input date */
         function EzdtePkEdit(date1, dtval, frmt) {
+            debugger;
             $(date1).datetimepicker({
                 defaultDate: new Date($(dtval).val()),
                 format: frmt,
@@ -1199,7 +1201,8 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
             return today;
         }
         /* date formate yy/mm/dd */
-        function Ezsetdtpkdate(date1) {   
+        function Ezsetdtpkdate(date1) {
+            
             var d = new Date(date1.split("/").reverse().join("-"));
             var dd = d.getDate();
             var mm = d.getMonth() + 1;

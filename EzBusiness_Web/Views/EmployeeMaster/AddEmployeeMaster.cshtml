@@ -12,7 +12,6 @@
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
-
 <script src="~/Scripts/EzComNDW.js"></script>
 
 <script>
@@ -30,7 +29,7 @@
       }
 
     $(function () {
-
+        debugger;
         EzdtePk('#JoiningDate1,#LastRetDate1,#ContactDate1,#AbscondingDate1');     
         EzdteformtDOB('#DOB1', 'DD/MM/YYYY');
              
@@ -1263,13 +1262,11 @@
                             <tr>
                                 <th>Code</th>
                                 <th>Name</th>
-                                <th>Number</th>
-                                <th>Issue Place</th>
-                                <th>Status</th>
-                                <th>Issue Date</th>
+                                @*<th>Number</th>*@                               
+                                <th>Entry Date</th>
                                 <th>Expiry Date</th>
-                                <th>Description</th>
-                                <th>Document</th>
+                                <th>Remark</th>
+                                <th>Alert</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1284,12 +1281,12 @@
                                         @Html.TextBox(string.Concat("DocName", counter), null, new { @class = "grid-control", @disabled = "disabled" })
                                     </div>
                                 </td>
-                                <td>
+                                @*<td>
                                     <div class="grid-group">
                                         @Html.TextBox(string.Concat("DocNo", counter), null, new { @class = "grid-control" })
                                     </div>
-                                </td>
-                                <td>
+                                </td>*@
+                                @*<td>
                                     <div class="grid-group">
                                         @Html.TextBox(string.Concat("IssuePlace", counter), null, new { @class = "grid-control" })
                                     </div>
@@ -1298,7 +1295,7 @@
                                     <div class="grid-group">
                                         @Html.TextBox(string.Concat("DocStatus", counter), null, new { @class = "grid-control" })
                                     </div>
-                                </td>
+                                </td>*@
 
                                 <td>
                                     <div class="grid-group">
@@ -1320,12 +1317,16 @@
                                         @Html.TextBox(string.Concat("Description", counter), null, new { @class = "grid-control" })
                                     </div>
                                 </td>
-                                <td>
+                                @*<td>
                                     <div class="grid-group">
-                                        @*@Html.file(string.Concat("AttachedDocument", counter), null, new { @class = "grid-control" })*@
-                                        @*<input type="file" name="file" id="file" />*@
+                                       
                                         @Html.Hidden(string.Concat("DocumentPath", counter), null, new { @class = "grid-control" })
                                         @Html.TextBox(string.Concat("SourceFile", counter), null, new { @class = "grid-control", type = "File", multiple = "multiple" })
+                                    </div>
+                                </td>*@
+                                <td>
+                                    <div class="grid-group">
+                                        @Html.DropDownList(string.Concat("ALERT_BEFORE", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
                                     </div>
                                 </td>
 
