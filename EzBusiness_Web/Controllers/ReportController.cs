@@ -21,10 +21,14 @@ namespace EzBusiness_Web.Controllers
         // GET: Report
 
         IReportDetailsServices _reportdetail;
-
+        EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
+        DataSet ds = null;
+        DataTable dt = null;
         public ReportController()
         {
             _reportdetail = new ReportDetailService();
+
+           
         }
 
         [Route("EmpoloyeeReport")]
@@ -1181,5 +1185,35 @@ namespace EzBusiness_Web.Controllers
             return View();
         }
 
+
+
+
+        [Route("LoanReportForm")]
+        public ActionResult LoanReport(ReportsInp Inp)
+        {
+
+            ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLA001 where PRLA001_CODE ='PRLA-71' and CmpyCode='UM'");
+            var rptviewer = new ReportViewer();
+            rptviewer.ProcessingMode = ProcessingMode.Local;
+            // rptviewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Report/LoanApp.rdlc";
+            rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/LoanApp.rdlc");
+            //ReportParameter[] param = new ReportParameter[1];
+            //param[0] = new ReportParameter("statename", name);
+            //rptviewer.LocalReport.SetParameters(param);
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+
+            ReportDataSource rptdatasource = new ReportDataSource("DataSet1", ds.Tables[0]);
+            rptviewer.LocalReport.DataSources.Clear();
+            rptviewer.LocalReport.DataSources.Add(rptdatasource);
+            rptviewer.LocalReport.Refresh();
+            rptviewer.ProcessingMode = ProcessingMode.Local;
+            rptviewer.AsyncRendering = false;
+            rptviewer.SizeToReportContent = true;
+            rptviewer.ZoomMode = ZoomMode.FullPage;
+
+            ViewBag.ReportViewer = rptviewer;
+            return View();
+        }
     }
 }
