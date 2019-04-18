@@ -214,28 +214,28 @@
                 };
                
                 $("#tablePODetails2 tbody tr").each(function (index, item) {
-                 
+                    debugger;
                     var DocCodeDDL = $(this).find("[name*='DocCode'] option:selected").val();
                     var DocNameTxt = $(this).find("[name*='DocName']").val();
-                    var DocNoTxt = $(this).find("[name*='DocNo']").val();
-                    var IssuePlaceTxt = $(this).find("[name*='IssuePlace']").val();
-                    var DocStatusTxt = $(this).find("[name*='DocStatus']").val();
+                    //var DocNoTxt = $(this).find("[name*='DocNo']").val();
+                    //var IssuePlaceTxt = $(this).find("[name*='IssuePlace']").val();
+                    //var DocStatusTxt = $(this).find("[name*='DocStatus']").val();
                     var StartDateTxt = Ezsetdtpkdate($(this).find("[name*='StartDate']").val());
                     var EndDateTxt = Ezsetdtpkdate($(this).find("[name*='EndDate']").val());
                     var DescriptionTxt = $(this).find("[name*='Description']").val();
-                    var DocumentPath = $(this).find('[name*="DocumentPath"]').val();
+                    var ALERT_BEFOREtxt = $(this).find('[name*="ALERT_BEFORE"] option:selected').val();
                  
-                    if ((DocCodeDDL != "0") && (DocNoTxt != "")) {
+                    if ((DocCodeDDL != "0")) {
                         var EmployeeDetail = {
                             DocCode: DocCodeDDL,
                             DocName: DocNameTxt,
-                            DocNo: DocNoTxt,
-                            IssuePlace: IssuePlaceTxt,
-                            DocStatus: DocStatusTxt,
+                            //DocNo: DocNoTxt,
+                            //IssuePlace: IssuePlaceTxt,
+                            //DocStatus: DocStatusTxt,
                             StartDate: StartDateTxt,
                             EndDate: EndDateTxt,
                             Description: DescriptionTxt,
-                            DocumentPath: DocumentPath
+                            AlertBefore: ALERT_BEFOREtxt
                         };
                         employeemaster.EmployeeDetailnews.push(EmployeeDetail);
                     }
@@ -387,24 +387,27 @@
                 $("#tablePODetails2 tbody tr").each(function (index, item) {
                     var DocCodeDDL = $(this).find("[name*='DocCode'] option:selected").val();
                     var DocNameTxt = $(this).find("[name*='DocName']").val();
-                    var DocNoTxt = $(this).find("[name*='DocNo']").val();
-                    var IssuePlaceTxt = $(this).find("[name*='IssuePlace']").val();
-                    var DocStatusTxt = $(this).find("[name*='DocStatus']").val();
+                    //var DocNoTxt = $(this).find("[name*='DocNo']").val();
+                    //var IssuePlaceTxt = $(this).find("[name*='IssuePlace']").val();
+                    //var DocStatusTxt = $(this).find("[name*='DocStatus']").val();
                     var StartDateTxt = Ezsetdtpkdate($(this).find("[name*='StartDate']").val());
                     var EndDateTxt = Ezsetdtpkdate($(this).find("[name*='EndDate']").val());
                     var DescriptionTxt = $(this).find("[name*='Description']").val();
-                    var DocumentPath = $(this).find('[name*="DocumentPath"]').val();
-                    if ((DocCodeDDL != "0") && (DocNoTxt != "")) {
+                    var ALERT_BEFOREtxt = $(this).find('[name*="ALERT_BEFORE"] option:selected').val();
+                    //var DocumentPath = $(this).find('[name*="DocumentPath"]').val();
+                    if ((DocCodeDDL!="0")) {
                         var EmployeeDetail = {
                             DocCode: DocCodeDDL,
                             DocName: DocNameTxt,
-                            DocNo: DocNoTxt,
-                            IssuePlace: IssuePlaceTxt,
-                            DocStatus: DocStatusTxt,
+                            //DocNo: DocNoTxt,
+                            //IssuePlace: IssuePlaceTxt,
+                            //DocStatus: DocStatusTxt,
                             StartDate: StartDateTxt,
                             EndDate: EndDateTxt,
                             Description: DescriptionTxt,
-                            DocumentPath: DocumentPath
+                            AlertBefore: ALERT_BEFOREtxt
+                            //DocumentPath: DocumentPath
+
                         };
                         employeemaster.EmployeeDetailnews.push(EmployeeDetail);
                     }
@@ -559,7 +562,8 @@
                 $("#POList > tbody").children().removeClass("active");
                 $(this).addClass("active");
                 var mrCode = $(this).find("#hdnMRCode").val();
-                $.get("EditEmployeeMasternew", { EmpCode: mrCode }).done(function (response) {
+                var DivisionCode = $(this).find("#hdnDivisionCode").val();
+                $.get("EditEmployeeMasternew", { EmpCode: mrCode, DivisionCode: DivisionCode }).done(function (response) {
                     $("#POContainer").html(response);
                     //  $("#btnDelete").prop("disabled", false);
                     $("#btnDelete").css("visibility", "");

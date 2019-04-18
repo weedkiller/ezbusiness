@@ -69,14 +69,14 @@ namespace EzBusiness_BL_Interface
         List<SelectListItem> GetProjectList(string Cmpycode);
 
 
-        Employee_VM GetEmployeeMasterDetailsEdit(string CmpyCode, string EmpCode);
+        Employee_VM GetEmployeeMasterDetailsEdit(string CmpyCode, string EmpCode,string DivCode);
 
         Employee_VM GetEmployeeMasterDetailsNew(string CmpyCode);
         Employee_VM SavePurchaseOrder(Employee_VM EmployeeMaster);
 
         List<Employee_VM> GetEmployeeList(string CmpyCode);
 
-        List<EmployeeDetailnew> GetEmployeeDetailList(string CmpyCode, string EmpCode);
+        List<EmployeeDetailnew> GetEmployeeDetailList(string CmpyCode, string EmpCode,string DivCode);
 
         //List<LeaveApplicationnew>  GetLeaveApplicationList(string CmpyCode, string EmpCode);
 

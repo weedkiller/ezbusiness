@@ -24,6 +24,7 @@
         }
     }
     $(function () {
+        debugger;
         $('#user_img').attr("src", $('#photpath').val());
         var dte='';      
         EzdtePkEdit('#JoiningDate1', "#JoiningDate", 'DD/MM/YYYY');
@@ -31,11 +32,13 @@
         EzdtePkEdit('#LastRetDate1', "#LastRetDate", 'DD/MM/YYYY');
         EzdtePkEdit('#ContactDate1', "#ContactDate", 'DD/MM/YYYY');
         EzdtePkEdit('#AbscondingDate1', "#AbscondingDate", 'DD/MM/YYYY');
-
+        //EzdtePkEdit('#StartDate1', "#StartDate", 'DD/MM/YYYY');
+        //EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
+     
        // ezValidateNumbers("#tablePODetails1", "[name*='ObtainedYear']");
        
 
-
+        debugger;
 
         $('.selectpicker').selectpicker('refresh');
 
@@ -168,14 +171,12 @@
         EzTableRowDel("#tablePODetails1", "[name*='btnDelete']");
         EzTableRowDel("#tablePODetails2", "[name*='btnDelete']");
 
-        $("#tablePODetails1").on("change", "[name*='Degree']", function () {
-           
+        $("#tablePODetails1").on("change", "[name*='Degree']", function () {          
             var tr = $(this).closest("tr");
          
             var docode = tr.find("[name*='Degree']").val();
             var doName = tr.find("[name*='Degree'] option:selected").text();
             tr.find("[name*='DegreeName']").val(docode);
-
         });
 
         
@@ -296,7 +297,7 @@
         //counter = 1;
         var counter = $("#counter").val();
         $("#tablePODetails2").on("change", "[name*='DocCode']", function () {
-           
+            debugger;
             tbldtpicker();
             //  $(".datepicker").datetimepicker("destroy");
             //if (counter > 2) {
@@ -308,12 +309,13 @@
             var doName = tr.find("[name*='DocCode'] option:selected").text();
             var sdate = tr.find("[name*='StartDate']").val();
             var edate = tr.find("[name*='EndDate']").val();
+           
             if (tr.is(":last-child")) {
                 tr.clone(true, true).insertAfter(tr);
                 tr.find("[name*='DocCode']").val(docode);
                 tr.find("[name*='DocName']").val(doName);
-                tr.find("[name *= 'StartDate']").val(sdate);
-                tr.find("[name *= 'EndDate']").val(edate);
+                //tr.find("[name *= 'StartDate']").val(sdate);
+                //tr.find("[name *= 'EndDate']").val(edate);
                 $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                     .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
                 var trLast = $("#tableMetaSettings tr:last")
@@ -345,6 +347,10 @@
                 trLast.find(":first").text(counter);
 
             }
+            else
+            {
+                tr.find("[name*='DocName']").val(doName);
+            }
             counter++;
 
         });
@@ -352,21 +358,33 @@
         var tablePODetails2 = $("#tablePODetails2 tbody tr");
         var index3 = 1;
         tablePODetails2.each(function (index3, item) {
-           
+            debugger;
             //Date.prototype.getToday1 = Ezsetdtpkdate($("[name*='hdnStartDate" + (index + 1) + "']").val());
             //Date.prototype.getToday2 = Ezsetdtpkdate($("[name*='hdnEndDate" + (index + 1) + "']").val());
 
             $("[name*='DocCode" + (index3 + 1) + "']").val($("[name*='hdnDocCode" + (index3 + 1) + "']").val());
             $("[name*='DocName" + (index3 + 1) + "']").val($("[name*='hdnDocName" + (index3 + 1) + "']").val());
-            $("[name*='DocNo" + (index3 + 1) + "']").val($("[name*='hdnDocNo" + (index3 + 1) + "']").val());
-            $("[name*='DocStatus" + (index3 + 1) + "']").val($("[name*='hdnDocStatus" + (index3 + 1) + "']").val());
-            $("[name*='StartDate" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnStartDate" + (index3 + 1) + "']").val()));
+           // $("[name*='DocNo" + (index3 + 1) + "']").val($("[name*='hdnDocNo" + (index3 + 1) + "']").val());
+            // $("[name*='DocStatus" + (index3 + 1) + "']").val($("[name*='hdnDocStatus" + (index3 + 1) + "']").val());
+            if ($("[name*='hdnStartDate" + (index3 + 1) + "']").val() == undefined)            
+                EzdtePk("[name*='StartDate" + (index3 + 1) + "']");
+            else
+                $("[name*='StartDate" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnStartDate" + (index3 + 1) + "']").val()));
+            if ($("[name*='hdnEndDate" + (index3 + 1) + "']").val() == undefined)
+                EzdtePk("[name*='EndDate" + (index3 + 1) + "']");
+            else
             $("[name*='EndDate" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnEndDate" + (index3 + 1) + "']").val()));
             $("[name*='Description" + (index3 + 1) + "']").val($("[name*='hdnDescription" + (index3 + 1) + "']").val());
-            $("[name*='IssuePlace" + (index3 + 1) + "']").val($("[name*='hdnIssuePlace" + (index3 + 1) + "']").val());
-            $("[name*='DocumentPath" + (index3 + 1) + "']").val($("[name*='SourceFile" + (index3 + 1) + "']").prop('defaultValue'));
+           // $("[name*='IssuePlace" + (index3 + 1) + "']").val($("[name*='hdnIssuePlace" + (index3 + 1) + "']").val());
+            // $("[name*='DocumentPath" + (index3 + 1) + "']").val($("[name*='SourceFile" + (index3 + 1) + "']").prop('defaultValue'));
+            $("[name*='ALERT_BEFORE" + (index3 + 1) + "']").val($("[name*='hdnAlertBefore" + (index3 + 1) + "']").val());
+
             index3 = index3 + 1;
         });
+
+       
+      
+        
         //EzdtePk('#StartDate' + index3 + ',#StartDate' + index3 + '');
         //EzdtePk('#EndDate' + index3 + ',#EndDate' + index3 + '');
         var tablePODetails1 = $("#tablePODetails1 tbody tr");
@@ -381,6 +399,7 @@
             $("[name*='Specification" + (index2 + 1) + "']").val($("[name*='hdnSpecification" + (index2 + 1) + "']").val());
             index2 = index2 + 1;
         });
+        EzdtePkyyyy("#ObtainedYear" + (index2) + "");
         //EzdtePkyyyy('#ObtainedYear' + index2 + ',#ObtainedYear' + index2 + '');
         var tablePODetails = $("#tablePODetails tbody tr");
         var index1 = 1;
@@ -396,7 +415,7 @@
         });
         //EzdtePk('#NomineeDOB' + index1 + ',#NomineeDOB' + index1 + '');
 
-      
+        //EzdtePk("#StartDate" + (index3) + ",#EndDate" + (index3) + ",#NomineeDOB" + (index1) + "");
         $('body').on('focusin', '.datepicker', function () {
            
             // var myDate = new Date(2012, 2, 11);
@@ -1276,16 +1295,89 @@
                             <tr>
                                 <th>Code</th>
                                 <th>Name</th>
-                                <th>Number</th>
+                                @*<th>Number</th>
                                 <th>Issue Place</th>
-                                <th>Status</th>
-                                <th>Issue Date</th>
-                                <th>Expiry Date</th>
+                                <th>Status</th>*@
+                                @*<th>Issue Date</th>
+                                <th>Expiry Date</th>*@
+                                <th>Start date</th>
+                                <th>End date</th>
                                 <th>Description</th>
-                                <th>Document</th>
+                                <th>AlertBefore</th>
                             </tr>
                         </thead>
                         <tbody>
+
+                            @foreach (var item in Model.EmployeeDetailnews)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="grid-group">
+                                            @Html.DropDownList(string.Concat("DocCode", counter), Model.DocList, new { @class = "grid-control" })
+                                            @Html.Hidden(string.Concat("hdnDocCode", counter), item.DocCode)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid-group">
+                                            @Html.TextBox(string.Concat("DocName", counter), null, new { @class = "grid-control", @disabled = "disabled" })
+                                            @Html.Hidden(string.Concat("hdnDocName", counter), item.DocName)
+                                        </div>
+                                    </td>
+                                    @*<td>
+                                        <div class="grid-group">
+                                            @Html.TextBox(string.Concat("DocNo", counter), null, new { @class = "grid-control" })
+                                            @Html.Hidden(string.Concat("hdnDocNo", counter), item.DocNo)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid-group">
+                                            @Html.TextBox(string.Concat("IssuePlace", counter), null, new { @class = "grid-control" })
+                                            @Html.Hidden(string.Concat("hdnIssuePlace", counter), item.IssuePlace)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid-group">
+                                            @Html.TextBox(string.Concat("DocStatus", counter), null, new { @class = "grid-control" })
+                                            @Html.Hidden(string.Concat("hdnDocStatus", counter), item.DocStatus)
+                                        </div>
+                                    </td>*@
+                                    <td>
+                                        <div class="grid-group">
+                                            @Html.TextBox(string.Concat("StartDate", counter), null, new { @class = "grid-control datepicker" })
+                                            @Html.Hidden(string.Concat("hdnStartDate", counter), item.StartDate)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid-group">
+                                            @Html.TextBox(string.Concat("EndDate", counter), null, new { @class = "grid-control datepicker" })
+                                            @Html.Hidden(string.Concat("hdnEndDate", counter), item.EndDate)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="grid-group">
+                                            @Html.TextBox(string.Concat("Description", counter), null, new { @class = "grid-control" })
+                                            @Html.Hidden(string.Concat("hdnDescription", counter), item.Description)
+                                        </div>
+                                    </td>
+                                    @*<td>
+                                        <div class="grid-group">                   
+                                            @Html.TextBox(string.Concat("SourceFile", counter), item.DocumentPath, new { @class = "grid-control", type = "File", multiple = "multiple", @Title = item.DocumentPath })
+                                            @Html.Hidden(string.Concat("DocumentPath", counter), item.DocumentPath)
+                                            @Html.ActionLink(string.Concat("Download File"), "Download", new { parentPartId = item.DocumentPath })                                          
+                                        </div>
+                                    </td>*@
+                                    <td>
+                                        <div class="grid-group">
+                                            @Html.DropDownList(string.Concat("ALERT_BEFORE", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
+                                            @Html.Hidden(string.Concat("hdnAlertBefore", counter), item.AlertBefore)
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                                    </td>
+                                </tr>
+                                counter++;
+                            }
                             <tr>
                                 <td>
                                     <div class="grid-group">
@@ -1297,34 +1389,31 @@
                                         @Html.TextBox(string.Concat("DocName", counter), null, new { @class = "grid-control", @disabled = "disabled" })
                                     </div>
                                 </td>
-                                <td>
+                                @*<td>
                                     <div class="grid-group">
                                         @Html.TextBox(string.Concat("DocNo", counter), null, new { @class = "grid-control" })
                                     </div>
-                                </td>
-                                <td>
+                                </td>*@
+                                @*<td>
                                     <div class="grid-group">
                                         @Html.TextBox(string.Concat("IssuePlace", counter), null, new { @class = "grid-control" })
                                     </div>
-                                </td>
-                                <td>
+                                </td>*@
+                                @*<td>
                                     <div class="grid-group">
                                         @Html.TextBox(string.Concat("DocStatus", counter), null, new { @class = "grid-control" })
                                     </div>
-                                </td>
+                                </td>*@
 
                                 <td>
                                     <div class="grid-group">
                                         @Html.TextBox(string.Concat("StartDate", counter), null, new { @class = "grid-control datepicker" })
-                                        @*<input id="StartDate1" class="grid-control datepicker" name="StartDate1" />*@
-                                        @*@Html.HiddenFor(m => string.Concat("StartDate", counter))*@
+
+
                                     </div>
                                 </td>
                                 <td>
                                     <div class="grid-group">
-                                        @*<input id="EndDate1" class="grid-control datepicker" name="EndDate1" />*@
-                                        @*@Html.HiddenFor(m => string.Concat("EndDate", counter))*@
-
                                         @Html.TextBox(string.Concat("EndDate", counter), null, new { @class = "grid-control datepicker" })
                                     </div>
                                 </td>
@@ -1333,17 +1422,20 @@
                                         @Html.TextBox(string.Concat("Description", counter), null, new { @class = "grid-control" })
                                     </div>
                                 </td>
-                                <td>
+                                @*<td>
                                     <div class="grid-group">
-                                        @*@Html.file(string.Concat("AttachedDocument", counter), null, new { @class = "grid-control" })*@
-                                        @*<input type="file" name="file" id="file" />*@
                                         @Html.Hidden(string.Concat("DocumentPath", counter), null, new { @class = "grid-control" })
                                         @Html.TextBox(string.Concat("SourceFile", counter), null, new { @class = "grid-control", type = "File", multiple = "multiple" })
-                                    </div>
-                                </td>
 
+                                    </div>
+                                </td>*@
+                                <td>
+                                    @Html.DropDownList(string.Concat("ALERT_BEFORE", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
+                                </td>
+                                <td></td>
                             </tr>
                         </tbody>
+
                     </table>
                     @Html.Hidden("counter", (++counter))
                     @*</div>*@
@@ -1363,12 +1455,50 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach (var item in Model.EmployeeNomineenews)
+                                {
+                                    <tr>
+                                        @*<td>
+                        <div class="grid-group">
+                            @Html.Label(counter1.ToString())
+                        </div>
+                    </td>*@
+                                        <td>
+                                            <div class="grid-group">
+                                                @Html.TextBox(string.Concat("NomineeName", counter1), null, new { @class = "grid-control" })
+                                                @Html.Hidden(string.Concat("hdnNomineeName", counter1), item.NomineeName)
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="grid-group">
+                                                @Html.TextBox(string.Concat("NomineeAddress", counter1), null, new { @class = "grid-control" })
+                                                @Html.Hidden(string.Concat("hdnNomineeAddress", counter1), item.NomineeAddress)
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="grid-group">
+                                                @Html.TextBox(string.Concat("NomineeRelation", counter1), null, new { @class = "grid-control" })
+                                                @Html.Hidden(string.Concat("hdnNomineeRelation", counter1), item.NomineeRelation)
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="grid-group">
+                                                @Html.TextBox(string.Concat("NomineeDOB", counter1), null, new { @class = "grid-control datepicker" })
+                                                @Html.Hidden(string.Concat("hdnNomineeDOB", counter1), item.NomineeDOB)
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                                        </td>
+                                    </tr>
+                                    counter1++;
+                                }
                                 <tr>
                                     @*<td>
-                                            <div class="grid-group">
-                                                @Html.Label(counter1.ToString())
-                                            </div>
-                                        </td>*@
+                    <div class="grid-group">
+                        @Html.Label(counter1.ToString())
+                    </div>
+                </td>*@
                                     <td>
                                         <div class="grid-group">
                                             @Html.TextBox(string.Concat("NomineeName", counter1), null, new { @class = "grid-control" })
@@ -1387,12 +1517,12 @@
                                     <td>
                                         <div class="grid-group">
                                             @Html.TextBox(string.Concat("NomineeDOB", counter1), null, new { @class = "grid-control datepicker" })
-                                            @*<input id="NomineeDOB1" class="grid-control datepicker" name="NomineeDOB1" />*@
-                                            @*@Html.HiddenFor(m => string.Concat("NomineeDOB", counter))*@
+
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
+
                         </table>
                         @Html.Hidden("counter1", (++counter1))
                     </div>

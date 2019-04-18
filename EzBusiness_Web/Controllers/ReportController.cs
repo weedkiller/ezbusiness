@@ -12,6 +12,7 @@ using Microsoft.Reporting.WebForms;
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
+using EzBusiness_DL_Repository;
 
 namespace EzBusiness_Web.Controllers
 {
@@ -20,10 +21,14 @@ namespace EzBusiness_Web.Controllers
         // GET: Report
 
         IReportDetailsServices _reportdetail;
-
+        EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
+        DataSet ds = null;
+        DataTable dt = null;
         public ReportController()
         {
             _reportdetail = new ReportDetailService();
+
+           
         }
 
         [Route("EmpoloyeeReport")]
@@ -930,10 +935,6 @@ namespace EzBusiness_Web.Controllers
             return result;
         }
 
-
-
-
-
         [Route("GetSalaryReportDetails")]
         public ActionResult GetSalaryReportDetails(SalaryProcessDetailsRep SPDR)
         {
@@ -1108,6 +1109,82 @@ namespace EzBusiness_Web.Controllers
         }
 
 
+        public ActionResult DailyTimeSheetDetails()
+        {
+            return View();
+        }
+        public ActionResult DailyTimeSheetDetailsReport(TimeSheetDetail timerrport)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                List<TimeSheetDetail> AdmReport = _reportdetail.DailyTimeSheetDetailsReport(list[0].CmpyCode,Convert.ToDateTime(timerrport.TDate), Convert.ToDateTime(timerrport.FDate));
+                List<TimeSheetDetail> objReportViewList = new List<TimeSheetDetail>();
+                foreach (var EMPCode in AdmReport.Select(a => a.EmpCode).Distinct())
+                {
+                    TimeSheetDetail objReportView = new TimeSheetDetail();
+                    string Day, DayStatus,daydata;
+                    List<DayStatus> objDayStatusList = new List<DayStatus>();
+                    foreach (DateTime ADateTime in AdmReport.Where(a => a.EmpCode == EMPCode).OrderBy(a=>a.Att_Date).Select(a => a.Att_Date))
+                    {
+                        DayStatus objDayStatus = new DayStatus();
+                        objDayStatus.Day = ADateTime.ToString("dd-MMM");
+                        objDayStatus.Daydata= ADateTime.ToString("dd");
+                        string HdStatus = AdmReport.Where(a => a.EmpCode == EMPCode && a.Att_Date == ADateTime).Select(a => a.ATT).FirstOrDefault();
+                        if(HdStatus==null)
+                        {
+                            objDayStatus.AttenStatus= "NA";
+                        }
+                        objDayStatus.AttenStatus = HdStatus;
+                        objDayStatusList.Add(objDayStatus);
+                    }
+                    objReportView.EmpCode = EMPCode;
+                    objReportView.EmpName= AdmReport.Where(a => a.EmpCode == EMPCode).Select(a => a.EmpName).FirstOrDefault();
+                    objReportView.DIVISION = AdmReport.Where(a => a.EmpCode == EMPCode).Select(a => a.DIVISION).FirstOrDefault();
+                    objReportView.DeptCode = AdmReport.Where(a => a.EmpCode == EMPCode).Select(a => a.DeptCode).FirstOrDefault();
+                    objReportView.Project_code = AdmReport.Where(a => a.EmpCode == EMPCode).Select(a => a.Project_code).FirstOrDefault();
+                    objReportView.Attendanclist = objDayStatusList;
 
+                    objReportViewList.Add(objReportView);
+                    //HolidayEntity holiday = new HolidayEntity();
+                }
+                  return Json(objReportViewList, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+
+        [Route("LoanReportForm")]
+        public ActionResult LoanReport(ReportsInp Inp)
+        {
+
+            ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLA001 where PRLA001_CODE ='PRLA-71' and CmpyCode='UM'");
+            var rptviewer = new ReportViewer();
+            rptviewer.ProcessingMode = ProcessingMode.Local;
+            // rptviewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Report/LoanApp.rdlc";
+            rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/LoanApp.rdlc");
+            //ReportParameter[] param = new ReportParameter[1];
+            //param[0] = new ReportParameter("statename", name);
+            //rptviewer.LocalReport.SetParameters(param);
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+
+            ReportDataSource rptdatasource = new ReportDataSource("DataSet1", ds.Tables[0]);
+            rptviewer.LocalReport.DataSources.Clear();
+            rptviewer.LocalReport.DataSources.Add(rptdatasource);
+            rptviewer.LocalReport.Refresh();
+            rptviewer.ProcessingMode = ProcessingMode.Local;
+            rptviewer.AsyncRendering = false;
+            rptviewer.SizeToReportContent = true;
+            rptviewer.ZoomMode = ZoomMode.FullPage;
+
+            ViewBag.ReportViewer = rptviewer;
+            return View();
+        }
     }
 }

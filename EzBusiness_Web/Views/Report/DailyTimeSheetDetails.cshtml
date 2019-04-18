@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "DailyTimeSheetDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/Application/TimesheetDetailsReport.js"></script>
+<br />
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Daily TimeSheetDetails Report</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="control-label col-md-3">From Date <i class="star">*</i></label>
+                        <div class="col-md-9 input-field">
+                            <input id="fnlfdatetxt" class="form-control datepicker" name="fnlfdatetxt" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label col-md-3">To Date <i class="star">*</i></label>
+                        <div class="col-md-9 input-field">
+                            <input id="fnltdatetxt" class="form-control datepicker" name="fnltdatetxt" />
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label col-md-3">EmpCode</label>
+                        <div class="col-md-9 input-field">
+                            <input type="text" required name="" id="empcodetxt" placeholder="" class="form-control">
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label col-md-3">EmpName</label>
+                        <div class="col-md-9 input-field">
+                            <input type="text" required name="" id="empnametxt" placeholder="" class="form-control">
+                        </div>
+
+                    </div>
+                </div>*@
+
+                <br />
+                <div class="title-action">
+                    <button class="btn btn-primary btn1" id="btnSearchData"><span class="glyphicon glyphicon-search"></span>&nbsp;Search</button>
+
+                    <button class="btn btn-warning btn1" id="btncancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div style="display:none" id="displayfinalsettlment">
+    <div class="row-fluid">
+        <!-- <h3>Contractor Information</h3> -->
+        <div class="span12">
+            <div class="widget-content nopadding">
+                <table class="table table-bordered portal-drivers dataTable" id="dailytimesheetreport" style="width:100%;height:100%">
+                    <thead>
+                        <tr>                          
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+
+
+            EzdteformtcurRep('#fnlfdatetxt,#fnltdatetxt', 'DD/MM/YYYY');
+
+            DTDreport.initialize();
+            });
+</script>

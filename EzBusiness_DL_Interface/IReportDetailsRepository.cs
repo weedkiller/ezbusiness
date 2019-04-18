@@ -33,5 +33,6 @@ namespace EzBusiness_DL_Interface
         List<SalaryProcessDetailsRep> GetSalaryProcessDetails(string CmpyCode, DateTime CurrDate, string DivCode, string deptcode, string visaloc);
 
         List<GetEmpBankTrf> GetEmpBankTrf(string cmpycode, DateTime CurrDate);
+        List<TimeSheetDetail> DailyTimeSheetDetailsReport(string CmpyCode, DateTime Fromdate, DateTime Todate);
     }
 }

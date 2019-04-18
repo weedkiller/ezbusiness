@@ -50,6 +50,7 @@
     <Reference Include="CrystalDecisions.Data.AdoDotNetInterop, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.VSDesigner, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Web, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
@@ -250,6 +251,7 @@
     <Compile Include="Controllers\OTPayrollController.cs" />
     <Compile Include="Controllers\ProfessionController.cs" />
     <Compile Include="Controllers\ProjectAllotmentController.cs" />
+    <Compile Include="Controllers\ProjectAllotmentNewController.cs" />
     <Compile Include="Controllers\ProjectMasterController.cs" />
     <Compile Include="Controllers\PurchaseReqController.cs" />
     <Compile Include="Controllers\PurchaseOMgmtController.cs" />
@@ -266,6 +268,11 @@
     <Compile Include="Controllers\TimeSheetDetController.cs" />
     <Compile Include="Controllers\UserRightsController.cs" />
     <Compile Include="Controllers\VisaLocationController.cs" />
+    <Compile Include="EZMVCPRJDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EZMVCPRJDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -283,6 +290,13 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ReportViewerWebForm.aspx.cs">
+      <DependentUpon>ReportViewerWebForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportViewerWebForm.aspx.designer.cs">
+      <DependentUpon>ReportViewerWebForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -381,6 +395,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Images\Sorting icons.psd" />
+    <Content Include="ReportViewerWebForm.aspx" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\Application\CalculedSalaryDetailsReport.js" />
@@ -396,6 +411,7 @@
     <Content Include="Scripts\Application\Professionreport.js" />
     <Content Include="Scripts\Application\ProjectDetailsReport.js" />
     <Content Include="Scripts\Application\ShiftMasterDetail.js" />
+    <Content Include="Scripts\Application\TimesheetDetailsReport.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap-select.js" />
@@ -632,6 +648,17 @@
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <Content Include="App_Code\TreeviewMenuRightsRep.cshtml" />
     <Content Include="Images\Emp_06032019014104UM" />
+    <Content Include="EZMVCPRJDataSet.xsc">
+      <DependentUpon>EZMVCPRJDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="EZMVCPRJDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>EZMVCPRJDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="EZMVCPRJDataSet.xss">
+      <DependentUpon>EZMVCPRJDataSet.xsd</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\Ezhr.pubxml" />
     <None Include="Properties\PublishProfiles\Ezmvc.pubxml" />
     <None Include="Properties\PublishProfiles\k.pubxml" />
@@ -775,7 +802,9 @@
     <Content Include="Views\PurchaseReq\EditPurchaseOrder.cshtml" />
     <Content Include="Views\PurchaseReq\GetPurchaseOrderList.cshtml" />
     <Content Include="Views\PurchaseReq\PurchaseRequest.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -917,6 +946,12 @@
     <Content Include="Views\Report\SalaryReportDetails.cshtml" />
     <Content Include="Views\Report\Report1.cshtml" />
     <Content Include="Views\Report\EmpBankTrfreport.cshtml" />
+    <Content Include="Views\Report\DailyTimeSheetDetails.cshtml" />
+    <Content Include="Views\ProjectAllotmentNew\ProjectAllotmentNew.cshtml" />
+    <Content Include="Views\ProjectAllotmentNew\AddProjectAllotmentNew.cshtml" />
+    <Content Include="Views\ProjectAllotmentNew\EditProjectAllotmentNew.cshtml" />
+    <Content Include="Views\ProjectAllotmentNew\GetProjectAllotmentNewList.cshtml" />
+    <Content Include="Views\Report\LoanReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -964,6 +999,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Report\LoanApp.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
