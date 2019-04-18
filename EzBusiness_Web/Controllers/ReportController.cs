@@ -2,17 +2,18 @@
 using EzBusiness_BL_Service;
 using EzBusiness_EF_Entity;
 using EzBusiness_ViewModels.Models.Humanresourcepayroll;
-using Microsoft.Reporting.WebForms;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.Reporting.WebForms;
+
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 using EzBusiness_DL_Repository;
+using Microsoft.Reporting.WebForms;
 
 namespace EzBusiness_Web.Controllers
 {
@@ -1086,25 +1087,25 @@ namespace EzBusiness_Web.Controllers
         public ActionResult Report1()
         {
 
-            ReportViewer rptViewer = new ReportViewer();
+            //ReportViewer rptViewer = new ReportViewer();
 
-            // ProcessingMode will be Either Remote or Local  
-            rptViewer.ProcessingMode = ProcessingMode.Remote;
-            rptViewer.SizeToReportContent = true;
-            rptViewer.ZoomMode = ZoomMode.PageWidth;
+            //// ProcessingMode will be Either Remote or Local  
+            //rptViewer.ProcessingMode = ProcessingMode.Remote;
+            //rptViewer.SizeToReportContent = true;
+            //rptViewer.ZoomMode = ZoomMode.PageWidth;
            
-            rptViewer.AsyncRendering = true;
-            //rptViewer.ServerReport.ReportServerUrl = new Uri("http://localhost/ReportServer/");
+            //rptViewer.AsyncRendering = true;
+            ////rptViewer.ServerReport.ReportServerUrl = new Uri("http://localhost/ReportServer/");
 
-            //rptViewer.ServerReport.ReportPath = this.SetReportPath();
-
-
-
-            rptViewer.ServerReport.ReportServerUrl = new Uri("http://localhost/reportserver");
-            rptViewer.ServerReport.ReportPath = "../EzBusinessReport/Report1.rdl";
+            ////rptViewer.ServerReport.ReportPath = this.SetReportPath();
 
 
-            ViewBag.ReportViewer = rptViewer;
+
+            //rptViewer.ServerReport.ReportServerUrl = new Uri("http://localhost/reportserver");
+            //rptViewer.ServerReport.ReportPath = "../EzBusinessReport/Report1.rdl";
+
+
+            //ViewBag.ReportViewer = rptViewer;
             return View();
         }
 
@@ -1189,31 +1190,34 @@ namespace EzBusiness_Web.Controllers
 
 
         [Route("LoanReportForm")]
-        public ActionResult LoanReport(ReportsInp Inp)
+        public ActionResult LoanReport(string code)
         {
-
-            ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLA001 where PRLA001_CODE ='PRLA-71' and CmpyCode='UM'");
-            var rptviewer = new ReportViewer();
-            rptviewer.ProcessingMode = ProcessingMode.Local;
-            // rptviewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Report/LoanApp.rdlc";
-            rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/LoanApp.rdlc");
-            //ReportParameter[] param = new ReportParameter[1];
-            //param[0] = new ReportParameter("statename", name);
-            //rptviewer.LocalReport.SetParameters(param);
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-
-            ReportDataSource rptdatasource = new ReportDataSource("DataSet1", ds.Tables[0]);
-            rptviewer.LocalReport.DataSources.Clear();
-            rptviewer.LocalReport.DataSources.Add(rptdatasource);
-            rptviewer.LocalReport.Refresh();
-            rptviewer.ProcessingMode = ProcessingMode.Local;
-            rptviewer.AsyncRendering = false;
-            rptviewer.SizeToReportContent = true;
-            rptviewer.ZoomMode = ZoomMode.FullPage;
-
-            ViewBag.ReportViewer = rptviewer;
-            return View();
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLA001 where PRLA001_CODE ='" + code + "' and CmpyCode='" + list[0].CmpyCode + "'");
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/LoanApp.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param);                                
+                ReportDataSource rptdatasource = new ReportDataSource("DataSet1", ds.Tables[0]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
         }
     }
 }
