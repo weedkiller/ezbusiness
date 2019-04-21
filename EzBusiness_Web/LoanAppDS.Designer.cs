@@ -20,9 +20,9 @@ namespace EzBusiness_Web {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("EZMvcLeaveRequestDataset")]
+    [global::System.Xml.Serialization.XmlRootAttribute("LoanAppDS")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class EZMvcLeaveRequestDataset : global::System.Data.DataSet {
+    public partial class LoanAppDS : global::System.Data.DataSet {
         
         private Rep_LoanAppDataTable tableRep_LoanApp;
         
@@ -30,7 +30,6 @@ namespace EzBusiness_Web {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public EZMvcLeaveRequestDataset() {
         public LoanAppDS() {
             this.BeginInit();
             this.InitClass();
@@ -42,7 +41,6 @@ namespace EzBusiness_Web {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected EZMvcLeaveRequestDataset(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
         protected LoanAppDS(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
@@ -129,7 +127,6 @@ namespace EzBusiness_Web {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            EZMvcLeaveRequestDataset cln = ((EZMvcLeaveRequestDataset)(base.Clone()));
             LoanAppDS cln = ((LoanAppDS)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
@@ -202,10 +199,8 @@ namespace EzBusiness_Web {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "EZMvcLeaveRequestDataset";
             this.DataSetName = "LoanAppDS";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/EZMvcLeaveRequestDataset.xsd";
             this.Namespace = "http://tempuri.org/LoanAppDS.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
@@ -230,7 +225,6 @@ namespace EzBusiness_Web {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            EZMvcLeaveRequestDataset ds = new EZMvcLeaveRequestDataset();
             LoanAppDS ds = new LoanAppDS();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
@@ -325,11 +319,23 @@ namespace EzBusiness_Web {
             
             private global::System.Data.DataColumn columnFlag;
             
+            private global::System.Data.DataColumn columnAddress;
+            
+            private global::System.Data.DataColumn columnPostBox;
+            
+            private global::System.Data.DataColumn columnTel;
+            
+            private global::System.Data.DataColumn columnFax;
+            
             private global::System.Data.DataColumn columnEmpname;
             
             private global::System.Data.DataColumn columnEmpType;
             
             private global::System.Data.DataColumn columnName;
+            
+            private global::System.Data.DataColumn columnEntry_Date1;
+            
+            private global::System.Data.DataColumn columnDeductionStartDate1;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -486,356 +492,7 @@ namespace EzBusiness_Web {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddPRLR001Row(PRLR001Row row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public PRLR001Row AddPRLR001Row(
-                        string CmpyCode, 
-                        string COUNTRY, 
-                        string DIVISION, 
-                        string PRLR001_CODE, 
-                        System.DateTime Dates, 
-                        string EmpCode, 
-                        System.DateTime JoiningDate, 
-                        string LeaveType, 
-                        System.DateTime StartDate, 
-                        System.DateTime EndDate, 
-                        int LeaveDays, 
-                        string Remarks, 
-                        decimal TotalBalance, 
-                        decimal TotalApplied, 
-                        decimal TotalSanctioned, 
-                        string ApprovalYN, 
-                        bool SendMail, 
-                        System.DateTime ResumeDate, 
-                        string Status) {
-                PRLR001Row rowPRLR001Row = ((PRLR001Row)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        CmpyCode,
-                        COUNTRY,
-                        DIVISION,
-                        PRLR001_CODE,
-                        Dates,
-                        EmpCode,
-                        JoiningDate,
-                        LeaveType,
-                        StartDate,
-                        EndDate,
-                        LeaveDays,
-                        Remarks,
-                        TotalBalance,
-                        TotalApplied,
-                        TotalSanctioned,
-                        ApprovalYN,
-                        SendMail,
-                        ResumeDate,
-                        Status};
-                rowPRLR001Row.ItemArray = columnValuesArray;
-                this.Rows.Add(rowPRLR001Row);
-                return rowPRLR001Row;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public PRLR001Row FindByCmpyCodePRLR001_CODE(string CmpyCode, string PRLR001_CODE) {
-                return ((PRLR001Row)(this.Rows.Find(new object[] {
-                            CmpyCode,
-                            PRLR001_CODE})));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                PRLR001DataTable cln = ((PRLR001DataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new PRLR001DataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal void InitVars() {
-                this.columnCmpyCode = base.Columns["CmpyCode"];
-                this.columnCOUNTRY = base.Columns["COUNTRY"];
-                this.columnDIVISION = base.Columns["DIVISION"];
-                this.columnPRLR001_CODE = base.Columns["PRLR001_CODE"];
-                this.columnDates = base.Columns["Dates"];
-                this.columnEmpCode = base.Columns["EmpCode"];
-                this.columnJoiningDate = base.Columns["JoiningDate"];
-                this.columnLeaveType = base.Columns["LeaveType"];
-                this.columnStartDate = base.Columns["StartDate"];
-                this.columnEndDate = base.Columns["EndDate"];
-                this.columnLeaveDays = base.Columns["LeaveDays"];
-                this.columnRemarks = base.Columns["Remarks"];
-                this.columnTotalBalance = base.Columns["TotalBalance"];
-                this.columnTotalApplied = base.Columns["TotalApplied"];
-                this.columnTotalSanctioned = base.Columns["TotalSanctioned"];
-                this.columnApprovalYN = base.Columns["ApprovalYN"];
-                this.columnSendMail = base.Columns["SendMail"];
-                this.columnResumeDate = base.Columns["ResumeDate"];
-                this.columnStatus = base.Columns["Status"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            private void InitClass() {
-                this.columnCmpyCode = new global::System.Data.DataColumn("CmpyCode", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCmpyCode);
-                this.columnCOUNTRY = new global::System.Data.DataColumn("COUNTRY", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCOUNTRY);
-                this.columnDIVISION = new global::System.Data.DataColumn("DIVISION", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDIVISION);
-                this.columnPRLR001_CODE = new global::System.Data.DataColumn("PRLR001_CODE", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPRLR001_CODE);
-                this.columnDates = new global::System.Data.DataColumn("Dates", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDates);
-                this.columnEmpCode = new global::System.Data.DataColumn("EmpCode", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEmpCode);
-                this.columnJoiningDate = new global::System.Data.DataColumn("JoiningDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnJoiningDate);
-                this.columnLeaveType = new global::System.Data.DataColumn("LeaveType", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnLeaveType);
-                this.columnStartDate = new global::System.Data.DataColumn("StartDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnStartDate);
-                this.columnEndDate = new global::System.Data.DataColumn("EndDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEndDate);
-                this.columnLeaveDays = new global::System.Data.DataColumn("LeaveDays", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnLeaveDays);
-                this.columnRemarks = new global::System.Data.DataColumn("Remarks", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRemarks);
-                this.columnTotalBalance = new global::System.Data.DataColumn("TotalBalance", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTotalBalance);
-                this.columnTotalApplied = new global::System.Data.DataColumn("TotalApplied", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTotalApplied);
-                this.columnTotalSanctioned = new global::System.Data.DataColumn("TotalSanctioned", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTotalSanctioned);
-                this.columnApprovalYN = new global::System.Data.DataColumn("ApprovalYN", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnApprovalYN);
-                this.columnSendMail = new global::System.Data.DataColumn("SendMail", typeof(bool), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSendMail);
-                this.columnResumeDate = new global::System.Data.DataColumn("ResumeDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnResumeDate);
-                this.columnStatus = new global::System.Data.DataColumn("Status", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnStatus);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnCmpyCode,
-                                this.columnPRLR001_CODE}, true));
-                this.columnCmpyCode.AllowDBNull = false;
-                this.columnCmpyCode.MaxLength = 20;
-                this.columnCOUNTRY.AllowDBNull = false;
-                this.columnCOUNTRY.MaxLength = 20;
-                this.columnDIVISION.AllowDBNull = false;
-                this.columnDIVISION.MaxLength = 20;
-                this.columnPRLR001_CODE.AllowDBNull = false;
-                this.columnPRLR001_CODE.MaxLength = 50;
-                this.columnEmpCode.AllowDBNull = false;
-                this.columnEmpCode.MaxLength = 20;
-                this.columnLeaveType.AllowDBNull = false;
-                this.columnLeaveType.MaxLength = 20;
-                this.columnLeaveDays.AllowDBNull = false;
-                this.columnRemarks.AllowDBNull = false;
-                this.columnRemarks.MaxLength = 150;
-                this.columnTotalBalance.AllowDBNull = false;
-                this.columnTotalApplied.AllowDBNull = false;
-                this.columnTotalSanctioned.AllowDBNull = false;
-                this.columnApprovalYN.AllowDBNull = false;
-                this.columnApprovalYN.MaxLength = 1;
-                this.columnSendMail.AllowDBNull = false;
-                this.columnStatus.AllowDBNull = false;
-                this.columnStatus.MaxLength = 5;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public PRLR001Row NewPRLR001Row() {
-                return ((PRLR001Row)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new PRLR001Row(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(PRLR001Row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.PRLR001RowChanged != null)) {
-                    this.PRLR001RowChanged(this, new PRLR001RowChangeEvent(((PRLR001Row)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.PRLR001RowChanging != null)) {
-                    this.PRLR001RowChanging(this, new PRLR001RowChangeEvent(((PRLR001Row)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.PRLR001RowDeleted != null)) {
-                    this.PRLR001RowDeleted(this, new PRLR001RowChangeEvent(((PRLR001Row)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.PRLR001RowDeleting != null)) {
-                    this.PRLR001RowDeleting(this, new PRLR001RowChangeEvent(((PRLR001Row)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemovePRLR001Row(PRLR001Row row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                EZMvcLeaveRequestDataset ds = new EZMvcLeaveRequestDataset();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "PRLR001DataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class PRLR002DataTable : global::System.Data.TypedTableBase<PRLR002Row> {
-            
-            private global::System.Data.DataColumn columnPRLR002_UID;
-            
-            private global::System.Data.DataColumn columnPRLR001_CODE;
-            
-            private global::System.Data.DataColumn columnCmpycode;
-            
-            private global::System.Data.DataColumn columnLeaveDate;
-            
-            private global::System.Data.DataColumn columnLeave_Req_type;
-            
-            private global::System.Data.DataColumn columnDuty_Rm_type;
-            
-            private global::System.Data.DataColumn columnAllow_hours;
-            
-            private global::System.Data.DataColumn columnStatus;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public PRLR002DataTable() {
-                this.TableName = "PRLR002";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal PRLR002DataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected PRLR002DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PRLR002_UIDColumn {
+            public global::System.Data.DataColumn Act_codeColumn {
                 get {
                     return this.columnAct_code;
                 }
@@ -875,6 +532,38 @@ namespace EzBusiness_Web {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn AddressColumn {
+                get {
+                    return this.columnAddress;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PostBoxColumn {
+                get {
+                    return this.columnPostBox;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn TelColumn {
+                get {
+                    return this.columnTel;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn FaxColumn {
+                get {
+                    return this.columnFax;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public global::System.Data.DataColumn EmpnameColumn {
                 get {
                     return this.columnEmpname;
@@ -894,6 +583,22 @@ namespace EzBusiness_Web {
             public global::System.Data.DataColumn NameColumn {
                 get {
                     return this.columnName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn Entry_Date1Column {
+                get {
+                    return this.columnEntry_Date1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn DeductionStartDate1Column {
+                get {
+                    return this.columnDeductionStartDate1;
                 }
             }
             
@@ -954,9 +659,15 @@ namespace EzBusiness_Web {
                         string ApprovalYN, 
                         decimal AppliedAmt, 
                         bool Flag, 
+                        string Address, 
+                        string PostBox, 
+                        string Tel, 
+                        string Fax, 
                         string Empname, 
                         string EmpType, 
-                        string Name) {
+                        string Name, 
+                        string Entry_Date1, 
+                        string DeductionStartDate1) {
                 Rep_LoanAppRow rowRep_LoanAppRow = ((Rep_LoanAppRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -979,9 +690,15 @@ namespace EzBusiness_Web {
                         ApprovalYN,
                         AppliedAmt,
                         Flag,
+                        Address,
+                        PostBox,
+                        Tel,
+                        Fax,
                         Empname,
                         EmpType,
-                        Name};
+                        Name,
+                        Entry_Date1,
+                        DeductionStartDate1};
                 rowRep_LoanAppRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowRep_LoanAppRow);
                 return rowRep_LoanAppRow;
@@ -1033,9 +750,15 @@ namespace EzBusiness_Web {
                 this.columnApprovalYN = base.Columns["ApprovalYN"];
                 this.columnAppliedAmt = base.Columns["AppliedAmt"];
                 this.columnFlag = base.Columns["Flag"];
+                this.columnAddress = base.Columns["Address"];
+                this.columnPostBox = base.Columns["PostBox"];
+                this.columnTel = base.Columns["Tel"];
+                this.columnFax = base.Columns["Fax"];
                 this.columnEmpname = base.Columns["Empname"];
                 this.columnEmpType = base.Columns["EmpType"];
                 this.columnName = base.Columns["Name"];
+                this.columnEntry_Date1 = base.Columns["Entry_Date1"];
+                this.columnDeductionStartDate1 = base.Columns["DeductionStartDate1"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1081,12 +804,24 @@ namespace EzBusiness_Web {
                 base.Columns.Add(this.columnAppliedAmt);
                 this.columnFlag = new global::System.Data.DataColumn("Flag", typeof(bool), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFlag);
+                this.columnAddress = new global::System.Data.DataColumn("Address", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAddress);
+                this.columnPostBox = new global::System.Data.DataColumn("PostBox", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPostBox);
+                this.columnTel = new global::System.Data.DataColumn("Tel", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTel);
+                this.columnFax = new global::System.Data.DataColumn("Fax", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFax);
                 this.columnEmpname = new global::System.Data.DataColumn("Empname", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEmpname);
                 this.columnEmpType = new global::System.Data.DataColumn("EmpType", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEmpType);
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
+                this.columnEntry_Date1 = new global::System.Data.DataColumn("Entry_Date1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEntry_Date1);
+                this.columnDeductionStartDate1 = new global::System.Data.DataColumn("DeductionStartDate1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDeductionStartDate1);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnPRLA001_CODE,
                                 this.columnCOUNTRY,
@@ -1120,12 +855,20 @@ namespace EzBusiness_Web {
                 this.columnApprovalYN.MaxLength = 5;
                 this.columnAppliedAmt.AllowDBNull = false;
                 this.columnFlag.AllowDBNull = false;
+                this.columnAddress.MaxLength = 100;
+                this.columnPostBox.MaxLength = 40;
+                this.columnTel.MaxLength = 100;
+                this.columnFax.MaxLength = 100;
                 this.columnEmpname.AllowDBNull = false;
                 this.columnEmpname.MaxLength = 50;
                 this.columnEmpType.AllowDBNull = false;
                 this.columnEmpType.MaxLength = 20;
                 this.columnName.AllowDBNull = false;
                 this.columnName.MaxLength = 100;
+                this.columnEntry_Date1.ReadOnly = true;
+                this.columnEntry_Date1.MaxLength = 8000;
+                this.columnDeductionStartDate1.ReadOnly = true;
+                this.columnDeductionStartDate1.MaxLength = 8000;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1193,7 +936,6 @@ namespace EzBusiness_Web {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                EZMvcLeaveRequestDataset ds = new EZMvcLeaveRequestDataset();
                 LoanAppDS ds = new LoanAppDS();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
@@ -1504,6 +1246,70 @@ namespace EzBusiness_Web {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Address {
+                get {
+                    try {
+                        return ((string)(this[this.tableRep_LoanApp.AddressColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Address\' in table \'Rep_LoanApp\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRep_LoanApp.AddressColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string PostBox {
+                get {
+                    try {
+                        return ((string)(this[this.tableRep_LoanApp.PostBoxColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'PostBox\' in table \'Rep_LoanApp\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRep_LoanApp.PostBoxColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Tel {
+                get {
+                    try {
+                        return ((string)(this[this.tableRep_LoanApp.TelColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Tel\' in table \'Rep_LoanApp\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRep_LoanApp.TelColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Fax {
+                get {
+                    try {
+                        return ((string)(this[this.tableRep_LoanApp.FaxColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Fax\' in table \'Rep_LoanApp\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRep_LoanApp.FaxColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Empname {
                 get {
                     return ((string)(this[this.tableRep_LoanApp.EmpnameColumn]));
@@ -1532,6 +1338,38 @@ namespace EzBusiness_Web {
                 }
                 set {
                     this[this.tableRep_LoanApp.NameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Entry_Date1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableRep_LoanApp.Entry_Date1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Entry_Date1\' in table \'Rep_LoanApp\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRep_LoanApp.Entry_Date1Column] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string DeductionStartDate1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableRep_LoanApp.DeductionStartDate1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'DeductionStartDate1\' in table \'Rep_LoanApp\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRep_LoanApp.DeductionStartDate1Column] = value;
                 }
             }
             
@@ -1570,6 +1408,78 @@ namespace EzBusiness_Web {
             public void SetDeductionStartDateNull() {
                 this[this.tableRep_LoanApp.DeductionStartDateColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsAddressNull() {
+                return this.IsNull(this.tableRep_LoanApp.AddressColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetAddressNull() {
+                this[this.tableRep_LoanApp.AddressColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPostBoxNull() {
+                return this.IsNull(this.tableRep_LoanApp.PostBoxColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPostBoxNull() {
+                this[this.tableRep_LoanApp.PostBoxColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsTelNull() {
+                return this.IsNull(this.tableRep_LoanApp.TelColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetTelNull() {
+                this[this.tableRep_LoanApp.TelColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsFaxNull() {
+                return this.IsNull(this.tableRep_LoanApp.FaxColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetFaxNull() {
+                this[this.tableRep_LoanApp.FaxColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsEntry_Date1Null() {
+                return this.IsNull(this.tableRep_LoanApp.Entry_Date1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetEntry_Date1Null() {
+                this[this.tableRep_LoanApp.Entry_Date1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsDeductionStartDate1Null() {
+                return this.IsNull(this.tableRep_LoanApp.DeductionStartDate1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetDeductionStartDate1Null() {
+                this[this.tableRep_LoanApp.DeductionStartDate1Column] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -1607,7 +1517,6 @@ namespace EzBusiness_Web {
         }
     }
 }
-namespace EzBusiness_Web.EZMvcLeaveRequestDatasetTableAdapters {
 namespace EzBusiness_Web.LoanAppDSTableAdapters {
     
     
@@ -1752,9 +1661,15 @@ namespace EzBusiness_Web.LoanAppDSTableAdapters {
             tableMapping.ColumnMappings.Add("ApprovalYN", "ApprovalYN");
             tableMapping.ColumnMappings.Add("AppliedAmt", "AppliedAmt");
             tableMapping.ColumnMappings.Add("Flag", "Flag");
+            tableMapping.ColumnMappings.Add("Address", "Address");
+            tableMapping.ColumnMappings.Add("PostBox", "PostBox");
+            tableMapping.ColumnMappings.Add("Tel", "Tel");
+            tableMapping.ColumnMappings.Add("Fax", "Fax");
             tableMapping.ColumnMappings.Add("Empname", "Empname");
             tableMapping.ColumnMappings.Add("EmpType", "EmpType");
             tableMapping.ColumnMappings.Add("Name", "Name");
+            tableMapping.ColumnMappings.Add("Entry_Date1", "Entry_Date1");
+            tableMapping.ColumnMappings.Add("DeductionStartDate1", "DeductionStartDate1");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -1782,262 +1697,8 @@ namespace EzBusiness_Web.LoanAppDSTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(EZMvcLeaveRequestDataset.PRLR001DataTable dataTable) {
         public virtual int Fill(LoanAppDS.Rep_LoanAppDataTable dataTable, string PRLR001_CODE, string cmpycode) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((this.ClearBeforeFill == true)) {
-                dataTable.Clear();
-            }
-            int returnValue = this.Adapter.Fill(dataTable);
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual EZMvcLeaveRequestDataset.PRLR001DataTable GetData() {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            EZMvcLeaveRequestDataset.PRLR001DataTable dataTable = new EZMvcLeaveRequestDataset.PRLR001DataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(EZMvcLeaveRequestDataset.PRLR001DataTable dataTable) {
-            return this.Adapter.Update(dataTable);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(EZMvcLeaveRequestDataset dataSet) {
-            return this.Adapter.Update(dataSet, "PRLR001");
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow dataRow) {
-            return this.Adapter.Update(new global::System.Data.DataRow[] {
-                        dataRow});
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow[] dataRows) {
-            return this.Adapter.Update(dataRows);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(string Original_CmpyCode, string Original_PRLR001_CODE) {
-            if ((Original_CmpyCode == null)) {
-                throw new global::System.ArgumentNullException("Original_CmpyCode");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[0].Value = ((string)(Original_CmpyCode));
-            }
-            if ((Original_PRLR001_CODE == null)) {
-                throw new global::System.ArgumentNullException("Original_PRLR001_CODE");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_PRLR001_CODE));
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
-            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.DeleteCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.DeleteCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(
-                    string CmpyCode, 
-                    string COUNTRY, 
-                    string DIVISION, 
-                    string PRLR001_CODE, 
-                    global::System.Nullable<global::System.DateTime> Dates, 
-                    string EmpCode, 
-                    global::System.Nullable<global::System.DateTime> JoiningDate, 
-                    string LeaveType, 
-                    global::System.Nullable<global::System.DateTime> StartDate, 
-                    global::System.Nullable<global::System.DateTime> EndDate, 
-                    int LeaveDays, 
-                    string Remarks, 
-                    decimal TotalBalance, 
-                    decimal TotalApplied, 
-                    decimal TotalSanctioned, 
-                    string ApprovalYN, 
-                    bool SendMail, 
-                    global::System.Nullable<global::System.DateTime> ResumeDate, 
-                    string Status) {
-            if ((CmpyCode == null)) {
-                throw new global::System.ArgumentNullException("CmpyCode");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(CmpyCode));
-            }
-            if ((COUNTRY == null)) {
-                throw new global::System.ArgumentNullException("COUNTRY");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(COUNTRY));
-            }
-            if ((DIVISION == null)) {
-                throw new global::System.ArgumentNullException("DIVISION");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(DIVISION));
-            }
-            if ((PRLR001_CODE == null)) {
-                throw new global::System.ArgumentNullException("PRLR001_CODE");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[3].Value = ((string)(PRLR001_CODE));
-            }
-            if ((Dates.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[4].Value = ((System.DateTime)(Dates.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            if ((EmpCode == null)) {
-                throw new global::System.ArgumentNullException("EmpCode");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(EmpCode));
-            }
-            if ((JoiningDate.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[6].Value = ((System.DateTime)(JoiningDate.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
-            }
-            if ((LeaveType == null)) {
-                throw new global::System.ArgumentNullException("LeaveType");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[7].Value = ((string)(LeaveType));
-            }
-            if ((StartDate.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[8].Value = ((System.DateTime)(StartDate.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[8].Value = global::System.DBNull.Value;
-            }
-            if ((EndDate.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[9].Value = ((System.DateTime)(EndDate.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[9].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.InsertCommand.Parameters[10].Value = ((int)(LeaveDays));
-            if ((Remarks == null)) {
-                throw new global::System.ArgumentNullException("Remarks");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[11].Value = ((string)(Remarks));
-            }
-            this.Adapter.InsertCommand.Parameters[12].Value = ((decimal)(TotalBalance));
-            this.Adapter.InsertCommand.Parameters[13].Value = ((decimal)(TotalApplied));
-            this.Adapter.InsertCommand.Parameters[14].Value = ((decimal)(TotalSanctioned));
-            if ((ApprovalYN == null)) {
-                throw new global::System.ArgumentNullException("ApprovalYN");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[15].Value = ((string)(ApprovalYN));
-            }
-            this.Adapter.InsertCommand.Parameters[16].Value = ((bool)(SendMail));
-            if ((ResumeDate.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[17].Value = ((System.DateTime)(ResumeDate.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[17].Value = global::System.DBNull.Value;
-            }
-            if ((Status == null)) {
-                throw new global::System.ArgumentNullException("Status");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[18].Value = ((string)(Status));
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
-            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.InsertCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.InsertCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(
-                    string CmpyCode, 
-                    string COUNTRY, 
-                    string DIVISION, 
-                    string PRLR001_CODE, 
-                    global::System.Nullable<global::System.DateTime> Dates, 
-                    string EmpCode, 
-                    global::System.Nullable<global::System.DateTime> JoiningDate, 
-                    string LeaveType, 
-                    global::System.Nullable<global::System.DateTime> StartDate, 
-                    global::System.Nullable<global::System.DateTime> EndDate, 
-                    int LeaveDays, 
-                    string Remarks, 
-                    decimal TotalBalance, 
-                    decimal TotalApplied, 
-                    decimal TotalSanctioned, 
-                    string ApprovalYN, 
-                    bool SendMail, 
-                    global::System.Nullable<global::System.DateTime> ResumeDate, 
-                    string Status, 
-                    string Original_CmpyCode, 
-                    string Original_PRLR001_CODE) {
-            if ((CmpyCode == null)) {
-                throw new global::System.ArgumentNullException("CmpyCode");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(CmpyCode));
-            }
-            if ((COUNTRY == null)) {
-                throw new global::System.ArgumentNullException("COUNTRY");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(COUNTRY));
-            }
-            if ((DIVISION == null)) {
-                throw new global::System.ArgumentNullException("DIVISION");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(DIVISION));
-            }
             if ((PRLR001_CODE == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
@@ -2048,243 +1709,6 @@ namespace EzBusiness_Web.LoanAppDSTableAdapters {
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[20].Value = ((string)(Original_PRLR001_CODE));
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
-            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.UpdateCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.UpdateCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(
-                    string COUNTRY, 
-                    string DIVISION, 
-                    global::System.Nullable<global::System.DateTime> Dates, 
-                    string EmpCode, 
-                    global::System.Nullable<global::System.DateTime> JoiningDate, 
-                    string LeaveType, 
-                    global::System.Nullable<global::System.DateTime> StartDate, 
-                    global::System.Nullable<global::System.DateTime> EndDate, 
-                    int LeaveDays, 
-                    string Remarks, 
-                    decimal TotalBalance, 
-                    decimal TotalApplied, 
-                    decimal TotalSanctioned, 
-                    string ApprovalYN, 
-                    bool SendMail, 
-                    global::System.Nullable<global::System.DateTime> ResumeDate, 
-                    string Status, 
-                    string Original_CmpyCode, 
-                    string Original_PRLR001_CODE) {
-            return this.Update(Original_CmpyCode, COUNTRY, DIVISION, Original_PRLR001_CODE, Dates, EmpCode, JoiningDate, LeaveType, StartDate, EndDate, LeaveDays, Remarks, TotalBalance, TotalApplied, TotalSanctioned, ApprovalYN, SendMail, ResumeDate, Status, Original_CmpyCode, Original_PRLR001_CODE);
-        }
-    }
-    
-    /// <summary>
-    ///Represents the connection and commands used to retrieve and save data.
-    ///</summary>
-    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
-    [global::System.ComponentModel.ToolboxItem(true)]
-    [global::System.ComponentModel.DataObjectAttribute(true)]
-    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
-        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class PRLR002TableAdapter : global::System.ComponentModel.Component {
-        
-        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
-        
-        private global::System.Data.SqlClient.SqlConnection _connection;
-        
-        private global::System.Data.SqlClient.SqlTransaction _transaction;
-        
-        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
-        
-        private bool _clearBeforeFill;
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public PRLR002TableAdapter() {
-            this.ClearBeforeFill = true;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
-            get {
-                if ((this._adapter == null)) {
-                    this.InitAdapter();
-                }
-                return this._adapter;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlConnection Connection {
-            get {
-                if ((this._connection == null)) {
-                    this.InitConnection();
-                }
-                return this._connection;
-            }
-            set {
-                this._connection = value;
-                if ((this.Adapter.InsertCommand != null)) {
-                    this.Adapter.InsertCommand.Connection = value;
-                }
-                if ((this.Adapter.DeleteCommand != null)) {
-                    this.Adapter.DeleteCommand.Connection = value;
-                }
-                if ((this.Adapter.UpdateCommand != null)) {
-                    this.Adapter.UpdateCommand.Connection = value;
-                }
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    if ((this.CommandCollection[i] != null)) {
-                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
-                    }
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        internal global::System.Data.SqlClient.SqlTransaction Transaction {
-            get {
-                return this._transaction;
-            }
-            set {
-                this._transaction = value;
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    this.CommandCollection[i].Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.DeleteCommand != null))) {
-                    this.Adapter.DeleteCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.InsertCommand != null))) {
-                    this.Adapter.InsertCommand.Transaction = this._transaction;
-                }
-                if (((this.Adapter != null) 
-                            && (this.Adapter.UpdateCommand != null))) {
-                    this.Adapter.UpdateCommand.Transaction = this._transaction;
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
-            get {
-                if ((this._commandCollection == null)) {
-                    this.InitCommandCollection();
-                }
-                return this._commandCollection;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public bool ClearBeforeFill {
-            get {
-                return this._clearBeforeFill;
-            }
-            set {
-                this._clearBeforeFill = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitAdapter() {
-            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
-            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
-            tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "PRLR002";
-            tableMapping.ColumnMappings.Add("PRLR002_UID", "PRLR002_UID");
-            tableMapping.ColumnMappings.Add("PRLR001_CODE", "PRLR001_CODE");
-            tableMapping.ColumnMappings.Add("Cmpycode", "Cmpycode");
-            tableMapping.ColumnMappings.Add("LeaveDate", "LeaveDate");
-            tableMapping.ColumnMappings.Add("Leave_Req_type", "Leave_Req_type");
-            tableMapping.ColumnMappings.Add("Duty_Rm_type", "Duty_Rm_type");
-            tableMapping.ColumnMappings.Add("Allow_hours", "Allow_hours");
-            tableMapping.ColumnMappings.Add("Status", "Status");
-            this._adapter.TableMappings.Add(tableMapping);
-            this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [ezbusdb].[PRLR002] WHERE (([PRLR001_CODE] = @Original_PRLR001_CODE) " +
-                "AND ([Cmpycode] = @Original_Cmpycode) AND ([LeaveDate] = @Original_LeaveDate))";
-            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PRLR001_CODE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PRLR001_CODE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Cmpycode", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Cmpycode", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LeaveDate", global::System.Data.SqlDbType.Date, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LeaveDate", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [ezbusdb].[PRLR002] ([PRLR002_UID], [PRLR001_CODE], [Cmpycode], [LeaveDate], [Leave_Req_type], [Duty_Rm_type], [Allow_hours], [Status]) VALUES (@PRLR002_UID, @PRLR001_CODE, @Cmpycode, @LeaveDate, @Leave_Req_type, @Duty_Rm_type, @Allow_hours, @Status)";
-            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PRLR002_UID", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PRLR002_UID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PRLR001_CODE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PRLR001_CODE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Cmpycode", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Cmpycode", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LeaveDate", global::System.Data.SqlDbType.Date, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LeaveDate", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Leave_Req_type", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Leave_Req_type", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Duty_Rm_type", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Duty_Rm_type", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Allow_hours", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "Allow_hours", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Status", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Status", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [ezbusdb].[PRLR002] SET [PRLR002_UID] = @PRLR002_UID, [PRLR001_CODE] = @PRLR001_CODE, [Cmpycode] = @Cmpycode, [LeaveDate] = @LeaveDate, [Leave_Req_type] = @Leave_Req_type, [Duty_Rm_type] = @Duty_Rm_type, [Allow_hours] = @Allow_hours, [Status] = @Status WHERE (([PRLR001_CODE] = @Original_PRLR001_CODE) AND ([Cmpycode] = @Original_Cmpycode) AND ([LeaveDate] = @Original_LeaveDate))";
-            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PRLR002_UID", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PRLR002_UID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PRLR001_CODE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PRLR001_CODE", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Cmpycode", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Cmpycode", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LeaveDate", global::System.Data.SqlDbType.Date, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LeaveDate", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Leave_Req_type", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Leave_Req_type", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Duty_Rm_type", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Duty_Rm_type", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Allow_hours", global::System.Data.SqlDbType.Decimal, 0, global::System.Data.ParameterDirection.Input, 18, 2, "Allow_hours", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Status", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Status", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PRLR001_CODE", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PRLR001_CODE", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Cmpycode", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Cmpycode", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LeaveDate", global::System.Data.SqlDbType.Date, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LeaveDate", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitConnection() {
-            this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = System.Configuration.ConfigurationManager.ConnectionStrings["UMNIAHConn"].ConnectionString;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
-            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
-            this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT PRLR002_UID, PRLR001_CODE, Cmpycode, LeaveDate, Leave_Req_type, Duty_Rm_ty" +
-                "pe, Allow_hours, Status FROM ezbusdb.PRLR002";
-            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(EZMvcLeaveRequestDataset.PRLR002DataTable dataTable) {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
                 this.Adapter.SelectCommand.Parameters[2].Value = ((string)(cmpycode));
             }
             if ((this.ClearBeforeFill == true)) {
@@ -2298,152 +1722,8 @@ namespace EzBusiness_Web.LoanAppDSTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual EZMvcLeaveRequestDataset.PRLR002DataTable GetData() {
         public virtual LoanAppDS.Rep_LoanAppDataTable GetData(string PRLR001_CODE, string cmpycode) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            EZMvcLeaveRequestDataset.PRLR002DataTable dataTable = new EZMvcLeaveRequestDataset.PRLR002DataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(EZMvcLeaveRequestDataset.PRLR002DataTable dataTable) {
-            return this.Adapter.Update(dataTable);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(EZMvcLeaveRequestDataset dataSet) {
-            return this.Adapter.Update(dataSet, "PRLR002");
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow dataRow) {
-            return this.Adapter.Update(new global::System.Data.DataRow[] {
-                        dataRow});
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow[] dataRows) {
-            return this.Adapter.Update(dataRows);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(string Original_PRLR001_CODE, string Original_Cmpycode, System.DateTime Original_LeaveDate) {
-            if ((Original_PRLR001_CODE == null)) {
-                throw new global::System.ArgumentNullException("Original_PRLR001_CODE");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[0].Value = ((string)(Original_PRLR001_CODE));
-            }
-            if ((Original_Cmpycode == null)) {
-                throw new global::System.ArgumentNullException("Original_Cmpycode");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_Cmpycode));
-            }
-            this.Adapter.DeleteCommand.Parameters[2].Value = ((System.DateTime)(Original_LeaveDate));
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
-            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.DeleteCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.DeleteCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string PRLR002_UID, string PRLR001_CODE, string Cmpycode, System.DateTime LeaveDate, string Leave_Req_type, string Duty_Rm_type, global::System.Nullable<decimal> Allow_hours, string Status) {
-            if ((PRLR002_UID == null)) {
-                throw new global::System.ArgumentNullException("PRLR002_UID");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(PRLR002_UID));
-            }
-            if ((PRLR001_CODE == null)) {
-                throw new global::System.ArgumentNullException("PRLR001_CODE");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(PRLR001_CODE));
-            }
-            if ((Cmpycode == null)) {
-                throw new global::System.ArgumentNullException("Cmpycode");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(Cmpycode));
-            }
-            this.Adapter.InsertCommand.Parameters[3].Value = ((System.DateTime)(LeaveDate));
-            if ((Leave_Req_type == null)) {
-                throw new global::System.ArgumentNullException("Leave_Req_type");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[4].Value = ((string)(Leave_Req_type));
-            }
-            if ((Duty_Rm_type == null)) {
-                throw new global::System.ArgumentNullException("Duty_Rm_type");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(Duty_Rm_type));
-            }
-            if ((Allow_hours.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[6].Value = ((decimal)(Allow_hours.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
-            }
-            if ((Status == null)) {
-                this.Adapter.InsertCommand.Parameters[7].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[7].Value = ((string)(Status));
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
-            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.InsertCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.InsertCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string PRLR002_UID, string PRLR001_CODE, string Cmpycode, System.DateTime LeaveDate, string Leave_Req_type, string Duty_Rm_type, global::System.Nullable<decimal> Allow_hours, string Status, string Original_PRLR001_CODE, string Original_Cmpycode, System.DateTime Original_LeaveDate) {
-            if ((PRLR002_UID == null)) {
-                throw new global::System.ArgumentNullException("PRLR002_UID");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(PRLR002_UID));
-            }
             if ((PRLR001_CODE == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
@@ -2530,7 +1810,6 @@ namespace EzBusiness_Web.LoanAppDSTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateUpdatedRows(EZMvcLeaveRequestDataset dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
         private int UpdateUpdatedRows(LoanAppDS dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
@@ -2541,7 +1820,6 @@ namespace EzBusiness_Web.LoanAppDSTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateInsertedRows(EZMvcLeaveRequestDataset dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
         private int UpdateInsertedRows(LoanAppDS dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
@@ -2552,7 +1830,6 @@ namespace EzBusiness_Web.LoanAppDSTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateDeletedRows(EZMvcLeaveRequestDataset dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
         private int UpdateDeletedRows(LoanAppDS dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             return result;
@@ -2587,7 +1864,6 @@ namespace EzBusiness_Web.LoanAppDSTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public virtual int UpdateAll(EZMvcLeaveRequestDataset dataSet) {
         public virtual int UpdateAll(LoanAppDS dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");

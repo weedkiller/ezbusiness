@@ -20,17 +20,17 @@ namespace EzBusiness_Web {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("LoanAppDS1")]
+    [global::System.Xml.Serialization.XmlRootAttribute("DutyResumeDS")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class LoanAppDS1 : global::System.Data.DataSet {
+    public partial class DutyResumeDS : global::System.Data.DataSet {
         
-        private Rep_LoanAppDataTable tableRep_LoanApp;
+        private Rep_DutyResumeDataTable tableRep_DutyResume;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public LoanAppDS1() {
+        public DutyResumeDS() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace EzBusiness_Web {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected LoanAppDS1(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected DutyResumeDS(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -54,8 +54,8 @@ namespace EzBusiness_Web {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["Rep_LoanApp"] != null)) {
-                    base.Tables.Add(new Rep_LoanAppDataTable(ds.Tables["Rep_LoanApp"]));
+                if ((ds.Tables["Rep_DutyResume"] != null)) {
+                    base.Tables.Add(new Rep_DutyResumeDataTable(ds.Tables["Rep_DutyResume"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -79,9 +79,9 @@ namespace EzBusiness_Web {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public Rep_LoanAppDataTable Rep_LoanApp {
+        public Rep_DutyResumeDataTable Rep_DutyResume {
             get {
-                return this.tableRep_LoanApp;
+                return this.tableRep_DutyResume;
             }
         }
         
@@ -127,7 +127,7 @@ namespace EzBusiness_Web {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            LoanAppDS1 cln = ((LoanAppDS1)(base.Clone()));
+            DutyResumeDS cln = ((DutyResumeDS)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -152,8 +152,8 @@ namespace EzBusiness_Web {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["Rep_LoanApp"] != null)) {
-                    base.Tables.Add(new Rep_LoanAppDataTable(ds.Tables["Rep_LoanApp"]));
+                if ((ds.Tables["Rep_DutyResume"] != null)) {
+                    base.Tables.Add(new Rep_DutyResumeDataTable(ds.Tables["Rep_DutyResume"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -188,10 +188,10 @@ namespace EzBusiness_Web {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableRep_LoanApp = ((Rep_LoanAppDataTable)(base.Tables["Rep_LoanApp"]));
+            this.tableRep_DutyResume = ((Rep_DutyResumeDataTable)(base.Tables["Rep_DutyResume"]));
             if ((initTable == true)) {
-                if ((this.tableRep_LoanApp != null)) {
-                    this.tableRep_LoanApp.InitVars();
+                if ((this.tableRep_DutyResume != null)) {
+                    this.tableRep_DutyResume.InitVars();
                 }
             }
         }
@@ -199,18 +199,18 @@ namespace EzBusiness_Web {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "LoanAppDS1";
+            this.DataSetName = "DutyResumeDS";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/LoanAppDS1.xsd";
+            this.Namespace = "http://tempuri.org/DutyResumeDS.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableRep_LoanApp = new Rep_LoanAppDataTable();
-            base.Tables.Add(this.tableRep_LoanApp);
+            this.tableRep_DutyResume = new Rep_DutyResumeDataTable();
+            base.Tables.Add(this.tableRep_DutyResume);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeRep_LoanApp() {
+        private bool ShouldSerializeRep_DutyResume() {
             return false;
         }
         
@@ -225,7 +225,7 @@ namespace EzBusiness_Web {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            LoanAppDS1 ds = new LoanAppDS1();
+            DutyResumeDS ds = new DutyResumeDS();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -270,71 +270,73 @@ namespace EzBusiness_Web {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void Rep_LoanAppRowChangeEventHandler(object sender, Rep_LoanAppRowChangeEvent e);
+        public delegate void Rep_DutyResumeRowChangeEventHandler(object sender, Rep_DutyResumeRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class Rep_LoanAppDataTable : global::System.Data.TypedTableBase<Rep_LoanAppRow> {
+        public partial class Rep_DutyResumeDataTable : global::System.Data.TypedTableBase<Rep_DutyResumeRow> {
             
-            private global::System.Data.DataColumn columnPRLA001_UID;
+            private global::System.Data.DataColumn columnCmpycode;
             
-            private global::System.Data.DataColumn columnPRLA001_CODE;
+            private global::System.Data.DataColumn columnPRDR001_CODE;
             
-            private global::System.Data.DataColumn columnCOUNTRY;
+            private global::System.Data.DataColumn columnPRLR001_CODE;
             
-            private global::System.Data.DataColumn columnCmpyCode;
+            private global::System.Data.DataColumn columncountry;
+            
+            private global::System.Data.DataColumn columndivision;
+            
+            private global::System.Data.DataColumn columnPRLS001_CODE;
             
             private global::System.Data.DataColumn columnEmpCode;
             
-            private global::System.Data.DataColumn columnEntry_Date;
+            private global::System.Data.DataColumn columnResumeDate;
             
-            private global::System.Data.DataColumn columnLoanAmount;
+            private global::System.Data.DataColumn columnActual_Leave_Type;
             
-            private global::System.Data.DataColumn columnNoOfInstalments;
+            private global::System.Data.DataColumn columnDuty_Rm_type;
             
-            private global::System.Data.DataColumn columnInstalment;
+            private global::System.Data.DataColumn columnApprove_Days;
             
-            private global::System.Data.DataColumn columnDeduction;
+            private global::System.Data.DataColumn columnExcess_Days_plus_minus;
             
-            private global::System.Data.DataColumn columnBalance;
+            private global::System.Data.DataColumn columnApprove_Days_in_full;
             
-            private global::System.Data.DataColumn columnRemarks;
-            
-            private global::System.Data.DataColumn columnStatus;
-            
-            private global::System.Data.DataColumn columnAutoDeductionYN;
-            
-            private global::System.Data.DataColumn columnDeductionStartDate;
-            
-            private global::System.Data.DataColumn columnAct_code;
-            
-            private global::System.Data.DataColumn columnLoanType;
-            
-            private global::System.Data.DataColumn columnApprovalYN;
-            
-            private global::System.Data.DataColumn columnAppliedAmt;
+            private global::System.Data.DataColumn columnApprove_Days_in_Half;
             
             private global::System.Data.DataColumn columnFlag;
             
-            private global::System.Data.DataColumn columnEmpCode1;
+            private global::System.Data.DataColumn columnName;
+            
+            private global::System.Data.DataColumn columnAddress;
+            
+            private global::System.Data.DataColumn columnPostBox;
+            
+            private global::System.Data.DataColumn columnTel;
+            
+            private global::System.Data.DataColumn columnFax;
             
             private global::System.Data.DataColumn columnEmpname;
             
-            private global::System.Data.DataColumn columnEmpType;
+            private global::System.Data.DataColumn columnActualLeaveType;
             
-            private global::System.Data.DataColumn columnName;
+            private global::System.Data.DataColumn columnDutyResumeType;
             
-            private global::System.Data.DataColumn columnEntry_Date1;
+            private global::System.Data.DataColumn columnStartDate1;
             
-            private global::System.Data.DataColumn columnDeductionStartDate1;
+            private global::System.Data.DataColumn columnResumeDate1;
+            
+            private global::System.Data.DataColumn columnEndDate1;
+            
+            private global::System.Data.DataColumn columnTotalBalance;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public Rep_LoanAppDataTable() {
-                this.TableName = "Rep_LoanApp";
+            public Rep_DutyResumeDataTable() {
+                this.TableName = "Rep_DutyResume";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -342,7 +344,7 @@ namespace EzBusiness_Web {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal Rep_LoanAppDataTable(global::System.Data.DataTable table) {
+            internal Rep_DutyResumeDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -359,40 +361,56 @@ namespace EzBusiness_Web {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected Rep_LoanAppDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected Rep_DutyResumeDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PRLA001_UIDColumn {
+            public global::System.Data.DataColumn CmpycodeColumn {
                 get {
-                    return this.columnPRLA001_UID;
+                    return this.columnCmpycode;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn PRLA001_CODEColumn {
+            public global::System.Data.DataColumn PRDR001_CODEColumn {
                 get {
-                    return this.columnPRLA001_CODE;
+                    return this.columnPRDR001_CODE;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn COUNTRYColumn {
+            public global::System.Data.DataColumn PRLR001_CODEColumn {
                 get {
-                    return this.columnCOUNTRY;
+                    return this.columnPRLR001_CODE;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CmpyCodeColumn {
+            public global::System.Data.DataColumn countryColumn {
                 get {
-                    return this.columnCmpyCode;
+                    return this.columncountry;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn divisionColumn {
+                get {
+                    return this.columndivision;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PRLS001_CODEColumn {
+                get {
+                    return this.columnPRLS001_CODE;
                 }
             }
             
@@ -406,113 +424,57 @@ namespace EzBusiness_Web {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn Entry_DateColumn {
+            public global::System.Data.DataColumn ResumeDateColumn {
                 get {
-                    return this.columnEntry_Date;
+                    return this.columnResumeDate;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn LoanAmountColumn {
+            public global::System.Data.DataColumn Actual_Leave_TypeColumn {
                 get {
-                    return this.columnLoanAmount;
+                    return this.columnActual_Leave_Type;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NoOfInstalmentsColumn {
+            public global::System.Data.DataColumn Duty_Rm_typeColumn {
                 get {
-                    return this.columnNoOfInstalments;
+                    return this.columnDuty_Rm_type;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn InstalmentColumn {
+            public global::System.Data.DataColumn Approve_DaysColumn {
                 get {
-                    return this.columnInstalment;
+                    return this.columnApprove_Days;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DeductionColumn {
+            public global::System.Data.DataColumn Excess_Days_plus_minusColumn {
                 get {
-                    return this.columnDeduction;
+                    return this.columnExcess_Days_plus_minus;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn BalanceColumn {
+            public global::System.Data.DataColumn Approve_Days_in_fullColumn {
                 get {
-                    return this.columnBalance;
+                    return this.columnApprove_Days_in_full;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn RemarksColumn {
+            public global::System.Data.DataColumn Approve_Days_in_HalfColumn {
                 get {
-                    return this.columnRemarks;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn StatusColumn {
-                get {
-                    return this.columnStatus;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn AutoDeductionYNColumn {
-                get {
-                    return this.columnAutoDeductionYN;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DeductionStartDateColumn {
-                get {
-                    return this.columnDeductionStartDate;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn Act_codeColumn {
-                get {
-                    return this.columnAct_code;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn LoanTypeColumn {
-                get {
-                    return this.columnLoanType;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn ApprovalYNColumn {
-                get {
-                    return this.columnApprovalYN;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn AppliedAmtColumn {
-                get {
-                    return this.columnAppliedAmt;
+                    return this.columnApprove_Days_in_Half;
                 }
             }
             
@@ -526,9 +488,41 @@ namespace EzBusiness_Web {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn EmpCode1Column {
+            public global::System.Data.DataColumn NameColumn {
                 get {
-                    return this.columnEmpCode1;
+                    return this.columnName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn AddressColumn {
+                get {
+                    return this.columnAddress;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn PostBoxColumn {
+                get {
+                    return this.columnPostBox;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn TelColumn {
+                get {
+                    return this.columnTel;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn FaxColumn {
+                get {
+                    return this.columnFax;
                 }
             }
             
@@ -542,33 +536,49 @@ namespace EzBusiness_Web {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn EmpTypeColumn {
+            public global::System.Data.DataColumn ActualLeaveTypeColumn {
                 get {
-                    return this.columnEmpType;
+                    return this.columnActualLeaveType;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn NameColumn {
+            public global::System.Data.DataColumn DutyResumeTypeColumn {
                 get {
-                    return this.columnName;
+                    return this.columnDutyResumeType;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn Entry_Date1Column {
+            public global::System.Data.DataColumn StartDate1Column {
                 get {
-                    return this.columnEntry_Date1;
+                    return this.columnStartDate1;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DeductionStartDate1Column {
+            public global::System.Data.DataColumn ResumeDate1Column {
                 get {
-                    return this.columnDeductionStartDate1;
+                    return this.columnResumeDate1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn EndDate1Column {
+                get {
+                    return this.columnEndDate1;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn TotalBalanceColumn {
+                get {
+                    return this.columnTotalBalance;
                 }
             }
             
@@ -583,104 +593,107 @@ namespace EzBusiness_Web {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public Rep_LoanAppRow this[int index] {
+            public Rep_DutyResumeRow this[int index] {
                 get {
-                    return ((Rep_LoanAppRow)(this.Rows[index]));
+                    return ((Rep_DutyResumeRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event Rep_LoanAppRowChangeEventHandler Rep_LoanAppRowChanging;
+            public event Rep_DutyResumeRowChangeEventHandler Rep_DutyResumeRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event Rep_LoanAppRowChangeEventHandler Rep_LoanAppRowChanged;
+            public event Rep_DutyResumeRowChangeEventHandler Rep_DutyResumeRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event Rep_LoanAppRowChangeEventHandler Rep_LoanAppRowDeleting;
+            public event Rep_DutyResumeRowChangeEventHandler Rep_DutyResumeRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event Rep_LoanAppRowChangeEventHandler Rep_LoanAppRowDeleted;
+            public event Rep_DutyResumeRowChangeEventHandler Rep_DutyResumeRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddRep_LoanAppRow(Rep_LoanAppRow row) {
+            public void AddRep_DutyResumeRow(Rep_DutyResumeRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public Rep_LoanAppRow AddRep_LoanAppRow(
-                        string PRLA001_CODE, 
-                        string COUNTRY, 
-                        string CmpyCode, 
+            public Rep_DutyResumeRow AddRep_DutyResumeRow(
+                        string Cmpycode, 
+                        string PRDR001_CODE, 
+                        string PRLR001_CODE, 
+                        string country, 
+                        string division, 
+                        string PRLS001_CODE, 
                         string EmpCode, 
-                        System.DateTime Entry_Date, 
-                        decimal LoanAmount, 
-                        int NoOfInstalments, 
-                        decimal Instalment, 
-                        decimal Deduction, 
-                        decimal Balance, 
-                        string Remarks, 
-                        string Status, 
-                        string AutoDeductionYN, 
-                        System.DateTime DeductionStartDate, 
-                        string Act_code, 
-                        string LoanType, 
-                        string ApprovalYN, 
-                        decimal AppliedAmt, 
+                        System.DateTime ResumeDate, 
+                        string Actual_Leave_Type, 
+                        string Duty_Rm_type, 
+                        string Approve_Days, 
+                        string Excess_Days_plus_minus, 
+                        string Approve_Days_in_full, 
+                        string Approve_Days_in_Half, 
                         bool Flag, 
-                        string EmpCode1, 
-                        string Empname, 
-                        string EmpType, 
                         string Name, 
-                        string Entry_Date1, 
-                        string DeductionStartDate1) {
-                Rep_LoanAppRow rowRep_LoanAppRow = ((Rep_LoanAppRow)(this.NewRow()));
+                        string Address, 
+                        string PostBox, 
+                        string Tel, 
+                        string Fax, 
+                        string Empname, 
+                        string ActualLeaveType, 
+                        string DutyResumeType, 
+                        string StartDate1, 
+                        string ResumeDate1, 
+                        string EndDate1, 
+                        decimal TotalBalance) {
+                Rep_DutyResumeRow rowRep_DutyResumeRow = ((Rep_DutyResumeRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        null,
-                        PRLA001_CODE,
-                        COUNTRY,
-                        CmpyCode,
+                        Cmpycode,
+                        PRDR001_CODE,
+                        PRLR001_CODE,
+                        country,
+                        division,
+                        PRLS001_CODE,
                         EmpCode,
-                        Entry_Date,
-                        LoanAmount,
-                        NoOfInstalments,
-                        Instalment,
-                        Deduction,
-                        Balance,
-                        Remarks,
-                        Status,
-                        AutoDeductionYN,
-                        DeductionStartDate,
-                        Act_code,
-                        LoanType,
-                        ApprovalYN,
-                        AppliedAmt,
+                        ResumeDate,
+                        Actual_Leave_Type,
+                        Duty_Rm_type,
+                        Approve_Days,
+                        Excess_Days_plus_minus,
+                        Approve_Days_in_full,
+                        Approve_Days_in_Half,
                         Flag,
-                        EmpCode1,
-                        Empname,
-                        EmpType,
                         Name,
-                        Entry_Date1,
-                        DeductionStartDate1};
-                rowRep_LoanAppRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowRep_LoanAppRow);
-                return rowRep_LoanAppRow;
+                        Address,
+                        PostBox,
+                        Tel,
+                        Fax,
+                        Empname,
+                        ActualLeaveType,
+                        DutyResumeType,
+                        StartDate1,
+                        ResumeDate1,
+                        EndDate1,
+                        TotalBalance};
+                rowRep_DutyResumeRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowRep_DutyResumeRow);
+                return rowRep_DutyResumeRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public Rep_LoanAppRow FindByPRLA001_CODECOUNTRYCmpyCode(string PRLA001_CODE, string COUNTRY, string CmpyCode) {
-                return ((Rep_LoanAppRow)(this.Rows.Find(new object[] {
-                            PRLA001_CODE,
-                            COUNTRY,
-                            CmpyCode})));
+            public Rep_DutyResumeRow FindByCmpycodePRDR001_CODEEmpCode(string Cmpycode, string PRDR001_CODE, string EmpCode) {
+                return ((Rep_DutyResumeRow)(this.Rows.Find(new object[] {
+                            Cmpycode,
+                            PRDR001_CODE,
+                            EmpCode})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                Rep_LoanAppDataTable cln = ((Rep_LoanAppDataTable)(base.Clone()));
+                Rep_DutyResumeDataTable cln = ((Rep_DutyResumeDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -688,166 +701,174 @@ namespace EzBusiness_Web {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new Rep_LoanAppDataTable();
+                return new Rep_DutyResumeDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnPRLA001_UID = base.Columns["PRLA001_UID"];
-                this.columnPRLA001_CODE = base.Columns["PRLA001_CODE"];
-                this.columnCOUNTRY = base.Columns["COUNTRY"];
-                this.columnCmpyCode = base.Columns["CmpyCode"];
+                this.columnCmpycode = base.Columns["Cmpycode"];
+                this.columnPRDR001_CODE = base.Columns["PRDR001_CODE"];
+                this.columnPRLR001_CODE = base.Columns["PRLR001_CODE"];
+                this.columncountry = base.Columns["country"];
+                this.columndivision = base.Columns["division"];
+                this.columnPRLS001_CODE = base.Columns["PRLS001_CODE"];
                 this.columnEmpCode = base.Columns["EmpCode"];
-                this.columnEntry_Date = base.Columns["Entry_Date"];
-                this.columnLoanAmount = base.Columns["LoanAmount"];
-                this.columnNoOfInstalments = base.Columns["NoOfInstalments"];
-                this.columnInstalment = base.Columns["Instalment"];
-                this.columnDeduction = base.Columns["Deduction"];
-                this.columnBalance = base.Columns["Balance"];
-                this.columnRemarks = base.Columns["Remarks"];
-                this.columnStatus = base.Columns["Status"];
-                this.columnAutoDeductionYN = base.Columns["AutoDeductionYN"];
-                this.columnDeductionStartDate = base.Columns["DeductionStartDate"];
-                this.columnAct_code = base.Columns["Act_code"];
-                this.columnLoanType = base.Columns["LoanType"];
-                this.columnApprovalYN = base.Columns["ApprovalYN"];
-                this.columnAppliedAmt = base.Columns["AppliedAmt"];
+                this.columnResumeDate = base.Columns["ResumeDate"];
+                this.columnActual_Leave_Type = base.Columns["Actual_Leave_Type"];
+                this.columnDuty_Rm_type = base.Columns["Duty_Rm_type"];
+                this.columnApprove_Days = base.Columns["Approve_Days"];
+                this.columnExcess_Days_plus_minus = base.Columns["Excess_Days_plus_minus"];
+                this.columnApprove_Days_in_full = base.Columns["Approve_Days_in_full"];
+                this.columnApprove_Days_in_Half = base.Columns["Approve_Days_in_Half"];
                 this.columnFlag = base.Columns["Flag"];
-                this.columnEmpCode1 = base.Columns["EmpCode1"];
-                this.columnEmpname = base.Columns["Empname"];
-                this.columnEmpType = base.Columns["EmpType"];
                 this.columnName = base.Columns["Name"];
-                this.columnEntry_Date1 = base.Columns["Entry_Date1"];
-                this.columnDeductionStartDate1 = base.Columns["DeductionStartDate1"];
+                this.columnAddress = base.Columns["Address"];
+                this.columnPostBox = base.Columns["PostBox"];
+                this.columnTel = base.Columns["Tel"];
+                this.columnFax = base.Columns["Fax"];
+                this.columnEmpname = base.Columns["Empname"];
+                this.columnActualLeaveType = base.Columns["ActualLeaveType"];
+                this.columnDutyResumeType = base.Columns["DutyResumeType"];
+                this.columnStartDate1 = base.Columns["StartDate1"];
+                this.columnResumeDate1 = base.Columns["ResumeDate1"];
+                this.columnEndDate1 = base.Columns["EndDate1"];
+                this.columnTotalBalance = base.Columns["TotalBalance"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnPRLA001_UID = new global::System.Data.DataColumn("PRLA001_UID", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPRLA001_UID);
-                this.columnPRLA001_CODE = new global::System.Data.DataColumn("PRLA001_CODE", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnPRLA001_CODE);
-                this.columnCOUNTRY = new global::System.Data.DataColumn("COUNTRY", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCOUNTRY);
-                this.columnCmpyCode = new global::System.Data.DataColumn("CmpyCode", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCmpyCode);
+                this.columnCmpycode = new global::System.Data.DataColumn("Cmpycode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCmpycode);
+                this.columnPRDR001_CODE = new global::System.Data.DataColumn("PRDR001_CODE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPRDR001_CODE);
+                this.columnPRLR001_CODE = new global::System.Data.DataColumn("PRLR001_CODE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPRLR001_CODE);
+                this.columncountry = new global::System.Data.DataColumn("country", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columncountry);
+                this.columndivision = new global::System.Data.DataColumn("division", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columndivision);
+                this.columnPRLS001_CODE = new global::System.Data.DataColumn("PRLS001_CODE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPRLS001_CODE);
                 this.columnEmpCode = new global::System.Data.DataColumn("EmpCode", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEmpCode);
-                this.columnEntry_Date = new global::System.Data.DataColumn("Entry_Date", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEntry_Date);
-                this.columnLoanAmount = new global::System.Data.DataColumn("LoanAmount", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnLoanAmount);
-                this.columnNoOfInstalments = new global::System.Data.DataColumn("NoOfInstalments", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnNoOfInstalments);
-                this.columnInstalment = new global::System.Data.DataColumn("Instalment", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnInstalment);
-                this.columnDeduction = new global::System.Data.DataColumn("Deduction", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDeduction);
-                this.columnBalance = new global::System.Data.DataColumn("Balance", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnBalance);
-                this.columnRemarks = new global::System.Data.DataColumn("Remarks", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRemarks);
-                this.columnStatus = new global::System.Data.DataColumn("Status", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnStatus);
-                this.columnAutoDeductionYN = new global::System.Data.DataColumn("AutoDeductionYN", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnAutoDeductionYN);
-                this.columnDeductionStartDate = new global::System.Data.DataColumn("DeductionStartDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDeductionStartDate);
-                this.columnAct_code = new global::System.Data.DataColumn("Act_code", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnAct_code);
-                this.columnLoanType = new global::System.Data.DataColumn("LoanType", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnLoanType);
-                this.columnApprovalYN = new global::System.Data.DataColumn("ApprovalYN", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnApprovalYN);
-                this.columnAppliedAmt = new global::System.Data.DataColumn("AppliedAmt", typeof(decimal), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnAppliedAmt);
+                this.columnResumeDate = new global::System.Data.DataColumn("ResumeDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnResumeDate);
+                this.columnActual_Leave_Type = new global::System.Data.DataColumn("Actual_Leave_Type", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnActual_Leave_Type);
+                this.columnDuty_Rm_type = new global::System.Data.DataColumn("Duty_Rm_type", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDuty_Rm_type);
+                this.columnApprove_Days = new global::System.Data.DataColumn("Approve_Days", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnApprove_Days);
+                this.columnExcess_Days_plus_minus = new global::System.Data.DataColumn("Excess_Days_plus_minus", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnExcess_Days_plus_minus);
+                this.columnApprove_Days_in_full = new global::System.Data.DataColumn("Approve_Days_in_full", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnApprove_Days_in_full);
+                this.columnApprove_Days_in_Half = new global::System.Data.DataColumn("Approve_Days_in_Half", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnApprove_Days_in_Half);
                 this.columnFlag = new global::System.Data.DataColumn("Flag", typeof(bool), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnFlag);
-                this.columnEmpCode1 = new global::System.Data.DataColumn("EmpCode1", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEmpCode1);
-                this.columnEmpname = new global::System.Data.DataColumn("Empname", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEmpname);
-                this.columnEmpType = new global::System.Data.DataColumn("EmpType", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEmpType);
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
-                this.columnEntry_Date1 = new global::System.Data.DataColumn("Entry_Date1", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnEntry_Date1);
-                this.columnDeductionStartDate1 = new global::System.Data.DataColumn("DeductionStartDate1", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDeductionStartDate1);
+                this.columnAddress = new global::System.Data.DataColumn("Address", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAddress);
+                this.columnPostBox = new global::System.Data.DataColumn("PostBox", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPostBox);
+                this.columnTel = new global::System.Data.DataColumn("Tel", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTel);
+                this.columnFax = new global::System.Data.DataColumn("Fax", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFax);
+                this.columnEmpname = new global::System.Data.DataColumn("Empname", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmpname);
+                this.columnActualLeaveType = new global::System.Data.DataColumn("ActualLeaveType", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnActualLeaveType);
+                this.columnDutyResumeType = new global::System.Data.DataColumn("DutyResumeType", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDutyResumeType);
+                this.columnStartDate1 = new global::System.Data.DataColumn("StartDate1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnStartDate1);
+                this.columnResumeDate1 = new global::System.Data.DataColumn("ResumeDate1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnResumeDate1);
+                this.columnEndDate1 = new global::System.Data.DataColumn("EndDate1", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEndDate1);
+                this.columnTotalBalance = new global::System.Data.DataColumn("TotalBalance", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalBalance);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnPRLA001_CODE,
-                                this.columnCOUNTRY,
-                                this.columnCmpyCode}, true));
-                this.columnPRLA001_UID.AutoIncrement = true;
-                this.columnPRLA001_UID.AllowDBNull = false;
-                this.columnPRLA001_UID.ReadOnly = true;
-                this.columnPRLA001_CODE.AllowDBNull = false;
-                this.columnPRLA001_CODE.MaxLength = 20;
-                this.columnCOUNTRY.AllowDBNull = false;
-                this.columnCOUNTRY.MaxLength = 20;
-                this.columnCmpyCode.AllowDBNull = false;
-                this.columnCmpyCode.MaxLength = 20;
+                                this.columnCmpycode,
+                                this.columnPRDR001_CODE,
+                                this.columnEmpCode}, true));
+                this.columnCmpycode.AllowDBNull = false;
+                this.columnCmpycode.MaxLength = 20;
+                this.columnPRDR001_CODE.AllowDBNull = false;
+                this.columnPRDR001_CODE.MaxLength = 50;
+                this.columnPRLR001_CODE.AllowDBNull = false;
+                this.columnPRLR001_CODE.MaxLength = 20;
+                this.columncountry.AllowDBNull = false;
+                this.columncountry.MaxLength = 20;
+                this.columndivision.AllowDBNull = false;
+                this.columndivision.MaxLength = 20;
+                this.columnPRLS001_CODE.AllowDBNull = false;
+                this.columnPRLS001_CODE.MaxLength = 20;
                 this.columnEmpCode.AllowDBNull = false;
                 this.columnEmpCode.MaxLength = 20;
-                this.columnLoanAmount.AllowDBNull = false;
-                this.columnNoOfInstalments.AllowDBNull = false;
-                this.columnInstalment.AllowDBNull = false;
-                this.columnDeduction.AllowDBNull = false;
-                this.columnBalance.AllowDBNull = false;
-                this.columnRemarks.MaxLength = 100;
-                this.columnStatus.AllowDBNull = false;
-                this.columnStatus.MaxLength = 1;
-                this.columnAutoDeductionYN.AllowDBNull = false;
-                this.columnAutoDeductionYN.MaxLength = 1;
-                this.columnAct_code.AllowDBNull = false;
-                this.columnAct_code.MaxLength = 20;
-                this.columnLoanType.AllowDBNull = false;
-                this.columnLoanType.MaxLength = 20;
-                this.columnApprovalYN.AllowDBNull = false;
-                this.columnApprovalYN.MaxLength = 5;
-                this.columnAppliedAmt.AllowDBNull = false;
+                this.columnActual_Leave_Type.AllowDBNull = false;
+                this.columnActual_Leave_Type.MaxLength = 20;
+                this.columnDuty_Rm_type.AllowDBNull = false;
+                this.columnDuty_Rm_type.MaxLength = 20;
+                this.columnApprove_Days.AllowDBNull = false;
+                this.columnApprove_Days.MaxLength = 20;
+                this.columnExcess_Days_plus_minus.AllowDBNull = false;
+                this.columnExcess_Days_plus_minus.MaxLength = 20;
+                this.columnApprove_Days_in_full.AllowDBNull = false;
+                this.columnApprove_Days_in_full.MaxLength = 20;
+                this.columnApprove_Days_in_Half.AllowDBNull = false;
+                this.columnApprove_Days_in_Half.MaxLength = 20;
                 this.columnFlag.AllowDBNull = false;
-                this.columnEmpCode1.ReadOnly = true;
-                this.columnEmpCode1.MaxLength = 71;
-                this.columnEmpname.AllowDBNull = false;
-                this.columnEmpname.MaxLength = 50;
-                this.columnEmpType.AllowDBNull = false;
-                this.columnEmpType.MaxLength = 20;
                 this.columnName.AllowDBNull = false;
                 this.columnName.MaxLength = 100;
-                this.columnEntry_Date1.ReadOnly = true;
-                this.columnEntry_Date1.MaxLength = 8000;
-                this.columnDeductionStartDate1.ReadOnly = true;
-                this.columnDeductionStartDate1.MaxLength = 8000;
+                this.columnAddress.MaxLength = 100;
+                this.columnPostBox.MaxLength = 40;
+                this.columnTel.MaxLength = 100;
+                this.columnFax.MaxLength = 100;
+                this.columnEmpname.AllowDBNull = false;
+                this.columnEmpname.MaxLength = 50;
+                this.columnActualLeaveType.AllowDBNull = false;
+                this.columnActualLeaveType.MaxLength = 50;
+                this.columnDutyResumeType.AllowDBNull = false;
+                this.columnDutyResumeType.MaxLength = 50;
+                this.columnStartDate1.ReadOnly = true;
+                this.columnStartDate1.MaxLength = 8000;
+                this.columnResumeDate1.ReadOnly = true;
+                this.columnResumeDate1.MaxLength = 8000;
+                this.columnEndDate1.ReadOnly = true;
+                this.columnEndDate1.MaxLength = 8000;
+                this.columnTotalBalance.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public Rep_LoanAppRow NewRep_LoanAppRow() {
-                return ((Rep_LoanAppRow)(this.NewRow()));
+            public Rep_DutyResumeRow NewRep_DutyResumeRow() {
+                return ((Rep_DutyResumeRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new Rep_LoanAppRow(builder);
+                return new Rep_DutyResumeRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(Rep_LoanAppRow);
+                return typeof(Rep_DutyResumeRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.Rep_LoanAppRowChanged != null)) {
-                    this.Rep_LoanAppRowChanged(this, new Rep_LoanAppRowChangeEvent(((Rep_LoanAppRow)(e.Row)), e.Action));
+                if ((this.Rep_DutyResumeRowChanged != null)) {
+                    this.Rep_DutyResumeRowChanged(this, new Rep_DutyResumeRowChangeEvent(((Rep_DutyResumeRow)(e.Row)), e.Action));
                 }
             }
             
@@ -855,8 +876,8 @@ namespace EzBusiness_Web {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.Rep_LoanAppRowChanging != null)) {
-                    this.Rep_LoanAppRowChanging(this, new Rep_LoanAppRowChangeEvent(((Rep_LoanAppRow)(e.Row)), e.Action));
+                if ((this.Rep_DutyResumeRowChanging != null)) {
+                    this.Rep_DutyResumeRowChanging(this, new Rep_DutyResumeRowChangeEvent(((Rep_DutyResumeRow)(e.Row)), e.Action));
                 }
             }
             
@@ -864,8 +885,8 @@ namespace EzBusiness_Web {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.Rep_LoanAppRowDeleted != null)) {
-                    this.Rep_LoanAppRowDeleted(this, new Rep_LoanAppRowChangeEvent(((Rep_LoanAppRow)(e.Row)), e.Action));
+                if ((this.Rep_DutyResumeRowDeleted != null)) {
+                    this.Rep_DutyResumeRowDeleted(this, new Rep_DutyResumeRowChangeEvent(((Rep_DutyResumeRow)(e.Row)), e.Action));
                 }
             }
             
@@ -873,14 +894,14 @@ namespace EzBusiness_Web {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.Rep_LoanAppRowDeleting != null)) {
-                    this.Rep_LoanAppRowDeleting(this, new Rep_LoanAppRowChangeEvent(((Rep_LoanAppRow)(e.Row)), e.Action));
+                if ((this.Rep_DutyResumeRowDeleting != null)) {
+                    this.Rep_DutyResumeRowDeleting(this, new Rep_DutyResumeRowChangeEvent(((Rep_DutyResumeRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveRep_LoanAppRow(Rep_LoanAppRow row) {
+            public void RemoveRep_DutyResumeRow(Rep_DutyResumeRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -889,7 +910,7 @@ namespace EzBusiness_Web {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                LoanAppDS1 ds = new LoanAppDS1();
+                DutyResumeDS ds = new DutyResumeDS();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -907,7 +928,7 @@ namespace EzBusiness_Web {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "Rep_LoanAppDataTable";
+                attribute2.FixedValue = "Rep_DutyResumeDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -951,58 +972,80 @@ namespace EzBusiness_Web {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class Rep_LoanAppRow : global::System.Data.DataRow {
+        public partial class Rep_DutyResumeRow : global::System.Data.DataRow {
             
-            private Rep_LoanAppDataTable tableRep_LoanApp;
+            private Rep_DutyResumeDataTable tableRep_DutyResume;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal Rep_LoanAppRow(global::System.Data.DataRowBuilder rb) : 
+            internal Rep_DutyResumeRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableRep_LoanApp = ((Rep_LoanAppDataTable)(this.Table));
+                this.tableRep_DutyResume = ((Rep_DutyResumeDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int PRLA001_UID {
+            public string Cmpycode {
                 get {
-                    return ((int)(this[this.tableRep_LoanApp.PRLA001_UIDColumn]));
+                    return ((string)(this[this.tableRep_DutyResume.CmpycodeColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.PRLA001_UIDColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string PRLA001_CODE {
-                get {
-                    return ((string)(this[this.tableRep_LoanApp.PRLA001_CODEColumn]));
-                }
-                set {
-                    this[this.tableRep_LoanApp.PRLA001_CODEColumn] = value;
+                    this[this.tableRep_DutyResume.CmpycodeColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string COUNTRY {
+            public string PRDR001_CODE {
                 get {
-                    return ((string)(this[this.tableRep_LoanApp.COUNTRYColumn]));
+                    return ((string)(this[this.tableRep_DutyResume.PRDR001_CODEColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.COUNTRYColumn] = value;
+                    this[this.tableRep_DutyResume.PRDR001_CODEColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string CmpyCode {
+            public string PRLR001_CODE {
                 get {
-                    return ((string)(this[this.tableRep_LoanApp.CmpyCodeColumn]));
+                    return ((string)(this[this.tableRep_DutyResume.PRLR001_CODEColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.CmpyCodeColumn] = value;
+                    this[this.tableRep_DutyResume.PRLR001_CODEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string country {
+                get {
+                    return ((string)(this[this.tableRep_DutyResume.countryColumn]));
+                }
+                set {
+                    this[this.tableRep_DutyResume.countryColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string division {
+                get {
+                    return ((string)(this[this.tableRep_DutyResume.divisionColumn]));
+                }
+                set {
+                    this[this.tableRep_DutyResume.divisionColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string PRLS001_CODE {
+                get {
+                    return ((string)(this[this.tableRep_DutyResume.PRLS001_CODEColumn]));
+                }
+                set {
+                    this[this.tableRep_DutyResume.PRLS001_CODEColumn] = value;
                 }
             }
             
@@ -1010,179 +1053,92 @@ namespace EzBusiness_Web {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string EmpCode {
                 get {
-                    return ((string)(this[this.tableRep_LoanApp.EmpCodeColumn]));
+                    return ((string)(this[this.tableRep_DutyResume.EmpCodeColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.EmpCodeColumn] = value;
+                    this[this.tableRep_DutyResume.EmpCodeColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.DateTime Entry_Date {
+            public System.DateTime ResumeDate {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableRep_LoanApp.Entry_DateColumn]));
+                        return ((global::System.DateTime)(this[this.tableRep_DutyResume.ResumeDateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Entry_Date\' in table \'Rep_LoanApp\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'ResumeDate\' in table \'Rep_DutyResume\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableRep_LoanApp.Entry_DateColumn] = value;
+                    this[this.tableRep_DutyResume.ResumeDateColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public decimal LoanAmount {
+            public string Actual_Leave_Type {
                 get {
-                    return ((decimal)(this[this.tableRep_LoanApp.LoanAmountColumn]));
+                    return ((string)(this[this.tableRep_DutyResume.Actual_Leave_TypeColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.LoanAmountColumn] = value;
+                    this[this.tableRep_DutyResume.Actual_Leave_TypeColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int NoOfInstalments {
+            public string Duty_Rm_type {
                 get {
-                    return ((int)(this[this.tableRep_LoanApp.NoOfInstalmentsColumn]));
+                    return ((string)(this[this.tableRep_DutyResume.Duty_Rm_typeColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.NoOfInstalmentsColumn] = value;
+                    this[this.tableRep_DutyResume.Duty_Rm_typeColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public decimal Instalment {
+            public string Approve_Days {
                 get {
-                    return ((decimal)(this[this.tableRep_LoanApp.InstalmentColumn]));
+                    return ((string)(this[this.tableRep_DutyResume.Approve_DaysColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.InstalmentColumn] = value;
+                    this[this.tableRep_DutyResume.Approve_DaysColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public decimal Deduction {
+            public string Excess_Days_plus_minus {
                 get {
-                    return ((decimal)(this[this.tableRep_LoanApp.DeductionColumn]));
+                    return ((string)(this[this.tableRep_DutyResume.Excess_Days_plus_minusColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.DeductionColumn] = value;
+                    this[this.tableRep_DutyResume.Excess_Days_plus_minusColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public decimal Balance {
+            public string Approve_Days_in_full {
                 get {
-                    return ((decimal)(this[this.tableRep_LoanApp.BalanceColumn]));
+                    return ((string)(this[this.tableRep_DutyResume.Approve_Days_in_fullColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.BalanceColumn] = value;
+                    this[this.tableRep_DutyResume.Approve_Days_in_fullColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Remarks {
+            public string Approve_Days_in_Half {
                 get {
-                    try {
-                        return ((string)(this[this.tableRep_LoanApp.RemarksColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Remarks\' in table \'Rep_LoanApp\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableRep_DutyResume.Approve_Days_in_HalfColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.RemarksColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Status {
-                get {
-                    return ((string)(this[this.tableRep_LoanApp.StatusColumn]));
-                }
-                set {
-                    this[this.tableRep_LoanApp.StatusColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string AutoDeductionYN {
-                get {
-                    return ((string)(this[this.tableRep_LoanApp.AutoDeductionYNColumn]));
-                }
-                set {
-                    this[this.tableRep_LoanApp.AutoDeductionYNColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.DateTime DeductionStartDate {
-                get {
-                    try {
-                        return ((global::System.DateTime)(this[this.tableRep_LoanApp.DeductionStartDateColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DeductionStartDate\' in table \'Rep_LoanApp\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableRep_LoanApp.DeductionStartDateColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Act_code {
-                get {
-                    return ((string)(this[this.tableRep_LoanApp.Act_codeColumn]));
-                }
-                set {
-                    this[this.tableRep_LoanApp.Act_codeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string LoanType {
-                get {
-                    return ((string)(this[this.tableRep_LoanApp.LoanTypeColumn]));
-                }
-                set {
-                    this[this.tableRep_LoanApp.LoanTypeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string ApprovalYN {
-                get {
-                    return ((string)(this[this.tableRep_LoanApp.ApprovalYNColumn]));
-                }
-                set {
-                    this[this.tableRep_LoanApp.ApprovalYNColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public decimal AppliedAmt {
-                get {
-                    return ((decimal)(this[this.tableRep_LoanApp.AppliedAmtColumn]));
-                }
-                set {
-                    this[this.tableRep_LoanApp.AppliedAmtColumn] = value;
+                    this[this.tableRep_DutyResume.Approve_Days_in_HalfColumn] = value;
                 }
             }
             
@@ -1190,48 +1146,10 @@ namespace EzBusiness_Web {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool Flag {
                 get {
-                    return ((bool)(this[this.tableRep_LoanApp.FlagColumn]));
+                    return ((bool)(this[this.tableRep_DutyResume.FlagColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.FlagColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string EmpCode1 {
-                get {
-                    try {
-                        return ((string)(this[this.tableRep_LoanApp.EmpCode1Column]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'EmpCode1\' in table \'Rep_LoanApp\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableRep_LoanApp.EmpCode1Column] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Empname {
-                get {
-                    return ((string)(this[this.tableRep_LoanApp.EmpnameColumn]));
-                }
-                set {
-                    this[this.tableRep_LoanApp.EmpnameColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string EmpType {
-                get {
-                    return ((string)(this[this.tableRep_LoanApp.EmpTypeColumn]));
-                }
-                set {
-                    this[this.tableRep_LoanApp.EmpTypeColumn] = value;
+                    this[this.tableRep_DutyResume.FlagColumn] = value;
                 }
             }
             
@@ -1239,115 +1157,263 @@ namespace EzBusiness_Web {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Name {
                 get {
-                    return ((string)(this[this.tableRep_LoanApp.NameColumn]));
+                    return ((string)(this[this.tableRep_DutyResume.NameColumn]));
                 }
                 set {
-                    this[this.tableRep_LoanApp.NameColumn] = value;
+                    this[this.tableRep_DutyResume.NameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Entry_Date1 {
+            public string Address {
                 get {
                     try {
-                        return ((string)(this[this.tableRep_LoanApp.Entry_Date1Column]));
+                        return ((string)(this[this.tableRep_DutyResume.AddressColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Entry_Date1\' in table \'Rep_LoanApp\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Address\' in table \'Rep_DutyResume\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableRep_LoanApp.Entry_Date1Column] = value;
+                    this[this.tableRep_DutyResume.AddressColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string DeductionStartDate1 {
+            public string PostBox {
                 get {
                     try {
-                        return ((string)(this[this.tableRep_LoanApp.DeductionStartDate1Column]));
+                        return ((string)(this[this.tableRep_DutyResume.PostBoxColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DeductionStartDate1\' in table \'Rep_LoanApp\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'PostBox\' in table \'Rep_DutyResume\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableRep_LoanApp.DeductionStartDate1Column] = value;
+                    this[this.tableRep_DutyResume.PostBoxColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsEntry_DateNull() {
-                return this.IsNull(this.tableRep_LoanApp.Entry_DateColumn);
+            public string Tel {
+                get {
+                    try {
+                        return ((string)(this[this.tableRep_DutyResume.TelColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Tel\' in table \'Rep_DutyResume\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRep_DutyResume.TelColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetEntry_DateNull() {
-                this[this.tableRep_LoanApp.Entry_DateColumn] = global::System.Convert.DBNull;
+            public string Fax {
+                get {
+                    try {
+                        return ((string)(this[this.tableRep_DutyResume.FaxColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Fax\' in table \'Rep_DutyResume\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRep_DutyResume.FaxColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsRemarksNull() {
-                return this.IsNull(this.tableRep_LoanApp.RemarksColumn);
+            public string Empname {
+                get {
+                    return ((string)(this[this.tableRep_DutyResume.EmpnameColumn]));
+                }
+                set {
+                    this[this.tableRep_DutyResume.EmpnameColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetRemarksNull() {
-                this[this.tableRep_LoanApp.RemarksColumn] = global::System.Convert.DBNull;
+            public string ActualLeaveType {
+                get {
+                    return ((string)(this[this.tableRep_DutyResume.ActualLeaveTypeColumn]));
+                }
+                set {
+                    this[this.tableRep_DutyResume.ActualLeaveTypeColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDeductionStartDateNull() {
-                return this.IsNull(this.tableRep_LoanApp.DeductionStartDateColumn);
+            public string DutyResumeType {
+                get {
+                    return ((string)(this[this.tableRep_DutyResume.DutyResumeTypeColumn]));
+                }
+                set {
+                    this[this.tableRep_DutyResume.DutyResumeTypeColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDeductionStartDateNull() {
-                this[this.tableRep_LoanApp.DeductionStartDateColumn] = global::System.Convert.DBNull;
+            public string StartDate1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableRep_DutyResume.StartDate1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'StartDate1\' in table \'Rep_DutyResume\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRep_DutyResume.StartDate1Column] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsEmpCode1Null() {
-                return this.IsNull(this.tableRep_LoanApp.EmpCode1Column);
+            public string ResumeDate1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableRep_DutyResume.ResumeDate1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ResumeDate1\' in table \'Rep_DutyResume\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRep_DutyResume.ResumeDate1Column] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetEmpCode1Null() {
-                this[this.tableRep_LoanApp.EmpCode1Column] = global::System.Convert.DBNull;
+            public string EndDate1 {
+                get {
+                    try {
+                        return ((string)(this[this.tableRep_DutyResume.EndDate1Column]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'EndDate1\' in table \'Rep_DutyResume\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableRep_DutyResume.EndDate1Column] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsEntry_Date1Null() {
-                return this.IsNull(this.tableRep_LoanApp.Entry_Date1Column);
+            public decimal TotalBalance {
+                get {
+                    return ((decimal)(this[this.tableRep_DutyResume.TotalBalanceColumn]));
+                }
+                set {
+                    this[this.tableRep_DutyResume.TotalBalanceColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetEntry_Date1Null() {
-                this[this.tableRep_LoanApp.Entry_Date1Column] = global::System.Convert.DBNull;
+            public bool IsResumeDateNull() {
+                return this.IsNull(this.tableRep_DutyResume.ResumeDateColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDeductionStartDate1Null() {
-                return this.IsNull(this.tableRep_LoanApp.DeductionStartDate1Column);
+            public void SetResumeDateNull() {
+                this[this.tableRep_DutyResume.ResumeDateColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDeductionStartDate1Null() {
-                this[this.tableRep_LoanApp.DeductionStartDate1Column] = global::System.Convert.DBNull;
+            public bool IsAddressNull() {
+                return this.IsNull(this.tableRep_DutyResume.AddressColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetAddressNull() {
+                this[this.tableRep_DutyResume.AddressColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsPostBoxNull() {
+                return this.IsNull(this.tableRep_DutyResume.PostBoxColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetPostBoxNull() {
+                this[this.tableRep_DutyResume.PostBoxColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsTelNull() {
+                return this.IsNull(this.tableRep_DutyResume.TelColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetTelNull() {
+                this[this.tableRep_DutyResume.TelColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsFaxNull() {
+                return this.IsNull(this.tableRep_DutyResume.FaxColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetFaxNull() {
+                this[this.tableRep_DutyResume.FaxColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsStartDate1Null() {
+                return this.IsNull(this.tableRep_DutyResume.StartDate1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetStartDate1Null() {
+                this[this.tableRep_DutyResume.StartDate1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsResumeDate1Null() {
+                return this.IsNull(this.tableRep_DutyResume.ResumeDate1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetResumeDate1Null() {
+                this[this.tableRep_DutyResume.ResumeDate1Column] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsEndDate1Null() {
+                return this.IsNull(this.tableRep_DutyResume.EndDate1Column);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetEndDate1Null() {
+                this[this.tableRep_DutyResume.EndDate1Column] = global::System.Convert.DBNull;
             }
         }
         
@@ -1355,22 +1421,22 @@ namespace EzBusiness_Web {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class Rep_LoanAppRowChangeEvent : global::System.EventArgs {
+        public class Rep_DutyResumeRowChangeEvent : global::System.EventArgs {
             
-            private Rep_LoanAppRow eventRow;
+            private Rep_DutyResumeRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public Rep_LoanAppRowChangeEvent(Rep_LoanAppRow row, global::System.Data.DataRowAction action) {
+            public Rep_DutyResumeRowChangeEvent(Rep_DutyResumeRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public Rep_LoanAppRow Row {
+            public Rep_DutyResumeRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -1386,7 +1452,7 @@ namespace EzBusiness_Web {
         }
     }
 }
-namespace EzBusiness_Web.LoanAppDS1TableAdapters {
+namespace EzBusiness_Web.DutyResumeDSTableAdapters {
     
     
     /// <summary>
@@ -1398,7 +1464,7 @@ namespace EzBusiness_Web.LoanAppDS1TableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class Rep_LoanAppTableAdapter : global::System.ComponentModel.Component {
+    public partial class Rep_DutyResumeTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -1412,7 +1478,7 @@ namespace EzBusiness_Web.LoanAppDS1TableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public Rep_LoanAppTableAdapter() {
+        public Rep_DutyResumeTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -1509,33 +1575,34 @@ namespace EzBusiness_Web.LoanAppDS1TableAdapters {
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "Rep_LoanApp";
-            tableMapping.ColumnMappings.Add("PRLA001_UID", "PRLA001_UID");
-            tableMapping.ColumnMappings.Add("PRLA001_CODE", "PRLA001_CODE");
-            tableMapping.ColumnMappings.Add("COUNTRY", "COUNTRY");
-            tableMapping.ColumnMappings.Add("CmpyCode", "CmpyCode");
+            tableMapping.DataSetTable = "Rep_DutyResume";
+            tableMapping.ColumnMappings.Add("Cmpycode", "Cmpycode");
+            tableMapping.ColumnMappings.Add("PRDR001_CODE", "PRDR001_CODE");
+            tableMapping.ColumnMappings.Add("PRLR001_CODE", "PRLR001_CODE");
+            tableMapping.ColumnMappings.Add("country", "country");
+            tableMapping.ColumnMappings.Add("division", "division");
+            tableMapping.ColumnMappings.Add("PRLS001_CODE", "PRLS001_CODE");
             tableMapping.ColumnMappings.Add("EmpCode", "EmpCode");
-            tableMapping.ColumnMappings.Add("Entry_Date", "Entry_Date");
-            tableMapping.ColumnMappings.Add("LoanAmount", "LoanAmount");
-            tableMapping.ColumnMappings.Add("NoOfInstalments", "NoOfInstalments");
-            tableMapping.ColumnMappings.Add("Instalment", "Instalment");
-            tableMapping.ColumnMappings.Add("Deduction", "Deduction");
-            tableMapping.ColumnMappings.Add("Balance", "Balance");
-            tableMapping.ColumnMappings.Add("Remarks", "Remarks");
-            tableMapping.ColumnMappings.Add("Status", "Status");
-            tableMapping.ColumnMappings.Add("AutoDeductionYN", "AutoDeductionYN");
-            tableMapping.ColumnMappings.Add("DeductionStartDate", "DeductionStartDate");
-            tableMapping.ColumnMappings.Add("Act_code", "Act_code");
-            tableMapping.ColumnMappings.Add("LoanType", "LoanType");
-            tableMapping.ColumnMappings.Add("ApprovalYN", "ApprovalYN");
-            tableMapping.ColumnMappings.Add("AppliedAmt", "AppliedAmt");
+            tableMapping.ColumnMappings.Add("ResumeDate", "ResumeDate");
+            tableMapping.ColumnMappings.Add("Actual_Leave_Type", "Actual_Leave_Type");
+            tableMapping.ColumnMappings.Add("Duty_Rm_type", "Duty_Rm_type");
+            tableMapping.ColumnMappings.Add("Approve_Days", "Approve_Days");
+            tableMapping.ColumnMappings.Add("Excess_Days_plus_minus", "Excess_Days_plus_minus");
+            tableMapping.ColumnMappings.Add("Approve_Days_in_full", "Approve_Days_in_full");
+            tableMapping.ColumnMappings.Add("Approve_Days_in_Half", "Approve_Days_in_Half");
             tableMapping.ColumnMappings.Add("Flag", "Flag");
-            tableMapping.ColumnMappings.Add("EmpCode1", "EmpCode1");
-            tableMapping.ColumnMappings.Add("Empname", "Empname");
-            tableMapping.ColumnMappings.Add("EmpType", "EmpType");
             tableMapping.ColumnMappings.Add("Name", "Name");
-            tableMapping.ColumnMappings.Add("Entry_Date1", "Entry_Date1");
-            tableMapping.ColumnMappings.Add("DeductionStartDate1", "DeductionStartDate1");
+            tableMapping.ColumnMappings.Add("Address", "Address");
+            tableMapping.ColumnMappings.Add("PostBox", "PostBox");
+            tableMapping.ColumnMappings.Add("Tel", "Tel");
+            tableMapping.ColumnMappings.Add("Fax", "Fax");
+            tableMapping.ColumnMappings.Add("Empname", "Empname");
+            tableMapping.ColumnMappings.Add("ActualLeaveType", "ActualLeaveType");
+            tableMapping.ColumnMappings.Add("DutyResumeType", "DutyResumeType");
+            tableMapping.ColumnMappings.Add("StartDate1", "StartDate1");
+            tableMapping.ColumnMappings.Add("ResumeDate1", "ResumeDate1");
+            tableMapping.ColumnMappings.Add("EndDate1", "EndDate1");
+            tableMapping.ColumnMappings.Add("TotalBalance", "TotalBalance");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -1552,10 +1619,10 @@ namespace EzBusiness_Web.LoanAppDS1TableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "ezbusdb.Rep_LoanApp";
+            this._commandCollection[0].CommandText = "ezbusdb.Rep_DutyResume";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.StoredProcedure;
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@RETURN_VALUE", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.ReturnValue, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PRLR001_CODE", global::System.Data.SqlDbType.NVarChar, 25, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PRDR001_CODE", global::System.Data.SqlDbType.NVarChar, 25, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[0].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@cmpycode", global::System.Data.SqlDbType.NVarChar, 25, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -1563,13 +1630,13 @@ namespace EzBusiness_Web.LoanAppDS1TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(LoanAppDS1.Rep_LoanAppDataTable dataTable, string PRLR001_CODE, string cmpycode) {
+        public virtual int Fill(DutyResumeDS.Rep_DutyResumeDataTable dataTable, string PRDR001_CODE, string cmpycode) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((PRLR001_CODE == null)) {
+            if ((PRDR001_CODE == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(PRLR001_CODE));
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(PRDR001_CODE));
             }
             if ((cmpycode == null)) {
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
@@ -1588,13 +1655,13 @@ namespace EzBusiness_Web.LoanAppDS1TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual LoanAppDS1.Rep_LoanAppDataTable GetData(string PRLR001_CODE, string cmpycode) {
+        public virtual DutyResumeDS.Rep_DutyResumeDataTable GetData(string PRDR001_CODE, string cmpycode) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((PRLR001_CODE == null)) {
+            if ((PRDR001_CODE == null)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(PRLR001_CODE));
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(PRDR001_CODE));
             }
             if ((cmpycode == null)) {
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
@@ -1602,7 +1669,7 @@ namespace EzBusiness_Web.LoanAppDS1TableAdapters {
             else {
                 this.Adapter.SelectCommand.Parameters[2].Value = ((string)(cmpycode));
             }
-            LoanAppDS1.Rep_LoanAppDataTable dataTable = new LoanAppDS1.Rep_LoanAppDataTable();
+            DutyResumeDS.Rep_DutyResumeDataTable dataTable = new DutyResumeDS.Rep_DutyResumeDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -1676,7 +1743,7 @@ namespace EzBusiness_Web.LoanAppDS1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateUpdatedRows(LoanAppDS1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(DutyResumeDS dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
         }
@@ -1686,7 +1753,7 @@ namespace EzBusiness_Web.LoanAppDS1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateInsertedRows(LoanAppDS1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(DutyResumeDS dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
         }
@@ -1696,7 +1763,7 @@ namespace EzBusiness_Web.LoanAppDS1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateDeletedRows(LoanAppDS1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(DutyResumeDS dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             return result;
         }
@@ -1730,7 +1797,7 @@ namespace EzBusiness_Web.LoanAppDS1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public virtual int UpdateAll(LoanAppDS1 dataSet) {
+        public virtual int UpdateAll(DutyResumeDS dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }
