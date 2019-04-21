@@ -1219,5 +1219,36 @@ namespace EzBusiness_Web.Controllers
                 return View();
             }
         }
+
+        [Route("LeaveRequestFormReport")]
+        public ActionResult LeaveRequestFormReport(string code)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLR002 pr inner join PRLR001 lr on lr.CmpyCode=pr.Cmpycode where pr.PRLR001_CODE='"+code+"' and pr.Cmpycode='"+list[0].CmpyCode+"'");
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/Leaveformreport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param);                                
+                ReportDataSource rptdatasource = new ReportDataSource("EZMvcLeaveRequestDataset", ds.Tables[0]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
+        }
     }
 }
