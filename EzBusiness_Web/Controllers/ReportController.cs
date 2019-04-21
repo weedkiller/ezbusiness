@@ -1366,5 +1366,38 @@ namespace EzBusiness_Web.Controllers
                 return View();
             }
         }
+
+        [Route("EmployeeRPTReport")]
+        public ActionResult EmployeeRPTReport(string code)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                SqlParameter[] param = { new SqlParameter("@cmpycode",list[0].CmpyCode),
+                                         new SqlParameter("@Emp_CODE",code)};
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_EmployeeDetailsReport", CommandType.StoredProcedure, param);                
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/EmployeeDetailsReport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param);                                
+                ReportDataSource rptdatasource = new ReportDataSource("EmployeeDetailsDataSet", ds.Tables[0]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
+        }
     }
 }
