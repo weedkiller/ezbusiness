@@ -1159,28 +1159,28 @@ namespace EzBusiness_Web.Controllers
         
         public ActionResult LeaveAppFormReport()
         {
-           // EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
-            EZMVCPRJDataSet1 ds = new EZMVCPRJDataSet1();
-            ReportViewer reportViewer = new ReportViewer();
-            reportViewer.ProcessingMode = ProcessingMode.Local;
-            reportViewer.SizeToReportContent = true;
-            //reportViewer.Width = Unit.Percentage(900);
-            //reportViewer.Height = Unit.Percentage(900);
+           //// EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
+           //// EZMVCPRJDataSet1 ds = new EZMVCPRJDataSet1();
+           // ReportViewer reportViewer = new ReportViewer();
+           // reportViewer.ProcessingMode = ProcessingMode.Local;
+           // reportViewer.SizeToReportContent = true;
+           // //reportViewer.Width = Unit.Percentage(900);
+           // //reportViewer.Height = Unit.Percentage(900);
 
-            SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["UMNIAHConn"].ConnectionString);
+           // SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["UMNIAHConn"].ConnectionString);
 
-            con.Open();
-            //SqlConnection conx = new SqlConnection(connectionString);
-            SqlDataAdapter adp = new SqlDataAdapter("select * from PRLR002", con);
+           // con.Open();
+           // //SqlConnection conx = new SqlConnection(connectionString);
+           // SqlDataAdapter adp = new SqlDataAdapter("select * from PRLR002", con);
 
-            adp.Fill(ds,ds.PRLR002.TableName);
-            // _EzBusinessHelper.ExecuteNonQuery(")
+           // adp.Fill(ds,ds.PRLR002.TableName);
+           // // _EzBusinessHelper.ExecuteNonQuery(")
 
-            reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\LeaveApplication.rdlc";
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("EZMVCPRJDataSet1", ds.Tables[0]));
+           // reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\LeaveApplication.rdlc";
+           // reportViewer.LocalReport.DataSources.Add(new ReportDataSource("EZMVCPRJDataSet1", ds.Tables[0]));
 
 
-            ViewBag.ReportViewer = reportViewer;
+           // ViewBag.ReportViewer = reportViewer;
 
 
             return View();
@@ -1199,15 +1199,18 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLA001 where PRLA001_CODE ='" + code + "' and CmpyCode='" + list[0].CmpyCode + "'");
+                SqlParameter[] param = { new SqlParameter("@CmpyCode", list[0].CmpyCode),
+                new SqlParameter("@PRLR001_CODE",code)};
+                //ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLA001 where PRLA001_CODE ='" + code + "' and CmpyCode='" + list[0].CmpyCode + "'");
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_LoanApp",CommandType.StoredProcedure,param);
                 dt = ds.Tables[0];
                 var rptviewer = new ReportViewer();
                 rptviewer.ProcessingMode = ProcessingMode.Local;
-                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/LoanApp.rdlc");
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/LoanReport.rdlc");
                 //ReportParameter[] param = new ReportParameter[1];
                 //param[0] = new ReportParameter("statename", name);
                 //rptviewer.LocalReport.SetParameters(param);                                
-                ReportDataSource rptdatasource = new ReportDataSource("DataSet1", ds.Tables[0]);
+                ReportDataSource rptdatasource = new ReportDataSource("LoanAppDS", ds.Tables[0]);
                 rptviewer.LocalReport.DataSources.Clear();
                 rptviewer.LocalReport.DataSources.Add(rptdatasource);
                 rptviewer.LocalReport.Refresh();
