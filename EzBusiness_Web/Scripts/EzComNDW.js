@@ -536,6 +536,7 @@ function EzbtnsaveAc(Idsucc) {
 function EzbtnsaveAcVis(Idsucc) {    
     $("#btnNew").css("visibility", "");
     $("#btnEdit").css("visibility", "hidden");
+    $("#btnPrint").css("visibility", "hidden");
     $("#btnDelete").css("visibility", "hidden");
     $("#hdnOperationMode").val("");
     $("#btnSave").css("visibility", "hidden");
