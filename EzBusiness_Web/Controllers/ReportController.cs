@@ -28,8 +28,6 @@ namespace EzBusiness_Web.Controllers
         public ReportController()
         {
             _reportdetail = new ReportDetailService();
-
-           
         }
 
         [Route("EmpoloyeeReport")]
@@ -311,7 +309,6 @@ namespace EzBusiness_Web.Controllers
             }
         }
 
-
         [Route("GetHolidayDetails")]
         public ActionResult GetHolidayDetails(Holiday lp)
         {
@@ -375,7 +372,6 @@ namespace EzBusiness_Web.Controllers
                 return View();
             }
         }
-
 
         [Route("LoanReportDet")]
         public ActionResult GetLoanDetails(Loan lp)
@@ -1379,23 +1375,33 @@ namespace EzBusiness_Web.Controllers
             {
                 SqlParameter[] param = { new SqlParameter("@cmpycode",list[0].CmpyCode),
                                          new SqlParameter("@Emp_CODE",code)};
-                ds = _EzBusinessHelper.ExecuteDataSet("Rep_EmployeeDetailsReport", CommandType.StoredProcedure, param);                
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_AllEmpDetailsReport", CommandType.StoredProcedure, param);                
                 dt = ds.Tables[0];
                 var rptviewer = new ReportViewer();
                 rptviewer.ProcessingMode = ProcessingMode.Local;
                 rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/EmployeeDetailsReport.rdlc");
                 //ReportParameter[] param = new ReportParameter[1];
                 //param[0] = new ReportParameter("statename", name);
-                //rptviewer.LocalReport.SetParameters(param);                                
-                ReportDataSource rptdatasource = new ReportDataSource("EmployeeDetailsDataSet", ds.Tables[0]);
-                rptviewer.LocalReport.DataSources.Clear();
-                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                //rptviewer.LocalReport.SetParameters(param);  
+              
+                    //viewer.LocalReport.DataSources.Add(new ReportDataSource(reportDataSource, dataset.Tables[0]));
+                    //viewer.LocalReport.DataSources.Add(new ReportDataSource("reportDataSource1", dataset.Tables[1]));
+                    //viewer.LocalReport.DataSources.Add(new ReportDataSource("reportDataSource2", dataset.Tables[2]));
+                    //viewer.LocalReport.DataSources.Add(new ReportDataSource("reportDataSource3", dataset.Tables[3]));
+                    //viewer.LocalReport.DataSources.Add(new ReportDataSource("reportDataSource4", dataset.Tables[4]));
+                    //ReportDataSource rptdatasource = new ReportDataSource("EmployeeDetailsDataSet", ds.Tables[i]);
+                    rptviewer.LocalReport.DataSources.Clear();
+                    rptviewer.LocalReport.DataSources.Add(new ReportDataSource("EmployeeDetailsDataSet",ds.Tables[0]));
+                    rptviewer.LocalReport.DataSources.Add(new ReportDataSource("EmpDocDetailsDataSet", ds.Tables[1]));
+                    rptviewer.LocalReport.DataSources.Add(new ReportDataSource("EmployeeDetailsEduDataSet", ds.Tables[2]));
+
                 rptviewer.LocalReport.Refresh();
-                rptviewer.ProcessingMode = ProcessingMode.Local;
-                rptviewer.AsyncRendering = false;
-                rptviewer.SizeToReportContent = true;
-                rptviewer.ZoomMode = ZoomMode.FullPage;
-                ViewBag.ReportViewer = rptviewer;
+                    rptviewer.ProcessingMode = ProcessingMode.Local;
+                    rptviewer.AsyncRendering = false;
+                    rptviewer.SizeToReportContent = true;
+                    rptviewer.ZoomMode = ZoomMode.FullPage;
+                    ViewBag.ReportViewer = rptviewer;
+               
                 return View();
             }
         }
