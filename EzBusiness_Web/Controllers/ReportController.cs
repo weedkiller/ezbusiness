@@ -1459,24 +1459,51 @@ namespace EzBusiness_Web.Controllers
                                          new SqlParameter("@Emp_CODE",code)};
                 ds = _EzBusinessHelper.ExecuteDataSet("Rep_EmployeeDetailsReport", CommandType.StoredProcedure, param);                
                 dt = ds.Tables[0];
-                var rptviewer = new ReportViewer();
-                rptviewer.ProcessingMode = ProcessingMode.Local;
-                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/EmployeeDetailsReport.rdlc");
-                //ReportParameter[] param = new ReportParameter[1];
-                //param[0] = new ReportParameter("statename", name);
-                //rptviewer.LocalReport.SetParameters(param);                                
-                ReportDataSource rptdatasource = new ReportDataSource("EmployeeDetailsDataSet", ds.Tables[0]);
-                rptviewer.LocalReport.DataSources.Clear();
-                rptviewer.LocalReport.DataSources.Add(rptdatasource);
-                rptviewer.LocalReport.Refresh();
-                rptviewer.ProcessingMode = ProcessingMode.Local;
-                rptviewer.AsyncRendering = false;
-                rptviewer.SizeToReportContent = true;
-                rptviewer.ZoomMode = ZoomMode.FullPage;
-                ViewBag.ReportViewer = rptviewer;
+                ReportFun(ds, "EmployeeDetailsDataSet", "EmployeeDetailsReport.rdlc");
+                //var rptviewer = new ReportViewer();
+                //rptviewer.ProcessingMode = ProcessingMode.Local;
+                //rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/EmployeeDetailsReport.rdlc");
+                ////ReportParameter[] param = new ReportParameter[1];
+                ////param[0] = new ReportParameter("statename", name);
+                ////rptviewer.LocalReport.SetParameters(param);                                
+                //ReportDataSource rptdatasource = new ReportDataSource("EmployeeDetailsDataSet", ds.Tables[0]);
+                //rptviewer.LocalReport.DataSources.Clear();
+                //rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                //rptviewer.LocalReport.Refresh();
+                //rptviewer.ProcessingMode = ProcessingMode.Local;
+                //rptviewer.AsyncRendering = false;
+                //rptviewer.SizeToReportContent = true;
+                //rptviewer.ZoomMode = ZoomMode.FullPage;
+                //ViewBag.ReportViewer = rptviewer;
                 return View();
             }
         }
+
+
+
+        public void ReportFun(DataSet ds ,string dsname,string rdlcname)
+        {
+            var rptviewer = new ReportViewer();
+            rptviewer.ProcessingMode = ProcessingMode.Local;
+            rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/"+ rdlcname + "");
+            //ReportParameter[] param = new ReportParameter[1];
+            //param[0] = new ReportParameter("statename", name);
+            //rptviewer.LocalReport.SetParameters(param);   
+            rptviewer.LocalReport.DataSources.Clear();
+            var n = ds.Tables.Count;            
+            while (n > 0)
+            {
+                rptviewer.LocalReport.DataSources.Add(new ReportDataSource(dsname, ds.Tables[n - 1]));
+                n = n - 1;
+            }                                                             
+            rptviewer.LocalReport.Refresh();
+            rptviewer.ProcessingMode = ProcessingMode.Local;
+            rptviewer.AsyncRendering = false;
+            rptviewer.SizeToReportContent = true;
+            rptviewer.ZoomMode = ZoomMode.FullPage;
+            ViewBag.ReportViewer = rptviewer;
+        }
+
 
 
 
