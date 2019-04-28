@@ -1105,7 +1105,7 @@ namespace EzBusiness_Web.Controllers
             return View();
         }
 
-
+        [Route("DailyTimeSheet")]
         public ActionResult DailyTimeSheetDetails()
         {
             return View();

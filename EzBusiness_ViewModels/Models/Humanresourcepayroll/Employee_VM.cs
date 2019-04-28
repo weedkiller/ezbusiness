@@ -67,6 +67,7 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public string PhysicallyDisabledYN { get; set; }
         public string PhysicallyDisabled { get; set; }       
         public List<SelectListItem> ReligionList { get; set; }
+        public string Religion { get; set; }
         public string Salutaion { get; set; }
         public List<SelectListItem> SalutaionList { get; set; }                
         public string ContactNo { get; set; }
