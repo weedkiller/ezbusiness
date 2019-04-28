@@ -1367,6 +1367,84 @@ namespace EzBusiness_Web.Controllers
             }
         }
 
+
+
+        [Route("FinalSetFormReport")]
+        public ActionResult FinalSetFormReport(string code)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                SqlParameter[] param = { new SqlParameter("@CmpyCode", list[0].CmpyCode),
+                new SqlParameter("@PRFSET001_code",code)};
+                // ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLR002 pr inner join PRLR001 lr on lr.CmpyCode=pr.Cmpycode where pr.PRLR001_CODE='"+code+"' and pr.Cmpycode='"+list[0].CmpyCode+"'");
+
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_FinalSett", CommandType.StoredProcedure, param);
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/FinalSettReport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param);                                
+                ReportDataSource rptdatasource = new ReportDataSource("EzFinalSetRep", ds.Tables[0]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
+        }
+
+
+
+
+        [Route("SalrPaidFormReport")]
+        public ActionResult SalrPaidFormReport(string code)
+       {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                SqlParameter[] param = { new SqlParameter("@CmpyCode", list[0].CmpyCode),
+                new SqlParameter("@PRSPD001_CODE",code)};
+                // ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLR002 pr inner join PRLR001 lr on lr.CmpyCode=pr.Cmpycode where pr.PRLR001_CODE='"+code+"' and pr.Cmpycode='"+list[0].CmpyCode+"'");
+
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_Salpaid", CommandType.StoredProcedure, param);
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/SalryPaidReport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param); 
+                ReportDataSource rptdatasource1, rptdatasource;
+                 rptdatasource = new ReportDataSource("EzSalrPaid1", ds.Tables[0]);
+                rptdatasource1 = new ReportDataSource("EzSalrPaid2", ds.Tables[1]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.DataSources.Add(rptdatasource1);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
+        }
+
         [Route("EmployeeRPTReport")]
         public ActionResult EmployeeRPTReport(string code)
         {
@@ -1399,5 +1477,9 @@ namespace EzBusiness_Web.Controllers
                 return View();
             }
         }
+
+
+
+
     }
 }

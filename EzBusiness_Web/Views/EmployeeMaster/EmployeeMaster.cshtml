@@ -573,8 +573,11 @@
         });
         $("#btnPrint").click(function () {
             debugger;
-            var code1 = $("[name='EmpCode']").val();
-            window.open("/EmployeeRPTReport/?code=" + code1 + "", '_blank');
+            var n = EzAuthenticationBtn("/EmployeeMaster", "PrintIt");
+            if (n == 1) {
+                var code1 = $("[name='EmpCode']").val();
+                window.open("/EmployeeRPTReport/?code=" + code1 + "", '_blank');
+            }
         });
         $("#ObtainedYear1").on("dp.show", function (e) {
             $(e.target).data("DateTimePicker").viewMode("years");
