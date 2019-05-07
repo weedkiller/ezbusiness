@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EzBusiness_EF_Entity.FreightManagement;
 using EzBusiness_ViewModels.Models.FreightManagement;
+using EzBusiness_EF_Entity.FreightManagementEF;
 
 namespace EzBusiness_DL_Interface.FreightManagement
 {
@@ -19,6 +20,8 @@ namespace EzBusiness_DL_Interface.FreightManagement
 
 
         bool DeleteFMHEAD(string FNMHEAD_CODE, string CmpyCode, string UserName);
+
+      
 
         #endregion
     }
