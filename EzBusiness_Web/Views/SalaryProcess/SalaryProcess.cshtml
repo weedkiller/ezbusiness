@@ -73,7 +73,7 @@
             var n = EzAuthenticationBtn("/SalaryProcess", "DeleteIt");
             if (n == 1) {
                 $("#editshow").hide();
-                debugger;
+                
                     const swalWithBootstrapButtons = Swal.mixin({
                         confirmButtonClass: 'btn btn-success',
                         cancelButtonClass: 'btn btn-danger',
@@ -89,7 +89,7 @@
                         reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
-                            debugger;
+                            
                             var Code = $("#PRSP001_Code").val();
                             var currdate = $("[name*='DateINMonth']").val();
                                 $.ajax({
@@ -102,7 +102,7 @@
                                     contentType: "Application/json",
                                     success: function (data) {                                     
                                         if (data=true) {
-                                            //debugger;
+                                            //
                                             //RefreshDatatable();
                                             //$("#btnCancel").trigg  
                                             //var smaHtml = $("#SMAContainer").html();
@@ -138,7 +138,7 @@
                 }
         });
         $("#btnSave").click(function () {
-            debugger;
+            
             var n = EzAuthenticationBtn("/SalaryProcess", "EditIt");            
             $("#editshow").hide();           
             var opMode = $("#hdnOperationMode").val();
@@ -262,7 +262,7 @@
                 var validationResult = ValidateForm(salarym);
                 if (validationResult.formValid) {
                     $.post("/SaveSalaryProcess", salarym).done(function (response) {
-                        debugger;
+                        
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
                             
                             EzbtnsaveAcVis("#SMAContainer");
@@ -378,7 +378,7 @@
         });
 
         function ValidateForm(salarym) {
-            debugger;
+            
             var response = {
                 ErrorMessage: "",
                 formValid: false
@@ -483,7 +483,7 @@
 
          $(document).on("click", "#SalaryList tbody tr", function ()
                 {
-             debugger;
+             
              EzbtnEditAcVis();
                     var operationMode = $("#hdnOperationMode").val();
                     if (operationMode == "Edit")
@@ -494,7 +494,7 @@
                         var Code = $(this).find("#hdnprbmCode").val();
                         $.get("EditSalaryProcess", { salP_code: Code }).done(function (response)
                         {
-                            debugger;
+                            
                             $("#SMAContainer").html(response);
                             $("#btnDelete").css("visibility","");;
                             $("#btncalculate").css("visibility", "hidden");

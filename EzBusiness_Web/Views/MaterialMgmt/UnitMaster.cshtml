@@ -28,11 +28,11 @@
 <script>
     var units = [];
     $(function () {
-        debugger;
+        
         GetUnitTypes();
         $("#tblUnits1").hide();
         $("#btnAdd").click(function () {
-            debugger;
+            
             var n = EzAuthenticationBtn("/Loan", "NewIt");
             if (n == 1) {
                
@@ -52,7 +52,7 @@
         var counter = $("#Counter").val();
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtMM001_Code']", function () {
-            debugger;
+            
             var tr = $(this).closest('tr');
 
             drec = [];
@@ -101,7 +101,7 @@
 
         /*Refresh */
         $("#btnCancel").click(function () {
-            debugger;
+            
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
@@ -122,7 +122,7 @@
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
-            debugger;
+            
            var UnitMaster=  {
                UnitNew: []
             };
@@ -142,7 +142,7 @@
             var validationResult = ValidateForm(UnitMaster);
             if (validationResult.formValid) {
                 $.post("/MaterialMgmt/SaveUnit", UnitMaster).done(function (response) {
-                    debugger;
+                    
                   if (response.Drecord == null)
                   {
                       $("#tbldiv").show();
@@ -150,7 +150,7 @@
                     //$("#tblUnits1").hide();
                    //EzAlerterrtxt("Duplicate Record");
                   }
-                debugger;
+                
                 $("#tblUnits1 tbody tr").each(function (index, item) {
                     var tr = $(this).closest("tr");
                     var codeAdd = $(tr).find("[name*='txtMM001_Code']").val().trim();
@@ -236,7 +236,7 @@
         //});
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
-            debugger;
+            
             var n = EzAuthenticationBtn("/Unit", "EditIt");
             if (n == 1) {
                 var counter = $("#Counter").val();
@@ -268,7 +268,7 @@
                         //tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                         //tableDis("F");
                         //EzAlertUpd(hdnCode);
-                        debugger;
+                        
                                 nameTd.text(response.Name);
                                 unicodenameTd.text(response.UnitType);
                                 hdnEditMode.val("false");

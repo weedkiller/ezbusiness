@@ -29,7 +29,7 @@ var EmpBankTrfreport = {
     },
     EmpBankTrfreportDetails: function () {
         //
-        debugger;
+        
 
         var groupColumn = 5;
 

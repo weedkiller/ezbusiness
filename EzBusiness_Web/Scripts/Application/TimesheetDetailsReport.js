@@ -14,7 +14,7 @@
     DailyTimeSheetReportDetails:function()
     {
         $("#displayfinalsettlment").show();
-        debugger;
+        
         var msg = "";
         var fdate = Ezsetdtpkdate($("#fnlfdatetxt").val());
         var Tdate = Ezsetdtpkdate($("#fnltdatetxt").val());

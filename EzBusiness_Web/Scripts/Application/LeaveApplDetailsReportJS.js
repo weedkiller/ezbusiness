@@ -123,7 +123,7 @@
                 //may want to use $.trim in here
                 //return $(this).text() == text1;
                 if ($(this).text() == "All") {
-                    debugger;
+                    
                     var tabledata = $('#Leavereport').dataTable();
                     //Get the total rows
                     k = tabledata.fnSettings().fnRecordsTotal();
