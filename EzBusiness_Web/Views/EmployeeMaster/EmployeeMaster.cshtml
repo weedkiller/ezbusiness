@@ -242,12 +242,9 @@
                 });
 
                 $("#tablePODetails tbody tr").each(function (index, item) {
-
                     var NomineeNameTxt = $(this).find("[name*='NomineeName']").val();
                     var NomineeAddressTxt = $(this).find("[name*='NomineeAddress']").val();
                     var NomineeRelationTxt = $(this).find("[name*='NomineeRelation']").val();
-                   
-
                     if ((NomineeNameTxt != "") && (NomineeRelationTxt != "")) {
                         var NomineeDOBTxt = Ezsetdtpkdate($(this).find("[name*='NomineeDOB']").val());
                         var EmployeeNominee = {
@@ -571,7 +568,14 @@
             }
            
         });
-
+        $("#btnPrint").click(function () {
+            debugger;
+            var n = EzAuthenticationBtn("/EmployeeMaster", "PrintIt");
+            if (n == 1) {
+                var code1 = $("[name='EmpCode']").val();
+                window.open("/EmployeeRPTReport/?code=" + code1 + "", '_blank');
+            }
+        });
         $("#ObtainedYear1").on("dp.show", function (e) {
             $(e.target).data("DateTimePicker").viewMode("years");
         });
@@ -606,7 +610,6 @@
 
 </style>
 
-
 <div class="row">
     <div class="col-md-6 col-sm-6 col-xs-6 btngrp" >
         <div class="title-action">
@@ -618,6 +621,7 @@
 
             <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
             <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+            <button class="btn btn-info btn1" id="btnPrint" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
             <input type="hidden" id="hdnOperationMode" value="" />
         </div>
     </div>
@@ -627,9 +631,7 @@
 <!-- Row start -->
 <div class="row">
     <!--updated code-->
-
-    <div class="col-md-12 no-padding navbar-expand-lg">
-      
+    <div class="col-md-12 no-padding navbar-expand-lg">      
         <div class="panel panel-primary panl" >
             <div class="panel-heading clearfix">
                 <i class="icon-calendar"></i>

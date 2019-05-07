@@ -584,7 +584,7 @@ namespace EzBusiness_DL_Repository
             return objList;
         }
         public List<TimeSheetDetail> DailyTimeSheetDetailsReport(string CmpyCode, DateTime Fromdate, DateTime Todate)
-        {
+       {
 
             List<TimeSheetDetail> objList = null;
             string yeardata = Todate.ToString("yyyy/MM/dd");

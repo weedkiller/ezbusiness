@@ -2,17 +2,18 @@
 using EzBusiness_BL_Service;
 using EzBusiness_EF_Entity;
 using EzBusiness_ViewModels.Models.Humanresourcepayroll;
-using Microsoft.Reporting.WebForms;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.Reporting.WebForms;
+
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 using EzBusiness_DL_Repository;
+using Microsoft.Reporting.WebForms;
 
 namespace EzBusiness_Web.Controllers
 {
@@ -27,8 +28,6 @@ namespace EzBusiness_Web.Controllers
         public ReportController()
         {
             _reportdetail = new ReportDetailService();
-
-           
         }
 
         [Route("EmpoloyeeReport")]
@@ -310,7 +309,6 @@ namespace EzBusiness_Web.Controllers
             }
         }
 
-
         [Route("GetHolidayDetails")]
         public ActionResult GetHolidayDetails(Holiday lp)
         {
@@ -374,7 +372,6 @@ namespace EzBusiness_Web.Controllers
                 return View();
             }
         }
-
 
         [Route("LoanReportDet")]
         public ActionResult GetLoanDetails(Loan lp)
@@ -1086,29 +1083,29 @@ namespace EzBusiness_Web.Controllers
         public ActionResult Report1()
         {
 
-            ReportViewer rptViewer = new ReportViewer();
+            //ReportViewer rptViewer = new ReportViewer();
 
-            // ProcessingMode will be Either Remote or Local  
-            rptViewer.ProcessingMode = ProcessingMode.Remote;
-            rptViewer.SizeToReportContent = true;
-            rptViewer.ZoomMode = ZoomMode.PageWidth;
+            //// ProcessingMode will be Either Remote or Local  
+            //rptViewer.ProcessingMode = ProcessingMode.Remote;
+            //rptViewer.SizeToReportContent = true;
+            //rptViewer.ZoomMode = ZoomMode.PageWidth;
            
-            rptViewer.AsyncRendering = true;
-            //rptViewer.ServerReport.ReportServerUrl = new Uri("http://localhost/ReportServer/");
+            //rptViewer.AsyncRendering = true;
+            ////rptViewer.ServerReport.ReportServerUrl = new Uri("http://localhost/ReportServer/");
 
-            //rptViewer.ServerReport.ReportPath = this.SetReportPath();
-
-
-
-            rptViewer.ServerReport.ReportServerUrl = new Uri("http://localhost/reportserver");
-            rptViewer.ServerReport.ReportPath = "../EzBusinessReport/Report1.rdl";
+            ////rptViewer.ServerReport.ReportPath = this.SetReportPath();
 
 
-            ViewBag.ReportViewer = rptViewer;
+
+            //rptViewer.ServerReport.ReportServerUrl = new Uri("http://localhost/reportserver");
+            //rptViewer.ServerReport.ReportPath = "../EzBusinessReport/Report1.rdl";
+
+
+            //ViewBag.ReportViewer = rptViewer;
             return View();
         }
 
-
+        [Route("DailyTimeSheet")]
         public ActionResult DailyTimeSheetDetails()
         {
             return View();
@@ -1122,6 +1119,8 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
+                DateTime fdate = Convert.ToDateTime(timerrport.FDate);
+                DateTime tdate = Convert.ToDateTime(timerrport.TDate);
                 List<TimeSheetDetail> AdmReport = _reportdetail.DailyTimeSheetDetailsReport(list[0].CmpyCode,Convert.ToDateTime(timerrport.TDate), Convert.ToDateTime(timerrport.FDate));
                 List<TimeSheetDetail> objReportViewList = new List<TimeSheetDetail>();
                 foreach (var EMPCode in AdmReport.Select(a => a.EmpCode).Distinct())
@@ -1129,16 +1128,19 @@ namespace EzBusiness_Web.Controllers
                     TimeSheetDetail objReportView = new TimeSheetDetail();
                     string Day, DayStatus,daydata;
                     List<DayStatus> objDayStatusList = new List<DayStatus>();
-                    foreach (DateTime ADateTime in AdmReport.Where(a => a.EmpCode == EMPCode).OrderBy(a=>a.Att_Date).Select(a => a.Att_Date))
+                    //foreach (DateTime ADateTime in AdmReport.Where(a => a.EmpCode == EMPCode).OrderBy(a=>a.Att_Date).Select(a => a.Att_Date))
+                    //{
+                    for (var day = fdate.Date; day.Date <= tdate.Date; day = day.AddDays(1))
                     {
+                       // DateTime ADateTime=AdmReport.Where(a => a.EmpCode == EMPCode).OrderBy(a => a.Att_Date).Select(a => a.Att_Date).FirstOrDefault();
                         DayStatus objDayStatus = new DayStatus();
-                        objDayStatus.Day = ADateTime.ToString("dd-MMM");
-                        objDayStatus.Daydata= ADateTime.ToString("dd");
-                        string HdStatus = AdmReport.Where(a => a.EmpCode == EMPCode && a.Att_Date == ADateTime).Select(a => a.ATT).FirstOrDefault();
+                        objDayStatus.Day = day.ToString("dd-MMM");
+                        objDayStatus.Daydata= day.ToString("dd");
+                       
+                        string HdStatus = AdmReport.Where(a => a.EmpCode == EMPCode && a.Att_Date == day).Select(a => a.ATT).FirstOrDefault();
                         if(HdStatus==null)
-                        {
-                            objDayStatus.AttenStatus= "NA";
-                        }
+                            objDayStatus.AttenStatus="--";
+                        else
                         objDayStatus.AttenStatus = HdStatus;
                         objDayStatusList.Add(objDayStatus);
                     }
@@ -1158,28 +1160,28 @@ namespace EzBusiness_Web.Controllers
         
         public ActionResult LeaveAppFormReport()
         {
-           // EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
-            EZMVCPRJDataSet1 ds = new EZMVCPRJDataSet1();
-            ReportViewer reportViewer = new ReportViewer();
-            reportViewer.ProcessingMode = ProcessingMode.Local;
-            reportViewer.SizeToReportContent = true;
-            //reportViewer.Width = Unit.Percentage(900);
-            //reportViewer.Height = Unit.Percentage(900);
+           //// EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
+           //// EZMVCPRJDataSet1 ds = new EZMVCPRJDataSet1();
+           // ReportViewer reportViewer = new ReportViewer();
+           // reportViewer.ProcessingMode = ProcessingMode.Local;
+           // reportViewer.SizeToReportContent = true;
+           // //reportViewer.Width = Unit.Percentage(900);
+           // //reportViewer.Height = Unit.Percentage(900);
 
-            SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["UMNIAHConn"].ConnectionString);
+           // SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["UMNIAHConn"].ConnectionString);
 
-            con.Open();
-            //SqlConnection conx = new SqlConnection(connectionString);
-            SqlDataAdapter adp = new SqlDataAdapter("select * from PRLR002", con);
+           // con.Open();
+           // //SqlConnection conx = new SqlConnection(connectionString);
+           // SqlDataAdapter adp = new SqlDataAdapter("select * from PRLR002", con);
 
-            adp.Fill(ds,ds.PRLR002.TableName);
-            // _EzBusinessHelper.ExecuteNonQuery(")
+           // adp.Fill(ds,ds.PRLR002.TableName);
+           // // _EzBusinessHelper.ExecuteNonQuery(")
 
-            reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\LeaveApplication.rdlc";
-            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("EZMVCPRJDataSet1", ds.Tables[0]));
+           // reportViewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\LeaveApplication.rdlc";
+           // reportViewer.LocalReport.DataSources.Add(new ReportDataSource("EZMVCPRJDataSet1", ds.Tables[0]));
 
 
-            ViewBag.ReportViewer = reportViewer;
+           // ViewBag.ReportViewer = reportViewer;
 
 
             return View();
@@ -1189,31 +1191,307 @@ namespace EzBusiness_Web.Controllers
 
 
         [Route("LoanReportForm")]
-        public ActionResult LoanReport(ReportsInp Inp)
+        public ActionResult LoanReport(string code)
         {
-
-            ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLA001 where PRLA001_CODE ='PRLA-71' and CmpyCode='UM'");
-            var rptviewer = new ReportViewer();
-            rptviewer.ProcessingMode = ProcessingMode.Local;
-            // rptviewer.LocalReport.ReportPath = Request.MapPath(Request.ApplicationPath) + @"Report/LoanApp.rdlc";
-            rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/LoanApp.rdlc");
-            //ReportParameter[] param = new ReportParameter[1];
-            //param[0] = new ReportParameter("statename", name);
-            //rptviewer.LocalReport.SetParameters(param);
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-
-            ReportDataSource rptdatasource = new ReportDataSource("DataSet1", ds.Tables[0]);
-            rptviewer.LocalReport.DataSources.Clear();
-            rptviewer.LocalReport.DataSources.Add(rptdatasource);
-            rptviewer.LocalReport.Refresh();
-            rptviewer.ProcessingMode = ProcessingMode.Local;
-            rptviewer.AsyncRendering = false;
-            rptviewer.SizeToReportContent = true;
-            rptviewer.ZoomMode = ZoomMode.FullPage;
-
-            ViewBag.ReportViewer = rptviewer;
-            return View();
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                SqlParameter[] param = { new SqlParameter("@CmpyCode", list[0].CmpyCode),
+                new SqlParameter("@PRLA001_CODE",code)};
+                //ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLA001 where PRLA001_CODE ='" + code + "' and CmpyCode='" + list[0].CmpyCode + "'");
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_LoanApp", CommandType.StoredProcedure,param);
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/LoanReport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param);                                
+                ReportDataSource rptdatasource = new ReportDataSource("LoanAppDS", ds.Tables[0]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
         }
+
+        [Route("LeaveRequestFormReport")]
+        public ActionResult LeaveRequestFormReport(string code)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                SqlParameter[] param = { new SqlParameter("@CmpyCode", list[0].CmpyCode),
+                new SqlParameter("@PRLR001_CODE",code)};
+                // ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLR002 pr inner join PRLR001 lr on lr.CmpyCode=pr.Cmpycode where pr.PRLR001_CODE='"+code+"' and pr.Cmpycode='"+list[0].CmpyCode+"'");
+
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_LeaveApp", CommandType.StoredProcedure, param);
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/Leaveformreport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param);                                
+                ReportDataSource rptdatasource = new ReportDataSource("EzLeaveAppDS", ds.Tables[0]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
+        }
+
+
+
+        [Route("LeaveSettReport")]
+        public ActionResult LeaveSettReport(string code)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                SqlParameter[] param = { new SqlParameter("@CmpyCode", list[0].CmpyCode),
+                new SqlParameter("@PRLS001_CODE",code)};
+                // ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLR002 pr inner join PRLR001 lr on lr.CmpyCode=pr.Cmpycode where pr.PRLR001_CODE='"+code+"' and pr.Cmpycode='"+list[0].CmpyCode+"'");
+
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_LeaveSett", CommandType.StoredProcedure, param);
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/LeaveSettReport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param);                                
+                ReportDataSource rptdatasource = new ReportDataSource("LeaveSettDS", ds.Tables[0]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
+        }
+
+
+        [Route("DutyResumeReportForm")]
+        public ActionResult DutyResumeReport(string code)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                SqlParameter[] param = { new SqlParameter("@CmpyCode", list[0].CmpyCode),
+                new SqlParameter("@PRDR001_CODE",code)};
+                // ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLR002 pr inner join PRLR001 lr on lr.CmpyCode=pr.Cmpycode where pr.PRLR001_CODE='"+code+"' and pr.Cmpycode='"+list[0].CmpyCode+"'");
+
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_DutyResume", CommandType.StoredProcedure, param);
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/DutyResumeReport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param);                                
+                ReportDataSource rptdatasource = new ReportDataSource("DutyResumeDS", ds.Tables[0]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
+        }
+
+
+        [Route("SalaryMReportForm")]
+        public ActionResult SalaryMReportForm(string code)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                SqlParameter[] param = { new SqlParameter("@CmpyCode", list[0].CmpyCode),
+                new SqlParameter("@PRSM001_CODE",code)};
+                // ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLR002 pr inner join PRLR001 lr on lr.CmpyCode=pr.Cmpycode where pr.PRLR001_CODE='"+code+"' and pr.Cmpycode='"+list[0].CmpyCode+"'");
+
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_salaryM", CommandType.StoredProcedure, param);
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/SalaryMReport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param);                                
+                ReportDataSource rptdatasource = new ReportDataSource("SalaryMDS", ds.Tables[0]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
+        }
+
+
+
+        [Route("FinalSetFormReport")]
+        public ActionResult FinalSetFormReport(string code)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                SqlParameter[] param = { new SqlParameter("@CmpyCode", list[0].CmpyCode),
+                new SqlParameter("@PRFSET001_code",code)};
+                // ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLR002 pr inner join PRLR001 lr on lr.CmpyCode=pr.Cmpycode where pr.PRLR001_CODE='"+code+"' and pr.Cmpycode='"+list[0].CmpyCode+"'");
+
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_FinalSett", CommandType.StoredProcedure, param);
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/FinalSettReport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param);                                
+                ReportDataSource rptdatasource = new ReportDataSource("EzFinalSetRep", ds.Tables[0]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
+        }
+
+
+
+
+        [Route("SalrPaidFormReport")]
+        public ActionResult SalrPaidFormReport(string code)
+       {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                SqlParameter[] param = { new SqlParameter("@CmpyCode", list[0].CmpyCode),
+                new SqlParameter("@PRSPD001_CODE",code)};
+                // ds = _EzBusinessHelper.ExecuteDataSet("select * from PRLR002 pr inner join PRLR001 lr on lr.CmpyCode=pr.Cmpycode where pr.PRLR001_CODE='"+code+"' and pr.Cmpycode='"+list[0].CmpyCode+"'");
+
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_Salpaid", CommandType.StoredProcedure, param);
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/SalryPaidReport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param); 
+                ReportDataSource rptdatasource1, rptdatasource;
+                 rptdatasource = new ReportDataSource("EzSalrPaid1", ds.Tables[0]);
+                rptdatasource1 = new ReportDataSource("EzSalrPaid2", ds.Tables[1]);
+                rptviewer.LocalReport.DataSources.Clear();
+                rptviewer.LocalReport.DataSources.Add(rptdatasource);
+                rptviewer.LocalReport.DataSources.Add(rptdatasource1);
+                rptviewer.LocalReport.Refresh();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.AsyncRendering = false;
+                rptviewer.SizeToReportContent = true;
+                rptviewer.ZoomMode = ZoomMode.FullPage;
+                ViewBag.ReportViewer = rptviewer;
+                return View();
+            }
+        }
+
+        [Route("EmployeeRPTReport")]
+        public ActionResult EmployeeRPTReport(string code)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                SqlParameter[] param = { new SqlParameter("@cmpycode",list[0].CmpyCode),
+                                         new SqlParameter("@Emp_CODE",code)};
+                ds = _EzBusinessHelper.ExecuteDataSet("Rep_AllEmpDetailsReport", CommandType.StoredProcedure, param);                
+                dt = ds.Tables[0];
+                var rptviewer = new ReportViewer();
+                rptviewer.ProcessingMode = ProcessingMode.Local;
+                rptviewer.LocalReport.ReportPath = Server.MapPath("~/Report/EmployeeDetailsReport.rdlc");
+                //ReportParameter[] param = new ReportParameter[1];
+                //param[0] = new ReportParameter("statename", name);
+                //rptviewer.LocalReport.SetParameters(param);  
+              
+                    //viewer.LocalReport.DataSources.Add(new ReportDataSource(reportDataSource, dataset.Tables[0]));
+                    //viewer.LocalReport.DataSources.Add(new ReportDataSource("reportDataSource1", dataset.Tables[1]));
+                    //viewer.LocalReport.DataSources.Add(new ReportDataSource("reportDataSource2", dataset.Tables[2]));
+                    //viewer.LocalReport.DataSources.Add(new ReportDataSource("reportDataSource3", dataset.Tables[3]));
+                    //viewer.LocalReport.DataSources.Add(new ReportDataSource("reportDataSource4", dataset.Tables[4]));
+                    //ReportDataSource rptdatasource = new ReportDataSource("EmployeeDetailsDataSet", ds.Tables[i]);
+                    rptviewer.LocalReport.DataSources.Clear();
+                    rptviewer.LocalReport.DataSources.Add(new ReportDataSource("EmployeeDetailsDataSet",ds.Tables[0]));
+                    rptviewer.LocalReport.DataSources.Add(new ReportDataSource("EmpDocDetailsDataSet", ds.Tables[1]));
+                    rptviewer.LocalReport.DataSources.Add(new ReportDataSource("EmployeeDetailsEduDataSet", ds.Tables[2]));
+
+                rptviewer.LocalReport.Refresh();
+                    rptviewer.ProcessingMode = ProcessingMode.Local;
+                    rptviewer.AsyncRendering = false;
+                    rptviewer.SizeToReportContent = true;
+                    rptviewer.ZoomMode = ZoomMode.FullPage;
+                    ViewBag.ReportViewer = rptviewer;
+               
+                return View();
+            }
+        }
+
+
+
+
+
     }
 }

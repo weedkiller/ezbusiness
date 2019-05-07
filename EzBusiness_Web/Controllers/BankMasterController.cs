@@ -35,7 +35,6 @@ namespace EzBusiness_Web.Controllers
             }
         }
 
-
         [Route("EditBankMaster")]
         public ActionResult EditBank(string CmpyCode, string PRBM001_code)
         {
@@ -63,8 +62,6 @@ namespace EzBusiness_Web.Controllers
             }
         }
 
-
-       
         [Route("GetBnkGrid")]
         public ActionResult GetBnkGrid(string CmpyCode, string PRBM002_code)
         {
@@ -77,8 +74,7 @@ namespace EzBusiness_Web.Controllers
             {
                 return Json(_BnkService.GetBnkGrid(list[0].CmpyCode, PRBM002_code), JsonRequestBehavior.AllowGet);
             }
-        }
-       
+        }       
         public ActionResult GetBnkList(string CmpyCode)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -90,11 +86,9 @@ namespace EzBusiness_Web.Controllers
             {
                 return PartialView(_BnkService.GetBnkList(list[0].CmpyCode));
             }
-        }
-
-      
-        public ActionResult GetCountryCodes()
-        {
+        }      
+       public ActionResult GetCountryCodes()
+       {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {

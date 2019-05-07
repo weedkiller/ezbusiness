@@ -85,16 +85,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.ProcessingObjectModel.DLL</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Report.Viewer.11.0.0.0\lib\net\Microsoft.ReportViewer.WebForms.DLL</HintPath>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ReportViewerForMvc, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -235,6 +228,7 @@
     <Compile Include="Controllers\EmpShiftController.cs" />
     <Compile Include="Controllers\FinaceMgmtController.cs" />
     <Compile Include="Controllers\FinalSettalmentController.cs" />
+    <Compile Include="Controllers\FMHEAD\FMHEADController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HolidayController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -268,15 +262,10 @@
     <Compile Include="Controllers\TimeSheetDetController.cs" />
     <Compile Include="Controllers\UserRightsController.cs" />
     <Compile Include="Controllers\VisaLocationController.cs" />
-    <Compile Include="EZMVCPRJDataSet.Designer.cs">
+    <Compile Include="EzSalrPaid1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EZMVCPRJDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="EZMVCPRJDataSet1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EZMVCPRJDataSet1.xsd</DependentUpon>
+      <DependentUpon>EzSalrPaid1.xsd</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -296,13 +285,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ReportViewerWebForm.aspx.cs">
-      <DependentUpon>ReportViewerWebForm.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ReportViewerWebForm.aspx.designer.cs">
-      <DependentUpon>ReportViewerWebForm.aspx</DependentUpon>
-    </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -653,27 +636,16 @@
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <Content Include="App_Code\TreeviewMenuRightsRep.cshtml" />
     <Content Include="Images\Emp_06032019014104UM" />
-    <Content Include="EZMVCPRJDataSet.xsc">
-      <DependentUpon>EZMVCPRJDataSet.xsd</DependentUpon>
+    <Content Include="EzSalrPaid1.xsc">
+      <DependentUpon>EzSalrPaid1.xsd</DependentUpon>
     </Content>
-    <None Include="EZMVCPRJDataSet.xsd">
+    <None Include="EzSalrPaid1.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>EZMVCPRJDataSet.Designer.cs</LastGenOutput>
+      <LastGenOutput>EzSalrPaid1.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <Content Include="EZMVCPRJDataSet.xss">
-      <DependentUpon>EZMVCPRJDataSet.xsd</DependentUpon>
-    </Content>
-    <Content Include="EZMVCPRJDataSet1.xsc">
-      <DependentUpon>EZMVCPRJDataSet1.xsd</DependentUpon>
-    </Content>
-    <None Include="EZMVCPRJDataSet1.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>EZMVCPRJDataSet1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="EZMVCPRJDataSet1.xss">
-      <DependentUpon>EZMVCPRJDataSet1.xsd</DependentUpon>
+    <Content Include="EzSalrPaid1.xss">
+      <DependentUpon>EzSalrPaid1.xsd</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\Ezhr.pubxml" />
     <None Include="Properties\PublishProfiles\Ezmvc.pubxml" />
@@ -806,6 +778,19 @@
     <Content Include="Scripts\VoiceRec\controller.js" />
     <Content Include="Scripts\VoiceRec\jquery.min.js" />
     <Content Include="Scripts\VoiceRec\speechRecognition.js" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Styles\bootstrap-glyphicons.css" />
     <Content Include="Styles\bootstrap.css" />
     <Content Include="Styles\bootstrap.min.css" />
@@ -818,9 +803,6 @@
     <Content Include="Views\PurchaseReq\EditPurchaseOrder.cshtml" />
     <Content Include="Views\PurchaseReq\GetPurchaseOrderList.cshtml" />
     <Content Include="Views\PurchaseReq\PurchaseRequest.cshtml" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -969,6 +951,14 @@
     <Content Include="Views\ProjectAllotmentNew\GetProjectAllotmentNewList.cshtml" />
     <Content Include="Views\Report\LeaveAppFormReport.cshtml" />
     <Content Include="Views\Report\LoanReport.cshtml" />
+    <Content Include="Web.config" />
+    <Content Include="Views\Report\LeaveRequestFormReport.cshtml" />
+    <Content Include="Views\Report\LeaveSettReport.cshtml" />
+    <Content Include="Views\Report\DutyResumeReport.cshtml" />
+    <Content Include="Views\Report\SalaryMReportForm.cshtml" />
+    <Content Include="Views\Report\EmployeeRPTReport.cshtml" />
+    <Content Include="Views\Report\SalrPaidFormReport.cshtml" />
+    <Content Include="Views\FMHEAD\FMHEADMaster.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -978,6 +968,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="DataSets\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
@@ -1018,9 +1009,21 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Report1.rdlc" />
-    <EmbeddedResource Include="Report\EmployeeMasterDetails.rdlc" />
-    <EmbeddedResource Include="Report\LeaveApplication.rdlc" />
+    <Content Include="Report\EmployeeDetailsReport.rdlc" />
+    <Content Include="Report\Leaveformreport.rdlc" />
+    <Content Include="Report\LoanReport.rdlc" />
+    <Content Include="Report\EmployeeDetailsReport.rdlc" />
+    <Content Include="Report\Leaveformreport.rdlc" />
+    <Content Include="Report\LoanReport.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Report\DutyResumeReport.rdlc" />
+    <Content Include="Report\LeaveSettReport.rdlc" />
+    <Content Include="Report\SalaryMReport.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Report\FinalSettReport.rdlc" />
+    <Content Include="Report\SalryPaidReport.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

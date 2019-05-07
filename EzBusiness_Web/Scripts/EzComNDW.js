@@ -482,6 +482,7 @@ function EzbtnNewAcVis() {
     $("#hdnOperationMode").val("Add");
     $("#btnSave").css("visibility", "");
     $("#btnCancel").css("visibility", "");
+    $("#btnPrint").css("visibility", "hidden");
     //$("#POListContainer1").hide();
 }
 //Edit  Button
@@ -498,6 +499,7 @@ function EzbtnEditAcVis() {
     $("#btnCancel").css("visibility", "");
     $("#btnDelete").css("visibility", "");
     $("#btnNew").css("visibility", "hidden");
+    $("#btnPrint").css("visibility", "");
     // $("#POListContainer1").show();
 }
 //Cancel  Button
@@ -518,6 +520,7 @@ function EzbtnCancelAcVis() {
     $("#btnSave").css("visibility", "hidden");
     $("#btnCancel").css("visibility", "hidden");
     $("#ErrorMessage").text('');
+    $("#btnPrint").css("visibility", "hidden");
     //$("#POListContainer1").hide();
 }
 //Save & Modify  Button
@@ -533,6 +536,7 @@ function EzbtnsaveAc(Idsucc) {
 function EzbtnsaveAcVis(Idsucc) {    
     $("#btnNew").css("visibility", "");
     $("#btnEdit").css("visibility", "hidden");
+    $("#btnPrint").css("visibility", "hidden");
     $("#btnDelete").css("visibility", "hidden");
     $("#hdnOperationMode").val("");
     $("#btnSave").css("visibility", "hidden");
