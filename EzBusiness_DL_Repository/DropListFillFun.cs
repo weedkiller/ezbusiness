@@ -100,7 +100,6 @@ namespace EzBusiness_DL_Repository
                         PRBM002_code = dr["PRBM002_code"].ToString(),
                         Bank_branch_name = dr["Bank_branch_name"].ToString(),
                     });
-
                 }
             }
             return ObjList;
@@ -113,7 +112,7 @@ namespace EzBusiness_DL_Repository
             {
                 dt = ds.Tables[0];
                 DataRowCollection drc = dt.Rows;
-                 ObjList = new List<BankMaster>();
+                ObjList = new List<BankMaster>();
                 foreach (DataRow dr in drc)
                 {
                     ObjList.Add(new BankMaster()

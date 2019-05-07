@@ -70,7 +70,7 @@ function EzAuthentication(Rpath) {
 /*Salary Proceess Condition check*/
 
 function EzSalrProcCondiont(Empcode, dtmonthyy) {
-    debugger;
+    
     var a = 0;   
     $.ajax({
         async: false,
@@ -81,7 +81,7 @@ function EzSalrProcCondiont(Empcode, dtmonthyy) {
         dataType: 'Json',
         contentType:"Application/json",
         success: function (data) {
-            debugger;
+            
             if (data == true) {
                 a =1;            
             }
@@ -101,7 +101,7 @@ function EzSalrProcCondiont(Empcode, dtmonthyy) {
 
 
 function Ezjoindate(EmpCode, hidte) {
-    debugger;
+    
     $.ajax({
         async: false,
         cache: false,
@@ -117,7 +117,7 @@ function Ezjoindate(EmpCode, hidte) {
     
 }
 function Ezjoindatetbl(EmpCode) {
-    debugger;
+    
     var a=''
     $.ajax({
         async: false,
@@ -136,7 +136,7 @@ function Ezjoindatetbl(EmpCode) {
 
 /*Salary last*/
 function EzSalrLast(Empcode, dtmonthyy,InpAmt,salmsg) {
-    debugger;
+    
     var a = 0;
     $.ajax({
         async: false,
@@ -147,7 +147,7 @@ function EzSalrLast(Empcode, dtmonthyy,InpAmt,salmsg) {
         dataType: 'Json',
         contentType: "Application/json",
         success: function (data) {
-            debugger;
+            
             if (data == true) {
                 a = 1;
             }
@@ -648,7 +648,7 @@ function EzDropChaEve(Ide, IdeSel, fIde, errmsg) {
 /* Effect Date shold be greater than equal to Entry Date  */
 function EzdateCond(EfIde, EnIde, errmsg) {
     $(EfIde).on('dp.change', function (e) {
-        debugger;
+        
         if (e.oldDate !== null) {
             var ab = 1;
             if (new Date(Ezsetdtpkdate($(EfIde).val())) >= new Date(Ezsetdtpkdate($(EnIde).val()))) {
@@ -666,7 +666,7 @@ function EzdateCond(EfIde, EnIde, errmsg) {
 /* Entry Date shold be greater than equal to Join Date */
 function Ezdatejoindate(Ide, JIde, fIde, errmsg) {
     $(Ide).on('dp.change', function (e) {
-        debugger;      
+              
         if (e.oldDate !== null) {
             var ab = 1;
             if (new Date(Ezsetdtpkdate($(JIde).val())) <= new Date(Ezsetdtpkdate($(Ide).val()))) {
@@ -734,7 +734,7 @@ function Ezsidetblnew(ide, idef, lk, idfoot) {
     var jq = jQuery.noConflict(true);
     jq(document).ready(function () {
         // Setup - add a text input to each footer cell
-        debugger;
+        
         // $(ide).addClass('');
         var k = jq(idef).length;
         jq(idef).each(function () {
@@ -763,7 +763,7 @@ function Ezsidetblnew(ide, idef, lk, idfoot) {
             var that = this;
 
             jq('input', this.footer()).on('keyup change', function (ev) {
-                debugger;
+                
                 if (that.search() !== this.value) { //only on enter keypress (code 13)
                     that
                         .search(this.value)
@@ -791,7 +791,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
     var jq = jQuery.noConflict(true);
     jq(document).ready(function () {
         // Setup - add a text input to each footer cell
-        debugger;
+        
         // $(ide).addClass('');
         var k = jq(idef).length;
         jq(idef).each(function () {
@@ -834,7 +834,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
             var that = this;
 
             jq('input', this.footer()).on('keyup change', function (ev) {
-                debugger;
+                
                 if (that.search() !== this.value) { //only on enter keypress (code 13)
                     that
                         .search(this.value)
@@ -875,7 +875,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
             // var jq = jQuery.noConflict(true);
             $(document).ready(function () {
                 // Setup - add a text input to each footer cell
-                debugger;
+                
                 // $(ide).addClass('');
                 var k = $(idef).length;
                 $(idef).each(function () {
@@ -920,7 +920,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                     var that = this;
 
                     $('input', this.footer()).on('keyup change', function (ev) {
-                        debugger;
+                        
                         if (that.search() !== this.value) { //only on enter keypress (code 13)
                             that
                                 .search(this.value)
@@ -955,7 +955,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
         function ReloadDataTablDocumentDetails(tableId, urlData) {
             // alert("reload");
-            debugger;
+            
             //  var myObject ='';
   
             $.get("/EmployeeMaster/GetEmployeeMasterList", function (response) {
@@ -976,7 +976,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
    
             $(document).ready(function () {
                 // Setup - add a text input to each footer cell
-                debugger;
+                
                 // $(ide).addClass('');
                 var k = $(idef).length;
                 $(idef).each(function () {
@@ -1011,7 +1011,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                     var that = this;
 
                     $('input', this.footer()).on('keyup change', function (ev) {
-                        debugger;
+                        
                         if (that.search() !== this.value) { //only on enter keypress (code 13)
                             that
                                 .search(this.value)
@@ -1040,7 +1040,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         }
         /*tbl class date formate DD/MM/YYYY get current */
         function EzdtePk(date1) {
-            debugger;
+            
             $(date1).datetimepicker({
                 defaultDate: new Date(),
                 format: 'DD/MM/YYYY',
@@ -1139,7 +1139,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         //}
         /* date formate MMMM-yyyy get input date */
         function EzdtePkEdit(date1, dtval, frmt) {
-            debugger;
+            
             $(date1).datetimepicker({
                 defaultDate: new Date($(dtval).val()),
                 format: frmt,
@@ -1342,7 +1342,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         }
 
         function EztableLstTabBlk(tbl, ide, idf, errmsg, typ, vtyp) {
-            debugger;
+            
             $(tbl).on("keydown", ide, function (e) {
        
                 var keyCode = e.keyCode || e.which;
@@ -1466,7 +1466,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                 var keyCode = e.keyCode || e.which;
                 if (keyCode == 9) {
                     e.preventDefault();
-                    debugger;
+                    
                     var ab = parseInt($(Ide).val()) || 0;
                     var ab1 = parseInt($(idf).val()) || 0;
                     if (ab < ab1) {                                              

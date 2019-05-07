@@ -41,15 +41,12 @@ namespace EzBusiness_DL_Repository
             List<State> ObjList = new List<State>();
             foreach (DataRow dr in drc)
             {
-                ObjList.Add(new State()
-                {
+              ObjList.Add(new State()
+              {
                     CmpyCode = dr["CmpyCode"].ToString(),
                     Code = dr["Code"].ToString(),
                     Name = dr["Name"].ToString(),
-                
-
-
-                });
+              });
 
             }
             return ObjList;

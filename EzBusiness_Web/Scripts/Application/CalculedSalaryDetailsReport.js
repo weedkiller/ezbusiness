@@ -17,7 +17,7 @@
             $(e.target).data("DateTimePicker").viewMode("months");
         });
         $('#DateINMonth').on('dp.change', function (event) {
-            debugger;
+            
             dt = $("#DateINMonth").val();
             currdat = $("#DateINMonth").val();
             dt = dt + "-" + '01';
@@ -25,7 +25,7 @@
         });
 
         $('#Division').change(function () {
-            debugger;
+            
             var divcode = $('#Division option:selected').val();
             $.get("SalaryProcess/GetDepartmentList", { divcode: divcode }).done(function (response) {
 
@@ -43,7 +43,7 @@
         });
 
         $("#btncalculate").click(function () {
-            debugger;
+            
 
             var currmonthyear = dt;
             var CurrentDate = currmonthyear;
@@ -51,7 +51,7 @@
             var Deptcode = $('#DepCode option:selected').val();
             var VisaLocation1 = $('#VisaLocation option:selected').val();
             $('#salrcontainer').show();
-            debugger;
+            
             var newrow =
                {
                    Process_Date: currmonthyear,
@@ -176,7 +176,7 @@
         });
     },
     ValidateForm:function(divcode) {
-    debugger;
+    
     var response = {
         ErrorMessage: "",
 

@@ -18,7 +18,7 @@ $( document ).ready(function() {
 
     //$('#capture').click(function () {
 	$(document).on("click", "#capture", function (event) {
-	    debugger;
+	    
 		if ($('#capture').val() == "true") {
 			speech.startCapture();
 		}

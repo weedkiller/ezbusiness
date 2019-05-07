@@ -1119,6 +1119,8 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
+                DateTime fdate = Convert.ToDateTime(timerrport.FDate);
+                DateTime tdate = Convert.ToDateTime(timerrport.TDate);
                 List<TimeSheetDetail> AdmReport = _reportdetail.DailyTimeSheetDetailsReport(list[0].CmpyCode,Convert.ToDateTime(timerrport.TDate), Convert.ToDateTime(timerrport.FDate));
                 List<TimeSheetDetail> objReportViewList = new List<TimeSheetDetail>();
                 foreach (var EMPCode in AdmReport.Select(a => a.EmpCode).Distinct())
@@ -1126,16 +1128,19 @@ namespace EzBusiness_Web.Controllers
                     TimeSheetDetail objReportView = new TimeSheetDetail();
                     string Day, DayStatus,daydata;
                     List<DayStatus> objDayStatusList = new List<DayStatus>();
-                    foreach (DateTime ADateTime in AdmReport.Where(a => a.EmpCode == EMPCode).OrderBy(a=>a.Att_Date).Select(a => a.Att_Date))
+                    //foreach (DateTime ADateTime in AdmReport.Where(a => a.EmpCode == EMPCode).OrderBy(a=>a.Att_Date).Select(a => a.Att_Date))
+                    //{
+                    for (var day = fdate.Date; day.Date <= tdate.Date; day = day.AddDays(1))
                     {
+                       // DateTime ADateTime=AdmReport.Where(a => a.EmpCode == EMPCode).OrderBy(a => a.Att_Date).Select(a => a.Att_Date).FirstOrDefault();
                         DayStatus objDayStatus = new DayStatus();
-                        objDayStatus.Day = ADateTime.ToString("dd-MMM");
-                        objDayStatus.Daydata= ADateTime.ToString("dd");
-                        string HdStatus = AdmReport.Where(a => a.EmpCode == EMPCode && a.Att_Date == ADateTime).Select(a => a.ATT).FirstOrDefault();
+                        objDayStatus.Day = day.ToString("dd-MMM");
+                        objDayStatus.Daydata= day.ToString("dd");
+                       
+                        string HdStatus = AdmReport.Where(a => a.EmpCode == EMPCode && a.Att_Date == day).Select(a => a.ATT).FirstOrDefault();
                         if(HdStatus==null)
-                        {
-                            objDayStatus.AttenStatus= "NA";
-                        }
+                            objDayStatus.AttenStatus="--";
+                        else
                         objDayStatus.AttenStatus = HdStatus;
                         objDayStatusList.Add(objDayStatus);
                     }

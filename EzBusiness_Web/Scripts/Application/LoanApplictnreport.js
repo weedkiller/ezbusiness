@@ -161,7 +161,7 @@
     },
 
     ValidateReports: function (newrow) {
-        debugger;
+        
         var msg = "";
         if (newrow.Fdate == "") {
             msg = "FromDate should not be empty";

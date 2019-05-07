@@ -23,11 +23,11 @@
 </style>
 <script>
     EzdtePkMMyyEdit('#DateINMonth', "#Process_Date");
-    debugger;
+    
     var jq = $.noConflict(true);
     jq(function () {
       //  var Code = $(this).find("#hdnprbmCode").val();
-        debugger;
+        
       //  $("#btncalculate").css("visibility", "hidden");
         //  $("#btnSave").css("visibility", "hidden");
         jq('.selectpicker').selectpicker('refresh');
@@ -35,17 +35,17 @@
         //var month = $(this).find("#hdnprscssMonth").val();
       
         jq.get("/SalaryProcess/GetSalaryProcessGridEdit", { SPDate: Pdate }).done(function (responce) {
-            debugger;
+            
             if(responce!=null)
             {
-                debugger;
+                
                 GetslryDetailsDatatable(responce);
             }
         });
 
        function GetslryDetailsDatatable(responce)
          {
-               debugger;
+               
                 jq.fn.dataTable.ext.errorMode = 'none';
                 var t = jq('#tableslryDetails1,#tableslryActualsalDetails,#tableslryOTsalDetails').DataTable({
                     "ColumnDefs": [{ "searchable": false, "orderable": false }],
@@ -124,7 +124,7 @@
 
                 jq('.dataTables_scrollHead').css('margin-bottom', '0px');
                 function format(d) {
-                    debugger;
+                    
                     // `d` is the original data object for the row
                     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
                         '<thead>' + '<tr>' +
@@ -161,7 +161,7 @@
                     '</table>';
                 }
                $('#tableslryDetails1 tbody').on('click', 'td.details-control', function () {
-                    debugger;
+                    
                     var tr = $(this).closest('tr');
                     var row = t.row(tr);
 
@@ -171,7 +171,7 @@
                         tr.removeClass('shown');
                     }
                     else {
-                        debugger;
+                        
                         // Open this row
                         row.child(format(row.data())).show();
                         tr.addClass('shown');

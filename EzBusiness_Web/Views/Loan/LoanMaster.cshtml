@@ -40,7 +40,7 @@
         var counter = $("#Counter").val();
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtPRLM001_CODE']", function () {
-            debugger;
+            
             var tr = $(this).closest('tr');
            
             drec = [];
@@ -91,7 +91,7 @@
        
         /*Refresh */
         $("#btnCancel").click(function () {
-            debugger;
+            
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
@@ -452,68 +452,52 @@ $(document).ready(function(){
 
        
             <div id="tbldiv">
-               
-                    <table class="table table-bordered" id="tblUnits">
-                        <thead>
-                            <tr class="tr">
-                                <th>
-                                    Code
-                                </th>
-                                <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Account Code
-                                </th>
+                <table class="table table-bordered" id="tblUnits" >
+                    <thead>
+                        <tr class="tr">
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Account Code</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <td>Code</td>
+                            <td>Name</td>
+                            <td>Account Code</td>
+                            <td></td>
 
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tfoot>
+                        </tr>
+                    </tfoot>
+
+                    <tbody>
+                        @foreach (var po in Model)
+                        {
                             <tr>
                                 <td>
-                                    Code
+                                    @po.PRLM001_CODE
                                 </td>
                                 <td>
-                                    Name
+                                    @po.Name
                                 </td>
                                 <td>
-                                    Account Code
+                                    @po.Act_code
                                 </td>
-                                <td></td>
-
+                                <td>
+                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button class="btn btn-danger delete" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                                    @Html.HiddenFor(m => @po.CmpyCode)
+                                </td>
                             </tr>
-                        </tfoot>
+                            counter++;
+                        }
+                    </tbody>
 
-                        <tbody>
-                            @foreach (var po in Model)
-                            {
-                                <tr>
-
-                                    <td>
-                                        @po.PRLM001_CODE
-                                    </td>
-                                    <td>
-                                        @po.Name
-                                    </td>
-                                    <td>
-                                        @po.Act_code
-                                    </td>
-
-                                    <td>
-                                        <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                        <button class="btn btn-danger delete" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
-                                        <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
-                                        @Html.HiddenFor(m => @po.CmpyCode)
-                                    </td>
-                                </tr>
-                                counter++;
-                            }
-                        </tbody>
-
-                    </table>
-                    @Html.Hidden("Counter", counter)
-                </div>
+                </table>
+                @Html.Hidden("Counter", counter)
+            </div>
               
        </div>
 
