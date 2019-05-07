@@ -1,13 +1,16 @@
-﻿@model IEnumerable<EzBusiness_ViewModels.Models.Humanresourcepayroll.DocumentsVM>
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FMHEAD_VM>
+
 @{
-    ViewBag.Title = "DocumentsMaster";
+    ViewBag.Title = "FMHEADMaster";
     var counter = 1;
 }
+
 <script src="~/Scripts/EzComNDW.js"></script>
-<script>   
+<script>
+
     $(function () {
-        EzAuthentication("/Documents");
-        var n = EzAuthenticationBtn("/Documents", "ViewIt");
+        EzAuthentication("/FMHEAD");
+        var n = EzAuthenticationBtn("/FMHEAD", "ViewIt");
         if (n == 1) {
             Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
             $('#tblUnits').show();
@@ -19,9 +22,9 @@
 <script>
     var Doks = [];
     $(function () {
-        $("#tblUnits1").hide();      
+        $("#tblUnits1").hide();
         $("#btnAdd").click(function () {
-            var n = EzAuthenticationBtn("/DutyResume", "NewIt");
+            var n = EzAuthenticationBtn("/FMHEAD", "NewIt");
             if (n == 1) {
                 $("#tbldiv").hide();
                 var abk = [];
@@ -29,7 +32,7 @@
                 Ezprop(abk, "disabled", true);
                 abk = [];
                 abk.push('#btnCancel', '#btnSave');
-                Ezprop(abk, "disabled", false);                
+                Ezprop(abk, "disabled", false);
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
             }
@@ -39,31 +42,31 @@
 
 
         /*Code Tab Event*/
-        EztableTabEve("#tblUnits1", "[name*='txtDocCode']", "[name *= 'txtDocName']", "Please Enter DocCode", 'T',"");
-        
+        EztableTabEve("#tblUnits1", "[name*='txtFNMHEAD_CODE']", "[name *= 'txtDESCRIPTION']", "Please Enter FNMHEAD_CODE", 'T', "");
+
         /*Enter Event*/
-        EztableLstEnt("#tblUnits1", "[name*='txtDocName']", "[name *= 'txtDocCode']","T","");
+        EztableLstEnt("#tblUnits1", "[name*='txtDESCRIPTION']", "[name *= 'txtFNMHEAD_CODE']", "T", "");
 
 
         /*Add Table Change Event*/
-        $("#tblUnits1").on("change", "[name*='txtDocCode']", function () {
+        $("#tblUnits1").on("change", "[name*='txtFNMHEAD_CODE']", function () {
             var tr = $(this).closest('tr');
-           
+
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
-                var ab = $(this).find("[name *= 'txtDocCode']").val();
+                var ab = $(this).find("[name *= 'txtFNMHEAD_CODE']").val();
                 drec.push(ab);
             });
 
-            drec.splice($.inArray(tr.find("[name *= 'txtDocCode']").val(), drec), 1);
+            drec.splice($.inArray(tr.find("[name *= 'txtFNMHEAD_CODE']").val(), drec), 1);
 
-            if ($.inArray(tr.find("[name *= 'txtDocCode']").val(), drec) >= 0) {
-                var dr = tr.find("[name *= 'txtDocCode']").val();
+            if ($.inArray(tr.find("[name *= 'txtFNMHEAD_CODE']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtFNMHEAD_CODE']").val();
                 tr.css("background", "red");
-                tr.find("[name *= 'txtDocCode']").focus();
+                tr.find("[name *= 'txtFNMHEAD_CODE']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
-                tr.find("[name *= 'txtDocCode']").val('');
+                tr.find("[name *= 'txtFNMHEAD_CODE']").val('');
 
             }
             else {
@@ -73,11 +76,11 @@
                     var trLast = $("#tableMetaSettings tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtDocCode']").val('');
-                    trLast.find("[name *= 'txtDocCode']").attr({
-                        "name": ("txtDocCode" + counter)
+                    $(this).closest('tr').next('tr').find("[name*='txtFNMHEAD_CODE']").val('');
+                    trLast.find("[name *= 'txtFNMHEAD_CODE']").attr({
+                        "name": ("txtFNMHEAD_CODE" + counter)
                     });
-                    trLast.find("[name *= 'txtDocName']").attr({
+                    trLast.find("[name *= 'txtDESCRIPTION']").attr({
                         "name": ("Name" + counter)
                     });
                     //trLast.find("[name *= 'txtUniCodeName']").attr({
@@ -89,7 +92,7 @@
             counter++;
         });
 
-                     
+
         /*Refresh */
         $("#btnCancel").click(function () {
             if ($("#tblUnits1 > tbody > tr").length > 1) {
@@ -98,7 +101,7 @@
             $("#tblUnits1 tbody").find("tr:gt(0)").remove();
 
             var abk1 = [];
-            abk1.push("[name*='txtDocCode']", "[name*='txtDocName']");
+            abk1.push("[name*='txtFNMHEAD_CODE']", "[name*='txtDESCRIPTION']");
             Ezsettxtclr(abk1);
             abk1 = [];
             abk1.push("#btnCancel", "#btnSave");
@@ -106,31 +109,31 @@
             abk1 = [];
             abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
             Ezprop(abk1, "disabled", false);
-            $("#tblUnits1").hide();          
+            $("#tblUnits1").hide();
             $("#tbldiv").show();
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
-           
-            var Doks = {
-                DocumentsDetailnew: []
+
+            var FMH = {
+                FMHEADDetailnew: []
             };
             $("#tblUnits1 tbody tr").each(function (index, item) {
-                var StsCode = $(this).find("[name*='txtDocCode']").val();
-                var StsName = $(this).find("[name*='txtDocName']").val();
-               
-                if ((StsCode != "") && (StsName != "")) {
-                    var DocumentsDetail = {
-                        DocCode: StsCode,
-                        DocName: StsName,
-                   
+                var FNMHEAD_CODE = $(this).find("[name*='txtFNMHEAD_CODE']").val();
+                var DESCRIPTION = $(this).find("[name*='txtDESCRIPTION']").val();
+
+                if ((FNMHEAD_CODE != "") && (DESCRIPTION != "")) {
+                    var FMHEADDetail = {
+                        FNMHEAD_CODE: FNMHEAD_CODE,
+                        DESCRIPTION: DESCRIPTION,
+
                     };
-                    Doks.DocumentsDetailnew.push(DocumentsDetail);
+                    FMH.FMHEADDetailnew.push(FMHEADDetail);
                 }
             });
-            var validationResult = ValidateForm(Doks);
+            var validationResult = ValidateForm(FMH);
             if (validationResult.formValid) {
-                $.post("/Documents/SaveDoks", Doks).done(function (response) {
+                $.post("/FMHEAD/SaveFMHEAD", FMH).done(function (response) {
                     if (response.Drecord == null) {
 
                         response.Drecord = 0;
@@ -139,9 +142,9 @@
                     }
                     $("#tblUnits1 tbody tr").each(function (index, item) {
                         var tr = $(this).closest("tr");
-                        var codeAdd = $(tr).find("[name*='txtDocCode']").val().trim();
-                        var nameAdd = $(tr).find("[name*='txtDocName']").val().trim();
-                      
+                        var codeAdd = $(tr).find("[name*='txtFNMHEAD_CODE']").val().trim();
+                        var nameAdd = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
+
                         if (response.Drecord.length > 0) {
                             var ary1 = [];
                             ary1 = response.Drecord;
@@ -152,9 +155,12 @@
 
                                 var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
                                     "</td> ";
-                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                    "'></td></tr>";
+                                //newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                //    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                //    "'></td></tr>";
+                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                   "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                   "'></td></tr>";
                                 $(firstRow).after(newRow);
                             }
                             else if (codeAdd != '') {
@@ -166,12 +172,12 @@
                         }
                         else {
                             $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                            $("[name*='txtDocCode']").val();
-                            $("[name*='txtDocName']").val();
-                           
+                            $("[name*='txtFNMHEAD_CODE']").val();
+                            $("[name*='txtDESCRIPTION']").val();
+
 
                             $("#tblUnits1").hide();
-                         
+
                             if (codeAdd != '' && nameAdd != '') {
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
@@ -190,7 +196,7 @@
                             abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
                             Ezprop(abk1, "disabled", false);
                             EzAlertSave();
-                            $(".dataTables_empty").replaceWith("");                           
+                            $(".dataTables_empty").replaceWith("");
                         }
                     });
                 });
@@ -200,14 +206,14 @@
             }
         });
 
-        function ValidateForm(Doks) {
+        function ValidateForm(FMH) {
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
-         
-            if (Doks.DocumentsDetailnew.length == 0) {
-                response.ErrorMessage += "Please Enter atleast One Status code Details";
+
+            if (FMH.FMHEADDetailnew.length == 0) {
+                response.ErrorMessage += "Please Enter atleast One FMHead code Details";
             }
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
@@ -219,14 +225,14 @@
             $(this).closest("tr").remove();
         });
 
-      
+
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
 
-      
+
         $("#tblUnits").on("click", "[name^='Edit']", function () {
-            var n = EzAuthenticationBtn("/DutyResume", "EditIt");
+            var n = EzAuthenticationBtn("/FMHEAD", "EditIt");
             if (n == 1) {
                 var counter = $("#Counter").val();
                 var hdnEditMode = $(this).parent().find('input:hidden:first');
@@ -239,24 +245,24 @@
                 var editButton = $(this);
 
                 if (hdnEditMode.val() == "true") {
-                    var docnameEdit = $(tr).find("[name*='txtDocName']").val().trim();
+                    var docnameEdit = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
 
-                    var Doks = {
+                    var FMH = {
                         CmpyCode: hdnCmpyCode,
-                        DocCode: hdnDocCode,
-                        DocName: docnameEdit,
+                        FNMHEAD_CODE: hdnDocCode,
+                        DESCRIPTION: docnameEdit,
                         EditFlag: true
                     };
 
-                    $.post("/Documents/SaveDoks", Doks).done(function (response) {
+                    $.post("/FMHEAD/SaveFMHEAD", Doks).done(function (response) {
                         docnameTd.text(response.DocName);
 
-                        hdnEditMode.val("false");                        
+                        hdnEditMode.val("false");
                         editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
                         editButton.attr('title', 'Edit');
                         tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                         tr.find("[name^='Delete']").attr('title', 'Delete');
-                        
+
                         tableDis("F");
                         EzAlertUpd(hdnDocCode);
                     });
@@ -286,11 +292,12 @@
         });
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
-            var n = EzAuthenticationBtn("/DutyResume", "DeleteIt");
+            debugger;
+            var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");
                 var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-                var doccodeTd = $(tr).find("td:eq(0)");
+                var FMHEADCodeTd = $(tr).find("td:eq(0)");
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var doccode = "";
                 if (hdnMode.val() == "false") {
@@ -311,10 +318,10 @@
                         reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
-                            doccode = $(tr).find("td:eq(0)").text().trim();
-                            $.getJSON("/DeleteDoks", { DocCode: doccode, CmpyCode: hdnCmpyCode }).done(function (data) {
+                            FMHEADCode = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeleteFMHEAD", { FNMHEAD_CODE: FMHEADCode, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                   
+
                                     if ($('#tblUnits tbody tr').length == 2) {
                                         var firstRow = $('#tblUnits tbody tr:first');
                                         var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
@@ -343,17 +350,17 @@
                             )
                         }
                     })
-                   
+
                 }
                 else {
                     var nameTd = $(tr).find("td:eq(1)");
-                   
-                    var nameEdit = $('#inpdocname').val(); 
+
+                    var nameEdit = $('#inpdocname').val();
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
-                    nameTd.html(nameEdit);                    
+                    nameTd.html(nameEdit);
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
-                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');                   
+                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
                     $(this).attr('title', 'Delete');
                     hdnEditMode.val("false");
 
@@ -401,40 +408,40 @@ $(document).ready(function(){
 
 <div class="panel panel-default">
     <div class="panel-body">
-        <input id="inpdocname" type="hidden"/>
+        <input id="inpdocname" type="hidden" />
         <table class="table table-bordered" id="tblUnits1">
-    <thead>
-        <tr class="tr">
-            <th>
-                @Html.DisplayNameFor(model => model.DocCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DocName)
-            </th>
-          
+            <thead>
+                <tr class="tr">
+                    <th>
+                        @Html.DisplayNameFor(model => model.FNMHEAD_CODE)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DESCRIPTION)
+                    </th>
 
-            <th></th>
-        </tr>
-    </thead>
-          
 
-    <tbody>
-        <tr>
-            <td>
-                <div class="grid-group">
-                    @Html.TextBox(string.Concat("txtDocCode", counter), null, new { @class = "grid-control" })
-                </div>
-            </td>
-            <td>
-                <div class="grid-group">
-                    @Html.TextBox(string.Concat("txtDocName", counter), null, new { @class = "grid-control" })
-                </div>
-            </td>
-            
+                    <th></th>
+                </tr>
+            </thead>
 
-        </tr>
-    </tbody>
-</table>
+
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtFNMHEAD_CODE", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtDESCRIPTION", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
 
         <div class="col-md-12 portal-drivers">
             <div id="tbldiv">
@@ -442,10 +449,10 @@ $(document).ready(function(){
                     <thead>
                         <tr class="tr">
                             <th>
-                                @Html.DisplayNameFor(model => model.DocCode)
+                                @Html.DisplayNameFor(model => model.FNMHEAD_CODE)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.DocName)
+                                @Html.DisplayNameFor(model => model.DESCRIPTION)
                             </th>
 
                             <th></th>
@@ -455,37 +462,37 @@ $(document).ready(function(){
                     <tfoot>
                         <tr class="tr">
                             <td>
-                                @Html.DisplayNameFor(model => model.DocCode)
+                                @Html.DisplayNameFor(model => model.FNMHEAD_CODE)
                             </td>
                             <td>
-                                @Html.DisplayNameFor(model => model.DocName)
+                                @Html.DisplayNameFor(model => model.DESCRIPTION)
                             </td>
 
 
                             <td></td>
                         </tr>
                     </tfoot>
-                    <tbody  style="overflow:scroll">
+                    <tbody style="overflow:scroll">
                         @foreach (var item in Model)
-                    {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DocCode)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DocName)
-                        </td>
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FNMHEAD_CODE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DESCRIPTION)
+                                </td>
 
 
-                        <td>
-                            <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
-                            <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
-                            <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
-                            @Html.HiddenFor(m => item.CmpyCode)
-                        </td>
-                    </tr>
-                        counter++;
-                    }
+                                <td>
+                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                                    @Html.HiddenFor(m => item.CMPYCODE)
+                                </td>
+                            </tr>
+                            counter++;
+                        }
                     </tbody>
 
                 </table>
@@ -493,12 +500,7 @@ $(document).ready(function(){
             </div>
         </div>
 
-            @Html.Hidden("Counter", counter)
-        </div>
+        @Html.Hidden("Counter", counter)
+    </div>
 </div>
-
-
-
-
-
 
