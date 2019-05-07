@@ -15,7 +15,7 @@
       
         EzdtePk('#Dates1,#ExpectedDeliveryDate1');
        $('.selectpicker').selectpicker('refresh');
-       debugger;
+       
         $("#ProjectCode").change(function () {
             var projectName = $("#ProjectCode option:selected").val();
             //$("#MasterWrapper").show();
@@ -39,7 +39,7 @@
         });
 
         $("#POReq").change(function () {
-            debugger;
+            
             var MRCode = $("#POReq option:selected").val();
             $.get("PurchaseOMgmt/GetPOItemReqList", { MRCode: MRCode }).done(function (response) {
                 $("#POContainer").html(response);
@@ -47,7 +47,7 @@
         });
 
         $("input:radio[name=ResourceType]").click(function () {
-            debugger;
+            
             var rowCount = $('#tablePODetails tbody tr').length;
 
             while (rowCount > 1)
@@ -96,7 +96,7 @@
         });
 
         $("#tablePODetails").on("change", "[name*='ItemPrice']", function () {
-            debugger;
+            
             var tr = $(this).closest("tr");
             var IQ = tr.find("[name*='ItemQuantity']").val();
             var IP = tr.find("[name*='ItemPrice']").val();
@@ -110,7 +110,7 @@
 
         });
         //$("#tablePODetails").on("change", "[name*='DiscP']", function () {
-        //    debugger;
+        //    
         //    var tr = $(this).closest("tr");
         //    var DP = tr.find("[name*='DiscP']").val();
         //    var IP = tr.find("[name*='ItemPriceTotal']").val();
@@ -125,7 +125,7 @@
         //});
 
         $("#tablePODetails").on("change", "[name*='DiscP']", function () {
-            debugger;
+            
             var tr = $(this).closest("tr");
             var IPT = tr.find("[name*='ItemPriceTotal']").val();
             var DP = tr.find("[name*='DiscP']").val();
@@ -175,7 +175,7 @@
                 });
             }
             if (tr.is(":last-child")) {
-                debugger;
+                
                 tr.clone(true, true).insertAfter(tr);
                 $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                     .appendTo("#tablePODetails tbody tr:nth-last-child(2)");

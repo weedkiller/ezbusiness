@@ -42,7 +42,7 @@ var Empreport = {
    EmpReportDetails: function ()
    {
        //
-       debugger;
+       
        var msg = "";
        $("#displayemp").show();
        var fdate =Ezsetdtpkdate($("#fdatetxt").val());

@@ -67,7 +67,7 @@
             var n = EzAuthenticationBtn("/SalaryProcessPayment", "DeleteIt");
             if (n == 1) {
                 $("#editshow").hide();
-                debugger;
+                
                     const swalWithBootstrapButtons = Swal.mixin({
                         confirmButtonClass: 'btn btn-success',
                         cancelButtonClass: 'btn btn-danger',
@@ -83,7 +83,7 @@
                         reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
-                            debugger;
+                            
                             var Code = $("#PRSPD001_CODE").val();
                             var currdate = $("[name*='DateINMonth']").val();
                                 $.ajax({
@@ -96,7 +96,7 @@
                                     contentType: "Application/json",
                                     success: function (data) {
                                         if (data=true) {
-                                            //debugger;
+                                            //
                                             //RefreshDatatable();
                                             //$("#btnCancel").trigg
                                             //var smaHtml = $("#SMAContainer").html();
@@ -132,14 +132,14 @@
                 }
         });
         $("#btnSave").click(function () {
-            debugger;
+            
             var n = 1;// EzAuthenticationBtn("/SalaryProcessPayment", "EditIt");
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
             var currdate = $("[name*='DateINMonth']").val();
             if (opMode == "Add") {
                 // Code for Adding MainTable
-                debugger;
+                
                 var selectedrow = $(".chck:checked").length;
                 if (selectedrow > 0) {
                     var salarym = {
@@ -168,7 +168,7 @@
                     //});
 
                     $("#tableslrypaymntDetails tbody tr input[type=checkbox]:checked").each(function (index, item) {
-                        debugger;
+                        
                         var tr = $(this).closest('tr');                      
 
                         var PaidType = tr.find('.chck').val();
@@ -200,7 +200,7 @@
                     var validationResult = ValidateForm(salarym);
                     if (validationResult.formValid) {
                         $.post("SalaryProcessPayment/SaveSalryProcessPaymentDetails", salarym).done(function (response) {
-                            debugger;
+                            
                             if (response.SaveFlag && !response.ErrorMessage.length > 0) {
 
                                 EzbtnsaveAcVis("#SMAContainer");
@@ -268,7 +268,7 @@
 
                   
                     $("#tableslrypaymntDetails tbody tr").each(function (index, item) {
-                        debugger;
+                        
                        var tr = $(this).closest('tr');
 
                         //var PaidType = tr.find('.chck').val();
@@ -301,7 +301,7 @@
                     //var validationResult = ValidateForm(salarym);
                     //if (validationResult.formValid) {
                         $.post("SalaryProcessPayment/SaveSalryProcessPaymentDetails", salarym).done(function (response) {
-                            debugger;
+                            
                             if (response.SaveFlag && !response.ErrorMessage.length > 0) {
 
                                 EzbtnsaveAcVis("#SMAContainer");
@@ -345,7 +345,7 @@
         });
 
         function ValidateForm(salarym) {
-            debugger;
+            
             var response = {
                 ErrorMessage: "",
                 formValid: false
@@ -454,7 +454,7 @@
 
         $(document).on("click", "#SalarypaymntList tbody tr", function ()
                 {
-             debugger;
+             
              EzbtnEditAcVis();
                     var operationMode = $("#hdnOperationMode").val();
                     if (operationMode == "Edit")
@@ -465,7 +465,7 @@
                         var Code = $(this).find("#hdnprbmCode").val();
                         $.get("EditSalaryProcessPayment", { salP_code: Code }).done(function (response)
                         {
-                            debugger;
+                            
                             $("#SMAContainer").html(response);
                             $("#btnDelete").css("visibility","");;
                             $("#btncalculate").css("visibility", "hidden");

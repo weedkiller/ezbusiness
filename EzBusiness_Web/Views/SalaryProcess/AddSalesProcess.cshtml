@@ -24,21 +24,21 @@
 <script>
 
     $(function () {
-        debugger;
+        
             EzdtePkMMyy('#DateINMonth');
             var dt = $('#DateINMonth').val();
             var currdat = $('#DateINMonth').val();
             $('.selectpicker').selectpicker('refresh');
          
             $('#DateINMonth').on('dp.change', function (event) {
-                debugger;
+                
                 dt = $("#DateINMonth").val();
                 currdat = $("#DateINMonth").val();
                 dt = dt + "-" + '01';
                 $('#CurrentDate').val(dt);
             });
             $('#DivisionCode').change(function () {
-                debugger;
+                
                 var divcode = $('#DivisionCode option:selected').val();
                 $.get("SalaryProcess/GetDepartmentList", { divcode: divcode }).done(function (response) {
                     
@@ -57,7 +57,7 @@
             //calculate salary Process
             $.fn.dataTable.ext.errorMode = 'none';
             $("#btncalculate").click(function () {
-                debugger;
+                
                
                 var currmonthyear = dt;
                 var CurrentDate = currmonthyear;
@@ -82,9 +82,9 @@
                     else {
                         $('#empContaint').hide();
                         $('#salrcontainer').show();
-                        debugger;
+                        
                         $.get("CheckslryDataCalculated", { CurrentDate: CurrentDate, divcode: divcode, Deptcode: Deptcode, VisaLocation1: VisaLocation1 }).done(function (obj) {
-                            debugger;
+                            
                             if (obj.data == true) {
                                 EzAlerterrtxt("This Month Of Salary Alredy Calculated");
                             }
@@ -226,7 +226,7 @@
                 
         //}
             function ValidateForm(divcode) {
-                debugger;
+                
                 var response = {
                     ErrorMessage: "",
                    
