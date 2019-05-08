@@ -8,7 +8,8 @@
 
     },
     Attachevent: function () {
-
+        debugger;
+        Ezsidetbl1('#DRList', '#DRList tfoot td', false, "#DRList thead");
         $("#btnNew").click(function () {        
             debugger;
             $("#showlist").hide();
