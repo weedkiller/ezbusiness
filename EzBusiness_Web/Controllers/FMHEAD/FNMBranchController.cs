@@ -78,11 +78,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         #endregion
         [Route("EditFNMBranch")]
         public ActionResult EditFNMBranch(string branchCode)
-        {
-            // string ab = Session["SesDet"].ToString();
-
-            // var list = Session["SesDet"] as List<object>;
-
+        {        
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {
@@ -90,7 +86,6 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-
                 return Json(_branchService.EditFNMBranch(list[0].CmpyCode,branchCode), JsonRequestBehavior.AllowGet);
             }
         }

@@ -63,28 +63,28 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             {
                 if (!branch.EditFlag)
                 {
-                    //var Drecord = new List<string>();
-                    //List<FNMBranchDetailsNew> ObjList = new List<FNMBranchDetailsNew>();
-                    //ObjList.AddRange(branch.FNMBranchDetailnew.Select(m => new FNMBranchDetailsNew
-                    //{
-                    //    CMPYCODE = m.CMPYCODE,
-                    //    FNMBRANCH_CODE = m.FNMBRANCH_CODE,
-                    //    DESCRIPTION = m.DESCRIPTION,
-                    //  //  SNO=m.SNO,
-                    //    PRINTNAME=m.PRINTNAME,
-                    //    ADDRESS=m.ADDRESS,
-                    //    EMAIL=m.EMAIL,
-                    //    WEBSITE=m.WEBSITE,
-                    //    MOBILE=m.MOBILE,
-                    //    CURRENCY=m.CURRENCY,
-                    //    COUNTRY=m.COUNTRY,
-                    //    STATE=m.STATE
-                    //}).ToList());
-                    //int n = 0;
-                    //n = ObjList.Count;
+                    var Drecord = new List<string>();
+                    List<FNMBranchDetailsNew> ObjList = new List<FNMBranchDetailsNew>();
+                    ObjList.AddRange(branch.FNMBranchDetailnew.Select(m => new FNMBranchDetailsNew
+                    {
+                        CMPYCODE = m.CMPYCODE,
+                        FNMBRANCH_CODE = m.FNMBRANCH_CODE,
+                        DESCRIPTION = m.DESCRIPTION,
+                        //  SNO=m.SNO,
+                        PRINTNAME = m.PRINTNAME,
+                        ADDRESS = m.ADDRESS,
+                        EMAIL = m.EMAIL,
+                        WEBSITE = m.WEBSITE,
+                        MOBILE = m.MOBILE,
+                        CURRENCY = m.CURRENCY,
+                        COUNTRY = m.COUNTRY,
+                        STATE = m.STATE
+                    }).ToList());
+                    int n = 0;
+                    n = ObjList.Count;
 
-                  
-                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMBRANCH where CmpyCode='" + branch.CMPYCODE + "' and FNMBRANCH_CODE='" + branch.FNMBRANCH_CODE + "'");
+
+                    int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMBRANCH where CmpyCode='" + branch.CMPYCODE + "' and FNMBRANCH_CODE='" + branch.FNMBRANCH_CODE + "'");
                         if (Stats1 == 0)
                         {
                             StringBuilder sb = new StringBuilder();
@@ -110,9 +110,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         else
                         {
 
-                          //  Drecord.Add(branch.FNMBRANCH_CODE.ToString());
-                           // branch.Drecord = Drecord;
-                            branch.SaveFlag = false;
+                        Drecord.Add(branch.FNMBRANCH_CODE.ToString());
+                        branch.Drecord = Drecord;
+                        branch.SaveFlag = false;
                             branch.ErrorMessage = "Duplicate Record";
                         }
                     return branch;
