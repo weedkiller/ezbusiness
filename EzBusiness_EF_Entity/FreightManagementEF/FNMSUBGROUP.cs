@@ -11,5 +11,6 @@ namespace EzBusiness_EF_Entity.FreightManagementEF
         public string CMPYCODE { get; set; }
         public string FNMSUBGROUP_CODE { get; set; }
         public string DESCRIPTION { get; set; }
+      
     }
 }
