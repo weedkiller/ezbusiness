@@ -113,7 +113,7 @@ namespace EzBusiness_DL_Repository
                     
                     return Vls;
                 }
-                var VlsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from VLOC001 where CmpyCode='" +  Vls.CmpyCode + "' and Code='" + Vls.Code + "'");
+                var VlsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from VLOC001 where CmpyCode='" +  Vls.CmpyCode + "' and Code='" + Vls.Code + "'");
                 if (VlsEdit != 0)
                 {
 

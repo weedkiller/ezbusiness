@@ -123,7 +123,7 @@ namespace EzBusiness_DL_Repository
                     //}
                     return Nrs;
                 }
-                var NrsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MNAT019 where CmpyCode='" + Nrs.CmpyCode + "' and Code='" + Nrs.Code + "'");
+                var NrsEdit = _EzBusinessHelper.ExecuteScalarDec("Select COUNT(*) from MNAT019 where CmpyCode='" + Nrs.CmpyCode + "' and Code='" + Nrs.Code + "'");
                 if (NrsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update MNAT019 set CmpyCode='" + Nrs.CmpyCode + "',Code='" + Nrs.Code + "',Name='" + Nrs.Name + "' where CmpyCode='" + Nrs.CmpyCode + "' and Code='" + Nrs.Code + "'");

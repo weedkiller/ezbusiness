@@ -129,7 +129,7 @@ namespace EzBusiness_DL_Repository
                     //}
                     return Sts;
                 }
-                var StsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MSM059 where CmpyCode='" + Sts.CmpyCode + "' and Code='" + Sts.Code + "'");
+                var StsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from MSM059 where CmpyCode='" + Sts.CmpyCode + "' and Code='" + Sts.Code + "'");
                 if (StsEdit != 0)
                 {
                     using (TransactionScope scope = new TransactionScope())
