@@ -44,7 +44,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
 
 
         [HttpPost]
-        [Route("SaveFNMBranch")]
+        //[Route("SaveFNMBranch")]
         public ActionResult SaveFNMBranch(FNMBranch_VM brnch)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;

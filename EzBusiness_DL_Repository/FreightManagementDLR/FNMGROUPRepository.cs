@@ -100,7 +100,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                     return FG;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from FNMGROUP where CmpyCode='" + FG.CMPYCODE + "' and FNMCAT_CODE='" + FG.FNMGROUP_CODE + "'and Flag=0");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNMGROUP where CmpyCode='" + FG.CMPYCODE + "' and FNMCAT_CODE='" + FG.FNMGROUP_CODE + "'and Flag=0");
                 if (StatsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update FNMGROUP set CmpyCode='" + FG.CMPYCODE + "',FNMGROUP_CODE='" + FG.FNMGROUP_CODE + "',DESCRIPTION='" + FG.DESCRIPTION + "' where CmpyCode='" + FG.CMPYCODE + "' and FNMGROUP_CODE='" + FG.FNMGROUP_CODE + "'");

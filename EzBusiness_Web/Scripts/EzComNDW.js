@@ -975,6 +975,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         function Ezsidetbl1(ide, idef, lk, idfoot) {
    
             $(document).ready(function () {
+                debugger;
                 // Setup - add a text input to each footer cell
                 
                 // $(ide).addClass('');
