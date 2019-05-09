@@ -1,7 +1,7 @@
-﻿using EzBusiness_BL_Interface.FreightManagement;
+﻿using EzBusiness_BL_Interface.FreightManagementBLI;
 using EzBusiness_BL_Service.FreightManagementBLS;
 using EzBusiness_EF_Entity;
-using EzBusiness_EF_Entity.FreightManagement;
+using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
 using System;
 using System.Collections.Generic;
@@ -11,20 +11,21 @@ using System.Web.Mvc;
 
 namespace EzBusiness_Web.Controllers.FMHEAD
 {
-    public class FMHEADController : Controller
+    public class FNMCATController : Controller
     {
-        // GET: FMHEAD
-        IFMHeadFreightService _FMHService;
+        // GET: FNMCAT
 
-        public FMHEADController()
+        IFNMCATFreightService _FNMCATService;
+
+        public FNMCATController()
         {
-            _FMHService = new FMHeadFreightService();
+            _FNMCATService = new FNMCATFreightService();
 
         }
 
-        #region FMHEAD Master
-        [Route("HEADMaster")]
-        public ActionResult FMHEADMaster()
+        #region FNMCAT Master
+        [Route("FMCategoryMaster")]
+        public ActionResult FNMCATMaster()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -33,11 +34,11 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return View(_FMHService.GetFMHEAD(list[0].CmpyCode));
+                return View(_FNMCATService.GetFNMCAT(list[0].CmpyCode));
             }
-        }       
+        }
         [HttpPost]
-        public ActionResult SaveFMHEAD(FMHEAD_VM FMH)
+        public ActionResult SaveFNMCAT(FNMCAT_VM FC)
         {
 
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -47,16 +48,16 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                FMH.CMPYCODE = list[0].CmpyCode;
-                FMH.UserName = list[0].user_name;
-                return Json(_FMHService.SaveFMHEAD(FMH), JsonRequestBehavior.AllowGet);
+                FC.CMPYCODE = list[0].CmpyCode;
+                FC.UserName = list[0].user_name;
+                return Json(_FNMCATService.SaveFNMCAT(FC), JsonRequestBehavior.AllowGet);
 
             }
 
         }
 
-        [Route("DeleteFMHEAD")]
-        public ActionResult DeleteFMHEAD(string FNMHEAD_CODE, string CmpyCode)
+        [Route("DeleteFNMCAT")]
+        public ActionResult DeleteFNMCAT(string FNMCAT_CODE, string CmpyCode)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -65,14 +66,9 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(new { DeleteFlag = _FMHService.DeleteFMHEAD(FNMHEAD_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _FNMCATService.DeleteFNMCAT(FNMCAT_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
-        #endregion
-
-        #region FMHEAD Request
-
-
         #endregion
     }
 }

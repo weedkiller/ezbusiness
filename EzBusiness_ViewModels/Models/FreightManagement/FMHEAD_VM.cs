@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EzBusiness_EF_Entity.FreightManagement;
-
+using System.ComponentModel;
 
 namespace EzBusiness_ViewModels.Models.FreightManagement
 {   
    public  class FMHEAD_VM
     {
         public string CMPYCODE { get; set; }
+
+        [DisplayName("CODE")]
         public string FNMHEAD_CODE { get; set; }
         public string DESCRIPTION { get; set; }
 

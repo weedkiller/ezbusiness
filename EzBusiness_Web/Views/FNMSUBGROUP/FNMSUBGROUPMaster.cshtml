@@ -1,18 +1,17 @@
-﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FMHEAD_VM>
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FNMSUBGROUP_VM>
 
 @{
-    ViewBag.Title = "FMHEADMaster";
+    ViewBag.Title = "FNMSUBGROUPMaster";
     var counter = 1;
 }
 
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
-    debugger;
+
     $(function () {
-        EzAuthentication("/HEADMaster");
-        var n = EzAuthenticationBtn("/HEADMaster", "ViewIt");
+        EzAuthentication("/FMSUBGROUP");
+        var n = EzAuthenticationBtn("/FMSUBGROUP", "ViewIt");
         if (n == 1) {
-            debugger;
             Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
             $('#tblUnits').show();
         } else {
@@ -25,7 +24,7 @@
     $(function () {
         $("#tblUnits1").hide();
         $("#btnAdd").click(function () {
-            var n = EzAuthenticationBtn("/HEADMaster", "NewIt");
+            var n = EzAuthenticationBtn("/FMSUBGROUP", "NewIt");
             if (n == 1) {
                 $("#tbldiv").hide();
                 var abk = [];
@@ -43,31 +42,31 @@
 
 
         /*Code Tab Event*/
-        EztableTabEve("#tblUnits1", "[name*='txtFNMHEAD_CODE']", "[name *= 'txtDESCRIPTION']", "Please Enter FNMHEAD_CODE", 'T', "");
+        EztableTabEve("#tblUnits1", "[name*='txtFNMSUBGROUP_CODE']", "[name *= 'txtDESCRIPTION']", "Please Enter FNMSUBGROUP_CODE", 'T', "");
 
         /*Enter Event*/
-        EztableLstEnt("#tblUnits1", "[name*='txtDESCRIPTION']", "[name *= 'txtFNMHEAD_CODE']", "T", "");
+        EztableLstEnt("#tblUnits1", "[name*='txtDESCRIPTION']", "[name *= 'txtFNMSUBGROUP_CODE']", "T", "");
 
 
         /*Add Table Change Event*/
-        $("#tblUnits1").on("change", "[name*='txtFNMHEAD_CODE']", function () {
+        $("#tblUnits1").on("change", "[name*='txtFNMSUBGROUP_CODE']", function () {
             var tr = $(this).closest('tr');
 
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
-                var ab = $(this).find("[name *= 'txtFNMHEAD_CODE']").val();
+                var ab = $(this).find("[name *= 'txtFNMSUBGROUP_CODE']").val();
                 drec.push(ab);
             });
 
-            drec.splice($.inArray(tr.find("[name *= 'txtFNMHEAD_CODE']").val(), drec), 1);
+            drec.splice($.inArray(tr.find("[name *= 'txtFNMSUBGROUP_CODE']").val(), drec), 1);
 
-            if ($.inArray(tr.find("[name *= 'txtFNMHEAD_CODE']").val(), drec) >= 0) {
-                var dr = tr.find("[name *= 'txtFNMHEAD_CODE']").val();
+            if ($.inArray(tr.find("[name *= 'txtFNMSUBGROUP_CODE']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtFNMSUBGROUP_CODE']").val();
                 tr.css("background", "red");
-                tr.find("[name *= 'txtFNMHEAD_CODE']").focus();
+                tr.find("[name *= 'txtFNMSUBGROUP_CODE']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
-                tr.find("[name *= 'txtFNMHEAD_CODE']").val('');
+                tr.find("[name *= 'txtFNMSUBGROUP_CODE']").val('');
 
             }
             else {
@@ -77,9 +76,9 @@
                     var trLast = $("#tableMetaSettings tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtFNMHEAD_CODE']").val('');
-                    trLast.find("[name *= 'txtFNMHEAD_CODE']").attr({
-                        "name": ("txtFNMHEAD_CODE" + counter)
+                    $(this).closest('tr').next('tr').find("[name*='txtFNMSUBGROUP_CODE']").val('');
+                    trLast.find("[name *= 'txtFNMSUBGROUP_CODE']").attr({
+                        "name": ("txtFNMSUBGROUP_CODE" + counter)
                     });
                     trLast.find("[name *= 'txtDESCRIPTION']").attr({
                         "name": ("Name" + counter)
@@ -102,7 +101,7 @@
             $("#tblUnits1 tbody").find("tr:gt(0)").remove();
 
             var abk1 = [];
-            abk1.push("[name*='txtFNMHEAD_CODE']", "[name*='txtDESCRIPTION']");
+            abk1.push("[name*='txtFNMSUBGROUP_CODE']", "[name*='txtDESCRIPTION']");
             Ezsettxtclr(abk1);
             abk1 = [];
             abk1.push("#btnCancel", "#btnSave");
@@ -116,25 +115,25 @@
         /*Save Unit Table */
         $("#btnSave").click(function () {
 
-            var FMH = {
-                FMHEADDetailnew: []
+            var FSG = {
+                FNMSUBGROUPDetailnew: []
             };
             $("#tblUnits1 tbody tr").each(function (index, item) {
-                var FNMHEAD_CODE = $(this).find("[name*='txtFNMHEAD_CODE']").val();
+                var FNMSUBGROUP_CODE = $(this).find("[name*='txtFNMSUBGROUP_CODE']").val();
                 var DESCRIPTION = $(this).find("[name*='txtDESCRIPTION']").val();
 
-                if ((FNMHEAD_CODE != "") && (DESCRIPTION != "")) {
-                    var FMHEADDetail = {
-                        FNMHEAD_CODE: FNMHEAD_CODE,
+                if ((FNMSUBGROUP_CODE != "") && (DESCRIPTION != "")) {
+                    var FNMSUBGROUPDetail = {
+                        FNMSUBGROUP_CODE: FNMSUBGROUP_CODE,
                         DESCRIPTION: DESCRIPTION,
 
                     };
-                    FMH.FMHEADDetailnew.push(FMHEADDetail);
+                    FSG.FNMSUBGROUPDetailnew.push(FNMSUBGROUPDetail);
                 }
             });
-            var validationResult = ValidateForm(FMH);
+            var validationResult = ValidateForm(FSG);
             if (validationResult.formValid) {
-                $.post("/FMHEAD/SaveFMHEAD", FMH).done(function (response) {
+                $.post("/FNMSUBGROUP/SaveFNMSUBGROUP", FSG).done(function (response) {
                     if (response.Drecord == null) {
 
                         response.Drecord = 0;
@@ -143,7 +142,7 @@
                     }
                     $("#tblUnits1 tbody tr").each(function (index, item) {
                         var tr = $(this).closest("tr");
-                        var codeAdd = $(tr).find("[name*='txtFNMHEAD_CODE']").val().trim();
+                        var codeAdd = $(tr).find("[name*='txtFNMSUBGROUP_CODE']").val().trim();
                         var nameAdd = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
 
                         if (response.Drecord.length > 0) {
@@ -173,7 +172,7 @@
                         }
                         else {
                             $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                            $("[name*='txtFNMHEAD_CODE']").val();
+                            $("[name*='txtFNMSUBGROUP_CODE']").val();
                             $("[name*='txtDESCRIPTION']").val();
 
 
@@ -207,14 +206,14 @@
             }
         });
 
-        function ValidateForm(FMH) {
+        function ValidateForm(FSG) {
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
 
-            if (FMH.FMHEADDetailnew.length == 0) {
-                response.ErrorMessage += "Please Enter atleast One FMHead code Details";
+            if (FSG.FNMSUBGROUPDetailnew.length == 0) {
+                response.ErrorMessage += "Please Enter atleast One FNMSUBGROUP code Details";
             }
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
@@ -233,7 +232,7 @@
 
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
-            var n = EzAuthenticationBtn("/HEADMaster", "EditIt");
+            var n = EzAuthenticationBtn("/FMSUBGROUP", "EditIt");
             if (n == 1) {
                 var counter = $("#Counter").val();
                 var hdnEditMode = $(this).parent().find('input:hidden:first');
@@ -248,14 +247,14 @@
                 if (hdnEditMode.val() == "true") {
                     var docnameEdit = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
 
-                    var FMH = {
+                    var FSG = {
                         CmpyCode: hdnCmpyCode,
-                        FNMHEAD_CODE: hdnDocCode,
+                        FNMSUBGROUP_CODE: hdnDocCode,
                         DESCRIPTION: docnameEdit,
                         EditFlag: true
                     };
 
-                    $.post("/FMHEAD/SaveFMHEAD", FMH).done(function (response) {
+                    $.post("/FNMSUBGROUP/SaveFNMSUBGROUP", FSG).done(function (response) {
                         docnameTd.text(response.DESCRIPTION);
 
                         hdnEditMode.val("false");
@@ -294,7 +293,7 @@
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
             debugger;
-            var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
+            var n = EzAuthenticationBtn("/FMSUBGROUP", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");
                 var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
@@ -319,8 +318,8 @@
                         reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
-                            FMHEADCode = $(tr).find("td:eq(0)").text().trim();
-                            $.getJSON("/DeleteFMHEAD", { FNMHEAD_CODE: FMHEADCode, CmpyCode: hdnCmpyCode }).done(function (data) {
+                            FNMSUBGROUP_CODE = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeleteFNMSUBGROUP", { FNMSUBGROUP_CODE: FNMSUBGROUP_CODE, CmpyCode: hdnCmpyCode }).done(function (data) {
                                 if (data.DeleteFlag) {
 
                                     if ($('#tblUnits tbody tr').length == 2) {
@@ -414,7 +413,7 @@ $(document).ready(function(){
             <thead>
                 <tr class="tr">
                     <th>
-                        @Html.DisplayNameFor(model => model.FNMHEAD_CODE)
+                        @Html.DisplayNameFor(model => model.FNMSUBGROUP_CODE)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.DESCRIPTION)
@@ -430,7 +429,7 @@ $(document).ready(function(){
                 <tr>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtFNMHEAD_CODE", counter), null, new { @class = "grid-control" })
+                            @Html.TextBox(string.Concat("txtFNMSUBGROUP_CODE", counter), null, new { @class = "grid-control" })
                         </div>
                     </td>
                     <td>
@@ -450,7 +449,7 @@ $(document).ready(function(){
                     <thead>
                         <tr class="tr">
                             <th>
-                                @Html.DisplayNameFor(model => model.FNMHEAD_CODE)
+                                @Html.DisplayNameFor(model => model.FNMSUBGROUP_CODE)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.DESCRIPTION)
@@ -463,7 +462,7 @@ $(document).ready(function(){
                     <tfoot>
                         <tr class="tr">
                             <td>
-                                @Html.DisplayNameFor(model => model.FNMHEAD_CODE)
+                                @Html.DisplayNameFor(model => model.FNMSUBGROUP_CODE)
                             </td>
                             <td>
                                 @Html.DisplayNameFor(model => model.DESCRIPTION)
@@ -478,7 +477,7 @@ $(document).ready(function(){
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.FNMHEAD_CODE)
+                                    @Html.DisplayFor(modelItem => item.FNMSUBGROUP_CODE)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.DESCRIPTION)
