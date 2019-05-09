@@ -133,20 +133,22 @@
                // var Cmpycode = $(this).find("#hdnCmpycode").val();
                 var branchCode = $(this).find("#hdnFNMBRANCH_CODE").val();
                 $.get("EditFNMBranch", { branchCode: branchCode }).done(function (response) {
-                  $("#showlist").hide();
-                  $("#shownewbtn,#btnSave,#btnCancel,#btnDelete,#btnPrint").show();
+                    debugger; 
+                   $("#shownewbtn").hide();
+                $("#btnSave,#btnCancel,#btnDelete,#btnPrint").show();
                   $("#btnNew").hide();
-                    $("#branchcode").val(response[0].FNMBRANCH_CODE),
-                  $("#PrintName").val(response[0].PRINTNAME),
-                 // $("#branchcode").val(response.),
-                  $("#Email").val(response[0].EMAIL),
-                  $("#WebSitetxt").val(response[0].WEBSITE),
-                  $("#mobiletxt").val(response[0].MOBILE),
-                  $("#Currencytxt").val(response[0].CURRENCY),
-                  $("#Countrytxt").val(response[0].COUNTRY),
-                  $("#Statetxt").val(response[0].STATE),
-                  $("#Descriptiontxt").val(response[0].DESCRIPTION),
-                  $("#Addresstxt").val(response[0].ADDRESS)
+                  $("#DRContainer").html(response);
+                 //   $("#branchcode").val(response[0].FNMBRANCH_CODE),
+                 // $("#PrintName").val(response[0].PRINTNAME),
+                 //// $("#branchcode").val(response.),
+                 // $("#Email").val(response[0].EMAIL),
+                 // $("#WebSitetxt").val(response[0].WEBSITE),
+                 // $("#mobiletxt").val(response[0].MOBILE),
+                 // $("#Currencytxt").val(response[0].CURRENCY),
+                 // $("#Countrytxt").val(response[0].COUNTRY),
+                 // $("#Statetxt").val(response[0].STATE),
+                 // $("#Descriptiontxt").val(response[0].DESCRIPTION),
+                 // $("#Addresstxt").val(response[0].ADDRESS)
                 });
             }
         });
@@ -181,9 +183,7 @@ return response;
     {
         debugger;
         var n = EzAuthenticationBtn("/FNMBranch", "DeleteIt");
-       
 
-     
             const swalWithBootstrapButtons = Swal.mixin({
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger',

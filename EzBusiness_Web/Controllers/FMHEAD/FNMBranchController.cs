@@ -4,6 +4,7 @@ using EzBusiness_EF_Entity;
 using EzBusiness_ViewModels.Models.FreightManagement;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,7 +16,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         // GET: FNMBranch
 
         IFNMBranchFrightService _branchService;
-
+        dynamic mymodel = new ExpandoObject();
         public FNMBranchController()
         {
             _branchService = new FNMBranchFrightServices();
@@ -36,7 +37,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-
+           
                 return View(_branchService.GetFNMBranch(list[0].CmpyCode));
             }
         }
@@ -91,7 +92,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             else
             {
 
-                return Json(_branchService.EditFNMBranch(list[0].CmpyCode,branchCode), JsonRequestBehavior.AllowGet);
+                return PartialView(_branchService.EditFNMBranch(list[0].CmpyCode,branchCode));
             }
         }
 

@@ -13,7 +13,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
         List<FNMBranch_VM> GetFNMBranch(string CmpyCode);
         FNMBranch_VM SaveFNMBranch(FNMBranch_VM FC);
         bool DeleteFNMBranch(string FNMBranch_CODE, string CmpyCode, string UserName);
-        List<FNMBranch> EditFNMBranch(string CmpyCode, string FNMBranchCOde);
+       FNMBranch_VM EditFNMBranch(string CmpyCode, string FNMBranchCOde);
     }
 }
 

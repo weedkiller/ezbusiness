@@ -16,6 +16,6 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
         FNMBranch_VM SaveFNMBranch(FNMBranch_VM FH);
 
         bool DeleteFNMBranch(string FNMBranch_CODE, string CmpyCode, string UserName);
-        List<FNMBranch> EditFNMBranch(string CmpyCode, string BranchCode);
+        FNMBranch_VM EditFNMBranch(string CmpyCode, string BranchCode);
     }
 }

@@ -47,23 +47,10 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         {
             return _FNMBranchRepo.SaveFNMBranch(FC);
         }
-        public List<FNMBranch> EditFNMBranch(string CmpyCode,string  BranchCode)
+        public FNMBranch_VM EditFNMBranch(string CmpyCode,string  BranchCode)
         {
-            return _FNMBranchRepo.EditFNMBranch(CmpyCode, BranchCode).Select(m => new FNMBranch
-            {
-                CMPYCODE = m.CMPYCODE,
-                FNMBRANCH_CODE = m.FNMBRANCH_CODE,
-                DESCRIPTION = m.DESCRIPTION,
-                PRINTNAME = m.PRINTNAME,
-                SNO = m.SNO,
-                ADDRESS = m.ADDRESS,
-                EMAIL = m.EMAIL,
-                WEBSITE = m.WEBSITE,
-                MOBILE = m.MOBILE,
-                CURRENCY = m.CURRENCY,
-                COUNTRY = m.COUNTRY,
-                STATE = m.STATE
-            }).ToList();
+            return _FNMBranchRepo.EditFNMBranch(CmpyCode, BranchCode);
+           
         }
     }
 }

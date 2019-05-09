@@ -1,480 +1,260 @@
-﻿<script>
-    var Grs = [];
-    var drec = new Array();
-    $(function () {
-        $("#tblUnits1").hide();
-        $("#btnAdd").click(function () {
-            var n = EzAuthenticationBtn("/Group", "NewIt");
-            if (n == 1) {
-                $("#tbldiv").hide();
-                var abk = [];
-                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
-                Ezprop(abk, "disabled", true);
-                abk = [];
-                abk.push('#btnCancel', '#btnSave');
-                Ezprop(abk, "disabled", false);
-                $("#tblUnits1 tbody tr").css("background", "");
-                $("#tblUnits1").show();
-            }
-
-        });
-
-        var counter = $("#Counter").val();
-        /*Add Table Change Event*/
-        $("#tblUnits1").on("change", "[name*='txtDivisionCode']", function () {
-            var tr = $(this).closest('tr');
-
-            drec = [];
-            $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
-                //add item to array
-                var ab = $(this).find("[name *= 'txtDivisionCode']").val();
-                drec.push(ab);
-            });
-
-            drec.splice($.inArray(tr.find("[name *= 'txtDivisionCode']").val(), drec), 1);
-
-            if ($.inArray(tr.find("[name *= 'txtDivisionCode']").val(), drec) >= 0) {
-                var dr = tr.find("[name *= 'txtDivisionCode']").val();
-                tr.css("background", "red");
-                tr.find("[name *= 'txtDivisionCode']").focus();
-                EzAlerterrtxt("Already Exist DivisionCode '" + dr + "'");
-                tr.find("[name *= 'txtDivisionCode']").val('');
-
-            }
-            else {
-                tr.css("background", "");
-                if (tr.is(":last-child")) {
-                    tr.clone(true, true).insertAfter(tr);
-                    var trLast = $("#tableMetaSettings tr:last");
-                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtDivisionCode']").val('');
-                    trLast.find("[name *= 'txtDivisionCode']").attr({
-                        "name": ("txtDivisionCode" + counter)
-                    });
-                    trLast.find("[name *= 'txtDivisionName']").attr({
-                        "name": ("Name" + counter)
-                    });
-                    trLast.find("[name *= 'txtUniCodeName']").attr({
-                        "name": ("txtUniCodeName" + counter)
-                    });
-                    trLast.find(":first").text(counter);
-                }
-            }
-            counter++;
-        });
-
-        /*Name Tab Event*/
-        EztableTabEve("#tblUnits1", "[name*='txtDivisionCode']", "[name *= 'txtDivisionName']", "Please Enter Division Code", "T","");
-        EztableLstTabBlk("#tblUnits1", "[name*='txtDivisionName']", "[name *= 'txtDivisionCode']", "T", "");
-        EztableLstEnt("#tblUnits1", "[name*='txtDivisionName']", "[name *= 'txtDivisionCode']","T","");
-
-        /*Refresh */
-        $("#btnCancel").click(function () {
-
-            if ($("#tblUnits1 > tbody > tr").length > 1) {
-                $("#tblUnits1 tbody tr td:last-child").remove();
-            }
-
-            $("#tblUnits1 tbody").find("tr:gt(0)").remove();
-            var abk1 = [];
-            abk1.push("[name*='txtDivisionCode']", "[name*='txtDivisionName']");
-            Ezsettxtclr(abk1);
-            abk1 = [];
-            abk1.push("#btnCancel", "#btnSave");
-            Ezprop(abk1, "disabled", true);
-            abk1 = [];
-            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
-            Ezprop(abk1, "disabled", false);
-            $("#tblUnits1").hide();
-            $("#tbldiv").show();
-            //Ezerrormsg("#ErrorMessage", "");
-        });
-        /*Save Unit Table */
-        $("#btnSave").click(function () {
-
-            var Grs = {
-                GroupDetailnew: []
-            };
-            $("#tblUnits1 tbody tr").each(function (index, item) {
-                var StsCode = $(this).find("[name*='txtDivisionCode']").val();
-                var StsName = $(this).find("[name*='txtDivisionName']").val();
-
-                if ((StsCode != "") && (StsName != "")) {
-                    var StatusDetail = {
-                        DivisionCode: StsCode,
-                        DivisionName: StsName,
-
-                    };
-                    Grs.GroupDetailnew.push(StatusDetail);
-                }
-            });
-            var validationResult = ValidateForm(Grs);
-            if (validationResult.formValid) {
-                $.post("/Group/SaveGrs", Grs).done(function (response) {
-                    if (response.Drecord == null)
-                    {
-                        response.Drecord = 0;
-                        $("#tbldiv").show();
-                    }
-                    $("#tblUnits1 tbody tr").each(function (index, item) {
-                        var tr = $(this).closest("tr");
-                        var codeAdd = $(tr).find("[name*='txtDivisionCode']").val().trim();
-                        var nameAdd = $(tr).find("[name*='txtDivisionName']").val().trim();
-
-                        if (response.Drecord.length > 0) {
-                            var ary1 = [];
-                            ary1 = response.Drecord;
-                            if ($.inArray(codeAdd, ary1) < 0 && codeAdd != '' && nameAdd != '') {
-                                $(this).closest('tr').remove();
-                                var counter = $("#Counter").val();
-                                var firstRow = $('#tblUnits tbody tr:first');
-
-                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
-                                    "</td> ";
-                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "' value='False'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                    "'></td></tr>";
-                                $(firstRow).after(newRow);
-                            }
-                            else if (codeAdd != '') {
-                                $(this).closest('tr').css("background", "red");
-                            }
-                            else {
-                                $(this).closest('tr').css("background", "");
-                            }
-                        }
-                        else {
-                            $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-
-                            var abk1 = [];
-                            abk1.push("[name*='txtDivisionCode']", "[name*='txtDivisionName']");
-                            Ezsettxtclr(abk1);
-                            $("#tblUnits1").hide();
-
-                            if (codeAdd != '' && nameAdd != '') {
-                                var counter = $("#Counter").val();
-                                var firstRow = $('#tblUnits tbody tr:first');
-                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
-                                    "</td> ";
-                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                    "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='False'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                    "'></td></tr>";
-
-                                $(firstRow).after(newRow);
-                            }
-                            abk1 = [];
-                            abk1.push("#btnCancel", "#btnSave");
-                            Ezprop(abk1, "disabled", true);
-                            abk1 = [];
-                            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
-                            Ezprop(abk1, "disabled", false);
-                            EzAlertSave();
-                            $(".dataTables_empty").replaceWith("");
-                        }
-                    });
-                });
-            }
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FNMBranch_VM>
 
 
-            else {
-                EzAlerterr();
-            }
-        });
+@{
+    ViewBag.Title = "FNMBranch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/Application/FNMBranchMasterJS.js"></script>
 
-        function ValidateForm(Grs) {
-            var response = {
-                ErrorMessage: "",
-                formValid: false
-            };
-            if (Grs.GroupDetailnew.length == 0) {
-                response.ErrorMessage += "Please Enter atleast One Status code Details";
-            }
-            if (response.ErrorMessage.length == 0) {
-                response.formValid = true;
-            }
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
 
-            return response;
-        }
-        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
-            $(this).closest("tr").remove();
-        });
+        <div class="title-action">
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="display:none"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+            <button class="btn btn-warning btn1" id="btnCancel" style="display:none"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="display:none"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+            <button class="btn btn-info btn1" id="btnPrint" style="display:none"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
+            <input type="hidden" id="hdnOperationMode" value="" />
+        </div>
+    </div>
 
-        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-            console.log(thrownError);
-        });
+</div><hr />
+<!-- Row end -->
+<!-- Row start -->
+<div class="row" id="showlist">
+    <!--updated code-->
 
-
-
-        $("#tblUnits").on("click", "[name^='Edit']", function () {
-            var n = EzAuthenticationBtn("/Group", "EditIt");
-            if (n == 1) {
-                var counter = $("#Counter").val();
-                var hdnEditMode = $(this).parent().find('input:hidden:first');
-                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-                var tr = $(this).closest("tr");
-                var hdnDivisionCode = $(tr).find("td:eq(0)").text().trim();
-                var index = $(this).attr("name").substring(4);
-                var profnameTd = $(tr).find("td:eq(1)");
-
-                var editButton = $(this);
-
-                if (hdnEditMode.val() == "true") {
-                    var profnameEdit = $(tr).find("[name*='txtDivisionName']").val().trim();
-                    var Grs = {
-                        CmpyCode: hdnCmpyCode,
-                        DivisionCode: hdnDivisionCode,
-                        DivisionName: profnameEdit,
-                        EditFlag: true
-                    };
-
-                    $.post("/Group/SaveGrs", Grs).done(function (response) {
-                        profnameTd.text(response.DivisionName);
-                        hdnEditMode.val("false");
-                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
-                        editButton.attr('title', 'Edit');
-                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
-                        tr.find("[name^='Delete']").attr('title', 'Delete');
-                        tableDis("F");
-                        EzAlertUpd(hdnDivisionCode);
-                    });
-                    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-                        console.log(thrownError);
-                    });
-                } else {
-                    var profname = $(tr).find("td:eq(1)").text();
-                    $('#divname').val(profname.trim());
-                    profnameTd.html("<input type='text' name='txtDivisionName" + index + "' value='" + profname.trim() + "' />");
-
-
-
-                    $(this).html('<span class="glyphicon glyphicon-upload"></span>');
-
-                    hdnEditMode.val("true");
-
-                    tableDis("T");
-                    $(this).attr("disabled", false);
-                    tr.find("[name^='Delete']").prop("disabled", false);
-
-                    tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>');
-                    tr.find("[name^='Delete']").attr('title', 'Cancel');
-                }
-            }
-        });
-
-        $("#tblUnits").on("click", "[name^='Delete']", function () {
-            var n = EzAuthenticationBtn("/Group", "DeleteIt");
-            if (n == 1) {
-                var tr = $(this).closest("tr");
-                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-                var profcodeTd = $(tr).find("td:eq(0)");
-                var hdnMode = $(this).parent().find('input:hidden:first');
-                var profcode = "";
-                if (hdnMode.val() == "false") {
-
-                    const swalWithBootstrapButtons = Swal.mixin({
-                        confirmButtonClass: 'btn btn-success',
-                        cancelButtonClass: 'btn btn-danger',
-                        buttonsStyling: false,
-                    })
-
-                    swalWithBootstrapButtons.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes, delete it!',
-                        cancelButtonText: 'No, cancel!',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.value) {
-                            profcode = $(tr).find("td:eq(0)").text().trim();
-                            $.getJSON("/DeleteGrs", { DivisionCode: profcode, CmpyCode: hdnCmpyCode }).done(function (data) {
-                                if (data.DeleteFlag) {
-
-                                    tr.remove();
-                                    if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
-                                        //$(".dataTables_empty").replaceWith("No data available in table");
-                                        var firstRow = $('#tblUnits tbody');
-                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
-                                        $(firstRow).append(newRow);
-                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
-                                    }
-
-                                } else {
-                                    EzAlertdele(code);
-                                }
-                            });
-                            swalWithBootstrapButtons.fire(
-                              'Deleted!',
-                              'Your Code has been deleted.',
-                              'success'
-                            )
-
-                        } else if (
-                            // Read more about handling dismissals
-                          result.dismiss === Swal.DismissReason.cancel
-                        ) {
-                            swalWithBootstrapButtons.fire(
-                              'Cancelled',
-                              'Your Code is safe :)',
-                              'error'
-                            )
-                        }
-                    })
-
-                }
-
-                else {
-                    var nameTd = $(tr).find("td:eq(1)");
-                    var nameEdit = $('#divname').val();
-                    var hdnEditMode = $(this).parent().find('input:hidden:first');
-                    nameTd.html(nameEdit);
-                    tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
-                    tr.find("[name^='Edit']").attr('title', 'Edit');
-                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
-
-                    $(this).attr('title', 'Delete');
-                    hdnEditMode.val("false");
-
-                    tableDis("F");
-                }
-
-            }
-        });
-    });
-
-    var k = 0;
-    function tableDis(k) {
-        if (k == "T") {
-            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", true);
-            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", true);
-            $("#btnAdd").prop('disabled', true);
-        }
-        else {
-            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
-            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
-            $("#btnAdd").prop('disabled', false);
-
-        }
-    }
-</script>
-
-<script>
-$(document).ready(function(){
-    //$('[data-toggle="tooltip"]').tooltip();
-    $(".edit").attr('title', 'Edit');
-    $(".delete").attr('title', 'Delete');
-});
-</script>
-
-<br />
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary panl">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <label class="row" id="ErrorMessage" style="display:none"></label>
+                <div class="tabbable-line boxless tabbable-reversed" id="DRContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="DRContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <div class="container" id="DRListContainer">
+                                                <div class="col-md-12">
+                                                    <table id="DRList" class="table table-bordered table-hover emptbl">
+                                                        <thead>
+                                                            <tr class="tr">
+                                                                <th>FNMBRANCH CODE</th>
+                                                                <th>EMAIL</th>
+                                                                <th>ADDRESS</th>
+                                                                <th>MOBILE</th>
+                                                                <th>PRINTNAME</th>
+                                                            </tr>
+                                                        </thead>
+                                                        @*<tfoot>
+                                                                <tr>
+                                                                    <th>FNMBRANCH CODE</th>
+                                                                    <th>EMAIL</th>
+                                                                    <th>ADDRESS</th>
+                                                                    <th>MOBILE</th>
+                                                                    <th>PRINTNAME</th>
+                                                                </tr>
+                                                            </tfoot>*@
+                                                        <tbody>
+                                                            @foreach (var sm in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => sm.FNMBRANCH_CODE)
+                                                                        @Html.Hidden("hdnFNMBRANCH_CODE", sm.FNMBRANCH_CODE)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => sm.EMAIL)
+                                                                    </td>
+                                                                    <td>@Html.DisplayFor(modelItem => sm.ADDRESS)</td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => sm.MOBILE)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => sm.PRINTNAME)
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
 
 
-<div class="title-action">
-    <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
+                                            </div>
 
-    <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+                                        </div>
+                                    </div><br />
+                                    <!-- END FORM-->
 
-
-
-    <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
-    <input type="hidden" id="hdnOperationMode" value="" />
-
-</div>
-<label class="row" id="ErrorMessage" style="color:red;">
-    <strong></strong>
-</label>
-<div class="panel panel-default panl">
-    <div class="panel-body">
-        <input id="divname" type="hidden" />
-        <table class="table table-bordered" id="tblUnits1">
-            <thead>
-                <tr class="tr">
-                    <th>
-                        @Html.DisplayNameFor(model => model.DivisionCode)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DivisionName)
-                    </th>
-
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtDivisionCode", counter), null, new { @class = "grid-control" })
+                                </div>
+                            </div>
                         </div>
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtDivisionName", counter), null, new { @class = "grid-control" })
-                        </div>
-                    </td>
-
-
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="col-md-12 portal-drivers">
-            <div id="tbldiv">
-
-                <table class="table table-bordered" id="tblUnits">
-                    <thead>
-                        <tr class="tr">
-                            <th>
-                                @Html.DisplayNameFor(model => model.DivisionCode)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.DivisionName)
-                            </th>
-
-
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr class="tr">
-                            <td>
-                                @Html.DisplayNameFor(model => model.DivisionCode)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.DivisionName)
-                            </td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DivisionCode)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DivisionName)
-                                </td>
-
-
-                                <td>
-                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
-                                    <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
-                                    @Html.HiddenFor(m => item.CmpyCode)
-                                </td>
-                            </tr>
-                            counter++;
-                        }
-                    </tbody>
-
-                </table>
+                    </div>
+                </div>
             </div>
         </div>
-        @Html.Hidden("Counter", counter)
     </div>
 </div>
+
+
+<div class="row" id="shownewbtn" style="display:none">
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary panl">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <div class="tabbable-line boxless tabbable-reversed" id="DRContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="DRContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">FNMBranch Code<i class="star">*</i></label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input type="text" class="form-control" id="branchcode" placeholder="FNMBranchCode" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Print Name</label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input type="text" class="form-control" id="PrintName" placeholder="Print Name" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+                                            <!--/row-->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Email</label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input type="text" class="form-control" id="Email" placeholder="Email" />
+                                                            @*@Html.HiddenFor(m => m.StartDate)*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Mobile Number</label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input type="text" class="form-control" id="mobiletxt" placeholder="MOBILE" />
+                                                            @*@Html.HiddenFor(m => m.EndDate)*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--/span-->
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">WebSite</label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input type="text" class="form-control" id="WebSitetxt" placeholder="WebSite" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Currency</label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input type="text" class="form-control" id="Currencytxt" placeholder="Currency" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Country</label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input type="text" class="form-control" id="Countrytxt" placeholder="Country" />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">State</label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input type="text" class="form-control" id="Statetxt" placeholder="State" />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Address</label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input type="text" class="form-control" id="Addresstxt" placeholder="Address" />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-md-3">Description</label>
+                                                        <div class="col-md-9 input-field">
+                                                            <input type="text" class="form-control" id="Descriptiontxt" placeholder="Description" />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><br />
+                                        <!-- END FORM-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+        $(document).ready(function () {
+
+           // EzdteformtcurRep('#fnlfdatetxt,#fnltdatetxt', 'DD/MM/YYYY');
+
+            FNMB.initialize();
+            });
+</script>
+
+
+
+
+
