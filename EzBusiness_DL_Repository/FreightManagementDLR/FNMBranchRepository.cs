@@ -111,7 +111,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         {
 
                         Drecord.Add(branch.FNMBRANCH_CODE.ToString());
-                        branch.Drecord = Drecord;
+                      //  branch.Drecord = Drecord;
                         branch.SaveFlag = false;
                             branch.ErrorMessage = "Duplicate Record";
                         }
