@@ -1,227 +1,538 @@
 ﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FNMBranch_VM>
 
-
 @{
     ViewBag.Title = "FNMBranch";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var counter = 1;
 }
+
 <script src="~/Scripts/EzComNDW.js"></script>
-<script src="~/Scripts/Application/FNMBranchMasterJS.js"></script>
+<script>
 
-<div class="row">
-    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
+    $(function () {
+        $("#dcm").hide();
+        EzAuthentication("/Branch_Master");
+        var n = EzAuthenticationBtn("/Branch_Master", "ViewIt");
+        if (n == 1) {
+            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
+            $('#tblUnits').show();
+        } else {
+            $('#tblUnits').hide();
+        }
+    });
+</script>
+<script>
+    var Doks = [];
+    $(function () {
+        $("#tblUnits1").hide();
+        $("#btnAdd").click(function () {
+            var n = EzAuthenticationBtn("/Branch_Master", "NewIt");
+            if (n == 1) {
+                $("#tbldiv").hide();
+                var abk = [];
+                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
+                Ezprop(abk, "disabled", true);
+                abk = [];
+                abk.push('#btnCancel', '#btnSave');
+                Ezprop(abk, "disabled", false);
+                $("#tblUnits1 tbody tr").css("background", "");
+                $("#tblUnits1").show();
+                $("#dcm").show();
 
-        <div class="title-action">
-            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
-            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="display:none"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-            <button class="btn btn-warning btn1" id="btnCancel" style="display:none"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-            <button class="btn btn-danger btn1" id="btnDelete" style="display:none"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
-            <button class="btn btn-info btn1" id="btnPrint" style="display:none"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
-            <input type="hidden" id="hdnOperationMode" value="" />
-        </div>
-    </div>
+                var empdata=@Html.Raw(Json.Encode(HttpContext.Current.Session["SesDet"]));
 
-</div><hr />
-<!-- Row end -->
-<!-- Row start -->
-<div class="row" id="showlist">
-    <!--updated code-->
+                $('#txtcmpycode').val(empdata[0].CmpyCode);
+            }
+        });
 
-    <div class="col-md-12 no-padding navbar-expand-lg">
-        <div class="panel panel-primary panl">
-            <div class="panel-heading clearfix">
-                <i class="icon-calendar"></i>
-                <h3 class="panel-title">Ez Business System</h3>
-            </div>
-            <div class="panel-body" style="margin-left:10px;">
-                <label class="row" id="ErrorMessage" style="display:none"></label>
-                <div class="tabbable-line boxless tabbable-reversed" id="DRContainer">
-                    <div class="custom-form-wrapper">
-                        <div id="DRContainer">
-                            <div class="row">
-                                <div class="custom-form-wrapper">
-                                    <!-- BEGIN FORM-->
-                                    <div class="form-horizontal">
-                                        <div class="form-body">
-                                            <div class="container" id="DRListContainer">
-                                                <div class="col-md-12">
-                                                    <table id="DRList" class="table table-bordered table-hover emptbl">
-                                                        <thead>
-                                                            <tr class="tr">
-                                                                <th>FNMBRANCH CODE</th>
-                                                                <th>EMAIL</th>
-                                                                <th>ADDRESS</th>
-                                                                <th>MOBILE</th>
-                                                                <th>PRINTNAME</th>
-                                                            </tr>
-                                                        </thead>
-                                                        @*<tfoot>
-                                                                <tr>
-                                                                    <th>FNMBRANCH CODE</th>
-                                                                    <th>EMAIL</th>
-                                                                    <th>ADDRESS</th>
-                                                                    <th>MOBILE</th>
-                                                                    <th>PRINTNAME</th>
-                                                                </tr>
-                                                            </tfoot>*@
-                                                        <tbody>
-                                                            @foreach (var sm in Model)
-                                                            {
-                                                                <tr>
-                                                                    <td>
-                                                                        @Html.DisplayFor(modelItem => sm.FNMBRANCH_CODE)
-                                                                        @Html.Hidden("hdnFNMBRANCH_CODE", sm.FNMBRANCH_CODE)
-                                                                    </td>
-                                                                    <td>
-                                                                        @Html.DisplayFor(modelItem => sm.EMAIL)
-                                                                    </td>
-                                                                    <td>@Html.DisplayFor(modelItem => sm.ADDRESS)</td>
-                                                                    <td>
-                                                                        @Html.DisplayFor(modelItem => sm.MOBILE)
-                                                                    </td>
-                                                                    <td>
-                                                                        @Html.DisplayFor(modelItem => sm.PRINTNAME)
-                                                                    </td>
-                                                                </tr>
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+        var counter = $("#Counter").val();
 
 
-                                            </div>
-
-                                        </div>
-                                    </div><br />
-                                    <!-- END FORM-->
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+        /*Code Tab Event*/
+        EztableTabEve("#tblUnits1", "[name*='txtFNMBRANCH_CODE']", "[name *= 'txtDESCRIPTION']", "Please Enter FNMHEAD_CODE", 'T', "");
 
 
-<div class="row" id="shownewbtn" style="display:none">
-    <div class="col-md-12 no-padding navbar-expand-lg">
-        <div class="panel panel-primary panl">
-            <div class="panel-heading clearfix">
-                <i class="icon-calendar"></i>
-                <h3 class="panel-title">Ez Business System</h3>
-            </div>
-            <div class="panel-body" style="margin-left:10px;">
-                <div class="tabbable-line boxless tabbable-reversed" id="DRContainer">
-                    <div class="custom-form-wrapper">
-                        <div id="DRContainer">
-                            <div class="row">
-                                <div class="custom-form-wrapper">
-                                    <!-- BEGIN FORM-->
-                                    <div class="form-horizontal">
-                                        <div class="form-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">FNMBranch Code<i class="star">*</i></label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="text" class="form-control" id="branchcode" placeholder="FNMBranchCode" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Print Name</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="text" class="form-control" id="PrintName" placeholder="Print Name" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                            </div>
-                                            <!--/row-->
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Email</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="text" class="form-control" id="Email" placeholder="Email" />
-                                                            @*@Html.HiddenFor(m => m.StartDate)*@
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Mobile Number</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="text" class="form-control" id="mobiletxt" placeholder="MOBILE" />
-                                                            @*@Html.HiddenFor(m => m.EndDate)*@
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                            </div>
+        EztableTabEve("#tblUnits1", "[name*='txtDESCRIPTION']", "[name *= 'txtPRINTNAME']", "Please Enter DESCRIPTION", 'T', "");
 
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">WebSite</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="text" class="form-control" id="WebSitetxt" placeholder="WebSite" />
-                                                        </div>
-                                                    </div>
-                                                </div>
+        EztableTabEve("#tblUnits1", "[name*='txtPRINTNAME']", "[name *= 'txtADDRESS']", "Please Enter PRINTNAME", 'T', "");
 
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Currency</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="text" class="form-control" id="Currencytxt" placeholder="Currency" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Country</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="text" class="form-control" id="Countrytxt" placeholder="Country" />
+        EztableTabEve("#tblUnits1", "[name*='txtADDRESS']", "[name *= 'txtEMAIL']", "Please Enter EMAIL", 'T', "");
 
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">State</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="text" class="form-control" id="Statetxt" placeholder="State" />
+        /*Enter Event*/
+        EztableLstEnt("#tblUnits1", "[name*='txtSTATE']", "[name *= 'txtSno']", "T", "");
 
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Address</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="text" class="form-control" id="Addresstxt" placeholder="Address" />
 
-                                                        </div>
-                                                    </div>
-                                                </div>
+        /*Add Table Change Event*/
+        $("#tblUnits1").on("change", "[name*='txtFNMBRANCH_CODE']", function () {
+            var tr = $(this).closest('tr');
 
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Description</label>
-                                                        <div class="col-md-9 input-field">
-                                                            <input type="text" class="form-control" id="Descriptiontxt" placeholder="Description" />
+            drec = [];
+            $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtFNMBRANCH_CODE']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'txtFNMBRANCH_CODE']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name *= 'txtFNMBRANCH_CODE']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtFNMBRANCH_CODE']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtFNMBRANCH_CODE']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'txtFNMBRANCH_CODE']").val('');
+                tr.find("[name *= 'txtSNO']").val('');
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tableMetaSettings tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
+                    $(this).closest('tr').next('tr').find("[name*='txtFNMBRANCH_CODE']").val('');
+                    trLast.find("[name *= 'txtFNMBRANCH_CODE']").attr({
+                        "name": ("txtFNMBRANCH_CODE" + counter)
+                    });
+                    trLast.find("[name *= 'txtDESCRIPTION']").attr({
+                        "name": ("Name" + counter)
+                    });
+                    trLast.find("[name *= 'txtPRINTNAME']").attr({
+                        "name": ("txtPRINTNAME" + counter)
+                    });
+                    trLast.find("[name *= 'txtADDRESS']").attr({
+                        "name": ("txtADDRESS" + counter)
+                    });
+                    trLast.find("[name *= 'txtEMAIL']").attr({
+                        "name": ("txtEMAIL" + counter)
+                    });
+
+                    trLast.find("[name *= 'txtMOBILE']").attr({
+                        "name": ("txtMOBILE" + counter)
+                    });
+
+                    trLast.find("[name *= 'txtWEBSITE']").attr({
+                        "name": ("txtWEBSITE" + counter)
+                    });
+                    trLast.find("[name *= 'txtCURRENCY']").attr({
+                        "name": ("txtCURRENCY" + counter)
+                    });
+
+                    trLast.find("[name *= 'txtCOUNTRY']").attr({
+                        "name": ("txtCOUNTRY" + counter)
+                    });
+
+                    trLast.find("[name *= 'txtSTATE']").attr({
+                        "name": ("txtSTATE" + counter)
+                    });
+
+                    trLast.find("[name *= 'txtSNO']").attr({
+                        "name": ("txtSNO" + counter)
+                    });
+
+
+                    trLast.find(":first").text(counter);
+                }
+            }
+            counter++;
+        });
+
+
+        /*Refresh */
+        $("#btnCancel").click(function () {
+            $("#dcm").hide();
+            if ($("#tblUnits1 > tbody > tr").length > 1) {
+                $("#tblUnits1 tbody tr td:last-child").remove();
+            }
+            $("#tblUnits1 tbody").find("tr:gt(0)").remove();
+
+            var abk1 = [];
+            abk1.push("[name*='txtFNMBRANCH_CODE']", "[name*='txtDESCRIPTION']", "[name*='txtSNO']", "[name*='txtPRINTNAME']", "[name*='txtADDRESS']", "[name*='txtEMAIL']", "[name*='txtMOBILE']", "[name*='txtWEBSITE']", "[name*='txtCURRENCY']", "[name*='txtCOUNTRY']", "[name*='txtSTATE']");
+            Ezsettxtclr(abk1);
+            abk1 = [];
+            abk1.push("#btnCancel", "#btnSave");
+            Ezprop(abk1, "disabled", true);
+            abk1 = [];
+            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+            Ezprop(abk1, "disabled", false);
+            $("#tblUnits1").hide();
+            $("#tbldiv").show();
+        });
+        /*Save Unit Table */
+        $("#btnSave").click(function () {
+
+            var brnch = {
+                FNMBranchDetailsnew: []
+            };
+            $("#tblUnits1 tbody tr").each(function (index, item) {
+
+                var FNMBRANCH_CODE = $(this).find("[name*='txtFNMBRANCH_CODE']").val();
+                var DESCRIPTION = $(this).find("[name*='txtDESCRIPTION']").val();
+                var SNO = $(this).find("[name*='txtSNO']").val();
+                var PRINTNAME = $(this).find("[name*='txtPRINTNAME']").val();
+                var ADDRESS = $(this).find("[name*='txtADDRESS']").val();
+                var EMAIL = $(this).find("[name*='txtEMAIL']").val();
+                var WEBSITE = $(this).find("[name*='txtWEBSITE']").val();
+                var MOBILE = $(this).find("[name*='txtMOBILE']").val();
+                var CURRENCY = $(this).find("[name*='txtCURRENCY']").val();
+                var COUNTRY = $(this).find("[name*='txtCOUNTRY']").val();
+                var STATE = $(this).find("[name*='txtSTATE']").val();
+
+                if ((FNMBRANCH_CODE != "") && (DESCRIPTION != "")) {
+                    var FNMBranchDetails = {
+                        FNMBRANCH_CODE:FNMBRANCH_CODE,
+                    DESCRIPTION:DESCRIPTION,
+                    SNO:SNO,
+                    PRINTNAME:PRINTNAME,
+                    ADDRESS:ADDRESS,
+                    EMAIL:EMAIL,
+                    WEBSITE:WEBSITE,
+                    MOBILE:MOBILE,
+                    CURRENCY:CURRENCY,
+                    COUNTRY:COUNTRY,
+                    STATE:STATE
+                    };
+                    brnch.FNMBranchDetailsnew.push(FNMBranchDetails);
+                }
+            });
+            var validationResult = ValidateForm(brnch);
+            if (validationResult.formValid) {
+                $.post("/FNMBranch/SaveFNMBranch", brnch).done(function (response) {
+                    if (response.Drecord == null) {
+
+                        response.Drecord = 0;
+                        $("#tbldiv").show();
+
+                    }
+                    $("#tblUnits1 tbody tr").each(function (index, item) {
+                        var tr = $(this).closest("tr");
+
+                        var FNMBRANCH_CODEAdd = $(tr).find("[name*='txtFNMBRANCH_CODE']").val().trim();
+                        var DESCRIPTIONAdd = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
+                        var SNOAdd = $(tr).find("[name*='txtSNO']").val().trim();
+                        var PRINTNAMEAdd = $(tr).find("[name*='txtPRINTNAME']").val().trim();
+                        var ADDRESSAdd = $(tr).find("[name*='txtADDRESS']").val().trim();
+                        var EMAILAdd = $(tr).find("[name*='txtEMAIL']").val().trim();
+                        var WEBSITEAdd = $(tr).find("[name*='txtWEBSITE']").val().trim();
+                        var MOBILEAdd = $(tr).find("[name*='txtMOBILE']").val().trim();
+                        var CURRENCYAdd = $(tr).find("[name*='txtCURRENCY']").val().trim();
+                        var COUNTRYAdd = $(tr).find("[name*='txtCOUNTRY']").val().trim();
+                        var STATEAdd = $(tr).find("[name*='txtSTATE']").val().trim();
+
+
+                        if (response.Drecord.length > 0) {
+                            var ary1 = [];
+                            ary1 = response.Drecord;
+                            if ($.inArray(FNMBRANCH_CODEAdd, ary1) < 0 && FNMBRANCH_CODEAdd != '' && DESCRIPTIONAdd != '') {
+                                $(this).closest('tr').remove();
+                                var counter = $("#Counter").val();
+                                var firstRow = $('#tblUnits tbody tr:first');
+
+                                var newRow = "<tr><td>" + SNOAdd + "</td><td>" + FNMBRANCH_CODEAdd + "</td><td>" + DESCRIPTIONAdd + "</td><td>" + PRINTNAMEAdd + "</td><td>" + ADDRESSAdd + "</td><td>" + EMAILAdd + "</td><td>" + WEBSITEAdd + "</td><td>" + MOBILEAdd + "</td><td>" + CURRENCYAdd + "</td><td>" + COUNTRYAdd + "</td><td>" + STATEAdd +
+                                    "</td> ";
+                                //newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                //    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                //    "'></td></tr>";
+                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                   "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                   "'></td></tr>";
+                                $(firstRow).after(newRow);
+                            }
+                            else if (codeAdd != '') {
+                                $(this).closest('tr').css("background", "red");
+                            }
+                            else {
+                                $(this).closest('tr').css("background", "");
+                            }
+                        }
+                        else {
+                            $("#tblUnits1 tbody").find("tr:not(:last)").remove();
+                            $("[name*='txtFNMBRANCH_CODE']").val();
+                            $("[name*='txtDESCRIPTION']").val();
+
+
+                            $("#tblUnits1").hide();
+
+                            if (FNMBRANCH_CODEAdd != '' && DESCRIPTIONAdd != '') {
+                                var counter = $("#Counter").val();
+                                var firstRow = $('#tblUnits tbody tr:first');
+                                var newRow = "<tr><td>" + SNOAdd + "</td><td>" + FNMBRANCH_CODEAdd + "</td><td>" + DESCRIPTIONAdd + "</td><td>" + PRINTNAMEAdd + "</td><td>" + ADDRESSAdd + "</td><td>" + EMAILAdd + "</td><td>" + WEBSITEAdd + "</td><td>" + MOBILEAdd + "</td><td>" + CURRENCYAdd + "</td><td>" + COUNTRYAdd + "</td><td>" + STATEAdd +
+                                   "</td> ";
+                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                    "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                    "'></td></tr>";
+                                //newRow += "</tr>";
+                                $(firstRow).after(newRow);
+                            }
+                            abk1 = [];
+                            abk1.push("#btnCancel", "#btnSave");
+                            Ezprop(abk1, "disabled", true);
+                            abk1 = [];
+                            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+                            Ezprop(abk1, "disabled", false);
+                            EzAlertSave();
+                            $(".dataTables_empty").replaceWith("");
+                        }
+                    });
+                });
+            }
+            else {
+                EzAlerterr();
+            }
+        });
+
+        function ValidateForm(brnch) {
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+
+            if (brnch.FNMBranchDetailsnew.length == 0) {
+                response.ErrorMessage += "Please Enter atleast One Branch code Details";
+            }
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+
+            return response;
+        }
+        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+        });
+
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+
+        $("#tblUnits").on("click", "[name^='Edit']", function () {
+            var n = EzAuthenticationBtn("/FNMBranch", "EditIt");
+            if (n == 1) {
+                var counter = $("#Counter").val();
+                var hdnEditMode = $(this).parent().find('input:hidden:first');
+                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+                var tr = $(this).closest("tr");
+                var hdnDocCode = $(tr).find("td:eq(1)").text().trim();
+                var index = $(this).attr("name").substring(4);
+                var DESCRIPTIONTd = $(tr).find("td:eq(2)");
+                var PRINTNAMETd = $(tr).find("td:eq(3)");
+                var ADDRESSTd = $(tr).find("td:eq(4)");
+                var EMAILTd = $(tr).find("td:eq(5)");
+                var WEBSITETd = $(tr).find("td:eq(6)");
+                var MOBILETd = $(tr).find("td:eq(7)");
+                var CURRENCYTd = $(tr).find("td:eq(8)");
+                var COUNTRYTd = $(tr).find("td:eq(9)");
+                var STATETd = $(tr).find("td:eq(10)");
+
+                var editButton = $(this);
+
+                if (hdnEditMode.val() == "true") {
+                    var DESCRIPTIONEdit = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
+                  //  var SNOEdit = $(tr).find("[name*='txtSNO']").val().trim();
+                    var PRINTNAMEEdit = $(tr).find("[name*='txtPRINTNAME']").val().trim();
+                    var ADDRESSEdit = $(tr).find("[name*='txtADDRESS']").val().trim();
+                    var EMAILEdit = $(tr).find("[name*='txtEMAIL']").val().trim();
+                    var WEBSITEEdit = $(tr).find("[name*='txtWEBSITE']").val().trim();
+                    var MOBILEEdit = $(tr).find("[name*='txtMOBILE']").val().trim();
+                    var CURRENCYEdit = $(tr).find("[name*='txtCURRENCY']").val().trim();
+                    var COUNTRYEdit = $(tr).find("[name*='txtCOUNTRY']").val().trim();
+                    var STATEEdit = $(tr).find("[name*='txtSTATE']").val().trim();
+
+                    var brnch = {
+                        CmpyCode: hdnCmpyCode,
+                        FNMBRANCH_CODE: hdnDocCode,
+                        DESCRIPTION: DESCRIPTIONEdit,
+                        //SNO: SNOEdit,
+                        PRINTNAME: PRINTNAMEEdit,
+                        ADDRESS: ADDRESSEdit,
+                        EMAIL: EMAILEdit,
+                        WEBSITE: WEBSITEEdit,
+                        MOBILE: MOBILEEdit,
+                        CURRENCY: CURRENCYEdit,
+                        COUNTRY: COUNTRYEdit,
+                        STATE: STATEEdit,
+                        EditFlag: true
+                    };
+
+                    $.post("/FNMBranch/SaveFNMBranch", brnch).done(function (response) {
+                        DESCRIPTIONTd.text(response.DESCRIPTION);
+                        PRINTNAMETd.text(response.PRINTNAME);
+                        ADDRESSTd.text(response.ADDRESS);
+                        EMAILTd.text(response.EMAIL);
+                        WEBSITETd.text(response.WEBSITE);
+                        MOBILETd.text(response.MOBILE);
+                        CURRENCYTd.text(response.CURRENCY);
+                        COUNTRYTd.text(response.COUNTRY);
+                        STATETd.text(response.STATE);
+
+
+                        hdnEditMode.val("false");
+                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
+                        editButton.attr('title', 'Edit');
+                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
+                        tr.find("[name^='Delete']").attr('title', 'Delete');
+
+                        tableDis("F");
+                        EzAlertUpd(hdnDocCode);
+                    });
+                    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                        console.log(thrownError);
+                    });
+                } else {
+                    debugger;
+                    var DESCRIPTION = $(tr).find("td:eq(2)").text();
+                    var PRINTNAME = $(tr).find("td:eq(3)").text();
+                    var ADDRESS = $(tr).find("td:eq(4)").text();
+                    var EMAIL = $(tr).find("td:eq(5)").text();
+                    var WEBSITE = $(tr).find("td:eq(6)").text();
+                    var MOBILE = $(tr).find("td:eq(7)").text();
+                    var CURRENCY = $(tr).find("td:eq(8)").text();
+                    var COUNTRY = $(tr).find("td:eq(9)").text();
+                    var STATE = $(tr).find("td:eq(10)").text();
+
+                    $('#inpdocname').val(DESCRIPTION.trim());
+
+
+
+                    DESCRIPTIONTd.html("<input type='text' name='txtDESCRIPTION" + index + "' value='" + DESCRIPTION.trim() + "' />");
+                    PRINTNAMETd.html("<input type='text' name='txtPRINTNAME" + index + "' value='" + PRINTNAME.trim() + "' />");
+                    ADDRESSTd.html("<input type='text' name='txtADDRESS" + index + "' value='" + ADDRESS.trim() + "' />");
+                    EMAILTd.html("<input type='text' name='txtEMAIL" + index + "' value='" + EMAIL.trim() + "' />");
+                    WEBSITETd.html("<input type='text' name='txtWEBSITE" + index + "' value='" + WEBSITE.trim() + "' />");
+                    MOBILETd.html("<input type='text' name='txtMOBILE" + index + "' value='" + MOBILE.trim() + "' />");
+                    CURRENCYTd.html("<input type='text' name='txtCURRENCY" + index + "' value='" + CURRENCY.trim() + "' />");
+                    COUNTRYTd.html("<input type='text' name='txtCOUNTRY" + index + "' value='" + COUNTRY.trim() + "' />");
+                    STATETd.html("<input type='text' name='txtSTATE" + index + "' value='" + STATE.trim() + "' />");
+
+
+
+                    $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
+                    $(this).attr('title', 'Update');
+                    hdnEditMode.val("true");
+
+                    tableDis("T");
+                    $(this).attr("disabled", false);
+                    tr.find("[name^='Delete']").prop("disabled", false);
+
+                    tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>')
+                    tr.find("[name^='Delete']").attr('title', 'Cancel');
+
+                }
+            }
+        });
+
+        $("#tblUnits").on("click", "[name^='Delete']", function () {
+            debugger;
+            var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
+            if (n == 1) {
+                var tr = $(this).closest("tr");
+                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+                var FMHEADCodeTd = $(tr).find("td:eq(1)");
+                var hdnMode = $(this).parent().find('input:hidden:first');
+                var doccode = "";
+                if (hdnMode.val() == "false") {
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            FMHEADCode = $(tr).find("td:eq(1)").text().trim();
+                            $.getJSON("/DeleteFNMBranch", { branchCode: FMHEADCode, CmpyCode: hdnCmpyCode }).done(function (data) {
+                                if (data.DeleteFlag) {
+
+                                    if ($('#tblUnits tbody tr').length == 2) {
+                                        var firstRow = $('#tblUnits tbody tr:first');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                        $(firstRow).after(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
+                                    tr.remove();
+                                } else {
+                                    EzAlertdele(doccode);
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
+                        }
+                    })
+
+                }
+                else {
+                    var nameTd = $(tr).find("td:eq(1)");
+
+                    var nameEdit = $('#inpdocname').val();
+                    var hdnEditMode = $(this).parent().find('input:hidden:first');
+                    nameTd.html(nameEdit);
+                    tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
+                    tr.find("[name^='Edit']").attr('title', 'Edit');
+                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
+                    $(this).attr('title', 'Delete');
+                    hdnEditMode.val("false");
+
+                    tableDis("F");
+                }
+            }
+        });
+    });
+
+    var k = 0;
+    function tableDis(k) {
+        if (k == "T") {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", true);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", true);
+            $("#btnAdd").prop('disabled', true);
+        }
+        else {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
+            $("#btnAdd").prop('disabled', false);
+
+        }
+    }
+</script>
+
+<script>
+$(document).ready(function(){
+    //$('[data-toggle="tooltip"]').tooltip();
+    $(".edit").attr('title', 'Edit');
+    $(".delete").attr('title', 'Delete');
+});
+</script>
+
+<br />
+
+
+<div class="title-action">
+    <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
+    <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+    <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
 
                                                         </div>
                                                     </div>
@@ -234,27 +545,266 @@
                             </div>
                         </div>
 
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
 </div>
 
+<div class="panel panel-default">
+    <div class="panel-body">
+        <input id="inpdocname" type="hidden" />
+        <div class="row" id="dcm">
+            <div class="col-sm-2">
+                <label><b>Company Code :</b></label>
+            </div>
+            <div class="col-sm-2">
+                <input id="txtcmpycode" type="text" readonly="readonly" />
+                </div>
+            </div>
+        <table class="table table-bordered" id="tblUnits1">
+            <thead>
+                <tr class="tr">
+                    <th>
+                        @Html.DisplayNameFor(model => model.SNO)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DESCRIPTION)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PRINTNAME)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ADDRESS)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EMAIL)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MOBILE)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.WEBSITE)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CURRENCY)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.COUNTRY)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.STATE)
+                    </th>
 
 
-<script type="text/javascript">
-        $(document).ready(function () {
+                    <th></th>
+                </tr>
+            </thead>
 
-           // EzdteformtcurRep('#fnlfdatetxt,#fnltdatetxt', 'DD/MM/YYYY');
+
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtSNO", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtFNMBRANCH_CODE", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtDESCRIPTION", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtPRINTNAME", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtADDRESS", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtEMAIL", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtMOBILE", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtWEBSITE", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtCURRENCY", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtCOUNTRY", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtSTATE", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+
+
+
+        <div class="col-md-12 portal-drivers">
+            <div id="tbldiv">
+                <table class="table table-bordered" id="tblUnits">
+                    <thead>
+                        <tr class="tr">
+                            <th>
+                                @Html.DisplayNameFor(model => model.SNO)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DESCRIPTION)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PRINTNAME)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ADDRESS)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EMAIL)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MOBILE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.WEBSITE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CURRENCY)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.COUNTRY)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.STATE)
+                            </th>
 
             FNMB.initialize();
             });
 </script>
 
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr class="tr">
+                            <td>
+                                @Html.DisplayNameFor(model => model.SNO)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.DESCRIPTION)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.PRINTNAME)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.ADDRESS)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.EMAIL)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.MOBILE)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.WEBSITE)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.CURRENCY)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.COUNTRY)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.STATE)
+                            </td>
 
 
 
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                    <tbody style="overflow:scroll">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SNO)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FNMBRANCH_CODE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DESCRIPTION)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PRINTNAME)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ADDRESS)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EMAIL)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MOBILE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WEBSITE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CURRENCY)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.COUNTRY)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.STATE)
+                                </td>
 
+
+
+                                <td>
+                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                                    @Html.HiddenFor(m => item.CMPYCODE)
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+        @Html.Hidden("Counter", counter)
+    </div>
+</div>

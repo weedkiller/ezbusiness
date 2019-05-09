@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
 {
    public class FNMBranch_VM
     {
+        [DisplayName("CODE")]
         public string FNMBRANCH_CODE { get; set; }
         public string CMPYCODE { get; set; }
         public string DESCRIPTION { get; set; }
@@ -26,8 +28,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
 
         public string ErrorMessage { get; set; }
 
-        //public List<FNMBranchDetailsNew> FNMBranchDetailnew { get; set; }
-        //public FNMBranchDetailsNew FNMBranchDetail { get; set; }
+        public List<FNMBranchDetailsNew> FNMBranchDetailsnew { get; set; }
+        public FNMBranchDetailsNew FNMBranchDetail { get; set; }
 
         //public List<string> Drecord { get; set; }
 

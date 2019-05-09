@@ -2,7 +2,7 @@
 
     initialize: function () {
         // var jq = $.noConflict(true);
-        $('input[Type="date"]').val(new Date().getToday());
+        //$('input[Type="date"]').val(new Date().getToday());
         $.fn.dataTable.ext.errorMode = 'none';
         FNMB.Attachevent();
 

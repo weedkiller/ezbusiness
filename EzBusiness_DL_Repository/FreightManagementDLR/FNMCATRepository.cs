@@ -101,7 +101,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                     return FC;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from FNMCAT where CmpyCode='" + FC.CMPYCODE + "' and FNMCAT_CODE='" + FC.FNMCAT_CODE + "'and Flag=0");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNMCAT where CmpyCode='" + FC.CMPYCODE + "' and FNMCAT_CODE='" + FC.FNMCAT_CODE + "'and Flag=0");
                 if (StatsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update FNMCAT set CmpyCode='" + FC.CMPYCODE + "',FNMCAT_CODE='" + FC.FNMCAT_CODE + "',DESCRIPTION='" + FC.DESCRIPTION + "' where CmpyCode='" + FC.CMPYCODE + "' and FNMCAT_CODE='" + FC.FNMCAT_CODE + "'");
