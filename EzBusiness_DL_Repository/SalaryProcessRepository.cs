@@ -314,7 +314,7 @@ namespace EzBusiness_DL_Repository
 
 
                         {
-                            var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRSPD001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.PRSP001_Code + "' and Flag=0");
+                            var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from PRSPD001 where CmpyCode='" + SPDV.CmpyCode + "' and Code='" + SPDV.PRSP001_Code + "' and Flag=0");
                             if (StatsEdit != 0)
                             {
                                 StringBuilder sb = new StringBuilder();

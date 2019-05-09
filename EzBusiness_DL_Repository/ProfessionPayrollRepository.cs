@@ -105,7 +105,7 @@ namespace EzBusiness_DL_Repository
 
                     return Pros;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MPROF021 where CmpyCode='" + Pros.CmpyCode + "' and ProfCode='" + Pros.ProfCode + "' and Flag=0");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from MPROF021 where CmpyCode='" + Pros.CmpyCode + "' and ProfCode='" + Pros.ProfCode + "' and Flag=0");
                 if (StatsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update MPROF021 set CmpyCode='" + Pros.CmpyCode + "',ProfCode='" + Pros.ProfCode + "',Name='" + Pros.ProfName + "' where CmpyCode='" + Pros.CmpyCode + "' and ProfCode='" + Pros.ProfCode + "'");
