@@ -109,7 +109,6 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         }
                         else
                         {
-
                         Drecord.Add(branch.FNMBRANCH_CODE.ToString());
                         branch.Drecord = Drecord;
                         branch.SaveFlag = false;
