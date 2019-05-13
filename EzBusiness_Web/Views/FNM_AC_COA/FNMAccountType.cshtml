@@ -113,6 +113,7 @@
                     group_code: $("[name*='group_code'] option:selected").val(),
                     SUBGROUP_code: $("[name*='SUBGROUP_code'] option:selected").val(),
                     SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:selected").val(),
+                    FNMSLCAT_CODE: $("[name*='FNMSLCAT_CODE'] option:selected").val(),
                     MASTER_STATUS: $("input:radio[name=MASTER_STATUS]:checked").val(),
                     NOTE: $("[name*='NOTE']").val(),
                     NATURE: $("input:radio[name=NATURE]:checked").val(),
@@ -153,7 +154,8 @@
                         Head_code: $("[name*='Head_code'] option:selected").val(),
                         group_code: $("[name*='group_code'] option:selected").val(),
                         SUBGROUP_code: $("[name*='SUBGROUP_code'] option:selected").val(),
-                        SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:selected").val(),
+                        SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:selected").val(),                        
+                       FNMSLCAT_CODE: $("[name*='FNMSLCAT_CODE'] option:selected").val(),
                         MASTER_STATUS: $("input:radio[name=MASTER_STATUS]:checked").val(),
                         NOTE: $("[name*='NOTE']").val(),
                         NATURE: $("input:radio[name=NATURE]:checked").val(),
@@ -184,26 +186,41 @@
         });
 
         function ValidateForm(FNM) {
-
+            debugger;
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
 
             if (FNM.EditFlag == false) {
-                if (FNM.Code == '0') {
+                if (FNM.CODE == '') {
                     response.ErrorMessage += "Code ,";
                 }
             } else if (FNM.EditFlag == true) {
-                if (FNM.Code == '0') {
+                if (FNM.CODE == '') {
                     response.ErrorMessage += "Code ,";
                 }
             }
-            //if (dutyResume.EmpCode == '0') {
-            //    response.ErrorMessage += "Employee Name ,";
-            //}
-
-           
+            if (FNM.NAME == '') {
+                response.ErrorMessage += "Name ,";
+            }
+            else if (FNM.Head_code == '0') {
+                response.ErrorMessage += "Head Code ,";
+            } else if (FNM.group_code == '0') {
+                response.ErrorMessage += "Group Code ,";
+            }
+            else if (FNM.SUBGROUP_code == '0') {
+                response.ErrorMessage += "Sub Group Code ,";
+            }
+            else if (FNM.COA_TYPE == '0') {
+                response.ErrorMessage += "COA Type,";
+            }  
+            else if (FNM.SUBLEDGER_TYPE == '0') {
+                response.ErrorMessage += "Sub Ledger Type ,";
+            }
+            else if (FNM.FNMSLCAT_CODE == '0') {
+                response.ErrorMessage += "Sub Ledger Category ,";
+            }
 
 
             if (response.ErrorMessage.length == 0) {

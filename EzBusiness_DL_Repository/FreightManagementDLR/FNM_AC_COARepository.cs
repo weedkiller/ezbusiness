@@ -278,5 +278,22 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             }
             return ObjList;
         }
+
+        public List<FNMCAT> GetSUBLEDGER_CAT(string Cmpycode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMSLCAT_CODE,DESCRIPTION from FNMSLCAT where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FNMCAT> ObjList = new List<FNMCAT>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FNMCAT()
+                {
+                    FNMSLCAT_CODE = dr["FNMSLCAT_CODE"].ToString(),
+                    DESCRIPTION = dr["DESCRIPTION"].ToString()
+                });
+            }
+            return ObjList;
+        }
     }
 }

@@ -22,13 +22,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         public bool DeleteFNMCAT(string FNMCAT_CODE, string CmpyCode, string UserName)
         {
 
-            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNMCAT where CmpyCode='" + CmpyCode + "' and FNMCAT_CODE='" + FNMCAT_CODE + "'  and Flag=0");
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNMSLCAT where CmpyCode='" + CmpyCode + "' and FNMCAT_CODE='" + FNMCAT_CODE + "'  and Flag=0");
             if (Grs != 0)
             {
 
-                _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FNMCAT", FNMCAT_CODE, Environment.MachineName);
+                _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FNMSLCAT", FNMCAT_CODE, Environment.MachineName);
 
-                return _EzBusinessHelper.ExecuteNonQuery1("update FNMCAT set Flag=1 where CmpyCode='" + CmpyCode + "' and FNMCAT_CODE='" + FNMCAT_CODE + "'  and Flag=0");
+                return _EzBusinessHelper.ExecuteNonQuery1("update FNMSLCAT set Flag=1 where CmpyCode='" + CmpyCode + "' and FNMCAT_CODE='" + FNMCAT_CODE + "'  and Flag=0");
 
             }
             return false;
@@ -36,7 +36,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public List<FNMCAT> GetFNMCAT(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNMCAT where CmpyCode='" + CmpyCode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNMSLCAT where CmpyCode='" + CmpyCode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNMCAT> ObjList = new List<FNMCAT>();
@@ -45,7 +45,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 ObjList.Add(new FNMCAT()
                 {
                     CMPYCODE = dr["CmpyCode"].ToString(),
-                    FNMCAT_CODE = dr["FNMCAT_CODE"].ToString(),
+                    FNMSLCAT_CODE = dr["FNMSLCAT_CODE"].ToString(),
                     DESCRIPTION = dr["DESCRIPTION"].ToString(),
                     
                 });
@@ -64,7 +64,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     ObjList.AddRange(FC.FNMCATDetailnew.Select(m => new FNMCATDetailnew
                     {
                         CMPYCODE = m.CMPYCODE,
-                        FNMCAT_CODE = m.FNMCAT_CODE,
+                        FNMSLCAT_CODE = m.FNMSLCAT_CODE,
                         DESCRIPTION = m.DESCRIPTION,
                     }).ToList());
                     int n = 0;
@@ -72,17 +72,17 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                     while (n > 0)
                     {
-                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMCAT where CmpyCode='" + FC.CMPYCODE + "' and FNMCAT_CODE='" + ObjList[n - 1].FNMCAT_CODE + "'");
+                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMSLCAT where CmpyCode='" + FC.CMPYCODE + "' and FNMSLCAT_CODE='" + ObjList[n - 1].FNMSLCAT_CODE + "'");
                         if (Stats1 == 0)
                         {
                             StringBuilder sb = new StringBuilder();
                             sb.Append("'" + FC.CMPYCODE + "',");
-                            sb.Append("'" + ObjList[n - 1].FNMCAT_CODE + "',");
+                            sb.Append("'" + ObjList[n - 1].FNMSLCAT_CODE + "',");
                             sb.Append("'" + ObjList[n - 1].DESCRIPTION + "')");
                             
-                            _EzBusinessHelper.ExecuteNonQuery("insert into FNMCAT(CMPYCODE,FNMCAT_CODE,DESCRIPTION) values(" + sb.ToString() + "");
+                            _EzBusinessHelper.ExecuteNonQuery("insert into FNMSLCAT(CMPYCODE,FNMSLCAT_CODE,DESCRIPTION) values(" + sb.ToString() + "");
 
-                            _EzBusinessHelper.ActivityLog(FC.CMPYCODE, FC.UserName, "Add FN Category", ObjList[n - 1].FNMCAT_CODE, Environment.MachineName);
+                            _EzBusinessHelper.ActivityLog(FC.CMPYCODE, FC.UserName, "Add FN Category", ObjList[n - 1].FNMSLCAT_CODE, Environment.MachineName);
 
                             FC.SaveFlag = true;
                             FC.ErrorMessage = string.Empty;
@@ -90,7 +90,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         else
                         {
 
-                            Drecord.Add(ObjList[n - 1].FNMCAT_CODE.ToString());
+                            Drecord.Add(ObjList[n - 1].FNMSLCAT_CODE.ToString());
 
                             FC.Drecord = Drecord;
                             FC.SaveFlag = false;
@@ -101,12 +101,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                     return FC;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNMCAT where CmpyCode='" + FC.CMPYCODE + "' and FNMCAT_CODE='" + FC.FNMCAT_CODE + "'and Flag=0");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNMSLCAT where CmpyCode='" + FC.CMPYCODE + "' and FNMSLCAT_CODE='" + FC.FNMSLCAT_CODE + "'and Flag=0");
                 if (StatsEdit != 0)
                 {
-                    _EzBusinessHelper.ExecuteNonQuery("update FNMCAT set CmpyCode='" + FC.CMPYCODE + "',FNMCAT_CODE='" + FC.FNMCAT_CODE + "',DESCRIPTION='" + FC.DESCRIPTION + "' where CmpyCode='" + FC.CMPYCODE + "' and FNMCAT_CODE='" + FC.FNMCAT_CODE + "'");
+                    _EzBusinessHelper.ExecuteNonQuery("update FNMSLCAT set CmpyCode='" + FC.CMPYCODE + "',FNMSLCAT_CODE='" + FC.FNMSLCAT_CODE + "',DESCRIPTION='" + FC.DESCRIPTION + "' where CmpyCode='" + FC.CMPYCODE + "' and FNMSLCAT_CODE='" + FC.FNMSLCAT_CODE + "'");
 
-                    _EzBusinessHelper.ActivityLog(FC.CMPYCODE, FC.UserName, "Update FMHead", FC.FNMCAT_CODE, Environment.MachineName);
+                    _EzBusinessHelper.ActivityLog(FC.CMPYCODE, FC.UserName, "Update FMHead", FC.FNMSLCAT_CODE, Environment.MachineName);
 
                     FC.SaveFlag = true;
                     FC.ErrorMessage = string.Empty;

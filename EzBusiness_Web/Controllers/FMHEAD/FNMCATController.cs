@@ -57,7 +57,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         }
 
         [Route("DeleteFNMCAT")]
-        public ActionResult DeleteFNMCAT(string FNMCAT_CODE, string CmpyCode)
+        public ActionResult DeleteFNMCAT(string FNMSLCAT_CODE, string CmpyCode)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -66,7 +66,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(new { DeleteFlag = _FNMCATService.DeleteFNMCAT(FNMCAT_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _FNMCATService.DeleteFNMCAT(FNMSLCAT_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion

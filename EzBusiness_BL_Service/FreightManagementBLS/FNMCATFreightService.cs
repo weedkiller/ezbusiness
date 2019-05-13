@@ -31,7 +31,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             return _FNMCATRepo.GetFNMCAT(CmpyCode).Select(m => new FNMCAT_VM
             {
                 CMPYCODE = m.CMPYCODE,
-                FNMCAT_CODE = m.FNMCAT_CODE,
+                FNMSLCAT_CODE = m.FNMSLCAT_CODE,
                 DESCRIPTION = m.DESCRIPTION,
             }).ToList();
         }

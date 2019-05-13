@@ -29,6 +29,10 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public List<SelectListItem> COA_TYPEList { get; set; }
         public string SUBLEDGER_TYPE { get; set; }
         public List<SelectListItem> SUBLEDGER_TYPEList { get; set; }
+
+        public string SUBLEDGER_CAT { get; set; }
+
+        public List<SelectListItem> SUBLEDGER_CATList { get; set; }
         public string MASTER_STATUS { get; set; }
         public string NOTE { get; set; }
         public string NATURE { get; set; }

@@ -26,6 +26,8 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
 
         List<FNMSUBGROUP> GetFNMSUBGROUP(string Cmpycode);
 
+        List<FNMCAT> GetSUBLEDGER_CAT(string Cmpycode);
+
 
     }
 }

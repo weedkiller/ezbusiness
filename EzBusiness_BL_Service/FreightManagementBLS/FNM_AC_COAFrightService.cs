@@ -59,6 +59,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             FNM_AC_COAEdit.SUBLEDGER_TYPEList = GetSUBGROUP(CmpyCode);
             FNM_AC_COAEdit.SUBGROUP_codeList = GetFNMSUBGROUP(CmpyCode);
             FNM_AC_COAEdit.Head_codeList = GetFMHEAD(CmpyCode);
+            FNM_AC_COAEdit.SUBLEDGER_CATList = GetSUBLEDGER_CAT(CmpyCode);
             return FNM_AC_COAEdit;
         }
 
@@ -126,8 +127,18 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 COA_TYPEList=GetCOA_TYPEList(Cmpycode),
                 group_codeList = Getgroup_code(Cmpycode),
                 SUBLEDGER_TYPEList=GetSUBGROUP(Cmpycode),
+                SUBLEDGER_CATList=GetSUBLEDGER_CAT(Cmpycode),
                 EditFlag = false
             };
+        }
+
+        public List<SelectListItem> GetSUBLEDGER_CAT(string Cmpycode)
+        {
+            var itemCodes = _FNM_AC_COARep.GetSUBLEDGER_CAT(Cmpycode)
+                                        .Select(m => new SelectListItem { Value = m.FNMSLCAT_CODE, Text = string.Concat(m.FNMSLCAT_CODE, " - ", m.DESCRIPTION) })
+                                        .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
         }
     }
 }

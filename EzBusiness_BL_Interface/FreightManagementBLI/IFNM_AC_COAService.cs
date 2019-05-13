@@ -23,5 +23,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
         List<SelectListItem> GetSUBGROUP(string Cmpycode);
         List<SelectListItem> GetCOA_TYPEList(string Cmpycode);
         List<SelectListItem> GetFNMSUBGROUP(string Cmpycode);
+
+        List<SelectListItem> GetSUBLEDGER_CAT(string Cmpycode);
     }
 }
