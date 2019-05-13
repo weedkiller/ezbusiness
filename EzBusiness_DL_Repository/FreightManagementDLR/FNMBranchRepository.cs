@@ -1,4 +1,5 @@
 ﻿using EzBusiness_DL_Interface.FreightManagementDLI;
+using EzBusiness_EF_Entity;
 using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
 using System;
@@ -16,6 +17,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         DataTable dt = null;
 
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
+        DropListFillFun drop = new DropListFillFun();
         public bool DeleteFNMBranch(string FNMBranch_CODE, string CmpyCode, string UserName)
         {
 
@@ -30,7 +32,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             }
             return false;
         }
-
+        public List<Nation> GetNationList(string CmpyCode)
+        {
+            return drop.GetNationList(CmpyCode);
+        }
+        public List<Nation> GetCurrencyList(string CmpyCode)
+        {
+            return drop.GetNationList(CmpyCode);
+        }
         public List<FNMBranch> GetFNMBranch(string CmpyCode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,STATE from FNMBRANCH where CMPYCODE='" + CmpyCode + "' and Flag=0");// 
@@ -56,7 +65,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             }
             return ObjList;
         }
-
+  
         public FNMBranch_VM SaveFNMBranch(FNMBranch_VM branch)
         {
             try

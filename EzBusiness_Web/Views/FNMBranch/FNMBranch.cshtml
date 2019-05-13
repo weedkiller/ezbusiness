@@ -7,8 +7,7 @@
 
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
-
-    $(function () {
+ $(function () {
         $("#dcm").hide();
         EzAuthentication("/Branch_Master");
         var n = EzAuthenticationBtn("/Branch_Master", "ViewIt");
@@ -22,8 +21,11 @@
 </script>
 <script>
     var Doks = [];
+   
     $(function () {
+        debugger;
         $("#tblUnits1").hide();
+      
         $("#btnAdd").click(function () {
             var n = EzAuthenticationBtn("/Branch_Master", "NewIt");
             if (n == 1) {
@@ -60,8 +62,8 @@
 
         /*Enter Event*/
         EztableLstEnt("#tblUnits1", "[name*='txtSTATE']", "[name *= 'txtSno']", "T", "");
-
-
+        GetCountryCodes();
+        GetCurrencyCodes();
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtFNMBRANCH_CODE']", function () {
             var tr = $(this).closest('tr');
@@ -137,8 +139,53 @@
             }
             counter++;
         });
+        function GetCountryCodes() {
+            debugger;
+            var index = 1;
+            $.ajax({
+                url: "GetCountryCodes",
+                dataType: "json",
+                success: function (response) {
+                    $('#ddlCOUNTRY1').empty();
+                    var ary = [];
+                    ary = response;
+                    for (var i = 0; i < ary.length; i++) {
+                        $('#ddlCOUNTRY1').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                    }
+                
+                    $('#ddlCOUNTRY1').val(0);
+                 
+                    $('.selectpicker').selectpicker('refresh');
+                },
+                error: function () {
+                    EzAlerterrtxt('error occurred');
+                }
+            });
+        }
 
-
+        function GetCurrencyCodes() {
+            debugger;
+            var index = 1;
+            $.ajax({
+                url: "GetCurrencyCodes",
+                dataType: "json",
+                success: function (response) {
+                    $('#ddlCURRENCY1').empty();
+                    var ary = [];
+                    ary = response;
+                    for (var i = 0; i < ary.length; i++) {
+                        $('#ddlCURRENCY1').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                    }
+                
+                    $('#ddlCURRENCY1').val(0);
+                 
+                    $('.selectpicker').selectpicker('refresh');
+                },
+                error: function () {
+                    EzAlerterrtxt('error occurred');
+                }
+            });
+        }
         /*Refresh */
         $("#btnCancel").click(function () {
             $("#dcm").hide();
@@ -301,7 +348,7 @@
             $(this).closest("tr").remove();
         });
 
-
+        
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
@@ -523,6 +570,7 @@ $(document).ready(function(){
     //$('[data-toggle="tooltip"]').tooltip();
     $(".edit").attr('title', 'Edit');
     $(".delete").attr('title', 'Delete');
+     
 });
 </script>
 
@@ -633,12 +681,17 @@ $(document).ready(function(){
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtCURRENCY", counter), null, new { @class = "grid-control" })
+                            @*@Html.TextBox(string.Concat("txtCOUNTRY1", counter), null, new { @class = "grid-control" })*@
+                            @Html.DropDownList(string.Concat("ddlCOUNTRY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "0" }, }, new { @class = "grid-control" })
+                            @*@Html.DropDownList(string.Concat("ddlCOUNTRY", counter), Model.cou, new { @class = "grid-control" })*@
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtCOUNTRY", counter), null, new { @class = "grid-control" })
+                            @*@Html.TextBox(string.Concat("txtCURRENCY", counter), null, new { @class = "grid-control" })*@
+                            @*@Html.DropDownList(string.Concat("txtCURRENCY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "0" }, }, new { @class = "grid-control" })*@
+                            @*<select class="grid-control" name="ddlCURRENCY" id="ddlCURRENCY"></select>*@
+                            @Html.DropDownList(string.Concat("ddlCURRENCY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "0" }, }, new { @class = "grid-control" })
                         </div>
                     </td>
                     <td>
@@ -646,12 +699,9 @@ $(document).ready(function(){
                             @Html.TextBox(string.Concat("txtSTATE", counter), null, new { @class = "grid-control" })
                         </div>
                     </td>
-
-
                 </tr>
             </tbody>
         </table>
-
         <div class="col-md-12 portal-drivers">
             <div id="tbldiv">
                 <table class="table table-bordered" id="tblUnits">
@@ -682,11 +732,12 @@ $(document).ready(function(){
                                 @Html.DisplayNameFor(model => model.WEBSITE)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.CURRENCY)
-                            </th>
-                            <th>
                                 @Html.DisplayNameFor(model => model.COUNTRY)
                             </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CURRENCY)
+                            </th>
+                          
                             <th>
                                 @Html.DisplayNameFor(model => model.STATE)
                             </th>
@@ -723,17 +774,14 @@ $(document).ready(function(){
                                 @Html.DisplayNameFor(model => model.WEBSITE)
                             </td>
                             <td>
-                                @Html.DisplayNameFor(model => model.CURRENCY)
-                            </td>
-                            <td>
                                 @Html.DisplayNameFor(model => model.COUNTRY)
                             </td>
                             <td>
+                                @Html.DisplayNameFor(model => model.CURRENCY)
+                            </td>                       
+                            <td>
                                 @Html.DisplayNameFor(model => model.STATE)
                             </td>
-
-
-
                             <td></td>
                         </tr>
                     </tfoot>
@@ -766,17 +814,15 @@ $(document).ready(function(){
                                     @Html.DisplayFor(modelItem => item.WEBSITE)
                                 </td>
                                 <td>
+                                    @Html.DisplayFor(modelItem => item.COUNTRY)
+                                </td>  
+                                <td>
                                     @Html.DisplayFor(modelItem => item.CURRENCY)
                                 </td>
+                                                           
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.COUNTRY)
-                                </td>
-                               
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.STATE)
-                                   
-                                </td>
-                                
+                                    @Html.DisplayFor(modelItem => item.STATE)                                   
+                                </td>                               
                                 <td>
                                     <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)">
                                         <span class="glyphicon glyphicon-pencil"></span>

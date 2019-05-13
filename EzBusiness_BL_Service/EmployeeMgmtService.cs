@@ -33,9 +33,6 @@ namespace EzBusiness_BL_Service
             return _EmployeeMgmtRepo.DeleteEmployee(CmpyCode, EmpCode, UserName);
         }
 
-    
-
-     
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
         {          
             items.Insert(0, new SelectListItem
