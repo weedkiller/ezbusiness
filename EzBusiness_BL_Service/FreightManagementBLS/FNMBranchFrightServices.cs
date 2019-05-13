@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EzBusiness_BL_Service.FreightManagementBLS
 {
-   public class FNMBranchFrightServices: IFNMBranchFrightService
+   public class FNMBranchFrightServices: IFNMBranchFrightService 
     {
         IFNMBranchRepository _FNMBranchRepo;
 
