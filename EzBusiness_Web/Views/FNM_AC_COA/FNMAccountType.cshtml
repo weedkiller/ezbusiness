@@ -1,31 +1,25 @@
-﻿@model IList<EzBusiness_ViewModels.Models.Humanresourcepayroll.DutyResumeVM>
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.FNM_AC_COA_VM
+
 @{
-    ViewBag.Title = "Duty Resume";
+    ViewBag.Title = "FNMAccountType";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*<script src="~/Scripts/jquery-3.1.1.js"></script>
-<script src="~/Scripts/bootstrap-select.min.js"></script>
-<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />*@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
-        EzAuthentication("/DutyResume");
-        Ezsetzerotxt();
-        //EzsetDatetxt();
-        EzdtePk('#ResumeDate1,#StartDate1,#EndDate1');
+        EzAuthentication("/AccountType");              
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
         function GetDrs() {
-            $.get("/DutyResume/GetDrs", function (response) {
+            $.get("/FNM_AC_COA/GetAccountType", function (response) {
                 $("#DRListContainer").html(response);
             });
         }
         $("#btnNew").click(function () {
-            var n = EzAuthenticationBtn("/DutyResume", "NewIt");
+            var n = EzAuthenticationBtn("/AccountType", "NewIt");
             if (n == 1) {
                 $("#editshow").hide();
-               
-                $.get("DutyResume/AddDutyResume", function (response) {
+                $.get("FNM_AC_COA/AddAccountType", function (response) {
                     $("#DRContainer").html(response);
                 });
                 $(this).css("visibility", "hidden");
@@ -38,10 +32,9 @@
             $("#editshow").hide();
         });
         $("#btnEdit").click(function () {
-            var n = EzAuthenticationBtn("/DutyResume", "ViewIt");
+            var n = EzAuthenticationBtn("/AccountType", "ViewIt");
             if (n == 1) {
-                $(this).css("visibility", "hidden");
-                Ezsetzerotxt();
+                $(this).css("visibility", "hidden");               
                 EzbtnEditAcVis();
                 $("#DRListContainer1").show();
                 GetDrs();
@@ -52,32 +45,18 @@
         $("#btnCancel").click(function () {
             $("#DRContainer").html(drHtml);
             EzbtnCancelAcVis();
-            $("#DRListContainer1").hide();
-            Ezsetzerotxt();
-            //EzsetDatetxt();     
-            EzdtePk('#ResumeDate1,#StartDate1,#EndDate1');
+            $("#DRListContainer1").hide();           
             $("#editshow").hide();
         });
-        //var EmpCode = $("[name*='EmpCode'] option:selected");       
-        //var ResumeDate = $("[name*='ResumeDate']");
-        //var LsNo = $("[name*='LsNo'] option:selected");
-        //var StartDate = $("[name*='StartDate']");
-        //var EndDate = $("[name*='EndDate']");
-        //var Remark = $("[name*='Remark']");                
-
-        //var Description = $("[name*='Description']");
+        
         $("#btnDelete").click(function () {
-            var n = EzAuthenticationBtn("/DutyResume", "DeleteIt");
-            var date1 = Ezsetdtpkdate($('#ResumeDate1').val());
-            var k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
-
-            if (n == 1 && k==1) {
+            var n = EzAuthenticationBtn("/AccountType", "DeleteIt");          
+            if (n == 1) {
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
                     cancelButtonClass: 'btn btn-danger',
                     buttonsStyling: false,
                 })
-
                 swalWithBootstrapButtons.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -88,19 +67,13 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                            var Cmpycode = $("[name*='Cmpycode']").val();
-                            var PRDR001_CODE = $("[name*='PRDR001_CODE']").val();
-                            var oldLeavedays = $("[name*='oldLeavedays']").val();
-                            var EmpCode = $("[name*='EmpCode']").val();
-                            $.getJSON("/DeleteDrs", { Cmpycode: Cmpycode, PRDR001_CODE: PRDR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
+                       
+                        var Code = $("[name*='CODE']").val();
+                        $.getJSON("/DeleteAccountTypeS", { Code: Code }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    //EzbtnsaveAcVis("#DRContainer");                                 
-                                    //$("#DRContainer").html(drHtml);
-                                    //GetDrs();
-                                    window.location = '/DutyResume'
-                                //$("#btnCancel").trigger("click");
+                                window.location = '/AccountType'                                
                             } else {
-                                    EzAlertdele(PRDR001_CODE);
+                                    EzAlertdele(Code);
                             }
                         });
                         swalWithBootstrapButtons.fire(
@@ -120,125 +93,89 @@
                         )
                     }
                 })
-                $("#editshow").hide();
-                //if (confirm("Are you Sure?")) {
-                //    var Cmpycode = $("[name*='Cmpycode']").val();
-                //    var PRDR001_CODE = $("[name*='PRDR001_CODE']").val();
-                //    var oldLeavedays = $("[name*='oldLeavedays']").val();
-                //    var EmpCode = $("[name*='EmpCode']").val();
-                //    $.getJSON("/DeleteDrs", { Cmpycode: Cmpycode, PRDR001_CODE: PRDR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode }).done(function (data) {
-                //        if (data.DeleteFlag) {
-                //            GetDrs();
-                //            $("#btnCancel").trigger("click");
-                //        } else {
-                //            Ezerrormsg("#ErrorMessage", "Unable to Delete");
-                //        }
-                //    });
-                //}
+                $("#editshow").hide();                
             }
         });
         $("#btnSave").click(function () {
-            
-            var n = EzAuthenticationBtn("/DutyResume", "EditIt");
-
-            var date1 = Ezsetdtpkdate($('#ResumeDate1').val());
+            var n = EzAuthenticationBtn("/AccountType", "EditIt");            
             var k = 0;
-
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
 
             if (opMode == "Add") {
                 // Code for Adding MainTable
-                var dutyResume = {
-                    EditFlag: false,
-                    Cmpycode: $("[name*='Cmpycode']").val(),
-                    EmpCode: $("[name*='EmpCode'] option:selected").val(),
-                    ResumeDate: Ezsetdtpkdate($("[name*='ResumeDate1']").val()),
-                    PRLR001_CODE: $("[name*='PRLR001_CODE'] option:selected").val(),                   
-                    EndDate: Ezsetdtpkdate($("[name*='EndDate1']").val()),
-                    StartDate: Ezsetdtpkdate($("[name*='StartDate1']").val()),
-                    country: 0,
-                    division: 0,
-                    PRLS001_CODE: 0,
-                    Approve_Days_in_Half:$("[name*='Approve_Days_in_Half']").val(),
-                    Approve_Days_in_full: $("[name*='Approve_Days_in_full']").val(),
-                    Excess_Days_plus_minus: $("[name*='Excess_Days_plus_minus']").val(),
-                    Approve_Days: $("[name*='Approve_Days']").val(),
-                    Duty_Rm_type: $("[name*='Duty_Rm_type']").val(),
-                    Actual_Leave_Type: $("[name*='Actual_Leave_Type']").val()
-
-                   // SalaryMasterDetailsnew: []
+                var FNM = {
+                    EditFlag: false,                    
+                    CODE: $("[name*='CODE']").val(),
+                    NAME:$("[name*='NAME']").val(),
+                    COA_TYPE: $("[name*='COA_TYPE'] option:selected").val(),
+                    Head_code: $("[name*='Head_code'] option:selected").val(),
+                    group_code: $("[name*='group_code'] option:selected").val(),
+                    SUBGROUP_code: $("[name*='SUBGROUP_code'] option:selected").val(),
+                    SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:selected").val(),
+                    MASTER_STATUS: $("input:radio[name=MASTER_STATUS]:checked").val(),
+                    NOTE: $("[name*='NOTE']").val(),
+                    NATURE: $("input:radio[name=NATURE]:checked").val(),
+                    PL_BS: $("input:radio[name=PL_BS]:checked").val()
                 };
 
-                
 
-                var validationResult = ValidateForm(dutyResume);
+
+                var validationResult = ValidateForm(FNM);
                 if (validationResult.formValid) {
-                    k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
-                    if(k == 1){
-                    $.post("/SaveDrs", dutyResume).done(function (response) {
-                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {                           
+                   
+                    $.post("/SaveAccountType", FNM).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                          
+
                             EzbtnsaveAcVis("#DRContainer");
                             EzAlertSave();
                             $("#DRContainer").html(drHtml);
                             GetDrs();
+
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
                         }
                     });
-                    }
+                 
                 } else {
                     //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                     EzAlerterrtxt(validationResult.ErrorMessage);
                 }
             } else if (opMode == "Edit" && n==1 ) {
                 // Code for Adding Purchase order
-                    var dutyResume = {
+                var FNM = {
                         EditFlag: true,
-                        PRDR001_CODE: $("[name*='PRDR001_CODE']").val(),
-                        Cmpycode: $("[name*='Cmpycode']").val(),
-                        EmpCode: $("[name*='EmpCode'] option:selected").val(),
-                        ResumeDate: Ezsetdtpkdate($("[name*='ResumeDate1']").val()),
-                        PRLR001_CODE: $("[name*='PRLR001_CODE']").val(),
-                        EndDate: Ezsetdtpkdate($("[name*='EndDate1']").val()),
-                        StartDate: Ezsetdtpkdate($("[name*='StartDate1']").val()),
-                        country: 0,
-                        division: 0,
-                        PRLS001_CODE: 0,
-                        Approve_Days_in_Half: $("[name*='Approve_Days_in_Half']").val(),
-                        Approve_Days_in_full: $("[name*='Approve_Days_in_full']").val(),
-                        Excess_Days_plus_minus: $("[name*='Excess_Days_plus_minus']").val(),
-                        Approve_Days: $("[name*='Approve_Days']").val(),
-                        Duty_Rm_type: $("[name*='Duty_Rm_type']").val(),
-                        Actual_Leave_Type: $("[name*='Actual_Leave_Type']").val(),
-                        oldLeavedays:$('#oldLeavedays').val()
+                        CODE: $("[name*='CODE']").val(),
+                        NAME: $("[name*='NAME']").val(),
+                        COA_TYPE: $("[name*='COA_TYPE'] option:selected").val(),
+                        Head_code: $("[name*='Head_code'] option:selected").val(),
+                        group_code: $("[name*='group_code'] option:selected").val(),
+                        SUBGROUP_code: $("[name*='SUBGROUP_code'] option:selected").val(),
+                        SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:selected").val(),
+                        MASTER_STATUS: $("input:radio[name=MASTER_STATUS]:checked").val(),
+                        NOTE: $("[name*='NOTE']").val(),
+                        NATURE: $("input:radio[name=NATURE]:checked").val(),
+                        PL_BS: $("input:radio[name=PL_BS]:checked").val()
 
                 };
 
-              
 
-                    var validationResult = ValidateForm(dutyResume);
+
+                var validationResult = ValidateForm(FNM);
                     if (validationResult.formValid) {
-                        k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
-                        if (k == 1) {
-                            $.post("/SaveDrs", dutyResume).done(function (response) {
-                                if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-
-                                    //EzbtnsaveAcVis("#DRContainer");
+                     
+                        $.post("/SaveAccountType", FNM).done(function (response) {
+                                if (response.SaveFlag && !response.ErrorMessage.length > 0) {                                   
                                     EzAlertSave();
-                                    $("#DRContainer").html(drHtml);
-                                   //GetDrs();
-                                   // window.location = '/DutyResume'
-                                    
-                                } else {
-                                    //  Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                                    EzbtnsaveAcVis("#DRContainer");
+                                    $("#DRContainer").html(drHtml);                                   
+                                } else {                                  
                                     EzAlerterrtxt(response.ErrorMessage);
                                 }
-                            });
-                        }
-                } else {
-                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                            });                        
+                } else {                   
                     EzAlerterrtxt(validationResult.ErrorMessage);
                 }
             }
@@ -246,30 +183,28 @@
 
         });
 
-        function ValidateForm(dutyResume) {
-            
+        function ValidateForm(FNM) {
+
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
-           
-            if (dutyResume.EditFlag == false) {
-                if (dutyResume.PRLR001_CODE == '0') {
-                    response.ErrorMessage += "Sanctioned Code ,";
+
+            if (FNM.EditFlag == false) {
+                if (FNM.Code == '0') {
+                    response.ErrorMessage += "Code ,";
                 }
-            } else if (dutyResume.EditFlag == true) {
-                if (dutyResume.PRLR001_CODE=='0') {
-                    response.ErrorMessage += "Sanctioned Code ,";
+            } else if (FNM.EditFlag == true) {
+                if (FNM.Code == '0') {
+                    response.ErrorMessage += "Code ,";
                 }
             }
             //if (dutyResume.EmpCode == '0') {
             //    response.ErrorMessage += "Employee Name ,";
             //}
 
-            if (new Date(dutyResume.ResumeDate) < new Date(dutyResume.StartDate)) {
-                response.ErrorMessage += "Resume date Should be greater than start Date";
-            }
-                  
+           
+
 
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
@@ -291,22 +226,24 @@
                     console.log(thrownError);
                 });
 
-                $(document).on("click", "#DRList tbody tr", function ()
+                $(document).on("click", "#POList tbody tr", function ()
                 {
                     EzbtnEditAcVis();
                     var operationMode = $("#hdnOperationMode").val();
                     if (operationMode == "Edit")
                     {
-                        $("#DRList > tbody").children().removeClass("active");
+                        $("#POList > tbody").children().removeClass("active");
                         $(this).addClass("active");
-                        var Cmpycode = $(this).find("#hdnCmpycode").val();
-                        var drno = $(this).find("#hdnDrNo").val();
-                        $.get("EditDutyResume", { Cmpycode: Cmpycode, LsNo: drno }).done(function (response)
+                        
+                        var Code = $("[name*='hdnFNMACTCode']").val();
+                        $.get("EditAccountType", { Code: Code }).done(function (response)
                         {
                             $("#DRContainer").html(response);
 
                             //$("#btnDelete").prop("disabled", false);
                             $("#btnDelete").css("visibility", "");
+
+                            $("#btnPrint").css("visibility", "hidden");
                         });
                     }
                 });
@@ -315,10 +252,10 @@
 
                 $("#btnPrint").click(function () {
                     debugger;
-                    var n = EzAuthenticationBtn("/DutyResume", "PrintIt");
+                    var n = EzAuthenticationBtn("/AccountType", "PrintIt");
                     if (n == 1) {
-                        var code1 = $("[name*='PRDR001_CODE']").val();
-                        window.open("/DutyResumeReportForm/?code=" + code1 + "", '_blank');
+                        var code1 = $("[name*='Code']").val();
+                        window.open("/AccountTypeReportForm/?code=" + code1 + "", '_blank');
                     }
                 });
             });
@@ -364,10 +301,10 @@
 
 
 <div class="row">
-    <div class="col-md-6 col-sm-6 col-xs-6 btngrp" >
-       
+    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
+
         <div class="title-action">
-            <button class="btn btn-primary btn1 newbtn"  id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
 
             <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
@@ -402,11 +339,11 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @Html.Action("GetDrs", "DutyResume")
+                                                @Html.Action("GetAccountType", "FNM_AC_COA")
 
 
                                             </div>
-                                            
+
                                         </div>
                                     </div><br />
                                     <!-- END FORM-->
@@ -437,8 +374,8 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     @*<div class="container scroll" id="DRListContainer">
-                        @Html.Action("GetDrs", "DutyResume")
-                    </div>*@
+                            @Html.Action("GetDrs", "DutyResume")
+                        </div>*@
                 </div>
             </div>
         </div>

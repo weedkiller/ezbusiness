@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EzBusiness_EF_Entity.FreightManagement;
 
 namespace EzBusiness_DL_Repository.FreightManagementDLR
 {
@@ -32,19 +33,18 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return false;
         }
 
-        public List<FNM_AC_COA> GetFNM_AC_COA(string CmpyCode)
+        public List<FNM_AC_COA_VM> GetFNM_AC_COA(string CmpyCode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_AC_COA where COMPANY_UID='" + CmpyCode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
-            List<FNM_AC_COA> ObjList = new List<FNM_AC_COA>();
+            List<FNM_AC_COA_VM> ObjList = new List<FNM_AC_COA_VM>();
             foreach (DataRow dr in drc)
             {
-                ObjList.Add(new FNM_AC_COA()
+                ObjList.Add(new FNM_AC_COA_VM()
                 {
                     COMPANY_UID = dr["COMPANY_UID"].ToString(),
                     CODE = dr["CODE"].ToString(),
-                    FNM_AC_COAId =Convert.ToDecimal( dr["DESCRIPTION"].ToString()),
                     NAME = dr["NAME"].ToString(),
                     Head_code = dr["Head_code"].ToString(),
                     group_code = dr["group_code"].ToString(),
@@ -60,10 +60,16 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return ObjList;
         }
 
-        public FNM_AC_COA_VM SaveFNMBranch(FNM_AC_COA_VM ac)
+        public FNM_AC_COA_VM SaveFNM_AC_COA(FNM_AC_COA_VM ac)
         {
             try
             {
+
+                DateTime dte;
+                string dtstr1;
+                dte = Convert.ToDateTime(DateTime.Now.ToString());
+                dtstr1 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
+
                 if (!ac.EditFlag)
                 {
                     //var Drecord = new List<string>();
@@ -91,25 +97,25 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     {
                         StringBuilder sb = new StringBuilder();
 
-                        sb.Append("'" + ac.COMPANY_UID + "',");
-                        sb.Append("'" + ac.FNM_AC_COA + "',");
+                      
+                        sb.Append("'" + ac.COMPANY_UID + "',");                      
                         sb.Append("'" + ac.CODE + "',");
                         sb.Append("'" + ac.NAME + "',");
                         sb.Append("'" + ac.Head_code + "',");
                         sb.Append("'" + ac.group_code + "',");
                         sb.Append("'" + ac.SUBGROUP_code + "',");
-                        sb.Append("'" + ac.CREATED_BY + "',");
-                        sb.Append("'" + ac.CREATED_ON + "',");
-                        sb.Append("'" + ac.UPDATED_BY + "',");
-                        sb.Append("'" + ac.UPDATED_ON + "',");
+                        sb.Append("'" + ac.UserName + "',");
+                        sb.Append("'" + dtstr1 + "',");
+                        //sb.Append("'" + ac.UPDATED_BY + "',");
+                        //sb.Append("'" + ac.UPDATED_ON + "',");
                         sb.Append("'" + ac.COA_TYPE + "',");
                         sb.Append("'" + ac.SUBLEDGER_TYPE + "',");
                         sb.Append("'" + ac.MASTER_STATUS + "',");
                         sb.Append("'" + ac.NOTE + "',");
                         sb.Append("'" + ac.NATURE + "',");
                         sb.Append("'" + ac.PL_BS + "')");
-                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(company_UID,FNM_AC_COA,CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_TYPE,SUBLEDGER_TYPE,MASTER_STATUS,NOTE,NATURE,PL_BS) values(" + sb.ToString() + "");
-                        _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Add FN Category", ac.CODE, Environment.MachineName);
+                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(company_UID,CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,COA_TYPE,SUBLEDGER_TYPE,MASTER_STATUS,NOTE,NATURE,PL_BS) values(" + sb.ToString() + "");
+                        _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Add FNM_AC_COA", ac.CODE, Environment.MachineName);
                         ac.SaveFlag = true;
                         ac.ErrorMessage = string.Empty;
                     }
@@ -127,26 +133,21 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 if (StatsEdit != 0)
                 {
                     StringBuilder sb = new StringBuilder();
-
-                    sb.Append("company_UID='" + ac.COMPANY_UID + "',");
-                    sb.Append("FNM_AC_COA='" + ac.FNM_AC_COA + "',");
-                    sb.Append("CODE='" + ac.CODE + "',");
+                                        
                     //  sb.Append("'" + dtstr8 + "',");
                     sb.Append("NAME='" + ac.NAME + "',");
                     sb.Append("Head_Code='" + ac.Head_code + "',");
                     sb.Append("group_code='" + ac.group_code + "',");
                     sb.Append("SUBGROUP_code='" + ac.SUBGROUP_code + "',");
-                    sb.Append("CREATED_BY='" + ac.CREATED_BY + "',");
-                    sb.Append("CREATED_ON='" + ac.CREATED_ON + "',");
-                    sb.Append("UPDATED_BY='" + ac.UPDATED_BY + "',");
-                    sb.Append("UPDATED_ON='" + ac.UPDATED_ON + "'");
-                    sb.Append("COA_TYPE='" + ac.COA_TYPE + "'");
-                    sb.Append("SUBLEDGER_TYPE='" + ac.SUBLEDGER_TYPE + "'");
-                    sb.Append("NOTE='" + ac.NOTE + "'");
-                    sb.Append("NATURE='" + ac.NATURE + "'");
+                    sb.Append("UPDATED_BY='" + ac.UserName + "',");
+                    sb.Append("UPDATED_ON='" + dtstr1 + "',");
+                    sb.Append("COA_TYPE='" + ac.COA_TYPE + "',");
+                    sb.Append("SUBLEDGER_TYPE='" + ac.SUBLEDGER_TYPE + "',");
+                    sb.Append("NOTE='" + ac.NOTE + "',");
+                    sb.Append("NATURE='" + ac.NATURE + "',");
                     sb.Append("PL_BS='" + ac.PL_BS + "'");
                     _EzBusinessHelper.ExecuteNonQuery("update FNM_AC_COA set  " + sb + " where COMPANY_UID='" + ac.COMPANY_UID + "' and  CODE='" + ac.CODE + "' and Flag=0");
-                    _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Update FNMBranch", ac.CODE, Environment.MachineName);
+                    _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Update FNM_AC_COA", ac.CODE, Environment.MachineName);
 
                     ac.SaveFlag = true;
                     ac.ErrorMessage = string.Empty;
@@ -168,17 +169,16 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return ac;
         }
 
-        public FNM_AC_COA_VM EditFNMBranch(string CmpyCode, string BranchCode)
+        public FNM_AC_COA_VM EditFNM_AC_COA(string CmpyCode, string Code)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,STATE from FNMBRANCH where CMPYCODE='" + CmpyCode + "' and FNMBRANCH_CODE='" + BranchCode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_AC_COA where COMPANY_UID='" + CmpyCode + "' and CODE='" + Code + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FNM_AC_COA_VM ObjList = new FNM_AC_COA_VM();
             foreach (DataRow dr in drc)
             {
 
-                ObjList.COMPANY_UID = dr["COMPANY_UID"].ToString();
-                ObjList.FNM_AC_COA =Convert.ToDecimal( dr["FNM_AC_COA"].ToString());
+                ObjList.COMPANY_UID = dr["COMPANY_UID"].ToString();               
                 ObjList.CODE = dr["CODE"].ToString();
                 ObjList.NAME = dr["NAME"].ToString();
                 ObjList.Head_code = dr["Head_code"].ToString();
@@ -190,6 +190,91 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 ObjList.NOTE = dr["NOTE"].ToString();
                 ObjList.NATURE = dr["NATURE"].ToString();
                 ObjList.PL_BS = dr["PL_BS"].ToString();
+            }
+            return ObjList;
+        }
+
+        public List<FMHEAD> GetFMHEAD(string Cmpycode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMHEAD_CODE,DESCRIPTION from FMHEAD where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FMHEAD> ObjList = new List<FMHEAD>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FMHEAD()
+                {
+                    FNMHEAD_CODE = dr["FNMHEAD_CODE"].ToString(),
+                    DESCRIPTION = dr["DESCRIPTION"].ToString()
+                });
+            }
+            return ObjList;
+        }
+
+        public List<FNMGROUP> Getgroup_code(string Cmpycode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMGROUP_CODE,DESCRIPTION from FNMGROUP where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FNMGROUP> ObjList = new List<FNMGROUP>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FNMGROUP()
+                {                   
+                    FNMGROUP_CODE = dr["FNMGROUP_CODE"].ToString(),
+                    DESCRIPTION = dr["DESCRIPTION"].ToString()
+                });
+            }
+            return ObjList;
+        }
+
+        public List<FNMSUBGROUP> GetSUBGROUP(string Cmpycode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMSUBGROUP_CODE,DESCRIPTION from FNMSUBGROUP where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FNMSUBGROUP> ObjList = new List<FNMSUBGROUP>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FNMSUBGROUP()
+                {
+                    FNMSUBGROUP_CODE = dr["FNMSUBGROUP_CODE"].ToString(),
+                    DESCRIPTION = dr["DESCRIPTION"].ToString()
+                });
+            }
+            return ObjList;
+        }
+
+        public List<FNMTYPE> GetCOA_TYPEList(string Cmpycode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMTYPE_CODE,DESCRIPTION from FNMTYPE where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FNMTYPE> ObjList = new List<FNMTYPE>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FNMTYPE()
+                {
+                    FNMTYPE_CODE = dr["FNMTYPE_CODE"].ToString(),
+                    DESCRIPTION = dr["DESCRIPTION"].ToString()
+                });
+            }
+            return ObjList;
+        }
+
+        public List<FNMSUBGROUP> GetFNMSUBGROUP(string Cmpycode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMSUBGROUP_CODE,DESCRIPTION from FNMSUBGROUP where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FNMSUBGROUP> ObjList = new List<FNMSUBGROUP>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FNMSUBGROUP()
+                {
+                    FNMSUBGROUP_CODE = dr["FNMSUBGROUP_CODE"].ToString(),
+                    DESCRIPTION = dr["DESCRIPTION"].ToString()
+                });
             }
             return ObjList;
         }
