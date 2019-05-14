@@ -989,17 +989,15 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                         }
                     } else {
                         var title = '';//$(this).text();
-                        $(this).html('<input type="text"   placeholder="Search ' + title + '"  />');
+                        $(this).html('<input type="text"   placeholder="search' + title + '" style="Width:100px;border-radius:5px""/>');
                     }
-
-
                 });
                 // DataTable
                 var tableInstance = $(ide).DataTable({
                     "paging": true,
                     "ordering": true,
                     "info": true,
-                    //scrollX: '50vh',
+                   // scrollX:true,
                     //scrollCollapse: true,
                    
             
@@ -1010,9 +1008,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
                 tableInstance.columns().every(function () {
                     var that = this;
-
-                    $('input', this.footer()).on('keyup change', function (ev) {
-                        
+                    $('input', this.footer()).on('keyup change', function (ev) {                        
                         if (that.search() !== this.value) { //only on enter keypress (code 13)
                             that
                                 .search(this.value)
@@ -1020,7 +1016,6 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                         }
                     });
                 });
-
 
                 var r = $(idef);
                 r.find('td').each(function () {
@@ -1034,9 +1029,6 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
                 $('' + ide + '_length').hide();
                 $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
-
-             
-
             });
         }
         /*tbl class date formate DD/MM/YYYY get current */
