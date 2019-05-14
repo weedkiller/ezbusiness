@@ -12,10 +12,7 @@ using System.Configuration;
 using System.Transactions;
 
 namespace EzBusiness_DL_Repository
-{
-
-
-
+{ 
     public class StatusPayrollRepository : IStatusPayrollRepository
     {
         DataSet ds = null;
