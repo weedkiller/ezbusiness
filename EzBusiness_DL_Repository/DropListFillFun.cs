@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 
 using System.Configuration;
 using System.Globalization;
+using EzBusiness_EF_Entity.FreightManagementEF;
 
 namespace EzBusiness_DL_Repository
 {
@@ -672,6 +673,26 @@ namespace EzBusiness_DL_Repository
                     {
                         Code = dr["Code"].ToString(),
                         Name = dr["Name"].ToString(),
+                    });
+                }
+            }
+            return ObjList;
+        }
+        public List<FNM_CURRENCY> GetCurrencyList(string CmpyCode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select currency_code,currency_name from fnm_currency  ");
+            List<FNM_CURRENCY> ObjList = null;
+            if (ds.Tables.Count > 0)
+            {
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                ObjList = new List<FNM_CURRENCY>();
+                foreach (DataRow dr in drc)
+                {
+                    ObjList.Add(new FNM_CURRENCY()
+                    {
+                        CURRENCY_CODE = dr["currency_code"].ToString(),
+                        CURRENCY_NAME = dr["currency_name"].ToString(),
                     });
                 }
             }

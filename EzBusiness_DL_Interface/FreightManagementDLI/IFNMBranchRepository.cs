@@ -14,7 +14,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
     {
         List<FNMBranch> GetFNMBranch(string CmpyCode);
         List<Nation> GetNationList(string CmpyCode);
-
+        List<FNM_CURRENCY> GetCurrencyList(string CmpyCode);
         FNMBranch_VM SaveFNMBranch(FNMBranch_VM FH);
         //List<Country> GetNationList(string CmpyCode);
         bool DeleteFNMBranch(string FNMBranch_CODE, string CmpyCode, string UserName);

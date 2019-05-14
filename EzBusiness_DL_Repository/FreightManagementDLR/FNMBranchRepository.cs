@@ -36,9 +36,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         {
             return drop.GetNationList(CmpyCode);
         }
-        public List<Nation> GetCurrencyList(string CmpyCode)
+        public List<FNM_CURRENCY> GetCurrencyList(string CmpyCode)
         {
-            return drop.GetNationList(CmpyCode);
+            return drop.GetCurrencyList(CmpyCode);
         }
         public List<FNMBranch> GetFNMBranch(string CmpyCode)
         {
@@ -92,13 +92,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     int n = 0;
                     n = ObjList.Count;
 
-
-                    int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMBRANCH where CmpyCode='" + branch.CMPYCODE + "' and FNMBRANCH_CODE='" + branch.FNMBRANCH_CODE + "'");
+                    while (n > 0)
+                    {
+                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMBRANCH where CmpyCode='" + branch.CMPYCODE + "' and FNMBRANCH_CODE='" + branch.FNMBRANCH_CODE + "'");
                         if (Stats1 == 0)
                         {
                             StringBuilder sb = new StringBuilder();
-                           
-                            sb.Append("'" + ObjList[n-1].FNMBRANCH_CODE + "',");
+
+                            sb.Append("'" + ObjList[n - 1].FNMBRANCH_CODE + "',");
                             sb.Append("'" + branch.CMPYCODE + "',");
                             sb.Append("'" + ObjList[n - 1].DESCRIPTION + "',");
                             sb.Append("'" + ObjList[n - 1].SNO + "',");
@@ -110,7 +111,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + ObjList[n - 1].CURRENCY + "',");
                             sb.Append("'" + ObjList[n - 1].COUNTRY + "',");
                             sb.Append("'" + ObjList[n - 1].STATE + "')");
-                         
+
                             _EzBusinessHelper.ExecuteNonQuery("insert into FNMBRANCH(FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,STATE) values(" + sb.ToString() + "");
                             _EzBusinessHelper.ActivityLog(branch.CMPYCODE, branch.UserName, "Add FN Category", branch.FNMBRANCH_CODE, Environment.MachineName);
                             branch.SaveFlag = true;
@@ -118,11 +119,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         }
                         else
                         {
-                        Drecord.Add(branch.FNMBRANCH_CODE.ToString());
-                      //  branch.Drecord = Drecord;
-                        branch.SaveFlag = false;
+                            Drecord.Add(branch.FNMBRANCH_CODE.ToString());
+                            //  branch.Drecord = Drecord;
+                            branch.SaveFlag = false;
                             branch.ErrorMessage = "Duplicate Record";
                         }
+                        n = n - 1;
+                    }
+                  
                     return branch;
                 }
                 var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNMBRANCH where CmpyCode='" + branch.CMPYCODE + "' and FNMBRANCH_CODE='" + branch.FNMBRANCH_CODE + "'and Flag=0");

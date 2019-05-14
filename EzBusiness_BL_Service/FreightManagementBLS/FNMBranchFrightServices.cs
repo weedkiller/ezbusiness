@@ -64,10 +64,10 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         }
         public List<SelectListItem> GetCurrencyCodes(string CmpyCode)
         {
-            var CurrencyList = _FNMBranchRepo.GetCurrencyCodes(CmpyCode)
-                                        .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
+            var CurrencyList = _FNMBranchRepo.GetCurrencyList(CmpyCode)
+                                        .Select(m => new SelectListItem { Value = m.CURRENCY_CODE, Text = string.Concat(m.CURRENCY_CODE, " - ", m.CURRENCY_NAME) })
                                         .ToList();
-            return InsertFirstElementDDL(GetCurrencyCodes);
+            return InsertFirstElementDDL(CurrencyList);
         }
         public FNMBranch_VM SaveFNMBranch(FNMBranch_VM FC)
         {
