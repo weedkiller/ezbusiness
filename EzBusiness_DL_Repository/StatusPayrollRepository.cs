@@ -18,6 +18,7 @@ namespace EzBusiness_DL_Repository
         DataSet ds = null;
         DataTable dt = null;
 
+
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
 
         public bool DeleteStats(string Code, string CmpyCode, string username)
