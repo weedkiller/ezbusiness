@@ -110,11 +110,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb.Append("'" + dtstr1 + "',");
                         sb.Append("'" + ac.COA_TYPE + "',");
                         sb.Append("'" + ac.SUBLEDGER_TYPE + "',");
+                        sb.Append("'"+ ac.SUBLEDGER_CAT + "',");
                         sb.Append("'" + ac.MASTER_STATUS + "',");
                         sb.Append("'" + ac.NOTE + "',");
                         sb.Append("'" + ac.NATURE + "',");
                         sb.Append("'" + ac.PL_BS + "')");
-                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(company_UID,CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_TYPE,SUBLEDGER_TYPE,MASTER_STATUS,NOTE,NATURE,PL_BS) values(" + sb.ToString() + "");
+                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(company_UID,CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_TYPE,SUBLEDGER_TYPE,SUBLEDGER_CAT,MASTER_STATUS,NOTE,NATURE,PL_BS) values(" + sb.ToString() + "");
                         _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Add FNM_AC_COA", ac.CODE, Environment.MachineName);
                         ac.SaveFlag = true;
                         ac.ErrorMessage = string.Empty;
@@ -143,6 +144,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     sb.Append("UPDATED_ON='" + dtstr1 + "',");
                     sb.Append("COA_TYPE='" + ac.COA_TYPE + "',");
                     sb.Append("SUBLEDGER_TYPE='" + ac.SUBLEDGER_TYPE + "',");
+                    sb.Append("SUBLEDGER_CAT='" + ac.SUBLEDGER_CAT + "',");
                     sb.Append("NOTE='" + ac.NOTE + "',");
                     sb.Append("NATURE='" + ac.NATURE + "',");
                     sb.Append("PL_BS='" + ac.PL_BS + "'");
