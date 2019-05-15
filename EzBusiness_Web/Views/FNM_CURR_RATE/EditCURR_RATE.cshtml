@@ -1,0 +1,226 @@
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.FNM_CURR_RATE_VM
+
+@{
+
+    var counter = 1;
+}
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        arr1 = [];
+
+
+
+        $('.selectpicker').selectpicker('refresh');
+        EzdtePkEdit('#ENTRY_DATE1', "#ENTRY_DATE", "DD/MM/YYYY");
+
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
+
+
+
+
+        
+    });
+
+
+
+
+
+</script>
+
+
+<!-- Row start -->
+<div class="row">
+    <!--updated code-->
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel-body" style="margin-left:10px;">
+            <div class="tabbable-line boxless tabbable-reversed" id="DRContainer">
+                <div class="custom-form-wrapper">
+                    <div id="DRContainer">
+                        <div class="row">
+                            <div class="custom-form-wrapper">
+                                <!-- BEGIN FORM-->
+                                <div class="form-horizontal">
+                                    <div class="form-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">From Currency Code<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.DropDownListFor(m => m.FROM_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <!--/span-->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">To Currency Code<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.DropDownListFor(m => m.TO_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label class="control-label col-md-3">Entry Date<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+
+                                                        <input id="ENTRY_DATE1" class="form-control datepicker" name="ENTRY_DATE1" />
+                                                        @Html.HiddenFor(m => m.ENTRY_DATE, new { htmlAttributes = new { @class = "date1" } })
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label class="control-label col-md-3">Sell Rate<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.SELL_RATE, new { @class = "form-control", @Type = "Number" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3"> Buy Rate<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.BUY_RATE, new { @class = "form-control", @Type = "Number" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Master Status<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.MASTER_STATUS, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Note<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.Note, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><br />
+                                    <!-- END FORM-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Purchase Request List Start-->
+
+
+        <script>
+            $(document).ready(function () {
+                $(".alert-close").click(function () {
+                    $("#editshow").hide();
+                });
+            });
+        </script>
+
+
+
+        <!-- Purchase Request List End -->
+        <!-- Row end -->
+    </div>
+
+
+</div>
+
+
+<br />
+
+
+<div class="">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">History</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <br /><br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="overflow-x:auto;">
+                        <table class="table table-bordered table-hover" id="tblFNMCURRATE">
+                            <thead>
+                                <tr class="tr">
+                                    <th>
+                                        @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @data_live_search = "true" })*@
+                                        @Html.DisplayNameFor(model => model.ENTRY_DATE)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.BUY_RATE)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SELL_RATE)
+                                    </th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+    @foreach (var item in Model.FNM_CURRENCYRateDetailNew)
+    {
+        <tr>
+
+            <td>
+                @Html.TextBox(string.Concat("CURENTRY_DATE", counter), Convert.ToDateTime(item.ENTRY_DATE).ToString("dd/MM/yyyy") , new { @class = "grid-control", @disabled = "disabled" })
+
+
+                </td>
+            <td>
+                @Html.TextBox(string.Concat("CURBUY_RATE", counter), item.BUY_RATE, new { @class = "grid-control", @disabled = "disabled" })
+            </td>
+            <td>
+                @Html.TextBox(string.Concat("CURSELL_RATE", counter), item.SELL_RATE, new { @class = "grid-control", @disabled = "disabled" })
+            </td>
+            
+                </tr>
+                }
+    </tbody>
+                        </table>
+                        @Html.Hidden("Counter", counter)
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

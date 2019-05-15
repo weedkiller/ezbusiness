@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +14,11 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string UPDATED_BY { get; set; }
         public DateTime UPDATED_ON { get; set; }
         public Decimal FNM_CURRENCY_UID { get; set; }
+        [DisplayName("Code")]
         public string CURRENCY_CODE { get; set; }
+        [DisplayName("Name")]
         public string CURRENCY_NAME { get; set; }
+        [DisplayName("Master Status")]
         public string MASTER_STATUS { get; set; }
         public string Note { get; set; }
 

@@ -10,23 +10,19 @@ using System.Web.Mvc;
 
 namespace EzBusiness_Web.Controllers.FMHEAD
 {
-    public class FNM_CURRENCYController : Controller
+    public class FFM_CLAUSEController : Controller
     {
-        // GET: FNM_CURRENCY
+        IFMM_CLAUSE_FrightService _ClauseService;
 
-
-        IFNM_CURRENCYService _CURRService;
-
-        public FNM_CURRENCYController()
+        public FFM_CLAUSEController()
         {
-            _CURRService = new FNM_CURRENCYService();
+            _ClauseService = new FFM_CLAUSEFrightService();
         }
 
-        #region CURRENC Master
-        [Route("CURRENCYMaster")]
-        public ActionResult FNM_CURRENCY(string CmpyCode)
+        #region FFM_CLAUSE Master
+        [Route("FFM_CLAUSEMaster")]
+        public ActionResult FFM_CLAUSE(string CmpyCode)
         {
-            
 
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -36,7 +32,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             else
             {
 
-                return View(_CURRService.GetFNM_CURRENCY(list[0].CmpyCode));
+                return View(_ClauseService.GetFFM_CLAUSE(list[0].CmpyCode));
             }
         }
 
@@ -44,7 +40,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
 
         [HttpPost]
         //[Route("SaveFNMBranch")]
-        public ActionResult SaveFNM_CURRENCY(FNM_CURRENCY_VM Fcur)
+        public ActionResult saveFFM_CLAUSE(FFM_CLAUSE_VM Fcur)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -55,14 +51,12 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             {
                 Fcur.CMPYCODE = list[0].CmpyCode;
                 Fcur.UserName = list[0].user_name;
-                return Json(_CURRService.SaveFNM_CURRENCY(Fcur), JsonRequestBehavior.AllowGet);
+                return Json(_ClauseService.SaveFFM_CLAUSE(Fcur), JsonRequestBehavior.AllowGet);
             }
         }
 
-
-
-        [Route("DeleteFNM_CURRENCY")]
-        public ActionResult DeleteFNM_CURRENCY(string CURRENCYCode)
+        [Route("DeleteFFM_CLAUSE")]
+        public ActionResult DeleteFFM_CLAUSE(string FFM_CLAUSE_Code)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -71,12 +65,12 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(new { DeleteFlag = _CURRService.DeleteFNM_CURRENCY(CURRENCYCode, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _ClauseService.DeleteFFM_CLAUSE(FFM_CLAUSE_Code, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
-        [Route("EditFNM_CURRENCY")]
-        public ActionResult EditFNM_CURRENCY(string CURRENCYCode)
+        [Route("EditFFM_CLAUSE")]
+        public ActionResult EditFFM_CLAUSE(string FFM_CLAUSE_Code)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -85,10 +79,8 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(_CURRService.EditFNM_CURRENCY(list[0].CmpyCode, CURRENCYCode), JsonRequestBehavior.AllowGet);
+                return Json(_ClauseService.EditFFM_CLAUSE(list[0].CmpyCode, FFM_CLAUSE_Code), JsonRequestBehavior.AllowGet);
             }
         }
-
-        
     }
 }
