@@ -4,7 +4,6 @@
     ViewBag.Title = "FNMBranch";
     var counter = 1;
 }
-
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
  $(function () {
@@ -12,7 +11,7 @@
         EzAuthentication("/Branch_Master");
         var n = EzAuthenticationBtn("/Branch_Master", "ViewIt");
         if (n == 1) {
-            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
+            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td",false, "#tblUnits thead");
             $('#tblUnits').show();
         } else {
             $('#tblUnits').hide();
@@ -20,13 +19,11 @@
     });
 </script>
 <script>
-    var Doks = [];
-   
-    $(function () {
+    var Doks = [];   
+    $(function (){
         debugger;
-        $("#tblUnits1").hide();
-      
-        $("#btnAdd").click(function () {
+        $("#tblUnits1").hide();      
+        $("#btnAdd").click(function () {          
             var n = EzAuthenticationBtn("/Branch_Master", "NewIt");
             if (n == 1) {
                 $("#tbldiv").hide();
@@ -66,8 +63,9 @@
         GetCurrencyCodes();
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtFNMBRANCH_CODE']", function () {
+            debugger;
             var tr = $(this).closest('tr');
-
+            var tcunt=$("#tblUnits1").find("tr").length;
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -84,9 +82,9 @@
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'txtFNMBRANCH_CODE']").val('');
                 tr.find("[name *= 'txtSNO']").val('');
-
             }
             else {
+                debugger;
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
                     tr.clone(true, true).insertAfter(tr);
@@ -94,6 +92,7 @@
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
                     $(this).closest('tr').next('tr').find("[name*='txtFNMBRANCH_CODE']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtSNO']").val(tcunt);
                     trLast.find("[name *= 'txtFNMBRANCH_CODE']").attr({
                         "name": ("txtFNMBRANCH_CODE" + counter)
                     });
@@ -132,8 +131,7 @@
                     trLast.find("[name *= 'txtSNO']").attr({
                         "name": ("txtSNO" + counter)
                     });
-
-
+                    trLast.find("[name *= 'txtSNO']").val(counter);
                     trLast.find(":first").text(counter);
                 }
             }
@@ -162,7 +160,6 @@
                 }
             });
         }
-
         function GetCurrencyCodes() {
             debugger;
             var index = 1;
@@ -188,6 +185,7 @@
         }
         /*Refresh */
         $("#btnCancel").click(function () {
+            location.reload();
             $("#dcm").hide();
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
@@ -247,14 +245,18 @@
             if (validationResult.formValid) {
                 $.post("/FNMBranch/SaveFNMBranch", brnch).done(function (response) {
                     if (response.Drecord == null) {
-
-                        response.Drecord = 0;
-                        $("#tbldiv").show();
-
+                        if(response.SaveFlag==true)
+                        {
+                            response.Drecord = 0;
+                            $("#tbldiv").show();
+                            $("#tblUnits1").hide();
+                            EzAlertSave();
+                           
+                        }
+                        location.reload();
                     }
                     $("#tblUnits1 tbody tr").each(function (index, item) {
                         var tr = $(this).closest("tr");
-
                         var FNMBRANCH_CODEAdd = $(tr).find("[name*='txtFNMBRANCH_CODE']").val().trim();
                         var DESCRIPTIONAdd = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
                         var SNOAdd = $(tr).find("[name*='txtSNO']").val().trim();
@@ -414,7 +416,6 @@
                         COUNTRYTd.text(response.COUNTRY);
                         STATETd.text(response.STATE);
 
-
                         hdnEditMode.val("false");
                         editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
                         editButton.attr('title', 'Edit');
@@ -440,8 +441,6 @@
                     var STATE = $(tr).find("td:eq(10)").text();
 
                     $('#inpdocname').val(DESCRIPTION.trim());
-
-
 
                     DESCRIPTIONTd.html("<input type='text' name='txtDESCRIPTION" + index + "' value='" + DESCRIPTION.trim() + "' />");
                     PRINTNAMETd.html("<input type='text' name='txtPRINTNAME" + index + "' value='" + PRINTNAME.trim() + "' />");
@@ -560,7 +559,6 @@
             $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
             $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
             $("#btnAdd").prop('disabled', false);
-
         }
     }
 </script>
@@ -576,7 +574,6 @@ $(document).ready(function(){
 
 <br />
 
-
 <div class="title-action">
     <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
     <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
@@ -590,7 +587,7 @@ $(document).ready(function(){
         <input id="inpdocname" type="hidden" />
         <div class="row" id="dcm">
             <div class="col-sm-2">
-                <label><b>Company Code :</b></label>
+              <label><b>Company Code :</b></label>
             </div>
             <div class="col-sm-2">
                 <input id="txtcmpycode" type="text" readonly="readonly" />
@@ -624,25 +621,28 @@ $(document).ready(function(){
                         @Html.DisplayNameFor(model => model.WEBSITE)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.CURRENCY)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.COUNTRY)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CURRENCY)
+                    </th>
+                   
                     <th>
                         @Html.DisplayNameFor(model => model.STATE)
                     </th>
                     <th></th>
                 </tr>
             </thead>
-
-
             <tbody>
-                <tr>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtSNO", counter), null, new { @class = "grid-control" })
-                        </div>
+                     @{int RowNo = 1;}
+                    <tr>
+                        <td>
+                            <div class="grid-group">
+                                @*@RowNo*@
+                                @Html.TextBox(string.Concat("txtSNO",counter), @RowNo, new { @class = "grid-control" })
+                          
+                              @*@Html.Hidden("txtrownuber",RowNo)*@
+                    </div>
                     </td>
                     <td>
                         <div class="grid-group">
@@ -700,12 +700,14 @@ $(document).ready(function(){
                         </div>
                     </td>
                 </tr>
+
             </tbody>
         </table>
-        <div class="col-md-12 portal-drivers">
+        <div class="col-md-12">
             <div id="tbldiv">
-                <table class="table table-bordered" id="tblUnits">
+                <table class="table table-bordered portal-drivers" id="tblUnits">
                     <thead>
+
                         <tr class="tr">
                             <th>
                                 @Html.DisplayNameFor(model => model.SNO)
@@ -746,11 +748,12 @@ $(document).ready(function(){
                             <th></th>
 
                         </tr>
+
                     </thead>
                     <tfoot>
                         <tr class="tr">
                             <td>
-                                @Html.DisplayNameFor(model => model.SNO)
+                                @*@Html.DisplayNameFor(model => model.SNO)*@
                             </td>
                             <td>
                                 @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
@@ -785,12 +788,13 @@ $(document).ready(function(){
                             <td></td>
                         </tr>
                     </tfoot>
-                    <tbody style="overflow:scroll">
+                    <tbody>
+                        @{int RowNoss = 0;}
                         @foreach (var item in Model)
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.SNO)
+                                 @{RowNoss++;} @RowNoss
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.FNMBRANCH_CODE)

@@ -62,14 +62,13 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                                         .ToList();
             return InsertFirstElementDDL(CountryList);
         }
-        //public List<SelectListItem> GetCurrencyCodes(string CmpyCode)
-        //{
-        //    //var CurrencyList = _FNMBranchRepo.GetCurrencyCodes(CmpyCode)
-        //    //                            .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
-        //    //                            .ToList();
-        //    //return InsertFirstElementDDL(GetCurrencyCodes);
-        //    return ;
-        //}
+        public List<SelectListItem> GetCurrencyCodes(string CmpyCode)
+        {
+            var CurrencyList = _FNMBranchRepo.GetCurrencyList(CmpyCode)
+                                        .Select(m => new SelectListItem { Value = m.CURRENCY_CODE, Text = string.Concat(m.CURRENCY_CODE, " - ", m.CURRENCY_NAME) })
+                                        .ToList();
+            return InsertFirstElementDDL(CurrencyList);
+        }
         public FNMBranch_VM SaveFNMBranch(FNMBranch_VM FC)
         {
             return _FNMBranchRepo.SaveFNMBranch(FC);
@@ -79,10 +78,6 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             return _FNMBranchRepo.EditFNMBranch(CmpyCode, BranchCode);
            
         }
-
-        public List<SelectListItem> GetCurrencyCodes(string CmpyCode)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }
