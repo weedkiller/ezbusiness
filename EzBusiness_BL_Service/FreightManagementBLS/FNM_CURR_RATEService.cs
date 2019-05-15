@@ -32,7 +32,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         {
             var FNM_AC_COAEdit = _FNM_CURR_RATERep.EditFNM_CURR_RATE(CmpyCode, FROM_CURRENCY_CODE,ENTRY_DATE);
             FNM_AC_COAEdit.FROM_CURRENCY_CODEList   = GetFNMCURRENCY();
-            FNM_AC_COAEdit.FNM_CURRENCYRateDetailNew = GetCURRENCYRateDetailList(CmpyCode,FROM_CURRENCY_CODE);  
+            FNM_AC_COAEdit.FNM_CURRENCYRateDetailNew = GetCURRENCYRateDetailList1(CmpyCode,FROM_CURRENCY_CODE, ENTRY_DATE);  
             return FNM_AC_COAEdit;
         }
 
@@ -91,6 +91,16 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 BUY_RATE=m.BUY_RATE,
                 SELL_RATE=m.SELL_RATE,
                 ENTRY_DATE=m.ENTRY_DATE
+            }).ToList();
+        }
+
+        public List<FNM_CURRENCYRateDetailNew> GetCURRENCYRateDetailList1(string CmpyCode, string FROM_CURRENCY_CODE,DateTime ENTRY_DATE1)
+        {
+            return _FNM_CURR_RATERep.GetCURRENCYRateDetailList(CmpyCode, FROM_CURRENCY_CODE).Where(x => x.ENTRY_DATE.ToString("d/M/yyyy") != ENTRY_DATE1.ToString("d/M/yyyy")).Select(m => new FNM_CURRENCYRateDetailNew
+            {
+                BUY_RATE = m.BUY_RATE,
+                SELL_RATE = m.SELL_RATE,
+                ENTRY_DATE = m.ENTRY_DATE
             }).ToList();
         }
     }

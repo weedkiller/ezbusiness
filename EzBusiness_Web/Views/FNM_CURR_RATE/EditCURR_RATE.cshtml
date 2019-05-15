@@ -24,6 +24,10 @@
             $(this).attr('autocomplete', 'off');
         });
 
+
+
+
+        
     });
 
 
@@ -78,6 +82,7 @@
                                                     <div class="col-md-9 input-field">
 
                                                         <input id="ENTRY_DATE1" class="form-control datepicker" name="ENTRY_DATE1" />
+                                                        @Html.HiddenFor(m => m.ENTRY_DATE, new { htmlAttributes = new { @class = "date1" } })
                                                     </div>
 
                                                 </div>
@@ -195,13 +200,15 @@
         <tr>
 
             <td>
-                @Html.TextBox(string.Concat("CURENTRY_DATE", counter), null, new { @class = "grid-control", @disabled = "disabled" })
+                @Html.TextBox(string.Concat("CURENTRY_DATE", counter), Convert.ToDateTime(item.ENTRY_DATE).ToString("dd/MM/yyyy") , new { @class = "grid-control", @disabled = "disabled" })
+
+
                 </td>
             <td>
-                @Html.TextBox(string.Concat("CURBUY_RATE", counter), null, new { @class = "grid-control", @disabled = "disabled" })
+                @Html.TextBox(string.Concat("CURBUY_RATE", counter), item.BUY_RATE, new { @class = "grid-control", @disabled = "disabled" })
             </td>
             <td>
-                @Html.TextBox(string.Concat("CURSELL_RATE", counter), null, new { @class = "grid-control", @disabled = "disabled" })
+                @Html.TextBox(string.Concat("CURSELL_RATE", counter), item.SELL_RATE, new { @class = "grid-control", @disabled = "disabled" })
             </td>
             
                 </tr>

@@ -106,15 +106,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb.Append("'" + ac.SUBGROUP_code + "',");
                         sb.Append("'" + ac.UserName + "',");
                         sb.Append("'" + dtstr1 + "',");
-                        //sb.Append("'" + ac.UPDATED_BY + "',");
-                        //sb.Append("'" + ac.UPDATED_ON + "',");
+                        sb.Append("'" + ac.UserName + "',");
+                        sb.Append("'" + dtstr1 + "',");
                         sb.Append("'" + ac.COA_TYPE + "',");
                         sb.Append("'" + ac.SUBLEDGER_TYPE + "',");
                         sb.Append("'" + ac.MASTER_STATUS + "',");
                         sb.Append("'" + ac.NOTE + "',");
                         sb.Append("'" + ac.NATURE + "',");
                         sb.Append("'" + ac.PL_BS + "')");
-                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(company_UID,CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,COA_TYPE,SUBLEDGER_TYPE,MASTER_STATUS,NOTE,NATURE,PL_BS) values(" + sb.ToString() + "");
+                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(company_UID,CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_TYPE,SUBLEDGER_TYPE,MASTER_STATUS,NOTE,NATURE,PL_BS) values(" + sb.ToString() + "");
                         _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Add FNM_AC_COA", ac.CODE, Environment.MachineName);
                         ac.SaveFlag = true;
                         ac.ErrorMessage = string.Empty;

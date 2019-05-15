@@ -106,11 +106,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb.Append("'" + ObjList[n - 1].MASTER_STATUS + "',");
                         sb.Append("'" + FCur.UserName + "',");
                         sb.Append("'" + dtstr1 + "',");
-                        sb.Append("'-',");
+                        sb.Append("'" + FCur.UserName + "',");
                         sb.Append("'" + dtstr1 + "')");
                        
                         _EzBusinessHelper.ExecuteNonQuery("insert into FNM_CURRENCY(CURRENCY_CODE,CURRENCY_NAME,Note,MASTER_STATUS,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON) values(" + sb.ToString() + "");
-                        _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FN Currency", FCur.CURRENCY_CODE, Environment.MachineName);
+                        _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FN Currency", ObjList[n - 1].CURRENCY_CODE, Environment.MachineName);
                         FCur.SaveFlag = true;
                         FCur.ErrorMessage = string.Empty;
                     }
