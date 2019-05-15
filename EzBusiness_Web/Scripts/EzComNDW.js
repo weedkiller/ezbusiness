@@ -999,20 +999,17 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                     "info": true,
                    // scrollX:true,
                     //scrollCollapse: true,
-                   
-            
                 });
                 //if (lk == true) {
                 //    $("#tblUnits_length").hide();
                 //}
-
                 tableInstance.columns().every(function () {
-                    var that = this;
+                   var that = this;
                     $('input', this.footer()).on('keyup change', function (ev) {                        
                         if (that.search() !== this.value) { //only on enter keypress (code 13)
                             that
-                                .search(this.value)
-                                .draw();
+                              .search(this.value)
+                              .draw();
                         }
                     });
                 });
