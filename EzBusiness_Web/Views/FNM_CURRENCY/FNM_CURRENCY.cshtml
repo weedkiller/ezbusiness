@@ -46,10 +46,10 @@
 
 
         /*Code Tab Event*/
-        EztableTabEve("#tblUnits1", "[name*='txtCURRENCY_CODE']", "[name *= 'txtCURRENCY_CODE']", "Please Enter FNMHEAD_CODE", 'T', "");
+        EztableTabEve("#tblUnits1", "[name*='txtCURRENCY_CODE']", "[name *= 'txtCURRENCY_NAME']", "Please Enter FNMHEAD_CODE", 'T', "");
 
 
-        EztableTabEve("#tblUnits1", "[name*='txtCURRENCY_CODE']", "[name *= 'txtMASTER_STATUS']", "Please Enter CURRENCY_CODE", 'T', "");
+        EztableTabEve("#tblUnits1", "[name*='txtCURRENCY_NAME']", "[name *= 'txtMASTER_STATUS']", "Please Enter CURRENCY_CODE", 'T', "");
 
         EztableTabEve("#tblUnits1", "[name*='txtMASTER_STATUS']", "[name *= 'txtNOTE']", "Please Enter MASTER_STATUS", 'T', "");
 
@@ -136,7 +136,7 @@
         $("#btnSave").click(function () {
 
             var Fcur = {
-                FNM_CURRENCYDetailsnew: []
+                FNM_CURRENCYDetailNew: []
             };
             $("#tblUnits1 tbody tr").each(function (index, item) {
 
@@ -151,8 +151,8 @@
                     var FNM_CURRENCYDetail = {
                         CURRENCY_CODE:CURRENCY_CODE,
                         CURRENCY_NAME:CURRENCY_NAME,                   
-                    MASTER_STATUS:MASTER_STATUS,
-                    NOTE:NOTE,
+                       MASTER_STATUS:MASTER_STATUS,
+                       Note: NOTE,
                                         };
                     Fcur.FNM_CURRENCYDetailNew.push(FNM_CURRENCYDetail);
                 }
@@ -179,13 +179,13 @@
                         if (response.Drecord.length > 0) {
                             var ary1 = [];
                             ary1 = response.Drecord;
-                            if ($.inArray(CURRENCY_CODEAdd, ary1) < 0 && CURRENCY_CODEAdd != '' && CURRENCY_CODEAdd != '') {
+                            if ($.inArray(CURRENCY_CODE, ary1) < 0 && CURRENCY_CODE != '' && CURRENCY_NAME != '') {
                                 $(this).closest('tr').remove();
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
 
-                                var newRow = "<tr><td>" + CURRENCY_CODEAdd + "</td><td>" + CURRENCY_CODEAdd + "</td><td>" + MASTER_STATUSAdd + "</td><td>" + NOTEAdd + "</td><td>" + EMAILAdd + "</td><td>" + WEBSITEAdd + "</td><td>" + MOBILEAdd + "</td><td>" + CURRENCYAdd + "</td><td>" + COUNTRYAdd + "</td><td>" + STATEAdd +
-                                    "</td> ";
+                                var newRow = "<tr><td>" + CURRENCY_CODE + "</td><td>" + CURRENCY_NAME + "</td><td>" + MASTER_STATUS + "</td><td>" + NOTE + "</td>";
+                                    
                                 //newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
                                 //    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
                                 //    "'></td></tr>";
@@ -204,16 +204,15 @@
                         else {
                             $("#tblUnits1 tbody").find("tr:not(:last)").remove();
                             $("[name*='txtCURRENCY_CODE']").val();
-                            $("[name*='txtCURRENCY_CODE']").val();
+                           // $("[name*='txtCURRENCY_CODE']").val();
 
 
                             $("#tblUnits1").hide();
 
-                            if (CURRENCY_CODEAdd != '' && CURRENCY_CODEAdd != '') {
+                            if (CURRENCY_CODE != '' && CURRENCY_NAME != '') {
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
-                                var newRow = "<tr><td>" + CURRENCY_CODEAdd + "</td><td>" + CURRENCY_CODEAdd + "</td><td>" + MASTER_STATUSAdd + "</td><td>" + NOTEAdd + "</td><td>" + EMAILAdd + "</td><td>" + WEBSITEAdd + "</td><td>" + MOBILEAdd + "</td><td>" + CURRENCYAdd + "</td><td>" + COUNTRYAdd + "</td><td>" + STATEAdd +
-                                   "</td> ";
+                                var newRow = "<tr><td>" + CURRENCY_CODE + "</td><td>" + CURRENCY_NAME + "</td><td>" + MASTER_STATUS + "</td><td>" + NOTE + "</td> ";
                                 newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
                                     "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
                                     "'></td></tr>";
@@ -243,7 +242,7 @@
                 formValid: false
             };
 
-            if (Fcur.FNM_CURRENCYDetailsnew.length == 0) {
+            if (Fcur.FNM_CURRENCYDetailNew.length == 0) {
                 response.ErrorMessage += "Please Enter atleast One Branch code Details";
             }
             if (response.ErrorMessage.length == 0) {
@@ -273,36 +272,34 @@
                 var CURRENCY_NAMETd = $(tr).find("td:eq(1)");
                 var MASTER_STATUSTd = $(tr).find("td:eq(2)");
                 var NOTETd = $(tr).find("td:eq(3)");
+
+               
                
                 var editButton = $(this);
 
                 if (hdnEditMode.val() == "true") {
+                    debugger;
                     var CURRENCY_NAMEEdit = $(tr).find("[name*='txtCURRENCY_NAME']").val().trim();
                     var MASTER_STATUSEdit = $(tr).find("[name*='txtMASTER_STATUS']").val().trim();
                     var NOTEEdit = $(tr).find("[name*='txtNOTE']").val().trim();
-                  
+                    var CURRENCY_CODEEdit = $(tr).find("td:eq(0)").text().trim();
 
-                    var Fcur = {                       
-                        CURRENCY_CODE: CURRENCY_CODEEdit,                        
-                        CURRENCY_NAME:CURRENCY_NAMEEdit,
+                    var Fcur = {
+                        CURRENCY_CODE: CURRENCY_CODEEdit,
+                        CURRENCY_NAME: CURRENCY_NAMEEdit,
                         MASTER_STATUS: MASTER_STATUSEdit,
-                        NOTE: NOTEEdit,
-                                           };
+                        Note: NOTEEdit
+                    };
 
                     $.post("/FNM_CURRENCY/SaveFNM_CURRENCY", Fcur).done(function (response) {
-                        CURRENCY_NAMETd.text(response.CURRENCY_NAME);
-                        CURRENCY_CODETd.text(response.CURRENCY_CODE);
+                        CURRENCY_NAMETd.text(response.CURRENCY_NAME);                        
                         MASTER_STATUSTd.text(response.MASTER_STATUS);
-                        NOTETd.text(response.NOTE);
-                      
-
-
+                        NOTETd.text(response.Note);                      
                         hdnEditMode.val("false");
                         editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
                         editButton.attr('title', 'Edit');
                         tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                         tr.find("[name^='Delete']").attr('title', 'Delete');
-
                         tableDis("F");
                         EzAlertUpd(hdnDocCode);
                     });
@@ -311,12 +308,14 @@
                     });
                 } else {
                     debugger;
+                    var CURRENCY_CODE = $(tr).find("td:eq(0)").text();
                     var CURRENCY_NAME = $(tr).find("td:eq(1)").text();
                     var MASTER_STATUS = $(tr).find("td:eq(2)").text();
                     var NOTE = $(tr).find("td:eq(3)").text();
                    
-                    $('#inpdocname').val(CURRENCY_CODE.trim());
-
+                    $('#inpdocname').val(CURRENCY_NAME.trim());
+                    $('#hdnMstatus').val(MASTER_STATUS.trim());
+                    $('#hdnNote').val(NOTE.trim());
 
 
                     CURRENCY_NAMETd.html("<input type='text' name='txtCURRENCY_NAME" + index + "' value='" + CURRENCY_NAME.trim() + "' />");
@@ -405,9 +404,18 @@
                 else {
                     var nameTd = $(tr).find("td:eq(1)");
 
+                    var MasterStatusTd = $(tr).find("td:eq(2)");
+                    var NoteTd = $(tr).find("td:eq(3)");
+
                     var nameEdit = $('#inpdocname').val();
+
+                    var MstatusEdit = $('#hdnMstatus').val();
+                    var NoteEdit = $('#hdnNote').val();
+
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
                     nameTd.html(nameEdit);
+                    MasterStatusTd.html(MstatusEdit);
+                    NoteTd.html(NoteEdit);
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
                     $(this).html('<span class="glyphicon glyphicon-trash"></span>');
@@ -454,7 +462,8 @@ $(document).ready(function(){
     <input type="hidden" id="hdnOperationMode" value="" />
 
 </div>
-
+<input id="hdnMstatus" type="hidden" />
+<input id="hdnNote" type="hidden" />
 <div class="panel panel-default">
     <div class="panel-body">
         <input id="inpdocname" type="hidden" />
@@ -490,7 +499,7 @@ $(document).ready(function(){
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtCURRENCY_CODE", counter), null, new { @class = "grid-control" })
+                            @Html.TextBox(string.Concat("txtCURRENCY_NAME", counter), null, new { @class = "grid-control" })
                         </div>
                     </td>
                     <td>
@@ -520,7 +529,7 @@ $(document).ready(function(){
                                 @Html.DisplayNameFor(model => model.CURRENCY_CODE)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.CURRENCY_CODE)
+                                @Html.DisplayNameFor(model => model.CURRENCY_NAME)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.MASTER_STATUS)
@@ -542,7 +551,7 @@ $(document).ready(function(){
                                 @Html.DisplayNameFor(model => model.CURRENCY_CODE)
                             </td>
                             <td>
-                                @Html.DisplayNameFor(model => model.CURRENCY_CODE)
+                                @Html.DisplayNameFor(model => model.CURRENCY_NAME)
                             </td>
                             <td>
                                 @Html.DisplayNameFor(model => model.MASTER_STATUS)
@@ -565,7 +574,7 @@ $(document).ready(function(){
                                     @Html.DisplayFor(modelItem => item.CURRENCY_CODE)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CURRENCY_CODE)
+                                    @Html.DisplayFor(modelItem => item.CURRENCY_NAME)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.MASTER_STATUS)

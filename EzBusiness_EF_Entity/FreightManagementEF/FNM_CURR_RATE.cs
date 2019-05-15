@@ -42,5 +42,6 @@ namespace EzBusiness_EF_Entity.FreightManagementEF
         public Decimal SELL_RATE { get; set; }
         public Decimal BUY_RATE { get; set; }
         public string MASTER_STATUS { get; set; }
-      }
+        public string Note { get; set; }
+    }
 }
