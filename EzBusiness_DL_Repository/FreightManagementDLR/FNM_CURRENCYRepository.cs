@@ -92,9 +92,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     }).ToList());
                     int n = 0;
                     n = ObjList.Count;
-
-
-                    int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNM_CURRENCY where CURRENCY_CODE='" + FCur.CURRENCY_CODE + "'");// CmpyCode='" + FCur.CMPYCODE + "' and
+                    while (n > 0)
+                    {
+                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNM_CURRENCY where CURRENCY_CODE='" + ObjList[n - 1].CURRENCY_CODE + "'");// CmpyCode='" + FCur.CMPYCODE + "' and
                     if (Stats1 == 0)
                     {
                         StringBuilder sb = new StringBuilder();
@@ -104,12 +104,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb.Append("'" + ObjList[n - 1].CURRENCY_NAME + "',");
                         sb.Append("'" + ObjList[n - 1].Note + "',");
                         sb.Append("'" + ObjList[n - 1].MASTER_STATUS + "',");
-                        sb.Append("'" + ObjList[n - 1].CREATED_BY + "',");
+                        sb.Append("'" + FCur.UserName + "',");
+                        sb.Append("'" + dtstr1 + "',");
+                        sb.Append("'-',");
                         sb.Append("'" + dtstr1 + "')");
-                        
-                        
-
-                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_CURRENCY(CURRENCY_CODE,CURRENCY_NAME,Note,MASTER_STATUS,CREATED_BY,CREATED_ON) values(" + sb.ToString() + "");
+                       
+                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_CURRENCY(CURRENCY_CODE,CURRENCY_NAME,Note,MASTER_STATUS,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON) values(" + sb.ToString() + "");
                         _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FN Currency", FCur.CURRENCY_CODE, Environment.MachineName);
                         FCur.SaveFlag = true;
                         FCur.ErrorMessage = string.Empty;
@@ -120,6 +120,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         //  branch.Drecord = Drecord;
                         FCur.SaveFlag = false;
                         FCur.ErrorMessage = "Duplicate Record";
+                    }
+                        n = n - 1;
                     }
                     return FCur;
                 }
@@ -132,7 +134,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     sb.Append("CURRENCY_NAME='" + FCur.CURRENCY_NAME + "',");                  
                     sb.Append("MASTER_STATUS='" + FCur.MASTER_STATUS + "',");
                     sb.Append("Note='" + FCur.Note + "',");
-                    sb.Append("UPDATED_BY='" + FCur.UPDATED_BY + "',");
+                    sb.Append("UPDATED_BY='" + FCur.UserName + "',");
                     sb.Append("UPDATED_ON='" + dtstr1 + "'");
                    
                     _EzBusinessHelper.ExecuteNonQuery("update FNM_CURRENCY set  " + sb + " where  CURRENCY_CODE='" + FCur.CURRENCY_CODE + "' and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and
