@@ -22,15 +22,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         {
             
             dte1 = Convert.ToDateTime(ENTRY_DATE);
-            dtstr2 = dte1.ToString("yyyy-MM-dd hh:mm:ss tt");
+            dtstr2 = dte1.ToString("yyyy-MM-dd");
 
-            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNM_CURR_RATE where CMPYCODE='" + CmpyCode + "' and FROM_CURRENCY_CODE='" + FROM_CURRENCY_CODE + "' and format(ENTRY_DATE,'yyyy-MM-dd hh:mm:ss tt')='" + dtstr2 +"'  and Flag=0");
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNM_CURR_RATE where CMPYCODE='" + CmpyCode + "' and FROM_CURRENCY_CODE='" + FROM_CURRENCY_CODE + "' and format(ENTRY_DATE,'yyyy-MM-dd')='" + dtstr2 +"'  and Flag=0");
             if (Grs != 0)
             {
 
                 _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FNM_CURR_RATE", FROM_CURRENCY_CODE, Environment.MachineName);
 
-                return _EzBusinessHelper.ExecuteNonQuery1("update FNM_CURR_RATE set Flag=1 where CMPYCODE='" + CmpyCode + "' and FROM_CURRENCY_CODE='" + FROM_CURRENCY_CODE + "'  and format(ENTRY_DATE,'yyyy-MM-dd hh:mm:ss tt')='" + dtstr2 + "' and Flag=0");
+                return _EzBusinessHelper.ExecuteNonQuery1("update FNM_CURR_RATE set Flag=1 where CMPYCODE='" + CmpyCode + "' and FROM_CURRENCY_CODE='" + FROM_CURRENCY_CODE + "'  and format(ENTRY_DATE,'yyyy-MM-dd')='" + dtstr2 + "' and Flag=0");
 
             }
             return false;
@@ -38,7 +38,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public FNM_CURR_RATE_VM EditFNM_CURR_RATE(string CmpyCode, string FROM_CURRENCY_CODE, DateTime ENTRY_DATE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_CURR_RATE where CMPYCODE='" + CmpyCode + "' and FROM_CURRENCY_CODE='" + FROM_CURRENCY_CODE + "' and format(ENTRY_DATE,'yyyy-MM-dd hh:mm:ss tt')='" + dtstr2 + "' and Flag=0");// 
+
+            dte1 = Convert.ToDateTime(ENTRY_DATE);
+            dtstr2 = dte1.ToString("yyyy-MM-dd");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_CURR_RATE where CMPYCODE='" + CmpyCode + "' and FROM_CURRENCY_CODE='" + FROM_CURRENCY_CODE + "' and format(ENTRY_DATE,'yyyy-MM-dd')='" + dtstr2 + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FNM_CURR_RATE_VM ObjList = new FNM_CURR_RATE_VM();
@@ -77,7 +80,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public List<FNM_CURR_RATE_VM> GetFNM_CURR_RATE(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_CURR_RATE where CMPYCODE='" + CmpyCode + "' and Flag=0");// 
+            //Select a.* from FNM_CURR_RATE a right join  (select max(ENTRY_DATE) as [ENTRY_DATE],FROM_CURRENCY_CODE,CMPYCODE from FNM_CURR_RATE group by FROM_CURRENCY_CODE,CMPYCODE ) as [FRMCUR]  on FRMCUR.FROM_CURRENCY_CODE=a.FROM_CURRENCY_CODE and FRMCUR.CMPYCODE=a.CMPYCODE and FRMCUR.ENTRY_DATE=a.ENTRY_DATE where a.CMPYCODE='UM' and a.flag=0
+            //            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_CURR_RATE where CMPYCODE='" + CmpyCode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select a.* from FNM_CURR_RATE a right join  (select max(ENTRY_DATE) as [ENTRY_DATE],FROM_CURRENCY_CODE,CMPYCODE from FNM_CURR_RATE group by FROM_CURRENCY_CODE,CMPYCODE ) as [FRMCUR]  on FRMCUR.FROM_CURRENCY_CODE=a.FROM_CURRENCY_CODE and FRMCUR.CMPYCODE=a.CMPYCODE and FRMCUR.ENTRY_DATE=a.ENTRY_DATE where a.CMPYCODE='" + CmpyCode + "' and a.flag=0");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNM_CURR_RATE_VM> ObjList = new List<FNM_CURR_RATE_VM>();
@@ -87,10 +92,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 {
                     CMPYCODE = dr["CMPYCODE"].ToString(),
                     FROM_CURRENCY_CODE = dr["FROM_CURRENCY_CODE"].ToString(),
-                    TO_CURRENCY_CODE = dr["NAME"].ToString(),
-                    SELL_RATE =Convert.ToDecimal(dr["SELL_RATE"].ToString()),
+                    TO_CURRENCY_CODE = dr["TO_CURRENCY_CODE"].ToString(),
+                    SELL_RATE = Convert.ToDecimal(dr["SELL_RATE"].ToString()),
                     BUY_RATE = Convert.ToDecimal(dr["BUY_RATE"].ToString()),
-                    ENTRY_DATE =Convert.ToDateTime(dr["ENTRY_DATE"].ToString())
+                    ENTRY_DATE = Convert.ToDateTime(dr["ENTRY_DATE"].ToString()),
+                    Note = dr["Note"].ToString(),
+                    MASTER_STATUS=dr["MASTER_STATUS"].ToString()
                    
                 });
             }
@@ -107,7 +114,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 dtstr1 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
 
                 dte1 = Convert.ToDateTime(FnCurRate.ENTRY_DATE);
-                dtstr2 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
+                dtstr2 = dte.ToString("yyyy-MM-dd");
 
                 if (!FnCurRate.EditFlag)
                 {
@@ -123,9 +130,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb.Append("'" + FnCurRate.BUY_RATE + "',");
                         sb.Append("'" + FnCurRate.UserName + "',");
                         sb.Append("'" + dtstr1 + "',");                        
-                        sb.Append("'-',");                        
+                        sb.Append("'" + FnCurRate.UserName + "',");                        
                         sb.Append("'" + dtstr1 + "',");
-                        sb.Append("'" + dtstr2 + "'");
+                        sb.Append("'" + dtstr2 + "',");
                         sb.Append("'" + FnCurRate.MASTER_STATUS + "',");
                         sb.Append("'" + FnCurRate.Note + "')");
                         _EzBusinessHelper.ExecuteNonQuery("insert into FNM_CURR_RATE(CMPYCODE,TO_CURRENCY_CODE,FROM_CURRENCY_CODE,SELL_RATE,BUY_RATE,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,ENTRY_DATE,MASTER_STATUS,NOTE) values(" + sb.ToString() + "");
@@ -140,7 +147,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     }
                     return FnCurRate;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNM_CURR_RATE where CMPYCODE='" + FnCurRate.CMPYCODE + "' and FROM_CURRENCY_CODE='" + FnCurRate.FROM_CURRENCY_CODE + "' and format(ENTRY_DATE,'yyyy-MM-dd hh:mm:ss tt')='" + dtstr2 + "' and Flag=0");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNM_CURR_RATE where CMPYCODE='" + FnCurRate.CMPYCODE + "' and FROM_CURRENCY_CODE='" + FnCurRate.FROM_CURRENCY_CODE + "' and format(ENTRY_DATE,'yyyy-MM-dd')='" + dtstr2 + "' and Flag=0");
                 if (StatsEdit != 0)
                 {
                     StringBuilder sb = new StringBuilder();
@@ -154,7 +161,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     sb.Append("UPDATED_BY='" + FnCurRate.UserName + "',");
                     sb.Append("UPDATED_ON='" + dtstr1 + "'");
                    
-                    _EzBusinessHelper.ExecuteNonQuery("update FNM_CURR_RATE set  " + sb + " where CMPYCODE='" + FnCurRate.CMPYCODE + "' and FROM_CURRENCY_CODE='" + FnCurRate.FROM_CURRENCY_CODE + "' and format(ENTRY_DATE,'yyyy-MM-dd hh:mm:ss tt')='" + dtstr2 + "' and Flag=0");
+                    _EzBusinessHelper.ExecuteNonQuery("update FNM_CURR_RATE set  " + sb + " where CMPYCODE='" + FnCurRate.CMPYCODE + "' and FROM_CURRENCY_CODE='" + FnCurRate.FROM_CURRENCY_CODE + "' and format(ENTRY_DATE,'yyyy-MM-dd')='" + dtstr2 + "' and Flag=0");
                     _EzBusinessHelper.ActivityLog(FnCurRate.CMPYCODE, FnCurRate.UserName, "Update FNM_CURR_RATE", FnCurRate.FROM_CURRENCY_CODE, Environment.MachineName);
 
                     FnCurRate.SaveFlag = true;
@@ -179,7 +186,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public List<FNM_CURRENCYRateDetailNew> GetCURRENCYRateDetailList(string CmpyCode, string FROM_CURRENCY_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select CURRENCY_CODE,CURRENCY_NAME from FNM_CURR_RATE where FROM_CURRENCY_CODE='"+ FROM_CURRENCY_CODE + "' and CMPYCODE='" + CmpyCode + "' Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select ENTRY_DATE,BUY_RATE,SELL_RATE from FNM_CURR_RATE where FROM_CURRENCY_CODE='" + FROM_CURRENCY_CODE + "' and CMPYCODE='" + CmpyCode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNM_CURRENCYRateDetailNew> ObjList = new List<FNM_CURRENCYRateDetailNew>();
@@ -189,7 +196,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 {
                     ENTRY_DATE =Convert.ToDateTime(dr["ENTRY_DATE"].ToString()),
                     BUY_RATE =Convert.ToDecimal(dr["BUY_RATE"].ToString()),
-                    SELL_RATE = Convert.ToDecimal(dr["BUY_RATE"].ToString()),
+                    SELL_RATE = Convert.ToDecimal(dr["SELL_RATE"].ToString()),
                 });
             }
             return ObjList;

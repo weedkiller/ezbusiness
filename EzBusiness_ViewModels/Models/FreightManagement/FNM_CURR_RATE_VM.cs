@@ -1,6 +1,7 @@
 ﻿using EzBusiness_EF_Entity.FreightManagementEF;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,8 +21,13 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
 
         public List<SelectListItem> FROM_CURRENCY_CODEList { get; set; }
         public string TO_CURRENCY_CODE { get; set; }
+        [DisplayName("ENTRY DATE")]
         public DateTime ENTRY_DATE { get; set; }
+
+        [DisplayName("SELL RATE")]
         public Decimal SELL_RATE { get; set; }
+
+        [DisplayName("BUY RATE")]
         public Decimal BUY_RATE { get; set; }
         public string MASTER_STATUS { get; set; }
 
@@ -41,8 +47,13 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
     {
         public string CMPYCODE { get; set; }
         public string FROM_CURRENCY_CODE { get; set; }
+        [DisplayName("ENTRY DATE")]
         public DateTime ENTRY_DATE { get; set; }
+
+        [DisplayName("SELL RATE")]
         public Decimal SELL_RATE { get; set; }
+
+        [DisplayName("BUY RATE")]
         public Decimal BUY_RATE { get; set; }
     }
 }
