@@ -13,13 +13,14 @@
         EzAuthentication("/Branch_Master");
         var n = EzAuthenticationBtn("/Branch_Master", "ViewIt");
         if (n == 1) {
-            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
+            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", false, "#tblUnits thead");
             $('#tblUnits').show();
         } else {
             $('#tblUnits').hide();
         }
     });
 </script>
+
 <script>
     var Doks = [];
     $(function () {
@@ -219,7 +220,6 @@
                         var CURRENCYAdd = $(tr).find("[name*='txtCURRENCY']").val().trim();
                         var COUNTRYAdd = $(tr).find("[name*='txtCOUNTRY']").val().trim();
                         var STATEAdd = $(tr).find("[name*='txtSTATE']").val().trim();
-
 
                         if (response.Drecord.length > 0) {
                             var ary1 = [];
@@ -533,12 +533,14 @@ $(document).ready(function(){
     <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
     <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
     <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
     <input type="hidden" id="hdnOperationMode" value="" />
 
 </div>
+<label class="row" id="ErrorMessage" style="color:red;">
+    <strong></strong>
+</label>
 
-<div class="panel panel-default">
+<div class="panel panel-default panl">
     <div class="panel-body">
         <input id="inpdocname" type="hidden" />
         <div class="row" id="dcm">
@@ -548,7 +550,7 @@ $(document).ready(function(){
             <div class="col-sm-2">
                 <input id="txtcmpycode" type="text" readonly="readonly" />
                 </div>
-            </div>
+         </div>
         <table class="table table-bordered" id="tblUnits1">
             <thead>
                 <tr class="tr">
@@ -585,12 +587,9 @@ $(document).ready(function(){
                     <th>
                         @Html.DisplayNameFor(model => model.STATE)
                     </th>
-
-
                     <th></th>
                 </tr>
             </thead>
-
 
             <tbody>
                 <tr>
@@ -655,7 +654,7 @@ $(document).ready(function(){
             </tbody>
         </table>
 
-        <div class="col-md-12 portal-drivers">
+        <div class="col-md-12 ">
             <div id="tbldiv">
                 <table class="table table-bordered" id="tblUnits">
                     <thead>
@@ -666,6 +665,7 @@ $(document).ready(function(){
                             <th>
                                 @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
                             </th>
+
                             <th>
                                 @Html.DisplayNameFor(model => model.DESCRIPTION)
                             </th>
@@ -675,6 +675,8 @@ $(document).ready(function(){
                             <th>
                                 @Html.DisplayNameFor(model => model.ADDRESS)
                             </th>
+
+
                             <th>
                                 @Html.DisplayNameFor(model => model.EMAIL)
                             </th>
@@ -693,8 +695,6 @@ $(document).ready(function(){
                             <th>
                                 @Html.DisplayNameFor(model => model.STATE)
                             </th>
-
-
                             <th></th>
 
                         </tr>
@@ -707,6 +707,8 @@ $(document).ready(function(){
                             <td>
                                 @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
                             </td>
+
+
                             <td>
                                 @Html.DisplayNameFor(model => model.DESCRIPTION)
                             </td>
@@ -716,6 +718,7 @@ $(document).ready(function(){
                             <td>
                                 @Html.DisplayNameFor(model => model.ADDRESS)
                             </td>
+
                             <td>
                                 @Html.DisplayNameFor(model => model.EMAIL)
                             </td>
@@ -740,7 +743,7 @@ $(document).ready(function(){
                             <td></td>
                         </tr>
                     </tfoot>
-                    <tbody style="overflow:scroll">
+                    <tbody >
                         @foreach (var item in Model)
                         {
                             <tr>
@@ -750,6 +753,8 @@ $(document).ready(function(){
                                 <td>
                                     @Html.DisplayFor(modelItem => item.FNMBRANCH_CODE)
                                 </td>
+
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.DESCRIPTION)
                                 </td>
@@ -759,6 +764,7 @@ $(document).ready(function(){
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ADDRESS)
                                 </td>
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.EMAIL)
                                 </td>
@@ -774,24 +780,30 @@ $(document).ready(function(){
                                 <td>
                                     @Html.DisplayFor(modelItem => item.COUNTRY)
                                 </td>
+                               
                                 <td>
                                     @Html.DisplayFor(modelItem => item.STATE)
+                                   
                                 </td>
-
-
-
+                                
                                 <td>
-                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button class="btn btn-primary closebtngrid" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                    <button class="btn btn-danger closebtngrid" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
                                     <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
                                     @Html.HiddenFor(m => item.CMPYCODE)
                                 </td>
+                               
                             </tr>
                             counter++;
                         }
                     </tbody>
 
                 </table>
+
 
             </div>
         </div>
