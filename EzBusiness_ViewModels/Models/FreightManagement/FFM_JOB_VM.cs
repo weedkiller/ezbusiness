@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.WebPages.Html;
 
 namespace EzBusiness_ViewModels.Models.FreightManagement
 {
@@ -21,6 +23,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
         public string UserName { get; set; }
+      
         public List<FFM_JOBNew> FFM_JOBNew { get; set; }
         public FFM_JOBNew FFM_JOBDetail { get; set; }
         public List<string> Drecord { get; set; }
@@ -34,8 +37,9 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string CMPYCODE { get; set; }       
         public string FFM_JOB_CODE { get; set; }
         public string NAME { get; set; }
-      //  public string DISPLAY_STATUS { get; set; }
-        
+        public string DISPLAY_STATUS { get; set; }
+      
+
     }
 }
 
