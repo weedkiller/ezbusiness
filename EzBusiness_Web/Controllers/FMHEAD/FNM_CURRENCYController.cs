@@ -44,7 +44,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
 
         [HttpPost]
         //[Route("SaveFNMBranch")]
-        public ActionResult SaveFNMBranch(FNM_CURRENCY_VM Fcur)
+        public ActionResult SaveFNM_CURRENCY(FNM_CURRENCY_VM Fcur)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -88,5 +88,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(_CURRService.EditFNM_CURRENCY(list[0].CmpyCode, CURRENCYCode), JsonRequestBehavior.AllowGet);
             }
         }
+
+        
     }
 }

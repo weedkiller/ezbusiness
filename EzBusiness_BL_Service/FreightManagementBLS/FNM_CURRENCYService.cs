@@ -35,8 +35,8 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         {
             return _FNMCURRENCYRepo.GetFNM_CURRENCY(CmpyCode).Select(m => new FNM_CURRENCY_VM
             {
-                CMPYCODE = m.CURRENCY_CODE,
-                CURRENCY_NAME = m.CURRENCY_NAME,
+                CURRENCY_CODE = m.CURRENCY_CODE,
+                CURRENCY_NAME = m.CURRENCY_NAME,               
                 Note = m.Note,
                 MASTER_STATUS=m.MASTER_STATUS
             }).ToList();
