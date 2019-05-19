@@ -1,18 +1,19 @@
-﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FFM_JOB_VM>
+﻿@*@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FFM_PACKING_VM>*@
+@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FFM_PACKING_VM>
 
 @{
-    ViewBag.Title = "FFM_JOB_Master";
+    //ViewBag.Title = "FFM_PACKING";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var counter = 1;
 }
-
 
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
 
     $(function () {
-        EzAuthentication("/FM_JOBCategoryMaster");
-        var n = EzAuthenticationBtn("/FM_JOBCategoryMaster", "ViewIt");
+        $("#dcm").hide();
+        EzAuthentication("/PACKINGMASTER");
+        var n = EzAuthenticationBtn("/PACKINGMASTER", "ViewIt");
         if (n == 1) {
             Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
             $('#tblUnits').show();
@@ -26,7 +27,7 @@
     $(function () {
         $("#tblUnits1").hide();
         $("#btnAdd").click(function () {
-            var n = EzAuthenticationBtn("/FM_JOBCategoryMaster", "NewIt");
+            var n = EzAuthenticationBtn("/PACKINGMaster", "NewIt");
             if (n == 1) {
                 $("#tbldiv").hide();
                 var abk = [];
@@ -37,6 +38,9 @@
                 Ezprop(abk, "disabled", false);
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
+                $("#dcm").show();
+
+
             }
         });
 
@@ -44,33 +48,40 @@
 
 
         /*Code Tab Event*/
-        EztableTabEve("#tblUnits1", "[name*='txtFFM_JOB_CODE']", "[name *= 'txtNAME']", "Please Enter FFM_JOB_CODE", 'T', "");
+        EztableTabEve("#tblUnits1", "[name*='txtFFM_PACKING_CODE']", "[name *= 'txtFFM_PACKING_CODE']", "Please Enter PACKING_CODE", 'T', "");
+
+
+        EztableTabEve("#tblUnits1", "[name*='txtFFM_PACKING_CODE']", "[name *= 'txtName']", "Please Enter PACKING_CODE", 'T', "");
+
+       // EztableTabEve("#tblUnits1", "[name*='txtMASTER_STATUS']", "[name *= 'txtNOTE']", "Please Enter MASTER_STATUS", 'T', "");
+
+
+
 
         /*Enter Event*/
-        EztableLstEnt("#tblUnits1", "[name*='txtNAME']", "[name *= 'txtFFM_JOB_CODE']", "T", "");
-
-        //EztableLstEnt("#tblUnits1", "[name*='txtDISPLAY_STATUS']", "[name *= 'txtDISPLAY_STATUS']", "T", "");
+        EztableLstEnt("#tblUnits1", "[name*='txtName']", "[name *= 'txtFFM_PACKING_CODE']", "T", "");
 
 
         /*Add Table Change Event*/
-        $("#tblUnits1").on("change", "[name*='txtFFM_JOB_CODE']", function () {
+        $("#tblUnits1").on("change", "[name*='txtFFM_PACKING_CODE']", function () {
             var tr = $(this).closest('tr');
 
             drec = [];
             $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
-                var ab = $(this).find("[name *= 'txtFFM_JOB_CODE']").val();
+                var ab = $(this).find("[name *= 'txtFFM_PACKING_CODE']").val();
                 drec.push(ab);
             });
 
-            drec.splice($.inArray(tr.find("[name *= 'txtFFM_JOB_CODE']").val(), drec), 1);
+            drec.splice($.inArray(tr.find("[name *= 'txtFFM_PACKING_CODE']").val(), drec), 1);
 
-            if ($.inArray(tr.find("[name *= 'txtFFM_JOB_CODE']").val(), drec) >= 0) {
-                var dr = tr.find("[name *= 'txtFFM_JOB_CODE']").val();
+            if ($.inArray(tr.find("[name *= 'txtFFM_PACKING_CODE']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtFFM_PACKING_CODE']").val();
                 tr.css("background", "red");
-                tr.find("[name *= 'txtFFM_JOB_CODE']").focus();
+                tr.find("[name *= 'txtFFM_PACKING_CODE']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
-                tr.find("[name *= 'txtFFM_JOB_CODE']").val('');
+                tr.find("[name *= 'txtFFM_PACKING_CODE']").val('');
+
 
             }
             else {
@@ -80,16 +91,15 @@
                     var trLast = $("#tableMetaSettings tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtFFM_JOB_CODE']").val('');
-                    trLast.find("[name *= 'txtFFM_JOB_CODE']").attr({
-                        "name": ("txtFFM_JOB_CODE" + counter)
+                    $(this).closest('tr').next('tr').find("[name*='txtFFM_PACKING_CODE']").val('');
+                    trLast.find("[name *= 'txtFFM_PACKING_CODE']").attr({
+                        "name": ("txtFFM_PACKING_CODE" + counter)
                     });
-                    trLast.find("[name *= 'txtNAME']").attr({
-                        "name": ("Name" + counter)
+                    trLast.find("[name *= 'txtName']").attr({
+                        "name": ("txtName" + counter)
                     });
-                    trLast.find("[name *= 'txtdisplaystatus']").attr({
-                        "name": ("txtdisplaystatus" + counter)
-                    });
+                    
+
 
                     trLast.find(":first").text(counter);
                 }
@@ -100,13 +110,14 @@
 
         /*Refresh */
         $("#btnCancel").click(function () {
+            $("#dcm").hide();
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
             $("#tblUnits1 tbody").find("tr:gt(0)").remove();
 
             var abk1 = [];
-            abk1.push("[name*='txtFFM_JOB_CODE']", "[name*='txtNAME']", "[name*='txtdisplaystatus']");
+            abk1.push("[name*='txtFFM_PACKING_CODE']", "[name*='txtName']");
             Ezsettxtclr(abk1);
             abk1 = [];
             abk1.push("#btnCancel", "#btnSave");
@@ -119,29 +130,29 @@
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
-
-            var FC = {
-                FFM_JOBNew: []
+            debugger;
+            var fpk = {
+                FFM_PACKINGDetailNew: []
             };
             $("#tblUnits1 tbody tr").each(function (index, item) {
-                var FFM_JOB_CODE = $(this).find("[name*='txtFFM_JOB_CODE']").val();
-                var NAME = $(this).find("[name*='txtNAME']").val();
-                var DISPLAY_STATUS = $(this).find("[name*='txtdisplaystatus'] option:selected").val();
 
-                if ((FFM_JOB_CODE != "") && (NAME != "") && (DISPLAY_STATUS != "")) {
-                    var FFM_JOBDetail = {
-                        FFM_JOB_CODE: FFM_JOB_CODE,
-                        NAME: NAME,
-                        DISPLAY_STATUS: DISPLAY_STATUS,
-                    };
-                    FC.FFM_JOBNew.push(FFM_JOBDetail);
+                var FFM_PACKING_CODE = $(this).find("[name*='txtFFM_PACKING_CODE']").val();
+                var NAME = $(this).find("[name*='txtName']").val();
+                debugger;              
+
+
+                if ((FFM_PACKING_CODE != "") && (NAME != "")) {
+                    var FFM_PACKINGDetail = {
+                        FFM_PACKING_CODE: FFM_PACKING_CODE,
+                        NAME: NAME
+                         };
+                    fpk.FFM_PACKINGDetailNew.push(FFM_PACKINGDetail);
                 }
             });
-            var validationResult = ValidateForm(FC);
+            var validationResult = ValidateForm(fpk);
             if (validationResult.formValid) {
-                $.post("/FFM_JOB/SaveFFM_JOB", FC).done(function (response) {
+                $.post("/FFM_PACKING/SaveFFM_PACKING", fpk).done(function (response) {
                     if (response.Drecord == null) {
-
 
                         response.Drecord = 0;
                         $("#tbldiv").show();
@@ -149,19 +160,23 @@
                     }
                     $("#tblUnits1 tbody tr").each(function (index, item) {
                         var tr = $(this).closest("tr");
-                        var codeAdd = $(tr).find("[name*='txtFFM_JOB_CODE']").val().trim();
-                        var nameAdd = $(tr).find("[name*='txtNAME']").val().trim();
-                        var display_statusAdd = $(tr).find("[name*='txtdisplaystatus']  option:selected").val().trim();
+
+                        var FFM_PACKING_CODEAdd = $(this).find("[name*='txtFFM_PACKING_CODE']").val();
+                        var NAMEAdd = $(this).find("[name*='txtName']").val();
+
+                        //var MASTER_STATUS = $(this).find("[name*='txtMASTER_STATUS']").val();
+                        //var NOTE = $(this).find("[name*='txtNOTE']").val();
+
+
                         if (response.Drecord.length > 0) {
                             var ary1 = [];
                             ary1 = response.Drecord;
-                            if ($.inArray(codeAdd, ary1) < 0 && codeAdd != '' && nameAdd != '' && display_statusAdd !='') {
+                            if ($.inArray(FFM_PACKING_CODEAdd, ary1) < 0 && FFM_PACKING_CODEAdd != '' && FFM_PACKING_CODEAdd != '') {
                                 $(this).closest('tr').remove();
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
 
-                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd + "</td><td>" + display_statusAdd
-                                    "</td> ";
+                                var newRow = "<tr><td>" + FFM_PACKING_CODEAdd + "</td><td>" + NAMEAdd + "</td>";
                                 //newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
                                 //    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
                                 //    "'></td></tr>";
@@ -179,17 +194,16 @@
                         }
                         else {
                             $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                            $("[name*='txtFFM_JOB_CODE']").val();
-                            $("[name*='txtNAME']").val();
-                            $("[name*='txtdisplaystatus']").val();
+                            $("[name*='txtFFM_PACKING_CODE']").val();
+                            $("[name*='txtFFM_PACKING_CODE']").val();
+
 
                             $("#tblUnits1").hide();
 
-                            if (codeAdd != '' && nameAdd != '' && display_statusAdd !='') {
+                            if (FFM_PACKING_CODEAdd != '' && FFM_PACKING_CODEAdd != '') {
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
-                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd + "</td><td>" + display_statusAdd
-                                    "</td> ";
+                                var newRow = "<tr><td>" + FFM_PACKING_CODEAdd + "</td><td>" + NAMEAdd + "</td><td>" + NAMEAdd + "</td>";
                                 newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
                                     "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
                                     "'></td></tr>";
@@ -212,15 +226,15 @@
                 EzAlerterr();
             }
         });
-
-        function ValidateForm(FC) {
+        
+        function ValidateForm(Fcur) {
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
 
-            if (FC.FFM_JOBNew.length == 0) {
-                response.ErrorMessage += "Please Enter atleast One FFM_JOB code Details";
+            if (Fcur.FFM_PACKINGDetailNew.length == 0) {
+                response.ErrorMessage += "Please Enter atleast One PACKING Detail";
             }
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
@@ -239,70 +253,68 @@
 
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
-            debugger
-            var n = EzAuthenticationBtn("/FM_JOBCategoryMaster", "EditIt");
+            var n = EzAuthenticationBtn("/FFM_PACKING", "EditIt");
             if (n == 1) {
+                debugger;
                 var counter = $("#Counter").val();
                 var hdnEditMode = $(this).parent().find('input:hidden:first');
-                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-                var tr = $(this).closest("tr");
-                var index = $(this).attr("name").substring(4);
-                var jobcode = $(tr).find("td:eq(0)");
-                var jobname = $(tr).find("td:eq(1)");
-                var displaystatus = $(tr).find("td:eq(2)");
-              
+                 var tr = $(this).closest("tr");
+
+                 var index = $(this).attr("name").substring(4);
+                 var hdnDocCode = $(tr).find("td:eq(0)").text().trim();
+                var NAMETd = $(tr).find("td:eq(1)");
+                
+
                 var editButton = $(this);
 
                 if (hdnEditMode.val() == "true") {
-                    debugger;
-                    var CURRENCY_NAMEEdit = $(tr).find("[name*='txtNAME']").val().trim();
-                    var MASTER_STATUSEdit = $(tr).find("[name*='txtdisplaystatus'] option:selected").val();
-                    //$(tr).find("[name*='txtLEAVE_TYPECODE'] option:selected").val();
-                    //var NOTEEdit = $(tr).find("[name*='txtNOTE']").val().trim();
-                    var CURRENCY_CODEEdit = $(tr).find("td:eq(0)").text().trim();
-                    hdnEditMode.val("true");
-                    var Fcur = {
-                        FFM_JOB_CODE: CURRENCY_CODEEdit,
-                        NAME: CURRENCY_NAMEEdit,
-                        DISPLAY_STATUS: MASTER_STATUSEdit,
-                        EditFlag: true
-                        //MASTER_STATUS: MASTER_STATUSEdit,
-                        //Note: NOTEEdit
-                    };
+                    var NAMEEdit = $(tr).find("[name*='txtName']").val().trim();
+                  
 
-                    $.post("/FFM_JOB/SaveFFM_JOB", Fcur).done(function (response) {
-                        jobname.text(response.NAME);
+                    debugger;
+                    var fpk = {
+                        EditFlag: true,
+                        FFM_PACKING_CODE: hdnDocCode,
+                        NAME:NAMEEdit,
+                      
+                                           };
+
+                    $.post("/FFM_PACKING/SaveFFM_PACKING", fpk).done(function (response) {
+                        debugger;
+                        NAMETd.text(response.NAME);
+                        //CURRENCY_CODETd.text(response.CURRENCY_CODE);
                         //MASTER_STATUSTd.text(response.MASTER_STATUS);
-                        //NOTETd.text(response.Note);
-                        hdnEditMode.val("true");
+                        //NOTETd.text(response.NOTE);
+
+
+
+                        hdnEditMode.val("false");
                         editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
                         editButton.attr('title', 'Edit');
                         tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                         tr.find("[name^='Delete']").attr('title', 'Delete');
+
                         tableDis("F");
-                        EzAlertUpd(CURRENCY_CODEEdit);
+                        EzAlertUpd(hdnDocCode);
                     });
                     $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                         console.log(thrownError);
                     });
                 } else {
-                    //var HRPH001_CODE = $(tr).find("td:eq(0)").text();
+                    debugger;
+                    NAME = $(tr).find("td:eq(1)").text();
+                    //var MASTER_STATUS = $(tr).find("td:eq(2)").text();
+                    //var NOTE = $(tr).find("td:eq(3)").text();
 
-                    //HRPH001_CODETd.html("" + HRPH001_CODE.trim() + "<input type='hidden' name='txtHRPH001_CODE" + index + "'  id='txtHRPH001_CODE" + index + "' value='" + HRPH001_CODE.trim() + "' />");
-                  
+                    $('#inpdocname').val(NAME.trim());
 
-                    var docname = $(tr).find("td:eq(1)").text();
-                    var dstatus = $(tr).find("td:eq(2)").text();
 
-                    $('#hldte').val($(tr).find("td:eq(1)").text().trim());
-                    $("#hltyp").val(dstatus);
-                    $('#inpdocname').val(docname.trim());
-                    jobname.html("<input type='text' name='txtNAME" + index + "' value='" + docname.trim() + "' />");
-                    //$("#hdnname").val($(tr).find("td:eq(1)").text());
-                  
-                    //var dstatus = $(tr).find("td:eq(2)").text();
-                    $('#inpdstatus').val(dstatus.trim());
-                    displaystatus.html("<select id ='txtdisplaystatus" + index + "' name='txtdisplaystatus" + index + "'><option value ='Y' selected>Yes</option> <option value ='N'>No</option></select>");
+
+                    NAMETd.html("<input type='text' name='txtName" + index + "' value='" + NAME.trim() + "' />");
+                    //MASTER_STATUSTd.html("<input type='text' name='txtMASTER_STATUS" + index + "' value='" + MASTER_STATUS.trim() + "' />");
+                    //NOTETd.html("<input type='text' name='txtNOTE" + index + "' value='" + NOTE.trim() + "' />");
+
+
 
 
                     $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
@@ -316,18 +328,17 @@
                     tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>')
                     tr.find("[name^='Delete']").attr('title', 'Cancel');
 
-                } 
-            
+                }
             }
         });
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
             debugger;
-            var n = EzAuthenticationBtn("/FM_JOBCategoryMaster", "DeleteIt");
+            var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");
-                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-                var FMHEADCodeTd = $(tr).find("td:eq(0)");
+
+                var FMHEADCodeTd = $(tr).find("td:eq(1)");
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var doccode = "";
                 if (hdnMode.val() == "false") {
@@ -348,8 +359,9 @@
                         reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
-                            FFM_JOB_CODE = $(tr).find("td:eq(0)").text().trim();
-                            $.getJSON("/DeleteFFM_JOB", { FFM_JOB_CODE: FFM_JOB_CODE, CmpyCode: hdnCmpyCode }).done(function (data) {
+                            FFM_PACKING_CODE = $(tr).find("td:eq(0)").text().trim();
+                            debugger;
+                            $.getJSON("/DeleteFFM_PACKING", { PACKING_CODE: FFM_PACKING_CODE }).done(function (data) {
                                 if (data.DeleteFlag) {
 
                                     if ($('#tblUnits tbody tr').length == 2) {
@@ -383,28 +395,14 @@
 
                 }
                 else {
-                    var HRPH001_CODETd = $(tr).find("td:eq(0)");
-                    var DateTd = $(tr).find("td:eq(1)");
-                    var LEAVE_TYPECODETd = $(tr).find("td:eq(2)");
-                   // var DescriptionTd = $(tr).find("td:eq(3)");
+                    var nameTd = $(tr).find("td:eq(1)");
 
-                    var DatesEdit = $('#hldte').val();
-                    var LEAVE_TYPECODEEdit = $('#hltyp').val();
-                  //  var DescriptionEdit = $('#hlDesc').val();
-
-
+                    var nameEdit = $('#inpdocname').val();
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
-
-                    DateTd.html(DatesEdit);
-                    LEAVE_TYPECODETd.html(LEAVE_TYPECODEEdit);
-                   // DescriptionTd.html(DescriptionEdit)
-
-
+                    nameTd.html(nameEdit);
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
-
-
-                    $(this).html('<span class="glyphicon glyphicon-trash"></span>')
+                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
                     $(this).attr('title', 'Delete');
                     hdnEditMode.val("false");
 
@@ -445,7 +443,6 @@ $(document).ready(function(){
     <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
     <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
     <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
     <input type="hidden" id="hdnOperationMode" value="" />
 
 </div>
@@ -453,18 +450,24 @@ $(document).ready(function(){
 <div class="panel panel-default">
     <div class="panel-body">
         <input id="inpdocname" type="hidden" />
+
         <table class="table table-bordered" id="tblUnits1">
             <thead>
                 <tr class="tr">
+
                     <th>
-                        @Html.DisplayNameFor(model => model.FFM_JOB_CODE)
+                        @Html.DisplayNameFor(model => model.FFM_PACKING_CODE)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.NAME)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DISPLAY_STATUS)
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.MASTER_STATUS)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Note)
+                    </th>*@
+
                     <th></th>
                 </tr>
             </thead>
@@ -474,25 +477,26 @@ $(document).ready(function(){
                 <tr>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtFFM_JOB_CODE", counter), null, new { @class = "grid-control" })
-                        </div>
-
-
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtNAME", counter), null, new { @class = "grid-control" })
+                            @Html.TextBox(string.Concat("txtFFM_PACKING_CODE", counter), null, new { @class = "grid-control" })
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
-                            @*<select class="grid-control" id="txtDISPLAY_STATUS" name="txtDISPLAY_STATUS" >
-                                <option value="Y">Yes</option>
-                                <option value="N">No</option>
-                            </select>*@
-                            @Html.DropDownList(string.Concat("txtdisplaystatus", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "Y" }, new SelectListItem { Text = "NO", Value = "N" }, }, new { @class = "grid-control" })
+                            @Html.TextBox(string.Concat("txtName", counter), null, new { @class = "grid-control" })
                         </div>
                     </td>
+                    @*<td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtMASTER_STATUS", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtNOTE", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>*@
+
+
 
                 </tr>
             </tbody>
@@ -500,37 +504,47 @@ $(document).ready(function(){
 
         <div class="col-md-12 portal-drivers">
             <div id="tbldiv">
-                <input id="hldte" type="hidden" />
-                <input id="hltyp" type="hidden" />
                 <table class="table table-bordered" id="tblUnits">
                     <thead>
                         <tr class="tr">
+
                             <th>
-                                @Html.DisplayNameFor(model => model.FFM_JOB_CODE)
+                                @Html.DisplayNameFor(model => model.FFM_PACKING_CODE)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.NAME)
                             </th>
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.DISPLAY_STATUS)
+                            @*<th>
+                                @Html.DisplayNameFor(model => model.MASTER_STATUS)
                             </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Note)
+                            </th>*@
+
+
+
                             <th></th>
+
                         </tr>
                     </thead>
                     <tfoot>
                         <tr class="tr">
+
                             <td>
-                                @Html.DisplayNameFor(model => model.FFM_JOB_CODE)
+                                @Html.DisplayNameFor(model => model.FFM_PACKING_CODE)
                             </td>
                             <td>
                                 @Html.DisplayNameFor(model => model.NAME)
                             </td>
-
-
-                            <td>
-                                @Html.DisplayNameFor(model => model.DISPLAY_STATUS)
+                            @*<td>
+                                @Html.DisplayNameFor(model => model.MASTER_STATUS)
                             </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Note)
+                            </td>*@
+
+
+
                             <td></td>
                         </tr>
                     </tfoot>
@@ -539,17 +553,18 @@ $(document).ready(function(){
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.FFM_JOB_CODE)
+                                    @Html.DisplayFor(modelItem => item.FFM_PACKING_CODE)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.NAME)
-                                </td>
+                                </td>                               
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.DISPLAY_STATUS)
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
                                     <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
                                     @Html.HiddenFor(m => item.CMPYCODE)
                                 </td>
@@ -566,6 +581,4 @@ $(document).ready(function(){
         @Html.Hidden("Counter", counter)
     </div>
 </div>
-
-
 
