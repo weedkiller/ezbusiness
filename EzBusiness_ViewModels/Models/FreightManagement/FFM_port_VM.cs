@@ -37,6 +37,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string COUNTRY { get; set; }
         public string TERMINAL { get; set; }
         public string DISPLY_STATUS { get; set; }
+        public string FFM_PACKING_CODE { get; set; }
     }
 }
 
