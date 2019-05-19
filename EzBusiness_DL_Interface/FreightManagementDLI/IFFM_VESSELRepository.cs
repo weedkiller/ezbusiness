@@ -1,4 +1,5 @@
-﻿using EzBusiness_EF_Entity.FreightManagementEF;
+﻿using EzBusiness_EF_Entity;
+using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,9 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
         List<FFM_VESSEL> GetFFM_VESSEL(string CmpyCode);      
         FFM_VESSEL_VM SaveFFM_VESSEL(FFM_VESSEL_VM ac);
         FFM_VESSEL_VM EditFFM_VESSEL(string CmpyCode, string FFM_VESSEL_CODE);
+        List<Nation> GetNationList(string CmpyCode);
 
+        List<FFM_CNTR> GetContainer(string CmpyCode);
 
 
     }
