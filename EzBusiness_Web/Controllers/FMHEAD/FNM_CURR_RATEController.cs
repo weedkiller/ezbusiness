@@ -52,7 +52,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         }
 
         [Route("EditCURR_RATE")]
-        public ActionResult EditCURR_RATE(string FROM_CURRENCY_CODE, DateTime ENTRY_DATE)
+        public ActionResult EditCURR_RATE(string FROM_CURRENCY_CODE, string ENTRY_DATE)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -61,13 +61,15 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return PartialView(_FNM_CURR_RATEService.EditFNM_CURR_RATE(list[0].CmpyCode, FROM_CURRENCY_CODE,ENTRY_DATE));
+                
+                
+                return PartialView(_FNM_CURR_RATEService.EditFNM_CURR_RATE(list[0].CmpyCode, FROM_CURRENCY_CODE,Convert.ToDateTime(ENTRY_DATE)));
             }
         }
 
 
         [Route("DeleteFNM_CURR_RATE")]
-        public ActionResult DeleteAccountType(string FROM_CURRENCY_CODE, DateTime ENTRY_DATE)
+        public ActionResult DeleteAccountType(string FROM_CURRENCY_CODE, string ENTRY_DATE)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -76,7 +78,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(new { DeleteFlag = _FNM_CURR_RATEService.DeleteFNM_CURR_RATE(list[0].CmpyCode, FROM_CURRENCY_CODE, ENTRY_DATE, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _FNM_CURR_RATEService.DeleteFNM_CURR_RATE(list[0].CmpyCode, FROM_CURRENCY_CODE,Convert.ToDateTime(ENTRY_DATE), list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
 

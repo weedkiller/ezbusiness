@@ -23,6 +23,38 @@
             $(this).attr('autocomplete', 'off');
         });
 
+
+        $("#FROM_CURRENCY_CODE").change(function () {
+            debugger;
+            $("#tblFNMCURRATE > tbody tr").empty();
+            $("#tblFNMCURRATE > tbody tr").remove();
+            var FROM_CURRENCY_CODE = $("#FROM_CURRENCY_CODE option:selected").val();
+
+            $.get("FNM_CURR_RATE/GetCURRENCYRateDetailList", { FROM_CURRENCY_CODE: FROM_CURRENCY_CODE }).done(function (response) {
+                var ary = [];
+                ary = response;
+                counter = 1;
+               
+                for (var i = 0; i < ary.length; i++) {
+                    var tr1 = "<tr>";
+                   
+                    var td1 = "<td><div class='grid-group'><input type='Text' Readonly='true' class='grid-control' name='ENTRY_DATE" + counter + "'></div></td>";
+                    var td2 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='SELL_RATE" + counter + "'></div></td>";
+                    var td3 = "<td><div class='grid-group'><input type='number' Readonly='true' class='grid-control' name='BUY_RATE" + counter + "'></div></td></tr>";
+                    
+                    $("#tblFNMCURRATE").append(tr1 + td1 + td2 + td3);
+                    var tr = $("#tblFNMCURRATE tbody tr");
+                    
+                    tr.find("[name='ENTRY_DATE" + counter + "']").val(EzdatefrmtRes(ary[i].ENTRY_DATE));
+                    tr.find("[name='SELL_RATE" + counter + "']").val(ary[i].SELL_RATE);
+                    tr.find("[name='BUY_RATE" + counter + "']").val(ary[i].BUY_RATE);
+                    
+                    counter++;
+                }
+            });
+
+
+        });
     });
 
 

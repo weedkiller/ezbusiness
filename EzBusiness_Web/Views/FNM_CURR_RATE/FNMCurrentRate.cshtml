@@ -164,7 +164,7 @@
                 var validationResult = ValidateForm(FNMcurR);
                     if (validationResult.formValid) {
 
-                        $.post("/SaveAccountType", FNMcurR).done(function (response) {
+                        $.post("/SaveFNM_CURR_RATE", FNMcurR).done(function (response) {
                                 if (response.SaveFlag && !response.ErrorMessage.length > 0) {
                                     EzAlertSave();
                                     EzbtnsaveAcVis("#DRContainer");
@@ -246,7 +246,7 @@
                         $(this).addClass("active");
 
                         var Code = $("[name*='hdnFROMCURRCode']").val();
-                        var ENTRY_DATE = $("[name*='hdnENTRY_DATE']").val();
+                        var ENTRY_DATE = Ezsetdtpkdate($("[name*='hdnENTRY_DATE']").val());
 
                         $.get("EditCURR_RATE", { FROM_CURRENCY_CODE: Code, ENTRY_DATE: ENTRY_DATE }).done(function (response)
                         {
