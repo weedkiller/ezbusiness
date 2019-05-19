@@ -7,13 +7,13 @@
 
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
-    debugger;
+    
     $(function () {
         EzAuthentication("/HEADMaster");
         var n = EzAuthenticationBtn("/HEADMaster", "ViewIt");
         if (n == 1) {
-            debugger;
-            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
+            
+            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", false, "#tblUnits thead");
             $('#tblUnits').show();
         } else {
             $('#tblUnits').hide();
@@ -293,7 +293,7 @@
         });
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
-            debugger;
+            
             var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");
@@ -419,13 +419,9 @@ $(document).ready(function(){
                     <th>
                         @Html.DisplayNameFor(model => model.DESCRIPTION)
                     </th>
-
-
                     <th></th>
                 </tr>
             </thead>
-
-
             <tbody>
                 <tr>
                     <td>
@@ -438,15 +434,13 @@ $(document).ready(function(){
                             @Html.TextBox(string.Concat("txtDESCRIPTION", counter), null, new { @class = "grid-control" })
                         </div>
                     </td>
-
-
                 </tr>
             </tbody>
         </table>
 
         <div class="col-md-12 portal-drivers">
             <div id="tbldiv">
-                <table class="table table-bordered" id="tblUnits">
+                <table class="table table-bordered stripe display hover" id="tblUnits">
                     <thead>
                         <tr class="tr">
                             <th>
@@ -455,9 +449,7 @@ $(document).ready(function(){
                             <th>
                                 @Html.DisplayNameFor(model => model.DESCRIPTION)
                             </th>
-
                             <th></th>
-
                         </tr>
                     </thead>
                     <tfoot>
@@ -473,7 +465,7 @@ $(document).ready(function(){
                             <td></td>
                         </tr>
                     </tfoot>
-                    <tbody style="overflow:scroll">
+                    <tbody>
                         @foreach (var item in Model)
                         {
                             <tr>

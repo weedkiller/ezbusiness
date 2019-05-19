@@ -805,7 +805,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                 }
             } else {
                 var title = '';//$(this).text();
-                jq(this).html('<input type="text"  placeholder="Search ' + title + '"  />');
+                jq(this).html('<input type="text"  placeholder="Search ' + title + '" style="Width:100px;border-radius:5px;" />');
             }
         });
 
@@ -977,7 +977,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         function Ezsidetbl1(ide, idef, lk, idfoot) {
    
             $(document).ready(function () {
-                debugger;
+                
                 // Setup - add a text input to each footer cell
                 
                 // $(ide).addClass('');
