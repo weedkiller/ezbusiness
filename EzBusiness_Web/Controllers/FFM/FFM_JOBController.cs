@@ -36,7 +36,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         }
 
         [HttpPost]
-        public ActionResult SaveFFM_JOB(FFM_JOB_VM FC)
+        public ActionResult SaveFFM_JOB(FFM_JOB_VM Fcur)
         {
 
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -46,9 +46,9 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                FC.CMPYCODE = list[0].CmpyCode;
-                FC.UserName = list[0].user_name;
-                return Json(_FFMJOBService.SaveFFM_JOB(FC), JsonRequestBehavior.AllowGet);
+                Fcur.CMPYCODE = list[0].CmpyCode;
+                Fcur.UserName = list[0].user_name;
+                return Json(_FFMJOBService.SaveFFM_JOB(Fcur), JsonRequestBehavior.AllowGet);
             }
 
         }

@@ -13,7 +13,7 @@
         EzAuthentication("/CURRENCYMaster");
         var n = EzAuthenticationBtn("/CURRENCYMaster", "ViewIt");
         if (n == 1) {
-            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
+            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", false, "#tblUnits thead");
             $('#tblUnits').show();
         } else {
             $('#tblUnits').hide();
@@ -278,7 +278,7 @@
                 var editButton = $(this);
 
                 if (hdnEditMode.val() == "true") {
-                    debugger;
+                    
                     var CURRENCY_NAMEEdit = $(tr).find("[name*='txtCURRENCY_NAME']").val().trim();
                     var MASTER_STATUSEdit = $(tr).find("[name*='txtMASTER_STATUS']").val().trim();
                     var NOTEEdit = $(tr).find("[name*='txtNOTE']").val().trim();
@@ -307,7 +307,7 @@
                         console.log(thrownError);
                     });
                 } else {
-                    debugger;
+                    
                     var CURRENCY_CODE = $(tr).find("td:eq(0)").text();
                     var CURRENCY_NAME = $(tr).find("td:eq(1)").text();
                     var MASTER_STATUS = $(tr).find("td:eq(2)").text();
@@ -341,7 +341,7 @@
         });
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
-            debugger;
+            
             var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");
@@ -468,7 +468,7 @@ $(document).ready(function(){
     <div class="panel-body">
         <input id="inpdocname" type="hidden" />
        
-        <table class="table table-bordered" id="tblUnits1">
+        <table class="table table-bordered stripe display hover" id="tblUnits1">
             <thead>
                 <tr class="tr">
                    
@@ -521,7 +521,7 @@ $(document).ready(function(){
 
         <div class="col-md-12 portal-drivers">
             <div id="tbldiv">
-                <table class="table table-bordered" id="tblUnits">
+                <table class="table table-bordered stripe display hover" id="tblUnits">
                     <thead>
                         <tr class="tr">
                            

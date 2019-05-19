@@ -52,7 +52,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     CMPYCODE = dr["CmpyCode"].ToString(),
                     FFM_JOB_CODE = dr["FFM_JOB_CODE"].ToString(),
                     NAME = dr["NAME"].ToString(),
-
+                    DISPLAY_STATUS = dr["DISPLAY_STATUS"].ToString()
                 });
             }
             return ObjList;
@@ -79,6 +79,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         CMPYCODE = m.CMPYCODE,
                         FFM_JOB_CODE = m.FFM_JOB_CODE,
                         NAME = m.NAME,
+                        DISPLAY_STATUS = m.DISPLAY_STATUS,
 
                     }).ToList());
                     int n = 0;
@@ -96,9 +97,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + FJ.UserName + "',");
                             sb.Append("'" + dtstr1 + "',");
                             sb.Append("'" + FJ.UserName + "',");
-                            sb.Append("'" + dtstr1 + "')");
-
-                            _EzBusinessHelper.ExecuteNonQuery("insert into FFM_JOB(CMPYCODE,FFM_JOB_CODE,NAME,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON) values(" + sb.ToString() + "");
+                            sb.Append("'" + dtstr1 + "',");
+                            sb.Append("'" + ObjList[n - 1].DISPLAY_STATUS + "')");
+                            _EzBusinessHelper.ExecuteNonQuery("insert into FFM_JOB(CMPYCODE,FFM_JOB_CODE,NAME,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,DISPLAY_STATUS) values(" + sb.ToString() + "");
 
                             _EzBusinessHelper.ActivityLog(FJ.CMPYCODE, FJ.UserName, "Add FN Category", ObjList[n - 1].FFM_JOB_CODE, Environment.MachineName);
 
@@ -131,8 +132,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     sb.Append("CREATED_BY='" + FJ.UserName + "',");
                     sb.Append("CREATED_ON='" + dtstr1 + "',");
                     sb.Append("UPDATED_BY='" + FJ.UserName + "',");
-                    sb.Append("UPDATED_ON='" + dtstr1 + "'");
-
+                    sb.Append("UPDATED_ON='" + dtstr1 + "',");
+                    sb.Append("DISPLAY_STATUS='" + FJ.DISPLAY_STATUS + "'");
                     _EzBusinessHelper.ExecuteNonQuery("update FFM_JOB set  " + sb + " where FFM_JOB_CODE='" + FJ.FFM_JOB_CODE + "' and Flag=0");
 
                     _EzBusinessHelper.ActivityLog(FJ.CMPYCODE, FJ.UserName, "Update FMHead", FJ.FFM_JOB_CODE, Environment.MachineName);

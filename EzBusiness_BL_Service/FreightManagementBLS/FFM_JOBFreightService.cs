@@ -31,6 +31,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 CMPYCODE = m.CMPYCODE,
                 FFM_JOB_CODE = m.FFM_JOB_CODE,
                 NAME = m.NAME,
+                DISPLAY_STATUS = m.DISPLAY_STATUS,
             }).ToList();
         }
 

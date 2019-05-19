@@ -14,7 +14,9 @@ namespace EzBusiness_BL_Interface
     public interface IAttendencePayrollService
     {
         List<AttendenceVM> GetAtens(string CmpyCode);
+
         AttendenceVM SaveAtens(AttendenceVM Atens);        
+
 
         List<Country> GetCountryCodes(string CmpyCode);
 
