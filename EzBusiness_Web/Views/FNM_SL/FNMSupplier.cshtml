@@ -1,0 +1,414 @@
+﻿@model EzBusiness_ViewModels.Models.FinaceMgmt.FNM_SL_VM
+
+@{
+    ViewBag.Title = "FNMSupplier";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        EzAuthentication("/SubLedgre");
+        var drHtml = $("#DRContainer").html();
+        $("#DRListContainer1").hide();
+        function GetDrs() {
+            $.get("/FNM_SL/GetCurrentRate", function (response) {
+                $("#DRListContainer").html(response);
+            });
+        }
+        $("#btnNew").click(function () {
+            var n = EzAuthenticationBtn("/SubLedgre", "NewIt");
+            if (n == 1) {
+                $("#editshow").hide();
+                $.get("FNM_SL/AddSupplier", function (response) {
+                    $("#DRContainer").html(response);
+                });
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
+                $("#btnEdit").prop("disabled", true);
+                $("#DRListContainer1").hide();
+            }
+        });
+        $(".alert-close").click(function () {
+            $("#editshow").hide();
+        });
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/SubLedgre", "ViewIt");
+            if (n == 1) {
+                $(this).css("visibility", "hidden");
+                EzbtnEditAcVis();
+                $("#DRListContainer1").show();
+                GetDrs();
+                $("#editshow").show();
+            }
+        });
+
+        $("#btnCancel").click(function () {
+            $("#DRContainer").html(drHtml);
+            EzbtnCancelAcVis();
+            $("#DRListContainer1").hide();
+            $("#editshow").hide();
+        });
+
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/SubLedgre", "DeleteIt");
+            if (n == 1) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+
+                        var Code = $("[name*='FNM_SL1001_CODE']").val();
+                        
+                        $.getJSON("/DeleteSupplier", { FNM_SL1001_CODE: FNM_SL1001_CODE }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    window.location = '/SubLedgre'
+                            } else {
+                                    EzAlertdele(FROM_CURRENCY_CODE);
+                            }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                $("#editshow").hide();
+            }
+        });
+        $("#btnSave").click(function () {
+            var n = EzAuthenticationBtn("/FNM_CURR_RATE", "EditIt");
+            var k = 0;
+            $("#editshow").hide();
+            var opMode = $("#hdnOperationMode").val();
+
+            if (opMode == "Add") {
+                // Code for Adding MainTable
+                var FNM = {
+                    EditFlag: false,
+                    FNM_SL1001_CODE: $("[name*='FNM_SL1001_CODE']").val(),
+                    Name: $("[name*='Name']").val(),
+                    Print_Name: $("[name*='Print_Name']").val(),
+                    Web_site: $("[name*='Web_site']").val(),
+                    Email: $("[name*='Email']").val(),
+                    Tel: $("[name*='Tel']").val(),
+                    Fax: $("[name*='Fax']").val(),
+                    Address: $("[name*='Address']").val(),
+                    Contact1: $("[name*='Contact1']").val(),
+                    Contact2: $("[name*='Contact2']").val(),
+                    Contact3: $("[name*='Contact3']").val(),
+                    Currency_code: $("[name*='Currency_code'] option:Selected").val(),
+                    credit_limit: $("[name*='credit_limit']").val(),
+                    SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:Selected").val(),
+                    FNM_SL1002Details: [],
+
+                };
+
+
+                $("#tblFNMCURRATE tbody tr").each(function (index, item) {
+
+
+                    var FNM_SL1002_CODE = $(this).find("[name*='FNM_SL1002_CODE']").val();
+                    var NAME = $(this).find("[name*='NAME']").val();
+                    var COA_CODE = $(this).find("[name*='COA_CODE']").val();
+
+
+                    if ((FNM_SL1002_CODE != "")) {
+                        var FNM_SL1002Detail = {
+                            FNM_SL1002_CODE: FNM_SL1002_CODE,
+                            NAME: NAME,
+                            COA_CODE: COA_CODE
+                        };
+                        FNM.FNM_SL1002Details.push(FNM_SL1002Detail);
+                    }
+                });
+
+
+                var validationResult = ValidateForm(FNM);
+                if (validationResult.formValid) {
+
+                    $.post("/SaveSupplier", FNM).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+
+
+                            EzbtnsaveAcVis("#DRContainer");
+                            EzAlertSave();
+                            $("#DRContainer").html(drHtml);
+                            GetDrs();
+
+                        } else {
+                            // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
+                        }
+                    });
+
+                } else {
+                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+            } else if (opMode == "Edit" && n==1 ) {
+                // Code for Adding Purchase order
+                var FNM = {
+                    EditFlag: true,
+                    FNM_SL1001_CODE: $("[name*='FNM_SL1001_CODE']").val(),
+                    Name: $("[name*='Name']").val(),
+                    Print_Name: $("[name*='Print_Name']").val(),
+                    Web_site: $("[name*='Web_site']").val(),
+                    Email: $("[name*='Email']").val(),
+                    Tel: $("[name*='Tel']").val(),
+                    Fax: $("[name*='Fax']").val(),
+                    Address: $("[name*='Address']").val(),
+                    Contact1: $("[name*='Contact1']").val(),
+                    Contact2: $("[name*='Contact2']").val(),
+                    Contact3: $("[name*='Contact3']").val(),
+                    Currency_code: $("[name*='Currency_code'] option:Selected").val(),
+                    credit_limit: $("[name*='credit_limit']").val(),
+                    SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:Selected").val(),
+
+                    FNM_SL1002Details: [],
+                };
+
+                $("#tblFNMCURRATE tbody tr").each(function (index, item) {
+                    var FNM_SL1002_CODE = $(this).find("[name*='FNM_SL1002_CODE']").val();
+                    var NAME = $(this).find("[name*='NAME']").val();
+                    var COA_CODE = $(this).find("[name*='COA_CODE']").val();
+                    if ((FNM_SL1002_CODE != "")) {
+                        var FNM_SL1002Detail = {
+                            FNM_SL1002_CODE: FNM_SL1002_CODE,
+                            NAME: NAME,
+                            COA_CODE: COA_CODE
+                        };
+                        FNM.FNM_SL1002Details.push(FNM_SL1002Detail);
+                    }
+                });
+                var validationResult = ValidateForm(FNM);
+                    if (validationResult.formValid) {
+
+                        $.post("/SaveSupplier", FNM).done(function (response) {
+                                if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                                    EzAlertSave();
+                                    EzbtnsaveAcVis("#DRContainer");
+                                    $("#DRContainer").html(drHtml);
+                                } else {
+                                    EzAlerterrtxt(response.ErrorMessage);
+                                }
+                            });
+                } else {
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+            }
+
+
+        });
+
+        function ValidateForm(FNM) {
+            debugger;
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+
+            if (FNM.EditFlag == false) {
+                if (FNM.FNM_SL1001_CODE == '') {
+                    response.ErrorMessage += "CODE ,";
+                }
+            } else if (FNM.EditFlag == true) {
+                if (FNM.FNM_SL1001_CODE == '') {
+                    response.ErrorMessage += " Code ,";
+                }
+            }
+            if (FNM.Name == '') {
+                response.ErrorMessage += "Name ,";
+            }
+            else if (FNM.SUBLEDGER_TYPE == '0') {
+                response.ErrorMessage += "SubLedger Type ,";
+            } else if (FNM.Currency_code == '0') {
+                response.ErrorMessage += "Currency code ,";
+            }
+            
+
+
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+            else
+            {
+                response.ErrorMessage="Enter Mandatory fields "+response.ErrorMessage+"."
+            }
+
+                    return response;
+                }
+
+                function parseDate(s) {
+                    var b = s.split(/\D/);
+                    return new Date(b[0], --b[1], b[2]);
+                }
+
+                $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                    console.log(thrownError);
+                });
+
+                $(document).on("click", "#POList tbody tr", function ()
+                {
+                    EzbtnEditAcVis();
+                    var operationMode = $("#hdnOperationMode").val();
+                    if (operationMode == "Edit")
+                    {
+                        $("#POList > tbody").children().removeClass("active");
+                        $(this).addClass("active");
+
+                        var Code = $(this).find("[name*='hdnFNM_SL1001_CODE']").val();
+                       
+
+                        $.get("EditSupplier", { Code: Code }).done(function (response)
+                        {
+                            $("#DRContainer").html(response);
+
+                            //$("#btnDelete").prop("disabled", false);
+                            $("#btnDelete").css("visibility", "");
+
+                            $("#btnPrint").css("visibility", "hidden");
+                        });
+                    }
+                });
+
+
+
+                $("#btnPrint").click(function () {
+                    debugger;
+                    var n = EzAuthenticationBtn("/AccountType", "PrintIt");
+                    if (n == 1) {
+                        var code1 = $("[name*='Code']").val();
+                        window.open("/AccountTypeReportForm/?code=" + code1 + "", '_blank');
+                    }
+                });
+            });
+
+
+
+</script>
+
+
+<style>
+    .top-buffer {
+        margin-top: 15px;
+    }
+
+    .fixed-width {
+        width: 100px;
+        float: left;
+    }
+
+    .fluid.row-fluid {
+        margin-right: 100px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .customSpace {
+        content: " ";
+        display: inline-block;
+        width: 40px;
+    }
+
+    div.scroll {
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+    }
+
+    .contro {
+        width: 13em;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
+
+        <div class="title-action">
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+            <button class="btn btn-info btn1" id="btnPrint" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+        </div>
+    </div>
+
+</div><hr />
+<!-- Row end -->
+<!-- Row start -->
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary panl">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <label class="row" id="ErrorMessage" style="display:none"></label>
+                <div class="tabbable-line boxless tabbable-reversed" id="DRContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="DRContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <div class="container" id="DRListContainer">
+                                                @Html.Action("GetSupplier", "FNM_SL")
+
+
+                                            </div>
+
+                                        </div>
+                                    </div><br />
+                                    <!-- END FORM-->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase Request List Start-->
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+
+
+</div>

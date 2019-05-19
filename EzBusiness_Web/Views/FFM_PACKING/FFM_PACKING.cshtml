@@ -1,0 +1,584 @@
+﻿@*@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FFM_PACKING_VM>*@
+@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FFM_PACKING_VM>
+
+@{
+    //ViewBag.Title = "FFM_PACKING";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var counter = 1;
+}
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+    $(function () {
+        $("#dcm").hide();
+        EzAuthentication("/PACKINGMASTER");
+        var n = EzAuthenticationBtn("/PACKINGMASTER", "ViewIt");
+        if (n == 1) {
+            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
+            $('#tblUnits').show();
+        } else {
+            $('#tblUnits').hide();
+        }
+    });
+</script>
+<script>
+    var Doks = [];
+    $(function () {
+        $("#tblUnits1").hide();
+        $("#btnAdd").click(function () {
+            var n = EzAuthenticationBtn("/PACKINGMaster", "NewIt");
+            if (n == 1) {
+                $("#tbldiv").hide();
+                var abk = [];
+                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
+                Ezprop(abk, "disabled", true);
+                abk = [];
+                abk.push('#btnCancel', '#btnSave');
+                Ezprop(abk, "disabled", false);
+                $("#tblUnits1 tbody tr").css("background", "");
+                $("#tblUnits1").show();
+                $("#dcm").show();
+
+
+            }
+        });
+
+        var counter = $("#Counter").val();
+
+
+        /*Code Tab Event*/
+        EztableTabEve("#tblUnits1", "[name*='txtFFM_PACKING_CODE']", "[name *= 'txtFFM_PACKING_CODE']", "Please Enter PACKING_CODE", 'T', "");
+
+
+        EztableTabEve("#tblUnits1", "[name*='txtFFM_PACKING_CODE']", "[name *= 'txtName']", "Please Enter PACKING_CODE", 'T', "");
+
+       // EztableTabEve("#tblUnits1", "[name*='txtMASTER_STATUS']", "[name *= 'txtNOTE']", "Please Enter MASTER_STATUS", 'T', "");
+
+
+
+
+        /*Enter Event*/
+        EztableLstEnt("#tblUnits1", "[name*='txtName']", "[name *= 'txtFFM_PACKING_CODE']", "T", "");
+
+
+        /*Add Table Change Event*/
+        $("#tblUnits1").on("change", "[name*='txtFFM_PACKING_CODE']", function () {
+            var tr = $(this).closest('tr');
+
+            drec = [];
+            $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtFFM_PACKING_CODE']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'txtFFM_PACKING_CODE']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name *= 'txtFFM_PACKING_CODE']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtFFM_PACKING_CODE']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtFFM_PACKING_CODE']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'txtFFM_PACKING_CODE']").val('');
+
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tableMetaSettings tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
+                    $(this).closest('tr').next('tr').find("[name*='txtFFM_PACKING_CODE']").val('');
+                    trLast.find("[name *= 'txtFFM_PACKING_CODE']").attr({
+                        "name": ("txtFFM_PACKING_CODE" + counter)
+                    });
+                    trLast.find("[name *= 'txtName']").attr({
+                        "name": ("txtName" + counter)
+                    });
+                    
+
+
+                    trLast.find(":first").text(counter);
+                }
+            }
+            counter++;
+        });
+
+
+        /*Refresh */
+        $("#btnCancel").click(function () {
+            $("#dcm").hide();
+            if ($("#tblUnits1 > tbody > tr").length > 1) {
+                $("#tblUnits1 tbody tr td:last-child").remove();
+            }
+            $("#tblUnits1 tbody").find("tr:gt(0)").remove();
+
+            var abk1 = [];
+            abk1.push("[name*='txtFFM_PACKING_CODE']", "[name*='txtName']");
+            Ezsettxtclr(abk1);
+            abk1 = [];
+            abk1.push("#btnCancel", "#btnSave");
+            Ezprop(abk1, "disabled", true);
+            abk1 = [];
+            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+            Ezprop(abk1, "disabled", false);
+            $("#tblUnits1").hide();
+            $("#tbldiv").show();
+        });
+        /*Save Unit Table */
+        $("#btnSave").click(function () {
+            debugger;
+            var fpk = {
+                FFM_PACKINGDetailNew: []
+            };
+            $("#tblUnits1 tbody tr").each(function (index, item) {
+
+                var FFM_PACKING_CODE = $(this).find("[name*='txtFFM_PACKING_CODE']").val();
+                var NAME = $(this).find("[name*='txtName']").val();
+                debugger;              
+
+
+                if ((FFM_PACKING_CODE != "") && (NAME != "")) {
+                    var FFM_PACKINGDetail = {
+                        FFM_PACKING_CODE: FFM_PACKING_CODE,
+                        NAME: NAME
+                         };
+                    fpk.FFM_PACKINGDetailNew.push(FFM_PACKINGDetail);
+                }
+            });
+            var validationResult = ValidateForm(fpk);
+            if (validationResult.formValid) {
+                $.post("/FFM_PACKING/SaveFFM_PACKING", fpk).done(function (response) {
+                    if (response.Drecord == null) {
+
+                        response.Drecord = 0;
+                        $("#tbldiv").show();
+
+                    }
+                    $("#tblUnits1 tbody tr").each(function (index, item) {
+                        var tr = $(this).closest("tr");
+
+                        var FFM_PACKING_CODEAdd = $(this).find("[name*='txtFFM_PACKING_CODE']").val();
+                        var NAMEAdd = $(this).find("[name*='txtName']").val();
+
+                        //var MASTER_STATUS = $(this).find("[name*='txtMASTER_STATUS']").val();
+                        //var NOTE = $(this).find("[name*='txtNOTE']").val();
+
+
+                        if (response.Drecord.length > 0) {
+                            var ary1 = [];
+                            ary1 = response.Drecord;
+                            if ($.inArray(FFM_PACKING_CODEAdd, ary1) < 0 && FFM_PACKING_CODEAdd != '' && FFM_PACKING_CODEAdd != '') {
+                                $(this).closest('tr').remove();
+                                var counter = $("#Counter").val();
+                                var firstRow = $('#tblUnits tbody tr:first');
+
+                                var newRow = "<tr><td>" + FFM_PACKING_CODEAdd + "</td><td>" + NAMEAdd + "</td>";
+                                //newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                //    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                //    "'></td></tr>";
+                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                   "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                   "'></td></tr>";
+                                $(firstRow).after(newRow);
+                            }
+                            else if (codeAdd != '') {
+                                $(this).closest('tr').css("background", "red");
+                            }
+                            else {
+                                $(this).closest('tr').css("background", "");
+                            }
+                        }
+                        else {
+                            $("#tblUnits1 tbody").find("tr:not(:last)").remove();
+                            $("[name*='txtFFM_PACKING_CODE']").val();
+                            $("[name*='txtFFM_PACKING_CODE']").val();
+
+
+                            $("#tblUnits1").hide();
+
+                            if (FFM_PACKING_CODEAdd != '' && FFM_PACKING_CODEAdd != '') {
+                                var counter = $("#Counter").val();
+                                var firstRow = $('#tblUnits tbody tr:first');
+                                var newRow = "<tr><td>" + FFM_PACKING_CODEAdd + "</td><td>" + NAMEAdd + "</td><td>" + NAMEAdd + "</td>";
+                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                    "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                    "'></td></tr>";
+                                //newRow += "</tr>";
+                                $(firstRow).after(newRow);
+                            }
+                            abk1 = [];
+                            abk1.push("#btnCancel", "#btnSave");
+                            Ezprop(abk1, "disabled", true);
+                            abk1 = [];
+                            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+                            Ezprop(abk1, "disabled", false);
+                            EzAlertSave();
+                            $(".dataTables_empty").replaceWith("");
+                        }
+                    });
+                });
+            }
+            else {
+                EzAlerterr();
+            }
+        });
+        
+        function ValidateForm(Fcur) {
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+
+            if (Fcur.FFM_PACKINGDetailNew.length == 0) {
+                response.ErrorMessage += "Please Enter atleast One PACKING Detail";
+            }
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+
+            return response;
+        }
+        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+        });
+
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+
+        $("#tblUnits").on("click", "[name^='Edit']", function () {
+            var n = EzAuthenticationBtn("/FFM_PACKING", "EditIt");
+            if (n == 1) {
+                debugger;
+                var counter = $("#Counter").val();
+                var hdnEditMode = $(this).parent().find('input:hidden:first');
+                 var tr = $(this).closest("tr");
+
+                 var index = $(this).attr("name").substring(4);
+                 var hdnDocCode = $(tr).find("td:eq(0)").text().trim();
+                var NAMETd = $(tr).find("td:eq(1)");
+                
+
+                var editButton = $(this);
+
+                if (hdnEditMode.val() == "true") {
+                    var NAMEEdit = $(tr).find("[name*='txtName']").val().trim();
+                  
+
+                    debugger;
+                    var fpk = {
+                        EditFlag: true,
+                        FFM_PACKING_CODE: hdnDocCode,
+                        NAME:NAMEEdit,
+                      
+                                           };
+
+                    $.post("/FFM_PACKING/SaveFFM_PACKING", fpk).done(function (response) {
+                        debugger;
+                        NAMETd.text(response.NAME);
+                        //CURRENCY_CODETd.text(response.CURRENCY_CODE);
+                        //MASTER_STATUSTd.text(response.MASTER_STATUS);
+                        //NOTETd.text(response.NOTE);
+
+
+
+                        hdnEditMode.val("false");
+                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
+                        editButton.attr('title', 'Edit');
+                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
+                        tr.find("[name^='Delete']").attr('title', 'Delete');
+
+                        tableDis("F");
+                        EzAlertUpd(hdnDocCode);
+                    });
+                    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                        console.log(thrownError);
+                    });
+                } else {
+                    debugger;
+                    NAME = $(tr).find("td:eq(1)").text();
+                    //var MASTER_STATUS = $(tr).find("td:eq(2)").text();
+                    //var NOTE = $(tr).find("td:eq(3)").text();
+
+                    $('#inpdocname').val(NAME.trim());
+
+
+
+                    NAMETd.html("<input type='text' name='txtName" + index + "' value='" + NAME.trim() + "' />");
+                    //MASTER_STATUSTd.html("<input type='text' name='txtMASTER_STATUS" + index + "' value='" + MASTER_STATUS.trim() + "' />");
+                    //NOTETd.html("<input type='text' name='txtNOTE" + index + "' value='" + NOTE.trim() + "' />");
+
+
+
+
+                    $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
+                    $(this).attr('title', 'Update');
+                    hdnEditMode.val("true");
+
+                    tableDis("T");
+                    $(this).attr("disabled", false);
+                    tr.find("[name^='Delete']").prop("disabled", false);
+
+                    tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>')
+                    tr.find("[name^='Delete']").attr('title', 'Cancel');
+
+                }
+            }
+        });
+
+        $("#tblUnits").on("click", "[name^='Delete']", function () {
+            debugger;
+            var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
+            if (n == 1) {
+                var tr = $(this).closest("tr");
+
+                var FMHEADCodeTd = $(tr).find("td:eq(1)");
+                var hdnMode = $(this).parent().find('input:hidden:first');
+                var doccode = "";
+                if (hdnMode.val() == "false") {
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            FFM_PACKING_CODE = $(tr).find("td:eq(0)").text().trim();
+                            debugger;
+                            $.getJSON("/DeleteFFM_PACKING", { PACKING_CODE: FFM_PACKING_CODE }).done(function (data) {
+                                if (data.DeleteFlag) {
+
+                                    if ($('#tblUnits tbody tr').length == 2) {
+                                        var firstRow = $('#tblUnits tbody tr:first');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                        $(firstRow).after(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
+                                    tr.remove();
+                                } else {
+                                    EzAlertdele(doccode);
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
+                        }
+                    })
+
+                }
+                else {
+                    var nameTd = $(tr).find("td:eq(1)");
+
+                    var nameEdit = $('#inpdocname').val();
+                    var hdnEditMode = $(this).parent().find('input:hidden:first');
+                    nameTd.html(nameEdit);
+                    tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
+                    tr.find("[name^='Edit']").attr('title', 'Edit');
+                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
+                    $(this).attr('title', 'Delete');
+                    hdnEditMode.val("false");
+
+                    tableDis("F");
+                }
+            }
+        });
+    });
+
+    var k = 0;
+    function tableDis(k) {
+        if (k == "T") {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", true);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", true);
+            $("#btnAdd").prop('disabled', true);
+        }
+        else {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
+            $("#btnAdd").prop('disabled', false);
+
+        }
+    }
+</script>
+
+<script>
+$(document).ready(function(){
+    //$('[data-toggle="tooltip"]').tooltip();
+    $(".edit").attr('title', 'Edit');
+    $(".delete").attr('title', 'Delete');
+});
+</script>
+
+<br />
+
+
+<div class="title-action">
+    <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
+    <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+    <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+    <input type="hidden" id="hdnOperationMode" value="" />
+
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <input id="inpdocname" type="hidden" />
+
+        <table class="table table-bordered" id="tblUnits1">
+            <thead>
+                <tr class="tr">
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.FFM_PACKING_CODE)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NAME)
+                    </th>
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.MASTER_STATUS)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Note)
+                    </th>*@
+
+                    <th></th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtFFM_PACKING_CODE", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtName", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    @*<td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtMASTER_STATUS", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtNOTE", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>*@
+
+
+
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="col-md-12 portal-drivers">
+            <div id="tbldiv">
+                <table class="table table-bordered" id="tblUnits">
+                    <thead>
+                        <tr class="tr">
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.FFM_PACKING_CODE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NAME)
+                            </th>
+                            @*<th>
+                                @Html.DisplayNameFor(model => model.MASTER_STATUS)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Note)
+                            </th>*@
+
+
+
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr class="tr">
+
+                            <td>
+                                @Html.DisplayNameFor(model => model.FFM_PACKING_CODE)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.NAME)
+                            </td>
+                            @*<td>
+                                @Html.DisplayNameFor(model => model.MASTER_STATUS)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Note)
+                            </td>*@
+
+
+
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                    <tbody style="overflow:scroll">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FFM_PACKING_CODE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NAME)
+                                </td>                               
+                                <td>
+                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                    <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                                    @Html.HiddenFor(m => item.CMPYCODE)
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+        @Html.Hidden("Counter", counter)
+    </div>
+</div>
+

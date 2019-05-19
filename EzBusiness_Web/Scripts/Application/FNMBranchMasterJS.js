@@ -8,24 +8,24 @@
 
     },
     Attachevent: function () {
-        debugger;
+        
         Ezsidetbl1('#DRList', '#DRList tfoot td', false, "#DRList thead");
         $("#btnNew").click(function () {        
-            debugger;
+            
             $("#showlist").hide();
             $("#shownewbtn,#btnSave,#btnCancel,#btnDelete,#btnPrint").show();
             $("#btnNew").hide();
         })
 
         $("#btnCancel").click(function () {          
-            debugger;
+            
             $("#showlist").show();
             $("#shownewbtn,#btnSave,#btnCancel,#btnDelete,#btnPrint").hide();
             $("#btnNew").show();
         })
 
         $("#btnDelete").click(function () {
-            debugger;
+            
             $("#showlist").show();
             $("#shownewbtn,#btnSave,#btnCancel,#btnDelete,#btnPrint").hide();
             $("#btnNew").show();
@@ -33,7 +33,7 @@
         })
 
         $("#btnSave").click(function () {
-            debugger;
+            
             var n = EzAuthenticationBtn("/FNMBranch", "EditIt");
             $("#editshow").hide();
             var opMode = "Add";
@@ -124,7 +124,7 @@
         })
 
         $(document).on("click", "#DRList tbody tr", function () {
-            debugger;
+            
             EzbtnEditAcVis();
             var operationMode = $("#hdnOperationMode").val();
             if (operationMode == "Edit") {
@@ -133,7 +133,7 @@
                // var Cmpycode = $(this).find("#hdnCmpycode").val();
                 var branchCode = $(this).find("#hdnFNMBRANCH_CODE").val();
                 $.get("EditFNMBranch", { branchCode: branchCode }).done(function (response) {
-                    debugger; 
+                     
                    $("#shownewbtn").hide();
                 $("#btnSave,#btnCancel,#btnDelete,#btnPrint").show();
                   $("#btnNew").hide();
@@ -155,7 +155,7 @@
 
     },
     ValidateForm: function (FNMBranch) {
-            debugger;
+            
 var response = {
     ErrorMessage: "",
     formValid: false
@@ -181,7 +181,7 @@ return response;
 
     DeleteFNMBranch:function()
     {
-        debugger;
+        
         var n = EzAuthenticationBtn("/FNMBranch", "DeleteIt");
 
             const swalWithBootstrapButtons = Swal.mixin({

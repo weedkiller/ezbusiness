@@ -22,6 +22,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string SCACCODE { get; set; }
         public string CARRIER { get; set; }
         public string VESSEL_TYPE { get; set; }
+
+        public List<SelectListItem> ContainerList { get; set; }
         public string COUNTRY { get; set; }
 
         public List<SelectListItem> COUNTRYList { get; set; }
