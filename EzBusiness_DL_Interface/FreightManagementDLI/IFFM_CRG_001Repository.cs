@@ -1,0 +1,21 @@
+﻿using EzBusiness_EF_Entity;
+using EzBusiness_EF_Entity.FreightManagement;
+using EzBusiness_EF_Entity.FreightManagementEF;
+using EzBusiness_ViewModels.Models.FreightManagement;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EzBusiness_DL_Interface.FreightManagementDLI
+{
+    public interface IFFM_CRG_001Repository
+    {
+        #region FFM_CRG_001 Master
+        List<FFM_CRG_001> GetFFM_CRG_001(string CmpyCode);
+        FFM_CRG_001_VM SaveFM_CRG_001HEAD(FFM_CRG_001_VM CR);
+        bool DeleteFFM_CRG_001(string FFM_CRG_001_CODE, string CmpyCode, string UserName);
+        #endregion
+    }
+}
