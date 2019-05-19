@@ -1,13 +1,14 @@
-﻿@model IEnumerable <EzBusiness_ViewModels.Models.FreightManagement.FFM_CNTR_VM>
+﻿@model IEnumerable < EzBusiness_ViewModels.Models.FreightManagement.FFM_Unit_VM>
 
 @{
-    ViewBag.Title = "FFM_CNTR";
+    ViewBag.Title = "FFM_Unit";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var counter = 1;
 }
-<br/>
+
+<br />
 <script src="~/Scripts/EzComNDW.js"></script>
-<script src="~/Scripts/Application/FrightManagment/FMM_CNTRFright.js"></script>
+<script src="~/Scripts/Application/FrightManagment/FFM_Unit.js"></script>
 <div class="title-action">
     <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
     <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
@@ -26,11 +27,14 @@
                 <tr class="tr">
 
                     <th>
-                       CODE
+                        CODE
                     </th>
                     <th>
-                      NAME
-
+                        NAME
+                    </th>
+                    <th>
+                      Display Status
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -40,7 +44,7 @@
                 <tr>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtCNTR_CODE", counter), null, new { @class = "grid-control" })
+                            @Html.TextBox(string.Concat("txtCODE", counter), null, new { @class = "grid-control" })
                         </div>
                     </td>
                     <td>
@@ -48,23 +52,35 @@
                             @Html.TextBox(string.Concat("txtNAME", counter), null, new { @class = "grid-control" })
                         </div>
                     </td>
+                  
+                    <td>
+                        <div class="grid-group">
+                            @Html.DropDownList(string.Concat("txtdisplaystatus", counter), new List<SelectListItem> { new SelectListItem { Text = "Yes", Value = "Y" }, { new SelectListItem { Text = "No", Value = "N" } } }, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    
                 </tr>
             </tbody>
         </table>
 
         <div class="col-md-12">
             <div id="tbldiv">
+                <input id="hldte" type="hidden" />
+                <input id="hltyp" type="hidden" />
+                <input id="hlDesc" type="hidden" />
                 <table class="table table-bordered" id="tblUnits">
                     <thead>
                         <tr class="tr">
 
                             <th>
-                               CODE
+                                CODE
                             </th>
                             <th>
-                               NAME
+                                Name
                             </th>
-                        
+                            <th>
+                                Display Status
+                            </th>
                             <th></th>
 
                         </tr>
@@ -73,12 +89,15 @@
                         <tr class="tr">
 
                             <td>
-                                @Html.DisplayNameFor(model => model.FFM_CNTR_CODE)
+                                @Html.DisplayNameFor(model => model.FFM_UNIT_CODE)
                             </td>
-                          
+
                             <td>
                                 @Html.DisplayNameFor(model => model.NAME)
-                            </td>                           
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.DISPLAY_STATUS)
+                            </td>
                             <td></td>
                         </tr>
                     </tfoot>
@@ -88,12 +107,14 @@
                             <tr>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.FFM_CNTR_CODE)
+                                    @Html.DisplayFor(modelItem => item.FFM_UNIT_CODE)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.NAME)
                                 </td>
-                             
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DISPLAY_STATUS)
+                                </td>
                                 <td>
                                     <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)">
                                         <span class="glyphicon glyphicon-pencil"></span>
@@ -122,7 +143,7 @@
 
             $(".edit").attr('title', 'Edit');
             $(".delete").attr('title', 'Delete');
-            cntr.initialize();
+            unit.initialize();
             });
 </script>
 
