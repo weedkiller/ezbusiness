@@ -12,11 +12,12 @@ using System.Configuration;
 using System.Transactions;
 
 namespace EzBusiness_DL_Repository
-{
+{ 
     public class StatusPayrollRepository : IStatusPayrollRepository
     {
         DataSet ds = null;
         DataTable dt = null;
+
 
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
 
@@ -109,7 +110,7 @@ namespace EzBusiness_DL_Repository
           
                     return Stats;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from MSTS023 where CmpyCode='" + Stats.CmpyCode + "' and Code='" + Stats.Code + "'");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from MSTS023 where CmpyCode='" + Stats.CmpyCode + "' and Code='" + Stats.Code + "'");
                 if (StatsEdit != 0)
                 {
                     using (TransactionScope scope1 = new TransactionScope())

@@ -24,7 +24,7 @@ namespace EzBusiness_Web.Controllers
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {
-                return Redirect("Login/InLogin");
+               return Redirect("Login/InLogin");
             }
             else
             {

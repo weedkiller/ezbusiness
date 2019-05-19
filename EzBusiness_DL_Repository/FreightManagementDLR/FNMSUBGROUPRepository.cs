@@ -71,7 +71,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                     while (n > 0)
                     {
-                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMSUBGROUP where CmpyCode='" + FSG.CMPYCODE + "' and FNMSUBGROUP_CODE='" + ObjList[n - 1].FNMSUBGROUP_CODE + "'");
+                        decimal Stats1 = _EzBusinessHelper.ExecuteScalarDec("Select count(*) as [count1] from FNMSUBGROUP where CmpyCode='" + FSG.CMPYCODE + "' and FNMSUBGROUP_CODE='" + ObjList[n - 1].FNMSUBGROUP_CODE + "'");
                         if (Stats1 == 0)
                         {
                             StringBuilder sb = new StringBuilder();
@@ -100,7 +100,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                     return FSG;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from FNMSUBGROUP where CmpyCode='" + FSG.CMPYCODE + "' and FNMSUBGROUP_CODE='" + FSG.FNMSUBGROUP_CODE + "'and Flag=0");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNMSUBGROUP where CmpyCode='" + FSG.CMPYCODE + "' and FNMSUBGROUP_CODE='" + FSG.FNMSUBGROUP_CODE + "'and Flag=0");
                 if (StatsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update FNMSUBGROUP set CmpyCode='" + FSG.CMPYCODE + "',FNMSUBGROUP_CODE='" + FSG.FNMSUBGROUP_CODE + "',DESCRIPTION='" + FSG.DESCRIPTION + "' where CmpyCode='" + FSG.CMPYCODE + "' and FNMSUBGROUP_CODE='" + FSG.FNMSUBGROUP_CODE + "'");

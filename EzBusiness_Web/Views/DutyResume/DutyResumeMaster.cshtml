@@ -16,7 +16,7 @@
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
         function GetDrs() {
-            $.get("/Branch_Master", function (response) {
+            $.get("/DutyResume/GetDrs", function (response) {
                 $("#DRListContainer").html(response);
             });
         }
@@ -225,7 +225,7 @@
                             $.post("/SaveDrs", dutyResume).done(function (response) {
                                 if (response.SaveFlag && !response.ErrorMessage.length > 0) {
 
-                                    //EzbtnsaveAcVis("#DRContainer");
+                                    EzbtnsaveAcVis("#DRContainer");
                                     EzAlertSave();
                                     $("#DRContainer").html(drHtml);
                                    //GetDrs();

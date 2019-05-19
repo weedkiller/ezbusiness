@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace EzBusiness_EF_Entity.FreightManagementEF
 {
    public partial class FNMCAT
-   {        
+   {
         public string CMPYCODE { get; set; }
-        public string FNMCAT_CODE { get; set; }
+        public string FNMSLCAT_CODE { get; set; }
         public string DESCRIPTION { get; set; }
     }
 }

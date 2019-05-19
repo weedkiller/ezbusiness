@@ -71,7 +71,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                     while (n > 0)
                     {
-                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMTYPE where CmpyCode='" + FT.CMPYCODE + "' and FNMTYPE_CODE='" + ObjList[n - 1].FNMTYPE_CODE + "'");
+                        decimal Stats1 = _EzBusinessHelper.ExecuteScalarDec("Select count(*) as [count1] from FNMTYPE where CmpyCode='" + FT.CMPYCODE + "' and FNMTYPE_CODE='" + ObjList[n - 1].FNMTYPE_CODE + "'");
                         if (Stats1 == 0)
                         {
                             StringBuilder sb = new StringBuilder();
@@ -100,7 +100,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                     return FT;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from FNMTYPE where CmpyCode='" + FT.CMPYCODE + "' and FNMTYPE_CODE='" + FT.FNMTYPE_CODE + "'and Flag=0");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNMTYPE where CmpyCode='" + FT.CMPYCODE + "' and FNMTYPE_CODE='" + FT.FNMTYPE_CODE + "'and Flag=0");
                 if (StatsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update FNMTYPE set CmpyCode='" + FT.CMPYCODE + "',FNMTYPE_CODE='" + FT.FNMTYPE_CODE + "',DESCRIPTION='" + FT.DESCRIPTION + "' where CmpyCode='" + FT.CMPYCODE + "' and FNMTYPE_CODE='" + FT.FNMTYPE_CODE + "'");

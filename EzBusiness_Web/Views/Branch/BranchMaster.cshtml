@@ -23,12 +23,9 @@
     var paydeductons = [];
     var paydeductons1 = [];
        $(function () {
-        $("#tblUnits1").hide();      
-
-       
+        $("#tblUnits1").hide();     
         $("#tbldiv").show();
         GetDivisionList();
-
             $("#btnAdd").click(function () {
                 var n = EzAuthenticationBtn("/Branch", "NewIt");
                 if (n == 1) {
@@ -45,7 +42,7 @@
                     $("#tblUnits1 tbody tr").css("background", "");
                     $("#tblUnits1").show();
                 }
-           // $("#ddlPayDeductOn3").hide();
+           //$("#ddlPayDeductOn3").hide();
         });
         var counter = $("#Counter").val();
         /*Add Table Change Event*/
@@ -67,7 +64,6 @@
                 tr.find("[name *= 'txtCode']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'txtCode']").val('');
-
             }
             else {
                 tr.css("background", "");
@@ -86,9 +82,8 @@
                     trLast.find("[name *= 'ddlPayDeductOn1']").attr({
                         "name": ("ddlPayDeductOn1" + counter)
                     });                   
-
                     trLast.find(":first").text(counter);
-                }
+                  }
             }
             counter++;
         });
@@ -107,8 +102,7 @@
             if ($("#tblUnits1 > tbody > tr").length > 1) {
                 $("#tblUnits1 tbody tr td:last-child").remove();
             }
-            $("#tblUnits1 tbody").find("tr:gt(0)").remove();
-         
+            $("#tblUnits1 tbody").find("tr:gt(0)").remove();         
             $("#tblUnits1").hide();
             var abk1 = [];
             abk1.push("[name*='txtCode']", "[name*='txtName']", "[name*='ddlPayDeductOn1']");
@@ -128,8 +122,7 @@
                 BranchDdetailnew: []
             };
             //Ezerrormsg("#ErrorMessage", "");
-            $("#tblUnits1 tbody tr").each(function (index, item) {
-               
+            $("#tblUnits1 tbody tr").each(function (index, item) {               
                 var StsCode = $(this).find("[name*='txtCode']").val().trim();
                 var StsName = $(this).find("[name*='txtName']").val().trim();
                 var StsDivisionCode = $(this).find("[name*='ddlPayDeductOn1']").val().trim();               
@@ -139,8 +132,7 @@
                         Name: StsName,
                         DivCode:StsDivisionCode,                       
                     };
-                    Brc.BranchDdetailnew.push(BranchDetail);
-
+                  Brc.BranchDdetailnew.push(BranchDetail);
                 }
             });
             var validationResult = ValidateForm(Brc);
@@ -149,14 +141,12 @@
                     if (response.Drecord == null) {
                         response.Drecord = 0;
                         $("#tbldiv").show();
-
                     }
                     $("#tblUnits1 tbody tr").each(function (index, item) {
                         var tr = $(this).closest("tr");
                         var codeAdd = $(tr).find("[name*='txtCode']").val().trim();
                         var nameAdd = $(tr).find("[name*='txtName']").val().trim();
                         var DivCodeAdd = $(tr).find("[name*='ddlPayDeductOn1']").val().trim();                       
-
                         if (response.Drecord.length > 0) {
                             var ary1 = [];
                             ary1 = response.Drecord;
@@ -214,6 +204,7 @@
                 EzAlerterr();
             }
         });
+
         function ValidateForm(Brc) {
            
             var response = {
@@ -229,6 +220,7 @@
 
             return response;
         }
+
         $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
             $(this).closest("tr").remove();
         });
@@ -237,8 +229,7 @@
             console.log(thrownError);
         });
        
-        $("#tblUnits").on("click", "[name^='Edit']", function () {
-            
+        $("#tblUnits").on("click", "[name^='Edit']", function () {            
             var n = EzAuthenticationBtn("/Branch", "EditIt");
             if (n == 1) {
                 var counter = $("#Counter").val();
@@ -294,6 +285,7 @@
                 }
             }
         });
+
         $("#tblUnits").on("click", "[name^='Delete']", function () {
            
             var n = EzAuthenticationBtn("/Branch", "DeleteIt");
@@ -310,7 +302,6 @@
                         cancelButtonClass: 'btn btn-danger',
                         buttonsStyling: false,
                     })
-
                     swalWithBootstrapButtons.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",
@@ -323,19 +314,17 @@
                         if (result.value) {
                             code = $(tr).find("td:eq(0)").text().trim();
                             $.getJSON("/DeleteBrs", { Code: code, CmpyCode: hdnCmpyCode }).done(function (data) {
-                                if (data.DeleteFlag) {
-                                   
+                                if (data.DeleteFlag) {                                   
                                     tr.remove();
                                     if ($('#tblUnits tbody tr').length == 1 || $('#tblUnits tbody tr').length == 0) {
-                                        //$(".dataTables_empty").replaceWith("No data available in table");
-                                        var firstRow = $('#tblUnits tbody');
-                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
-                                        $(firstRow).append(newRow);
-                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                       //$(".dataTables_empty").replaceWith("No data available in table");
+                                       var firstRow = $('#tblUnits tbody');
+                                       var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                       $(firstRow).append(newRow);
+                                       $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
                                     }
-
                                 } else {
-                                    EzAlertdele(code);
+                                   EzAlertdele(code);
                                 }
                             });
                             swalWithBootstrapButtons.fire(

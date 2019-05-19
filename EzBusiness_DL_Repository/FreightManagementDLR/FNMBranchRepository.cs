@@ -1,4 +1,5 @@
 ﻿using EzBusiness_DL_Interface.FreightManagementDLI;
+using EzBusiness_EF_Entity;
 using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
 using System;
@@ -16,6 +17,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         DataTable dt = null;
 
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
+        DropListFillFun drop = new DropListFillFun();
         public bool DeleteFNMBranch(string FNMBranch_CODE, string CmpyCode, string UserName)
         {
 
@@ -30,7 +32,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             }
             return false;
         }
-
+        public List<Nation> GetNationList(string CmpyCode)
+        {
+            return drop.GetNationList(CmpyCode);
+        }
+        public List<FNM_CURRENCY> GetCurrencyList(string CmpyCode)
+        {
+            return drop.GetCurrencyList(CmpyCode);
+        }
         public List<FNMBranch> GetFNMBranch(string CmpyCode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,STATE from FNMBRANCH where CMPYCODE='" + CmpyCode + "' and Flag=0");// 
@@ -56,7 +65,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             }
             return ObjList;
         }
-
+  
         public FNMBranch_VM SaveFNMBranch(FNMBranch_VM branch)
         {
             try
@@ -83,13 +92,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     int n = 0;
                     n = ObjList.Count;
 
-
-                    int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMBRANCH where CmpyCode='" + branch.CMPYCODE + "' and FNMBRANCH_CODE='" + branch.FNMBRANCH_CODE + "'");
+                    while (n > 0)
+                    {
+                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMBRANCH where CmpyCode='" + branch.CMPYCODE + "' and FNMBRANCH_CODE='" + branch.FNMBRANCH_CODE + "'");
                         if (Stats1 == 0)
                         {
                             StringBuilder sb = new StringBuilder();
-                           
-                            sb.Append("'" + ObjList[n-1].FNMBRANCH_CODE + "',");
+
+                            sb.Append("'" + ObjList[n - 1].FNMBRANCH_CODE + "',");
                             sb.Append("'" + branch.CMPYCODE + "',");
                             sb.Append("'" + ObjList[n - 1].DESCRIPTION + "',");
                             sb.Append("'" + ObjList[n - 1].SNO + "',");
@@ -101,7 +111,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + ObjList[n - 1].CURRENCY + "',");
                             sb.Append("'" + ObjList[n - 1].COUNTRY + "',");
                             sb.Append("'" + ObjList[n - 1].STATE + "')");
-                         
+
                             _EzBusinessHelper.ExecuteNonQuery("insert into FNMBRANCH(FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,STATE) values(" + sb.ToString() + "");
                             _EzBusinessHelper.ActivityLog(branch.CMPYCODE, branch.UserName, "Add FN Category", branch.FNMBRANCH_CODE, Environment.MachineName);
                             branch.SaveFlag = true;
@@ -109,12 +119,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         }
                         else
                         {
-
-                        Drecord.Add(branch.FNMBRANCH_CODE.ToString());
-                        branch.Drecord = Drecord;
-                        branch.SaveFlag = false;
+                            Drecord.Add(branch.FNMBRANCH_CODE.ToString());
+                            //  branch.Drecord = Drecord;
+                            branch.SaveFlag = false;
                             branch.ErrorMessage = "Duplicate Record";
                         }
+                        n = n - 1;
+                    }
+                  
                     return branch;
                 }
                 var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNMBRANCH where CmpyCode='" + branch.CMPYCODE + "' and FNMBRANCH_CODE='" + branch.FNMBRANCH_CODE + "'and Flag=0");
@@ -158,28 +170,27 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return branch;
         }
 
-        public List<FNMBranch> EditFNMBranch(string CmpyCode,string BranchCode)
+        public FNMBranch_VM EditFNMBranch(string CmpyCode,string BranchCode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,STATE from FNMBRANCH where CMPYCODE='" + CmpyCode + "' and FNMBRANCH_CODE='" + BranchCode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
-            List<FNMBranch> ObjList = new List<FNMBranch>();
+            FNMBranch_VM ObjList = new FNMBranch_VM();
             foreach (DataRow dr in drc)
             {
-                ObjList.Add(new FNMBranch()
-                {
-                    CMPYCODE = dr["CmpyCode"].ToString(),
-                    FNMBRANCH_CODE = dr["FNMBRANCH_CODE"].ToString(),
-                    DESCRIPTION = dr["DESCRIPTION"].ToString(),
-                    PRINTNAME = dr["PRINTNAME"].ToString(),
-                    ADDRESS = dr["ADDRESS"].ToString(),
-                    EMAIL = dr["EMAIL"].ToString(),
-                    WEBSITE = dr["WEBSITE"].ToString(),
-                    MOBILE = dr["MOBILE"].ToString(),
-                    CURRENCY = dr["CURRENCY"].ToString(),
-                    COUNTRY = dr["COUNTRY"].ToString(),
-                    STATE = dr["STATE"].ToString()
-                });
+
+                ObjList.CMPYCODE = dr["CmpyCode"].ToString();
+                ObjList.FNMBRANCH_CODE = dr["FNMBRANCH_CODE"].ToString();
+                ObjList.DESCRIPTION = dr["DESCRIPTION"].ToString();
+                ObjList.PRINTNAME = dr["PRINTNAME"].ToString();
+                ObjList.ADDRESS = dr["ADDRESS"].ToString();
+                ObjList.EMAIL = dr["EMAIL"].ToString();
+                ObjList.WEBSITE = dr["WEBSITE"].ToString();
+                ObjList.MOBILE = dr["MOBILE"].ToString();
+                ObjList.CURRENCY = dr["CURRENCY"].ToString();
+                ObjList.COUNTRY = dr["COUNTRY"].ToString();
+                ObjList.STATE = dr["STATE"].ToString();
+                
             }
             return ObjList;
         }

@@ -107,7 +107,7 @@ namespace EzBusiness_DL_Repository
                  
                     return Lons;
                 }
-                var LonsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from PRLM001 where CmpyCode='" + Lons.CmpyCode + "' and COUNTRY ='" + Lons.COUNTRY + "' and PRLM001_CODE='" + Lons.PRLM001_CODE + "'and Flag=0");
+                var LonsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from PRLM001 where CmpyCode='" + Lons.CmpyCode + "' and COUNTRY ='" + Lons.COUNTRY + "' and PRLM001_CODE='" + Lons.PRLM001_CODE + "'and Flag=0");
                 if (LonsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update PRLM001 set Name='" + Lons.Name + "',Act_code='" + Lons.Act_code + "' where CmpyCode='" + Lons.CmpyCode + "' and COUNTRY ='" + Lons.COUNTRY + "' and PRLM001_CODE='" + Lons.PRLM001_CODE + "'");

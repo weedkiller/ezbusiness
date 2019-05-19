@@ -118,7 +118,7 @@ namespace EzBusiness_DL_Repository
                     //}
                     return Pjms;
                 }
-                var PjmsEdit = _EzBusinessHelper.ExecuteNonQuery("Select * from CCH004 where CmpyCode='" + Pjms.CmpyCode + "' and Code='" + Pjms.Code + "'and Flag=0");
+                var PjmsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from CCH004 where CmpyCode='" + Pjms.CmpyCode + "' and Code='" + Pjms.Code + "'and Flag=0");
                 if (PjmsEdit != 0)
                 {
                     _EzBusinessHelper.ExecuteNonQuery("update CCH004 set Name='" + Pjms.Name + "',Active='" + Pjms.Active + "' where CmpyCode='" + Pjms.CmpyCode + "' and Code='" + Pjms.Code + "'");

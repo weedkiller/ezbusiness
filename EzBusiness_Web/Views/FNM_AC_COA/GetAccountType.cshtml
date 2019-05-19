@@ -1,0 +1,154 @@
+﻿@model  IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FNM_AC_COA_VM>
+
+
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+        //$(document).ready(function () {
+            Ezsidetbl("#POList", "#POList tfoot td", false, "#POList thead");
+            //$('#POList').Datatable.reload();
+            //a++;
+
+        //});
+
+</script>
+
+@*<button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>*@
+
+<table id="POList" class="table table-bordered table-hover emptbl portal-drivers">
+    <thead>
+        <tr class="tr">
+            <th>
+                Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Head Code
+            </th>
+            <th>
+                Group Code
+            </th>
+            <th>
+                Sub Group Code
+            </th>
+            <th>
+                Coa Type
+            </th>
+            <th>
+                Sub Ledger Type
+            </th>
+            <th>
+                Sub Ledger Category
+            </th>
+            <th>
+                Nature
+            </th>
+            <th>
+                Note
+            </th>
+            <th>
+                Master Status
+            </th>
+            <th>
+                PL BS
+            </th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td>                
+               Code
+            </td>
+            <td>
+               Name
+            </td>
+            <td>
+             Head Code
+            </td>
+            <td>
+             Group Code
+            </td>
+            <td>
+               Sub Group Code
+            </td>
+            <td>
+             Coa Type
+            </td>
+            <td>
+               Sub Ledger Type
+            </td>
+            <td>
+                Sub Ledger Category
+            </td>
+            <td>
+              Nature
+            </td>
+            <td>
+              Note
+            </td>
+            <td>
+            Master Status
+            </td>
+            <td>
+           PL BS
+            </td>
+
+        </tr>
+    </tfoot>
+    <tbody>
+        @foreach (var po in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnFNMACTCode", po.CODE)
+                    @po.CODE
+                </td>
+                <td>
+                    @po.NAME
+                </td>
+                <td>
+                    @po.Head_code
+                </td>
+                <td>
+                    @po.group_code
+                </td>
+                <td>
+                    @po.SUBGROUP_code
+                </td>
+                <td>
+                    @po.COA_TYPE
+                </td>
+                <td>                    
+                    @po.SUBLEDGER_TYPE
+                </td>
+                <td>
+                    @po.SUBLEDGER_CAT
+                </td>
+                <td>
+                    @po.NATURE
+                </td>
+                <td>
+                    @po.NOTE
+                </td>
+                <td>
+                    @po.MASTER_STATUS
+                </td>
+                <td>
+                    @po.PL_BS
+                </td>
+              
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+  //  $('#POList').DataTable().ajax.reload();
+</script>

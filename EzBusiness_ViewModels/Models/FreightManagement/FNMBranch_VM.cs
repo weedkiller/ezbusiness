@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.WebPages.Html;
 
 namespace EzBusiness_ViewModels.Models.FreightManagement
 {
@@ -31,9 +32,10 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public List<FNMBranchDetailsNew> FNMBranchDetailsnew { get; set; }
         public FNMBranchDetailsNew FNMBranchDetail { get; set; }
 
-        public List<string> Drecord { get; set; }
+        //public List<string> Drecord { get; set; }
 
-
+        public List<SelectListItem> CountryList { get; set; }
+        public List<SelectListItem> CurrencyList { get; set; }
         public string UserName { get; set; }
     }
     public class FNMBranchDetailsNew
@@ -51,6 +53,6 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string CURRENCY { get; set; }
         public string COUNTRY { get; set; }
         public string STATE { get; set; }
-
+       
     }
 }

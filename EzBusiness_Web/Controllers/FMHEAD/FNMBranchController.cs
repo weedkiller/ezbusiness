@@ -40,9 +40,32 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return View(_branchService.GetFNMBranch(list[0].CmpyCode));
             }
         }
-
-
-
+        [Route("GetCountryCodes")]
+        public ActionResult GetCountryCodes()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_branchService.GetCountryCodes(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+        [Route("GetCurrencyCodes")]
+        public ActionResult GetCurrencyCodes()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_branchService.GetCurrencyCodes(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
         [HttpPost]
         //[Route("SaveFNMBranch")]
         public ActionResult SaveFNMBranch(FNMBranch_VM brnch)
@@ -59,8 +82,6 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(_branchService.SaveFNMBranch(brnch), JsonRequestBehavior.AllowGet);
             }
         }
-
-
 
         [Route("DeleteFNMBranch")]
         public ActionResult DeleteFNMBranch(string branchCode)
@@ -89,6 +110,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(_branchService.EditFNMBranch(list[0].CmpyCode,branchCode), JsonRequestBehavior.AllowGet);
             }
         }
+    
 
     }
 

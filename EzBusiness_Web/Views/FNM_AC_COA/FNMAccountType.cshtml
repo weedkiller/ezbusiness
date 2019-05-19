@@ -1,0 +1,401 @@
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.FNM_AC_COA_VM
+
+@{
+    ViewBag.Title = "FNMAccountType";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        EzAuthentication("/AccountType");              
+        var drHtml = $("#DRContainer").html();
+        $("#DRListContainer1").hide();
+        function GetDrs() {
+            $.get("/FNM_AC_COA/GetAccountType", function (response) {
+                $("#DRListContainer").html(response);
+            });
+        }
+        $("#btnNew").click(function () {
+            var n = EzAuthenticationBtn("/AccountType", "NewIt");
+            if (n == 1) {
+                $("#editshow").hide();
+                $.get("FNM_AC_COA/AddAccountType", function (response) {
+                    $("#DRContainer").html(response);
+                });
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
+                $("#btnEdit").prop("disabled", true);
+                $("#DRListContainer1").hide();
+            }
+        });
+        $(".alert-close").click(function () {
+            $("#editshow").hide();
+        });
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/AccountType", "ViewIt");
+            if (n == 1) {
+                $(this).css("visibility", "hidden");               
+                EzbtnEditAcVis();
+                $("#DRListContainer1").show();
+                GetDrs();
+                $("#editshow").show();
+            }
+        });
+
+        $("#btnCancel").click(function () {
+            $("#DRContainer").html(drHtml);
+            EzbtnCancelAcVis();
+            $("#DRListContainer1").hide();           
+            $("#editshow").hide();
+        });
+        
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/AccountType", "DeleteIt");          
+            if (n == 1) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                       
+                        var Code = $("[name*='CODE']").val();
+                        $.getJSON("/DeleteAccountTypeS", { Code: Code }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                window.location = '/AccountType'                                
+                            } else {
+                                    EzAlertdele(Code);
+                            }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                $("#editshow").hide();                
+            }
+        });
+        $("#btnSave").click(function () {
+            var n = EzAuthenticationBtn("/AccountType", "EditIt");            
+            var k = 0;
+            $("#editshow").hide();
+            var opMode = $("#hdnOperationMode").val();
+
+            if (opMode == "Add") {
+                // Code for Adding MainTable
+                var FNM = {
+                    EditFlag: false,                    
+                    CODE: $("[name*='CODE']").val(),
+                    NAME:$("[name*='NAME']").val(),
+                    COA_TYPE: $("[name*='COA_TYPE'] option:selected").val(),
+                    Head_code: $("[name*='Head_code'] option:selected").val(),
+                    group_code: $("[name*='group_code'] option:selected").val(),
+                    SUBGROUP_code: $("[name*='SUBGROUP_code'] option:selected").val(),
+                    SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:selected").val(),
+                    FNMSLCAT_CODE: $("[name*='FNMSLCAT_CODE'] option:selected").val(),
+                    MASTER_STATUS: $("input:radio[name=MASTER_STATUS]:checked").val(),
+                    NOTE: $("[name*='NOTE']").val(),
+                    NATURE: $("input:radio[name=NATURE]:checked").val(),
+                    PL_BS: $("input:radio[name=PL_BS]:checked").val()
+                };
+
+
+
+                var validationResult = ValidateForm(FNM);
+                if (validationResult.formValid) {
+                   
+                    $.post("/SaveAccountType", FNM).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                          
+
+                            EzbtnsaveAcVis("#DRContainer");
+                            EzAlertSave();
+                            $("#DRContainer").html(drHtml);
+                            GetDrs();
+
+                        } else {
+                            // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
+                        }
+                    });
+                 
+                } else {
+                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+            } else if (opMode == "Edit" && n==1 ) {
+                // Code for Adding Purchase order
+                var FNM = {
+                        EditFlag: true,
+                        CODE: $("[name*='CODE']").val(),
+                        NAME: $("[name*='NAME']").val(),
+                        COA_TYPE: $("[name*='COA_TYPE'] option:selected").val(),
+                        Head_code: $("[name*='Head_code'] option:selected").val(),
+                        group_code: $("[name*='group_code'] option:selected").val(),
+                        SUBGROUP_code: $("[name*='SUBGROUP_code'] option:selected").val(),
+                        SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:selected").val(),                        
+                       FNMSLCAT_CODE: $("[name*='FNMSLCAT_CODE'] option:selected").val(),
+                        MASTER_STATUS: $("input:radio[name=MASTER_STATUS]:checked").val(),
+                        NOTE: $("[name*='NOTE']").val(),
+                        NATURE: $("input:radio[name=NATURE]:checked").val(),
+                        PL_BS: $("input:radio[name=PL_BS]:checked").val()
+
+                };
+
+
+
+                var validationResult = ValidateForm(FNM);
+                    if (validationResult.formValid) {
+                     
+                        $.post("/SaveAccountType", FNM).done(function (response) {
+                                if (response.SaveFlag && !response.ErrorMessage.length > 0) {                                   
+                                    EzAlertSave();
+                                    EzbtnsaveAcVis("#DRContainer");
+                                    $("#DRContainer").html(drHtml);                                   
+                                } else {                                  
+                                    EzAlerterrtxt(response.ErrorMessage);
+                                }
+                            });                        
+                } else {                   
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+            }
+
+
+        });
+
+        function ValidateForm(FNM) {
+            debugger;
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+
+            if (FNM.EditFlag == false) {
+                if (FNM.CODE == '') {
+                    response.ErrorMessage += "Code ,";
+                }
+            } else if (FNM.EditFlag == true) {
+                if (FNM.CODE == '') {
+                    response.ErrorMessage += "Code ,";
+                }
+            }
+            if (FNM.NAME == '') {
+                response.ErrorMessage += "Name ,";
+            }
+            else if (FNM.Head_code == '0') {
+                response.ErrorMessage += "Head Code ,";
+            } else if (FNM.group_code == '0') {
+                response.ErrorMessage += "Group Code ,";
+            }
+            else if (FNM.SUBGROUP_code == '0') {
+                response.ErrorMessage += "Sub Group Code ,";
+            }
+            else if (FNM.COA_TYPE == '0') {
+                response.ErrorMessage += "COA Type,";
+            }  
+            else if (FNM.SUBLEDGER_TYPE == '0') {
+                response.ErrorMessage += "Sub Ledger Type ,";
+            }
+            else if (FNM.FNMSLCAT_CODE == '0') {
+                response.ErrorMessage += "Sub Ledger Category ,";
+            }
+
+
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+            else
+            {
+                response.ErrorMessage="Enter Mandatory fields "+response.ErrorMessage+"."
+            }
+
+                    return response;
+                }
+
+                function parseDate(s) {
+                    var b = s.split(/\D/);
+                    return new Date(b[0], --b[1], b[2]);
+                }
+
+                $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                    console.log(thrownError);
+                });
+
+                $(document).on("click", "#POList tbody tr", function ()
+                {
+                    EzbtnEditAcVis();
+                    var operationMode = $("#hdnOperationMode").val();
+                    if (operationMode == "Edit")
+                    {
+                        $("#POList > tbody").children().removeClass("active");
+                        $(this).addClass("active");
+                        
+                        var Code = $("[name*='hdnFNMACTCode']").val();
+                        $.get("EditAccountType", { Code: Code }).done(function (response)
+                        {
+                            $("#DRContainer").html(response);
+
+                            //$("#btnDelete").prop("disabled", false);
+                            $("#btnDelete").css("visibility", "");
+
+                            $("#btnPrint").css("visibility", "hidden");
+                        });
+                    }
+                });
+
+
+
+                $("#btnPrint").click(function () {
+                    debugger;
+                    var n = EzAuthenticationBtn("/AccountType", "PrintIt");
+                    if (n == 1) {
+                        var code1 = $("[name*='Code']").val();
+                        window.open("/AccountTypeReportForm/?code=" + code1 + "", '_blank');
+                    }
+                });
+            });
+
+
+
+</script>
+
+
+<style>
+    .top-buffer {
+        margin-top: 15px;
+    }
+
+    .fixed-width {
+        width: 100px;
+        float: left;
+    }
+
+    .fluid.row-fluid {
+        margin-right: 100px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .customSpace {
+        content: " ";
+        display: inline-block;
+        width: 40px;
+    }
+
+    div.scroll {
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+    }
+
+    .contro {
+        width: 13em;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
+
+        <div class="title-action">
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+            <button class="btn btn-info btn1" id="btnPrint" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+        </div>
+    </div>
+
+</div><hr />
+<!-- Row end -->
+<!-- Row start -->
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary panl">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <label class="row" id="ErrorMessage" style="display:none"></label>
+                <div class="tabbable-line boxless tabbable-reversed" id="DRContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="DRContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <div class="container" id="DRListContainer">
+                                                @Html.Action("GetAccountType", "FNM_AC_COA")
+
+
+                                            </div>
+
+                                        </div>
+                                    </div><br />
+                                    <!-- END FORM-->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase Request List Start-->
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+
+    <div class="modal" id="editshow" role="dialog">
+        <div class="modal-dialog m1" data-keyboard="false">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Ez Business System</h4>
+                    <button type="button" style="float: right;margin-top: -26px;" class="btn btn-danger alert-close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    @*<div class="container scroll" id="DRListContainer">
+                            @Html.Action("GetDrs", "DutyResume")
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

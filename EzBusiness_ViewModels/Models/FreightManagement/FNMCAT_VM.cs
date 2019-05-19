@@ -13,7 +13,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string CMPYCODE { get; set; }
 
         [DisplayName("CODE")]
-        public string FNMCAT_CODE { get; set; }
+        public string FNMSLCAT_CODE { get; set; }
         public string DESCRIPTION { get; set; }
         public bool SaveFlag { get; set; }
 
@@ -33,7 +33,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
     public class FNMCATDetailnew
     {
         public string CMPYCODE { get; set; }
-        public string FNMCAT_CODE { get; set; }
+        public string FNMSLCAT_CODE { get; set; }
         public string DESCRIPTION { get; set; }
     }
 }
