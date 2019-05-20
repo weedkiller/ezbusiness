@@ -1,0 +1,285 @@
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.FFM_VOYAGE_VM
+@{
+    var counter = 1;
+}
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+
+<script>
+  
+    $(function () {
+
+        $('.selectpicker').selectpicker('refresh');
+    
+        //EzdtePkEdit('#ETA1', "#ETA", "DD/MM/YYYY");
+        //EzdtePkEdit('#ETB1', "#ETB", "DD/MM/YYYY");
+        //EzdtePkEdit('#ETD1', "#ETD", "DD/MM/YYYY");
+        var tblcntr1 = $("#tblcntr1 tbody tr");
+        var index3 = 1;
+        tblcntr1.each(function (index3, item) {
+            debugger;
+            $("[name*='SNO" + (index3 + 1) + "']").val($("[name*='hdnSNO" + (index3 + 1) + "']").val());
+            $("[name*='ROTATION" + (index3 + 1) + "']").val($("[name*='hdnROTATION" + (index3 + 1) + "']").val());
+            $("[name*='PORT" + (index3 + 1) + "']").val($("[name*='hdnPORT" + (index3 + 1) + "']").val());
+            //$("[name*='ETA" + (index3 + 1) + "']").val($("[name*='hdnDocStatus" + (index3 + 1) + "']").val());
+            if ($("[name*='hdnETA" + (index3 + 1) + "']").val() == undefined)
+                EzdtePk("[name*='ETA" + (index3 + 1) + "']");
+            else
+                $("[name*='ETA" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnETA" + (index3 + 1) + "']").val()));
+            if ($("[name*='hdnETB" + (index3 + 1) + "']").val() == undefined)
+                EzdtePk("[name*='ETB" + (index3 + 1) + "']");
+            else
+                $("[name*='ETB" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnETB" + (index3 + 1) + "']").val()));
+            if ($("[name*='hdnETD" + (index3 + 1) + "']").val() == undefined)
+                EzdtePk("[name*='ETD" + (index3 + 1) + "']");
+            else
+                $("[name*='ETD" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnETD" + (index3 + 1) + "']").val()));
+            $("[name*='PortStayHours" + (index3 + 1) + "']").val($("[name*='hdnPortStayHourse" + (index3 + 1) + "']").val());
+            // $("[name*='IssuePlace" + (index3 + 1) + "']").val($("[name*='hdnIssuePlace" + (index3 + 1) + "']").val());
+            // $("[name*='DocumentPath" + (index3 + 1) + "']").val($("[name*='SourceFile" + (index3 + 1) + "']").prop('defaultValue'));
+            $("[name*='SailingHrs" + (index3 + 1) + "']").val($("[name*='hdnSailingHrs" + (index3 + 1) + "']").val());
+
+            index3 = index3 + 1;
+        });
+        $('body').on('focusin', '.datepicker', function () {
+
+            // var myDate = new Date(2012, 2, 11);
+
+            // $('#startdate').datetimepicker("setDate", myDate);
+            $('.datepicker').datetimepicker({
+                // defaultDate: new Date(),
+                format: 'DD/MM/YYYY',
+                showClose: true,
+                showClear: true,
+
+            });
+
+        });
+       
+  });
+
+
+
+   
+
+
+</script>
+<div id="POContainer">
+<div class="panel panel-default" id="showAddpanel">
+    <div class="panel-body">
+        <div>
+            <div class="form-horizontal">
+                <div class="form-body">
+                    <div class="row">
+                        <input type="hidden" id="joindate" />
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Vessal Code</label>
+                                <div class="col-md-8 input-field">
+                                    @*<select class="form-control" id="ddlvessalcode" name="ddlvessalcode"></select>*@
+                                    @Html.DropDownListFor(m => m.FFM_VESSEL_CODE, Model.VessalCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Vessal Name</label>
+                                <div class="col-md-8">
+                                    @*<input type="text" id="txtvessalname" class="form-control" />*@
+                                    @Html.TextBoxFor(m => m.NAME, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                    </div>
+                    <!--/row-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">VoyageCode</label>
+                                <div class="col-md-8 input-field">
+                                    @*<input type="text" id="txtVoyageCode" class="form-control" />*@
+                                    @Html.TextBoxFor(m => m.FFM_VOYAGE01_CODE, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Display Status</label>
+                                <div class="col-md-8 input-field">
+                                    <select id="ddlstatus" class="form-control">
+                                        <option value="Y">Yes</option>
+                                        <option value="N">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/span-->
+                    </div>
+                </div>
+            </div><br />
+        </div>
+    </div>
+</div>
+<div class="panel panel-default" id="tbldisplay">
+    <div class="panel-body">
+        <input id="inpdocname" type="hidden" />
+
+        <table class="table table-bordered " id="tblcntr1">
+            <thead>
+                <tr class="tr">
+
+                    <th>
+                        Sr.No
+                    </th>
+                    <th>
+                        Rotation
+                    </th>
+                    <th>
+                        Port
+                    </th>
+                    <th>
+                        ETA
+                    </th>
+                    <th>
+                        ETB
+                    </th>
+                    <th>
+                        ETD
+                    </th>
+                    <th>
+                        Port Stay Hrs
+                    </th>
+                    <th>
+                        sailing Hrs
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.newdetails)
+                {
+                    <tr>
+                        <td>
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control", @disabled = "disabled" })
+                                @Html.Hidden(string.Concat("hdnSNO", counter), item.SNO)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("ROTATION", counter), null, new { @class = "grid-control", @disabled = "disabled" })
+                                @Html.Hidden(string.Concat("hdnROTATION", counter), item.ROTATION)
+                            </div>
+                        </td>        
+                        <td>
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("PORT", counter), null, new { @class = "grid-control" })
+                                @Html.Hidden(string.Concat("hdnPORT", counter), item.PORT)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("ETA", counter), null, new { @class = "grid-control datepicker" })
+                                @Html.Hidden(string.Concat("hdnETA", counter), item.ETA)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("ETB", counter), null, new { @class = "grid-control datepicker" })
+                                @Html.Hidden(string.Concat("hdnETB", counter), item.ETB)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("ETD", counter), null, new { @class = "grid-control datepicker" })
+                                @Html.Hidden(string.Concat("hdnETD", counter), item.ETD)
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("PortStayHours", counter), null, new { @class = "grid-control" })
+                                @Html.Hidden(string.Concat("hdnPortStayHourse", counter), item.PortStayHours)
+                            </div>
+                        </td>
+                        <td>
+                            <div class="grid-group">
+                                @Html.TextBox(string.Concat("SailingHrs", counter), null, new { @class = "grid-control datepicker" })
+                                @Html.Hidden(string.Concat("hdnSailingHrs", counter), item.SailingHrs)
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                        </td>
+                    </tr>
+                    counter++;
+                }
+                <tr>
+
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("ROTATION", counter), null, new { @class = "grid-control"})
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("PORT", counter), null, new { @class = "grid-control"})
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("ETA", counter), null, new { @class = "grid-control datepicker" })
+                            @*<input id="ETA1" class="form-control datepicker" name="ETA1" />
+                            @Html.HiddenFor(m => m.ETA)*@
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("ETB", counter), null, new { @class = "grid-control datepicker" })
+                            @*<input id="ETB1" class="form-control datepicker" name="ETB1" />
+                            @Html.HiddenFor(m => m.ETB)*@
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("ETD", counter), null, new { @class = "grid-control datepicker" })
+                            @*<input id="ETD1" class="form-control datepicker" name="ETD1" />
+                            @Html.HiddenFor(m => m.ETD)*@
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("PortStayhrs", counter), null, new { @class = "grid-control" })
+                            @Html.TextBoxFor(m => m.PortStayhrs, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("Sailinghrs", counter), null, new { @class = "grid-control" })
+                            @*@Html.TextBoxFor(m => m.Sailinghrs, new { @class = "grid-control", @Readonly = "Readonly" })*@
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        @Html.Hidden("Counter", counter)
+    </div>
+</div>
+
+</div>

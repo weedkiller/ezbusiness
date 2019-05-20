@@ -1,119 +1,411 @@
-﻿@model IEnumerable < EzBusiness_ViewModels.Models.FreightManagement.FFM_VOYAGE_VM>
+﻿@model IList<EzBusiness_ViewModels.Models.FreightManagement.FFM_VOYAGE_VM>
 
 @{
     ViewBag.Title = "VoyaGEData";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var counter = 1;
+  //  var counter = 1;
 }
-<br />
+
 <script src="~/Scripts/EzComNDW.js"></script>
-<script src="~/Scripts/Application/FrightManagment/FMM_CNTRFright.js"></script>
-<div class="title-action">
-    <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
-    <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-    <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-    <input type="hidden" id="hdnOperationMode" value="" />
-</div>
-<input id="hdnMstatus" type="hidden"/>
-<input id="hdnNote" type="hidden"/>
-<div class="panel panel-default">
-    <div class="panel-body">
-        <input id="inpdocname" type="hidden"/>
-        <table class="table table-bordered" id="tblcntr1">
-            <thead>
-                <tr class="tr">
-                    <th>
-                        CODE
-                    </th>
-                    <th>
-                        NAME
+<script>
+   // var $ = jQuery.noConflict();
+    $(function () {
+        EzAuthentication("/VoyaGEDataMaster");
+        EzdtePk('#JoiningDate1,#DOB1,#ContactDate1,#AbscondingDate1');//#LastRetDate1
+      
+        var poHtml = $("#POContainer").html();
+        $("#POListContainer1").hide();
+        function GetPurchaseOrderList() {
+            $.get("/FFM_VoYAGE/GetvayogeMasterList", function (response) {
+                $("#POListContainer").html(response);
+            });
+        }
 
-                    <th></th>
-                </tr>
-            </thead>
+        $("#btnNew").click(function () {
+            debugger;
+            var n = EzAuthenticationBtn("/VoyaGEDataMaster", "NewIt");
+            if (n == 1)
+            {
+                $("#editshow").hide();
+                $.get("FFM_VoYAGE/AddVoageYMaster", function (response) {
+                    $("#POContainer").html(response);
+                });
+                $(this).css("visibility", "hidden");
+                    EzbtnNewAcVis();
+                    $("#POListContainer1").hide();
+            }
 
+        });
 
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtCNTR_CODE", counter), null, new { @class = "grid-control" })
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtNAME", counter), null, new { @class = "grid-control" })
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/VoyaGEDataMaster", "ViewIt");
+             if (n == 1) {
+                 $(this).css("disabled", true);
+                 EzbtnEditAcVis();
+                 $("#POListContainer1").show();
+                 $("#SMAContainer").html();
+                 GetPurchaseOrderList();
 
-        <div class="col-md-12">
-            <div id="tbldiv">
-                <table class="table table-bordered" id="tblUnits">
-                    <thead>
-                        <tr class="tr">
-                            <th>
-                               Vessal CODE
-                            </th>
-                            <th>
-                               Vessal NAME
-                            </th>
-                              Voyage Name
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr class="tr">
+                 $("#editshow").show();
+             }
+             e.defaultPrevented();
+        });
 
-                            <td>
-                                @Html.DisplayNameFor(model => model.FFM_VESSEL_CODE)
-                            </td>
+        $("#btnCancel").click(function (){
+            $("#editshow").hide();
 
-                            <td>
-                                @Html.DisplayNameFor(model => model.NAME)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.FFM_VOYAGE01_CODE)
-                            </td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
+            $("#POListContainer").html(poHtml);
+             //GetPurchaseOrderList();
+            // $('input[type=search]').addClass('form-control input-sm');
+            EzbtnCancelAcVis();
+          //  EzdtePk('#JoiningDate1,#DOB1,#ContactDate,#AbscondingDate');//#LastRetDate1,
+           // EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
+           // EzdtePkyyyy('#ObtainedYear1');
+            $("#POListContainer1").hide();
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FFM_VESSEL_CODE)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NAME)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FFM_VOYAGE01_CODE)
-                                </td>                             
-                            </tr>
-                            counter++;
+        });
+
+ 
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/VoyaGEDataMaster", "DeleteIt");
+            if (n == 1) {
+                $("#editshow").hide();
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            debugger;
+                            var Voyagecode = $("[name='FFM_VOYAGE01_CODE']").val();
+                            $.getJSON("/DeleteVoyagMaster", { Voyagecode: Voyagecode }).done(function (data) {
+                                    if (data.DeleteFlag) {
+                                        //$("#btnCancel").trigger("click");
+                                        //EzbtnsaveAcVis("#POContainer")
+                                        //$("#POContainer").html(poHtml);
+                                        //GetPurchaseOrderList();
+                                        window.location = '/VoyaGEDataMaster'
+                                    } else {
+                                        EzAlertdele(Voyagecode);
+                                    }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
                         }
-                    </tbody>
+                    })
+                }
 
-                </table>
+        });
 
+
+        $("#btnSave").click(function () {
+            debugger;
+            $("#editshow").hide();
+            var opMode = $("#hdnOperationMode").val();
+            var n = EzAuthenticationBtn("/VoyaGEDataMaster", "EditIt");
+            if (opMode == "Add") {
+                var Fcur = {
+                    FFM_VESSEL_CODE: $("[name='FFM_VESSEL_CODE'] option:selected").val(),
+                    NAME: $("[name='NAME']").val(),
+                    FFM_VOYAGE01_CODE: $("[name='FFM_VOYAGE01_CODE']").val(),
+                    DISPLAY_STATUS: $("[name='DISPLAY_STATUS'] option:selected").val(),
+                    newdetails: []
+                };
+                $("#tablePODetails tbody tr").each(function (index, item) {
+                    debugger;
+                    var SNO = $(this).find("[name*='txtsrno']").val();
+                    var ROTATION = $(this).find("[name*='txtRotation']").val();
+                    var PORT = $(this).find("[name*='txtport']").val();
+                    var ETA = Ezsetdtpkdate($(this).find("[name*='txtETA']").val());
+                    var ETB = Ezsetdtpkdate($(this).find("[name*='txtETB']").val());
+                    var ETD = Ezsetdtpkdate($(this).find("[name*='txtETD']").val());
+                    var PortStayhrs = $(this).find("[name*='txtPortStayhrs']").val();
+                    var Sailinghrs = $(this).find("[name*='txtSailinghrs']").val();
+                    // var MASTER_STATUS = $(this).find("[name*='txtMASTER_STATUS']").val();
+                    // var NOTE = $(this).find("[name*='txtNOTE']").val();
+                    if ((ROTATION != "")) {
+                        var FNM_unitDetail = {
+
+                            SNO: SNO,
+                            ROTATION: ROTATION,
+                            PORT: PORT,
+                            ETA: ETA,
+                            ETB: ETB,
+                            ETD: ETD,
+                            PortStayHours: PortStayhrs,
+                            SailingHrs: Sailinghrs
+                            //Note:NOTE,
+                        };
+                        Fcur.newdetails.push(FNM_unitDetail);
+                    }
+                });
+                var validationResult = ValidateForm(Fcur);
+                if (validationResult.formValid) {
+                    $.post("/FFM_VoYAGE/SaveFFM_Voyage", Fcur).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
+                            $("#POContainer").html(poHtml);
+                            GetPurchaseOrderList();
+                        } else {
+                            //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
+                        }
+                      
+                    });
+                }
+                else {
+                    EzAlerterr();
+                }
+            } else if (opMode == "Edit" && n==1) {
+                // Code for Adding Purchase order
+                var Fcur = {
+                    FFM_VESSEL_CODE: $("[name='FFM_VESSEL_CODE'] option:selected").val(),
+                    NAME: $("[name='NAME']").val(),
+                    FFM_VOYAGE01_CODE: $("[name='FFM_VOYAGE01_CODE']").val(),
+                    DISPLAY_STATUS: $("[name='DISPLAY_STATUS'] option:selected").val(),
+                    EditFlag: true,
+                    newdetails: []
+                };
+                $("#tblcntr1 tbody tr").each(function (index, item) {
+                    debugger;
+                    var SNO = $(this).find("[name*='SNO']").val();
+                    var ROTATION = $(this).find("[name*='ROTATION']").val();
+                    var PORT = $(this).find("[name*='PORT']").val();
+                    var ETA = Ezsetdtpkdate($(this).find("[name*='ETA']").val());
+                    var ETB = Ezsetdtpkdate($(this).find("[name*='ETB']").val());
+                    var ETD = Ezsetdtpkdate($(this).find("[name*='ETD']").val());
+                    var PortStayhrs = $(this).find("[name*='PortStayHours']").val();
+                    var Sailinghrs = $(this).find("[name*='Sailinghrs']").val();
+                    // var MASTER_STATUS = $(this).find("[name*='txtMASTER_STATUS']").val();
+                    // var NOTE = $(this).find("[name*='txtNOTE']").val();
+                    if ((ROTATION != "")) {
+                        var FNM_unitDetail = {
+
+                            SNO: SNO,
+                            ROTATION: ROTATION,
+                            PORT: PORT,
+                            ETA: ETA,
+                            ETB: ETB,
+                            ETD: ETD,
+                            PortStayHours: PortStayhrs,
+                            SailingHrs: Sailinghrs,
+                           
+                        };
+                        Fcur.newdetails.push(FNM_unitDetail);
+                    }
+                });
+                var validationResult = ValidateForm(Fcur);
+                if (validationResult.formValid) {
+                    $.post("/FFM_VoYAGE/SaveFFM_Voyage", Fcur).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
+                            $("#POContainer").html(poHtml);
+                            GetPurchaseOrderList();
+                            } else {
+                                //  $("#ErrorMessage").show().find("strong").text(response.ErrorMessage);
+                                //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzAlerterrtxt(response.ErrorMessage);
+                            }
+                        });
+
+                    } else {
+                        //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                        EzAlerterrtxt(validationResult.ErrorMessage);
+                    }
+            }
+
+        });
+
+        function ValidateForm(employeemaster) {
+
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+            //if (employeemaster.IsEditMode == false) {
+                if (employeemaster.Salutaion == "0") {
+                    response.ErrorMessage += "Salutaion ,";
+                }
+                if (employeemaster.ContactNo == "") {
+                    response.ErrorMessage += "ContactNo ,";
+                }
+                if (employeemaster.Nationality == "0") {
+                    response.ErrorMessage += "Nationality ,";
+                }
+                if (employeemaster.DivisionCode == "0") {
+                    response.ErrorMessage += "DivisionCode  ,";
+                }
+                if (employeemaster.Country == "0") {
+                    response.ErrorMessage += "Country  ,";
+                }
+
+                if (employeemaster.Empname == "") {
+                    response.ErrorMessage += "Empname ,";
+                }
+                //if (employeemaster.DOB == "") {
+                //    response.ErrorMessage += "DOB ,";
+                //}
+                if (employeemaster.LocCode == "0") {
+                    response.ErrorMessage += "Location ";
+                }
+                if (employeemaster.VisaLocation == "0") {
+                    response.ErrorMessage += "Visa Location ";
+                }
+            //if (!employeemaster.DOB) {
+            //    response.ErrorMessage += "Date of Birth,";
+            //}
+            if (employeemaster.ReportingEmp =="0") {
+                response.ErrorMessage += "Reporting Employeee ,";
+            }
+
+            if (employeemaster.EMail=="") {
+                response.ErrorMessage += "Email Id should be mandatory ,";
+            }
+
+            if (employeemaster.DOB >= employeemaster.JoiningDate) {
+                response.ErrorMessage += "Date of Birth Can not be greater than Joining Date .";
+            }
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+            else {
+                response.ErrorMessage = "Enter Mandatory fields  " + response.ErrorMessage + " "
+            }
+            //} else if (employeemaster.IsEditMode == true) {
+            //    if (employeemaster.EmpCode=='') {
+            //        response.ErrorMessage += "Employee Code,";
+
+            //    }
+            //    if (response.ErrorMessage.length == 0) {
+            //        response.formValid = true;
+            //    }
+            //}
+            return response;
+        }
+
+        function parseDate(s) {
+            var b = s.split(/\D/);
+            return new Date(b[0], --b[1], b[2]);
+        }
+
+        $(document).ajaxError(function (event,
+            xhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+
+        $(document).on("click", "#tblUnits tbody tr", function () {
+            debugger
+            EzbtnEditAcVis();
+            var operationMode = $("#hdnOperationMode").val();
+            if (operationMode == "Edit") {
+                $("#POList > tbody").children().removeClass("active");
+                $(this).addClass("active");
+                var VyogCode = $(this).find("#hdnFNMBRANCH_CODE").val();
+                // var DivisionCode = $(this).find("#hdnDivisionCode").val();
+                $.get("EditVoyagMaster", { VyogCode: VyogCode }).done(function (response) {
+                    $("#POContainer").html(response);
+                    //  $("#btnDelete").prop("disabled", false);
+                    $("#btnDelete").css("visibility", "");
+                });
+            }
+        });
+        $("#btnPrint").click(function () {
+
+            var n = EzAuthenticationBtn("/EmployeeMaster", "PrintIt");
+            if (n == 1) {
+                var code1 = $("[name='EmpCode']").val();
+                window.open("/EmployeeRPTReport/?code=" + code1 + "", '_blank');
+            }
+        });
+        $("#ObtainedYear1").on("dp.show", function (e) {
+            $(e.target).data("DateTimePicker").viewMode("years");
+        });
+
+        //alert("hiii");
+
+
+    });
+</script>
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
+        <div class="title-action">
+            @*<button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>*@
+
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+            <button class="btn btn-info btn1" id="btnPrint" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
+            <input type="hidden" id="hdnOperationMode" value="" />
+        </div>
+    </div>
+
+</div><hr />
+
+<div class="row">
+    <!--updated code-->
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary panl">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;margin-top: -20px;">
+                <label class="row" id="ErrorMessage" style="color:red">
+                    <strong></strong>
+                </label>
+                <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="POContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="container" id="POListContainer">
+                                        @Html.Action("GetvayogeMasterList", "FFM_VoYAGE")
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="row">
+                                    <div class="col-md-12">
+                                        <div  id="POListContainer">
+                                  @Html.Action("GetEmployeeMasterList", "EmployeeMaster")
+                                 </div>
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        @Html.Hidden("Counter", counter)
     </div>
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
 </div>
-
-<script type="text/javascript">
-        $(document).ready(function () {
-
-            $(".edit").attr('title', 'Edit');
-            $(".delete").attr('title', 'Delete');
-            cntr.initialize();
-            });
-</script>
-

@@ -1,0 +1,332 @@
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.FFM_VOYAGE_VM
+@{
+    var counter = 1;
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        $('.selectpicker').selectpicker('refresh');
+
+        EzdtePk('#txtETA,#txtETAB,#txtETAD');
+        Ezsetzerotxt();
+        Ezdatejoindate('#Entery_date1', '#joindate', '#Effect_From1','Entery Date shold be greater than equal to Joindate');
+
+        EzdateCond('#Effect_From1', '#Entery_date1', 'Effect Date shold be greater than equal to Entry Date');
+        $("#tablePODetails").on("change", "[name*='txtRotation']", function () {
+            debugger;
+            var counter = $("#Counter").val();
+            var tr = $(this).closest('tr');
+
+            drec = [];
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtRotation']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'txtRotation']").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'txtRotation']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtRotation']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtRotation']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'txtRotation']").val('');
+
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tableMetaSettings tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tblcntr1 tbody tr:nth-last-child(2)");
+                    $(this).closest('tr').next('tr').find("[name*='txtsrno']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtRotation']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtport']").val('');
+                    trLast.find("[name *= 'txtsrno']").attr({
+                        "name": ("txtsrno" + counter)
+                    });
+                    trLast.find("[name *= 'txtRotation']").attr({
+                        "name": ("txtRotation" + counter)
+                    });
+                    trLast.find("[name *= 'txtport']").attr({
+                        "name": ("txtport" + counter)
+                    });
+                    trLast.find("[name *= 'txtETA']").attr({
+                        "name": ("txtETA" + counter)
+                    });
+                    trLast.find("[name *= 'txtETAB']").attr({
+                        "name": ("txtETAB" + counter)
+                    });
+                    trLast.find("[name *= 'txtETD']").attr({
+                        "name": ("txtETD" + counter)
+                    });
+                    trLast.find("[name *= 'txtPortStayhrs']").attr({
+                        "name": ("txtPortStayhrs" + counter)
+                    });
+                    trLast.find("[name *= 'txtSailinghrs']").attr({
+                        "name": ("txtSailinghrs" + counter)
+                    });
+
+                    trLast.find(":first").text(counter);
+                }
+            }
+            counter++;
+        });
+        $('body').on('focusin', '.datepicker', function () {
+            $('.datepicker').datetimepicker({
+                // defaultDate: new Date(),
+                format: 'DD/MM/YYYY',
+                showClose: true,
+                showClear: true,
+            });
+
+        });
+        $("#EMPCODE").change(function () {
+            //$("#tablePODetails > tbody tr:last").empty();
+            //$("#tablePODetails > tbody tr:last").remove();
+            var e1 = $("#EMPCODE option:selected").val();
+            if (e1 != '0') {
+                Ezjoindate(e1, '#joindate');
+
+                $.get("/GetSalGrid").done(function (response) {
+                    var ary = [];
+                    ary = response;
+                    $("#tablePODetails > tbody tr").empty();
+                    $("#tablePODetails > tbody tr").remove();
+                    counter = 1;
+                    for (var i = 0; i < ary.length; i++) {
+                        var tr1 = "<tr>";
+                        var td = "<td><div class='form-group'>" + counter + "</div></td>"
+                        var td1 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='Code" + counter + "'></div></td>"
+                        //var td2 = "<td><div class='form-group'><input type='number' class='form-control' name='Name" + counter + "'></div></td>";
+                        var td2 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='Name" + counter + "'></div></td>";
+                        var td3 = "<td><div class='form-group'><input type='text' class='form-control' name='Accountcode" + counter + "'></div></td>";
+                        var td4 = "<td><div class='form-group'><input type='number' class='form-control' name='AMOUNT" + counter + "'></div></td></tr>";
+                        $("#tablePODetails").append(tr1 + td + td1 + td2 + td3 + td4);
+                        var tr = $("#tablePODetails tbody tr");
+                        tr.find("[name='Code" + counter + "']").val(ary[i].Code);
+                        tr.find("[name='Name" + counter + "']").val(ary[i].Name);
+                        tr.find("[name='Accountcode" + counter + "']").val(ary[i].Accountcode);
+                        tr.find("[name='AMOUNT" + counter + "']").val('0.00');
+
+                        $("[name*='TOTAL']").val('0.00');
+                        //tr.find("[name='Amount" + counter + "']").val(ary[i].Amount);
+                        // tr.clone(true, true).insertAfter(tr);
+
+                        counter++;
+                    }
+                    Ezsetzerotxt();
+                });
+
+
+            }
+
+        });
+            $("#tablePODetails").on("change", "[name*='AMOUNT']", function () {
+                sumOfColumns();
+            });
+
+            function sumOfColumns() {
+
+                var sum = 0.0;
+                var sum1 = 0.0;
+
+                $("#tablePODetails > tbody  > tr").each(function () {
+                    var amount = parseFloat($(this).find("[name*='AMOUNT']").val());
+                    sum += isNaN(amount) ? 0 : amount;
+                    $(this).find("[name*='AMOUNT']").val('' + amount);
+                    sum1 = sum * 12;
+
+                });
+                //var amount = 0;
+                //$("#tablePODetails").each(function () {
+                //    amount += $(this).val() == null ? 0 : parseInt($(this).val());
+                //});
+                //just update the total to sum
+                $("[name*='TOTAL']").val(sum);
+                //$("[name*='ContractAmountYearly']").val(sum1);
+            }
+
+
+            $('.selectpicker').selectpicker({
+                style: 'btn-info',
+                size: 4,
+
+            });
+
+            $('body').on('focus', ':input', function () {
+                $(this).attr('autocomplete', 'off');
+            });
+
+        });
+
+</script>
+
+<div class="row">
+    <div class="panel-body" style="margin-left:10px;">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <input type="hidden" id="joindate" />
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Vessal Code</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.DropDownListFor(m => m.FFM_VESSEL_CODE, Model.VessalCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Name</label>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(m => m.NAME, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Voyage Code</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.FFM_VOYAGE01_CODE, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Display Status</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.DropDownList(string.Concat("txtdisplaystatus", counter), new List<SelectListItem> { new SelectListItem { Text = "Yes", Value = "Y" }, { new SelectListItem { Text = "No", Value = "N" } } }, new { @class = "grid-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+
+
+                                </div>
+                            </div><br />
+                            <!-- END FORM-->
+                            <div class="">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="home" class="tab-pane fade in active">
+                                        <br /><br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div style="overflow-x:auto;">
+                                                    <table class="table table-bordered table-sm" id="tablePODetails">
+                                                        <thead>
+                                                            <tr>
+                                                                <th> Sr.No </th>
+                                                                <th>Rotation</th>
+                                                                <th>Port</th>
+                                                                <th>ETA</th>
+                                                                <th>ETB</th>
+                                                                <th>ETD</th>
+                                                                <th>Port Stay Hrs</th>
+                                                                <th> sailing Hrs</th>                                                        
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                               
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("txtsrno", counter), null, new { @class = "grid-control" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("txtRotation", counter), null, new { @class = "grid-control" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control " })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("txtETA", counter), null, new { @class = "grid-control datepicker" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("txtETB", counter), null, new { @class = "grid-control datepicker" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("txtETD", counter), null, new { @class = "grid-control datepicker" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("txtPortStayhrs", counter), null, new { @class = "grid-control" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("txtSailinghrs", counter), null, new { @class = "grid-control" })
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            @*@*<tr>
+                                                                    <th></th>
+                                                                    <th class="id1">Total</th>
+                                                                    <th class="id1"></th>
+                                                                    <th class="id1"></th>
+                                                                    <th class="id1"></th>
+                                                                </tr>*@*
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- <button>Hey, click me!</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+            $(document).ready(function(){
+                $(".alert-close").click(function () {
+                    $("#editshow").hide();
+                });
+            });
+</script>
