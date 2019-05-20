@@ -991,7 +991,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                         }
                     } else {
                         var title = '';//$(this).text();
-                        $(this).html('<input type="text"   placeholder="search' + title + '" style="Width:100px;border-radius:5px""/>');
+                        $(this).html('<input type="text"   placeholder="search' + title + '" style="border-radius:5px""/>');
                     }
                 });
                 // DataTable
