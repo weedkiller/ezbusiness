@@ -10,10 +10,10 @@
 <script>
 
     $(function () {
-        EzAuthentication("/FM_COMCategoryMaster");
-        var n = EzAuthenticationBtn("/FM_COMCategoryMaster", "ViewIt");
+        EzAuthentication("/COMCategoryMaster");
+        var n = EzAuthenticationBtn("/COMCategoryMaster", "ViewIt");
         if (n == 1) {
-            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
+            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", false, "#tblUnits thead");
             $('#tblUnits').show();
         } else {
             $('#tblUnits').hide();
@@ -25,7 +25,7 @@
     $(function () {
         $("#tblUnits1").hide();
         $("#btnAdd").click(function () {
-            var n = EzAuthenticationBtn("/FM_COMCategoryMaster", "NewIt");
+            var n = EzAuthenticationBtn("/COMCategoryMaster", "NewIt");
             if (n == 1) {
                 $("#tbldiv").hide();
                 var abk = [];
@@ -233,7 +233,7 @@
 
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
-            var n = EzAuthenticationBtn("/FM_COMCategoryMaster", "EditIt");
+            var n = EzAuthenticationBtn("/COMCategoryMaster", "EditIt");
             if (n == 1) {
                 var counter = $("#Counter").val();
                 var hdnEditMode = $(this).parent().find('input:hidden:first');
@@ -294,7 +294,7 @@
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
             debugger;
-            var n = EzAuthenticationBtn("/FM_COMCategoryMaster", "DeleteIt");
+            var n = EzAuthenticationBtn("/COMCategoryMaster", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");
                 var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
@@ -446,7 +446,7 @@ $(document).ready(function(){
 
         <div class="col-md-12 portal-drivers">
             <div id="tbldiv">
-                <table class="table table-bordered" id="tblUnits">
+                <table class="table table-bordered stripe display hover" id="tblUnits">
                     <thead>
                         <tr class="tr">
                             <th>

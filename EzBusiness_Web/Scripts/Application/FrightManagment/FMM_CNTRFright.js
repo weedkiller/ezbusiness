@@ -10,7 +10,7 @@
         EzAuthentication("/FFM_CNTRMaster");
         var n = EzAuthenticationBtn("/FFM_CNTRMaster", "ViewIt");
         if (n == 1) {
-            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
+            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", false, "#tblUnits thead");
             $('#tblUnits').show();
         } else {
             $('#tblUnits').hide();

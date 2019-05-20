@@ -9,16 +9,16 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
-        EzAuthentication("/SubLedgre");
+        EzAuthentication("/SubLedger");
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
         function GetDrs() {
-            $.get("/FNM_SL/GetCurrentRate", function (response) {
+            $.get("/FNM_SL/GetSupplier", function (response) {
                 $("#DRListContainer").html(response);
             });
         }
         $("#btnNew").click(function () {
-            var n = EzAuthenticationBtn("/SubLedgre", "NewIt");
+            var n = EzAuthenticationBtn("/SubLedger", "NewIt");
             if (n == 1) {
                 $("#editshow").hide();
                 $.get("FNM_SL/AddSupplier", function (response) {
@@ -34,7 +34,7 @@
             $("#editshow").hide();
         });
         $("#btnEdit").click(function () {
-            var n = EzAuthenticationBtn("/SubLedgre", "ViewIt");
+            var n = EzAuthenticationBtn("/SubLedger", "ViewIt");
             if (n == 1) {
                 $(this).css("visibility", "hidden");
                 EzbtnEditAcVis();
@@ -52,7 +52,7 @@
         });
 
         $("#btnDelete").click(function () {
-            var n = EzAuthenticationBtn("/SubLedgre", "DeleteIt");
+            var n = EzAuthenticationBtn("/SubLedger", "DeleteIt");
             if (n == 1) {
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
@@ -74,7 +74,7 @@
                         
                         $.getJSON("/DeleteSupplier", { FNM_SL1001_CODE: FNM_SL1001_CODE }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    window.location = '/SubLedgre'
+                                    window.location = '/SubLedger'
                             } else {
                                     EzAlertdele(FROM_CURRENCY_CODE);
                             }
@@ -122,7 +122,7 @@
                     Contact3: $("[name*='Contact3']").val(),
                     Currency_code: $("[name*='Currency_code'] option:Selected").val(),
                     credit_limit: $("[name*='credit_limit']").val(),
-                    SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:Selected").val(),
+                    SUBLEDGER_TYPE: $("input:radio[name=SUBLEDGER_TYPE]:checked").val(),
                     FNM_SL1002Details: [],
 
                 };
@@ -131,16 +131,17 @@
                 $("#tblFNMCURRATE tbody tr").each(function (index, item) {
 
 
-                    var FNM_SL1002_CODE = $(this).find("[name*='FNM_SL1002_CODE']").val();
+                    var FNM_SL1002_CODE = $(this).find("[name*='FNM_SL1002_CODE'] option:Selected").val();
                     var NAME = $(this).find("[name*='NAME']").val();
                     var COA_CODE = $(this).find("[name*='COA_CODE']").val();
+                    var COA_NAME = $(this).find("[name*='COA_NAME']").val();
 
-
-                    if ((FNM_SL1002_CODE != "")) {
+                    if ((FNM_SL1002_CODE != "0")) {
                         var FNM_SL1002Detail = {
                             FNM_SL1002_CODE: FNM_SL1002_CODE,
                             NAME: NAME,
-                            COA_CODE: COA_CODE
+                            COA_CODE: COA_CODE,
+                            COA_NAME: COA_NAME
                         };
                         FNM.FNM_SL1002Details.push(FNM_SL1002Detail);
                     }
@@ -186,20 +187,22 @@
                     Contact3: $("[name*='Contact3']").val(),
                     Currency_code: $("[name*='Currency_code'] option:Selected").val(),
                     credit_limit: $("[name*='credit_limit']").val(),
-                    SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:Selected").val(),
+                    SUBLEDGER_TYPE: $("input:radio[name=SUBLEDGER_TYPE]:checked").val(),
 
                     FNM_SL1002Details: [],
                 };
 
                 $("#tblFNMCURRATE tbody tr").each(function (index, item) {
-                    var FNM_SL1002_CODE = $(this).find("[name*='FNM_SL1002_CODE']").val();
+                    var FNM_SL1002_CODE = $(this).find("[name*='FNM_SL1002_CODE'] option:Selected").val();
                     var NAME = $(this).find("[name*='NAME']").val();
                     var COA_CODE = $(this).find("[name*='COA_CODE']").val();
-                    if ((FNM_SL1002_CODE != "")) {
+                    var COA_NAME = $(this).find("[name*='COA_NAME']").val();
+                    if ((FNM_SL1002_CODE != "0")) {
                         var FNM_SL1002Detail = {
                             FNM_SL1002_CODE: FNM_SL1002_CODE,
                             NAME: NAME,
-                            COA_CODE: COA_CODE
+                            COA_CODE: COA_CODE ,
+                            COA_NAME: COA_NAME
                         };
                         FNM.FNM_SL1002Details.push(FNM_SL1002Detail);
                     }

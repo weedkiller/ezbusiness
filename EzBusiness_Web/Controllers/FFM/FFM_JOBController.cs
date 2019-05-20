@@ -21,7 +21,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         }
 
         #region FFM_JOB Master
-        [Route("FM_JOBCategoryMaster")]
+        [Route("JOBCategoryMaster")]
         public ActionResult FFM_JOB_Master()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;

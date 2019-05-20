@@ -22,7 +22,8 @@ namespace EzBusiness_Web.Controllers.FNM
         }
 
         #region  FNMSupplier Master
-        [Route("SubLedgre")]
+      //  [Route("SubLedgre")]
+        [Route("subledger")]
         public ActionResult FNMSupplier()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -104,6 +105,7 @@ namespace EzBusiness_Web.Controllers.FNM
             {
                 FNM.CMPYCODE = list[0].CmpyCode;
                 FNM.UserName = list[0].user_name;
+                FNM.DIVISION = list[0].Divcode;
                 return Json(_FNM_SLService.SaveFNM_SL(FNM), JsonRequestBehavior.AllowGet);
             }
         }
@@ -119,6 +121,19 @@ namespace EzBusiness_Web.Controllers.FNM
             else
             {
                 return Json(_FNM_SLService.GetFNM_SL1002Add(list[0].CmpyCode, SUBLEDGER_TYPE), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetCatDropDetailListFilter(string SUBLEDGER_TYPE)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_FNM_SLService.GetFNMCAT(list[0].CmpyCode, SUBLEDGER_TYPE), JsonRequestBehavior.AllowGet);
             }
         }
 
