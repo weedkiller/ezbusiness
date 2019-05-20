@@ -70,6 +70,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     FFM_CRG_GROUP_CODE = dr["FFM_CRG_GROUP_CODE"].ToString(),
                     DISPLAY_STATUS = dr["DISPLAY_STATUS"].ToString(),
                     NAME = dr["NAME"].ToString(),
+                    VAT_CODE=dr["VAT_CODE"].ToString(),
+                    VAT_GL_CODE=dr["VAT_GL_CODE"].ToString()
+                    
                   
                 });
             }
