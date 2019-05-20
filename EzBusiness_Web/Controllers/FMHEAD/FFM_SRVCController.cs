@@ -24,7 +24,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         }
 
         #region FFM_SRVC Master
-        [Route("FM_SRVCCategoryMaster")]
+        [Route("SRVCCategoryMaster")]
         public ActionResult FFM_SRVC_Master()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
