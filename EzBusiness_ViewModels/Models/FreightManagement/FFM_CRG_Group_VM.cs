@@ -19,6 +19,9 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string NAME { get; set; }
         public string DISPLAY_STATUS { get; set; }
 
+        public string VAT_CODE { get; set; }
+        public string VAT_GL_CODE { get; set; }
+
         public bool SaveFlag { get; set; }
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
