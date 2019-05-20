@@ -17,94 +17,95 @@
 
 @*<button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>*@
 
-<table id="POList" class="table table-bordered table-hover emptbl portal-drivers">
-    <thead>
-        <tr class="tr">
-            <th>
-                FROM CURRENCY CODE
-            </th>
-            <th>
-                TO CURRENCY CODE
-            </th>
-            <th>
-                ENTRY DATE
-            </th>
-            <th>
-                BUY RATE
-            </th>
-            <th>
-                SELL RATE
-            </th>
-            <th>
-                MASTER STATUS
-            </th>
-            <th>
-                NOTE
-            </th>
-           
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <td>
-                FROM CURRENCY CODE
-            </td>
-            <td>
-                TO CURRENCY CODE
-            </td>
-            <td>
-                ENTRY DATE
-            </td>
-            <td>
-                BUY RATE
-            </td>
-            <td>
-                SELL RATE
-            </td>
-            <td>
-                MASTER STATUS
-            </td>
-            <td>
-                NOTE
-            </td>
-
-        </tr>
-    </tfoot>
-    <tbody>
-        @foreach (var po in Model)
-        {
-            <tr>
-                <td>
-                    @Html.Hidden("hdnFROMCURRCode", po.FROM_CURRENCY_CODE)
-                    @po.FROM_CURRENCY_CODE
-                </td>
-                <td>
-                    @po.TO_CURRENCY_CODE
-                </td>
-                <td>
-                    @Html.Hidden("hdnENTRY_DATE", Convert.ToDateTime(@po.ENTRY_DATE).ToString("dd/MM/yyyy"))
-                    @Convert.ToDateTime(@po.ENTRY_DATE).ToString("dd/MM/yyyy")
-                </td>
-                <td>
-                    @po.BUY_RATE
-                </td>
-                <td>
-                    @po.SELL_RATE   
-                </td>
-                <td>
-                    @po.MASTER_STATUS
-                </td>
-                <td>
-                    @po.Note
-                </td>
-                
-
+<div class="portal-drivers">
+    <table id="POList" class="table table-bordered table-hover emptbl">
+        <thead>
+            <tr class="tr">
+                <th>
+                    FROM CURRENCY CODE
+                </th>
+                <th>
+                    TO CURRENCY CODE
+                </th>
+                <th>
+                    ENTRY DATE
+                </th>
+                <th>
+                    BUY RATE
+                </th>
+                <th>
+                    SELL RATE
+                </th>
+                <th>
+                    MASTER STATUS
+                </th>
+                <th>
+                    NOTE
+                </th>
 
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tfoot>
+            <tr>
+                <td>
+                    FROM CURRENCY CODE
+                </td>
+                <td>
+                    TO CURRENCY CODE
+                </td>
+                <td>
+                    ENTRY DATE
+                </td>
+                <td>
+                    BUY RATE
+                </td>
+                <td>
+                    SELL RATE
+                </td>
+                <td>
+                    MASTER STATUS
+                </td>
+                <td>
+                    NOTE
+                </td>
 
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var po in Model)
+        {
+                <tr>
+                    <td>
+                        @Html.Hidden("hdnFROMCURRCode", po.FROM_CURRENCY_CODE)
+                        @po.FROM_CURRENCY_CODE
+                    </td>
+                    <td>
+                        @po.TO_CURRENCY_CODE
+                    </td>
+                    <td>
+                        @Html.Hidden("hdnENTRY_DATE", Convert.ToDateTime(@po.ENTRY_DATE).ToString("dd/MM/yyyy"))
+                        @Convert.ToDateTime(@po.ENTRY_DATE).ToString("dd/MM/yyyy")
+                    </td>
+                    <td>
+                        @po.BUY_RATE
+                    </td>
+                    <td>
+                        @po.SELL_RATE
+                    </td>
+                    <td>
+                        @po.MASTER_STATUS
+                    </td>
+                    <td>
+                        @po.Note
+                    </td>
+
+
+
+                </tr>
+        }
+        </tbody>
+    </table>
+</div>
 <script>
   //  $('#POList').DataTable().ajax.reload();
 </script>
