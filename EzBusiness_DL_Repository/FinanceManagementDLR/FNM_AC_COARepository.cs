@@ -21,13 +21,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         public bool DeleteFNM_Ac_COA(string FNM_AC_CODE, string CmpyCode, string UserName)
         {
 
-            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNM_AC_COA where COMPANY_UID='" + CmpyCode + "' and CODE='" + FNM_AC_CODE + "'  and Flag=0");
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNM_AC_COA where CMPYCODE='" + CmpyCode + "' and FNM_AC_COA_CODE='" + FNM_AC_CODE + "'  and Flag=0");
             if (Grs != 0)
             {
 
                 _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FNM_AC_COA", FNM_AC_CODE, Environment.MachineName);
 
-                return _EzBusinessHelper.ExecuteNonQuery1("update FNM_AC_COA set Flag=1 where COMPANY_UID='" + CmpyCode + "' and CODE='" + FNM_AC_CODE + "'  and Flag=0");
+                return _EzBusinessHelper.ExecuteNonQuery1("update FNM_AC_COA set Flag=1 where CMPYCODE='" + CmpyCode + "' and FNM_AC_COA_CODE='" + FNM_AC_CODE + "'  and Flag=0");
 
             }
             return false;
@@ -35,7 +35,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public List<FNM_AC_COA_VM> GetFNM_AC_COA(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_AC_COA where COMPANY_UID='" + CmpyCode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_AC_COA where CMPYCODE='" + CmpyCode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNM_AC_COA_VM> ObjList = new List<FNM_AC_COA_VM>();
@@ -43,8 +43,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             {
                 ObjList.Add(new FNM_AC_COA_VM()
                 {
-                    COMPANY_UID = dr["COMPANY_UID"].ToString(),
-                    CODE = dr["CODE"].ToString(),
+                    COMPANY_UID = dr["CMPYCODE"].ToString(),
+                    CODE = dr["FNM_AC_COA_CODE"].ToString(),
                     NAME = dr["NAME"].ToString(),
                     Head_code = dr["Head_code"].ToString(),
                     group_code = dr["group_code"].ToString(),
@@ -92,7 +92,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                    // n = ObjList.Count;
 
 
-                    int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNM_AC_COA where COMPANY_UID='" + ac.COMPANY_UID + "' and CODE='" + ac.CODE + "'");
+                    int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNM_AC_COA where CMPYCODE='" + ac.COMPANY_UID + "' and FNM_AC_COA_CODE='" + ac.CODE + "'");
                     if (Stats1 == 0)
                     {
                         StringBuilder sb = new StringBuilder();
@@ -115,7 +115,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb.Append("'" + ac.NOTE + "',");
                         sb.Append("'" + ac.NATURE + "',");
                         sb.Append("'" + ac.PL_BS + "')");
-                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(company_UID,CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_TYPE,SUBLEDGER_TYPE,SUBLEDGER_CAT,MASTER_STATUS,NOTE,NATURE,PL_BS) values(" + sb.ToString() + "");
+                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(CMPYCODE,FNM_AC_COA_CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_TYPE,SUBLEDGER_TYPE,SUBLEDGER_CAT,MASTER_STATUS,NOTE,NATURE,PL_BS) values(" + sb.ToString() + "");
                         _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Add FNM_AC_COA", ac.CODE, Environment.MachineName);
                         ac.SaveFlag = true;
                         ac.ErrorMessage = string.Empty;
@@ -130,7 +130,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     }
                     return ac;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNM_AC_COA where COMPANY_UID='" + ac.COMPANY_UID + "' and CODE='" + ac.CODE + "'and Flag=0");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNM_AC_COA where CMPYCODE='" + ac.COMPANY_UID + "' and FNM_AC_COA_CODE='" + ac.CODE + "'and Flag=0");
                 if (StatsEdit != 0)
                 {
                     StringBuilder sb = new StringBuilder();
@@ -148,7 +148,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     sb.Append("NOTE='" + ac.NOTE + "',");
                     sb.Append("NATURE='" + ac.NATURE + "',");
                     sb.Append("PL_BS='" + ac.PL_BS + "'");
-                    _EzBusinessHelper.ExecuteNonQuery("update FNM_AC_COA set  " + sb + " where COMPANY_UID='" + ac.COMPANY_UID + "' and  CODE='" + ac.CODE + "' and Flag=0");
+                    _EzBusinessHelper.ExecuteNonQuery("update FNM_AC_COA set  " + sb + " where CMPYCODE='" + ac.COMPANY_UID + "' and  FNM_AC_COA_CODE='" + ac.CODE + "' and Flag=0");
                     _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Update FNM_AC_COA", ac.CODE, Environment.MachineName);
 
                     ac.SaveFlag = true;
@@ -173,21 +173,22 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public FNM_AC_COA_VM EditFNM_AC_COA(string CmpyCode, string Code)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_AC_COA where COMPANY_UID='" + CmpyCode + "' and CODE='" + Code + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_AC_COA where CMPYCODE='" + CmpyCode + "' and FNM_AC_COA_CODE='" + Code + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FNM_AC_COA_VM ObjList = new FNM_AC_COA_VM();
             foreach (DataRow dr in drc)
             {
 
-                ObjList.COMPANY_UID = dr["COMPANY_UID"].ToString();               
-                ObjList.CODE = dr["CODE"].ToString();
+                ObjList.COMPANY_UID = dr["CMPYCODE"].ToString();               
+                ObjList.CODE = dr["FNM_AC_COA_CODE"].ToString();
                 ObjList.NAME = dr["NAME"].ToString();
                 ObjList.Head_code = dr["Head_code"].ToString();
                 ObjList.group_code = dr["group_code"].ToString();
                 ObjList.SUBGROUP_code = dr["SUBGROUP_code"].ToString();
                 ObjList.COA_TYPE = dr["COA_TYPE"].ToString();
                 ObjList.SUBLEDGER_TYPE = dr["SUBLEDGER_TYPE"].ToString();
+                ObjList.SUBLEDGER_CAT = dr["SUBLEDGER_CAT"].ToString();
                 ObjList.MASTER_STATUS = dr["MASTER_STATUS"].ToString();
                 ObjList.NOTE = dr["NOTE"].ToString();
                 ObjList.NATURE = dr["NATURE"].ToString();
@@ -198,7 +199,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public List<FMHEAD> GetFMHEAD(string Cmpycode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMHEAD_CODE,DESCRIPTION from FMHEAD where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMHEAD_CODE,DESCRIPTION from FNMHEAD where CmpyCode='" + Cmpycode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FMHEAD> ObjList = new List<FMHEAD>();

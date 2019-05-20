@@ -98,9 +98,18 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
             return ObjList;
         }
 
-        public List<FNMCAT> GetFNMCAT(string CmpyCode)
+        public List<FNMCAT> GetFNMCAT(string CmpyCode, string type1)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMSLCAT_CODE,DESCRIPTION from FNMSLCAT where CmpyCode='" + CmpyCode + "' and Flag=0");// 
+            string qur = "";
+            if(type1 == "FM")
+            {
+                qur = "Select FNMSLCAT_CODE,DESCRIPTION from FNMSLCAT where FNMSLCAT_CODE  in('APP','ARP') and  CmpyCode='" + CmpyCode + "' and Flag=0";
+            }
+            else
+            {
+                qur = "Select FNMSLCAT_CODE,DESCRIPTION from FNMSLCAT where FNMSLCAT_CODE not in('APP','ARP') and CmpyCode='" + CmpyCode + "' and Flag=0";
+            }
+            ds = _EzBusinessHelper.ExecuteDataSet(qur);// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNMCAT> ObjList = new List<FNMCAT>();
@@ -118,7 +127,8 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
 
         public List<FNM_SL1002> GetFNM_SL1002(string CmpyCode, string FNM_SL1001_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select COA_CODE,FNM_SL1002_CODE,NAME from FNM_SL1002 where CmpyCode='" + CmpyCode + "' and Flag=0 and FNM_SL1001_CODE='"+ FNM_SL1001_CODE + "'");// 
+           
+            ds = _EzBusinessHelper.ExecuteDataSet("Select COA_CODE,FNM_SL1002_CODE,NAME,COA_NAME from FNM_SL1002 where CmpyCode='" + CmpyCode + "' and Flag=0 and FNM_SL1001_CODE='" + FNM_SL1001_CODE + "'");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNM_SL1002> ObjList = new List<FNM_SL1002>();
@@ -128,7 +138,8 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                 {
                     COA_CODE = dr["COA_CODE"].ToString(),
                     FNM_SL1002_CODE = dr["FNM_SL1002_CODE"].ToString(),
-                    NAME=dr["NAME"].ToString(),                  
+                    NAME=dr["NAME"].ToString(),
+                    COA_NAME=dr["COA_NAME"].ToString()
                 });
             }
             return ObjList;
@@ -194,7 +205,8 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                             DIVISION=m.DIVISION,
                             FNM_SL1001_CODE=m.FNM_SL1001_CODE,
                             FNM_SL1002_CODE=m.FNM_SL1002_CODE,
-                            NAME=m.NAME
+                            COA_NAME=m.COA_NAME,
+                            NAME =m.NAME
                         }).ToList());
                     }
                     #endregion                 
@@ -246,12 +258,14 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                         sb.Append("'" + FNMSL.UPDATED_BY + "',");
                         sb.Append("'" + FNMSL.Web_site + "',");
                         sb.Append("'" + dtstr7 + "',");
-                        sb.Append("'0',");
+                        sb.Append("'"+ FNMSL.DIVISION + "',");
                         sb.Append("'" + dtstr7 + "')");
                         
 
                         bool resul = _EzBusinessHelper.ExecuteNonQuery1("insert into FNM_SL1001" + sb + "");
 
+
+                        _EzBusinessHelper.ActivityLog(FNMSL.CMPYCODE, FNMSL.UPDATED_BY, "Add FNM_SL1001", FNMSL.FNM_SL1001_CODE, Environment.MachineName);
                         #endregion
                         if (resul == true)
                         {                           
@@ -265,6 +279,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                 sb.Append("FNM_SL1001_CODE,");
                                 sb.Append("FNM_SL1002_CODE,");
                                 sb.Append("NAME,");
+                                sb.Append("COA_NAME,");
                                 sb.Append("COA_CODE)");
                                 sb.Append(" values(");
                                 sb.Append("'" + FNMSL.CMPYCODE + "',");
@@ -272,8 +287,11 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                 sb.Append("'" +FNMSL.FNM_SL1001_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].FNM_SL1002_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].NAME + "',");
+                                sb.Append("'" + ObjList[n - 1].COA_NAME + "',");
                                 sb.Append("'" + ObjList[n - 1].COA_CODE + "')");
                                 _EzBusinessHelper.ExecuteNonQuery("insert into FNM_SL1002" + sb + " ");
+
+                                _EzBusinessHelper.ActivityLog(FNMSL.CMPYCODE, FNMSL.UPDATED_BY, "Update FNM_SL1001", FNMSL.FNM_SL1001_CODE, Environment.MachineName);
                                 n = n - 1;
                             }
                             #endregion
@@ -337,6 +355,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                     DIVISION = m.DIVISION,
                                     FNM_SL1001_CODE = FNSL.FNM_SL1001_CODE,
                                     FNM_SL1002_CODE = m.FNM_SL1002_CODE,
+                                    COA_NAME=m.COA_NAME,
                                     NAME = m.NAME
                                 }).ToList());
                             }
@@ -348,6 +367,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                             sb.Append("Contact1='" + FNSL.Contact1 + "',");
                             sb.Append("Contact2='" + FNSL.Contact2 + "',");
                             sb.Append("Contact3='" + FNSL.Contact3 + "',");
+                            sb.Append("DIVISION='" + FNSL.DIVISION + "',");
                             sb.Append("CREATED_BY='" + FNSL.CREATED_BY + "',");
                             sb.Append("credit_limit='" + FNSL.credit_limit + "',");
                             sb.Append("Currency_code='" + FNSL.Currency_code + "',");                            
@@ -363,6 +383,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                             sb.Append("CREATED_ON='" + dtstr7 + "'");
                         _EzBusinessHelper.ExecuteNonQuery("update FNM_SL1001 set " + sb + " where Cmpycode='" + FNSL.CMPYCODE + "' and FNM_SL1001_CODE='" + FNSL.FNM_SL1001_CODE + "'");
 
+
                             #endregion
 
                             #region FNMSL002
@@ -375,6 +396,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                 sb.Append("FNM_SL1001_CODE,");
                                 sb.Append("FNM_SL1002_CODE,");
                                 sb.Append("NAME,");
+                                sb.Append("COA_NAME,");
                                 sb.Append("COA_CODE)");
                                 sb.Append(" values(");
                                 sb.Append("'" + FNMSL.CMPYCODE + "',");
@@ -382,6 +404,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                 sb.Append("'" + FNMSL.FNM_SL1001_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].FNM_SL1002_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].NAME + "',");
+                                sb.Append("'" + ObjList[n - 1].COA_NAME + "',");
                                 sb.Append("'" + ObjList[n - 1].COA_CODE + "')");
                                 _EzBusinessHelper.ExecuteNonQuery("insert into FNM_SL1002" + sb + " ");
                                 n = n - 1;
@@ -406,7 +429,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
 
         public List<FNM_SL1002> GetFNM_SL1002Add(string CmpyCode, string FNMCAT_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("select d.fnmslcat_code as [FNM SL Code],d.description as [Description],h.code as [CODE],h.name as [COA NAME]  from FNM_AC_COA h inner join FNMSLCAT d on h.SUBLEDGER_CAT=d.FNMSLCAT_CODE and h.Flag=d.Flag where D.Flag=0 and d.FNMSLCAT_CODE='"+ FNMCAT_CODE +"' and CMPYCODE='"+ CmpyCode  +"'");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("select d.fnmslcat_code as [FNM SL Code],d.description as [Description],h.FNM_AC_COA_CODE as [CODE],h.name as [COA NAME]  from FNM_AC_COA h inner join FNMSLCAT d on h.SUBLEDGER_CAT=d.FNMSLCAT_CODE and h.Flag=d.Flag where D.Flag=0  and d.CMPYCODE=h.CMPYCODE and d.FNMSLCAT_CODE='" + FNMCAT_CODE + "' and d.CMPYCODE='" + CmpyCode  +"'");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNM_SL1002> ObjList = new List<FNM_SL1002>();
@@ -417,7 +440,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                     COA_CODE = dr["CODE"].ToString(),
                     FNM_SL1002_CODE = dr["FNM SL Code"].ToString(),
                     NAME = dr["Description"].ToString(),
-                    Description1=dr["COA NAME"].ToString()
+                    COA_NAME=dr["COA NAME"].ToString()
                 });
             }
             return ObjList;

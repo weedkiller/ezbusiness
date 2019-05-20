@@ -15,7 +15,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF
         public string FNM_SL1002_CODE { get; set; }
         public string NAME { get; set; }
         public string COA_CODE { get; set; }
-
-        public string Description1 { get; set; }
+        public string COA_NAME { get; set; }
+      
     }
 }

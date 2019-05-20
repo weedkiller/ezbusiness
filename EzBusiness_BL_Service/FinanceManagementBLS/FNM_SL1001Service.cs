@@ -31,14 +31,15 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
         {
             var FNM_SLEdit = _FNM_SL1001Rep.EditFNM_SL(CmpyCode, FNM_SL1001_CODE);
             FNM_SLEdit.Currency_codeList = GetFNMCURRENCY();
-            FNM_SLEdit.SUBLEDGER_TYPEList = GetFNMCAT(CmpyCode);
+            //FNM_SLEdit.SUBLEDGER_TYPE = FNM_SLEdit.SUBLEDGER_TYPE;
+            FNM_SLEdit.SUBLEDGER_TYPEList = GetFNMCAT(CmpyCode, FNM_SLEdit.SUBLEDGER_TYPE);
             FNM_SLEdit.FNM_SL1002Details = GetFNMSL002DetailList(CmpyCode, FNM_SL1001_CODE);
             return FNM_SLEdit;
         }
 
-        public List<SelectListItem> GetFNMCAT(string CmpyCode)
+        public List<SelectListItem> GetFNMCAT(string CmpyCode, string type1)
         {
-            var itemCodes = _FNM_SL1001Rep.GetFNMCAT(CmpyCode)
+            var itemCodes = _FNM_SL1001Rep.GetFNMCAT(CmpyCode, type1)
                                          .Select(m => new SelectListItem { Value = m.FNMSLCAT_CODE, Text = string.Concat(m.FNMSLCAT_CODE, " - ", m.DESCRIPTION) })
                                          .ToList();
 
@@ -72,7 +73,8 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
                COA_CODE=m.COA_CODE,
                FNM_SL1002_CODE=m.FNM_SL1002_CODE,
                FNM_SL1001_CODE=m.FNM_SL1001_CODE,
-               DIVISION=m.DIVISION
+               DIVISION=m.DIVISION,
+               COA_NAME=m.COA_NAME
 
             }).ToList();
         }
@@ -105,7 +107,7 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
             return new FNM_SL_VM
             {
                 Currency_codeList = GetFNMCURRENCY(),
-                SUBLEDGER_TYPEList= GetFNMCAT(Cmpycode),
+                SUBLEDGER_TYPEList= GetFNMCAT(Cmpycode,"FM"),
 
                 EditFlag = false
             };
@@ -126,9 +128,40 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
                 FNM_SL1002_CODE = m.FNM_SL1002_CODE,
                 FNM_SL1001_CODE = m.FNM_SL1001_CODE,
                 DIVISION = m.DIVISION,
-                Description1=m.Description1
+                COA_NAME=m.COA_NAME
 
             }).ToList();
         }
+
+        //public List<FNM_SL1002DetailNew> GetCatDropDetailListFilter(string CmpyCode, string FNMCAT_CODE)
+        //{
+        //    if (FNMCAT_CODE == "FM")
+        //    {
+        //        return _FNM_SL1001Rep.GetFNM_SL1002(CmpyCode, FNMCAT_CODE).Where(x => x.FNM_SL1002_CODE.ToString() == "ARP" || x.FNM_SL1002_CODE.ToString() == "AAP").Select(m => new FNM_SL1002DetailNew
+        //        {
+        //            CMPYCODE = m.CMPYCODE,
+        //            NAME = m.NAME,
+        //            COA_CODE = m.COA_CODE,
+        //            FNM_SL1002_CODE = m.FNM_SL1002_CODE,
+        //            FNM_SL1001_CODE = m.FNM_SL1001_CODE,
+        //            DIVISION = m.DIVISION
+
+        //        }).ToList();
+        //    }
+        //    else
+        //    {
+        //        return _FNM_SL1001Rep.GetFNM_SL1002(CmpyCode, FNMCAT_CODE).Where(x => x.FNM_SL1002_CODE.ToString() != "ARP" || x.FNM_SL1002_CODE.ToString() != "AAP").Select(m => new FNM_SL1002DetailNew
+        //        {
+        //            CMPYCODE = m.CMPYCODE,
+        //            NAME = m.NAME,
+        //            COA_CODE = m.COA_CODE,
+        //            FNM_SL1002_CODE = m.FNM_SL1002_CODE,
+        //            FNM_SL1001_CODE = m.FNM_SL1001_CODE,
+        //            DIVISION = m.DIVISION
+
+        //        }).ToList();
+        //    }
+           
+        //}
     }
 }

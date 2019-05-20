@@ -7,6 +7,7 @@ using EzBusiness_DL_Interface.FreightManagementDLI;
 using EzBusiness_DL_Repository.FreightManagementDLR;
 using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
+using System.Web.Mvc;
 
 namespace EzBusiness_BL_Interface.FreightManagementBLI
 {
@@ -16,6 +17,12 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
         List<FFM_CRG_001_VM> GetFFM_CRG_001(string CmpyCode);
         FFM_CRG_001_VM SaveFFM_CRG_001(FFM_CRG_001_VM CR);
         bool DeleteFFM_CRG_001(string FFM_CRG_001_CODE, string CmpyCode, string UserName);
+
+        List<SelectListItem> GetCRG_Group(string Cmpycode);
+
+        FFM_CRG_001_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE);
+
+        FFM_CRG_001_VM FM_CRG_001AddNew(string CmpyCode, string FFM_CRG_001_CODE);
         #endregion
     }
 }
