@@ -55,7 +55,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public List<FFM_VESSEL> GetFFM_VESSEL(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMHEAD_CODE,DESCRIPTION from FMHEAD where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMHEAD_CODE,DESCRIPTION from FMHEAD where CmpyCode='" + CmpyCode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FFM_VESSEL> ObjList = new List<FFM_VESSEL>();

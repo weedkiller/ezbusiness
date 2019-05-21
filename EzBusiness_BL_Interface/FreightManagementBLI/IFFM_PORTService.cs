@@ -1,20 +1,17 @@
 ﻿using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
-using EzBusiness_EF_Entity.FreightManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EzBusiness_DL_Interface.FreightManagementDLI
+namespace EzBusiness_BL_Interface.FreightManagementBLI
 {
-    public interface IFFM_PORTRepository
+    public interface IFFM_PORTService
     {
-        List<FFM_PORT> GetFFM_PORT(string CmpyCode);
-
-        FFM_PORT_VM SaveFFM_PORT(FFM_PORT_VM fpk);
-
+        List<FFM_PORT_VM> GetFFM_PORT(string CmpyCode);
+        FFM_PORT_VM SaveFFM_PORT(FFM_PORT_VM FC);
         bool DeleteFFM_PORT(string FFM_PORT_CODE, string CmpyCode, string UserName);
         FFM_PORT_VM EditFFM_PORT(string CmpyCode, string FFM_PORT_CODE);
     }
