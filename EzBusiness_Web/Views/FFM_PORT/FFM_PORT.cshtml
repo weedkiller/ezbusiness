@@ -7,635 +7,325 @@
 }
 
 <script src="~/Scripts/EzComNDW.js"></script>
-<script>
 
-    $(function () {
-        $("#dcm").hide();
-        EzAuthentication("/PORTMASTER");
-        var n = EzAuthenticationBtn("/PORTMASTER", "ViewIt");
-        if (n == 1) {
-            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
-            $('#tblUnits').show();
-        } else {
-            $('#tblUnits').hide();
-        }
-    });
-</script>
 <script>
-    var Doks = [];
     $(function () {
-        $("#tblUnits1").hide();
-        $("#btnAdd").click(function () {
+        EzAuthentication("/PORTMASTER")
+        Ezsetzerotxt();
+
+        //EzsetDatetxt();
+        var lvHtml = $("#POContainer").html();
+        $("#POListContainer1").hide();
+        function GetLeaveList() {
+            $.get("/FFM_PORT/GetPortList", function (response) {
+                $("#POListContainer").html(response);
+            });
+        }
+        $("#btnNew").click(function () {
             var n = EzAuthenticationBtn("/PORTMASTER", "NewIt");
             if (n == 1) {
-                $("#tbldiv").hide();
-                var abk = [];
-                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
-                Ezprop(abk, "disabled", true);
-                abk = [];
-                abk.push('#btnCancel', '#btnSave');
-                Ezprop(abk, "disabled", false);
-                $("#tblUnits1 tbody tr").css("background", "");
-                $("#tblUnits1").show();
-                $("#dcm").show();
-
-
-            }
-        });
-
-        var counter = $("#Counter").val();
-
-
-        /*Code Tab Event*/
-        EztableTabEve("#tblUnits1", "[name*='txtFFM_PORT_CODE']", "[name *= 'txtFFM_PORT_CODE']", "Please Enter PORT_CODE", 'T', "");
-
-
-        EztableTabEve("#tblUnits1", "[name*='txtFFM_PORT_CODE']", "[name *= 'txtName']", "Please Enter PORT_CODE", 'T', "");
-
-        EztableTabEve("#tblUnits1", "[name*='txtName']", "[name *= 'txtCOUNTRY']", "Please Enter Name", 'T', "");
-
-
-
-
-        /*Enter Event*/
-        EztableLstEnt("#tblUnits1", "[name*='txtDISPLY_STATUS']", "[name *= 'txtFFM_PORT_CODE']", "T", "");
-
-
-        /*Add Table Change Event*/
-        $("#tblUnits1").on("change", "[name*='txtFFM_PORT_CODE']", function () {
-            var tr = $(this).closest('tr');
-
-            drec = [];
-            $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
-                //add item to array
-                var ab = $(this).find("[name *= 'txtFFM_PORT_CODE']").val();
-                drec.push(ab);
-            });
-
-            drec.splice($.inArray(tr.find("[name *= 'txtFFM_PORT_CODE']").val(), drec), 1);
-
-            if ($.inArray(tr.find("[name *= 'txtFFM_PORT_CODE']").val(), drec) >= 0) {
-                var dr = tr.find("[name *= 'txtFFM_PORT_CODE']").val();
-                tr.css("background", "red");
-                tr.find("[name *= 'txtFFM_PORT_CODE']").focus();
-                EzAlerterrtxt("Already Exist Code '" + dr + "'");
-                tr.find("[name *= 'txtFFM_PORT_CODE']").val('');
-
-
-            }
-            else {
-                tr.css("background", "");
-                if (tr.is(":last-child")) {
-                    tr.clone(true, true).insertAfter(tr);
-                    var trLast = $("#tableMetaSettings tr:last");
-                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtFFM_PACKING_CODE']").val('');
-                    trLast.find("[name *= 'txtFFM_PORT_CODE']").attr({
-                        "name": ("txtFFM_PORT_CODE" + counter)
-                    });
-                    trLast.find("[name *= 'txtName']").attr({
-                        "name": ("txtName" + counter)
-                    });
-                    trLast.find("[name *= 'txtCOUNTRY']").attr({
-                        "name": ("txtCOUNTRY" + counter)
-                    });
-                    trLast.find("[name *= 'txtTERMINAL']").attr({
-                        "name": ("txtTERMINAL" + counter)
-                    });
-                    trLast.find("[name *= 'txtDISPLY_STATUS']").attr({
-                        "name": ("txtDISPLY_STATUS" + counter)
-                    });
-                   
-
-
-
-
-
-
-                    trLast.find(":first").text(counter);
-                }
-            }
-            counter++;
-        });
-
-
-        /*Refresh */
-        $("#btnCancel").click(function () {
-            $("#dcm").hide();
-            if ($("#tblUnits1 > tbody > tr").length > 1) {
-                $("#tblUnits1 tbody tr td:last-child").remove();
-            }
-            $("#tblUnits1 tbody").find("tr:gt(0)").remove();
-
-            var abk1 = [];
-            abk1.push("[name*='txtFFM_PORT_CODE']", "[name*='txtName']", "[name*='txtCOUNTRY']", "[name*='txtCOUNTRY']", "[name*='txtTERMINAL']", "[name*='txtDISPLY_STATUS']");
-            Ezsettxtclr(abk1);
-            abk1 = [];
-            abk1.push("#btnCancel", "#btnSave");
-            Ezprop(abk1, "disabled", true);
-            abk1 = [];
-            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
-            Ezprop(abk1, "disabled", false);
-            $("#tblUnits1").hide();
-            $("#tbldiv").show();
-        });
-        /*Save Unit Table */
-        $("#btnSave").click(function () {
-            debugger;
-            var fpk = {
-                FFM_PORTNew: []
-            };
-            $("#tblUnits1 tbody tr").each(function (index, item) {
-
-                var FFM_PORT_CODE = $(this).find("[name*='txtFFM_PORT_CODE']").val();
-                var NAME = $(this).find("[name*='txtName']").val();
-                var COUNTRY = $(this).find("[name*='txtCOUNTRY']").val();
-                var TERMINAL = $(this).find("[name*='txtTERMINAL']").val();
-                var DISPLAY_STATUS = $(this).find("[name*='txtDISPLY_STATUS']").val();
-               // var NAME = $(this).find("[name*='txtName']").val();
-                debugger;
-
-
-                if ((FFM_PORT_CODE != "") && (NAME != "")) {
-                    var FFM_PORTDetail = {
-                        FFM_PORT_CODE: FFM_PORT_CODE,
-                        NAME: NAME,
-                        COUNTRY: COUNTRY,
-                        TERMINAL: TERMINAL,
-                        DISPLY_STATUS: DISPLAY_STATUS
-                         };
-                    fpk.FFM_PORTNew.push(FFM_PORTDetail);
-                }
-            });
-            var validationResult = ValidateForm(fpk);
-            if (validationResult.formValid) {
-                $.post("/FFM_PORT/SaveFFM_PORT", fpk).done(function (response) {
-                    if (response.Drecord == null) {
-
-                        response.Drecord = 0;
-                        $("#tbldiv").show();
-
-                    }
-                    $("#tblUnits1 tbody tr").each(function (index, item) {
-                        var tr = $(this).closest("tr");
-
-                        var FFM_PORT_CODEEAdd = $(this).find("[name*='txtFFM_PORT_CODE']").val();
-                        var NAMEAdd = $(this).find("[name*='txtName']").val();
-                        var COUNTRYAdd = $(this).find("[name*='txtCOUNTRY']").val();
-                        var TERMINALAdd = $(this).find("[name*='txtTERMINAL']").val();
-                        var DISPLY_STATUSAdd = $(this).find("[name*='txtDISPLY_STATUS']").val();
-
-                        //var MASTER_STATUS = $(this).find("[name*='txtMASTER_STATUS']").val();
-                        //var NOTE = $(this).find("[name*='txtNOTE']").val();
-
-
-                        if (response.Drecord.length > 0) {
-                            var ary1 = [];
-                            ary1 = response.Drecord;
-                            if ($.inArray(FFM_PORT_CODEEAdd, ary1) < 0 && FFM_PORT_CODEEAdd != '' && FFM_PORT_CODEEAdd != '') {
-                                $(this).closest('tr').remove();
-                                var counter = $("#Counter").val();
-                                var firstRow = $('#tblUnits tbody tr:first');
-
-                                var newRow = "<tr><td>" + FFM_PORT_CODEEAdd + "</td><td>" + NAMEAdd + "</td><td>" + COUNTRYAdd + "</td><td>" + TERMINALAdd + "</td><td>" + DISPLY_STATUSAdd + "</td>";
-                                //newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                //    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                //    "'></td></tr>";
-                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                   "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                   "'></td></tr>";
-                                $(firstRow).after(newRow);
-                            }
-                            else if (codeAdd != '') {
-                                $(this).closest('tr').css("background", "red");
-                            }
-                            else {
-                                $(this).closest('tr').css("background", "");
-                            }
-                        }
-                        else {
-                            $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                            $("[name*='txtFFM_PORT_CODE']").val();
-                            $("[name*='txtFFM_PORT_CODE']").val();
-
-
-                            $("#tblUnits1").hide();
-
-                            if (FFM_PORT_CODEEAdd != '' && FFM_PORT_CODEEAdd != '') {
-                                var counter = $("#Counter").val();
-                                var firstRow = $('#tblUnits tbody tr:first');
-                                var newRow = "<tr><td>" + FFM_PORT_CODEEAdd + "</td><td>" + NAMEAdd + "</td><td>" + COUNTRYAdd + "</td><td>" + TERMINALAdd + "</td><td>" + COUNTRYAdd + "</td>";
-                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                    "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                    "'></td></tr>";
-                                //newRow += "</tr>";
-                                $(firstRow).after(newRow); 
-                            }
-                            abk1 = [];
-                            abk1.push("#btnCancel", "#btnSave");
-                            Ezprop(abk1, "disabled", true);
-                            abk1 = [];
-                            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
-                            Ezprop(abk1, "disabled", false);
-                            EzAlertSave();
-                            $(".dataTables_empty").replaceWith("");
-                        }
-                    });
+            $("#btnSave").prop("disabled", false);
+                $("#editshow").hide();
+                $.get("FFM_PORT/AddFFM_PORT", function (response) {
+                    $("#POContainer").html(response);
                 });
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
+                $("#POListContainer1").hide();
+           }
+        });
+        $(".alert-close").click(function () {
+            $("#editshow").hide();
+        });
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/PORTMASTER", "ViewIt");
+            if (n == 1) {
+                $(this).css("visibility", "hidden");
+                $("#POContainer").html();
+                EzbtnEditAcVis();
+                $("#POListContainer1").show();
+                GetLeaveList();
+                $("#editshow").show();
             }
-            else {
-                EzAlerterr();
+        });
+        $("#btnCancel").click(function () {
+            $("#editshow").hide();
+            $("#POContainer").html(lvHtml);
+            EzbtnCancelAcVis();
+            Ezsetzerotxt();
+            //EzsetDatetxt();
+            $("#POListContainer1").hide();
+           // EzdtePk('#Entry_Date1');
+        });
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/PORTMASTER", "DeleteIt");
+           // var date1 = Ezsetdtpkdate($('#Entry_Date1').val());
+            var k = 1;
+          //  if (n == 1 ) {
+              //  k = EzSalrProcCondiont($("#InvNumber option:selected").val(), date1);
+                if( k == 1){
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var FFM_PORT_CODE = $("[name*='FFM_PORT_CODE']").val();
+                        $.getJSON("/DeleteFFM_PORT", { FFM_PORT_CODE: FFM_PORT_CODE }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    EzbtnsaveAcVis("#POContainer");
+                                    $("#POContainer").html(lvHtml);
+                                    //$("#btnCancel").trigger("click");
+                                    GetLeaveList();
+                                } else {
+                                    EzAlertdele(InvNumber);
+                                }
+                            });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+
             }
         });
 
-        function ValidateForm(Fcur) {
+        $("#btnSave").click(function () {
+            var n = EzAuthenticationBtn("/SaveInv", "EditIt");
+            var k = 0;
+            var SA = 0;
+
+            $("#editshow").hide();
+            debugger;
+            var opMode = $("#hdnOperationMode").val();
+
+            if (opMode == "Add") {
+
+                var fpk = {
+                    EditFlag: false,
+                    FFM_PORT_CODE: $('#FFM_PORT_CODE').val(),
+                    NAME: $('#NAME').val(),
+                    COUNTRY: $("#COUNTRY option:selected").val(),
+                    TERMINAL: $('#TERMINAL').val(),
+                    LATITUDE: $('#LATITUDE').val(),
+                    LANGITUDE: $('#LANGITUDE').val(),
+                    DISPLY_STATUS: $("#DISPLY_STATUS option:selected").val(),
+
+                };
+
+
+                var validationResult = ValidateForm(fpk);
+                if (validationResult.formValid) {
+                    $.ajax({
+                        async: false,
+                        cache: false,
+                        type: "POST",
+                        url: "/FFM_PORT/SaveFFM_PORT",
+                        data: '{fpk:' + JSON.stringify(fpk) + ' }',
+                        contentType: "Application/json",
+                        dataType: 'Json',
+                        success: function (data) {
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
+                            $("#tbldiv").show();
+                            $("#POContainer").html(lvHtml);
+                        }
+
+                    });
+
+                } else {
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+            } else if (opMode == "Edit") {            
+
+                var fpk = {
+                    EditFlag: false,
+                    FFM_PORT_CODE: $('#FFM_PORT_CODE').val(),
+                    NAME: $('#NAME').val(),
+                    COUNTRY: $("#COUNTRY option:selected").val(),
+                    TERMINAL: $('#TERMINAL').val(),
+                    LATITUDE: $('#LATITUDE').val(),
+                    LANGITUDE: $('#LANGITUDE').val(),
+                    DISPLY_STATUS: $("#DISPLY_STATUS option:selected").val(),
+
+                };
+
+
+
+                var validationResult = ValidateForm(sales);
+                if (validationResult.formValid) {
+                    $.ajax({
+                        async: false,
+                        cache: false,
+                        type: "POST",
+                        url: "/FFM_PORT/SaveFFM_PORT",
+                        data: '{fpk:' + JSON.stringify(fpk) + ' }',
+                        contentType: "Application/json",
+                        dataType: 'Json',
+                        success: function (data) {
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
+                            $("#tbldiv").show();
+                            $("#POContainer").html(lvHtml);
+                        }
+
+                    });
+
+                } else {
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+
+
+
+
+
+
+
+            }
+
+
+        });
+       
+
+        function ValidateForm(inv) {
+
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
+            if (inv.EditFlag == false) {
+                if (inv.FFM_PORT_CODE == "") {
+                    response.ErrorMessage += "** Please Enrter PORT_CODE";
+                }
+            } else if (inv.EditFlag == true) {
+                if (inv.FFM_PORT_CODE == "") {
+                    response.ErrorMessage += "** Please Enrter PORT_CODE";
+                }
 
-            if (Fcur.FFM_PORTNew.length == 0) {
-                response.ErrorMessage += "Please Enter atleast One PORT Detail";
             }
+
+            if (inv.NAME == "") {
+                response.ErrorMessage += "**NAME is mandatory Fields.";
+            }
+
+           
+
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
             }
 
             return response;
         }
-        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
-            $(this).closest("tr").remove();
-        });
-
-
+        function parseDate(s) {
+            var b = s.split(/\D/);
+            return new Date(b[0], --b[1], b[2]);
+        }
         $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             console.log(thrownError);
         });
+        $(document).on("click", "#POList tbody tr", function () {
 
-
-        $("#tblUnits").on("click", "[name^='Edit']", function () {
-            var n = EzAuthenticationBtn("/FFM_PORT", "EditIt");
-            if (n == 1) {
-                debugger;
-                var counter = $("#Counter").val();
-                var hdnEditMode = $(this).parent().find('input:hidden:first');
-                 var tr = $(this).closest("tr");
-
-                 var index = $(this).attr("name").substring(4);
-                 var hdnDocCode = $(tr).find("td:eq(0)").text().trim();
-                 var NAMETd = $(tr).find("td:eq(1)");
-                 var COUNTRYTd = $(tr).find("td:eq(2)");
-                 var TERMINALTd = $(tr).find("td:eq(3)");
-                 var DISPLAY_STATUSTd = $(tr).find("td:eq(4)");
-
-
-                var editButton = $(this);
-
-                if (hdnEditMode.val() == "true") {
-                    var NAMEEdit = $(tr).find("[name*='txtNAME']").val();//.trim();
-                    var COUNTRYEdit = $(tr).find("[name*='txtCOUNTRY']").val().trim();
-                    var TERMINALEdit = $(tr).find("[name*='txtTERMINAL']").val().trim();
-                    var DISPLAY_STATUSEdit = $(tr).find("[name*='txtDISPLAY_STATUSEdit']").val().trim();
-                   
-
-                    debugger;
-                    var fpk = {
-                        EditFlag: true,
-                        FFM_PORT_CODE: hdnDocCode,
-                        NAME:NAMEEdit,
-                        COUNTRY: COUNTRYEdit,
-                        TERMINAL: TERMINALEdit,
-                        DISPLAY_STATUS: DISPLAY_STATUSEdit
-                                           };
-
-                    $.post("/FFM_PORT/SaveFFM_PORT", fpk).done(function (response) {
-                        debugger;
-                        NAMETd.text(response.NAME);
-                        COUNTRYTd.text(response.COUNTRY);
-                        TERMINALTd.text(response.TERMINAL);
-                        DISPLAY_STATUSTd.text(response.DISPLAY_STATUS);
-
-
-
-                        hdnEditMode.val("false");
-                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
-                        editButton.attr('title', 'Edit');
-                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
-                        tr.find("[name^='Delete']").attr('title', 'Delete');
-
-                        tableDis("F");
-                        EzAlertUpd(hdnDocCode);
-                    });
-                    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-                        console.log(thrownError);
-                    });
-                } else {
-                    debugger;
-                    NAME = $(tr).find("td:eq(1)").text();
-                    COUNTRY = $(tr).find("td:eq(2)").text();
-                    TERMINAL=$(tr).find("td:eq(3)").text();
-                    DISPLAY_STATUS = $(tr).find("td:eq(4)").text();
-
-
-                    $('#inpdocname').val(NAME.trim());
-
-
-
-                    NAMETd.html("<input type='text' name='txtName" + index + "' value='" + NAME.trim() + "' />");
-                    COUNTRYTd.html("<input type='text' name='txtCOUNTRY" + index + "' value='" + COUNTRY.trim() + "' />");
-                    TERMINALTd.html("<input type='text' name='txtTERMINAL" + index + "' value='" + TERMINAL.trim() + "' />");
-                    DISPLAY_STATUSTd.html("<input type='text' name='txtDISPLAY_STATUS" + index + "' value='" + DISPLAY_STATUS.trim() + "' />");
-
-
-
-
-                    $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
-                    $(this).attr('title', 'Update');
-                    hdnEditMode.val("true");
-
-                    tableDis("T");
-                    $(this).attr("disabled", false);
-                    tr.find("[name^='Delete']").prop("disabled", false);
-
-                    tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>')
-                    tr.find("[name^='Delete']").attr('title', 'Cancel');
-
-                }
+            $("#btnSave").prop("disabled", false);
+            $("#btnDelete").prop("disabled", false);
+            EzbtnEditAcVis();
+            var operationMode = $("#hdnOperationMode").val();
+            if (operationMode == "Edit") {
+                $("#POList > tbody").children().removeClass("active");
+                $(this).addClass("active");
+                var FFM_PORT_CODE = $(this).find("#hdnFFM_PORT_CODE").val();
+                $.get("EditFFM_PORT", { FFM_PORT_CODE: FFM_PORT_CODE }).done(function (response) {
+                    $("#POContainer").html(response);
+                    //$("#btnDelete").prop("disabled", false);
+                    $("#btnDelete").css("visibility", "");
+                });
             }
         });
 
-        $("#tblUnits").on("click", "[name^='Delete']", function () {
-            debugger;
-            var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
-            if (n == 1) {
-                var tr = $(this).closest("tr");
-
-                var FMHEADCodeTd = $(tr).find("td:eq(1)");
-                var hdnMode = $(this).parent().find('input:hidden:first');
-                var doccode = "";
-                if (hdnMode.val() == "false") {
-
-                    const swalWithBootstrapButtons = Swal.mixin({
-                        confirmButtonClass: 'btn btn-success',
-                        cancelButtonClass: 'btn btn-danger',
-                        buttonsStyling: false,
-                    })
-
-                    swalWithBootstrapButtons.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes, delete it!',
-                        cancelButtonText: 'No, cancel!',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.value) {
-                            FFM_PORT_CODE = $(tr).find("td:eq(0)").text().trim();
-                            debugger;
-                            $.getJSON("/DeleteFFM_PORT", { FFM_PORT_CODE: FFM_PORT_CODE }).done(function (data) {
-                                if (data.DeleteFlag) {
-
-                                    if ($('#tblUnits tbody tr').length == 2) {
-                                        var firstRow = $('#tblUnits tbody tr:first');
-                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
-                                        $(firstRow).after(newRow);
-                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
-                                    }
-                                    tr.remove();
-                                } else {
-                                    EzAlertdele(doccode);
-                                }
-                            });
-                            swalWithBootstrapButtons.fire(
-                              'Deleted!',
-                              'Your Code has been deleted.',
-                              'success'
-                            )
-
-                        } else if (
-                            // Read more about handling dismissals
-                          result.dismiss === Swal.DismissReason.cancel
-                        ) {
-                            swalWithBootstrapButtons.fire(
-                              'Cancelled',
-                              'Your Code is safe :)',
-                              'error'
-                            )
-                        }
-                    })
-
-                }
-                else {
-                    var nameTd = $(tr).find("td:eq(1)");
-
-                    var nameEdit = $('#inpdocname').val();
-                    var hdnEditMode = $(this).parent().find('input:hidden:first');
-                    nameTd.html(nameEdit);
-                    tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
-                    tr.find("[name^='Edit']").attr('title', 'Edit');
-                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
-                    $(this).attr('title', 'Delete');
-                    hdnEditMode.val("false");
-
-                    tableDis("F");
-                }
-            }
-        });
+        EzdtePk('#Entry_Date1');
     });
 
-    var k = 0;
-    function tableDis(k) {
-        if (k == "T") {
-            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", true);
-            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", true);
-            $("#btnAdd").prop('disabled', true);
-        }
-        else {
-            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
-            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
-            $("#btnAdd").prop('disabled', false);
 
-        }
-    }
+
 </script>
-
-<script>
-$(document).ready(function(){
-    //$('[data-toggle="tooltip"]').tooltip();
-    $(".edit").attr('title', 'Edit');
-    $(".delete").attr('title', 'Delete');
-});
-</script>
-
 <br />
 
 
-<div class="title-action">
-    <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
-    <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-    <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-    <input type="hidden" id="hdnOperationMode" value="" />
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
+
+        <div class="title-action">
+
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+
+
+
+        </div>
+    </div>
 
 </div>
 
-<div class="panel panel-default">
-    <div class="panel-body">
-        <input id="inpdocname" type="hidden" />
+<div class="row">
+    <!--updated code-->
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary panl">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;margin-top: -20px;">
+                <label class="row" id="ErrorMessage" style="color:red">
+                    <strong></strong>
+                </label>
 
-        <table class="table table-bordered" id="tblUnits1">
-            <thead>
-                <tr class="tr">
-
-                    <th>
-                        @Html.DisplayNameFor(model => model.FFM_PORT_CODE)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.NAME)
-                    </th>
-                    <th>
-                            @Html.DisplayNameFor(model => model.COUNTRY)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.TERMINAL)
-                        </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DISPLY_STATUS)
-                    </th>
-
-                    <th></th>
-                </tr>
-            </thead>
-
-
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtFFM_PORT_CODE", counter), null, new { @class = "grid-control" })
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtName", counter), null, new { @class = "grid-control" })
-                        </div>
-                    </td>
-                    <td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("txtCOUNTRY", counter), null, new { @class = "grid-control" })
+                <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="POContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="container" id="POListContainer">
+                                        @Html.Action("GetPortList", "FFM_PORT")
+                                    </div>
+                                </div>
                             </div>
-                        </td>
-                        <td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("txtTERMINAL", counter), null, new { @class = "grid-control" })
-                            </div>
-                           </td>
-                         <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtDISPLAY_STATUS", counter), null, new { @class = "grid-control" })
+
                         </div>
-                    </td>
-
-
-
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="col-md-12 portal-drivers">
-            <div id="tbldiv">
-                <table class="table table-bordered" id="tblUnits">
-                    <thead>
-                        <tr class="tr">
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.FFM_PORT_CODE)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.NAME)
-                            </th>
-                            <th>
-                                    @Html.DisplayNameFor(model => model.COUNTRY)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TERMINAL)
-                                </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.DISPLY_STATUS)
-                            </th>
-
-
-
-                            <th></th>
-
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr class="tr">
-
-                            <td>
-                                @Html.DisplayNameFor(model => model.FFM_PORT_CODE)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.NAME)
-                            </td>
-                            <td>
-                                    @Html.DisplayNameFor(model => model.COUNTRY)
-                                </td>
-                                <td>
-                                    @Html.DisplayNameFor(model => model.TERMINAL)
-                                </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.DISPLY_STATUS)
-                            </td>
-
-
-
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                    <tbody style="overflow:scroll">
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FFM_PORT_CODE)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NAME)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.COUNTRY)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.TERMINAL)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DISPLY_STATUS)
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </button>
-                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </button>
-                                    <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
-                                    @Html.HiddenFor(m => item.CMPYCODE)
-                                </td>
-                            </tr>
-                            counter++;
-                        }
-                    </tbody>
-
-                </table>
+                    </div>
+                </div>
 
             </div>
         </div>
-
-        @Html.Hidden("Counter", counter)
     </div>
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
 </div>
 
 

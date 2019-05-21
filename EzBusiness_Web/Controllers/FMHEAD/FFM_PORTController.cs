@@ -31,14 +31,48 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Redirect("Login/InLogin");
             }
             else
-            {
-
-                return View(_fpService.GetFFM_PORT(list[0].CmpyCode));
+            {                
+                return View();
             }
         }
+        public ActionResult GetPortList(string CmpyCode)
 
-
-
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_fpService.GetFFM_PORT(list[0].CmpyCode));
+            }
+        }
+        [Route("EditFFM_PORT")]
+        public ActionResult EditFFM_PORT(string CmpyCode, string FFM_PORT_CODE)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_fpService.EditFFM_PORT(list[0].CmpyCode, FFM_PORT_CODE));
+            }
+        }
+        public ActionResult AddFFM_PORT(string CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_fpService.NewFFM_PORT(list[0].CmpyCode));
+            }
+        }
         [HttpPost]
         public ActionResult SaveFFM_PORT(FFM_PORT_VM fpk)
         {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
+
 namespace EzBusiness_ViewModels.Models.FreightManagement
 {
     public class FFM_PORT_VM
@@ -16,7 +18,10 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string NAME { get; set; }
         public string COUNTRY { get; set; }
         public string TERMINAL { get; set; }
+        public decimal LATITUDE { get; set; }
+        public decimal LANGITUDE { get; set; }
         public string DISPLY_STATUS { get; set; }
+        public List< SelectListItem> CountryList { get; set; }
         public bool SaveFlag { get; set; }
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
@@ -36,6 +41,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string NAME { get; set; }
         public string COUNTRY { get; set; }
         public string TERMINAL { get; set; }
+        public decimal LATITUDE { get; set; }
+        public decimal LANGITUDE { get; set; }
         public string DISPLY_STATUS { get; set; }
     }
 }

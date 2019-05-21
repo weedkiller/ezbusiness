@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace EzBusiness_BL_Service
 {
@@ -27,6 +28,14 @@ namespace EzBusiness_BL_Service
         {
             return _FFM_PORTRepo.EditFFM_PORT(CmpyCode, FFM_PORT_CODE);
         }
+        public FFM_PORT_VM NewFFM_PORT(string CmpyCode)
+        {
+            return new FFM_PORT_VM
+            {                                
+                CountryList = GetCountryList(CmpyCode),
+                EditFlag = false
+            };
+        }
 
         public List<FFM_PORT_VM> GetFFM_PORT(string CmpyCode)
         {
@@ -35,10 +44,32 @@ namespace EzBusiness_BL_Service
                 CMPYCODE = m.CMPYCODE,
                 NAME = m.NAME,
                 FFM_PORT_CODE = m.FFM_PORT_CODE,
-               COUNTRY=m.COUNTRY,
-               TERMINAL=m.TERMINAL,
-               //UserName=m.UserName
+                COUNTRY = m.COUNTRY,
+                TERMINAL = m.TERMINAL,
+                LANGITUDE=m.LANGITUDE,
+                LATITUDE=m.LATITUDE,
+                DISPLY_STATUS = m.DISPLY_STATUS,
+                CountryList = GetCountryList(CmpyCode),
+                
             }).ToList();
+        }
+        private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
+        {
+            items.Insert(0, new SelectListItem
+            {
+                Value = "",
+                Text = "-Select List-"
+            });
+            return items;
+        }
+
+        public List<SelectListItem> GetCountryList(string CmpyCode)
+        {
+            var itemCodes = _FFM_PORTRepo.GetCountryList(CmpyCode)
+                                   .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
+                                   .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
         }
 
         public FFM_PORT_VM SaveFFM_PORT(FFM_PORT_VM FC)
