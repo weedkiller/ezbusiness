@@ -1,4 +1,5 @@
 ﻿using EzBusiness_DL_Interface.FreightManagementDLI;
+using EzBusiness_EF_Entity;
 using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
 using System;
@@ -16,9 +17,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         DataTable dt = null;
 
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
+        DropListFillFun drop = new DropListFillFun();
         public bool DeleteFFM_PORT(string FFM_PORT_CODE, string CmpyCode, string UserName)
         {
-            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FFM_PORT where  FFM_PACKING_CODE='" + FFM_PORT_CODE + "'  and Flag=0");// CMPYCODE='" + CmpyCode + "' and
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FFM_PORT where  FFM_PORT_CODE='" + FFM_PORT_CODE + "'  and Flag=0");// CMPYCODE='" + CmpyCode + "' and
             if (Grs != 0)
             {
 
@@ -37,7 +39,6 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             FFM_PORT_VM ObjList = new FFM_PORT_VM();
             foreach (DataRow dr in drc)
             {
-
                 ObjList.FFM_PORT_CODE = dr["FFM_PORT_CODE"].ToString();
                 ObjList.NAME = dr["NAME"].ToString();
                 ObjList.CMPYCODE = dr["CMPYCODE"].ToString();
@@ -51,10 +52,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             }
             return ObjList;
         }
-
+        public List<Nation> GetCountryList(string CmpyCode)
+        {
+          return   drop.GetNationList(CmpyCode);
+        }
         public List<FFM_PORT> GetFFM_PORT(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_PORT_CODE,NAME,COUNTRY,TERMINAL,DISPLY_STATUS from FFM_PORT where Flag=0");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_PORT_CODE,NAME,COUNTRY,TERMINAL,LANGITUDE,DISPLY_STATUS from FFM_PORT where Flag=0");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FFM_PORT> ObjList = new List<FFM_PORT>();
@@ -66,13 +70,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     NAME = dr["NAME"].ToString(),
                     COUNTRY = dr["COUNTRY"].ToString(),
                     TERMINAL = dr["TERMINAL"].ToString(),
+                    LANGITUDE=Convert.ToDecimal(dr["LANGITUDE"]),
+                    LATITUDE = Convert.ToDecimal(dr["LATITUDE"]),
                     DISPLY_STATUS = dr["DISPLY_STATUS"].ToString(),
                 });
             }
             return ObjList;
         }
 
-        public FFM_PORT_VM SaveFFM_PACKING(FFM_PORT_VM fpk)
+        public FFM_PORT_VM SaveFFM_PORT(FFM_PORT_VM fpk)
         {
             try
             {
@@ -104,15 +110,20 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         {
                             StringBuilder sb = new StringBuilder();
                             sb.Append("'" + fpk.CMPYCODE + "',");
-                            sb.Append("'" + ObjList[n - 1].FFM_PACKING_CODE + "',");
-                            sb.Append("'" + ObjList[n - 1].NAME + "',");
+                            sb.Append("'" + fpk.FFM_PORT_CODE + "',");
+                            sb.Append("'" + fpk.NAME + "',");
+                            sb.Append("'" + fpk.COUNTRY + "',");
+                            sb.Append("'" + fpk.TERMINAL + "',");
+                            sb.Append("'" + fpk.LANGITUDE + "',");
+                            sb.Append("'" + fpk.LATITUDE + "',");
+                            sb.Append("'" + fpk.DISPLY_STATUS + "',");
                             sb.Append("'" + fpk.UserName + "',");
                             sb.Append("'" + fpk.UserName + "',");
                             sb.Append("'" + dtstr1 + "',");
                             sb.Append("'" + dtstr1 + "')");
 
-                            _EzBusinessHelper.ExecuteNonQuery("insert into FFM_PACKING(CMPYCODE,FFM_PACKING_CODE,NAME,CREATED_BY,UPDATED_BY,CREATED_ON,UPDATED_ON) values(" + sb.ToString() + "");
-                            _EzBusinessHelper.ActivityLog(fpk.CMPYCODE, fpk.UserName, "Add Packing Code", ObjList[n - 1].FFM_PACKING_CODE, Environment.MachineName);
+                            _EzBusinessHelper.ExecuteNonQuery("insert into FFM_PORT(CMPYCODE,FFM_PORT_CODE,NAME,COUNTRY,TERMINAL,LANGITUDE,LATITUDE,DISPLY_STATUS,CREATED_BY,UPDATED_BY,CREATED_ON,UPDATED_ON) values(" + sb.ToString() + "");
+                            _EzBusinessHelper.ActivityLog(fpk.CMPYCODE, fpk.UserName, "Add PORT Code", fpk.FFM_PORT_CODE, Environment.MachineName);
 
                             fpk.SaveFlag = true;
                             fpk.ErrorMessage = string.Empty;
@@ -124,23 +135,27 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             fpk.SaveFlag = false;
                             fpk.ErrorMessage = "Duplicate Record";
                         }
-                        n = n - 1;
+                      
                     }
                     return fpk;
-                }
-                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FFM_PACKING where FFM_PACKING_CODE='" + fpk.FFM_PORT_CODE + "'and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and 
+               
+                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FFM_PORT where FFM_PORT_CODE='" + fpk.FFM_PORT_CODE + "'and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and 
                 if (StatsEdit != 0)
                 {
                     StringBuilder sb = new StringBuilder();
 
                     // sb.Append("FFM_PACKING_UID='" + fpk.FFM_PACKING_UID + "',");
                     sb.Append("NAME='" + fpk.NAME + "',");
+                    sb.Append("COUNTRY='" + fpk.COUNTRY + "',");
+                    sb.Append("TERMINAL='" + fpk.TERMINAL+ "',");
+                    sb.Append("LANGITUDE='" + fpk.LANGITUDE + "',");
+                    sb.Append("LATITUDE='" + fpk.LATITUDE + "',");
                     sb.Append("UPDATED_BY='" + fpk.UserName + "',");
                     sb.Append("UPDATED_ON='" + dtstr1 + "'");
 
-                    _EzBusinessHelper.ExecuteNonQuery("update FFM_PACKING set  " + sb + " where  FFM_PACKING_CODE='" + fpk.FFM_PORT_CODE + "' and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and
+                    _EzBusinessHelper.ExecuteNonQuery("update FFM_PORT set  " + sb + " where  FFM_PORT_CODE='" + fpk.FFM_PORT_CODE + "' and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and
 
-                    _EzBusinessHelper.ActivityLog(fpk.CMPYCODE, fpk.UserName, "Update PACKING_CODE", fpk.FFM_PORT_CODE, Environment.MachineName);
+                    _EzBusinessHelper.ActivityLog(fpk.CMPYCODE, fpk.UserName, "Update FFM_PORT", fpk.FFM_PORT_CODE, Environment.MachineName);
 
                     fpk.SaveFlag = true;
                     fpk.ErrorMessage = string.Empty;
