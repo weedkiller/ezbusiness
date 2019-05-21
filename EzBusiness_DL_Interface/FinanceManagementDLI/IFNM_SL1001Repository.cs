@@ -10,7 +10,7 @@ namespace EzBusiness_DL_Interface.FinanceManagementDLI
 {
   public  interface IFNM_SL1001Repository
     {
-        bool DeleteFNM_SL1001(string FNM_SL1001_CODE, string CmpyCode, string UserName);
+        bool DeleteFNM_SL1001(string CmpyCode, string FNM_SL1001_CODE,  string UserName);
         List<FNM_SL1001> GetFNM_SL(string CmpyCode,string SubledgerType);
         FNM_SL_VM SaveFNM_SL(FNM_SL_VM FNSL);
         FNM_SL_VM EditFNM_SL(string CmpyCode, string FNM_SL1001_CODE);

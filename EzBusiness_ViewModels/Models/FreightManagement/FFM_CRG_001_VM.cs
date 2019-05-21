@@ -4,8 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.WebPages.Html;
-
+using System.Web.Mvc;
 namespace EzBusiness_ViewModels.Models.FreightManagement
 {
     public class FFM_CRG_001_VM

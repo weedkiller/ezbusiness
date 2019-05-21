@@ -54,6 +54,7 @@
         });
 
         $("#btnDelete").click(function () {
+            debugger;
             var n = EzAuthenticationBtn("/SubLedger", "DeleteIt");
             if (n == 1) {
                 const swalWithBootstrapButtons = Swal.mixin({
@@ -74,11 +75,11 @@
 
                         var Code = $("[name*='FNM_SL1001_CODE']").val();
                         
-                        $.getJSON("/DeleteSupplier", { FNM_SL1001_CODE: FNM_SL1001_CODE }).done(function (data) {
+                        $.getJSON("/DeleteSupplier", { FNM_SL1001_CODE: Code }).done(function (data) {
                                 if (data.DeleteFlag) {
                                     window.location = '/SubLedger'
                             } else {
-                                    EzAlertdele(FROM_CURRENCY_CODE);
+                                    EzAlertdele(Code);
                             }
                         });
                         swalWithBootstrapButtons.fire(

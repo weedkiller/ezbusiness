@@ -11,7 +11,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
 {
   public  interface IFNM_AC_COARepository
     {
-        bool DeleteFNM_Ac_COA(string FNM_AC_CODE, string CmpyCode, string UserName);
+        bool DeleteFNM_Ac_COA(string CmpyCode, string FNM_AC_CODE,  string UserName);
         List<FNM_AC_COA_VM> GetFNM_AC_COA(string CmpyCode);
         FNM_AC_COA_VM SaveFNM_AC_COA(FNM_AC_COA_VM ac);
         FNM_AC_COA_VM EditFNM_AC_COA(string CmpyCode, string BranchCode);

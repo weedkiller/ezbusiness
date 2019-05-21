@@ -1,602 +1,360 @@
-﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FFM_CRG_001_VM>
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.FFM_CRG_001_VM
 
 @{
     ViewBag.Title = "FM_CRG_001CategoryMaster";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var counter = 1;
 }
+
 
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
-
     $(function () {
-        EzAuthentication("/FM_CRG_001CategoryMaster");
-        var n = EzAuthenticationBtn("/FM_CRG_001CategoryMaster", "ViewIt");
-        if (n == 1) {
-            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
-            $('#tblUnits').show();
-        } else {
-            $('#tblUnits').hide();
+        EzAuthentication("/Chargemaster");
+        var drHtml = $("#DRContainer").html();
+        $("#DRListContainer1").hide();
+        function GetDrs() {
+            $.get("/FFM_CRG_001/GetFM_CRG_001", function (response) {
+                $("#DRListContainer").html(response);
+            });
         }
-    });
-</script>
-<script>
-    var Doks = [];
-    $(function () {
-        $("#tblUnits1").hide();
-        $("#btnAdd").click(function () {
-            var n = EzAuthenticationBtn("/FM_CRG_001CategoryMaster", "NewIt");
+        $("#btnNew").click(function () {
+            var n = EzAuthenticationBtn("/Chargemaster", "NewIt");
             if (n == 1) {
-                $("#tbldiv").hide();
-                var abk = [];
-                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
-                Ezprop(abk, "disabled", true);
-                abk = [];
-                abk.push('#btnCancel', '#btnSave');
-                Ezprop(abk, "disabled", false);
-                $("#tblUnits1 tbody tr").css("background", "");
-                $("#tblUnits1").show();
-            }
-        });
-
-        var counter = $("#Counter").val();
-
-
-        /*Code Tab Event*/
-        EztableTabEve("#tblUnits1", "[name*='txtFFM_CRG_001_CODE']", "[name *= 'txtNAME']", "Please Enter FFM_JOB_CODE", 'T', "");
-
-        /*Enter Event*/
-        EztableLstEnt("#tblUnits1", "[name*='txtNAME']", "[name *= 'txtFFM_JOB_CODE']", "T", "");
-
-        EztableLstEnt("#tblUnits1", "[name*='txtFFM_CRG_001_CODE']", "[name *= 'txtFFM_CRG_001_CODE']", "T", "");
-
-        //EztableLstEnt("#tblUnits1", "[name*='txtDISPLAY_STATUS']", "[name *= 'txtDISPLAY_STATUS']", "T", "");
-
-
-        /*Add Table Change Event*/
-        $("#tblUnits1").on("change", "[name*='txtFFM_CRG_001_CODE']", function () {
-            var tr = $(this).closest('tr');
-
-            drec = [];
-            $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
-                //add item to array
-                var ab = $(this).find("[name *= 'txtFFM_CRG_001_CODE']").val();
-                drec.push(ab);
-            });
-
-            drec.splice($.inArray(tr.find("[name *= 'txtFFM_CRG_001_CODE']").val(), drec), 1);
-
-            if ($.inArray(tr.find("[name *= 'txtFFM_CRG_001_CODE']").val(), drec) >= 0) {
-                var dr = tr.find("[name *= 'txtFFM_CRG_001_CODE']").val();
-                tr.css("background", "red");
-                tr.find("[name *= 'txtFFM_CRG_001_CODE']").focus();
-                EzAlerterrtxt("Already Exist Code '" + dr + "'");
-                tr.find("[name *= 'txtFFM_CRG_001_CODE']").val('');
-
-            }
-            else {
-                tr.css("background", "");
-                if (tr.is(":last-child")) {
-                    tr.clone(true, true).insertAfter(tr);
-                    var trLast = $("#tableMetaSettings tr:last");
-                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtFFM_CRG_001_CODE']").val('');
-                    trLast.find("[name *= 'txtFFM_CRG_001_CODE']").attr({
-                        "name": ("txtFFM_CRG_001_CODE" + counter)
-                    });
-                    trLast.find("[name *= 'txtNAME']").attr({
-                        "name": ("Name" + counter)
-                    });
-                    trLast.find("[name *= 'txtdisplaystatus']").attr({
-                        "name": ("txtdisplaystatus" + counter)
-                    });
-                    trLast.find("[name *= 'txtFFM_CRG_GROUP_CODE']").attr({
-                        "name": ("txtFFM_CRG_GROUP_CODE" + counter)
-                    });
-
-                    trLast.find(":first").text(counter);
-                }
-            }
-            counter++;
-        });
-
-
-        /*Refresh */
-        $("#btnCancel").click(function () {
-            if ($("#tblUnits1 > tbody > tr").length > 1) {
-                $("#tblUnits1 tbody tr td:last-child").remove();
-            }
-            $("#tblUnits1 tbody").find("tr:gt(0)").remove();
-
-            var abk1 = [];
-            abk1.push("[name*='txtFFM_CRG_001_CODE']", "[name*='txtNAME']", "[name*='txtdisplaystatus']", "[name*='txtFFM_CRG_GROUP_CODE']");
-            Ezsettxtclr(abk1);
-            abk1 = [];
-            abk1.push("#btnCancel", "#btnSave");
-            Ezprop(abk1, "disabled", true);
-            abk1 = [];
-            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
-            Ezprop(abk1, "disabled", false);
-            $("#tblUnits1").hide();
-            $("#tbldiv").show();
-        });
-        /*Save Unit Table */
-        $("#btnSave").click(function () {
-
-            var FC = {
-                FFM_CRG_001New: []
-            };
-            $("#tblUnits1 tbody tr").each(function (index, item) {
-                var FFM_CRG_001_CODE = $(this).find("[name*='txtFFM_CRG_001_CODE']").val();
-                var NAME = $(this).find("[name*='txtNAME']").val();
-                var DISPLAY_STATUS = $(this).find("[name*='txtdisplaystatus'] option:selected").val();
-                var FFM_CRG_GROUP_CODE = $(this).find("[name*='txtFFM_CRG_GROUP_CODE']").val();
-
-                if ((FFM_CRG_001_CODE != "") && (NAME != "") && (DISPLAY_STATUS != "") && (FFM_CRG_GROUP_CODE !="")) {
-                    var FFM_CRG_001Detail = {
-                        FFM_CRG_001_CODE: FFM_CRG_001_CODE,
-                        NAME: NAME,
-                        DISPLAY_STATUS: DISPLAY_STATUS,
-                        FFM_CRG_GROUP_CODE: FFM_CRG_GROUP_CODE,
-                    };
-                    FC.FFM_CRG_001New.push(FFM_CRG_001Detail);
-                }
-            });
-            var validationResult = ValidateForm(FC);
-            if (validationResult.formValid) {
-                $.post("/FFM_CRG_001/SaveFFM_CRG_001", FC).done(function (response) {
-                    if (response.Drecord == null) {
-
-
-                        response.Drecord = 0;
-                        $("#tbldiv").show();
-
-                    }
-                    $("#tblUnits1 tbody tr").each(function (index, item) {
-                        var tr = $(this).closest("tr");
-                        var codeAdd = $(tr).find("[name*='txtFFM_CRG_001_CODE']").val().trim();
-                        var nameAdd = $(tr).find("[name*='txtNAME']").val().trim();
-                        var display_statusAdd = $(tr).find("[name*='txtdisplaystatus']  option:selected").val().trim();
-                        var grpcodeAdd = $(tr).find("[name*='txtFFM_CRG_GROUP_CODE']").val().trim();
-                        if (response.Drecord.length > 0) {
-                            var ary1 = [];
-                            ary1 = response.Drecord;
-                            if ($.inArray(codeAdd, ary1) < 0 && codeAdd != '' && nameAdd != '' && display_statusAdd !='') {
-                                $(this).closest('tr').remove();
-                                var counter = $("#Counter").val();
-                                var firstRow = $('#tblUnits tbody tr:first');
-
-                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd + "</td><td>" + display_statusAdd + "</td><td>" + grpcodeAdd
-                                    "</td> ";
-                                //newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                //    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                //    "'></td></tr>";
-                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                   "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                   "'></td></tr>";
-                                $(firstRow).after(newRow);
-                            }
-                            else if (codeAdd != '') {
-                                $(this).closest('tr').css("background", "red");
-                            }
-                            else {
-                                $(this).closest('tr').css("background", "");
-                            }
-                        }
-                        else {
-                            $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                            $("[name*='txtFFM_CRG_001_CODE']").val();
-                            $("[name*='txtNAME']").val();
-                            $("[name*='txtdisplaystatus']").val();
-                            $("[name*='txtFFM_CRG_GROUP_CODE']").val();
-
-                            $("#tblUnits1").hide();
-
-                            if (codeAdd != '' && nameAdd != '' && display_statusAdd != '' && grpcodeAdd != '') {
-                                var counter = $("#Counter").val();
-                                var firstRow = $('#tblUnits tbody tr:first');
-                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd + "</td><td>" + display_statusAdd + "</td><td>" + grpcodeAdd
-                                    "</td> ";
-                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                    "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                    "'></td></tr>";
-                                //newRow += "</tr>";
-                                $(firstRow).after(newRow);
-                            }
-                            abk1 = [];
-                            abk1.push("#btnCancel", "#btnSave");
-                            Ezprop(abk1, "disabled", true);
-                            abk1 = [];
-                            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
-                            Ezprop(abk1, "disabled", false);
-                            EzAlertSave();
-                            $(".dataTables_empty").replaceWith("");
-                        }
-                    });
+                $("#editshow").hide();
+                $.get("FFM_CRG_001/AddFM_CRG_001", function (response) {
+                    $("#DRContainer").html(response);
                 });
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
+                $("#btnEdit").prop("disabled", true);
+                $("#DRListContainer1").hide();
             }
-            else {
-                EzAlerterr();
+        });
+        $(".alert-close").click(function () {
+            $("#editshow").hide();
+        });
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/Chargemaster", "ViewIt");
+            if (n == 1) {
+                $(this).css("visibility", "hidden");
+                EzbtnEditAcVis();
+                $("#DRListContainer1").show();
+                GetDrs();
+                $("#editshow").show();
             }
         });
 
-        function ValidateForm(FC) {
+        $("#btnCancel").click(function () {
+            $("#DRContainer").html(drHtml);
+            EzbtnCancelAcVis();
+            $("#DRListContainer1").hide();
+            $("#editshow").hide();
+        });
+
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/Chargemaster", "DeleteIt");
+            if (n == 1) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+
+                        var FFM_CRG_001_CODE = $("[name*='FFM_CRG_001_CODE']").val();
+                        
+                        $.getJSON("/DeleteFFM_CRG_001", { FFM_CRG_001_CODE: FFM_CRG_001_CODE }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    window.location = '/Chargemaster'
+                            } else {
+                                    EzAlertdele(FFM_CRG_001_CODE);
+                            }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                $("#editshow").hide();
+            }
+        });
+        $("#btnSave").click(function () {
+            var n = EzAuthenticationBtn("/Chargemaster", "EditIt");
+            var k = 0;
+            $("#editshow").hide();
+            var opMode = $("#hdnOperationMode").val();
+
+            if (opMode == "Add") {
+                // Code for Adding MainTable
+                var CR = {
+                    EditFlag: false,
+                    FFM_CRG_GROUP_CODE: $("[name*='FFM_CRG_GROUP_CODE'] option:selected").val(),
+                    DISPLAY_STATUS: $("[name*='DISPLAY_STATUS'] option:selected").val(),
+                    FFM_CRG_001_CODE: $("[name*='FFM_CRG_001_CODE']").val(),
+                    NAME: $("[name*='NAME']").val(),
+                };
+
+
+
+                var validationResult = ValidateForm(CR);
+                if (validationResult.formValid) {
+
+                    $.post("/SaveFFM_CRG_001", CR).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+
+
+                            EzbtnsaveAcVis("#DRContainer");
+                            EzAlertSave();
+                            $("#DRContainer").html(drHtml);
+                            GetDrs();
+
+                        } else {
+                            // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
+                        }
+                    });
+
+                } else {
+                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+            } else if (opMode == "Edit" && n==1 ) {
+                // Code for Adding Purchase order
+                var CR = {
+                        EditFlag: true,
+                        FFM_CRG_GROUP_CODE: $("[name*='FFM_CRG_GROUP_CODE'] option:selected").val(),
+                        DISPLAY_STATUS: $("[name*='DISPLAY_STATUS'] option:selected").val(),
+                        FFM_CRG_001_CODE: $("[name*='FFM_CRG_001_CODE']").val(),
+                        NAME: $("[name*='NAME']").val(),
+                        
+
+                };
+
+
+
+                var validationResult = ValidateForm(CR);
+                    if (validationResult.formValid) {
+
+                        $.post("/SaveFFM_CRG_001", CR).done(function (response) {
+                                if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                                    EzAlertSave();
+                                    EzbtnsaveAcVis("#DRContainer");
+                                    $("#DRContainer").html(drHtml);
+                                } else {
+                                    EzAlerterrtxt(response.ErrorMessage);
+                                }
+                            });
+                } else {
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+            }
+
+
+        });
+
+        function ValidateForm(CR) {
+
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
 
-            if (FC.FFM_CRG_001New.length == 0) {
-                response.ErrorMessage += "Please Enter atleast One FFM_CRG_001 code Details";
+            if (CR.EditFlag == false) {
+                if (CR.FFM_CRG_001_CODE == '') {
+                    response.ErrorMessage += " CODE ,";
+                }
+            } else if (CR.EditFlag == true) {
+                if (CR.FFM_CRG_001_CODE == '') {
+                    response.ErrorMessage += "CODE ,";
+                }
             }
+            if (CR.FFM_CRG_GROUP_CODE == '0') {
+                response.ErrorMessage += "Group CODE ,";
+            }
+            else if (CR.NAME == '') {
+                response.ErrorMessage += "NAME ,";
+            } 
+           
+
+
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
             }
-
-            return response;
-        }
-        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
-            $(this).closest("tr").remove();
-        });
-
-
-        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-            console.log(thrownError);
-        });
-
-
-        $("#tblUnits").on("click", "[name^='Edit']", function () {
-            debugger
-            var n = EzAuthenticationBtn("/FM_CRG_001CategoryMaster", "EditIt");
-            if (n == 1) {
-                var counter = $("#Counter").val();
-                var hdnEditMode = $(this).parent().find('input:hidden:first');
-                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-                var tr = $(this).closest("tr");
-                var index = $(this).attr("name").substring(4);
-                var jobcode = $(tr).find("td:eq(0)");
-                var jobname = $(tr).find("td:eq(1)");
-                var displaystatus = $(tr).find("td:eq(2)");
-                var grpname = $(tr).find("td:eq(3)");
-
-                var editButton = $(this);
-
-                if (hdnEditMode.val() == "true") {
-                    debugger;
-                    var CURRENCY_NAMEEdit = $(tr).find("[name*='txtNAME']").val().trim();
-                    var MASTER_STATUSEdit = $(tr).find("[name*='txtdisplaystatus'] option:selected").val();
-                    //$(tr).find("[name*='txtLEAVE_TYPECODE'] option:selected").val();
-                    //var NOTEEdit = $(tr).find("[name*='txtNOTE']").val().trim();
-                    var CURRENCY_CODEEdit = $(tr).find("td:eq(0)").text().trim();
-                    var GrpcodeEdit = $(tr).find("[name*='txtFFM_CRG_GROUP_CODE']").val().trim();
-
-                    hdnEditMode.val("true");
-                    var Fcur = {
-                        FFM_CRG_001_CODE: CURRENCY_CODEEdit,
-                        NAME: CURRENCY_NAMEEdit,
-                        DISPLAY_STATUS: MASTER_STATUSEdit,
-                        FFM_CRG_GROUP_CODE : GrpcodeEdit,
-                        EditFlag: true
-                        //MASTER_STATUS: MASTER_STATUSEdit,
-                        //Note: NOTEEdit
-                    };
-
-                    $.post("/FFM_CRG_001/SaveFFM_CRG_001", Fcur).done(function (response) {
-                        jobname.text(response.NAME);
-                        grpcode.text(response.FFM_CRG_GROUP_CODE);
-                        //MASTER_STATUSTd.text(response.MASTER_STATUS);
-                        //NOTETd.text(response.Note);
-                        hdnEditMode.val("true");
-                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
-                        editButton.attr('title', 'Edit');
-                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
-                        tr.find("[name^='Delete']").attr('title', 'Delete');
-                        tableDis("F");
-                        EzAlertUpd(CURRENCY_CODEEdit);
-                    });
-                    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-                        console.log(thrownError);
-                    });
-                } else {
-                    //var HRPH001_CODE = $(tr).find("td:eq(0)").text();
-
-                    //HRPH001_CODETd.html("" + HRPH001_CODE.trim() + "<input type='hidden' name='txtHRPH001_CODE" + index + "'  id='txtHRPH001_CODE" + index + "' value='" + HRPH001_CODE.trim() + "' />");
-
-                    debugger;
-                    var docname = $(tr).find("td:eq(1)").text();
-                    var dstatus = $(tr).find("td:eq(2)").text();
-                    var dgrpcode = $(tr).find("td:eq(3)").text();
-
-                    $('#hldte').val($(tr).find("td:eq(1)").text().trim());
-                    $("#hltyp").val(dstatus);
-                    $('#inpdocname').val(docname.trim());
-                    jobname.html("<input type='text' name='txtNAME" + index + "' value='" + docname.trim() + "' />");
-                    //$("#hdnname").val($(tr).find("td:eq(1)").text());
-
-                    //var dstatus = $(tr).find("td:eq(2)").text();
-                    $('#inpdstatus').val(dstatus.trim());
-                    displaystatus.html("<select id ='txtdisplaystatus" + index + "' name='txtdisplaystatus" + index + "'><option value ='Y' selected>Yes</option> <option value ='N'>No</option></select>");
-
-                    grpcode.html("<input type='text' name='txtFFM_CRG_GROUP_CODE" + index + "' value='" + dgrpcode.trim() + "' />");
-
-                    $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
-                    $(this).attr('title', 'Update');
-                    hdnEditMode.val("true");
-
-                    tableDis("T");
-                    $(this).attr("disabled", false);
-                    tr.find("[name^='Delete']").prop("disabled", false);
-
-                    tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>')
-                    tr.find("[name^='Delete']").attr('title', 'Cancel');
-
-                }
-
+            else
+            {
+                response.ErrorMessage="Enter Mandatory fields "+response.ErrorMessage+"."
             }
-        });
 
-        $("#tblUnits").on("click", "[name^='Delete']", function () {
-            debugger;
-            var n = EzAuthenticationBtn("/FM_CRG_001CategoryMaster", "DeleteIt");
-            if (n == 1) {
-                var tr = $(this).closest("tr");
-                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-                var FMHEADCodeTd = $(tr).find("td:eq(0)");
-                var hdnMode = $(this).parent().find('input:hidden:first');
-                var doccode = "";
-                if (hdnMode.val() == "false") {
-
-                    const swalWithBootstrapButtons = Swal.mixin({
-                        confirmButtonClass: 'btn btn-success',
-                        cancelButtonClass: 'btn btn-danger',
-                        buttonsStyling: false,
-                    })
-
-                    swalWithBootstrapButtons.fire({
-                        title: 'Are you sure?',
-                        text: "You won't be able to revert this!",
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes, delete it!',
-                        cancelButtonText: 'No, cancel!',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.value) {
-                            FFM_CRG_001_CODE = $(tr).find("td:eq(0)").text().trim();
-                            $.getJSON("/DeleteFFM_CRG_001", { FFM_CRG_001_CODE: FFM_CRG_001_CODE, CmpyCode: hdnCmpyCode }).done(function (data) {
-                                if (data.DeleteFlag) {
-
-                                    if ($('#tblUnits tbody tr').length == 2) {
-                                        var firstRow = $('#tblUnits tbody tr:first');
-                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
-                                        $(firstRow).after(newRow);
-                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
-                                    }
-                                    tr.remove();
-                                } else {
-                                    EzAlertdele(doccode);
-                                }
-                            });
-                            swalWithBootstrapButtons.fire(
-                              'Deleted!',
-                              'Your Code has been deleted.',
-                              'success'
-                            )
-
-                        } else if (
-                            // Read more about handling dismissals
-                          result.dismiss === Swal.DismissReason.cancel
-                        ) {
-                            swalWithBootstrapButtons.fire(
-                              'Cancelled',
-                              'Your Code is safe :)',
-                              'error'
-                            )
-                        }
-                    })
-
+                    return response;
                 }
-                else {
-                    var HRPH001_CODETd = $(tr).find("td:eq(0)");
-                    var DateTd = $(tr).find("td:eq(1)");
-                    var LEAVE_TYPECODETd = $(tr).find("td:eq(2)");
-                   // var DescriptionTd = $(tr).find("td:eq(3)");
 
-                    var DatesEdit = $('#hldte').val();
-                    var LEAVE_TYPECODEEdit = $('#hltyp').val();
-                  //  var DescriptionEdit = $('#hlDesc').val();
-
-
-                    var hdnEditMode = $(this).parent().find('input:hidden:first');
-
-                    DateTd.html(DatesEdit);
-                    LEAVE_TYPECODETd.html(LEAVE_TYPECODEEdit);
-                   // DescriptionTd.html(DescriptionEdit)
-
-
-                    tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
-                    tr.find("[name^='Edit']").attr('title', 'Edit');
-
-
-                    $(this).html('<span class="glyphicon glyphicon-trash"></span>')
-                    $(this).attr('title', 'Delete');
-                    hdnEditMode.val("false");
-
-                    tableDis("F");
+                function parseDate(s) {
+                    var b = s.split(/\D/);
+                    return new Date(b[0], --b[1], b[2]);
                 }
-            }
-        });
-    });
 
-    var k = 0;
-    function tableDis(k) {
-        if (k == "T") {
-            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", true);
-            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", true);
-            $("#btnAdd").prop('disabled', true);
-        }
-        else {
-            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
-            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
-            $("#btnAdd").prop('disabled', false);
+                $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                    console.log(thrownError);
+                });
 
-        }
-    }
-</script>
+                $(document).on("click", "#POList tbody tr", function ()
+                {
+                    EzbtnEditAcVis();
+                    var operationMode = $("#hdnOperationMode").val();
+                    if (operationMode == "Edit")
+                    {
+                        $("#POList > tbody").children().removeClass("active");
+                        $(this).addClass("active");
 
-<script>
-$(document).ready(function(){
-    //$('[data-toggle="tooltip"]').tooltip();
-    $(".edit").attr('title', 'Edit');
-    $(".delete").attr('title', 'Delete');
-});
-</script>
+                        var Code = $(this).find("[name*='hdnFFM_CRG_001_CODE']").val();
+                        
 
-<br />
-
-
-<div class="title-action">
-    <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
-    <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-    <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-
-    <input type="hidden" id="hdnOperationMode" value="" />
-
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-body">
-        <input id="inpdocname" type="hidden" />
-        <table class="table table-bordered" id="tblUnits1">
-            <thead>
-                <tr class="tr">
-                    <th>
-                        @Html.DisplayNameFor(model => model.FFM_CRG_001_CODE)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.NAME)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DISPLAY_STATUS)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FFM_CRG_GROUP_CODE)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-
-
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtFFM_CRG_001_CODE", counter), null, new { @class = "grid-control" })
-                        </div>
-
-
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtNAME", counter), null, new { @class = "grid-control" })
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                            @*<select class="grid-control" id="txtDISPLAY_STATUS" name="txtDISPLAY_STATUS" >
-                                    <option value="Y">Yes</option>
-                                    <option value="N">No</option>
-                                </select>*@
-                            @Html.DropDownList(string.Concat("txtdisplaystatus", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "Y" }, new SelectListItem { Text = "NO", Value = "N" }, }, new { @class = "grid-control" })
-                        </div>
-                    </td>
-                    <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("txtFFM_CRG_GROUP_CODE", counter), null, new { @class = "grid-control" })
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="col-md-12 portal-drivers">
-            <div id="tbldiv">
-                <input id="hldte" type="hidden" />
-                <input id="hltyp" type="hidden" />
-                <table class="table table-bordered" id="tblUnits">
-                    <thead>
-                        <tr class="tr">
-                            <th>
-                                @Html.DisplayNameFor(model => model.FFM_CRG_001_CODE)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.NAME)
-                            </th>
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.DISPLAY_STATUS)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FFM_CRG_GROUP_CODE)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr class="tr">
-                            <td>
-                                @Html.DisplayNameFor(model => model.FFM_CRG_001_CODE)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.NAME)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.DISPLAY_STATUS)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.FFM_CRG_GROUP_CODE)
-                            </td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                    <tbody style="overflow:scroll">
-                        @foreach (var item in Model)
+                        $.get("EditFFM_CRG_001", { Code: Code }).done(function (response)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FFM_CRG_001_CODE)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NAME)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DISPLAY_STATUS)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FFM_CRG_GROUP_CODE)
-                                </td>
-                                <td>
-                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
-                                    <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
-                                    @Html.HiddenFor(m => item.CMPYCODE)
-                                </td>
+                            $("#DRContainer").html(response);
 
-                            </tr>
-                            counter++;
-                        }
-                    </tbody>
+                            //$("#btnDelete").prop("disabled", false);
+                            $("#btnDelete").css("visibility", "");
 
-                </table>
+                            $("#btnPrint").css("visibility", "hidden");
+                        });
+                    }
+                });
 
+
+
+                $("#btnPrint").click(function () {
+
+                    var n = EzAuthenticationBtn("/AccountType", "PrintIt");
+                    if (n == 1) {
+                        var code1 = $("[name*='Code']").val();
+                        window.open("/AccountTypeReportForm/?code=" + code1 + "", '_blank');
+                    }
+                });
+            });
+
+
+
+</script>
+
+
+<style>
+    .top-buffer {
+        margin-top: 15px;
+    }
+
+    .fixed-width {
+        width: 100px;
+        float: left;
+    }
+
+    .fluid.row-fluid {
+        margin-right: 100px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .customSpace {
+        content: " ";
+        display: inline-block;
+        width: 40px;
+    }
+
+    div.scroll {
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+    }
+
+    .contro {
+        width: 13em;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
+
+        <div class="title-action">
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+            <button class="btn btn-info btn1" id="btnPrint" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+        </div>
+    </div>
+
+</div><hr />
+<!-- Row end -->
+<!-- Row start -->
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary panl">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <label class="row" id="ErrorMessage" style="display:none"></label>
+                <div class="tabbable-line boxless tabbable-reversed" id="DRContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="DRContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <div class="container" id="DRListContainer">
+                                                @Html.Action("GetFM_CRG_001", "FFM_CRG_001")
+                                            </div>
+
+                                        </div>
+                                    </div><br />
+                                    <!-- END FORM-->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        @Html.Hidden("Counter", counter)
     </div>
+
+    <!-- Purchase Request List Start-->
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+
+
 </div>
-
-
-
 

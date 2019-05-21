@@ -18,9 +18,11 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
 
         List<FFM_CRG_Group> GetCRG_Group(string Cmpycode);
 
+
+
         FFM_CRG_001_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE);
 
-        bool DeleteFFM_CRG_001(string FFM_CRG_001_CODE, string CmpyCode, string UserName);
+        bool DeleteFFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE,  string UserName);
         #endregion
     }
 }

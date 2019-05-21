@@ -18,7 +18,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         DataTable dt = null;
 
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
-        public bool DeleteFNM_Ac_COA(string FNM_AC_CODE, string CmpyCode, string UserName)
+        public bool DeleteFNM_Ac_COA(string CmpyCode, string FNM_AC_CODE,  string UserName)
         {
 
             int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNM_AC_COA where CMPYCODE='" + CmpyCode + "' and FNM_AC_COA_CODE='" + FNM_AC_CODE + "'  and Flag=0");

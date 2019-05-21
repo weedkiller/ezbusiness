@@ -23,9 +23,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             _FNM_AC_COARep = new FNM_AC_COARepository();
         }
 
-        public bool DeleteFNM_Ac_COA(string FNM_AC_CODE, string CmpyCode, string UserName)
+        public bool DeleteFNM_Ac_COA( string CmpyCode, string FNM_AC_CODE, string UserName)
         {
-            return _FNM_AC_COARep.DeleteFNM_Ac_COA(FNM_AC_CODE, CmpyCode, UserName);
+            return _FNM_AC_COARep.DeleteFNM_Ac_COA(CmpyCode, FNM_AC_CODE, UserName);
         }
 
         public List<FNM_AC_COA_VM> GetFNM_AC_COA(string CmpyCode)
