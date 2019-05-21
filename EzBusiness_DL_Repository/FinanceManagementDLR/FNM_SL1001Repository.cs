@@ -69,9 +69,9 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
             return ObjList;
         }
 
-        public List<FNM_SL1001> GetFNM_SL(string CmpyCode)
+        public List<FNM_SL1001> GetFNM_SL(string CmpyCode,string SubledgerType)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNM_SL1001_CODE,Name,Print_Name,Web_site,Email,Tel,Fax,Address,Contact1,Contact2,Contact3,Currency_code,credit_limit,SUBLEDGER_TYPE from FNM_SL1001 where CmpyCode='" + CmpyCode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNM_SL1001_CODE,Name,Print_Name,Web_site,Email,Tel,Fax,Address,Contact1,Contact2,Contact3,Currency_code,credit_limit,SUBLEDGER_TYPE from FNM_SL1001 where CmpyCode='" + CmpyCode + "' and SUBLEDGER_TYPE='"+SubledgerType+"' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNM_SL1001> ObjList = new List<FNM_SL1001>();

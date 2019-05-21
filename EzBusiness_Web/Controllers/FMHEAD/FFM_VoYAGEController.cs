@@ -106,7 +106,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
         }
         [Route("DeleteVoyagMaster")]
-        public ActionResult DeleteVoyagMaster(string EmpCode)
+        public ActionResult DeleteVoyagMaster(string Voyagecode)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -115,7 +115,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(new { DeleteFlag = _FFMVoyagServices.DeleteVoyagMaster(list[0].CmpyCode, EmpCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _FFMVoyagServices.DeleteVoyagMaster(list[0].CmpyCode, Voyagecode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
 
