@@ -21,7 +21,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         }
 
         #region FFM_CRG_001 Master
-        [Route("FM_CRG_001CategoryMaster")]
+        [Route("Chargemaster")]
         public ActionResult FM_CRG_001CategoryMaster()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -31,11 +31,26 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return View(_FFMCRGService.GetFFM_CRG_001(list[0].CmpyCode));
+                return View();
             }
         }
 
+        public ActionResult GetFM_CRG_001()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_FFMCRGService.GetFFM_CRG_001(list[0].CmpyCode));
+            }
+        }
+
+
         [HttpPost]
+        [Route("SaveFFM_CRG_001")]
         public ActionResult SaveFFM_CRG_001(FFM_CRG_001_VM CR)
         {
 
@@ -53,8 +68,9 @@ namespace EzBusiness_Web.Controllers.FMHEAD
 
         }
 
-        [Route("DeleteFFM_CRG_001")]
-        public ActionResult DeleteFFM_CRG_001(string FFM_CRG_001_CODE, string CmpyCode)
+
+        [Route("EditFFM_CRG_001")]
+        public ActionResult EditFFM_CRG_001(string Code)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -63,7 +79,33 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(new { DeleteFlag = _FFMCRGService.DeleteFFM_CRG_001(FFM_CRG_001_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return PartialView(_FFMCRGService.EditFM_CRG_001(list[0].CmpyCode, Code));
+            }
+        }
+
+        public ActionResult AddFM_CRG_001()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_FFMCRGService.FM_CRG_001AddNew(list[0].CmpyCode));
+            }
+        }
+        [Route("DeleteFFM_CRG_001")]
+        public ActionResult DeleteFFM_CRG_001(string FFM_CRG_001_CODE)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(new { DeleteFlag = _FFMCRGService.DeleteFFM_CRG_001( list[0].CmpyCode, FFM_CRG_001_CODE, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion

@@ -77,7 +77,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(new { DeleteFlag = _FNM_AC_COAService.DeleteFNM_Ac_COA( Code, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _FNM_AC_COAService.DeleteFNM_Ac_COA(list[0].CmpyCode, Code,  list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
 

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FFM_CRG_001_VM>
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+        //$(document).ready(function () {
+            Ezsidetbl("#POList", "#POList tfoot td", false, "#POList thead");
+            //$('#POList').Datatable.reload();
+            //a++;
+
+        //});
+
+</script>
+
+@*<button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>*@
+
+<div class="portal-drivers">
+    <table id="POList" class="table table-bordered table-hover emptbl">
+        <thead>
+            <tr class="tr">
+                <th>
+                    Code
+                </th>
+                <th>
+                  Name
+                </th>
+                <th>
+                   Group Code
+                </th>
+                <th>
+                    Display Status
+                </th>
+                
+
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td>
+                    Code
+                </td>
+                <td>
+                    Name
+                </td>
+                <td>
+                    Group Code
+                </td>
+                <td>
+                    Display Status
+                </td>
+
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var po in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.Hidden("hdnFFM_CRG_001_CODE", po.FFM_CRG_001_CODE)
+                        @po.FFM_CRG_001_CODE
+                    </td>
+                    <td>
+                        @po.NAME
+                    </td>
+                   
+                    <td>
+                        @po.FFM_CRG_GROUP_CODE
+                    </td>
+                    <td>
+                        @po.DISPLAY_STATUS
+                    </td>
+                    
+
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+  //  $('#POList').DataTable().ajax.reload();
+</script>

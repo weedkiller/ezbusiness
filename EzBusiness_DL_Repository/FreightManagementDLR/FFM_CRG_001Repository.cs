@@ -21,15 +21,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         DataTable dt = null;
 
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
-        public bool DeleteFFM_CRG_001(string FFM_CRG_001_CODE, string CmpyCode, string UserName)
+        public bool DeleteFFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE,  string UserName)
         {
             int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FFM_CRG_001 where CmpyCode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "'  and Flag=0");
             if (Grs != 0)
             {
 
-                _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FFM_CRG_001", FFM_CRG_001_CODE, Environment.MachineName);
+                _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete Charge master", FFM_CRG_001_CODE, Environment.MachineName);
 
-                return _EzBusinessHelper.ExecuteNonQuery1("update FFM_JOB set Flag=1 where CmpyCode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "'  and Flag=0");
+                return _EzBusinessHelper.ExecuteNonQuery1("update FFM_CRG_001 set Flag=1 where CmpyCode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "'  and Flag=0");
 
             }
             return false;
@@ -44,7 +44,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             foreach (DataRow dr in drc)
             {
 
-                ObjList.CMPYCODE = dr["CMPYCODE"].ToString();
+                //ObjList.CMPYCODE = dr["CMPYCODE"].ToString();
                 ObjList.FFM_CRG_001_CODE = dr["FFM_CRG_001_CODE"].ToString();
                 ObjList.NAME = dr["NAME"].ToString();
                 ObjList.FFM_CRG_GROUP_CODE = dr["FFM_CRG_GROUP_CODE"].ToString();
@@ -121,7 +121,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + CR.FFM_CRG_GROUP_CODE + "')");
                             _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_001(CMPYCODE,FFM_CRG_001_CODE,NAME,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,DISPLAY_STATUS,FFM_CRG_GROUP_CODE) values(" + sb.ToString() + "");
 
-                            _EzBusinessHelper.ActivityLog(CR.CMPYCODE, CR.UserName, "Add FN Category", CR.FFM_CRG_001_CODE, Environment.MachineName);
+                            _EzBusinessHelper.ActivityLog(CR.CMPYCODE, CR.UserName, "Add Charge master", CR.FFM_CRG_001_CODE, Environment.MachineName);
 
                             CR.SaveFlag = true;
                             CR.ErrorMessage = string.Empty;
@@ -149,11 +149,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     sb.Append("CREATED_ON='" + dtstr1 + "',");
                     sb.Append("UPDATED_BY='" + CR.UserName + "',");
                     sb.Append("UPDATED_ON='" + dtstr1 + "',");
-                    sb.Append("DISPLAY_STATUS='" + CR.DISPLAY_STATUS + "'");
+                    sb.Append("DISPLAY_STATUS='" + CR.DISPLAY_STATUS + "',");
                     sb.Append("FFM_CRG_GROUP_CODE='" + CR.FFM_CRG_GROUP_CODE + "'");
                     _EzBusinessHelper.ExecuteNonQuery("update FFM_CRG_001 set  " + sb + " where FFM_CRG_001_CODE='" + CR.FFM_CRG_001_CODE + "' and Flag=0");
 
-                    _EzBusinessHelper.ActivityLog(CR.CMPYCODE, CR.UserName, "Update FMHead", CR.FFM_CRG_001_CODE, Environment.MachineName);
+                    _EzBusinessHelper.ActivityLog(CR.CMPYCODE, CR.UserName, "Update Charge master", CR.FFM_CRG_001_CODE, Environment.MachineName);
 
                     CR.SaveFlag = true;
                     CR.ErrorMessage = string.Empty;
