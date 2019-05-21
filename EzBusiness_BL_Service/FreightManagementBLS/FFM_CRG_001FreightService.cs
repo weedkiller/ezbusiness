@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using EzBusiness_BL_Interface.FreightManagementBLI;
 using EzBusiness_DL_Interface.FreightManagementDLI;
 using EzBusiness_DL_Repository.FreightManagementDLR;
@@ -24,6 +25,21 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             return _FFMCRGRepo.DeleteFFM_CRG_001(FFM_CRG_001_CODE, CmpyCode, UserName);
         }
 
+        public FFM_CRG_001_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE)
+        {
+            throw new NotImplementedException();
+        }
+
+        public FFM_CRG_001_VM FM_CRG_001AddNew(string CmpyCode, string FFM_CRG_001_CODE)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SelectListItem> GetCRG_Group(string Cmpycode)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<FFM_CRG_001_VM> GetFFM_CRG_001(string CmpyCode)
         {
             return _FFMCRGRepo.GetFFM_CRG_001(CmpyCode).Select(m => new FFM_CRG_001_VM
@@ -38,7 +54,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
 
         public FFM_CRG_001_VM SaveFFM_CRG_001(FFM_CRG_001_VM CR)
         {
-            return _FFMCRGRepo.SaveFM_CRG_001HEAD(CR);
+            return _FFMCRGRepo.SaveFM_CRG_001(CR);
         }
     }
 }

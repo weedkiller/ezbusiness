@@ -22,13 +22,13 @@ namespace EzBusiness_DL_Repository.FreightManagement
 
         public bool DeleteFMHEAD(string FNMHEAD_CODE, string CmpyCode, string UserName)
         {
-            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FMHEAD where CmpyCode='" + CmpyCode + "' and FNMHEAD_CODE='" + FNMHEAD_CODE + "'  and Flag=0");
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNMHEAD where CmpyCode='" + CmpyCode + "' and FNMHEAD_CODE='" + FNMHEAD_CODE + "'  and Flag=0");
             if (Grs != 0)
             {
 
-                _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FMHEAD", FNMHEAD_CODE, Environment.MachineName);
+                _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FNMHEAD", FNMHEAD_CODE, Environment.MachineName);
 
-                return _EzBusinessHelper.ExecuteNonQuery1("update FMHEAD set Flag=1 where CmpyCode='" + CmpyCode + "' and FNMHEAD_CODE='" + FNMHEAD_CODE + "'  and Flag=0");
+                return _EzBusinessHelper.ExecuteNonQuery1("update FNMHEAD set Flag=1 where CmpyCode='" + CmpyCode + "' and FNMHEAD_CODE='" + FNMHEAD_CODE + "'  and Flag=0");
               
             }
             return false;
@@ -36,7 +36,7 @@ namespace EzBusiness_DL_Repository.FreightManagement
 
         public List<FMHEAD> GetFMHEAD(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FMHEAD where CmpyCode='" + CmpyCode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNMHEAD where CmpyCode='" + CmpyCode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FMHEAD> ObjList = new List<FMHEAD>();
@@ -72,7 +72,7 @@ namespace EzBusiness_DL_Repository.FreightManagement
 
                     while (n > 0)
                     {
-                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FMHEAD where CmpyCode='" + FH.CMPYCODE + "' and FNMHEAD_CODE='" + ObjList[n - 1].FNMHEAD_CODE + "'");
+                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMHEAD where CmpyCode='" + FH.CMPYCODE + "' and FNMHEAD_CODE='" + ObjList[n - 1].FNMHEAD_CODE + "'");
                         if (Stats1 == 0)
                         {
                             StringBuilder sb = new StringBuilder();
@@ -80,7 +80,7 @@ namespace EzBusiness_DL_Repository.FreightManagement
                             sb.Append("'" + ObjList[n - 1].FNMHEAD_CODE + "',");
                             sb.Append("'" + ObjList[n - 1].DESCRIPTION + "')");
                             // sb.Append("'" + ObjList[n - 1].UniCodeName + "')");
-                            _EzBusinessHelper.ExecuteNonQuery("insert into FMHEAD(CMPYCODE,FNMHEAD_CODE,DESCRIPTION) values(" + sb.ToString() + "");
+                            _EzBusinessHelper.ExecuteNonQuery("insert into FNMHEAD(CMPYCODE,FNMHEAD_CODE,DESCRIPTION) values(" + sb.ToString() + "");
 
                             _EzBusinessHelper.ActivityLog(FH.CMPYCODE, FH.UserName, "Add Head", ObjList[n - 1].FNMHEAD_CODE, Environment.MachineName);
 
@@ -101,12 +101,12 @@ namespace EzBusiness_DL_Repository.FreightManagement
 
                     return FH;
                 }
-                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FMHEAD where CmpyCode='" + FH.CMPYCODE + "' and FNMHEAD_CODE='" + FH.FNMHEAD_CODE + "'and Flag=0");
+                var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNMHEAD where CmpyCode='" + FH.CMPYCODE + "' and FNMHEAD_CODE='" + FH.FNMHEAD_CODE + "'and Flag=0");
                 if (StatsEdit != 0)
                 {
-                    _EzBusinessHelper.ExecuteNonQuery("update FMHEAD set CmpyCode='" + FH.CMPYCODE + "',FNMHEAD_CODE='" + FH.FNMHEAD_CODE + "',DESCRIPTION='" + FH.DESCRIPTION + "' where CmpyCode='" + FH.CMPYCODE + "' and FNMHEAD_CODE='" + FH.FNMHEAD_CODE + "'");
+                    _EzBusinessHelper.ExecuteNonQuery("update FNMHEAD set CmpyCode='" + FH.CMPYCODE + "',FNMHEAD_CODE='" + FH.FNMHEAD_CODE + "',DESCRIPTION='" + FH.DESCRIPTION + "' where CmpyCode='" + FH.CMPYCODE + "' and FNMHEAD_CODE='" + FH.FNMHEAD_CODE + "'");
 
-                    _EzBusinessHelper.ActivityLog(FH.CMPYCODE, FH.UserName, "Update FMHead", FH.FNMHEAD_CODE, Environment.MachineName);
+                    _EzBusinessHelper.ActivityLog(FH.CMPYCODE, FH.UserName, "Update FNMHEAD", FH.FNMHEAD_CODE, Environment.MachineName);
 
                     FH.SaveFlag = true;
                     FH.ErrorMessage = string.Empty;

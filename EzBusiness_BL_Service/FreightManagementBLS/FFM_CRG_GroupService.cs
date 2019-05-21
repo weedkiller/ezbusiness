@@ -40,6 +40,8 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 CMPYCODE = m.CMPYCODE,
               DISPLAY_STATUS=m.DISPLAY_STATUS,
               NAME=m.NAME,
+              VAT_CODE=m.VAT_CODE,
+              VAT_GL_CODE=m.VAT_GL_CODE,
               FFM_CRG_GROUP_CODE=m.FFM_CRG_GROUP_CODE
             }).ToList();
         }

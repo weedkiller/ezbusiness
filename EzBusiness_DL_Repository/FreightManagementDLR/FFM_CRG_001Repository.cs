@@ -35,6 +35,42 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return false;
         }
 
+        public FFM_CRG_001_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CRG_001_CODE,NAME,FFM_CRG_GROUP_CODE,DISPLAY_STATUS from FFM_CRG_001 where CMPYCODE='" + CmpyCode + "' and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "' and Flag=0");// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            FFM_CRG_001_VM ObjList = new FFM_CRG_001_VM();
+            foreach (DataRow dr in drc)
+            {
+
+                ObjList.CMPYCODE = dr["CMPYCODE"].ToString();
+                ObjList.FFM_CRG_001_CODE = dr["FFM_CRG_001_CODE"].ToString();
+                ObjList.NAME = dr["NAME"].ToString();
+                ObjList.FFM_CRG_GROUP_CODE = dr["FFM_CRG_GROUP_CODE"].ToString();
+                ObjList.DISPLAY_STATUS = dr["DISPLAY_STATUS"].ToString();
+                
+            }
+            return ObjList;
+        }
+
+        public List<FFM_CRG_Group> GetCRG_Group(string Cmpycode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CRG_GROUP_CODE,NAME from  FFM_CRG_GROUP where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FFM_CRG_Group> ObjList = new List<FFM_CRG_Group>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FFM_CRG_Group()
+                {
+                    FFM_CRG_GROUP_CODE = dr["FFM_CRG_GROUP_CODE"].ToString(),
+                    NAME = dr["NAME"].ToString()
+                });
+            }
+            return ObjList;
+        }
+
         public List<FFM_CRG_001> GetFFM_CRG_001(string CmpyCode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select * from FFM_CRG_001 where CmpyCode='" + CmpyCode + "' and Flag=0");
@@ -59,7 +95,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return ObjList;
         }
 
-        public FFM_CRG_001_VM SaveFM_CRG_001HEAD(FFM_CRG_001_VM CR)
+        public FFM_CRG_001_VM SaveFM_CRG_001(FFM_CRG_001_VM CR)
         {
             DateTime dte;
             string dtstr1;
@@ -69,42 +105,23 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             {
                 if (!CR.EditFlag)
                 {
-                    var Drecord = new List<string>();
-                    List<FFM_CRG_001New> ObjList = new List<FFM_CRG_001New>();
-                    ObjList.AddRange(CR.FFM_CRG_001New.Select(m => new FFM_CRG_001New
-                    {
-                        CREATED_BY = m.CREATED_BY,
-                        CREATED_ON = m.CREATED_ON,
-                        UPDATED_BY = m.UPDATED_BY,
-                        UPDATED_ON = m.UPDATED_ON,
-                        CMPYCODE = m.CMPYCODE,
-                        FFM_CRG_001_CODE = m.FFM_CRG_001_CODE,
-                        NAME = m.NAME,
-                        FFM_CRG_GROUP_CODE = m.FFM_CRG_GROUP_CODE,
-                        DISPLAY_STATUS = m.DISPLAY_STATUS,
-
-                    }).ToList());
-                    int n = 0;
-                    n = ObjList.Count;
-
-                    while (n > 0)
-                    {
-                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FFM_CRG_001 where CmpyCode='" + CR.CMPYCODE + "' and FFM_CRG_001_CODE='" + ObjList[n - 1].FFM_CRG_001_CODE + "'");
+                   
+                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FFM_CRG_001 where CmpyCode='" + CR.CMPYCODE + "' and FFM_CRG_001_CODE='" + CR.FFM_CRG_001_CODE + "'");
                         if (Stats1 == 0)
                         {
                             StringBuilder sb = new StringBuilder();
                             sb.Append("'" + CR.CMPYCODE + "',");
-                            sb.Append("'" + ObjList[n - 1].FFM_CRG_001_CODE + "',");
-                            sb.Append("'" + ObjList[n - 1].NAME + "',");
+                            sb.Append("'" + CR.FFM_CRG_001_CODE + "',");
+                            sb.Append("'" + CR.NAME + "',");
                             sb.Append("'" + CR.UserName + "',");
                             sb.Append("'" + dtstr1 + "',");
                             sb.Append("'" + CR.UserName + "',");
                             sb.Append("'" + dtstr1 + "',");
-                            sb.Append("'" + ObjList[n - 1].DISPLAY_STATUS + "',");
-                            sb.Append("'" + ObjList[n - 1].FFM_CRG_GROUP_CODE + "')");
+                            sb.Append("'" + CR.DISPLAY_STATUS + "',");
+                            sb.Append("'" + CR.FFM_CRG_GROUP_CODE + "')");
                             _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_001(CMPYCODE,FFM_CRG_001_CODE,NAME,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,DISPLAY_STATUS,FFM_CRG_GROUP_CODE) values(" + sb.ToString() + "");
 
-                            _EzBusinessHelper.ActivityLog(CR.CMPYCODE, CR.UserName, "Add FN Category", ObjList[n - 1].FFM_CRG_001_CODE, Environment.MachineName);
+                            _EzBusinessHelper.ActivityLog(CR.CMPYCODE, CR.UserName, "Add FN Category", CR.FFM_CRG_001_CODE, Environment.MachineName);
 
                             CR.SaveFlag = true;
                             CR.ErrorMessage = string.Empty;
@@ -112,15 +129,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         else
                         {
 
-                            Drecord.Add(ObjList[n - 1].FFM_CRG_001_CODE.ToString());
-
-                            CR.Drecord = Drecord;
+                           
                             CR.SaveFlag = false;
                             CR.ErrorMessage = "Duplicate Record";
                         }
-                        n = n - 1;
-                    }
-
+                      
                     return CR;
                 }
                 var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FFM_CRG_001 where CmpyCode='" + CR.CMPYCODE + "' and FFM_CRG_001_CODE='" + CR.FFM_CRG_001_CODE + "'and Flag=0");
