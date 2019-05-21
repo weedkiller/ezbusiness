@@ -39,7 +39,7 @@
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
            
-
+            <input type="hidden" id="hdnpath" />
             <header class="header black-bg">
              
                 <div class="sidebar-toggle-box">
@@ -183,17 +183,11 @@
                     // using .show, so the nested uls can be viewed
                     $('#link-content li.nav-item ul').show();
                     // then filter in the matching links only
-                    $('#link-content li:casecontains("' + $('#search1').val() + '")').show();
-                
-
+                    $('#link-content li:casecontains("' + $('#search1').val() + '")').show();                
             });  
 
-          
-          
-           
                   //         
-                $('.search-filter').on('keyup', function () {
-                    
+                $('.search-filter').on('keyup', function () {                    
                     var input = $('.search-filter').val();
                     if (input.length != 0) {                          
                         $(".treeview li>ul").show();
@@ -204,7 +198,6 @@
                         $('#link-content li.nav-item ul').show();
                         // then filter in the matching links only
                         $('#link-content li:casecontains("' + input + '")').show();                           
-
                     } else {
                         $(".treeview li>ul").css('display', 'none');            
                         // secretly unhide the collapsed links
@@ -214,21 +207,20 @@
                     }
                 });
 
-
-             
-
-              
                 var url = pathname;
                 var currentItem = $(".treeview").find("[href$='" + url + "']");
                 var path1 = "";
                 var i=0;
                 $(currentItem.parents("li").get().reverse()).each(function () {
+                    debugger
                     if(i!=0){
+                        debugger
                         path1 += "<li>" + $(this).attr('value') +"</li>";
                     }
                     i=i+1;
                     
                 });
+                $("#hdnpath").val(path1);
                 $(".breadcrumb").html(path1);
                
         });

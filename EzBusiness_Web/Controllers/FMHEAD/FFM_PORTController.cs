@@ -1,7 +1,6 @@
 ﻿using EzBusiness_BL_Interface.FreightManagementBLI;
-using EzBusiness_BL_Service.FreightManagementBLS;
+using EzBusiness_BL_Service;
 using EzBusiness_EF_Entity;
-using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
 using System;
 using System.Collections.Generic;
@@ -11,49 +10,71 @@ using System.Web.Mvc;
 
 namespace EzBusiness_Web.Controllers.FMHEAD
 {
-    public class FFM_VoYAGEController : Controller
+    public class FFM_PORTController : Controller
     {
-        // GET: FFM_VoYAGE
-        IFFM_VOYAGEServices _FFMVoyagServices;
+        // GET: FFM_PORT
+        FFM_PORTService _fpService;
 
-        public FFM_VoYAGEController()
+        public FFM_PORTController()
         {
-            _FFMVoyagServices = new FFM_VOYAGEService();
+            _fpService = new FFM_PORTService();
         }
-        [Route("VoyaGEDataMaster")]
-        public ActionResult VoyaGEData()
+
+        #region PORT Master
+        [Route("PORTMASTER")]
+        public ActionResult FFM_PORT(string CmpyCode)
         {
+
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {
                 return Redirect("Login/InLogin");
             }
             else
-            {
-
+            {                
                 return View();
             }
         }
+        public ActionResult GetPortList(string CmpyCode)
+
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_fpService.GetFFM_PORT(list[0].CmpyCode));
+            }
+        }
+        [Route("EditFFM_PORT")]
+        public ActionResult EditFFM_PORT(string CmpyCode, string FFM_PORT_CODE)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_fpService.EditFFM_PORT(list[0].CmpyCode, FFM_PORT_CODE));
+            }
+        }
+        public ActionResult AddFFM_PORT(string CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_fpService.NewFFM_PORT(list[0].CmpyCode));
+            }
+        }
         [HttpPost]
-        public ActionResult SaveFFM_Voyage(FFM_VOYAGE_VM Fcur)
-        {
-
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                Fcur.CMPYCODE = list[0].CmpyCode;
-                Fcur.UserName = list[0].user_name;
-                return Json(_FFMVoyagServices.SaveFFM_Voyage(Fcur), JsonRequestBehavior.AllowGet);
-
-            }
-
-        }
-        [Route("GetVessalCode")]
-        public ActionResult GetVessalCode()
+        public ActionResult SaveFFM_PORT(FFM_PORT_VM fpk)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -62,62 +83,39 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(_FFMVoyagServices.GetVessalCode(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
-            }
-        }
-        [Route("EditVoyagMaster")]
-        public ActionResult EditVoyagMaster(string VyogCode)
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return PartialView(_FFMVoyagServices.EditVoyagMaster(list[0].CmpyCode,VyogCode));
-            }
-        }
-       
-        public ActionResult GetvayogeMasterList()
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return PartialView(_FFMVoyagServices.GetFFM_VoYAGEAList(list[0].CmpyCode));
-            }
-        }
-        public ActionResult AddVoageYMaster()
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return PartialView(_FFMVoyagServices.AddVoyageMaster(list[0].CmpyCode));
-            }
-        }
-        [Route("DeleteVoyagMaster")]
-        public ActionResult DeleteVoyagMaster(string Voyagecode)
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(new { DeleteFlag = _FFMVoyagServices.DeleteVoyagMaster(list[0].CmpyCode, Voyagecode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                fpk.CMPYCODE = list[0].CmpyCode;
+                fpk.UserName = list[0].user_name;
+                return Json(_fpService.SaveFFM_PORT(fpk), JsonRequestBehavior.AllowGet);
             }
         }
 
+
+        [Route("DeleteFFM_PORT")]
+        public ActionResult DeleteFFM_PORT(string FFM_PORT_CODE)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(new { DeleteFlag = _fpService.DeleteFFM_PORT(FFM_PORT_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+        [Route("EditFFM_PORT_CODE")]
+        public ActionResult EditFFM_PORT(string FFM_PORT_CODE)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_fpService.EditFFM_PORT(list[0].CmpyCode, FFM_PORT_CODE), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
