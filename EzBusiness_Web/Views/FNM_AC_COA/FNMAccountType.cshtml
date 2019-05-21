@@ -113,7 +113,7 @@
                     group_code: $("[name*='group_code'] option:selected").val(),
                     SUBGROUP_code: $("[name*='SUBGROUP_code'] option:selected").val(),
                     SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:selected").val(),
-                    SUBLEDGER_CAT: $("[name*='FNMSLCAT_CODE'] option:selected").val(),
+                    SUBLEDGER_CAT: $("[name*='SUBLEDGER_CAT'] option:selected").val(),
                     MASTER_STATUS: $("input:radio[name=MASTER_STATUS]:checked").val(),
                     NOTE: $("[name*='NOTE']").val(),
                     NATURE: $("input:radio[name=NATURE]:checked").val(),
@@ -156,7 +156,7 @@
                         group_code: $("[name*='group_code'] option:selected").val(),
                         SUBGROUP_code: $("[name*='SUBGROUP_code'] option:selected").val(),
                         SUBLEDGER_TYPE: $("[name*='SUBLEDGER_TYPE'] option:selected").val(),                        
-                        SUBLEDGER_CAT: $("[name*='FNMSLCAT_CODE'] option:selected").val(),
+                        SUBLEDGER_CAT: $("[name*='SUBLEDGER_CAT'] option:selected").val(),
                         MASTER_STATUS: $("input:radio[name=MASTER_STATUS]:checked").val(),
                         NOTE: $("[name*='NOTE']").val(),
                         NATURE: $("input:radio[name=NATURE]:checked").val(),
@@ -187,7 +187,7 @@
         });
 
         function ValidateForm(FNM) {
-            debugger;
+            
             var response = {
                 ErrorMessage: "",
                 formValid: false
@@ -253,7 +253,7 @@
                         $("#POList > tbody").children().removeClass("active");
                         $(this).addClass("active");
                         
-                        var Code = $("[name*='hdnFNMACTCode']").val();
+                        var Code = $(this).find("[name*='hdnFNMACTCode']").val();
                         $.get("EditAccountType", { Code: Code }).done(function (response)
                         {
                             $("#DRContainer").html(response);
@@ -269,7 +269,7 @@
 
 
                 $("#btnPrint").click(function () {
-                    debugger;
+                    
                     var n = EzAuthenticationBtn("/AccountType", "PrintIt");
                     if (n == 1) {
                         var code1 = $("[name*='Code']").val();
@@ -358,10 +358,7 @@
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
                                                 @Html.Action("GetAccountType", "FNM_AC_COA")
-
-
                                             </div>
-
                                         </div>
                                     </div><br />
                                     <!-- END FORM-->

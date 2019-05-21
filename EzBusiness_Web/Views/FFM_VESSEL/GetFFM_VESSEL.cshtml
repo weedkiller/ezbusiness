@@ -1,0 +1,100 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FFM_VESSEL_VM>
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>    
+            Ezsidetbl("#POList", "#POList tfoot td", false, "#POList thead");
+    
+</script>
+
+<div class="table-responsive">
+<table id="POList" class="table table-bordered stripe display hover">
+    <thead>
+        <tr class="tr">
+            <th>
+                CODE
+            </th>
+            <th>
+                NAME
+            </th>
+            <th>
+                FLAG
+            </th>
+            <th>
+                SCACCODE
+            </th>
+            <th>
+                CARRIER
+            </th>
+            <th>
+                VESSEL TYPE
+            </th>
+            <th>
+                COUNTRY
+            </th>
+
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td>
+                CODE
+            </td>
+            <td>
+                NAME
+            </td>
+            <td>
+                FLAG
+            </td>
+            <td>
+                SCACCODE
+            </td>
+            <td>
+                CARRIER
+            </td>
+            <td>
+                VESSEL TYPE
+            </td>
+            <td>
+                COUNTRY
+            </td>
+
+        </tr>
+    </tfoot>
+    <tbody>
+        @foreach (var po in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnFFM_VESSEL_CODE", po.FFM_VESSEL_CODE)
+                    @po.FFM_VESSEL_CODE
+                </td>
+                <td>
+                    @po.NAME
+                </td>
+                <td>
+                   @po.FLAG
+                </td>
+                <td>
+                    @po.SCACCODE
+                </td>
+                <td>
+                    @po.CARRIER
+                </td>
+                <td>
+                    @po.VESSEL_TYPE
+                </td>
+                <td>
+                    @po.COUNTRY
+                </td>
+
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+</div>

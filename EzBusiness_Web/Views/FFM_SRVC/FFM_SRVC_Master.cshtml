@@ -1,0 +1,508 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FFM_SRVC_VM>
+
+@{
+    ViewBag.Title = "FFM_SRVC_Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var counter = 1;
+}
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+    $(function () {
+        EzAuthentication("/SRVCCategoryMaster");
+        var n = EzAuthenticationBtn("/SRVCCategoryMaster", "ViewIt");
+        if (n == 1) {
+            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td", true, "#tblUnits thead");
+            $('#tblUnits').show();
+        } else {
+            $('#tblUnits').hide();
+        }
+    });
+</script>
+<script>
+    var Doks = [];
+    $(function () {
+        $("#tblUnits1").hide();
+        $("#btnAdd").click(function () {
+            var n = EzAuthenticationBtn("/SRVCCategoryMaster", "NewIt");
+            if (n == 1) {
+                $("#tbldiv").hide();
+                var abk = [];
+                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
+                Ezprop(abk, "disabled", true);
+                abk = [];
+                abk.push('#btnCancel', '#btnSave');
+                Ezprop(abk, "disabled", false);
+                $("#tblUnits1 tbody tr").css("background", "");
+                $("#tblUnits1").show();
+            }
+        });
+
+        var counter = $("#Counter").val();
+
+
+        /*Code Tab Event*/
+        EztableTabEve("#tblUnits1", "[name*='txtFFM_SRVC_CODE']", "[name *= 'txtNAME']", "Please Enter FFM_SRVC_CODE", 'T', "");
+
+        /*Enter Event*/
+        EztableLstEnt("#tblUnits1", "[name*='txtNAME']", "[name *= 'txtFFM_SRVC_CODE']", "T", "");
+
+
+        /*Add Table Change Event*/
+        $("#tblUnits1").on("change", "[name*='txtFFM_SRVC_CODE']", function () {
+            var tr = $(this).closest('tr');
+
+            drec = [];
+            $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtFFM_SRVC_CODE']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'txtFFM_SRVC_CODE']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name *= 'txtFFM_SRVC_CODE']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtFFM_SRVC_CODE']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtFFM_SRVC_CODE']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'txtFFM_SRVC_CODE']").val('');
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tableMetaSettings tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
+                    $(this).closest('tr').next('tr').find("[name*='txtFFM_SRVC_CODE']").val('');
+                    trLast.find("[name *= 'txtFFM_SRVC_CODE']").attr({
+                        "name": ("txtFFM_SRVC_CODE" + counter)
+                    });
+                    trLast.find("[name *= 'txtNAME']").attr({
+                        "name": ("Name" + counter)
+                    });
+                    //trLast.find("[name *= 'txtUniCodeName']").attr({
+                    //    "name": ("txtUniCodeName" + counter)
+                    //});
+                    trLast.find(":first").text(counter);
+                }
+            }
+            counter++;
+        });
+
+
+        /*Refresh */
+        $("#btnCancel").click(function () {
+            if ($("#tblUnits1 > tbody > tr").length > 1) {
+                $("#tblUnits1 tbody tr td:last-child").remove();
+            }
+            $("#tblUnits1 tbody").find("tr:gt(0)").remove();
+
+            var abk1 = [];
+            abk1.push("[name*='txtFFM_SRVC_CODE']", "[name*='txtNAME']");
+            Ezsettxtclr(abk1);
+            abk1 = [];
+            abk1.push("#btnCancel", "#btnSave");
+            Ezprop(abk1, "disabled", true);
+            abk1 = [];
+            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+            Ezprop(abk1, "disabled", false);
+            $("#tblUnits1").hide();
+            $("#tbldiv").show();
+        });
+        /*Save Unit Table */
+        $("#btnSave").click(function () {
+
+            var FC = {
+                FFM_SRVCNew: []
+            };
+            $("#tblUnits1 tbody tr").each(function (index, item) {
+                var FFM_SRVC_CODE = $(this).find("[name*='txtFFM_SRVC_CODE']").val();
+                var NAME = $(this).find("[name*='txtNAME']").val();
+
+                if ((FFM_SRVC_CODE != "") && (NAME != "")) {
+                    var FFM_SRVCDetail = {
+                        FFM_SRVC_CODE: FFM_SRVC_CODE,
+                        NAME: NAME,
+
+                    };
+                    FC.FFM_SRVCNew.push(FFM_SRVCDetail);
+                }
+            });
+            var validationResult = ValidateForm(FC);
+            if (validationResult.formValid) {
+                $.post("/FFM_SRVC/SaveFFM_SRVC", FC).done(function (response) {
+                    if (response.Drecord == null) {
+
+                        response.Drecord = 0;
+                        $("#tbldiv").show();
+
+                    }
+                    $("#tblUnits1 tbody tr").each(function (index, item) {
+                        var tr = $(this).closest("tr");
+                        var codeAdd = $(tr).find("[name*='txtFFM_SRVC_CODE']").val().trim();
+                        var nameAdd = $(tr).find("[name*='txtNAME']").val().trim();
+
+                        if (response.Drecord.length > 0) {
+                            var ary1 = [];
+                            ary1 = response.Drecord;
+                            if ($.inArray(codeAdd, ary1) < 0 && codeAdd != '' && nameAdd != '') {
+                                $(this).closest('tr').remove();
+                                var counter = $("#Counter").val();
+                                var firstRow = $('#tblUnits tbody tr:first');
+
+                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
+                                    "</td> ";
+                                //newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                //    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                //    "'></td></tr>";
+                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                   "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                   "'></td></tr>";
+                                $(firstRow).after(newRow);
+                            }
+                            else if (codeAdd != '') {
+                                $(this).closest('tr').css("background", "red");
+                            }
+                            else {
+                                $(this).closest('tr').css("background", "");
+                            }
+                        }
+                        else {
+                            $("#tblUnits1 tbody").find("tr:not(:last)").remove();
+                            $("[name*='txtFFM_SRVC_CODE']").val();
+                            $("[name*='txtNAME']").val();
+
+
+                            $("#tblUnits1").hide();
+
+                            if (codeAdd != '' && nameAdd != '') {
+                                var counter = $("#Counter").val();
+                                var firstRow = $('#tblUnits tbody tr:first');
+                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
+                                    "</td> ";
+                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
+                                    "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
+                                    "'></td></tr>";
+                                //newRow += "</tr>";
+                                $(firstRow).after(newRow);
+                            }
+                            abk1 = [];
+                            abk1.push("#btnCancel", "#btnSave");
+                            Ezprop(abk1, "disabled", true);
+                            abk1 = [];
+                            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
+                            Ezprop(abk1, "disabled", false);
+                            EzAlertSave();
+                            $(".dataTables_empty").replaceWith("");
+                        }
+                    });
+                });
+            }
+            else {
+                EzAlerterr();
+            }
+        });
+
+        function ValidateForm(FC) {
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+
+            if (FC.FFM_SRVCNew.length == 0) {
+                response.ErrorMessage += "Please Enter atleast One FFM_SRVC code Details";
+            }
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+
+            return response;
+        }
+        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+        });
+
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+
+        $("#tblUnits").on("click", "[name^='Edit']", function () {
+            var n = EzAuthenticationBtn("/SRVCCategoryMaster", "EditIt");
+            if (n == 1) {
+                var counter = $("#Counter").val();
+                var hdnEditMode = $(this).parent().find('input:hidden:first');
+                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+                var tr = $(this).closest("tr");
+                var hdnDocCode = $(tr).find("td:eq(0)").text().trim();
+                var index = $(this).attr("name").substring(4);
+                var docnameTd = $(tr).find("td:eq(1)");
+
+                var editButton = $(this);
+
+                if (hdnEditMode.val() == "true") {
+                    var docnameEdit = $(tr).find("[name*='txtNAME']").val().trim();
+
+                    var FC = {
+                        CmpyCode: hdnCmpyCode,
+                        FFM_SRVC_CODE: hdnDocCode,
+                        NAME: docnameEdit,
+                        EditFlag: true
+                    };
+
+                    $.post("/FFM_SRVC/SaveFFM_SRVC", FC).done(function (response) {
+                        docnameTd.text(response.NAME);
+
+                        hdnEditMode.val("false");
+                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
+                        editButton.attr('title', 'Edit');
+                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
+                        tr.find("[name^='Delete']").attr('title', 'Delete');
+
+                        tableDis("F");
+                        EzAlertUpd(hdnDocCode);
+                    });
+                    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                        console.log(thrownError);
+                    });
+                } else {
+                    var docname = $(tr).find("td:eq(1)").text();
+                    $('#inpdocname').val(docname.trim());
+                    docnameTd.html("<input type='text' name='txtNAME" + index + "' value='" + docname.trim() + "' />");
+
+
+
+                    $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
+                    $(this).attr('title', 'Update');
+                    hdnEditMode.val("true");
+
+                    tableDis("T");
+                    $(this).attr("disabled", false);
+                    tr.find("[name^='Delete']").prop("disabled", false);
+
+                    tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>')
+                    tr.find("[name^='Delete']").attr('title', 'Cancel');
+
+                }
+            }
+        });
+
+        $("#tblUnits").on("click", "[name^='Delete']", function () {
+            debugger;
+            var n = EzAuthenticationBtn("/SRVCCategoryMaster", "DeleteIt");
+            if (n == 1) {
+                var tr = $(this).closest("tr");
+                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
+                var FMHEADCodeTd = $(tr).find("td:eq(0)");
+                var hdnMode = $(this).parent().find('input:hidden:first');
+                var doccode = "";
+                if (hdnMode.val() == "false") {
+
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                    })
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.value) {
+                            FFM_SRVC_CODE = $(tr).find("td:eq(0)").text().trim();
+                            $.getJSON("/DeleteFFM_SRVC", { FFM_SRVC_CODE: FFM_SRVC_CODE, CmpyCode: hdnCmpyCode }).done(function (data) {
+                                if (data.DeleteFlag) {
+
+                                    if ($('#tblUnits tbody tr').length == 2) {
+                                        var firstRow = $('#tblUnits tbody tr:first');
+                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
+                                        $(firstRow).after(newRow);
+                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                                    }
+                                    tr.remove();
+                                } else {
+                                    EzAlertdele(doccode);
+                                }
+                            });
+                            swalWithBootstrapButtons.fire(
+                              'Deleted!',
+                              'Your Code has been deleted.',
+                              'success'
+                            )
+
+                        } else if (
+                            // Read more about handling dismissals
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire(
+                              'Cancelled',
+                              'Your Code is safe :)',
+                              'error'
+                            )
+                        }
+                    })
+
+                }
+                else {
+                    var nameTd = $(tr).find("td:eq(1)");
+
+                    var nameEdit = $('#inpdocname').val();
+                    var hdnEditMode = $(this).parent().find('input:hidden:first');
+                    nameTd.html(nameEdit);
+                    tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
+                    tr.find("[name^='Edit']").attr('title', 'Edit');
+                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
+                    $(this).attr('title', 'Delete');
+                    hdnEditMode.val("false");
+
+                    tableDis("F");
+                }
+            }
+        });
+    });
+
+    var k = 0;
+    function tableDis(k) {
+        if (k == "T") {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", true);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", true);
+            $("#btnAdd").prop('disabled', true);
+        }
+        else {
+            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
+            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
+            $("#btnAdd").prop('disabled', false);
+
+        }
+    }
+</script>
+
+<script>
+$(document).ready(function(){
+    //$('[data-toggle="tooltip"]').tooltip();
+    $(".edit").attr('title', 'Edit');
+    $(".delete").attr('title', 'Delete');
+});
+</script>
+
+<br />
+
+
+<div class="title-action">
+    <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
+    <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+    <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+
+    <input type="hidden" id="hdnOperationMode" value="" />
+
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <input id="inpdocname" type="hidden" />
+        <table class="table table-bordered" id="tblUnits1">
+            <thead>
+                <tr class="tr">
+                    <th>
+                        @Html.DisplayNameFor(model => model.FFM_SRVC_CODE)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NAME)
+                    </th>
+
+
+                    <th></th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtFFM_SRVC_CODE", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtNAME", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="col-md-12 portal-drivers">
+            <div id="tbldiv">
+                <table class="table table-bordered" id="tblUnits">
+                    <thead>
+                        <tr class="tr">
+                            <th>
+                                @Html.DisplayNameFor(model => model.FFM_SRVC_CODE)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NAME)
+                            </th>
+
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr class="tr">
+                            <td>
+                                @Html.DisplayNameFor(model => model.FFM_SRVC_CODE)
+                            </td>
+                            <td>
+                                @Html.DisplayNameFor(model => model.NAME)
+                            </td>
+
+
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                    <tbody style="overflow:scroll">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FFM_SRVC_CODE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NAME)
+                                </td>
+
+
+                                <td>
+                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                                    @Html.HiddenFor(m => item.CMPYCODE)
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+        @Html.Hidden("Counter", counter)
+    </div>
+</div>
+
+

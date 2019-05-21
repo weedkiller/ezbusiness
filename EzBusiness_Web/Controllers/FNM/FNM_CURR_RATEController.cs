@@ -113,7 +113,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         }
 
 
-        public ActionResult GetCURRENCYRateDetailList(string FROM_CURRENCY_CODE)
+        public ActionResult GetCURRENCYRateDetailList(string SUBLEDGER_TYPE)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -122,7 +122,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(_FNM_CURR_RATEService.GetCURRENCYRateDetailList(list[0].CmpyCode, FROM_CURRENCY_CODE), JsonRequestBehavior.AllowGet);
+                return Json(_FNM_CURR_RATEService.GetCURRENCYRateDetailList(list[0].CmpyCode, SUBLEDGER_TYPE), JsonRequestBehavior.AllowGet);
             }
         }
 

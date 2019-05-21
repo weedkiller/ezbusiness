@@ -44,6 +44,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public decimal LATITUDE { get; set; }
         public decimal LANGITUDE { get; set; }
         public string DISPLY_STATUS { get; set; }
+        public string FFM_PACKING_CODE { get; set; }
     }
 }
 

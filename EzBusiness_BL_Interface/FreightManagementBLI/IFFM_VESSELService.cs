@@ -19,5 +19,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
 
         List<SelectListItem> GetNationList(string CmpyCode);
 
+        List<SelectListItem>  GetContainer(string CmpyCode);
+
     }
 }

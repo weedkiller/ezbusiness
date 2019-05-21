@@ -9,24 +9,20 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-
 namespace EzBusiness_Web.Controllers.FMHEAD
 {
-    public class FFM_COMController : Controller
+    public class FFM_JOBController : Controller
     {
-        // GET: FFM_COM
-
-        IFFM_COMFreightService _FFMCOMService;
-
-        public FFM_COMController()
+        // GET: FFM_JOB
+        IFFM_JOBFreightService _FFMJOBService;
+        public FFM_JOBController()
         {
-            _FFMCOMService = new FFM_COMFreightService();
-
+            _FFMJOBService = new FFM_JOBFreightService();
         }
 
-        #region FFM_COM Master
-        [Route("FM_COMCategoryMaster")]
-        public ActionResult FFM_COM_Master()
+        #region FFM_JOB Master
+        [Route("JOBCategoryMaster")]
+        public ActionResult FFM_JOB_Master()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -35,12 +31,12 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return View(_FFMCOMService.GetFFM_COM(list[0].CmpyCode));
+                return View(_FFMJOBService.GetFFM_JOB(list[0].CmpyCode));
             }
         }
 
         [HttpPost]
-        public ActionResult SaveFFM_COM(FFM_COM_VM FC)
+        public ActionResult SaveFFM_JOB(FFM_JOB_VM Fcur)
         {
 
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -50,15 +46,15 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                FC.CMPYCODE = list[0].CmpyCode;
-                FC.UserName = list[0].user_name;
-                return Json(_FFMCOMService.SaveFFM_COM(FC), JsonRequestBehavior.AllowGet);
+                Fcur.CMPYCODE = list[0].CmpyCode;
+                Fcur.UserName = list[0].user_name;
+                return Json(_FFMJOBService.SaveFFM_JOB(Fcur), JsonRequestBehavior.AllowGet);
             }
 
         }
 
-        [Route("DeleteFFM_COM")]
-        public ActionResult DeleteFFM_COM(string FFM_COM_CODE, string CmpyCode)
+        [Route("DeleteFFM_JOB")]
+        public ActionResult DeleteFFM_JOB(string FFM_JOB_CODE, string CmpyCode)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -67,7 +63,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(new { DeleteFlag = _FFMCOMService.DeleteFFM_COM(FFM_COM_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _FFMJOBService.DeleteFFM_JOB(FFM_JOB_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion

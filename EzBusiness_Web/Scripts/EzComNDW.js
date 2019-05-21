@@ -1,4 +1,4 @@
-﻿//NGP
+﻿
 
 function ezValidateNumbers(tableid, ids) {
     $(tableid).on("keydown", ids, function (e) {
@@ -741,12 +741,14 @@ function Ezsidetblnew(ide, idef, lk, idfoot) {
             if (lk == true) {
                 if (k > 1) {
                     var title = '';//$(this).text();
-                    jq(this).html('<input type="text"   placeholder="Search ' + title + '"  />');
+                    jq(this).html('<input type="text"  placeholder="Search ' + title + '"  />');
+                 
                     k = k - 1;
                 }
             } else {
                 var title = '';//$(this).text();
-                jq(this).html('<input type="text"   placeholder="Search ' + title + '"  />');
+                jq(this).html('<input type="text"  placeholder="search' + title + '" style="Width:100px;border-radius:5px;" />');
+              
             }
       });
         // DataTable
@@ -803,7 +805,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                 }
             } else {
                 var title = '';//$(this).text();
-                jq(this).html('<input type="text"  placeholder="Search ' + title + '"  />');
+                jq(this).html('<input type="text"  placeholder="Search ' + title + '" style="Width:100px;border-radius:5px;" />');
             }
         });
 
@@ -975,7 +977,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         function Ezsidetbl1(ide, idef, lk, idfoot) {
    
             $(document).ready(function () {
-                debugger;
+                
                 // Setup - add a text input to each footer cell
                 
                 // $(ide).addClass('');
@@ -989,7 +991,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                         }
                     } else {
                         var title = '';//$(this).text();
-                        $(this).html('<input type="text"   placeholder="search' + title + '" style="Width:100px;border-radius:5px""/>');
+                        $(this).html('<input type="text"   placeholder="search' + title + '" style="border-radius:5px""/>');
                     }
                 });
                 // DataTable

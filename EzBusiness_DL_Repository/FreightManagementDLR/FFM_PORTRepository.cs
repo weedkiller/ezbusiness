@@ -91,23 +91,21 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 if (!fpk.EditFlag)
                 {
                     var Drecord = new List<string>();
-                    //List<FFM_portNew> ObjList = new List<FFM_portNew>();
-                    //ObjList.AddRange(fpk.FFM_portNew.Select(m => new FFM_portNew
-                    //{
-                    //    FFM_PORT_CODE = m.FFM_PORT_CODE,
-                    //    NAME = m.NAME,
-                    //    TERMINAL=m.TERMINAL,
-                    //    DISPLY_STATUS = m.DISPLY_STATUS,
-                    //    LATITUDE=m.LATITUDE,
-                    //    LANGITUDE=m.LANGITUDE,
-                    //    COUNTRY=m.COUNTRY,
+                    List<FFM_portNew> ObjList = new List<FFM_portNew>();
+                    ObjList.AddRange(fpk.FFM_portNew.Select(m => new FFM_portNew
+                    {
+                        FFM_PORT_CODE = m.FFM_PORT_CODE,
+                        NAME = m.NAME,
+                        //Equals = m.Equals,
+                        DISPLY_STATUS = m.DISPLY_STATUS,
+                        COUNTRY=m.COUNTRY,
 
-                    //}).ToList());
-                    //int n = 0;
-                    //n = ObjList.Count;
-                    //while (n >= 0)
-                    //{
-                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FFM_PORT where FFM_PORT_CODE='" + fpk.FFM_PORT_CODE + "'");// CmpyCode='" + FCur.CMPYCODE + "' and
+                    }).ToList());
+                    int n = 0;
+                    n = ObjList.Count;
+                    while (n >= 0)
+                    {
+                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FFM_PACKING where FFM_PACKING_CODE='" + fpk.FFM_PORT_CODE + "'");// CmpyCode='" + FCur.CMPYCODE + "' and
                         if (Stats1 == 0)
                         {
                             StringBuilder sb = new StringBuilder();
@@ -181,3 +179,4 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
     }
     
 }
+

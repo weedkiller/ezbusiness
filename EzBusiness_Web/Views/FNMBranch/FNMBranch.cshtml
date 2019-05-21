@@ -19,10 +19,11 @@
           } 
     });
 </script>
+
 <script>
     var Doks = [];   
     $(function (){
-        debugger;
+        
         $("#tblUnits1").hide();      
         $("#btnAdd").click(function () {          
             var n = EzAuthenticationBtn("/Branch_Master", "NewIt");
@@ -64,7 +65,7 @@
         GetCurrencyCodes();
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtFNMBRANCH_CODE']", function () {
-            debugger;
+            
             var tr = $(this).closest('tr');
             var tcunt=$("#tblUnits1").find("tr").length;
             drec = [];
@@ -85,7 +86,7 @@
                 tr.find("[name *= 'txtSNO']").val('');
             }
             else {
-                debugger;
+                
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
                     tr.clone(true, true).insertAfter(tr);
@@ -139,7 +140,7 @@
             counter++;
         });
         function GetCountryCodes() {
-            debugger;
+            
             var index = 1;
             $.ajax({
                 url: "GetCountryCodes",
@@ -162,7 +163,7 @@
             });
         }
         function GetCurrencyCodes() {
-            debugger;
+            
             var index = 1;
             $.ajax({
                 url: "GetCurrencyCodes",
@@ -269,7 +270,6 @@
                         var CURRENCYAdd = $(tr).find("[name*='txtCURRENCY']").val().trim();
                         var COUNTRYAdd = $(tr).find("[name*='txtCOUNTRY']").val().trim();
                         var STATEAdd = $(tr).find("[name*='txtSTATE']").val().trim();
-
 
                         if (response.Drecord.length > 0) {
                             var ary1 = [];
@@ -431,7 +431,7 @@
                         console.log(thrownError);
                     });
                 } else {
-                    debugger;
+                    
                     var DESCRIPTION = $(tr).find("td:eq(2)").text();
                     var PRINTNAME = $(tr).find("td:eq(3)").text();
                     var ADDRESS = $(tr).find("td:eq(4)").text();
@@ -472,7 +472,7 @@
         });
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
-            debugger;
+            
             var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");
@@ -582,8 +582,11 @@ $(document).ready(function(){
     <input type="hidden" id="hdnOperationMode" value="" />
 
 </div>
+<label class="row" id="ErrorMessage" style="color:red;">
+    <strong></strong>
+</label>
 
-<div class="panel panel-default">
+<div class="panel panel-default panl">
     <div class="panel-body">
         <input id="inpdocname" type="hidden" />
         <div class="row" id="dcm">
@@ -593,7 +596,7 @@ $(document).ready(function(){
             <div class="col-sm-2">
                 <input id="txtcmpycode" type="text" readonly="readonly" />
                 </div>
-            </div>
+         </div>
         <table class="table table-bordered" id="tblUnits1">
             <thead>
                 <tr class="tr">
@@ -706,9 +709,8 @@ $(document).ready(function(){
         </table>
         <div class="col-md-12">
             <div id="tbldiv">
-                <table class="table table-bordered portal-drivers" id="tblUnits">
+                <table class="table table-bordered stripe display hover portal-drivers" id="tblUnits">
                     <thead>
-
                         <tr class="tr">
                             <th>
                                 @Html.DisplayNameFor(model => model.SNO)
@@ -716,6 +718,7 @@ $(document).ready(function(){
                             <th>
                                 @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
                             </th>
+
                             <th>
                                 @Html.DisplayNameFor(model => model.DESCRIPTION)
                             </th>
@@ -725,6 +728,7 @@ $(document).ready(function(){
                             <th>
                                 @Html.DisplayNameFor(model => model.ADDRESS)
                             </th>
+
                             <th>
                                 @Html.DisplayNameFor(model => model.EMAIL)
                             </th>
@@ -744,8 +748,6 @@ $(document).ready(function(){
                             <th>
                                 @Html.DisplayNameFor(model => model.STATE)
                             </th>
-
-
                             <th></th>
 
                         </tr>
@@ -759,6 +761,7 @@ $(document).ready(function(){
                             <td>
                                 @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
                             </td>
+
                             <td>
                                 @Html.DisplayNameFor(model => model.DESCRIPTION)
                             </td>
@@ -768,6 +771,7 @@ $(document).ready(function(){
                             <td>
                                 @Html.DisplayNameFor(model => model.ADDRESS)
                             </td>
+
                             <td>
                                 @Html.DisplayNameFor(model => model.EMAIL)
                             </td>
@@ -809,6 +813,7 @@ $(document).ready(function(){
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ADDRESS)
                                 </td>
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.EMAIL)
                                 </td>
@@ -838,12 +843,14 @@ $(document).ready(function(){
                                     <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
                                     @Html.HiddenFor(m => item.CMPYCODE)
                                 </td>
+                               
                             </tr>
                             counter++;
                         }
                     </tbody>
 
                 </table>
+
 
             </div>
         </div>

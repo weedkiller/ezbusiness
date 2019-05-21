@@ -10,7 +10,7 @@
         EzAuthentication("/Profession");
         var n = EzAuthenticationBtn("/Profession", "ViewIt");
         if (n == 1) {
-            Ezsidetbl1('#tblUnits', '#tblUnits tfoot td', true, "#tblUnits thead");
+            Ezsidetbl1('#tblUnits', '#tblUnits tfoot td', false, "#tblUnits thead");
             $('#tblUnits').show();
 
         } else {
@@ -409,8 +409,6 @@ $(document).ready(function(){
 
     <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
-
-
     <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
 
     <input type="hidden" id="hdnOperationMode" value="" />
@@ -434,36 +432,29 @@ $(document).ready(function(){
                         @Html.DisplayNameFor(model => model.ProfName)
                     </th>
                    
-                     
                     <th></th>
                 </tr>
             </thead>
            
             <tbody>
-              
-                    <tr>
-                        <td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("txtProfCode", counter), null, new { @class = "grid-control" })
-                             </div>
-                        </td>
-                        <td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("txtProfName", counter), null, new { @class = "grid-control" })
-                            </div>
-                        </td>
-                        
-                           
-
-                      </tr>
-          
-              
+                <tr>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtProfCode", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtProfName", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                 </tr>
             </tbody>
         </table>
 
-        <div class="col-md-12 portal-drivers">
+        <div class="col-md-12 table-responsive">
         <div id="tbldiv">
-        <table class="table table-bordered" id="tblUnits" >
+        <table class="table table-bordered stripe display hover" id="tblUnits" >
                 <thead>
                     <tr class="tr">
                         <th>
@@ -472,12 +463,11 @@ $(document).ready(function(){
                         <th>
                             @Html.DisplayNameFor(model => model.ProfName)
                         </th>
-                        
-
                         <th></th>
                     </tr>
                 </thead>
-            <tfoot>
+
+                <tfoot>
                 <tr class="tr">
                     <td>
                         @Html.DisplayNameFor(model => model.ProfCode)
@@ -494,18 +484,15 @@ $(document).ready(function(){
                     @foreach (var item in Model)
                     {
                         <tr>
-
                             <td>
                                 @Html.DisplayFor(modelItem => item.ProfCode)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.ProfName)
                             </td>
-                         
-
                             <td>
-                                <button class="btn btn-primary closebtngrid" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
-                                <button class="btn btn-danger closebtngrid"  data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
+                                <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
+                                <button class="btn btn-danger"  data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>
                                 <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
                                 @Html.HiddenFor(m => item.CmpyCode)
                             </td>
