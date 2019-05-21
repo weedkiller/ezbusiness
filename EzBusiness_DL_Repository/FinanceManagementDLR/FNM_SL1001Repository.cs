@@ -19,7 +19,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
         DataTable dt = null;
       
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
-        public bool DeleteFNM_SL1001(string FNM_SL1001_CODE, string CmpyCode, string UserName)
+        public bool DeleteFNM_SL1001(string CmpyCode,string FNM_SL1001_CODE,  string UserName)
         {
             int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNM_SL1001 where CMPYCODE='" + CmpyCode + "' and FNM_SL1001_CODE='" + FNM_SL1001_CODE + "'  and Flag=0");
             if (Grs != 0)
