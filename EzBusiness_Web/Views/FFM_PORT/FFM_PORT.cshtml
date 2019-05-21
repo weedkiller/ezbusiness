@@ -1,0 +1,332 @@
+﻿@model IEnumerable < EzBusiness_ViewModels.Models.FreightManagement.FFM_PORT_VM>
+
+@{
+    ViewBag.Title = "FFM_PORT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var counter = 1;
+}
+
+<script src="~/Scripts/EzComNDW.js"></script>
+
+<script>
+    $(function () {
+        EzAuthentication("/PORTMASTER")
+        Ezsetzerotxt();
+
+        //EzsetDatetxt();
+        var lvHtml = $("#POContainer").html();
+        $("#POListContainer1").hide();
+        function GetLeaveList() {
+            $.get("/FFM_PORT/GetPortList", function (response) {
+                $("#POListContainer").html(response);
+            });
+        }
+        $("#btnNew").click(function () {
+            var n = EzAuthenticationBtn("/PORTMASTER", "NewIt");
+            if (n == 1) {
+            $("#btnSave").prop("disabled", false);
+                $("#editshow").hide();
+                $.get("FFM_PORT/AddFFM_PORT", function (response) {
+                    $("#POContainer").html(response);
+                });
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
+                $("#POListContainer1").hide();
+           }
+        });
+        $(".alert-close").click(function () {
+            $("#editshow").hide();
+        });
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/PORTMASTER", "ViewIt");
+            if (n == 1) {
+                $(this).css("visibility", "hidden");
+                $("#POContainer").html();
+                EzbtnEditAcVis();
+                $("#POListContainer1").show();
+                GetLeaveList();
+                $("#editshow").show();
+            }
+        });
+        $("#btnCancel").click(function () {
+            $("#editshow").hide();
+            $("#POContainer").html(lvHtml);
+            EzbtnCancelAcVis();
+            Ezsetzerotxt();
+            //EzsetDatetxt();
+            $("#POListContainer1").hide();
+           // EzdtePk('#Entry_Date1');
+        });
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/PORTMASTER", "DeleteIt");
+           // var date1 = Ezsetdtpkdate($('#Entry_Date1').val());
+            var k = 1;
+          //  if (n == 1 ) {
+              //  k = EzSalrProcCondiont($("#InvNumber option:selected").val(), date1);
+                if( k == 1){
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        var FFM_PORT_CODE = $("[name*='FFM_PORT_CODE']").val();
+                        $.getJSON("/DeleteFFM_PORT", { FFM_PORT_CODE: FFM_PORT_CODE }).done(function (data) {
+                                if (data.DeleteFlag) {
+                                    EzbtnsaveAcVis("#POContainer");
+                                    $("#POContainer").html(lvHtml);
+                                    //$("#btnCancel").trigger("click");
+                                    GetLeaveList();
+                                } else {
+                                    EzAlertdele(InvNumber);
+                                }
+                            });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+
+            }
+        });
+
+        $("#btnSave").click(function () {
+            var n = EzAuthenticationBtn("/SaveInv", "EditIt");
+            var k = 0;
+            var SA = 0;
+
+            $("#editshow").hide();
+            debugger;
+            var opMode = $("#hdnOperationMode").val();
+
+            if (opMode == "Add") {
+
+                var fpk = {
+                    EditFlag: false,
+                    FFM_PORT_CODE: $('#FFM_PORT_CODE').val(),
+                    NAME: $('#NAME').val(),
+                    COUNTRY: $("#COUNTRY option:selected").val(),
+                    TERMINAL: $('#TERMINAL').val(),
+                    LATITUDE: $('#LATITUDE').val(),
+                    LANGITUDE: $('#LANGITUDE').val(),
+                    DISPLY_STATUS: $("#DISPLY_STATUS option:selected").val(),
+
+                };
+
+
+                var validationResult = ValidateForm(fpk);
+                if (validationResult.formValid) {
+                    $.ajax({
+                        async: false,
+                        cache: false,
+                        type: "POST",
+                        url: "/FFM_PORT/SaveFFM_PORT",
+                        data: '{fpk:' + JSON.stringify(fpk) + ' }',
+                        contentType: "Application/json",
+                        dataType: 'Json',
+                        success: function (data) {
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
+                            $("#tbldiv").show();
+                            $("#POContainer").html(lvHtml);
+                        }
+
+                    });
+
+                } else {
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+            } else if (opMode == "Edit") {            
+
+                var fpk = {
+                    EditFlag: false,
+                    FFM_PORT_CODE: $('#FFM_PORT_CODE').val(),
+                    NAME: $('#NAME').val(),
+                    COUNTRY: $("#COUNTRY option:selected").val(),
+                    TERMINAL: $('#TERMINAL').val(),
+                    LATITUDE: $('#LATITUDE').val(),
+                    LANGITUDE: $('#LANGITUDE').val(),
+                    DISPLY_STATUS: $("#DISPLY_STATUS option:selected").val(),
+
+                };
+
+
+
+                var validationResult = ValidateForm(sales);
+                if (validationResult.formValid) {
+                    $.ajax({
+                        async: false,
+                        cache: false,
+                        type: "POST",
+                        url: "/FFM_PORT/SaveFFM_PORT",
+                        data: '{fpk:' + JSON.stringify(fpk) + ' }',
+                        contentType: "Application/json",
+                        dataType: 'Json',
+                        success: function (data) {
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
+                            $("#tbldiv").show();
+                            $("#POContainer").html(lvHtml);
+                        }
+
+                    });
+
+                } else {
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+
+
+
+
+
+
+
+            }
+
+
+        });
+       
+
+        function ValidateForm(inv) {
+
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+            if (inv.EditFlag == false) {
+                if (inv.FFM_PORT_CODE == "") {
+                    response.ErrorMessage += "** Please Enrter PORT_CODE";
+                }
+            } else if (inv.EditFlag == true) {
+                if (inv.FFM_PORT_CODE == "") {
+                    response.ErrorMessage += "** Please Enrter PORT_CODE";
+                }
+
+            }
+
+            if (inv.NAME == "") {
+                response.ErrorMessage += "**NAME is mandatory Fields.";
+            }
+
+           
+
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+
+            return response;
+        }
+        function parseDate(s) {
+            var b = s.split(/\D/);
+            return new Date(b[0], --b[1], b[2]);
+        }
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+        $(document).on("click", "#POList tbody tr", function () {
+
+            $("#btnSave").prop("disabled", false);
+            $("#btnDelete").prop("disabled", false);
+            EzbtnEditAcVis();
+            var operationMode = $("#hdnOperationMode").val();
+            if (operationMode == "Edit") {
+                $("#POList > tbody").children().removeClass("active");
+                $(this).addClass("active");
+                var FFM_PORT_CODE = $(this).find("#hdnFFM_PORT_CODE").val();
+                $.get("EditFFM_PORT", { FFM_PORT_CODE: FFM_PORT_CODE }).done(function (response) {
+                    $("#POContainer").html(response);
+                    //$("#btnDelete").prop("disabled", false);
+                    $("#btnDelete").css("visibility", "");
+                });
+            }
+        });
+
+        EzdtePk('#Entry_Date1');
+    });
+
+
+
+</script>
+<br />
+
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
+
+        <div class="title-action">
+
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+
+
+
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <!--updated code-->
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary panl">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;margin-top: -20px;">
+                <label class="row" id="ErrorMessage" style="color:red">
+                    <strong></strong>
+                </label>
+
+                <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="POContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="container" id="POListContainer">
+                                        @Html.Action("GetPortList", "FFM_PORT")
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+</div>
+
+
+

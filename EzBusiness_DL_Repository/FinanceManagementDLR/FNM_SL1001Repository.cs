@@ -19,7 +19,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
         DataTable dt = null;
       
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
-        public bool DeleteFNM_SL1001(string FNM_SL1001_CODE, string CmpyCode, string UserName)
+        public bool DeleteFNM_SL1001(string CmpyCode,string FNM_SL1001_CODE,  string UserName)
         {
             int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNM_SL1001 where CMPYCODE='" + CmpyCode + "' and FNM_SL1001_CODE='" + FNM_SL1001_CODE + "'  and Flag=0");
             if (Grs != 0)
@@ -69,9 +69,9 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
             return ObjList;
         }
 
-        public List<FNM_SL1001> GetFNM_SL(string CmpyCode)
+        public List<FNM_SL1001> GetFNM_SL(string CmpyCode,string SubledgerType)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNM_SL1001_CODE,Name,Print_Name,Web_site,Email,Tel,Fax,Address,Contact1,Contact2,Contact3,Currency_code,credit_limit,SUBLEDGER_TYPE from FNM_SL1001 where CmpyCode='" + CmpyCode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNM_SL1001_CODE,Name,Print_Name,Web_site,Email,Tel,Fax,Address,Contact1,Contact2,Contact3,Currency_code,credit_limit,SUBLEDGER_TYPE from FNM_SL1001 where CmpyCode='" + CmpyCode + "' and SUBLEDGER_TYPE='"+SubledgerType+"' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNM_SL1001> ObjList = new List<FNM_SL1001>();

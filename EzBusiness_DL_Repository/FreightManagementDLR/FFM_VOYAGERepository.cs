@@ -22,7 +22,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         DropListFillFun drop = new DropListFillFun();
         public List<FFM_VOYAGE_VM> GetFFM_VoYAGEAList(string CMPYCODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("select * from FFM_VOYAGE01 yg1 where yg1.CMPYCODE='" + CMPYCODE + "'");
+            ds = _EzBusinessHelper.ExecuteDataSet("select * from FFM_VOYAGE01 yg1 where yg1.CMPYCODE='" + CMPYCODE + "' and yg1.flag=0");
             List<FFM_VOYAGE_VM> ObjList = null;
             if (ds.Tables.Count > 0)
             {
@@ -302,7 +302,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             if (unit != 0)
             {
                 _EzBusinessHelper.ExecuteNonQuery("update FFM_VOYAGE01 set Flag=1 where CmpyCode='" + CmpyCode + "' and FFM_VOYAGE01_CODE='" + Voyagecode + "'");
-                _EzBusinessHelper.ExecuteNonQuery("update FFM_VOYAGE01 set Flag=1 where CmpyCode='" + CmpyCode + "' and FFM_VOYAGE01_CODE='" + Voyagecode + "'");
+                _EzBusinessHelper.ExecuteNonQuery("update FFM_VOYAGE02 set Flag=1 where CmpyCode='" + CmpyCode + "' and FFM_VOYAGE01_CODE='" + Voyagecode + "'");
 
                 _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete Emp  Master", Voyagecode, Environment.MachineName);
                 return true;

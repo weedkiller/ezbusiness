@@ -1,17 +1,16 @@
 ﻿@model EzBusiness_ViewModels.Models.FinaceMgmt.FNM_SL_VM
 
 @{
-    ViewBag.Title = "FNMSupplier";
+    ViewBag.Title = "FNMOprationalCustomer";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
         debugger;
-       
-        EzAuthentication("/SubLedger");
+
+        EzAuthentication("/OprationalCustomer");
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
         function GetDrs() {
@@ -20,7 +19,7 @@
             });
         }
         $("#btnNew").click(function () {
-            var n = EzAuthenticationBtn("/SubLedger", "NewIt");
+            var n = EzAuthenticationBtn("/OprationalCustomer", "NewIt");
             if (n == 1) {
                 $("#editshow").hide();
                 $.get("FNM_SL/AddSupplier", function (response) {
@@ -36,7 +35,7 @@
             $("#editshow").hide();
         });
         $("#btnEdit").click(function () {
-            var n = EzAuthenticationBtn("/SubLedger", "ViewIt");
+            var n = EzAuthenticationBtn("/OprationalCustomer", "ViewIt");
             if (n == 1) {
                 $(this).css("visibility", "hidden");
                 EzbtnEditAcVis();
@@ -55,7 +54,7 @@
 
         $("#btnDelete").click(function () {
             debugger;
-            var n = EzAuthenticationBtn("/SubLedger", "DeleteIt");
+            var n = EzAuthenticationBtn("/OprationalCustomer", "DeleteIt");
             if (n == 1) {
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
@@ -71,13 +70,14 @@
                     cancelButtonText: 'No, cancel!',
                     reverseButtons: true
                 }).then((result) => {
+                    debugger;
                     if (result.value) {
 
                         var Code = $("[name*='FNM_SL1001_CODE']").val();
-                        
-                        $.getJSON("/DeleteSupplier", { FNM_SL1001_CODE: Code }).done(function (data) {
+
+                        $.getJSON("/DeleteSupplier", { FNM_SL1001_CODE: FNM_SL1001_CODE }).done(function (data) {
                                 if (data.DeleteFlag) {
-                                    window.location = '/SubLedger'
+                                    window.location = '/OprationalCustomer'
                             } else {
                                     EzAlertdele(Code);
                             }
@@ -104,10 +104,15 @@
         });
         $("#btnSave").click(function () {
             debugger
+            var SUBLEDGER_TYPE=null;
             var path = $("#hdnpath").val();
             if (path == "<li>Finance Management</li><li>Master</li><li>SubLedger</li>")
             {
-                var SUBLEDGER_TYPE="FM"
+                 SUBLEDGER_TYPE="FM"
+            }
+            if (path == "<li>Freight Management</li><li>Master</li><li>Operational Customers</li>")
+            {
+                SUBLEDGER_TYPE = "OP"
             }
             var n = EzAuthenticationBtn("/FNM_CURR_RATE", "EditIt");
             var k = 0;
@@ -195,7 +200,7 @@
                     Contact3: $("[name*='Contact3']").val(),
                     Currency_code: $("[name*='Currency_code'] option:Selected").val(),
                     credit_limit: $("[name*='credit_limit']").val(),
-                    SUBLEDGER_TYPE: $("input:radio[name=SUBLEDGER_TYPE]:checked").val(),
+                    SUBLEDGER_TYPE: SUBLEDGER_TYPE,
 
                     FNM_SL1002Details: [],
                 };
@@ -291,7 +296,7 @@
                         $(this).addClass("active");
 
                         var Code = $(this).find("[name*='hdnFNM_SL1001_CODE']").val();
-                       
+
 
                         $.get("EditSupplier", { Code: Code }).done(function (response)
                         {
@@ -359,8 +364,8 @@
 
 <div class="row">
     <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
-     
-         <div class="title-action">
+
+        <div class="title-action">
             <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
 
             <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
@@ -396,7 +401,7 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @Html.Action("GetSupplier", "FNM_SL",new { Sublesertype="FM" })
+                                                @Html.Action("GetSupplier", "FNM_SL",new{Sublesertype="OP"})
 
 
                                             </div>
@@ -422,3 +427,4 @@
 
 
 </div>
+
