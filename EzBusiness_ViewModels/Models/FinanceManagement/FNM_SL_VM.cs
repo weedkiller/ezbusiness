@@ -64,7 +64,9 @@ namespace EzBusiness_ViewModels.Models.FinaceMgmt
         public string FNM_SL1001_CODE { get; set; }
         public string FNM_SL1002_CODE { get; set; }
         public string NAME { get; set; }
-        public string Description1 { get; set; }
+      
         public string COA_CODE { get; set; }
+
+        public string COA_NAME { get; set; }
     }
 }

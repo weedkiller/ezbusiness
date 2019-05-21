@@ -802,6 +802,31 @@ namespace EzBusiness_DL_Repository
             return ObjList;
 
         }
+        public List<FFM_VESSEL> GetVessalCode(string cmpcode)
+        {
+            //MDIV011
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FFM_VESSEL where CmpyCode='" + cmpcode + "' and Flag1=0");
+            List<FFM_VESSEL> ObjList = null;
+            if (ds.Tables.Count > 0)
+            {
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                ObjList = new List<FFM_VESSEL>();
+                foreach (DataRow dr in drc)
+                {
+                    ObjList.Add(new FFM_VESSEL()
+                    {
+                        FFM_VESSEL_CODE = dr["FFM_VESSEL_CODE"].ToString(),
+                        NAME = dr["NAME"].ToString(),
+                     //   DivisionName = dr["DivisionName"].ToString(),
+
+                    });
+
+                }
+            }
+            return ObjList;
+
+        }
 
     }
 }

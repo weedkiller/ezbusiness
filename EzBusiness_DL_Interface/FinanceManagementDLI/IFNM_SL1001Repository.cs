@@ -15,7 +15,7 @@ namespace EzBusiness_DL_Interface.FinanceManagementDLI
         FNM_SL_VM SaveFNM_SL(FNM_SL_VM FNSL);
         FNM_SL_VM EditFNM_SL(string CmpyCode, string FNM_SL1001_CODE);
         List<FNM_CURRENCY> GetCURRENCYList();
-        List<FNMCAT> GetFNMCAT(string CmpyCode);
+        List<FNMCAT> GetFNMCAT(string CmpyCode,string type1);
         List<FNM_SL1002> GetFNM_SL1002( string CmpyCode,string FNM_SL1001_CODE);
 
         List<FNM_SL1002> GetFNM_SL1002Add(string CmpyCode, string FNMCAT_CODE);

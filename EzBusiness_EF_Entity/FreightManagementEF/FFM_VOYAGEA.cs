@@ -22,6 +22,9 @@ namespace EzBusiness_EF_Entity.FreightManagementEF
         public DateTime UPDATED_ON { get; set; }
         public string FFM_VESSEL_CODE { get; set; }
         public string CMPYCODE { get; set; }
+        public Int64 PortStayHours { get; set; }
+        public Int64 SailingHrs { get; set; }
+        public string CMPYCODE1 { get; set; }
 
         //   public string FFM_VOYAGE01_CODE { get; set; }
         public string NAME { get; set; }
