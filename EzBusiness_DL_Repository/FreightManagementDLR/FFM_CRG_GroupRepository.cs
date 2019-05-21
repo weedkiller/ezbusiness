@@ -71,9 +71,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     DISPLAY_STATUS = dr["DISPLAY_STATUS"].ToString(),
                     NAME = dr["NAME"].ToString(),
                     VAT_CODE=dr["VAT_CODE"].ToString(),
-                    VAT_GL_CODE=dr["VAT_GL_CODE"].ToString()
-                    
-                  
+                    VAT_GL_CODE=dr["VAT_GL_CODE"].ToString()                                     
                 });
             }
             return ObjList; 
