@@ -1,0 +1,134 @@
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.FFM_PORT_VM
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+    $('.selectpicker').selectpicker('refresh');
+
+</script>
+<div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+    <div class="custom-form-wrapper">
+        <div id="POContainer">
+            <div class="row">
+                <div class="custom-form-wrapper">
+                    <!-- BEGIN FORM-->
+                    <div class="container" id="POListContainer">
+                        @*@Html.Action("GetInvtList", "SalesInovice")*@
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Row start -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">PORT_CODE</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.FFM_PORT_CODE, new { @class = "form-control", @placeholder = "Code" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">NAME</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.NAME, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">COUNTRY</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.DropDownListFor(m => m.COUNTRY, Model.CountryList, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">TERMINAL</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.TERMINAL, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">LANGITUDE</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.LANGITUDE, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">LATITUDE</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.LATITUDE, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">INV Type</label>
+                                                <div class="col-md-8 input-field">
+                                                    @{
+                                                        var TypeList = new SelectList(new[]
+                                                                 {
+                                                        new SelectListItem { Text = "YES", Value = "Y" },
+                                                        new SelectListItem { Text = "NO", Value = "NO"},
+                                                         }, "Value", "Text");
+                                                    }
+                                                    @Html.DropDownListFor(m => m.DISPLY_STATUS, TypeList, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+   
+
+
+

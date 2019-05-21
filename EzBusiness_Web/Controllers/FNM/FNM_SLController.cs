@@ -36,8 +36,8 @@ namespace EzBusiness_Web.Controllers.FNM
                 return View();
             }
         }
-
-        public ActionResult GetSupplier()
+        [Route("OprationalCustomer")]
+        public ActionResult FNMOprationalCustomer()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -46,7 +46,19 @@ namespace EzBusiness_Web.Controllers.FNM
             }
             else
             {
-                return PartialView(_FNM_SLService.GetFNM_SL(list[0].CmpyCode));
+                return View();
+            }
+        }
+        public ActionResult GetSupplier(string Sublesertype)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_FNM_SLService.GetFNM_SL(list[0].CmpyCode,Sublesertype));
             }
         }
 

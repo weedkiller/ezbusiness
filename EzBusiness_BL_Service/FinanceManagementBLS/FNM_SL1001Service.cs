@@ -79,9 +79,9 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
             }).ToList();
         }
 
-        public List<FNM_SL_VM> GetFNM_SL(string CmpyCode)
+        public List<FNM_SL_VM> GetFNM_SL(string CmpyCode, string SubledgerType)
         {
-            return _FNM_SL1001Rep.GetFNM_SL(CmpyCode).Select(m => new FNM_SL_VM
+            return _FNM_SL1001Rep.GetFNM_SL(CmpyCode, SubledgerType).Select(m => new FNM_SL_VM
             {
                 CMPYCODE = m.CMPYCODE,
                Address=m.Address,

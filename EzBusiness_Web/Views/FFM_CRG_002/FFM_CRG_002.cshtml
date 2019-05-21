@@ -1,0 +1,355 @@
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.FFM_CRG_002_VM
+
+@{
+    ViewBag.Title = "FFM_CRG_002";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        EzAuthentication("/CRG_002Master");
+        var drHtml = $("#DRContainer").html();
+        $("#DRListContainer1").hide();
+        function GetDrs() {
+            $.get("/FFM_CRG_002/GetFFMCRG_002", function (response) {
+                $("#DRListContainer").html(response);
+            });
+        }
+        $("#btnNew").click(function () {
+            debugger;
+            var n = EzAuthenticationBtn("/CRG_002Master", "NewIt");
+            if (n == 1) {
+                $("#editshow").hide();
+                $.get("FFM_CRG_002/AddFFM_CRG_002", function (response) {
+                    $("#DRContainer").html(response);
+                });
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
+                $("#btnEdit").prop("disabled", true);
+                $("#DRListContainer1").hide();
+            }
+        });
+        $(".alert-close").click(function () {
+            $("#editshow").hide();
+        });
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/CRG_002Master", "ViewIt");
+            if (n == 1) {
+                $(this).css("visibility", "hidden");
+                EzbtnEditAcVis();
+                $("#DRListContainer1").show();
+                GetDrs();
+                $("#editshow").show();
+            }
+        });
+
+        $("#btnCancel").click(function () {
+            $("#DRContainer").html(drHtml);
+            EzbtnCancelAcVis();
+            $("#DRListContainer1").hide();
+            $("#editshow").hide();
+        });
+
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/CRG_002Master", "DeleteIt");
+            if (n == 1) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+
+                        var FFM_CRG_JOB_CODE = $("[name*='FFM_CRG_JOB_CODE']").val();
+
+                        $.getJSON("/DeleteFFM_CRG_002", { FFM_CRG_JOB_CODE: FFM_CRG_JOB_CODE }).done(function (data) {
+                            if (data.DeleteFlag) {
+                                window.location = '/CRG_002Master'
+                            } else {
+                                EzAlertdele(FFM_CRG_JOB_CODE);
+                            }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Deleted!',
+                          'Your Code has been deleted.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                $("#editshow").hide();
+            }
+        });
+        $("#btnSave").click(function () {
+            debugger;
+            var n = EzAuthenticationBtn("/CRG_002Master", "EditIt");
+            var k = 0;
+            $("#editshow").hide();
+            var opMode = $("#hdnOperationMode").val();
+
+            if (opMode == "Add") {
+                // Code for Adding MainTable
+                var FFMCRG_002 = {
+                    EditFlag: false,
+                    FFM_CRG_JOB_CODE: $("[name*='FFM_CRG_JOB_CODE']").val(),
+                    NAME: $("[name*='NAME']").val(),
+                    DISPLAY_STATUS: $("input:radio[name=DISPLAY_STATUS]:checked").val(),
+                    INCOME_ACT: $("[name*='INCOME_ACT']").val(),
+                    EXPENSE_ACGT: $("[name*='EXPENSE_ACGT']").val(),
+                };
+
+
+
+                var validationResult = ValidateForm(FFMCRG_002)
+                if (validationResult.formValid) {
+                  
+                    $.post("/SaveFFM_CRG_002", FFMCRG_002).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+
+
+                            EzbtnsaveAcVis("#DRContainer");
+                            EzAlertSave();
+                            $("#DRContainer").html(drHtml);
+                            GetDrs();
+
+                        } else {
+                            // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
+                        }
+                    });
+
+                } else {
+                    //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+            } else if (opMode == "Edit" && n == 1) {
+                // Code for Adding Purchase order
+                var FFMCRG_002 = {
+                    EditFlag: true,
+                    FFM_CRG_JOB_CODE: $("[name*='FFM_CRG_JOB_CODE']").val(),
+                    NAME: $("[name*='NAME']").val(),
+                    DISPLAY_STATUS: $("input:radio[name=DISPLAY_STATUS]:checked").val(),
+                    INCOME_ACT: $("[name*='INCOME_ACT']").val(),
+                    EXPENSE_ACGT: $("[name*='EXPENSE_ACGT']").val(),
+                };
+
+
+
+                var validationResult = ValidateForm(FFMCRG_002);
+                if (validationResult.formValid) {
+
+                    $.post("/SaveFFM_CRG_002", FFMCRG_002).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            EzAlertSave();
+                            EzbtnsaveAcVis("#DRContainer");
+                            $("#DRContainer").html(drHtml);
+                            GetDrs();
+                        } else {
+                            EzAlerterrtxt(response.ErrorMessage);
+                        }
+                    });
+                } else {
+                    EzAlerterrtxt(validationResult.ErrorMessage);
+                }
+            }
+
+
+        });
+
+        function ValidateForm(FNMcurR) {
+
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+
+            if (FNMcurR.EditFlag == false) {
+                if (FNMcurR.FFM_CRG_JOB_CODE == '') {
+                    response.ErrorMessage += "Charge Group CODE ,";
+                }
+            } else if (FNMcurR.EditFlag == true) {
+                if (FNMcurR.FFM_CRG_JOB_CODE == '') {
+                    response.ErrorMessage += "Charge Group CODE ,";
+                }
+            }
+            if (FNMcurR.NAME == '') {
+                response.ErrorMessage += "NAME ,";
+            }
+
+
+
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+            else {
+                response.ErrorMessage = "Enter Mandatory fields " + response.ErrorMessage + "."
+            }
+
+            return response;
+        }
+
+        function parseDate(s) {
+            var b = s.split(/\D/);
+            return new Date(b[0], --b[1], b[2]);
+        }
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+        $(document).on("click", "#POList tbody tr", function () {
+            EzbtnEditAcVis();
+            var operationMode = $("#hdnOperationMode").val();
+            if (operationMode == "Edit") {
+                $("#POList > tbody").children().removeClass("active");
+                $(this).addClass("active");
+
+                var FFM_CRG_JOB_CODE = $(this).find("[name*='hdnFFM_CRG_JOB_CODE']").val();
+
+
+                $.get("EditFFM_CRG_002", { FFM_CRG_JOB_CODE: FFM_CRG_JOB_CODE }).done(function (response) {
+                    $("#DRContainer").html(response);
+
+                    //$("#btnDelete").prop("disabled", false);
+                    $("#btnDelete").css("visibility", "");
+
+                    $("#btnPrint").css("visibility", "hidden");
+                });
+            }
+        });
+
+
+
+        //    $("#btnPrint").click(function () {
+
+        //        var n = EzAuthenticationBtn("/ChargeGroup", "PrintIt");
+        //        if (n == 1) {
+        //            var code1 = $("[name*='Code']").val();
+        //            window.open("/AccountTypeReportForm/?code=" + code1 + "", '_blank');
+        //        }
+        //    });
+        //});
+    });
+</script>
+
+
+<style>
+    .top-buffer {
+        margin-top: 15px;
+    }
+
+    .fixed-width {
+        width: 100px;
+        float: left;
+    }
+
+    .fluid.row-fluid {
+        margin-right: 100px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .customSpace {
+        content: " ";
+        display: inline-block;
+        width: 40px;
+    }
+
+    div.scroll {
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+    }
+
+    .contro {
+        width: 13em;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
+
+        <div class="title-action">
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
+
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
+
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+            <button class="btn btn-info btn1" id="btnPrint" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
+            <input type="hidden" id="hdnOperationMode" value="" />
+
+        </div>
+    </div>
+
+</div><hr />
+<!-- Row end -->
+<!-- Row start -->
+<div class="row">
+    <!--updated code-->
+
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary panl">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;">
+                <label class="row" id="ErrorMessage" style="display:none"></label>
+                <div class="tabbable-line boxless tabbable-reversed" id="DRContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="DRContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="form-horizontal">
+                                        <div class="form-body">
+                                            <div class="container" id="DRListContainer">
+                                                @Html.Action("GetFFMCRG_002", "FFM_CRG_002")
+                                            </div>
+
+                                        </div>
+                                    </div><br />
+                                    <!-- END FORM-->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase Request List Start-->
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
+
+
+</div>
+
+
+

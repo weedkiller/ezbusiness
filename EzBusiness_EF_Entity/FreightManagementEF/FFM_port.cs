@@ -12,6 +12,8 @@ namespace EzBusiness_EF_Entity.FreightManagementEF
         public string CREATED_BY { get; set; }
         public DateTime CREATED_ON { get; set; }
         public string UPDATED_BY { get; set; }
+        public decimal LATITUDE { get; set; }
+        public decimal LANGITUDE { get; set; }
         public DateTime UPDATED_ON { get; set; }
         public string FFM_PORT_CODE { get; set; }
         public string NAME { get; set; }
