@@ -18,10 +18,9 @@ namespace EzBusiness_Web.Controllers.FNM
         public FNM_SLController()
         {
             _FNM_SLService = new FNM_SL1001Service();
-
         }
 
-        #region  FNMSupplier Master
+       #region  FNMSupplier Master
       //  [Route("SubLedgre")]
         [Route("subledger")]
         public ActionResult FNMSupplier()
@@ -33,7 +32,7 @@ namespace EzBusiness_Web.Controllers.FNM
             }
             else
             {
-                return View();
+               return View();
             }
         }
         [Route("OprationalCustomer")]

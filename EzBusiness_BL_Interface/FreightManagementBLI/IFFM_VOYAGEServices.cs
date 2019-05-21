@@ -17,5 +17,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
         FFM_VOYAGE_VM EditVoyagMaster(string CmpyCode, string VyogCode);
         FFM_VOYAGE_VM AddVoyageMaster(string CmpyCode);
         bool DeleteVoyagMaster(string CmpyCode, string VoyageCode, string UserName);
+
+        string GetNameByVessalCode(string VessalCode,string cmpyCode);
     }
 }

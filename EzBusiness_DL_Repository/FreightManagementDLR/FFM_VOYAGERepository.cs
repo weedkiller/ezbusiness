@@ -250,7 +250,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         {
             return drop.GetVessalCode(CmpyCode);
         }
-
+        public List<FFM_PORT> GetPortList(string CmpyCode)
+        {
+            return drop.GetPortList(CmpyCode);
+        }
         public FFM_VOYAGE_VM EditVoyagMaster(string CmpyCode, string vyogcode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("select * from FFM_VOYAGE01 yg1  where yg1.cmpycode='" + CmpyCode + "' and yg1.FFM_VOYAGE01_CODE='" + vyogcode + "' and Flag=0");
@@ -308,6 +311,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 return true;
             }
             return false;
+        }
+
+        public string GetNameByVessalCode(string VessalCode,string cmpyCode)
+        {
+            string VessalName = _EzBusinessHelper.ExecuteScalarS("select Name from FFM_VESSEL where CmpyCode='"+ cmpyCode + "' and  FFM_VESSEL_CODE='"+VessalCode+"' and Flag1=0");
+            return VessalName;
         }
     }
 

@@ -31,6 +31,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         //  public string DISPLAY_STATUS { get; set; }
         public Int64 PortStayhrs { get; set; }
         public List<SelectListItem> VessalCodeList { get; set; }
+        public List<SelectListItem> PortList { get; set; }
         public Int64 Sailinghrs { get; set; }
         public bool SaveFlag { get; set; }
         public bool EditFlag { get; set; }

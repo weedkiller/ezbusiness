@@ -14,8 +14,10 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
         List<FFM_VOYAGE_VM> GetFFM_VoYAGEAList(string CMPYCODE);
         FFM_VOYAGE_VM SaveFFM_Voyage(FFM_VOYAGE_VM FCur);
         List<FFM_VESSEL> GetVessalCode(string CmpyCode);
+        List<FFM_PORT> GetPortList(string CmpyCode);
         FFM_VOYAGE_VM EditVoyagMaster(string CmpyCode, string vyogcode);
         List<FFM_VOYAGEA> GetVayogeDetailList(string CmpyCode, string VyogCode);
         bool DeleteVoyagMaster(string CmpyCode, string Voyage, string UserName);
+        string GetNameByVessalCode(string VessalCode, string cmpyCode);
     }
 }
