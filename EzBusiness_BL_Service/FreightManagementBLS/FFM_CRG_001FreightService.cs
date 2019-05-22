@@ -6,7 +6,7 @@ using EzBusiness_DL_Interface.FreightManagementDLI;
 using EzBusiness_DL_Repository.FreightManagementDLR;
 using EzBusiness_ViewModels.Models.FreightManagement;
 using EzBusiness_ViewModels;
-
+using EzBusiness_EF_Entity.FreightManagementEF;
 
 namespace EzBusiness_BL_Service.FreightManagementBLS
 {
@@ -23,16 +23,32 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             return _FFMCRGRepo.DeleteFFM_CRG_001(CmpyCode, FFM_CRG_001_CODE,  UserName);
         }
 
-        public FFM_CRG_001_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE)
+        public FFM_CRG_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE)
         {
             var FFM_CRG_001Edit = _FFMCRGRepo.EditFM_CRG_001(CmpyCode, FFM_CRG_001_CODE);
             FFM_CRG_001Edit.CRG_GROUP_CODEList = GetCRG_Group(CmpyCode);
+            FFM_CRG_001Edit.crgnewDetails=GetCRGDetailList(CmpyCode, FFM_CRG_001_CODE);
             return FFM_CRG_001Edit;
         }
-
-        public FFM_CRG_001_VM FM_CRG_001AddNew(string CmpyCode)
+        public List<FFM_CRG_Details> GetCRGDetailList(string CmpyCode, string FFM_CRG_001_CODE)
         {
-            return new FFM_CRG_001_VM
+            var povoyagList = _FFMCRGRepo.GetCRGDetailList(CmpyCode, FFM_CRG_001_CODE);
+            return povoyagList.Select(m => new FFM_CRG_Details
+            {
+                SNO = m.SNO,
+                FFM_CRG_JOB_CODE = m.FFM_CRG_JOB_CODE,
+                FFM_CRG_JOB_NAME = m.FFM_CRG_JOB_NAME,
+                OPERATION_TYPE = m.OPERATION_TYPE,
+                INCOME_ACT = m.INCOME_ACT,
+                EXPENSE_ACGT = m.EXPENSE_ACGT,
+                FFM_CRG_001_CODE = m.FFM_CRG_001_CODE,
+              //  SailingHrs = m.SailingHrs,
+
+            }).ToList();
+        }
+        public FFM_CRG_VM FM_CRG_001AddNew(string CmpyCode)
+        {
+            return new FFM_CRG_VM
             {
                 CRG_GROUP_CODEList = GetCRG_Group(CmpyCode),
                 
@@ -59,9 +75,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             return items;
         }
 
-        public List<FFM_CRG_001_VM> GetFFM_CRG_001(string CmpyCode)
+        public List<FFM_CRG_VM> GetFFM_CRG_001(string CmpyCode)
         {
-            return _FFMCRGRepo.GetFFM_CRG_001(CmpyCode).Select(m => new FFM_CRG_001_VM
+            return _FFMCRGRepo.GetFFM_CRG_001(CmpyCode).Select(m => new FFM_CRG_VM
             {
                 CMPYCODE = m.CMPYCODE,
                 FFM_CRG_001_CODE = m.FFM_CRG_001_CODE,
@@ -71,7 +87,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             }).ToList();
         }
 
-        public FFM_CRG_001_VM SaveFFM_CRG_001(FFM_CRG_001_VM CR)
+        public FFM_CRG_VM SaveFFM_CRG_001(FFM_CRG_VM CR)
         {
             return _FFMCRGRepo.SaveFM_CRG_001(CR);
         }
