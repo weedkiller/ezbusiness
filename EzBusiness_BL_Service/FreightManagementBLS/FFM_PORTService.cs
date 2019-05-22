@@ -50,6 +50,7 @@ namespace EzBusiness_BL_Service
                 TERMINAL = m.TERMINAL,
                 LANGITUDE=m.LANGITUDE,
                 LATITUDE=m.LATITUDE,
+                PortType=m.PORT_Type,
                 DISPLY_STATUS = m.DISPLY_STATUS,
                 CountryList = GetCountryList(CmpyCode),
                 
