@@ -19,10 +19,20 @@
             });
         }
         $("#btnNew").click(function () {
+
+            
+
             var n = EzAuthenticationBtn("/OprationalCustomer", "NewIt");
             if (n == 1) {
                 $("#editshow").hide();
-                $.get("FNM_SL/AddSupplier", function (response) {
+
+                var SUBLEDGER_TYPE = '';
+                var path = $("#hdnpath").val();
+                if (path == "<li>Finance Management</li><li>Operational Customers</li><li>SubLedger</li>") {
+                    SUBLEDGER_TYPE = "OP"
+                }
+                debugger;
+                $.get("FNM_SL/AddSupplier", {type1 : SUBLEDGER_TYPE }, function (response) {
                     $("#DRContainer").html(response);
                 });
                 $(this).css("visibility", "hidden");

@@ -47,17 +47,94 @@
 
             index3 = index3 + 1;
         });
+        var counter = $("#Counter").val();
+        $("#tablePODetails").on("change", "[name*='txtRotation']", function () {
+            debugger;
+
+            //Ezdteformtcurtime();
+            //$(".time1").datetimepicker("destroy");
+            tbldtpicker();
+            $(".datepicker").datetimepicker("destroy");
+            var tr = $(this).closest('tr');
+            var tcunt = $("#tablePODetails").find("tr").length;
+            drec = [];
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtRotation']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'txtRotation']").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'txtRotation']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtRotation']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtRotation']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'txtRotation']").val('');
+
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tableMetaSettings tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tblcntr1 tbody tr:nth-last-child(2)");
+                    $(this).closest('tr').next('tr').find("[name*='txtsrno']").val(tcunt);
+                    $(this).closest('tr').next('tr').find("[name*='txtRotation']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtport'] option:selected").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtETA']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtETAB']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtETD']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtPortStayhrs']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtSailinghrs']").val('');
+                    trLast.find("[name *= 'txtsrno']").attr({
+                        "name": ("txtsrno" + counter)
+                    });
+                    trLast.find("[name *= 'txtRotation']").attr({
+                        "name": ("txtRotation" + counter)
+                    });
+                    trLast.find("[name *= 'txtport'] option:selected").attr({
+                        "name": ("txtport" + counter)
+                    });
+                    trLast.find("[name *= 'txtETA']").attr({
+                        "name": ("txtETA" + counter)
+                    });
+                    trLast.find("[name *= 'txtETAB']").attr({
+                        "name": ("txtETAB" + counter)
+                    });
+                    trLast.find("[name *= 'txtETD']").attr({
+                        "name": ("txtETD" + counter)
+                    });
+                    trLast.find("[name *= 'txtPortStayhrs']").attr({
+                        "name": ("txtPortStayhrs" + counter)
+                    });
+                    trLast.find("[name *= 'txtSailinghrs']").attr({
+                        "name": ("txtSailinghrs" + counter)
+                    });
+
+                    trLast.find(":first").text(counter);
+                }
+            }
+            counter++;
+        });
         $('body').on('focusin', '.datepicker', function () {
-
-            // var myDate = new Date(2012, 2, 11);
-
-            // $('#startdate').datetimepicker("setDate", myDate);
             $('.datepicker').datetimepicker({
                 // defaultDate: new Date(),
                 format: 'DD/MM/YYYY',
                 showClose: true,
                 showClear: true,
+            });
 
+        });
+
+        $('body').on('focusin', '.time1', function () {
+            $('.time1').datetimepicker({
+                //defaultDate: new Date(),
+                format: 'LT',
+                showClose: true,
+                showClear: true,
             });
 
         });
@@ -171,7 +248,7 @@
                     <tr>
                         <td>
                             <div class="grid-group">
-                                @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control"})
+                                @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control", @readonly = "readonly" })
                                 @Html.Hidden(string.Concat("hdnSNO", counter), item.SNO)
                             </div>
                         </td>
@@ -209,13 +286,13 @@
 
                         <td>
                             <div class="grid-group">
-                                @Html.TextBox(string.Concat("PortStayHours", counter), null, new { @class = "grid-control" })
+                                @Html.TextBox(string.Concat("PortStayHours", counter), null, new { @class = "grid-control", @Type = "Number" })
                                 @Html.Hidden(string.Concat("hdnPortStayHourse", counter), item.PortStayHours)
                             </div>
                         </td>
                         <td>
                             <div class="grid-group">
-                                @Html.TextBox(string.Concat("SailingHrs", counter), null, new { @class = "grid-control" })
+                                @Html.TextBox(string.Concat("SailingHrs", counter), null, new { @class = "grid-control", @Type = "Number" })
                                 @Html.Hidden(string.Concat("hdnSailingHrs", counter), item.SailingHrs)
                             </div>
                         </td>
@@ -229,7 +306,7 @@
 
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control" })
+                            @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control", @readonly = "readonly" })
                         </div>
                     </td>
                     <td>
@@ -267,13 +344,13 @@
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("PortStayhrs", counter), null, new { @class = "grid-control" })
-                            @Html.TextBoxFor(m => m.PortStayhrs, new { @class = "grid-control" })
+                            @Html.TextBox(string.Concat("PortStayhrs", counter), null, new { @class = "grid-control", @Type="Number" })
+                         
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("Sailinghrs", counter), null, new { @class = "grid-control" })
+                            @Html.TextBox(string.Concat("Sailinghrs", counter), null, new { @class = "grid-control", @Type = "Number" })
                             @*@Html.TextBoxFor(m => m.Sailinghrs, new { @class = "grid-control", @Readonly = "Readonly" })*@
                         </div>
                     </td>

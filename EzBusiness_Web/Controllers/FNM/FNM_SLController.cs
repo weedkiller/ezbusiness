@@ -90,7 +90,7 @@ namespace EzBusiness_Web.Controllers.FNM
             }
         }
 
-        public ActionResult AddSupplier()
+        public ActionResult AddSupplier(string type1)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -99,7 +99,7 @@ namespace EzBusiness_Web.Controllers.FNM
             }
             else
             {
-                return PartialView(_FNM_SLService.GetFNM_SLAddNew(list[0].CmpyCode));
+                return PartialView(_FNM_SLService.GetFNM_SLAddNew(list[0].CmpyCode, type1));
             }
         }
 
