@@ -805,7 +805,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                 }
             } else {
                 var title = '';//$(this).text();
-                jq(this).html('<input type="text"  placeholder="Search ' + title + '" style="Width:100px;border-radius:5px;" />');
+                jq(this).html('<input type="text"  placeholder="Search ' + title + '" style="border-radius:5px;" />');
             }
         });
 
@@ -817,8 +817,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
         var tableInstance = jq(ide).DataTable({
             "paging": true,
             "ordering": true,
-            "info": true,
-           // "scrollX": true,
+            "info": true
           
         });
 

@@ -98,7 +98,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         NAME = m.NAME,
                         //Equals = m.Equals,
                         DISPLY_STATUS = m.DISPLY_STATUS,
-                        COUNTRY=m.COUNTRY,
+                        COUNTRY = m.COUNTRY,
 
                     }).ToList());
                     int n = 0;
@@ -135,10 +135,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             fpk.SaveFlag = false;
                             fpk.ErrorMessage = "Duplicate Record";
                         }
-                      
+
                     }
                     return fpk;
-               
+                }
                 var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FFM_PORT where FFM_PORT_CODE='" + fpk.FFM_PORT_CODE + "'and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and 
                 if (StatsEdit != 0)
                 {
