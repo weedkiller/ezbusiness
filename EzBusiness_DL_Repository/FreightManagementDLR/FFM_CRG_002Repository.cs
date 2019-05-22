@@ -92,12 +92,17 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         StringBuilder sb = new StringBuilder();
                         sb.Append("'" + ac.CMPYCODE + "',");
 
-                        sb.Append("'" + ac.FFM_CRG_JOB_CODE + "',");
+                        //sb.Append("'" + ac.FFM_CRG_JOB_CODE + "',");
+                        //sb.Append("'" + ac.FFM_CRG_JOB_NAME + "',");
+                        //sb.Append("'" + ac.OPERATION_TYPE + "',");
                         sb.Append("'" + ac.DISPLAY_STATUS + "',");
-                        sb.Append("'" + ac.NAME + "',");
                         sb.Append("'" + ac.INCOME_ACT + "',");
+                        
                         sb.Append("'" + ac.EXPENSE_ACGT + "')");
-                       
+
+
+
+
 
                         _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(CMPYCODE,FFM_CRG_JOB_CODE,DISPLAY_STATUS,NAME,INCOME_ACT,EXPENSE_ACGT) values(" + sb.ToString() + "");
 

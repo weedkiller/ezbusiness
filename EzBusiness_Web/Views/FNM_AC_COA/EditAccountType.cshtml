@@ -15,8 +15,37 @@
         $('.selectpicker').selectpicker('refresh');
 
 
-       
 
+        if ($("input:radio[name=PL_BS]:checked").val() == 'P') {
+            $('#rdbl1').text("Expenses");
+            $('#rdbl2').text("Income");
+        }
+        else {
+            debugger;
+            $('#rdbl1').text("Asset");
+            $('#rdbl2').text("Liability");
+            if ($('input:hidden[name=NATURE]').val() == 'A') {
+              
+                $('input[name="NATURE"]').filter("[value='E']").attr('checked', true);
+            }
+            else
+            {
+                $('input[name="NATURE"]').filter("[value='I']").attr('checked', true);
+                }
+            
+        }
+
+       
+        $('input[type=radio][name=PL_BS]').change(function () {
+            if (this.value == 'P') {
+                $('#rdbl1').text("Expenses");
+                $('#rdbl2').text("Income");
+            }
+            else if (this.value == 'B') {
+                $('#rdbl1').text("Assets");
+                $('#rdbl2').text("Liability");
+            }
+        });
 
         //$('.selectpicker').selectpicker({
         //    style: 'btn-info',
@@ -39,8 +68,8 @@
 
     <div class="col-md-12 no-padding navbar-expand-lg">
 
-
-
+        @Html.HiddenFor(m => m.NATURE )
+        
         <div class="panel-body" style="margin-left:10px;">
             <div class="tabbable-line boxless tabbable-reversed" id="DRContainer">
                 <div class="custom-form-wrapper">
@@ -188,10 +217,10 @@
                                                     <label class="control-label col-md-3">Nature</label>
                                                     <div class="col-md-9 input-field">
                                                         <label class="radio-inline" checked="checked">
-                                                            @Html.RadioButtonFor(m => m.NATURE, "D", new { @checked = "checked" }) Expenses
+                                                            @Html.RadioButtonFor(m => m.NATURE, "E", new { @checked = "checked" })<label id="rdbl1">Expenses</label>
                                                         </label>
                                                         <label class="radio-inline">
-                                                            @Html.RadioButtonFor(m => m.NATURE, "C") Income
+                                                            @Html.RadioButtonFor(m => m.NATURE, "I") <label id="rdbl2">Income</label>
                                                         </label>
                                                     </div>
                                                 </div>

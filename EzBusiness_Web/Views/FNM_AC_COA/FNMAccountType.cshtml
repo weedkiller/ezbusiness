@@ -101,6 +101,18 @@
             var k = 0;
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
+            var nat = '';
+            if ($("input:radio[name=PL_BS]:checked").val() == 'B')
+            {
+                if($("input:radio[name=NATURE]:checked").val()=='E')
+                {
+                    nat = 'A';
+                } else {
+                    nat = 'L';
+                }
+            } else {
+                nat = $("input:radio[name=NATURE]:checked").val();
+            }
 
             if (opMode == "Add") {
                 // Code for Adding MainTable
@@ -116,7 +128,7 @@
                     SUBLEDGER_CAT: $("[name*='SUBLEDGER_CAT'] option:selected").val(),
                     MASTER_STATUS: $("input:radio[name=MASTER_STATUS]:checked").val(),
                     NOTE: $("[name*='NOTE']").val(),
-                    NATURE: $("input:radio[name=NATURE]:checked").val(),
+                    NATURE: nat,//$("input:radio[name=NATURE]:checked").val(),
                     PL_BS: $("input:radio[name=PL_BS]:checked").val(),
                    
                 };
@@ -159,7 +171,7 @@
                         SUBLEDGER_CAT: $("[name*='SUBLEDGER_CAT'] option:selected").val(),
                         MASTER_STATUS: $("input:radio[name=MASTER_STATUS]:checked").val(),
                         NOTE: $("[name*='NOTE']").val(),
-                        NATURE: $("input:radio[name=NATURE]:checked").val(),
+                        NATURE: nat,//$("input:radio[name=NATURE]:checked").val(),
                         PL_BS: $("input:radio[name=PL_BS]:checked").val()
 
                 };
