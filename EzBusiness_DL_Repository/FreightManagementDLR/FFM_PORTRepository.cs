@@ -34,21 +34,27 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public FFM_PORT_VM EditFFM_PORT(string CmpyCode, string FFM_PORT_CODE)
         {
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            FFM_PORT_VM ObjList = new FFM_PORT_VM();
-            foreach (DataRow dr in drc)
+            ds = _EzBusinessHelper.ExecuteDataSet("select CMPYCODE,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,FFM_PORT_CODE,NAME,COUNTRY,TERMINAL,LATITUDE,LANGITUDE,DISPLY_STATUS from FFM_PORT where FFM_PORT_CODE='" + FFM_PORT_CODE + "' and Flag=0");
+            FFM_PORT_VM ObjList = null;
+            if (ds.Tables.Count > 0)
             {
-                ObjList.FFM_PORT_CODE = dr["FFM_PORT_CODE"].ToString();
-                ObjList.NAME = dr["NAME"].ToString();
-                ObjList.CMPYCODE = dr["CMPYCODE"].ToString();
-                ObjList.COUNTRY = dr["COUNTRY"].ToString();
-                ObjList.UPDATED_BY = dr["UPDATED_BY"].ToString();
-                ObjList.UPDATED_ON = Convert.ToDateTime(dr["UPDATED_ON"].ToString());
-                ObjList.CREATED_BY = dr["CREATED_BY"].ToString();
-                ObjList.CREATED_ON = Convert.ToDateTime(dr["CREATED_ON"].ToString());
-                ObjList.DISPLY_STATUS = dr["DISPLY_STATUS"].ToString();
-                ObjList.TERMINAL = dr["TERMINAL"].ToString();
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                ObjList = new FFM_PORT_VM();
+                foreach (DataRow dr in drc)
+                {
+                    ObjList.FFM_PORT_CODE = dr["FFM_PORT_CODE"].ToString();
+                    ObjList.NAME = dr["NAME"].ToString();
+                    ObjList.CMPYCODE = dr["CMPYCODE"].ToString();
+                    ObjList.COUNTRY = dr["COUNTRY"].ToString();
+                    ObjList.UPDATED_BY = dr["UPDATED_BY"].ToString();
+                    ObjList.UPDATED_ON = Convert.ToDateTime(dr["UPDATED_ON"].ToString());
+                    ObjList.CREATED_BY = dr["CREATED_BY"].ToString();
+                    ObjList.CREATED_ON = Convert.ToDateTime(dr["CREATED_ON"].ToString());
+                    ObjList.DISPLY_STATUS = dr["DISPLY_STATUS"].ToString();
+                    ObjList.TERMINAL = dr["TERMINAL"].ToString();
+                }
+               
             }
             return ObjList;
         }

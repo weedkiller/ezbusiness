@@ -26,7 +26,9 @@ namespace EzBusiness_BL_Service
 
         public FFM_PORT_VM EditFFM_PORT(string CmpyCode, string FFM_PORT_CODE)
         {
-            return _FFM_PORTRepo.EditFFM_PORT(CmpyCode, FFM_PORT_CODE);
+            var FFM_PORTEdit = _FFM_PORTRepo.EditFFM_PORT(CmpyCode, FFM_PORT_CODE);
+            FFM_PORTEdit.CountryList = GetCountryList(CmpyCode);
+            return FFM_PORTEdit;
         }
         public FFM_PORT_VM NewFFM_PORT(string CmpyCode)
         {
