@@ -21,7 +21,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string LATITUDE { get; set; }
         public string LANGITUDE { get; set; }
         public string DISPLY_STATUS { get; set; }
-        public List< SelectListItem> CountryList { get; set; }
+        public List<SelectListItem> CountryList { get; set; }
         public bool SaveFlag { get; set; }
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
