@@ -132,7 +132,7 @@
                     LATITUDE: $('#LATITUDE').val(),
                     LANGITUDE: $('#LANGITUDE').val(),
                     DISPLY_STATUS: $("#DISPLY_STATUS option:selected").val(),
-
+                    PortType: $("#PortType option:selected").val()
                 };
 
 
@@ -161,7 +161,7 @@
             } else if (opMode == "Edit") {            
 
                 var fpk = {
-                    EditFlag: false,
+                    EditFlag: true,
                     FFM_PORT_CODE: $('#FFM_PORT_CODE').val(),
                     NAME: $('#NAME').val(),
                     COUNTRY: $("#COUNTRY option:selected").val(),
@@ -169,12 +169,12 @@
                     LATITUDE: $('#LATITUDE').val(),
                     LANGITUDE: $('#LANGITUDE').val(),
                     DISPLY_STATUS: $("#DISPLY_STATUS option:selected").val(),
-
+                    PortType: $("#PortType option:selected").val()
                 };
 
 
 
-                var validationResult = ValidateForm(sales);
+                var validationResult = ValidateForm(fpk);
                 if (validationResult.formValid) {
                     $.ajax({
                         async: false,
@@ -196,16 +196,7 @@
                 } else {
                     EzAlerterrtxt(validationResult.ErrorMessage);
                 }
-
-
-
-
-
-
-
             }
-
-
         });
        
 

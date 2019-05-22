@@ -13,7 +13,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
     public class FFM_PORTController : Controller
     {
         // GET: FFM_PORT
-        FFM_PORTService _fpService;
+        IFFM_PORTService _fpService;
 
         public FFM_PORTController()
         {

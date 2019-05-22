@@ -19,6 +19,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF
         public string NAME { get; set; }
         public string COUNTRY { get; set; }
         public string TERMINAL { get; set; }
+        public string PORT_Type { get; set; }
         public string DISPLY_STATUS { get; set; }
     }
 }
