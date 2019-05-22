@@ -22,7 +22,7 @@
             debugger;
             var counter = $("#Counter").val();
             var tr = $(this).closest('tr');
-
+            var tcunt = $("#tablePODetails").find("tr").length;
             drec = [];
             $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -47,16 +47,21 @@
                     var trLast = $("#tableMetaSettings tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tblcntr1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtsrno']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtsrno']").val(tcunt);
                     $(this).closest('tr').next('tr').find("[name*='txtRotation']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtport']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtport'] option:selected").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtETA']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtETAB']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtETD']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtPortStayhrs']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='txtSailinghrs']").val('');
                     trLast.find("[name *= 'txtsrno']").attr({
                         "name": ("txtsrno" + counter)
                     });
                     trLast.find("[name *= 'txtRotation']").attr({
                         "name": ("txtRotation" + counter)
                     });
-                    trLast.find("[name *= 'txtport']").attr({
+                    trLast.find("[name *= 'txtport'] option:selected").attr({
                         "name": ("txtport" + counter)
                     });
                     trLast.find("[name *= 'txtETA']").attr({
@@ -155,7 +160,13 @@
                 //$("[name*='ContractAmountYearly']").val(sum1);
             }
 
-
+            $("#FFM_VESSEL_CODE").change(function () {
+                debugger;
+                var VessalCode = $("#FFM_VESSEL_CODE option:selected").val();
+                $.get("GetNameByVessalCode", { VessalCode: VessalCode }).done(function (response) {
+                    $("#NAME").val(response.Vessalname);
+                });
+            });
             $('.selectpicker').selectpicker({
                 style: 'btn-info',
                 size: 4,
@@ -184,7 +195,7 @@
                                         <input type="hidden" id="joindate" />
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Vessal Code</label>
+                                                <label class="control-label col-md-3">Vessal Code<i class="star">*</i></label>
                                                 <div class="col-md-8 input-field">
                                                     @Html.DropDownListFor(m => m.FFM_VESSEL_CODE, Model.VessalCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                                 </div>
@@ -195,7 +206,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Name</label>
                                                 <div class="col-md-8">
-                                                    @Html.TextBoxFor(m => m.NAME, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                    @Html.TextBoxFor(m => m.NAME, new { @class = "form-control", @data_live_search = "true"})
                                                 </div>
                                             </div>
                                         </div>
@@ -205,9 +216,9 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-md-3">Voyage Code</label>
+                                                <label class="control-label col-md-3">Voyage Code<i class="star">*</i></label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.FFM_VOYAGE01_CODE, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                    @Html.TextBoxFor(m => m.FFM_VOYAGE01_CODE, new { @class = "form-control", @data_live_search = "true" })
                                                 </div>
                                             </div>
                                         </div>
@@ -216,7 +227,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Display Status</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.DropDownList(string.Concat("txtdisplaystatus", counter), new List<SelectListItem> { new SelectListItem { Text = "Yes", Value = "Y" }, { new SelectListItem { Text = "No", Value = "N" } } }, new { @class = "grid-control" })
+                                                    @Html.DropDownList(string.Concat("txtdisplaystatus", counter), new List<SelectListItem> { new SelectListItem { Text = "Yes", Value = "Y" }, { new SelectListItem { Text = "No", Value = "N" } } }, new { @class = "selectpicker form-control" })
                                                 </div>
                                             </div>
                                         </div>
@@ -234,12 +245,12 @@
                                 <div class="tab-content">
                                     <div id="home" class="tab-pane fade in active">
                                         <br /><br />
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div style="overflow-x:auto;">
-                                                    <table class="table table-bordered table-sm" id="tablePODetails">
+                                      
+                                            <div class="col-md-12 table-responsive">
+                                               
+                                                    <table class="table table-bordered stripe display hover" id="tablePODetails">
                                                         <thead>
-                                                            <tr>
+                                                            <tr class="tr">
                                                                 <th> Sr.No </th>
                                                                 <th>Rotation</th>
                                                                 <th>Port</th>
@@ -251,11 +262,12 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                            @{int RowNo = 1;}
                                                             <tr>
                                                                
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtsrno", counter), null, new { @class = "grid-control" })
+                                                                        @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control" })
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -265,7 +277,9 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control " })
+                                                                        @*@Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control " })*@
+                                                                        @Html.DropDownList(string.Concat("txtport", counter), Model.PortList, new { @class = "grid-control" })
+                                                                        @*@Html.DropDownListFor(m => m.PORT, Model.PortList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -300,13 +314,13 @@
                                                                     <th class="id1"></th>
                                                                     <th class="id1"></th>
                                                                     <th class="id1"></th>
-                                                                </tr>*@*
+                                                                </tr>*@
                                                         </tbody>
                                                     </table>
-                                                </div>
+                                               
                                             </div>
 
-                                        </div>
+                                       
                                     </div>
 
                                 </div>

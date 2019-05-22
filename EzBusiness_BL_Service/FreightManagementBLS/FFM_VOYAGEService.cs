@@ -49,6 +49,13 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                                         .ToList();
             return InsertFirstElementDDL(CurrencyList);
         }
+        public List<SelectListItem> GetPortList(string CmpyCode)
+        {
+            var CurrencyList = _FFM_VOYEGERepo.GetPortList(CmpyCode)
+                                        .Select(m => new SelectListItem { Value = m.FFM_PORT_CODE, Text = string.Concat(m.FFM_PORT_CODE, " - ", m.NAME) })
+                                        .ToList();
+            return InsertFirstElementDDL(CurrencyList);
+        }
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
         {
             items.Insert(0, new SelectListItem
@@ -64,6 +71,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
           
             var poEdit = _FFM_VOYEGERepo.EditVoyagMaster(CmpyCode,VyogCode);
             poEdit.VessalCodeList = GetVessalCode(CmpyCode);
+            poEdit.PortList = GetPortList(CmpyCode);
             poEdit.newdetails = GetVayogeDetailList(CmpyCode, VyogCode);   
             return poEdit;    
         }
@@ -98,13 +106,18 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             return new FFM_VOYAGE_VM
             {
                 VessalCodeList = GetVessalCode(CmpyCode),
-                
+                PortList=GetPortList(CmpyCode),
             };
         }
 
         public bool DeleteVoyagMaster(string CmpyCode, string VoyageCode, string UserName)
         {
             return _FFM_VOYEGERepo.DeleteVoyagMaster(CmpyCode, VoyageCode, UserName);
+        }
+
+        public string GetNameByVessalCode(string VessalCode, string cmpyCode)
+        {
+            return _FFM_VOYEGERepo.GetNameByVessalCode(VessalCode, cmpyCode);
         }
     }
     

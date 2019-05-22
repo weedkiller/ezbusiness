@@ -118,6 +118,20 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(new { DeleteFlag = _FFMVoyagServices.DeleteVoyagMaster(list[0].CmpyCode, Voyagecode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [Route("GetNameByVessalCode")]
+        public ActionResult GetNameByVessalCode(string VessalCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+               
+             return Json(new {Vessalname = _FFMVoyagServices.GetNameByVessalCode(VessalCode,list[0].CmpyCode) }, JsonRequestBehavior.AllowGet);
+              
+            }
+        }
     }
 }
