@@ -1,4 +1,4 @@
-﻿@model EzBusiness_ViewModels.Models.FreightManagement.FFM_CRG_001_VM
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.FFM_CRG_VM
 
 
 @{
@@ -14,17 +14,84 @@
 <script>
     $(function () {
         arr1 = [];
-
-
-        
         $('.selectpicker').selectpicker('refresh');
-        
 
+
+        $("#tablePODetails").each(function (index3, item) {
+            debugger;
+            $("[name*='SNO" + (index3 + 1) + "']").val($("[name*='hdnSNO" + (index3 + 1) + "']").val());
+            $("[name*='FFM_CRG_JOB_CODE" + (index3 + 1) + "']").val($("[name*='hdnFFM_CRG_JOB_CODE" + (index3 + 1) + "']").val());
+            $("[name*='FFM_CRG_JOB_NAME" + (index3 + 1) + "']").val($("[name*='hdnFFM_CRG_JOB_NAME" + (index3 + 1) + "']").val());
+            $("[name*='OPERATION_TYPE" + (index3 + 1) + "']").val($("[name*='hdnOPERATION_TYPE" + (index3 + 1) + "']").val());
+           
+            $("[name*='INCOME_ACT" + (index3 + 1) + "']").val($("[name*='hdnINCOME_ACT" + (index3 + 1) + "']").val());
+            // $("[name*='IssuePlace" + (index3 + 1) + "']").val($("[name*='hdnIssuePlace" + (index3 + 1) + "']").val());
+            // $("[name*='DocumentPath" + (index3 + 1) + "']").val($("[name*='SourceFile" + (index3 + 1) + "']").prop('defaultValue'));
+            $("[name*='EXPENSE_ACGT" + (index3 + 1) + "']").val($("[name*='hdnEXPENSE_ACGT" + (index3 + 1) + "']").val());
+
+            index3 = index3 + 1;
+        });
+
+        $("#tablePODetails").on("change", "[name*='FFM_CRG_JOB_CODE']", function () {
+            debugger;
+            var counter = 1;
+            var tr = $(this).closest('tr');
+            var tcunt = $("#tablePODetails").find("tr").length;
+            drec = [];
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'FFM_CRG_JOB_CODE']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE']").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'FFM_CRG_JOB_CODE']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'FFM_CRG_JOB_CODE']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'FFM_CRG_JOB_CODE']").val('');
+
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tableMetaSettings tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tblcntr1 tbody tr:nth-last-child(2)");
+                    $(this).closest('tr').next('tr').find("[name*='SNO']").val(tcunt);
+                    $(this).closest('tr').next('tr').find("[name*='FFM_CRG_JOB_CODE']").val(tcunt);
+                    $(this).closest('tr').next('tr').find("[name*='FFM_CRG_JOB_NAME']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='OPERATION_TYPE']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='INCOME_ACT']").val('');
+                    $(this).closest('tr').next('tr').find("[name*='EXPENSE_ACGT']").val('');
+                  //  $(this).closest('tr').next('tr').find("[name*='txtexpenceacgt']").val('');
+                    trLast.find("[name *= 'SNO']").attr({
+                        "name": ("SNO" + counter)
+                    });
+                    trLast.find("[name *= 'FFM_CRG_JOB_CODE']").attr({
+                        "name": ("FFM_CRG_JOB_CODE" + counter)
+                    });
+                    trLast.find("[name *= 'FFM_CRG_JOB_NAME']").attr({
+                        "name": ("FFM_CRG_JOB_NAME" + counter)
+                    });
+                    trLast.find("[name *= 'OPERATION_TYPE']").attr({
+                        "name": ("OPERATION_TYPE" + counter)
+                    });
+                    trLast.find("[name *= 'INCOME_ACT']").attr({
+                        "name": ("INCOME_ACT" + counter)
+                    });
+                    trLast.find("[name *= 'EXPENSE_ACGT']").attr({
+                        "name": ("EXPENSE_ACGT" + counter)
+                    });
+                    trLast.find(":first").text(counter);
+                }
+            }
+            counter++;
+        });
     });
-
-
-
-
 
 </script>
 
@@ -95,6 +162,127 @@
                                         <!-- END FORM-->
                                     </div>
                                 </div>
+                                <div class="">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="home" class="tab-pane fade in active">
+                                            <br /><br />
+
+                                            <div class="col-md-12 table-responsive">
+
+                                                <table class="table table-bordered stripe display hover" id="tablePODetails">
+                                                    <thead>
+                                                        <tr class="tr">
+                                                            <th>Sr.No</th>
+                                                            <th>Job Code</th>
+                                                            <th>Job Name</th>
+                                                            <th>Operation Type</th>
+                                                            <th>Income Act</th>
+                                                            <th>Expense ACGT</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.crgnewDetails)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control" })
+                                                                        @Html.Hidden(string.Concat("hdnSNO", counter), item.SNO)
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("FFM_CRG_JOB_CODE", counter), null, new { @class = "grid-control" })
+                                                                        @Html.Hidden(string.Concat("hdnFFM_CRG_JOB_CODE", counter), item.FFM_CRG_JOB_CODE)
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @*@Html.DropDownList(string.Concat("PORT", counter), Model.PortList, new { @class = "grid-control" })*@
+                                                                        @Html.TextBox(string.Concat("FFM_CRG_JOB_NAME", counter), null, new { @class = "grid-control" })
+                                                                        @Html.Hidden(string.Concat("hdnFFM_CRG_JOB_NAME", counter), item.FFM_CRG_JOB_NAME)
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("OPERATION_TYPE", counter), null, new { @class = "grid-control " })
+                                                                        @Html.Hidden(string.Concat("hdnOPERATION_TYPE", counter), item.OPERATION_TYPE)
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("INCOME_ACT", counter), null, new { @class = "grid-control " })
+                                                                        @Html.Hidden(string.Concat("hdnINCOME_ACT", counter), item.INCOME_ACT)
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("EXPENSE_ACGT", counter), null, new { @class = "grid-control " })
+                                                                        @Html.Hidden(string.Concat("hdnEXPENSE_ACGT", counter), item.EXPENSE_ACGT)
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                </td>
+                                                            </tr>
+                                                            counter++;
+                                                        }
+                                                        <tr>
+
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control" })
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("FFM_CRG_JOB_CODE", counter), null, new { @class = "grid-control" })
+                                                                </div>
+                                                            </td>
+
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @*@Html.DropDownList(string.Concat("PORT", counter), Model.PortList, new { @class = "grid-control" })*@
+                                                                    @Html.TextBox(string.Concat("FFM_CRG_JOB_NAME", counter), null, new { @class = "grid-control"})
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("OPERATION_TYPE", counter), null, new { @class = "grid-control " })
+                                                                    @*<input id="ETA1" class="form-control datepicker" name="ETA1" />
+                                                                    @Html.HiddenFor(m => m.ETA)*@
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("INCOME_ACT", counter), null, new { @class = "grid-control " })
+                                                                    @*<input id="ETB1" class="form-control datepicker" name="ETB1" />
+                                                                 @Html.HiddenFor(m => m.ETB)*@
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("EXPENSE_ACGT", counter), null, new { @class = "grid-control " })
+                                                                    @*<input id="ETD1" class="form-control datepicker" name="ETD1" />
+                                                                     @Html.HiddenFor(m => m.ETD)*@
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -122,3 +310,4 @@
 
 
     </div>
+   </div>

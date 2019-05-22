@@ -13,14 +13,14 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
     public interface IFFM_CRG_001Repository
     {
         #region FFM_CRG_001 Master
-        List<FFM_CRG_001> GetFFM_CRG_001(string CmpyCode);
-        FFM_CRG_001_VM SaveFM_CRG_001(FFM_CRG_001_VM CR);
+        List<FFM_CRG> GetFFM_CRG_001(string CmpyCode);
+        FFM_CRG_VM SaveFM_CRG_001(FFM_CRG_VM CR);
 
         List<FFM_CRG_Group> GetCRG_Group(string Cmpycode);
 
+        List<FFM_CRG_Details> GetCRGDetailList(string CmpyCode, string CRGCode);
 
-
-        FFM_CRG_001_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE);
+        FFM_CRG_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE);
 
         bool DeleteFFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE,  string UserName);
         #endregion

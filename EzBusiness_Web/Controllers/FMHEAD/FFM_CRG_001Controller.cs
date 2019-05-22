@@ -48,7 +48,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         }
         [HttpPost]
         [Route("SaveFFM_CRG_001")]
-        public ActionResult SaveFFM_CRG_001(FFM_CRG_001_VM CR)
+        public ActionResult SaveFFM_CRG_001(FFM_CRG_VM CR)
         {
 
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
