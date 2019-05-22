@@ -14,40 +14,52 @@
 <script>
   
     $(function () {
+        //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
 
+        var counter = parseInt($("#hdnCounter").val());
+        $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
+
+            $(this).closest("tr").remove();
+            counter = 1;
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function (e) {
+                var tr1 = $(this).closest("tr");
+                tr1.find(":first").text(counter);
+                counter++;
+            });
+        });
         $('.selectpicker').selectpicker('refresh');
     
         //EzdtePkEdit('#ETA1', "#ETA", "DD/MM/YYYY");
         //EzdtePkEdit('#ETB1', "#ETB", "DD/MM/YYYY");
         //EzdtePkEdit('#ETD1', "#ETD", "DD/MM/YYYY");
-        var tblcntr1 = $("#tblcntr1 tbody tr");
+        var tblcntr1 = $("#tablePODetails tbody tr");
         var index3 = 1;
         tblcntr1.each(function (index3, item) {
             debugger;
-            $("[name*='SNO" + (index3 + 1) + "']").val($("[name*='hdnSNO" + (index3 + 1) + "']").val());
-            $("[name*='ROTATION" + (index3 + 1) + "']").val($("[name*='hdnROTATION" + (index3 + 1) + "']").val());
-            $("[name*='PORT" + (index3 + 1) + "']").val($("[name*='hdnPORT" + (index3 + 1) + "']").val());
+            $("[name*='txtsno" + (index3 + 1) + "']").val($("[name*='hdnSNO" + (index3 + 1) + "']").val());
+            $("[name*='txtRotation" + (index3 + 1) + "']").val($("[name*='hdnROTATION" + (index3 + 1) + "']").val());
+            $("[name*='txtport" + (index3 + 1) + "']").val($("[name*='hdnPORT" + (index3 + 1) + "']").val());
             //$("[name*='ETA" + (index3 + 1) + "']").val($("[name*='hdnDocStatus" + (index3 + 1) + "']").val());
             if ($("[name*='hdnETA" + (index3 + 1) + "']").val() == undefined)
                 EzdtePk("[name*='ETA" + (index3 + 1) + "']");
             else
-                $("[name*='ETA" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnETA" + (index3 + 1) + "']").val()));
+                $("[name*='txtETA" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnETA" + (index3 + 1) + "']").val()));
             if ($("[name*='hdnETB" + (index3 + 1) + "']").val() == undefined)
                 EzdtePk("[name*='ETB" + (index3 + 1) + "']");
             else
-                $("[name*='ETB" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnETB" + (index3 + 1) + "']").val()));
+                $("[name*='txtETB" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnETB" + (index3 + 1) + "']").val()));
             if ($("[name*='hdnETD" + (index3 + 1) + "']").val() == undefined)
                 EzdtePk("[name*='ETD" + (index3 + 1) + "']");
             else
-                $("[name*='ETD" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnETD" + (index3 + 1) + "']").val()));
-            $("[name*='PortStayHours" + (index3 + 1) + "']").val($("[name*='hdnPortStayHourse" + (index3 + 1) + "']").val());
+                $("[name*='txtETD" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnETD" + (index3 + 1) + "']").val()));
+            $("[name*='txtPortStayHours" + (index3 + 1) + "']").val($("[name*='hdnPortStayHourse" + (index3 + 1) + "']").val());
             // $("[name*='IssuePlace" + (index3 + 1) + "']").val($("[name*='hdnIssuePlace" + (index3 + 1) + "']").val());
             // $("[name*='DocumentPath" + (index3 + 1) + "']").val($("[name*='SourceFile" + (index3 + 1) + "']").prop('defaultValue'));
-            $("[name*='SailingHrs" + (index3 + 1) + "']").val($("[name*='hdnSailingHrs" + (index3 + 1) + "']").val());
+            $("[name*='txtSailingHrs" + (index3 + 1) + "']").val($("[name*='hdnSailingHrs" + (index3 + 1) + "']").val());
 
             index3 = index3 + 1;
         });
-        var counter = $("#Counter").val();
+        var counter = $("#hdnCounter").val();
         $("#tablePODetails").on("change", "[name*='txtRotation']", function () {
             debugger;
 
@@ -78,17 +90,17 @@
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
                     tr.clone(true, true).insertAfter(tr);
-                    var trLast = $("#tableMetaSettings tr:last");
+                    var trLast = $("#tablePODetails tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tblcntr1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtsrno']").val(tcunt);
-                    $(this).closest('tr').next('tr').find("[name*='txtRotation']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtport'] option:selected").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtETA']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtETAB']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtETD']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtPortStayhrs']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtSailinghrs']").val('');
+                               .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                    trLast.find("[name*='txtsrno']").val(tcunt);
+                    trLast.find("[name*='txtRotation']").val('');
+                    trLast.find("[name*='txtport'] option:selected").val('');
+                    trLast.find("[name*='txtETA']").val('');
+                    trLast.find("[name*='txtETAB']").val('');
+                    trLast.find("[name*='txtETD']").val('');
+                    trLast.find("[name*='txtPortStayhrs']").val('');
+                    trLast.find("[name*='txtSailinghrs']").val('');
                     trLast.find("[name *= 'txtsrno']").attr({
                         "name": ("txtsrno" + counter)
                     });
@@ -210,7 +222,7 @@
     <div class="panel-body">
         <input id="inpdocname" type="hidden" />
 
-        <table class="table table-bordered " id="tblcntr1">
+        <table class="table table-bordered " id="tablePODetails">
             <thead>
                 <tr class="tr">
 
@@ -248,51 +260,51 @@
                     <tr>
                         <td>
                             <div class="grid-group">
-                                @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control", @readonly = "readonly" })
+                                @Html.TextBox(string.Concat("txtsrno", counter), null, new { @class = "grid-control", @readonly = "readonly" })
                                 @Html.Hidden(string.Concat("hdnSNO", counter), item.SNO)
                             </div>
                         </td>
                         <td>
                             <div class="grid-group">
-                                @Html.TextBox(string.Concat("ROTATION", counter), null, new { @class = "grid-control"})
+                                @Html.TextBox(string.Concat("txtRotation", counter), null, new { @class = "grid-control"})
                                 @Html.Hidden(string.Concat("hdnROTATION", counter), item.ROTATION)
                             </div>
                         </td>        
                         <td>
                             <div class="grid-group">
-                                @Html.DropDownList(string.Concat("PORT", counter), Model.PortList, new { @class = "grid-control" })
+                                @Html.DropDownList(string.Concat("txtport", counter), Model.PortList, new { @class = "grid-control" })
                                 @*@Html.TextBox(string.Concat("PORT", counter), null, new { @class = "grid-control" })*@
                                 @Html.Hidden(string.Concat("hdnPORT", counter), item.PORT)
                             </div>
                         </td>
                         <td>
                             <div class="grid-group">
-                                @Html.TextBox(string.Concat("ETA", counter), null, new { @class = "grid-control datepicker" })
+                                @Html.TextBox(string.Concat("txtETA", counter), null, new { @class = "grid-control datepicker" })
                                 @Html.Hidden(string.Concat("hdnETA", counter), item.ETA)
                             </div>
                         </td>
                         <td>
                             <div class="grid-group">
-                                @Html.TextBox(string.Concat("ETB", counter), null, new { @class = "grid-control datepicker" })
+                                @Html.TextBox(string.Concat("txtETB", counter), null, new { @class = "grid-control datepicker" })
                                 @Html.Hidden(string.Concat("hdnETB", counter), item.ETB)
                             </div>
                         </td>
                         <td>
                             <div class="grid-group">
-                                @Html.TextBox(string.Concat("ETD", counter), null, new { @class = "grid-control datepicker" })
+                                @Html.TextBox(string.Concat("txtETD", counter), null, new { @class = "grid-control datepicker" })
                                 @Html.Hidden(string.Concat("hdnETD", counter), item.ETD)
                             </div>
                         </td>
 
                         <td>
                             <div class="grid-group">
-                                @Html.TextBox(string.Concat("PortStayHours", counter), null, new { @class = "grid-control", @Type = "Number" })
+                                @Html.TextBox(string.Concat("txtPortStayhrs", counter), null, new { @class = "grid-control", @Type = "Number" })
                                 @Html.Hidden(string.Concat("hdnPortStayHourse", counter), item.PortStayHours)
                             </div>
                         </td>
                         <td>
                             <div class="grid-group">
-                                @Html.TextBox(string.Concat("SailingHrs", counter), null, new { @class = "grid-control", @Type = "Number" })
+                                @Html.TextBox(string.Concat("txtSailinghrs", counter), null, new { @class = "grid-control", @Type = "Number" })
                                 @Html.Hidden(string.Concat("hdnSailingHrs", counter), item.SailingHrs)
                             </div>
                         </td>
@@ -306,58 +318,50 @@
 
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control", @readonly = "readonly" })
+                            @Html.TextBox(string.Concat("txtsrno", counter), counter, new { @class = "grid-control", @readonly = "readonly" })
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("ROTATION", counter), null, new { @class = "grid-control"})
-                        </div>
-                    </td>
-
-                    <td>
-                        <div class="grid-group">
-                            @Html.DropDownList(string.Concat("PORT", counter), Model.PortList, new { @class = "grid-control" })
-                            @*@Html.TextBox(string.Concat("PORT", counter), null, new { @class = "grid-control"})*@
+                            @Html.TextBox(string.Concat("txtRotation", counter), null, new { @class = "grid-control" })
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("ETA", counter), null, new { @class = "grid-control datepicker" })
-                            @*<input id="ETA1" class="form-control datepicker" name="ETA1" />
-                            @Html.HiddenFor(m => m.ETA)*@
+                            @*@Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control " })*@
+                            @Html.DropDownList(string.Concat("txtport", counter), Model.PortList, new { @class = "grid-control" })
+                            @*@Html.DropDownListFor(m => m.PORT, Model.PortList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("ETB", counter), null, new { @class = "grid-control datepicker" })
-                            @*<input id="ETB1" class="form-control datepicker" name="ETB1" />
-                            @Html.HiddenFor(m => m.ETB)*@
+                            @Html.TextBox(string.Concat("txtETA", counter), null, new { @class = "grid-control datepicker" })
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("ETD", counter), null, new { @class = "grid-control datepicker" })
-                            @*<input id="ETD1" class="form-control datepicker" name="ETD1" />
-                            @Html.HiddenFor(m => m.ETD)*@
+                            @Html.TextBox(string.Concat("txtETB", counter), null, new { @class = "grid-control datepicker" })
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("PortStayhrs", counter), null, new { @class = "grid-control", @Type="Number" })
-                         
+                            @Html.TextBox(string.Concat("txtETD", counter), null, new { @class = "grid-control datepicker" })
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("Sailinghrs", counter), null, new { @class = "grid-control", @Type = "Number" })
-                            @*@Html.TextBoxFor(m => m.Sailinghrs, new { @class = "grid-control", @Readonly = "Readonly" })*@
+                            @Html.TextBox(string.Concat("txtPortStayhrs", counter), null, new { @class = "grid-control", @Type = "Number" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("txtSailinghrs", counter), null, new { @class = "grid-control", @Type = "Number" })
                         </div>
                     </td>
                 </tr>
             </tbody>
         </table>
-        @Html.Hidden("Counter", counter)
+        @Html.Hidden("hdnCounter", counter)
     </div>
 </div>
 

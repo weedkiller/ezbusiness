@@ -14,12 +14,27 @@
     $(function () {
         arr1 = [];
 
+        //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
+        var counter = parseInt($("#hdnCounter").val());
+        $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+            counter = 1;
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function (e) {
+                var tr1 = $(this).closest("tr");
+                tr1.find(":first").text(counter);
+                counter++;
+            });
+        });
+
+        var counter = $('#hdnCounter').val();
+
+
         $('.selectpicker').selectpicker('refresh');
         $("#tablePODetails").on("change", "[name*='txtjobcode']", function () {
             debugger;
-            var counter =1;
+         //   var counter =1;
             var tr = $(this).closest('tr');
-            var tcunt = $("#tablePODetails").find("tr").length;
+          //  var tcunt = $("#tablePODetails").find("tr").length;
             drec = [];
             $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -41,15 +56,15 @@
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
                     tr.clone(true, true).insertAfter(tr);
-                    var trLast = $("#tableMetaSettings tr:last");
+                    var trLast = $("#tablePODetails tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tblcntr1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtsrno']").val(tcunt);
-                    $(this).closest('tr').next('tr').find("[name*='txtjobcode']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtjobname']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtoperationtype']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtincomeact']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtexpenceacgt']").val('');
+                               .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
+                    trLast.find("[name*='txtjobcode']").val('');
+                    trLast.find("[name*='txtjobname']").val('');
+                    trLast.find("[name*='txtoperationtype']").val('');
+                    trLast.find("[name*='txtincomeact']").val('');
+                    trLast.find("[name*='txtexpenceacgt']").val('');
                     trLast.find("[name *= 'txtsrno']").attr({
                         "name": ("txtsrno" + counter)
                     });
@@ -70,8 +85,9 @@
                     });
                     trLast.find(":first").text(counter);
                 }
+                counter++;
             }
-            counter++;
+         
         });
     });
 </script>
@@ -172,7 +188,8 @@
 
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control" })
+                                                                    @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    @*@Html.Label(counter.ToString())*@
                                                                 </div>
                                                             </td>
                                                            
@@ -212,9 +229,10 @@
                                     <th class="id1"></th>
                                     <th class="id1"></th>
                                 </tr>*@
+                                                        
                                                     </tbody>
                                                 </table>
-
+                                                @Html.Hidden("hdnCounter", (++counter))
                                             </div>
 
 

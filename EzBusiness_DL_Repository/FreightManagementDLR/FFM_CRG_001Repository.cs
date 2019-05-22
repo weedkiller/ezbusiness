@@ -150,7 +150,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + FCur.DISPLAY_STATUS + "',");
                             sb.Append("'" + FCur.CMPYCODE + "')");                        
                             i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACGT,DISPLAY_STATUS,cmpycode) values(" + sb.ToString() + "");
-                            _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Voyage", ObjList[n - 1].FFM_CRG_001_CODE, Environment.MachineName);
+                            _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Charge", ObjList[n - 1].FFM_CRG_001_CODE, Environment.MachineName);
 
                         }
                         else
@@ -210,7 +210,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                             // #region ObjectList
                             List<FFM_CRG> ObjList = new List<FFM_CRG>();
-                            if (FCur.newdetails != null)
+                            if (FCur.crgnewDetails != null)
                             {
 
                                 ObjList.AddRange(FCur.crgnewDetails.Select(m => new FFM_CRG
@@ -252,22 +252,22 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                                 StringBuilder sb1 = new StringBuilder();
 
-                                sb.Append("'" + FCur.FFM_CRG_001_CODE + "',");
-                                sb.Append("'" + ObjList[n - 1].SNO + "',");
-                                sb.Append("'" + ObjList[n - 1].FFM_CRG_JOB_CODE + "',");
-                                sb.Append("'" + ObjList[n - 1].FFM_CRG_JOB_NAME + "',");
-                                sb.Append("'" + ObjList[n - 1].OPERATION_TYPE + "',");
-                                sb.Append("'" + ObjList[n - 1].INCOME_ACT + "',");
-                                sb.Append("'" + ObjList[n - 1].EXPENSE_ACGT + "',");
-                                sb.Append("'" + FCur.DISPLAY_STATUS + "',");
-                                sb.Append("'" + FCur.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACGT,DISPLAY_STATUS,cmpycode) values(" + sb.ToString() + "");
+                                sb1.Append("'" + FCur.FFM_CRG_001_CODE + "',");
+                                sb1.Append("'" + ObjList[n - 1].SNO + "',");
+                                sb1.Append("'" + ObjList[n - 1].FFM_CRG_JOB_CODE + "',");
+                                sb1.Append("'" + ObjList[n - 1].FFM_CRG_JOB_NAME + "',");
+                                sb1.Append("'" + ObjList[n - 1].OPERATION_TYPE + "',");
+                                sb1.Append("'" + ObjList[n - 1].INCOME_ACT + "',");
+                                sb1.Append("'" + ObjList[n - 1].EXPENSE_ACGT + "',");
+                                sb1.Append("'" + FCur.DISPLAY_STATUS + "',");
+                                sb1.Append("'" + FCur.CMPYCODE + "')");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACGT,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
                                 //_EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Voyage", ObjList[n - 1].FFM_VOYAGE01_CODE, Environment.MachineName);
 
                                // _EzBusinessHelper.ExecuteNonQuery("insert into FFM_VOYAGE02(ffm_VOYAGE01_CODE,SNO,ROTATION,PORT,ETA,ETB,ETD,PORT_STAY_HRS,SAILING_HRS,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
                                 n = n - 1;
                             }
-                           // _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM CRG", frc.FFM_CRG_001_CODE, Environment.MachineName);
+                            _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Update FFM CRG", FCur.FFM_CRG_001_CODE, Environment.MachineName);
                         }
                        
                         FCur.ErrorMessage = string.Empty;
