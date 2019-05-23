@@ -313,8 +313,8 @@
 
                     $('#hldte').val($(tr).find("td:eq(1)").text().trim());
                     $('#hltyp').val(MASTER_STATUS);
-                    CURRENCY_NAMETd.html("<input type='text' name='txtNAME" + index + "' value='" + cntr_NAME.trim() + "' />");
-                    MASTER_STATUSTd.html("<select class='form-control' id='txtdisplaystatus' name='txtdisplaystatus'> <option value='Y'>YES</option> <option value='N'>NO</option></select>")
+                    CURRENCY_NAMETd.html("<input type='text' class='grid-control' name='txtNAME" + index + "' value='" + cntr_NAME.trim() + "' />");
+                    MASTER_STATUSTd.html("<select class='grid-control' id='txtdisplaystatus' name='txtdisplaystatus'> <option value='Y'>YES</option> <option value='N'>NO</option></select>")
                  
                     //MASTER_STATUSTd.html("<input type='text' name='txtdisplaystatus" + index + "' value='" + MASTER_STATUS.trim() + "' />");
                     //NOTETd.html("<input type='text' name='txtNOTE" + index + "' value='" + NOTE.trim() + "' />");

@@ -71,217 +71,225 @@
 
 </script>
 <div id="POContainer">
-<div class="panel panel-default" id="showAddpanel">
-    <div class="panel-body">
-        <div>
-            <div class="form-horizontal">
-                <div class="form-body">
-                    <div class="row">
-                        <input type="hidden" id="joindate" />
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Vessal Code</label>
-                                <div class="col-md-8 input-field">
-                                    @*<select class="form-control" id="ddlvessalcode" name="ddlvessalcode"></select>*@
-                                    @Html.DropDownListFor(m => m.FFM_VESSEL_CODE, Model.VessalCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+    <div class="panel panel-default" id="showAddpanel">
+        <div class="panel-body">
+            <div>
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        <div class="row">
+                            <input type="hidden" id="joindate" />
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Vessal Code</label>
+                                    <div class="col-md-8 input-field">
+                                        @*<select class="form-control" id="ddlvessalcode" name="ddlvessalcode"></select>*@
+                                        @Html.DropDownListFor(m => m.FFM_VESSEL_CODE, Model.VessalCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!--/span-->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Vessal Name</label>
-                                <div class="col-md-8">
-                                    @*<input type="text" id="txtvessalname" class="form-control" />*@
-                                    @Html.TextBoxFor(m => m.NAME, new { @class = "form-control", @disabled = "disabled" })
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Vessal Name</label>
+                                    <div class="col-md-8">
+                                        @*<input type="text" id="txtvessalname" class="form-control" />*@
+                                        @Html.TextBoxFor(m => m.NAME, new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
                                 </div>
                             </div>
+                            <!--/span-->
                         </div>
-                        <!--/span-->
+                        <!--/row-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">VoyageCode</label>
+                                    <div class="col-md-8 input-field">
+                                        @*<input type="text" id="txtVoyageCode" class="form-control" />*@
+                                        @Html.TextBoxFor(m => m.FFM_VOYAGE01_CODE, new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Display Status</label>
+                                    <div class="col-md-8 input-field">
+                                        <select id="ddlstatus" class="form-control">
+                                            <option value="Y">Yes</option>
+                                            <option value="N">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
                     </div>
-                    <!--/row-->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">VoyageCode</label>
-                                <div class="col-md-8 input-field">
-                                    @*<input type="text" id="txtVoyageCode" class="form-control" />*@
-                                    @Html.TextBoxFor(m => m.FFM_VOYAGE01_CODE, new { @class = "form-control", @disabled = "disabled" })
-                                </div>
-                            </div>
-                        </div>
-                        <!--/span-->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">Display Status</label>
-                                <div class="col-md-8 input-field">
-                                    <select id="ddlstatus" class="form-control">
-                                        <option value="Y">Yes</option>
-                                        <option value="N">No</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/span-->
-                    </div>
-                </div>
-            </div><br />
+                </div><br />
+            </div>
         </div>
     </div>
-</div>
-<div class="panel panel-default" id="tbldisplay">
-    <div class="panel-body">
-        <input id="inpdocname" type="hidden" />
 
-        <table class="table table-bordered " id="tblcntr1">
-            <thead>
-                <tr class="tr">
 
-                    <th>
-                        Sr.No
-                    </th>
-                    <th>
-                        Rotation
-                    </th>
-                    <th>
-                        Port
-                    </th>
-                    <th>
-                        ETA
-                    </th>
-                    <th>
-                        ETB
-                    </th>
-                    <th>
-                        ETD
-                    </th>
-                    <th>
-                        Port Stay Hrs
-                    </th>
-                    <th>
-                        sailing Hrs
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+    </ul>
+    <div class="tab-content">
+        <br /><br />
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered " id="tblcntr1">
+                    <thead>
+                        <tr class="tr">
 
-            <tbody>
-                @foreach (var item in Model.newdetails)
+                            <th>
+                                Sr.No
+                            </th>
+                            <th>
+                                Rotation
+                            </th>
+                            <th>
+                                Port
+                            </th>
+                            <th>
+                                ETA
+                            </th>
+                            <th>
+                                ETB
+                            </th>
+                            <th>
+                                ETD
+                            </th>
+                            <th>
+                                Port Stay Hrs
+                            </th>
+                            <th>
+                                sailing Hrs
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.newdetails)
                 {
-                    <tr>
-                        <td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control"})
-                                @Html.Hidden(string.Concat("hdnSNO", counter), item.SNO)
-                            </div>
-                        </td>
-                        <td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("ROTATION", counter), null, new { @class = "grid-control"})
-                                @Html.Hidden(string.Concat("hdnROTATION", counter), item.ROTATION)
-                            </div>
-                        </td>        
-                        <td>
-                            <div class="grid-group">
-                                @Html.DropDownList(string.Concat("PORT", counter), Model.PortList, new { @class = "grid-control" })
-                                @*@Html.TextBox(string.Concat("PORT", counter), null, new { @class = "grid-control" })*@
-                                @Html.Hidden(string.Concat("hdnPORT", counter), item.PORT)
-                            </div>
-                        </td>
-                        <td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("ETA", counter), null, new { @class = "grid-control datepicker" })
-                                @Html.Hidden(string.Concat("hdnETA", counter), item.ETA)
-                            </div>
-                        </td>
-                        <td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("ETB", counter), null, new { @class = "grid-control datepicker" })
-                                @Html.Hidden(string.Concat("hdnETB", counter), item.ETB)
-                            </div>
-                        </td>
-                        <td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("ETD", counter), null, new { @class = "grid-control datepicker" })
-                                @Html.Hidden(string.Concat("hdnETD", counter), item.ETD)
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("PortStayHours", counter), null, new { @class = "grid-control" })
-                                @Html.Hidden(string.Concat("hdnPortStayHourse", counter), item.PortStayHours)
-                            </div>
-                        </td>
-                        <td>
-                            <div class="grid-group">
-                                @Html.TextBox(string.Concat("SailingHrs", counter), null, new { @class = "grid-control" })
-                                @Html.Hidden(string.Concat("hdnSailingHrs", counter), item.SailingHrs)
-                            </div>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
-                        </td>
-                    </tr>
-                    counter++;
-                }
                 <tr>
-
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control" })
+                            @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control"})
+                            @Html.Hidden(string.Concat("hdnSNO", counter), item.SNO)
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
                             @Html.TextBox(string.Concat("ROTATION", counter), null, new { @class = "grid-control"})
+                            @Html.Hidden(string.Concat("hdnROTATION", counter), item.ROTATION)
                         </div>
                     </td>
-
                     <td>
                         <div class="grid-group">
                             @Html.DropDownList(string.Concat("PORT", counter), Model.PortList, new { @class = "grid-control" })
-                            @*@Html.TextBox(string.Concat("PORT", counter), null, new { @class = "grid-control"})*@
+                            @*@Html.TextBox(string.Concat("PORT", counter), null, new { @class = "grid-control" })*@
+                            @Html.Hidden(string.Concat("hdnPORT", counter), item.PORT)
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
                             @Html.TextBox(string.Concat("ETA", counter), null, new { @class = "grid-control datepicker" })
-                            @*<input id="ETA1" class="form-control datepicker" name="ETA1" />
-                            @Html.HiddenFor(m => m.ETA)*@
+                            @Html.Hidden(string.Concat("hdnETA", counter), item.ETA)
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
                             @Html.TextBox(string.Concat("ETB", counter), null, new { @class = "grid-control datepicker" })
-                            @*<input id="ETB1" class="form-control datepicker" name="ETB1" />
-                            @Html.HiddenFor(m => m.ETB)*@
+                            @Html.Hidden(string.Concat("hdnETB", counter), item.ETB)
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
                             @Html.TextBox(string.Concat("ETD", counter), null, new { @class = "grid-control datepicker" })
-                            @*<input id="ETD1" class="form-control datepicker" name="ETD1" />
-                            @Html.HiddenFor(m => m.ETD)*@
+                            @Html.Hidden(string.Concat("hdnETD", counter), item.ETD)
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="grid-group">
+                            @Html.TextBox(string.Concat("PortStayHours", counter), null, new { @class = "grid-control" })
+                            @Html.Hidden(string.Concat("hdnPortStayHourse", counter), item.PortStayHours)
                         </div>
                     </td>
                     <td>
                         <div class="grid-group">
-                            @Html.TextBox(string.Concat("PortStayhrs", counter), null, new { @class = "grid-control" })
-                            @Html.TextBoxFor(m => m.PortStayhrs, new { @class = "grid-control" })
+                            @Html.TextBox(string.Concat("SailingHrs", counter), null, new { @class = "grid-control" })
+                            @Html.Hidden(string.Concat("hdnSailingHrs", counter), item.SailingHrs)
                         </div>
                     </td>
                     <td>
-                        <div class="grid-group">
-                            @Html.TextBox(string.Concat("Sailinghrs", counter), null, new { @class = "grid-control" })
-                            @*@Html.TextBoxFor(m => m.Sailinghrs, new { @class = "grid-control", @Readonly = "Readonly" })*@
-                        </div>
+                        <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
                     </td>
                 </tr>
-            </tbody>
-        </table>
-        @Html.Hidden("Counter", counter)
-    </div>
-</div>
+                    counter++;
+                }
+                        <tr>
 
-</div>
+                            <td>
+                                <div class="grid-group">
+                                    @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control" })
+                                </div>
+                            </td>
+                            <td>
+                                <div class="grid-group">
+                                    @Html.TextBox(string.Concat("ROTATION", counter), null, new { @class = "grid-control"})
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="grid-group">
+                                    @Html.DropDownList(string.Concat("PORT", counter), Model.PortList, new { @class = "grid-control" })
+                                    @*@Html.TextBox(string.Concat("PORT", counter), null, new { @class = "grid-control"})*@
+                                </div>
+                            </td>
+                            <td>
+                                <div class="grid-group">
+                                    @Html.TextBox(string.Concat("ETA", counter), null, new { @class = "grid-control datepicker" })
+                                    @*<input id="ETA1" class="form-control datepicker" name="ETA1" />
+                                        @Html.HiddenFor(m => m.ETA)*@
+                                </div>
+                            </td>
+                            <td>
+                                <div class="grid-group">
+                                    @Html.TextBox(string.Concat("ETB", counter), null, new { @class = "grid-control datepicker" })
+                                    @*<input id="ETB1" class="form-control datepicker" name="ETB1" />
+                                        @Html.HiddenFor(m => m.ETB)*@
+                                </div>
+                            </td>
+                            <td>
+                                <div class="grid-group">
+                                    @Html.TextBox(string.Concat("ETD", counter), null, new { @class = "grid-control datepicker" })
+                                    @*<input id="ETD1" class="form-control datepicker" name="ETD1" />
+                                        @Html.HiddenFor(m => m.ETD)*@
+                                </div>
+                            </td>
+                            <td>
+                                <div class="grid-group">
+                                    @Html.TextBox(string.Concat("PortStayhrs", counter), null, new { @class = "grid-control" })
+                                    @Html.TextBoxFor(m => m.PortStayhrs, new { @class = "grid-control" })
+                                </div>
+                            </td>
+                            <td>
+                                <div class="grid-group">
+                                    @Html.TextBox(string.Concat("Sailinghrs", counter), null, new { @class = "grid-control" })
+                                    @*@Html.TextBoxFor(m => m.Sailinghrs, new { @class = "grid-control", @Readonly = "Readonly" })*@
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @Html.Hidden("Counter", counter)
+            </div>
+        </div>
+    </div>
+
+
+
+    </div>

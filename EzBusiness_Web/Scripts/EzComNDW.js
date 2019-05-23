@@ -821,15 +821,9 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
           
         });
 
-       
-       
-       
-
         //if (lk == true) {
         //    $("#tblUnits_length").hide();
         //}
-
-      
 
         tableInstance.columns().every(function () {
             var that = this;
