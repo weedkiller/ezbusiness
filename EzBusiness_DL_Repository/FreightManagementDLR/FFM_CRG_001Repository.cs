@@ -32,6 +32,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                  _EzBusinessHelper.ExecuteNonQuery1("update FFM_CRG_001 set Flag=1 where CmpyCode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "'  and Flag=0");
                  _EzBusinessHelper.ExecuteNonQuery1("update FFM_CRG_002 set Flag=1 where CmpyCode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "'  and Flag=0");
+                return true;
             } 
             return false;
         }
@@ -149,7 +150,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + ObjList[n - 1].EXPENSE_ACGT + "',");                          
                             sb.Append("'" + FCur.DISPLAY_STATUS + "',");
                             sb.Append("'" + FCur.CMPYCODE + "')");                        
-                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACGT,DISPLAY_STATUS,cmpycode) values(" + sb.ToString() + "");
+                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,DISPLAY_STATUS,cmpycode) values(" + sb.ToString() + "");
                             _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Charge", ObjList[n - 1].FFM_CRG_001_CODE, Environment.MachineName);
 
                         }
@@ -292,25 +293,29 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public List<FFM_CRG_Details> GetCRGDetailList(string CmpyCode, string CRGCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("select SNO,FFM_CRG_JOB_CODE,FFM_CRG_001_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACGT from FFM_CRG_002 where cmpycode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + CRGCode + "' and Flag=0");
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<FFM_CRG_Details> ObjList = new List<FFM_CRG_Details>();
-            foreach (DataRow dr in drc)
+            List<FFM_CRG_Details> ObjList = null;
+            ds = _EzBusinessHelper.ExecuteDataSet("select SNO,FFM_CRG_JOB_CODE,FFM_CRG_001_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT from FFM_CRG_002 where cmpycode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + CRGCode + "' and Flag=0");
+            if (ds.Tables.Count > 0)
             {
-                ObjList.Add(new FFM_CRG_Details()
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                   ObjList = new List<FFM_CRG_Details>();
+                foreach (DataRow dr in drc)
                 {
-                    SNO = Convert.ToInt32(dr["SNO"].ToString()),
-                    FFM_CRG_JOB_CODE = dr["FFM_CRG_JOB_CODE"].ToString(),
-                    FFM_CRG_JOB_NAME = dr["FFM_CRG_JOB_NAME"].ToString(),
-                    OPERATION_TYPE = dr["OPERATION_TYPE"].ToString(),
-                    INCOME_ACT = dr["INCOME_ACT"].ToString(),
-                    EXPENSE_ACGT = dr["EXPENSE_ACGT"].ToString(),
-                    FFM_CRG_001_CODE = dr["FFM_CRG_001_CODE"].ToString(),
-                   // SailingHrs = Convert.ToInt32(dr["SAILING_HRS"].ToString()),
+                    ObjList.Add(new FFM_CRG_Details()
+                    {
+                        SNO = Convert.ToInt32(dr["SNO"].ToString()),
+                        FFM_CRG_JOB_CODE = dr["FFM_CRG_JOB_CODE"].ToString(),
+                        FFM_CRG_JOB_NAME = dr["FFM_CRG_JOB_NAME"].ToString(),
+                        OPERATION_TYPE = dr["OPERATION_TYPE"].ToString(),
+                        INCOME_ACT = dr["INCOME_ACT"].ToString(),
+                        EXPENSE_ACGT = dr["EXPENSE_ACT"].ToString(),
+                        FFM_CRG_001_CODE = dr["FFM_CRG_001_CODE"].ToString(),
+                        // SailingHrs = Convert.ToInt32(dr["SAILING_HRS"].ToString()),
 
-                });
+                    });
 
+                }
             }
             return ObjList;
         }
