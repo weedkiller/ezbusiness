@@ -181,8 +181,7 @@
                 var SNO = 0;
                     $("#tablePODetails tbody tr").each(function (index, item) {
                         debugger;
-                        //var SNO = $(this).find("[name*='SNO']").val();
-                       
+                        //var SNO = $(this).find("[name*='SNO']").val();                       
                         var FFM_CRG_JOB_CODE = $(this).find("[name*='FFM_CRG_JOB_CODE']").val();
                         var FFM_CRG_JOB_NAME = $(this).find("[name*='FFM_CRG_JOB_NAME']").val();
                         var OPERATION_TYPE = $(this).find("[name*='OPERATION_TYPE']").val();
@@ -192,7 +191,6 @@
                         if (FFM_CRG_JOB_CODE != "") {
                             SNO = SNO + 1;
                             var FNM_unitDetail = {
-
                                 SNO: SNO,
                                 FFM_CRG_JOB_CODE: FFM_CRG_JOB_CODE,
                                 FFM_CRG_JOB_NAME: FFM_CRG_JOB_NAME,
@@ -205,10 +203,8 @@
                         }
                     });
 
-
                 var validationResult = ValidateForm(CR);
                     if (validationResult.formValid) {
-
                         $.post("/SaveFFM_CRG_001", CR).done(function (response) {
                                 if (response.SaveFlag && !response.ErrorMessage.length > 0) {
                                     EzAlertSave();

@@ -238,7 +238,6 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("UPDATED_ON='" + dtstr1 + "'");
                             _EzBusinessHelper.ExecuteNonQuery("update FFM_CRG_001 set  " + sb + " where  FFM_CRG_001_CODE='" + FCur.FFM_CRG_001_CODE + "' and  cmpycode='" + FCur.CMPYCODE + "' and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and                         
                                                                                                                                                                                                                 // _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Voyage", ObjList[n - 1].FFM_VOYAGE01_CODE, Environment.MachineName);
-
                             int n, i = 0;
                             n = ObjList.Count;
                             while (n > 0)
