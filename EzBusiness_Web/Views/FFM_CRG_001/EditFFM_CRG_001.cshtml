@@ -33,7 +33,7 @@
 
         $("#tablePODetails").each(function (index3, item) {
             debugger;
-           
+            $("[name*='SNO" + (index3 + 1) + "']").val($("[name*='hdnSNO" + (index3 + 1) + "']").val());
             $("[name*='FFM_CRG_JOB_CODE" + (index3 + 1) + "']").val($("[name*='hdnFFM_CRG_JOB_CODE" + (index3 + 1) + "']").val());
             $("[name*='FFM_CRG_JOB_NAME" + (index3 + 1) + "']").val($("[name*='hdnFFM_CRG_JOB_NAME" + (index3 + 1) + "']").val());
             $("[name*='OPERATION_TYPE" + (index3 + 1) + "']").val($("[name*='hdnOPERATION_TYPE" + (index3 + 1) + "']").val());
@@ -45,7 +45,9 @@
             index3 = index3 + 1;
         });
       
-        var counter = $('#hdnCounter').val();
+        $("#tablePODetails tbody tr:last").find("[name*='SNO']").val(counter);
+
+        var counter = parseInt($('#hdnCounter').val())+1;
         $("#tablePODetails").on("change", "[name*='FFM_CRG_JOB_CODE']", function () {
             debugger;
           
@@ -78,17 +80,23 @@
                         .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
                     var trLast = $("#tablePODetails tr:last")
 
-                    var cloned = $("#tablePODetails tbody tr:last").clone(true);
+                    //var cloned = $("#tablePODetails tbody tr:last").clone(true);
 
-                    $("#tablePODetails > tbody").append(cloned);
-                    $("#tablePODetails > tbody tr:last").prev().remove();
+                    //$("#tablePODetails > tbody").append(cloned);
+                    //$("#tablePODetails > tbody tr:last").prev().remove();
                   
+                    trLast.find("[name*='SNO']").val(counter);
                     trLast.find("[name*='FFM_CRG_JOB_CODE']").val('');
                     trLast.find("[name*='FFM_CRG_JOB_NAME']").val('');
                     trLast.find("[name*='OPERATION_TYPE']").val('');
                     trLast.find("[name*='INCOME_ACT']").val('');
                     trLast.find("[name*='EXPENSE_ACGT']").val('');
                 
+
+                    trLast.find("[name *= 'SNO']").attr({
+                        "name": ("SNO" + counter)
+                    });
+
                     trLast.find("[name *= 'FFM_CRG_JOB_CODE']").attr({
                         "name": ("FFM_CRG_JOB_CODE" + counter)
                     });
@@ -209,9 +217,9 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @*@Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control" ,@Readonly= "Readonly" })
-                                                                        @Html.Hidden(string.Concat("hdnSNO", counter), item.SNO)*@
-                                                                        @Html.Label(item.SNO.ToString())
+                                                                        @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control" ,@Readonly= "Readonly" })
+                                                                        @Html.Hidden(string.Concat("hdnSNO", counter), item.SNO)
+                                                                        @*@Html.Label(item.SNO.ToString())*@
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -257,8 +265,8 @@
 
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @*@Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control", @Readonly = "Readonly" })*@
-                                                                    @Html.Label(counter.ToString())
+                                                                    @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    @*@Html.Label(counter.ToString())*@
                                                                 </div>
                                                             </td>
                                                             <td>
