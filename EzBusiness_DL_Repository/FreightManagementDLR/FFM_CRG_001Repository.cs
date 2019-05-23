@@ -320,5 +320,38 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return ObjList;
         }
 
+        public List<FFM_JOB> GetJobCode(string Cmpycode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_JOB_CODE,NAME from  FFM_JOB where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FFM_JOB> ObjList = new List<FFM_JOB>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FFM_JOB()
+                {
+                    FFM_JOB_CODE = dr["FFM_JOB_CODE"].ToString(),
+                    NAME = dr["NAME"].ToString()
+                });
+            }
+            return ObjList;
+        }
+
+        public List<FNM_AC_COA> GetIncomeAct(string Cmpycode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("select FNM_AC_COA_CODE,NAME from  FNM_AC_COA where SUBLEDGER_TYPE='Entry level' and  CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FNM_AC_COA> ObjList = new List<FNM_AC_COA>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FNM_AC_COA()
+                {
+                    CODE = dr["FNM_AC_COA_CODE"].ToString(),
+                    NAME = dr["NAME"].ToString()
+                });
+            }
+            return ObjList;
+        }
     }
 }

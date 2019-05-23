@@ -28,7 +28,22 @@
         $('.selectpicker').selectpicker('refresh');
         $("#tablePODetails").on("change", "[name*='txtjobcode']", function () {
             debugger;
-         //   var counter =1;
+            if (EzHeadTxtvalid("[name *= 'FFM_CRG_GROUP_CODE'] option:selected", "#tablePODetails tbody tr:last", "[name *= 'txtjobcode']", "Please Enter FFM GROUP CODE", "0", "0") == true) {
+                return;
+            }
+
+            if (EzHeadTxtvalid("[name *= 'FFM_CRG_001_CODE']", "#tablePODetails tbody tr:last", "[name *= 'txtjobcode']", "Please Enter Charge Code", '', '') == true) {
+                return;
+            }
+
+            if (EzHeadTxtvalid("#NAME", "#tablePODetails tbody tr:last", "[name *= 'txtjobcode']", "Please Enter Name", '0', '0') == true) {
+                return;
+            }
+
+            var JobCode = $("[name*='txtjobcode'] option:selected").text();
+            var array = JobCode.split("-");
+            //   var counter =1;
+            $("[name*='txtjobname']").val(array[1].trim())
             var tr = $(this).closest('tr');
           //  var tcunt = $("#tablePODetails").find("tr").length;
             drec = [];
@@ -56,10 +71,10 @@
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
                     //trLast.find("[name*='txtsrno']").val(tcunt);
-                    trLast.find("[name*='txtjobcode']").val('');
+                    trLast.find("[name*='txtjobcode'] option:selected").val('');
                     trLast.find("[name*='txtjobname']").val('');
                     trLast.find("[name*='txtoperationtype']").val('');
-                    trLast.find("[name*='txtincomeact']").val('');
+                    trLast.find("[name*='txtincomeact'] option:selected").val('');
                     trLast.find("[name*='txtexpenceacgt']").val('');
                     trLast.find("[name *= 'txtsrno']").attr({
                         "name": ("txtsrno" + counter)
@@ -83,6 +98,8 @@
                 }
                 counter++;
             }
+
+         
          
         });
     });
@@ -174,6 +191,7 @@
                                                             <th>Operation Type</th>
                                                             <th>Income Act</th>
                                                             <th>Expense ACGT</th>
+                                                           
                                                           
                                                         </tr>
                                                     </thead>
@@ -190,9 +208,9 @@
                                                            
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("txtjobcode", counter), null, new { @class = "grid-control " })
-                                                                    @*@Html.DropDownList(string.Concat("txtjobcode", counter), Model.CRG_GROUP_CODEList, new { @class = "grid-control" })*@
-                                                                    @*@Html.DropDownListFor(m => m.PORT, Model.PortList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                                    @*@Html.TextBox(string.Concat("txtjobcode", counter), null, new { @class = "grid-control " })*@
+                                                                    @Html.DropDownList(string.Concat("txtjobcode", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })
+                                                                    @*@Html.DropDownListFor(m => m.JOB_CODE, Model.CRG_job_CODEList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -202,12 +220,14 @@
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("txtoperationtype", counter), null, new { @class = "grid-control datepicker" })
+                                                                    @Html.DropDownListFor(m => m.OPERATION_TYPE, new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" } , new SelectListItem { Text = "TERM", Value = "TERM" } , new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                                    @*@Html.TextBox(string.Concat("txtoperationtype", counter), null, new { @class = "grid-control datepicker" })*@
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("txtincomeact", counter), null, new { @class = "grid-control datepicker" })
+                                                                    @Html.DropDownList(string.Concat("txtincomeact", counter), Model.IncomeACTList, new { @class = "grid-control" })
+                                                                    @*@Html.TextBox(string.Concat("txtincomeact", counter), null, new { @class = "grid-control datepicker" })*@
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -215,6 +235,7 @@
                                                                     @Html.TextBox(string.Concat("txtexpenceacgt", counter), null, new { @class = "grid-control" })
                                                                 </div>
                                                             </td>
+                                                            
                                                          
                                                         </tr>
                                                         @*@*<tr>
