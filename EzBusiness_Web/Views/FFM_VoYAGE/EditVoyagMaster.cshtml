@@ -36,7 +36,7 @@
         var index3 = 1;
         tblcntr1.each(function (index3, item) {
             debugger;
-            $("[name*='txtsno" + (index3 + 1) + "']").val($("[name*='hdnSNO" + (index3 + 1) + "']").val());
+            $("[name*='txtsrno" + (index3 + 1) + "']").val($("[name*='hdnsrno" + (index3 + 1) + "']").val());
             $("[name*='txtRotation" + (index3 + 1) + "']").val($("[name*='hdnROTATION" + (index3 + 1) + "']").val());
             $("[name*='txtport" + (index3 + 1) + "']").val($("[name*='hdnPORT" + (index3 + 1) + "']").val());
             //$("[name*='ETA" + (index3 + 1) + "']").val($("[name*='hdnDocStatus" + (index3 + 1) + "']").val());
@@ -59,7 +59,13 @@
 
             index3 = index3 + 1;
         });
-        var counter = $("#hdnCounter").val();
+
+
+        $("#tablePODetails tbody tr:last").find("[name*='txtsrnoss']").val(counter);
+
+        var counter =  parseInt($("#hdnCounter").val())+1;
+
+        
         $("#tablePODetails").on("change", "[name*='txtRotation']", function () {
             debugger;
 
@@ -261,7 +267,7 @@
                         <td>
                             <div class="grid-group">
                                 @Html.TextBox(string.Concat("txtsrno", counter), null, new { @class = "grid-control", @readonly = "readonly" })
-                                @Html.Hidden(string.Concat("hdnSNO", counter), item.SNO)
+                                @Html.Hidden(string.Concat("hdnsrno", counter), item.SNO)
                             </div>
                         </td>
                         <td>
