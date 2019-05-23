@@ -14,7 +14,6 @@ namespace EzBusiness_DL_Repository.FreightManagement
 {
     public class FMHeadFreightRepository : IFMHeadFreightRepository
     {
-
         DataSet ds = null;
         DataTable dt = null;
 

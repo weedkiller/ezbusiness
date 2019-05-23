@@ -14,61 +14,83 @@
 @*<script src="~/Scripts/Application/FrightManagment/FFM_Voyage.js"></script>*@
 @*<script src="~/Scripts/Application/FrightManagment/FMM_CNTRFright.js"></script>*@
 <script>
+
+        //$(document).ready(function () {
     Ezsidetbl("#tblUnits", "#tblUnits tfoot td", false, "#tblUnits thead");
+            //$('#POList').Datatable.reload();
+            //a++;
+
+        //});
+
 </script>
 
-<div class="table-responsive">
-      <table class="table table-bordered stripe display hover" id="tblUnits">
-                    <thead>
-                        <tr class="tr">
-                            <th>
-                                Vessale CODE
-                            </th>
-                            <th>
-                                Vessale Name
-                            </th>
-                            <th>
-                                VoYage Code
-                            </th>
-                          
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr class="tr">
-                            <td>
-                                @Html.DisplayNameFor(model => model.FFM_VESSEL_CODE)
+<div class="col-md-12 table-responsive">
+           
+    <table class="table table-bordered stripe display hover" id="tblUnits">
+        <thead>
+            <tr class="tr">
 
-                            <td>
-                                @Html.DisplayNameFor(model => model.NAME)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.FFM_VOYAGE01_CODE)
-                            </td>
-                           
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
+                <th>
+                    Vessale CODE
+                </th>
+                <th>
+                    Vessale Name
+                </th>
+                <th>
+                    VoYage Code
+                </th>
+                @*<th></th>*@
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FFM_VESSEL_CODE)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NAME)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FFM_VOYAGE01_CODE)
-                                    @Html.Hidden("hdnFNMBRANCH_CODE", item.FFM_VOYAGE01_CODE)
-                                </td>
-                               
-                            </tr>
-                            counter++;
-                        }
-                    </tbody>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr class="tr">
 
-                </table>
+                <td>
+                    @Html.DisplayNameFor(model => model.FFM_VESSEL_CODE)
+
+                <td>
+                    @Html.DisplayNameFor(model => model.NAME)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.FFM_VOYAGE01_CODE)
+                </td>
+                @*<td></td>*@
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FFM_VESSEL_CODE)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NAME)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FFM_VOYAGE01_CODE)
+                        @Html.Hidden("hdnFNMBRANCH_CODE", item.FFM_VOYAGE01_CODE)
+                    </td>
+                    @*<td>
+                            <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                            <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                            <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
+                            @Html.HiddenFor(m => item.CMPYCODE)
+                        </td>*@
+                </tr>
+                counter++;
+            }
+        </tbody>
+
+    </table>
+
+           
         @Html.Hidden("Counter", counter)
    
 </div>

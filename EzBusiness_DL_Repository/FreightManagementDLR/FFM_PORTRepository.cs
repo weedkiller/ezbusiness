@@ -58,7 +58,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         }
         public List<FFM_PORT> GetFFM_PORT(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_PORT_CODE,NAME,COUNTRY,TERMINAL,LANGITUDE,DISPLY_STATUS from FFM_PORT where Flag=0");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_PORT_CODE,NAME,COUNTRY,TERMINAL,LATITUDE,LANGITUDE,DISPLY_STATUS from FFM_PORT where Flag=0");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FFM_PORT> ObjList = new List<FFM_PORT>();
@@ -70,8 +70,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     NAME = dr["NAME"].ToString(),
                     COUNTRY = dr["COUNTRY"].ToString(),
                     TERMINAL = dr["TERMINAL"].ToString(),
-                    LANGITUDE=Convert.ToDecimal(dr["LANGITUDE"]),
-                    LATITUDE = Convert.ToDecimal(dr["LATITUDE"]),
+                    LANGITUDE=dr["LANGITUDE"].ToString(),
+                    LATITUDE = dr["LATITUDE"].ToString(),
                     DISPLY_STATUS = dr["DISPLY_STATUS"].ToString(),
                 });
             }
@@ -91,20 +91,20 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 if (!fpk.EditFlag)
                 {
                     var Drecord = new List<string>();
-                    List<FFM_portNew> ObjList = new List<FFM_portNew>();
-                    ObjList.AddRange(fpk.FFM_portNew.Select(m => new FFM_portNew
-                    {
-                        FFM_PORT_CODE = m.FFM_PORT_CODE,
-                        NAME = m.NAME,
-                        //Equals = m.Equals,
-                        DISPLY_STATUS = m.DISPLY_STATUS,
-                        COUNTRY = m.COUNTRY,
+                    //List<FFM_portNew> ObjList = new List<FFM_portNew>();
+                    //ObjList.AddRange(fpk.FFM_portNew.Select(m => new FFM_portNew
+                    //{
+                    //    FFM_PORT_CODE = m.FFM_PORT_CODE,
+                    //    NAME = m.NAME,
+                    //    //Equals = m.Equals,
+                    //    DISPLY_STATUS = m.DISPLY_STATUS,
+                    //    COUNTRY = m.COUNTRY,
 
-                    }).ToList());
-                    int n = 0;
-                    n = ObjList.Count;
-                    while (n >= 0)
-                    {
+                    //}).ToList());
+                    //int n = 0;
+                    //n = ObjList.Count;
+                    //while (n >= 0)
+                    //{
                         int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FFM_PACKING where FFM_PACKING_CODE='" + fpk.FFM_PORT_CODE + "'");// CmpyCode='" + FCur.CMPYCODE + "' and
                         if (Stats1 == 0)
                         {
@@ -136,7 +136,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             fpk.ErrorMessage = "Duplicate Record";
                         }
 
-                    }
+                  //  }
                     return fpk;
                 }
                 var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FFM_PORT where FFM_PORT_CODE='" + fpk.FFM_PORT_CODE + "'and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and 
@@ -144,29 +144,30 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 {
                     StringBuilder sb = new StringBuilder();
 
-                    // sb.Append("FFM_PACKING_UID='" + fpk.FFM_PACKING_UID + "',");
-                    sb.Append("NAME='" + fpk.NAME + "',");
-                    sb.Append("COUNTRY='" + fpk.COUNTRY + "',");
-                    sb.Append("TERMINAL='" + fpk.TERMINAL+ "',");
-                    sb.Append("LANGITUDE='" + fpk.LANGITUDE + "',");
-                    sb.Append("LATITUDE='" + fpk.LATITUDE + "',");
-                    sb.Append("UPDATED_BY='" + fpk.UserName + "',");
-                    sb.Append("UPDATED_ON='" + dtstr1 + "'");
+                        // sb.Append("FFM_PACKING_UID='" + fpk.FFM_PACKING_UID + "',");
+                        sb.Append("NAME='" + fpk.NAME + "',");
+                        sb.Append("COUNTRY='" + fpk.COUNTRY + "',");
+                        sb.Append("TERMINAL='" + fpk.TERMINAL + "',");
+                        sb.Append("LANGITUDE='" + fpk.LANGITUDE + "',");
+                        sb.Append("LATITUDE='" + fpk.LATITUDE + "',");
+                        sb.Append("UPDATED_BY='" + fpk.UserName + "',");
+                        sb.Append("UPDATED_ON='" + dtstr1 + "'");
 
-                    _EzBusinessHelper.ExecuteNonQuery("update FFM_PORT set  " + sb + " where  FFM_PORT_CODE='" + fpk.FFM_PORT_CODE + "' and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and
+                        _EzBusinessHelper.ExecuteNonQuery("update FFM_PORT set  " + sb + " where  FFM_PORT_CODE='" + fpk.FFM_PORT_CODE + "' and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and
 
-                    _EzBusinessHelper.ActivityLog(fpk.CMPYCODE, fpk.UserName, "Update FFM_PORT", fpk.FFM_PORT_CODE, Environment.MachineName);
+                        _EzBusinessHelper.ActivityLog(fpk.CMPYCODE, fpk.UserName, "Update FFM_PORT", fpk.FFM_PORT_CODE, Environment.MachineName);
 
-                    fpk.SaveFlag = true;
-                    fpk.ErrorMessage = string.Empty;
+                        fpk.SaveFlag = true;
+                        fpk.ErrorMessage = string.Empty;
+                    }
+                    else
+                    {
+                        fpk.SaveFlag = false;
+                        fpk.ErrorMessage = "Record not available";
+                    }
                 }
-                else
-                {
-                    fpk.SaveFlag = false;
-                    fpk.ErrorMessage = "Record not available";
-                }
-
-            }
+                    
+            
             catch (Exception ex)
             {
                 fpk.SaveFlag = false;

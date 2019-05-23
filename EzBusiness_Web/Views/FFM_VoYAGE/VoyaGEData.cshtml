@@ -51,7 +51,8 @@
              e.defaultPrevented();
         });
 
-        $("#btnCancel").click(function (){
+        $("#btnCancel").click(function () {
+            debugger;
             $("#editshow").hide();
 
             $("#POContainer").html(poHtml);
@@ -131,14 +132,14 @@
                     FFM_VESSEL_CODE: $("[name='FFM_VESSEL_CODE'] option:selected").val(),
                     NAME: $("[name='NAME']").val(),
                     FFM_VOYAGE01_CODE: $("[name='FFM_VOYAGE01_CODE']").val(),
-                    DISPLAY_STATUS: $("[name='DISPLAY_STATUS'] option:selected").val(),
+                    DISPLAY_STATUS: $("[name='txtdisplaystatus1'] option:selected").val(),
                     newdetails: []
                 };
                 $("#tablePODetails tbody tr").each(function (index, item) {
                     debugger;
                     var SNO = $(this).find("[name*='txtsrno']").val();
                     var ROTATION = $(this).find("[name*='txtRotation']").val();
-                    var PORT = $(this).find("[name*='txtport']").val();
+                    var PORT = $(this).find("[name*='txtport'] option:selected").val();
                     var ETA = Ezsetdtpkdate($(this).find("[name*='txtETA']").val());
                     var ETB = Ezsetdtpkdate($(this).find("[name*='txtETB']").val());
                     var ETD = Ezsetdtpkdate($(this).find("[name*='txtETD']").val());
@@ -178,7 +179,7 @@
                     });
                 }
                 else {
-                    EzAlerterr();
+                    EzAlerterrtxt(validationResult.ErrorMessage);
                 }
             } else if (opMode == "Edit" && n==1) {
                 // Code for Adding Purchase order
@@ -186,7 +187,7 @@
                     FFM_VESSEL_CODE: $("[name='FFM_VESSEL_CODE'] option:selected").val(),
                     NAME: $("[name='NAME']").val(),
                     FFM_VOYAGE01_CODE: $("[name='FFM_VOYAGE01_CODE']").val(),
-                    DISPLAY_STATUS: $("[name='DISPLAY_STATUS'] option:selected").val(),
+                    DISPLAY_STATUS: $("[name='txtdisplaystatus1'] option:selected").val(),
                     EditFlag: true,
                     newdetails: []
                 };
@@ -194,7 +195,7 @@
                     debugger;
                     var SNO = $(this).find("[name*='SNO']").val();
                     var ROTATION = $(this).find("[name*='ROTATION']").val();
-                    var PORT = $(this).find("[name*='PORT']").val();
+                    var PORT = $(this).find("[name*='PORT'] option:selected").val();
                     var ETA = Ezsetdtpkdate($(this).find("[name*='ETA']").val());
                     var ETB = Ezsetdtpkdate($(this).find("[name*='ETB']").val());
                     var ETD = Ezsetdtpkdate($(this).find("[name*='ETD']").val());
@@ -241,70 +242,40 @@
 
         });
 
-        function ValidateForm(employeemaster) {
-
+        function ValidateForm(newdetails) {
+            debugger;
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
             //if (employeemaster.IsEditMode == false) {
-                if (employeemaster.Salutaion == "0") {
-                    response.ErrorMessage += "Salutaion ,";
+            if (newdetails.FFM_VESSEL_CODE =="0") {
+                response.ErrorMessage += " Select FFM_VESSEL_CODE ,";
                 }
-                if (employeemaster.ContactNo == "") {
-                    response.ErrorMessage += "ContactNo ,";
+            if (newdetails.FFM_VOYAGE01_CODE == "") {
+                response.ErrorMessage += "Please Enter FFM_VOYAGE01_CODE,";
                 }
-                if (employeemaster.Nationality == "0") {
-                    response.ErrorMessage += "Nationality ,";
-                }
-                if (employeemaster.DivisionCode == "0") {
-                    response.ErrorMessage += "DivisionCode  ,";
-                }
-                if (employeemaster.Country == "0") {
-                    response.ErrorMessage += "Country  ,";
-                }
-
-                if (employeemaster.Empname == "") {
-                    response.ErrorMessage += "Empname ,";
-                }
-                //if (employeemaster.DOB == "") {
-                //    response.ErrorMessage += "DOB ,";
+            
+                //if (employeemaster.LocCode == "0") {
+                //    response.ErrorMessage += "Location ";
                 //}
-                if (employeemaster.LocCode == "0") {
-                    response.ErrorMessage += "Location ";
-                }
-                if (employeemaster.VisaLocation == "0") {
-                    response.ErrorMessage += "Visa Location ";
-                }
-            //if (!employeemaster.DOB) {
-            //    response.ErrorMessage += "Date of Birth,";
+                //if (employeemaster.VisaLocation == "0") {
+                //    response.ErrorMessage += "Visa Location ";
+                //}
+           
+         
+            //else {
+            //    response.ErrorMessage = "Enter Mandatory fields  " + response.ErrorMessage + " "
             //}
-            if (employeemaster.ReportingEmp =="0") {
-                response.ErrorMessage += "Reporting Employeee ,";
-            }
-
-            if (employeemaster.EMail=="") {
-                response.ErrorMessage += "Email Id should be mandatory ,";
-            }
-
-            if (employeemaster.DOB >= employeemaster.JoiningDate) {
-                response.ErrorMessage += "Date of Birth Can not be greater than Joining Date .";
-            }
-            if (response.ErrorMessage.length == 0) {
-                response.formValid = true;
-            }
-            else {
-                response.ErrorMessage = "Enter Mandatory fields  " + response.ErrorMessage + " "
-            }
             //} else if (employeemaster.IsEditMode == true) {
             //    if (employeemaster.EmpCode=='') {
             //        response.ErrorMessage += "Employee Code,";
 
             //    }
-            //    if (response.ErrorMessage.length == 0) {
-            //        response.formValid = true;
-            //    }
-            //}
+                if (response.ErrorMessage.length == 0) {
+                    response.formValid = true;
+                }
+           // }
             return response;
         }
 

@@ -18,8 +18,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string NAME { get; set; }
         public string COUNTRY { get; set; }
         public string TERMINAL { get; set; }
-        public decimal LATITUDE { get; set; }
-        public decimal LANGITUDE { get; set; }
+        public string LATITUDE { get; set; }
+        public string LANGITUDE { get; set; }
         public string DISPLY_STATUS { get; set; }
         public List< SelectListItem> CountryList { get; set; }
         public bool SaveFlag { get; set; }

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using EzBusiness_BL_Interface.FreightManagementBLI;
 using EzBusiness_DL_Interface.FreightManagementDLI;
 using EzBusiness_DL_Repository.FreightManagementDLR;
-using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
+using EzBusiness_ViewModels;
+
 
 namespace EzBusiness_BL_Service.FreightManagementBLS
 {
@@ -20,24 +18,45 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         {
             _FFMCRGRepo = new FFM_CRG_001Repository();
         }
-        public bool DeleteFFM_CRG_001(string FFM_CRG_001_CODE, string CmpyCode, string UserName)
+        public bool DeleteFFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE,  string UserName)
         {
-            return _FFMCRGRepo.DeleteFFM_CRG_001(FFM_CRG_001_CODE, CmpyCode, UserName);
+            return _FFMCRGRepo.DeleteFFM_CRG_001(CmpyCode, FFM_CRG_001_CODE,  UserName);
         }
 
         public FFM_CRG_001_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE)
         {
-            throw new NotImplementedException();
+            var FFM_CRG_001Edit = _FFMCRGRepo.EditFM_CRG_001(CmpyCode, FFM_CRG_001_CODE);
+            FFM_CRG_001Edit.CRG_GROUP_CODEList = GetCRG_Group(CmpyCode);
+            return FFM_CRG_001Edit;
         }
 
-        public FFM_CRG_001_VM FM_CRG_001AddNew(string CmpyCode, string FFM_CRG_001_CODE)
+        public FFM_CRG_001_VM FM_CRG_001AddNew(string CmpyCode)
         {
-            throw new NotImplementedException();
+            return new FFM_CRG_001_VM
+            {
+                CRG_GROUP_CODEList = GetCRG_Group(CmpyCode),
+                
+                EditFlag = false
+            };
         }
 
         public List<SelectListItem> GetCRG_Group(string Cmpycode)
         {
-            throw new NotImplementedException();
+            var itemCodes = _FFMCRGRepo.GetCRG_Group(Cmpycode)
+                                         .Select(m => new SelectListItem { Value = m.FFM_CRG_GROUP_CODE, Text = string.Concat(m.FFM_CRG_GROUP_CODE, " - ", m.NAME) })
+                                         .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+
+        private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
+        {
+            items.Insert(0, new SelectListItem
+            {
+                Value = PurchaseMgmtConstants.DDLFirstVal,
+                Text = PurchaseMgmtConstants.DDLFirstText
+            });
+            return items;
         }
 
         public List<FFM_CRG_001_VM> GetFFM_CRG_001(string CmpyCode)
