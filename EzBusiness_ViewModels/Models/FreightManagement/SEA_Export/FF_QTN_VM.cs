@@ -31,7 +31,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public string POD { get; set; }
         public string FND { get; set; }
         public string MOVE_TYPE { get; set; }
-        public List<SelectListItem> MoveCodeList { get; set; };
+        public List<SelectListItem> MoveCodeList { get; set; }
         public string REF_NO { get; set; }
         public string VESSEL { get; set; }
         public string VOYAGE { get; set; }
