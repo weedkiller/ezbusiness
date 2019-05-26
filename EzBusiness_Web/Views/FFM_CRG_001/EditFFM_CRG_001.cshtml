@@ -50,9 +50,13 @@
         var counter = parseInt($('#hdnCounter').val())+1;
         $("#tablePODetails").on("change", "[name*='FFM_CRG_JOB_CODE']", function () {
             debugger;
-          
+           
             var tr = $(this).closest('tr');
-         
+            var JobCode = tr.find("[name*='FFM_CRG_JOB_CODE'] option:selected").text();
+            var array = JobCode.split("-");
+            tr.find("[name*='FFM_CRG_JOB_NAME']").val(array[1].trim())
+          
+            $('.selectpicker').selectpicker('refresh');
             drec = [];
             $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
                 //add item to array
