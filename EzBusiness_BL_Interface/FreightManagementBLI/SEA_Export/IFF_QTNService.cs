@@ -19,6 +19,8 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE);
         List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE);
         List<SelectListItem> GetMoveCode(string CmpyCode);
+
+        List<SelectListItem> GetDepart(string CmpyCode);
         bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName);
     }
 }

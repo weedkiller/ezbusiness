@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EzBusiness_EF_Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public string POD { get; set; }
         public string FND { get; set; }
         public string MOVE_TYPE { get; set; }
+        public List<SelectListItem> MoveCodeList { get; set; };
         public string REF_NO { get; set; }
         public string VESSEL { get; set; }
         public string VOYAGE { get; set; }
@@ -41,6 +43,11 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EFFECT_UPTO { get; set; }
         public string DEPARTMENT { get; set; }
+
+        public List<SelectListItem> DEPARTMENTList { get; set; }
+        public List<SelectListItem> CLAUSEList { get; set; }
+        public List<SelectListItem> CRG_002List { get; set; }
+
         public Decimal Total_Cost { get; set; }
         public Decimal Total_Billed { get; set; }
         public Decimal Total_Profit { get; set; }
@@ -57,6 +64,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public List<FF_QTN004New> FF_QTN004Detail { get; set; }
         public FF_QTN005New FF_QTN005 { get; set; }
         public List<FF_QTN005New> FF_QTN005Detail { get; set; }
+
+
 
     }
 

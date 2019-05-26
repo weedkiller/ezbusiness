@@ -26,37 +26,110 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         DropListFillFun drop = new DropListFillFun();
         public bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName)
         {
-            throw new NotImplementedException();
+            return _FF_QTNRepo.DeleteFF_QTN(CmpyCode, FF_QTN001_CODE, UserName);
         }
 
         public List<FF_QTN001> GetFF_QTN(string CmpyCode)
         {
-            throw new NotImplementedException();
+            return _FF_QTNRepo.GetFF_QTN(CmpyCode);
         }
 
         public List<FF_QTN002New> GetFF_QTN002DetailList(string CmpyCode, string FF_QTN001_CODE)
         {
-            throw new NotImplementedException();
+            var FF_QTN002DetailList = _FF_QTNRepo.GetFF_QTN002DetailList(CmpyCode, FF_QTN001_CODE);
+            return FF_QTN002DetailList.Select(m => new FF_QTN002New
+            {
+                CBM = m.CBM,
+                CFT = m.CFT,
+                Container=m.Container,
+                Contents=m.Contents,
+                Cont_Type=m.Cont_Type,
+                KG=m.KG,
+                LBS=m.LBS,
+                No_of_qty=m.No_of_qty,
+                Seal1=m.Seal1,
+                sno=m.sno
+
+            }).ToList();
         }
 
         public List<FF_QTN003New> GetFF_QTN003DetailList(string CmpyCode, string FF_QTN001_CODE)
         {
-            throw new NotImplementedException();
+            var FF_QTN003DetailList = _FF_QTNRepo.GetFF_QTN003DetailList(CmpyCode, FF_QTN001_CODE);
+            return FF_QTN003DetailList.Select(m => new FF_QTN003New
+            {
+               Act_LBS=m.Act_LBS,
+               Dime_weight=m.Dime_weight,
+               Height=m.Height,
+               inside_Unit=m.inside_Unit,
+               No_of_qty=m.No_of_qty,
+               Pkg_No=m.Pkg_No,
+               Sno=m.Sno,
+               unit_type=m.unit_type,
+               Volume=m.Volume,
+               Width=m.Width
+
+            }).ToList();
         }
 
         public List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE)
         {
-            throw new NotImplementedException();
+            var FF_QTN004DetailList = _FF_QTNRepo.GetFF_QTN004DetailList(CmpyCode, FF_QTN001_CODE);
+            return FF_QTN004DetailList.Select(m => new FF_QTN004New
+            {
+            CLUASE_CODE=m.CLUASE_CODE,
+            CLUASE_NAME=m.CLUASE_NAME
+
+            }).ToList();
         }
 
         public List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE)
         {
-            throw new NotImplementedException();
+            var FF_QTN005DetailList = _FF_QTNRepo.GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE);
+            return FF_QTN005DetailList.Select(m => new FF_QTN005New
+            {
+                Crg_code = m.Crg_code,
+                Crg_name = m.Crg_name,
+                Cust_code=m.Cust_code,
+                Cust_Ctrl_Act=m.Cust_Ctrl_Act,
+                Cust_Curr_Code=m.Cust_Curr_Code,
+                Cust_Curr_Rate=m.Cust_Curr_Rate,
+                Cust_Local_amt=m.Cust_Local_amt,
+                Cust_name=m.Cust_name,
+                Cust_Net_Amt=m.Cust_Net_Amt,
+                Cust_Rate=m.Cust_Rate,
+                Cust_Total_amt=m.Cust_Total_amt,
+                Cust_Var_Amt=m.Cust_Var_Amt,
+                Expense_GL_Code=m.Expense_GL_Code,
+                Income_GL_Code=m.Income_GL_Code,
+                PAY_MODE=m.PAY_MODE,
+                Sno=m.Sno,
+                Unit_Code=m.Unit_Code,
+                VendVar_Amt=m.VendVar_Amt,
+                Vend_code=m.Vend_code,
+                Vend_Ctrl_Act=m.Vend_Ctrl_Act,
+                Vend_Curr_Code=m.Vend_Curr_Code,
+                Vend_Curr_Rate=m.Vend_Curr_Rate,
+                Vend_Local_amt=m.Vend_Local_amt,
+                Vend_name=m.Vend_name,
+                Vend_Net_Amt=m.Vend_Net_Amt,
+                Vend_Rate=m.Vend_Rate,
+                Vend_Total_amt=m.Vend_Total_amt
+
+            }).ToList();
         }
 
         public FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE)
         {
-            throw new NotImplementedException();
+            var poEdit = _FF_QTNRepo.GetFF_QTNDetailsEdit(CmpyCode, FF_QTN001_CODE);
+            poEdit.FF_QTN002Detail = GetFF_QTN002DetailList(CmpyCode, FF_QTN001_CODE);
+            poEdit.FF_QTN003Detail = GetFF_QTN003DetailList(CmpyCode, FF_QTN001_CODE);
+            poEdit.FF_QTN004Detail = GetFF_QTN004DetailList(CmpyCode, FF_QTN001_CODE);
+            poEdit.FF_QTN005Detail = GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE);
+            poEdit.DEPARTMENTList = GetDepart(CmpyCode);
+            poEdit.MoveCodeList = GetMoveCode(CmpyCode);
+
+            return poEdit;
         }
 
         public List<SelectListItem> GetMoveCode(string CmpyCode)
@@ -78,7 +151,15 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 
         public FF_QTN_VM SaveFF_QTN_VM(FF_QTN_VM FQV)
         {
-            throw new NotImplementedException();
+            return _FF_QTNRepo.SaveFF_QTN_VM(FQV);
+        }
+
+        public List<SelectListItem> GetDepart(string CmpyCode)
+        {
+            var DepartList = _FF_QTNRepo.GetDepart(CmpyCode)
+                                          .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                          .ToList();
+            return InsertFirstElementDDL(DepartList);
         }
     }
 }
