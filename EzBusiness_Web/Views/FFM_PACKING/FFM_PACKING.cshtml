@@ -130,7 +130,7 @@
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
-            debugger;
+            
             var fpk = {
                 FFM_PACKINGDetailNew: []
             };
@@ -138,7 +138,7 @@
 
                 var FFM_PACKING_CODE = $(this).find("[name*='txtFFM_PACKING_CODE']").val();
                 var NAME = $(this).find("[name*='txtName']").val();
-                debugger;              
+                              
 
 
                 if ((FFM_PACKING_CODE != "") && (NAME != "")) {
@@ -255,7 +255,7 @@
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/FFM_PACKING", "EditIt");
             if (n == 1) {
-                debugger;
+                
                 var counter = $("#Counter").val();
                 var hdnEditMode = $(this).parent().find('input:hidden:first');
                  var tr = $(this).closest("tr");
@@ -271,7 +271,7 @@
                     var NAMEEdit = $(tr).find("[name*='txtName']").val().trim();
                   
 
-                    debugger;
+                    
                     var fpk = {
                         EditFlag: true,
                         FFM_PACKING_CODE: hdnDocCode,
@@ -280,7 +280,7 @@
                                            };
 
                     $.post("/FFM_PACKING/SaveFFM_PACKING", fpk).done(function (response) {
-                        debugger;
+                        
                         NAMETd.text(response.NAME);
                         //CURRENCY_CODETd.text(response.CURRENCY_CODE);
                         //MASTER_STATUSTd.text(response.MASTER_STATUS);
@@ -301,7 +301,7 @@
                         console.log(thrownError);
                     });
                 } else {
-                    debugger;
+                    
                     NAME = $(tr).find("td:eq(1)").text();
                     //var MASTER_STATUS = $(tr).find("td:eq(2)").text();
                     //var NOTE = $(tr).find("td:eq(3)").text();
@@ -310,7 +310,7 @@
 
 
 
-                    NAMETd.html("<input type='text' name='txtName" + index + "' value='" + NAME.trim() + "' />");
+                    NAMETd.html("<input type='text' class='grid-control' name='txtName" + index + "' value='" + NAME.trim() + "' />");
                     //MASTER_STATUSTd.html("<input type='text' name='txtMASTER_STATUS" + index + "' value='" + MASTER_STATUS.trim() + "' />");
                     //NOTETd.html("<input type='text' name='txtNOTE" + index + "' value='" + NOTE.trim() + "' />");
 
@@ -333,7 +333,7 @@
         });
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
-            debugger;
+            
             var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");
@@ -360,7 +360,7 @@
                     }).then((result) => {
                         if (result.value) {
                             FFM_PACKING_CODE = $(tr).find("td:eq(0)").text().trim();
-                            debugger;
+                            
                             $.getJSON("/DeleteFFM_PACKING", { PACKING_CODE: FFM_PACKING_CODE }).done(function (data) {
                                 if (data.DeleteFlag) {
 

@@ -31,14 +31,7 @@
             var dt = $('#DateINMonth').val();
             var currdat = $('#DateINMonth').val();
             $('.selectpicker').selectpicker('refresh');
-        //$('#PAIDTYPE').val(false);
-            
-
-            //Eary = [];
-            //Eary.push("input[name='PAIDTYPE']");
-           
-            //EzsetNtxt(Eary);
-            //EzcheckedFnInt("input[name='PAIDTYPE']", "[name = 'PAIDTYPE']");
+      
             $('#DateINMonth').on('dp.change', function (event) {
                 
                 dt = $("#DateINMonth").val();
@@ -46,24 +39,7 @@
                 dt = dt + "-" + '01';
                 $('#CurrentDate').val(dt);
             });
-          //('#DivisionCode').change(function () {
-          //      
-          //      var divcode = $('#DivisionCode option:selected').val();
-          //      $.get("SalaryProcess/GetDepartmentList", { divcode: divcode }).done(function (response) {
-
-          //          $('#Deptcode').empty();
-          //          var ary = [];
-          //          ary = response;
-          //          for (var i = 0; i < ary.length; i++) {
-          //              $('#Deptcode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-          //          }
-
-          //          $('#Deptcode').val(0);
-
-          //          $('.selectpicker').selectpicker('refresh');
-          //      });
-          //  });
-            //calculate salary Process
+        
             $.fn.dataTable.ext.errorMode = 'none';
           
             $("#btncalculate").click(function () {
@@ -170,9 +146,7 @@
                                             $(this).val(k);
                                         }
                                     });
-                                    // $('#tableslryDetails').DataTable().columns([10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27, 28, 32, 33, 34, 35, 36, 37, 38, 39]).visible(false);
-                                    // $('#tableslryDetailsactual').DataTable().columns([3, 4, 5, 6, 7, 8, 9, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]).visible(false);
-                                    // $('#tableslryOTDetails').DataTable().columns([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 44]).visible(false);
+                                   
                                    
                                     $('.dataTables_scrollHead').css('margin-bottom', '0px');
                                 
@@ -234,7 +208,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label col-md-3">CODE</label>
+                            <label class="control-label col-md-3">Code</label>
                             <div class="col-md-9 input-field">
                                 @Html.TextBoxFor(m => m.PRSPD001_CODE, new { @class = "form-control", @placeholder = "Code" })
                             </div>
@@ -258,20 +232,11 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Date</label>
                             <div class="col-md-9 input-field">
-                                @*<input type="month" id="DateINMonth" class="date1 date-picker" >*@
                                 <input id="DateINMonth" class="form-control datepicker" name="DateINMonth" autocomplete="false">
-
-                                @*@Html.EditorFor(m => m.Dates, new { htmlAttributes = new { @class = "form-control" } })*@
-                                @*@Html.TextBoxFor(m => m.CurrentDate, new { @class = "form-control", @placeholder = "Code" })*@
-                                @*@Html.HiddenFor(m => m.PAIDTYPE)*@
                             </div>
                         </div>
                     </div>
-                    <!--/span-->
-                    @*<div class="col-md-2">
-                        <button class="btn btn-warning" id="btncalculate" type="button">Search</button>
-                    </div>*@
-
+                   
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label col-md-3">Paid Type</label>
@@ -288,43 +253,33 @@
                             </div>
                         </div>
                      </div>
-                        @*<div class="col-md-2">
-                            <div class="icheck-inline checkbox1">
-
-                                <label>
-                                    Paid<i style="color:red;">*</i>
-                                    @Html.CheckBox("PAIDTYPE", false)
-                                </label>
-
-                            </div>
-                        </div>*@
-
-
-                        <!--/span-->
+                       
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Paid All</label>
+                                <div class="col-md-3 input-field">
+                                    <label class="radio-inline" checked="checked">
+                                        @Html.CheckBox("PAIDTYPE", false, new { @class = "chckheader" })
+                                    </label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                
+
+
+
                 <div class="row">
                     <div class="col-md-6">
-
                         <div class="col-md-3">
                             <div class="col-md-6 input-field">
                                 <button class="btn btn-warning" id="btncalculate" type="button">Search</button>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-md-6">
-
-                        <div class="col-md-6">
-                            <div class="icheck-inline checkbox1">
-
-                                <label>
-                                    Paid  ALL
-                                    @Html.CheckBox("PAIDTYPE", false, new { @class = "chckheader" })
-                                </label>
-
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -337,20 +292,20 @@
             <div class="tab-content" id="salrcontainer">
                 <div id="home" class="tab-pane fade in active">
                     <br /><br />
-                    <div class="row">
+                   
                         <div class="col-md-12">
-                            <div style="overflow-x:auto;">
+                            <div class="table-responsive">
                                 <table class="table table-bordered" id="tableslrypaymntDetails">
                                     <thead>
-                                        <tr>
+                                        <tr class="tr">
                                             <th>Sr No</th>
-                                            <th>Emp_Code</th>
+                                            <th>Emp Code</th>
                                             <th>Employee Name</th>                                           
-                                            <th>BankCode</th>
+                                            <th>Bank Code</th>
                                             <th>BankName</th>
-                                            <th>Branch-Code</th>
-                                            <th>Branch-Name</th>
-                                            <th>ACCOUNTNO</th>
+                                            <th>Branch Code</th>
+                                            <th>Branch Name</th>
+                                            <th>Account No</th>
                                             <th>Amount</th>
                                            <th>Paid</th>
                                         </tr>
@@ -361,7 +316,7 @@
                             </div>
                         </div>
 
-                    </div>
+                    
                 </div>
 
             </div>

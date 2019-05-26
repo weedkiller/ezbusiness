@@ -13,18 +13,9 @@
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
-    //var units = [];
+    
     $(function () {
        
-        //var restyp1 = $("#ResourceType:checked").val();
-
-        //if (restyp1 == "M")
-        //{
-        //    $.get("PurchaseMgmt/AddPurchaseOrder", function (response) {
-        //        $("#POContainer").html(response);
-        //    });
-        //}
-
         $('.selectpicker').selectpicker('refresh');
 
 
@@ -39,45 +30,8 @@
 
         EzdateCond('#Effect_From1', '#Entery_date1', 'Effect Date shold be greater than equal to Entry Date');
 
-        //$("#ProjectCode").change(function () {
-        //    var projectName = $("#ProjectCode option:selected").val();
-        //    $("#MasterWrapper").show();
-        //    if (projectName != "0") {
-        //        $(this).prop("disabled", true);
-        //    }
-        //});
-        //var counter = parseInt($("#hdnCounter").val());
-
-
-
-
-        //var counter = parseInt($("#hdnCounter").val());
-
-
-        //var tablePODetails = $("#tablePODetails tbody tr");
-        //tablePODetails.each(function (index, item) {
-        //    $("[name*='Code" + (index + 1) + "']").val($("[name*='hdnCode" + (index + 1) + "']").val());
-        //    $("[name*='Name" + (index + 1) + "']").val($("[name*='hdnName" + (index + 1) + "']").val());
-        //    $("[name*='Accountcode" + (index + 1) + "']").val($("[name*='hdnAccountcode" + (index + 1) + "']").val());
-        //    $("[name*='AMOUNT" + (index + 1) + "']").val($("[name*='hdnAMOUNT" + (index + 1) + "']").val());
-        //    $("[name*='TOTAL" + (index + 1) + "']").val($("[name*='hdnTOTAL" + (index + 1) + "']").val());
-
-        //});
-
-        //var tablePODetails1 = $("#tablePODetails1 tbody tr");
-        //tablePODetails.each(function (index, item) {
-        //    $("[name*='SalaryHeadName" + (index + 1) + "']").val($("[name*='hdnDeductionHeads" + (index + 1) + "']").val());
-        //    $("[name*='Perc" + (index + 1) + "']").val($("[name*='hdnPercentage" + (index + 1) + "']").val());
-        //    $("[name*='Amount" + (index + 1) + "']").val($("[name*='hdnAmount" + (index + 1) + "']").val());
-        //    $("[name*='DeductIn" + (index + 1) + "']").val($("[name*='hdnDeductIn" + (index + 1) + "']").val());
-
-        //});
-
        $("#tablePODetails").on("change", function () {
-          
-
            calculateColumn();
-
          });
 
        $('.selectpicker').selectpicker({
@@ -106,31 +60,18 @@
         var TRANS= $("#tablePODetails tbody tr").find("[name='TRANS']").val()
         var CAR = $("#tablePODetails tbody tr").find("[name='CAR']").val()
 
-        //$("#tablePODetails tbody tr").val() || 0;
-        //CAR = " null " ? 0 : CAR
-        //TRANS = " " ? 0 : TRANS
-        //TELE = " " ? 0 : TELE
-        //DA = " " ? 0 : DA
-        //HRA = " " ? 0 : HRA
-        //BASIC = " " ? 0 : BASIC
-        //ALLOWANCE1 = " " ? 0 : ALLOWANCE1
-        //ALLOWANCE2 = " " ? 0 : ALLOWANCE2
-        //ALLOWANCE3 = " " ? 0 : ALLOWANCE3
+        
         var result = parseInt(ALLOWANCE3)  + parseInt(ALLOWANCE2) + parseInt(ALLOWANCE1) + parseInt(BASIC) + parseInt(HRA) + parseInt(DA) + parseInt(TELE) + parseInt(TRANS) + parseInt(CAR)
-        ////var amount = 0;
-      
-        //var result = 0;
+        
         $("#tablePODetails tbody tr").each(function () {
 
             if ($(this).val() == null) {
                 $(this).val(0);
             }            
-            //result = parseInt(result) + parseInt($(this).val(result));
+           
             result = parseInt(result);
         });
-        //$("#tablePODetails tbody tr").each(function () {
-        //    amount += $(this).val() == null ? 0 : parseInt($(this).val());
-        //});
+       
         $("[name*='TOTAL']").val(result);
        
     }
@@ -139,324 +80,316 @@
 </script>
 
 <div class="row">
-    <!--updated code-->
-
-    @*<div class="col-md-12 no-padding navbar-expand-lg">
-        <div class="panel panel-primary">
-            <div class="panel-heading clearfix">
-                <i class="icon-calendar"></i>
-                <h3 class="panel-title">Ez Business System</h3>
-            </div>*@
-            <div class="panel-body" style="margin-left:10px;">
-                <div class="tabbable-line boxless tabbable-reversed" id="SMAContainer">
-                    <div class="custom-form-wrapper">
-                        <div id="SMAContainer">
-                            <div class="row">
-                                <input type="hidden" id="joindate" />
-                                <div class="custom-form-wrapper">
-                                    <!-- BEGIN FORM-->
-                                    <div class="form-horizontal">
-                                        <div class="form-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Code</label>
-                                                        <div class="col-md-8 input-field">
-                                                            @Html.TextBoxFor(m => m.PRSM001_CODE, new { @class = "form-control", @disabled = "disabled" })
-                                                        </div>
-                                                    </div>
+    <div class="panel-body" style="margin-left:10px;">
+        <div class="tabbable-line boxless tabbable-reversed" id="SMAContainer">
+            <div class="custom-form-wrapper">
+                <div id="SMAContainer">
+                    <div class="row">
+                        <input type="hidden" id="joindate" />
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Code</label>
+                                                <div class="col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.PRSM001_CODE, new { @class = "form-control", @disabled = "disabled" })
                                                 </div>
-                                                <!--/span-->
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Employee</label>
-                                                        <div class="col-md-8">
-                                                            @Html.DropDownListFor(m => m.EMPCODE, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                            </div>
-                                            <!--/row-->
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Entry Date</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input id="Entery_date1" class="form-control datepicker" name="Entery_date1" />
-                                                            @Html.HiddenFor(m => m.Entery_date)
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="control-label col-md-3">Effect From</label>
-                                                        <div class="col-md-8 input-field">
-                                                            <input id="Effect_From1" class="form-control datepicker" name="Effect_From1" />
-                                                            @Html.HiddenFor(m => m.Effect_From)
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--/span-->
                                             </div>
                                         </div>
-                                    </div><br />
-                                    <!-- END FORM-->
-                                    <div class="">
-                                        <ul class="nav nav-tabs">
-                                            <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Employee</label>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(m => m.EMPCODE, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                    <!--/row-->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Entry Date</label>
+                                                <div class="col-md-8 input-field">
+                                                    <input id="Entery_date1" class="form-control datepicker" name="Entery_date1" />
+                                                    @Html.HiddenFor(m => m.Entery_date)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Effect From</label>
+                                                <div class="col-md-8 input-field">
+                                                    <input id="Effect_From1" class="form-control datepicker" name="Effect_From1" />
+                                                    @Html.HiddenFor(m => m.Effect_From)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                    </div>
+                                </div>
+                            </div><br />
+                            <!-- END FORM-->
+                            <div class="">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
 
-                                        </ul>
-                                        <div class="tab-content">
-                                            <div id="home" class="tab-pane fade in active">
-                                                <br /><br />
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div style="overflow-x:auto;">
-                                                            <table class="table table-bordered table-sm" id="tablePODetails">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Sr No</th>
-                                                                        <th>Name</th>
-                                                                        <th>Account Code</th>
-                                                                        <th>Amount</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>    
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="home" class="tab-pane fade in active">
+                                        <br /><br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div style="overflow-x:auto;">
+                                                    <table class="table table-bordered table-sm" id="tablePODetails">
+                                                        <thead>
+                                                            <tr class="tr">
+                                                                <th>Sr No</th>
+                                                                <th>Name</th>
+                                                                <th>Account Code</th>
+                                                                <th>Amount</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>    
                                                                   
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                1
-                                                                            </div>
-                                                                        </td>                                                                        
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.BASICCAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        1
+                                                                    </div>
+                                                                </td>                                                                        
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.BASICCAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                                
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.BASICACT, new { @class = "grid-control" ,@Readonly = "Readonly" })                                                                                                                                                           
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.BASIC, new { @class = "grid-control", @Type = "Number" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.BASICACT, new { @class = "grid-control" ,@Readonly = "Readonly" })                                                                                                                                                           
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.BASIC, new { @class = "grid-control", @Type = "Number" })
 
-                                                                            </div>
-                                                                        </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <div class="grid-group">
-                                                                                    2
-                                                                                </div>
-                                                                            </td>                                                                        
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.HRACAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.HRAACT, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                            <td>
-                                                                                <div class="grid-group">
-                                                                                    @Html.TextBoxFor(m => m.HRA, new { @class = "grid-control", @Type = "Number" })
+                                                                    </div>
+                                                                </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="grid-group">
+                                                                            2
+                                                                        </div>
+                                                                    </td>                                                                        
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.HRACAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.HRAACT, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                    <td>
+                                                                        <div class="grid-group">
+                                                                            @Html.TextBoxFor(m => m.HRA, new { @class = "grid-control", @Type = "Number" })
 
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                3
-                                                                            </div>
-                                                                        </td>                                                                        
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.DACAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.DAACT, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.DA, new { @class = "grid-control", @Type = "Number" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <tr/>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                4
-                                                                            </div>
-                                                                        </td>                                                                       
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.TELECAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.TELEACT, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.TELE, new { @class = "grid-control", @Type = "Number" })
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                5
-                                                                            </div>
-                                                                        </td>                                                                       
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.TRANSCAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.TRANSACT, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.TRANS, new { @class = "grid-control", @Type = "Number" })
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                6
-                                                                            </div>
-                                                                        </td>                                                                        
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.CARCAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.CARACT, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.CAR, new { @class = "grid-control", @Type = "Number" })
-                                                                            </div>
-                                                                        </td>
-                                                                        </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                7
-                                                                            </div>
-                                                                        </td>                                                                        
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.ALLOWANCE1CAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.ALLOWANCE1ACT, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.ALLOWANCE1, new { @class = "grid-control", @Type = "Number" })
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                8
-                                                                            </div>
-                                                                        </td>                                                                        
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.ALLOWANCE2CAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.ALLOWANCE2ACT, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.ALLOWANCE2, new { @class = "grid-control", @Type = "Number" })
-                                                                            </div>
-                                                                        </td>
-                                                                   </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                9
-                                                                            </div>
-                                                                        </td>                                                                        
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.ALLOWANCE3CAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.ALLOWANCE3ACT, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBoxFor(m => m.ALLOWANCE3, new { @class = "grid-control" ,@Type="Number"})
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>   
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        3
+                                                                    </div>
+                                                                </td>                                                                        
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.DACAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.DAACT, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.DA, new { @class = "grid-control", @Type = "Number" })
+                                                                    </div>
+                                                                </td>
+                                                                <tr/>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        4
+                                                                    </div>
+                                                                </td>                                                                       
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.TELECAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.TELEACT, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.TELE, new { @class = "grid-control", @Type = "Number" })
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        5
+                                                                    </div>
+                                                                </td>                                                                       
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.TRANSCAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.TRANSACT, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.TRANS, new { @class = "grid-control", @Type = "Number" })
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        6
+                                                                    </div>
+                                                                </td>                                                                        
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.CARCAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.CARACT, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.CAR, new { @class = "grid-control", @Type = "Number" })
+                                                                    </div>
+                                                                </td>
+                                                                </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        7
+                                                                    </div>
+                                                                </td>                                                                        
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.ALLOWANCE1CAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.ALLOWANCE1ACT, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.ALLOWANCE1, new { @class = "grid-control", @Type = "Number" })
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        8
+                                                                    </div>
+                                                                </td>                                                                        
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.ALLOWANCE2CAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.ALLOWANCE2ACT, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.ALLOWANCE2, new { @class = "grid-control", @Type = "Number" })
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        9
+                                                                    </div>
+                                                                </td>                                                                        
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.ALLOWANCE3CAPTION, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.ALLOWANCE3ACT, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBoxFor(m => m.ALLOWANCE3, new { @class = "grid-control" ,@Type="Number"})
+                                                                    </div>
+                                                                </td>
+                                                            </tr>   
                                                                    
-                                                                </tbody>
-                                                                <tfoot>
-                                                                    <tr>
-                                                                        <th></th>
-                                                                        <th class="id1" colspan="2">Total</th>
-                                                                        @*<th class="id1"></th>*@
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th class="id1" colspan="2">Total</th>
+                                                                @*<th class="id1"></th>*@
                                                                        
-                                                                        <th class="id1">@Html.TextBoxFor(m => m.TOTAL, new { @class = "grid-control", @Readonly = "Readonly" })</th>
-                                                                                @*@Html.Hidden(string.Concat("hdnTOTAL", counter), item.TOTAL)*@
-                                                                    </tr>
-                                                                </tfoot>
+                                                                <th class="id1">@Html.TextBoxFor(m => m.TOTAL, new { @class = "grid-control", @Readonly = "Readonly" })</th>
+                                                                        @*@Html.Hidden(string.Concat("hdnTOTAL", counter), item.TOTAL)*@
+                                                            </tr>
+                                                        </tfoot>
                                                                  
-                                                            </table>
-                                                        </div>
-                                                    </div>
-
+                                                    </table>
                                                 </div>
                                             </div>
 
                                         </div>
                                     </div>
 
-                                    <!-- <button>Hey, click me!</button> -->
                                 </div>
                             </div>
+
+                            <!-- <button>Hey, click me!</button> -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
     
  
 
