@@ -30,9 +30,9 @@
 
         var counter = $('#hdnCounter').val();
 
-
-        $("#tablePODetails").each(function (index3, item) {
-            
+        var index3 = 1;
+        $("#tablePODetails tbody tr").each(function (index3, item) {
+            debugger;
             $("[name*='SNO" + (index3 + 1) + "']").val($("[name*='hdnSNO" + (index3 + 1) + "']").val());
             $("[name*='FFM_CRG_JOB_CODE" + (index3 + 1) + "']").val($("[name*='hdnFFM_CRG_JOB_CODE" + (index3 + 1) + "']").val());
             $("[name*='FFM_CRG_JOB_NAME" + (index3 + 1) + "']").val($("[name*='hdnFFM_CRG_JOB_NAME" + (index3 + 1) + "']").val());
@@ -52,7 +52,11 @@
             
           
             var tr = $(this).closest('tr');
-         
+            var JobCode = tr.find("[name*='FFM_CRG_JOB_CODE'] option:selected").text();
+            var array = JobCode.split("-");
+            tr.find("[name*='FFM_CRG_JOB_NAME']").val(array[1].trim())
+          
+            $('.selectpicker').selectpicker('refresh');
             drec = [];
             $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -67,15 +71,11 @@
                 tr.find("[name *= 'FFM_CRG_JOB_CODE']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'FFM_CRG_JOB_CODE']").val('');
-
-
             }
             else {
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
-
                     tr.clone(true, true).insertAfter(tr);
-
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                         .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
                     var trLast = $("#tablePODetails tr:last")
@@ -238,7 +238,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.DropDownListFor(m => m.OPERATION_TYPE, new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" }, new SelectListItem { Text = "TERM", Value = "TERM" }, new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                                       @Html.DropDownList(string.Concat("OPERATION_TYPE", counter), new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" }, new SelectListItem { Text = "TERM", Value = "TERM" }, new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control", @data_live_search = "true" })
                                                                         @Html.Hidden(string.Concat("hdnOPERATION_TYPE", counter), item.OPERATION_TYPE)
                                                                         @*@Html.TextBox(string.Concat("OPERATION_TYPE", counter), null, new { @class = "grid-control " })
                                                                         @Html.Hidden(string.Concat("hdnOPERATION_TYPE", counter), item.OPERATION_TYPE)*@
@@ -294,7 +294,8 @@
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.DropDownList(string.Concat("OPERATION_TYPE", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })
+                                                                    @*@Html.DropDownList(string.Concat("OPERATION_TYPE", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })*@
+                                                                    @Html.DropDownListFor(m => m.OPERATION_TYPE, new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" }, new SelectListItem { Text = "TERM", Value = "TERM" }, new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control", @data_live_search = "true" })
                                                                     @*@Html.TextBox(string.Concat("OPERATION_TYPE", counter), null, new { @class = "grid-control " })*@
                                                                     @*<input id="ETA1" class="form-control datepicker" name="ETA1" />
                     @Html.HiddenFor(m => m.ETA)*@
@@ -302,7 +303,8 @@
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("INCOME_ACT", counter), null, new { @class = "grid-control " })
+                                                                    @*@Html.TextBox(string.Concat("INCOME_ACT", counter), null, new { @class = "grid-control " })*@
+                                                                    @Html.DropDownList(string.Concat("INCOME_ACT", counter), Model.IncomeACTList, new { @class = "grid-control" })
                                                                     @*<input id="ETB1" class="form-control datepicker" name="ETB1" />
                     @Html.HiddenFor(m => m.ETB)*@
                                                                 </div>

@@ -102,7 +102,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         }
 
         public FFM_CRG_VM SaveFM_CRG_001(FFM_CRG_VM FCur)
-        {           
+         {           
             DateTime dte, ETA1, ETB1, ETD1;
             string dtstr1, ETA2, ETB2, ETD2; ;
             dte = Convert.ToDateTime(DateTime.Now.ToString());
@@ -261,7 +261,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                                 sb1.Append("'" + ObjList[n - 1].EXPENSE_ACGT + "',");
                                 sb1.Append("'" + FCur.DISPLAY_STATUS + "',");
                                 sb1.Append("'" + FCur.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACGT,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
                                 //_EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Voyage", ObjList[n - 1].FFM_VOYAGE01_CODE, Environment.MachineName);
 
                                // _EzBusinessHelper.ExecuteNonQuery("insert into FFM_VOYAGE02(ffm_VOYAGE01_CODE,SNO,ROTATION,PORT,ETA,ETB,ETD,PORT_STAY_HRS,SAILING_HRS,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
@@ -339,7 +339,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public List<FNM_AC_COA> GetIncomeAct(string Cmpycode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("select FNM_AC_COA_CODE,NAME from  FNM_AC_COA where SUBLEDGER_TYPE='Entry level' and  CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("select FNM_AC_COA_CODE,NAME from  FNM_AC_COA where SUBLEDGER_TYPE='ENTRY' and  CmpyCode='" + Cmpycode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNM_AC_COA> ObjList = new List<FNM_AC_COA>();

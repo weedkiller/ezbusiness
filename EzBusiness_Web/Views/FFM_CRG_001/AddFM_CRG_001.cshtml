@@ -13,6 +13,7 @@
 <script>
     $(function () {
         arr1 = [];
+        $('.selectpicker').selectpicker('refresh');
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
         var counter = parseInt($("#hdnCounter").val());
        $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
@@ -39,12 +40,12 @@
             if (EzHeadTxtvalid("#NAME", "#tablePODetails tbody tr:last", "[name *= 'txtjobcode']", "Please Enter Name", '0', '0') == true) {
                 return;
             }
-
-            var JobCode = $("[name*='txtjobcode'] option:selected").text();
+            var tr = $(this).closest('tr');
+            var JobCode = tr.find("[name*='txtjobcode'] option:selected").text();
             var array = JobCode.split("-");
             //   var counter =1;
-            $("[name*='txtjobname']").val(array[1].trim())
-            var tr = $(this).closest('tr');
+            tr.find("[name*='txtjobname']").val(array[1].trim())
+          
           //  var tcunt = $("#tablePODetails").find("tr").length;
             drec = [];
             $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
@@ -102,6 +103,8 @@
          
          
         });
+
+       
     });
 </script>
 
@@ -140,8 +143,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                       
+                                        </div>                                       
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -179,73 +181,78 @@
                                     <div class="tab-content">
                                         <div id="home" class="tab-pane fade in active">
                                             <br /><br />
-
                                             <div class="col-md-12">
                                                 <div class="table-responsive">
-                                                <table class="table table-bordered stripe display hover" id="tablePODetails">
-                                                    <thead>
-                                                        <tr class="tr">
-                                                            <th>Sr.No</th>                                                         
-                                                            <th>Job Code</th>
-                                                            <th>Job Name</th>
-                                                            <th>Operation Type</th>
-                                                            <th>Income Act</th>
-                                                            <th>Expense ACGT</th>
-                                                           
-                                                          
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @{int RowNo = 1;}
-                                                        <tr>
 
-                                                            <td>
-                                                                <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                  
-                                                                </div>
-                                                            </td>
-                                                           
-                                                            <td>
-                                                                <div class="grid-group">
-                                                                   
-                                                                    @Html.DropDownList(string.Concat("txtjobcode", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })
-                                                                   
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("txtjobname", counter), null, new { @class = "grid-control datepicker" })
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="grid-group">
-                                                                    @Html.DropDownListFor(m => m.OPERATION_TYPE, new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" } , new SelectListItem { Text = "TERM", Value = "TERM" } , new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
-                                                                  
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="grid-group">
-                                                                    @Html.DropDownList(string.Concat("txtincomeact", counter), Model.IncomeACTList, new { @class = "grid-control" })
-                                                                   
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("txtexpenceacgt", counter), null, new { @class = "grid-control" })
-                                                                </div>
-                                                            </td>
-                                                            
-                                                         
-                                                        </tr>
-                                                        
-                                                        
-                                                    </tbody>
-                                                </table>
-                                                @Html.Hidden("hdnCounter", (++counter))
+                                                    <table class="table table-bordered stripe display hover" id="tablePODetails">
+                                                        <thead>
+                                                            <tr class="tr">
+                                                                <th>Sr.No</th>
+                                                                <th>Job Code</th>
+                                                                <th>Job Name</th>
+                                                                <th>Operation Type</th>
+                                                                <th>Income Act</th>
+                                                                <th>Expense ACGT</th>
+
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @{int RowNo = 1;}
+                                                            <tr>
+
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                        @*@Html.Label(counter.ToString())*@
+                                                                    </div>
+                                                                </td>
+
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        @*@Html.TextBox(string.Concat("txtjobcode", counter), null, new { @class = "grid-control " })*@
+                                                                        @Html.DropDownList(string.Concat("txtjobcode", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })
+                                                                        @*@Html.DropDownListFor(m => m.JOB_CODE, Model.CRG_job_CODEList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("txtjobname", counter), null, new { @class = "grid-control datepicker" })
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        @Html.DropDownListFor(m => m.OPERATION_TYPE, new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" } , new SelectListItem { Text = "TERM", Value = "TERM" } , new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control", @data_live_search = "true" })
+                                                                        @*@Html.TextBox(string.Concat("txtoperationtype", counter), null, new { @class = "grid-control datepicker" })*@
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        @Html.DropDownList(string.Concat("txtincomeact", counter), Model.IncomeACTList, new { @class = "grid-control" })
+                                                                        @*@Html.TextBox(string.Concat("txtincomeact", counter), null, new { @class = "grid-control datepicker" })*@
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="grid-group">
+                                                                        @Html.TextBox(string.Concat("txtexpenceacgt", counter), null, new { @class = "grid-control" })
+                                                                    </div>
+                                                                </td>
+
+
+                                                            </tr>
+                                                            @*@*<tr>
+                            <th></th>
+                            <th class="id1">Total</th>
+                            <th class="id1"></th>
+                            <th class="id1"></th>
+                            <th class="id1"></th>
+                        </tr>*@
+
+                                                        </tbody>
+                                                    </table>
+                                                    @Html.Hidden("hdnCounter", (++counter))
                                                 </div>
                                             </div>
-
 
                                         </div>
 
