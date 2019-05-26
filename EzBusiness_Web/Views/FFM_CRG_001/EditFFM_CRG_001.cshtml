@@ -86,10 +86,10 @@
                     //$("#tablePODetails > tbody tr:last").prev().remove();
                   
                     trLast.find("[name*='SNO']").val(counter);
-                    trLast.find("[name*='FFM_CRG_JOB_CODE']").val('');
+                    trLast.find("[name*='FFM_CRG_JOB_CODE'] option:selected").val('');
                     trLast.find("[name*='FFM_CRG_JOB_NAME']").val('');
-                    trLast.find("[name*='OPERATION_TYPE']").val('');
-                    trLast.find("[name*='INCOME_ACT']").val('');
+                    trLast.find("[name*='OPERATION_TYPE'] option:selected").val('');
+                    trLast.find("[name*='INCOME_ACT'] option:selected").val('');
                     trLast.find("[name*='EXPENSE_ACGT']").val('');
                 
 
@@ -224,7 +224,8 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("FFM_CRG_JOB_CODE", counter), null, new { @class = "grid-control" })
+                                                                        @Html.DropDownList(string.Concat("FFM_CRG_JOB_CODE", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })
+                                                                        @*@Html.TextBox(string.Concat("FFM_CRG_JOB_CODE", counter), null, new { @class = "grid-control" })*@
                                                                         @Html.Hidden(string.Concat("hdnFFM_CRG_JOB_CODE", counter), item.FFM_CRG_JOB_CODE)
                                                                     </div>
                                                                 </td>
@@ -237,13 +238,23 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("OPERATION_TYPE", counter), null, new { @class = "grid-control " })
+                                                                        @Html.DropDownListFor(m => m.OPERATION_TYPE, new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" }, new SelectListItem { Text = "TERM", Value = "TERM" }, new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                                         @Html.Hidden(string.Concat("hdnOPERATION_TYPE", counter), item.OPERATION_TYPE)
+                                                                        @*@Html.TextBox(string.Concat("OPERATION_TYPE", counter), null, new { @class = "grid-control " })
+                                                                        @Html.Hidden(string.Concat("hdnOPERATION_TYPE", counter), item.OPERATION_TYPE)*@
+                                                                        @*<select id="ddlstatus" class="form-control">
+                                                                            <option value="ARE">ARE</option>
+                                                                            <option value="SEA">SEA</option>
+                                                                            <option value="WAH">WAH</option>
+                                                                            <option value="TERM">TERM</option>
+                                                                            <option value="ROAD">ROAD</option>
+                                                                        </select>*@
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("INCOME_ACT", counter), null, new { @class = "grid-control " })
+                                                                        @Html.DropDownList(string.Concat("INCOME_ACT", counter), Model.IncomeACTList, new { @class = "grid-control" })
+                                                                        @*@Html.TextBox(string.Concat("INCOME_ACT", counter), null, new { @class = "grid-control " })*@
                                                                         @Html.Hidden(string.Concat("hdnINCOME_ACT", counter), item.INCOME_ACT)
                                                                     </div>
                                                                 </td>
@@ -271,10 +282,10 @@
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("FFM_CRG_JOB_CODE", counter), null, new { @class = "grid-control" })
+                                                                    @Html.DropDownList(string.Concat("FFM_CRG_JOB_CODE", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })
+                                                                    @*@Html.TextBox(string.Concat("FFM_CRG_JOB_CODE", counter), null, new { @class = "grid-control" })*@
                                                                 </div>
                                                             </td>
-
                                                             <td>
                                                                 <div class="grid-group">
                                                                     @*@Html.DropDownList(string.Concat("PORT", counter), Model.PortList, new { @class = "grid-control" })*@
@@ -283,7 +294,8 @@
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.TextBox(string.Concat("OPERATION_TYPE", counter), null, new { @class = "grid-control " })
+                                                                    @Html.DropDownList(string.Concat("OPERATION_TYPE", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })
+                                                                    @*@Html.TextBox(string.Concat("OPERATION_TYPE", counter), null, new { @class = "grid-control " })*@
                                                                     @*<input id="ETA1" class="form-control datepicker" name="ETA1" />
                     @Html.HiddenFor(m => m.ETA)*@
                                                                 </div>

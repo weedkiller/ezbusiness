@@ -23,14 +23,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         {
           
 
-            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FFM_CRG_Group where CMPYCODE='" + CmpyCode + "' and FFM_CRG_GROUP_CODE='" + FFM_CRG_GROUP_CODE + "'  Flag=0");
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FFM_CRG_Group where CMPYCODE='" + CmpyCode + "' and FFM_CRG_GROUP_CODE='" + FFM_CRG_GROUP_CODE + "' and Flag=0");
             if (Grs != 0)
             {
-
                 _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FFM_CRG_Group", FFM_CRG_GROUP_CODE, Environment.MachineName);
 
-                return _EzBusinessHelper.ExecuteNonQuery1("update FFM_CRG_Group set Flag=1 where CMPYCODE='" + CmpyCode + "' and FFM_CRG_GROUP_CODE='" + FFM_CRG_GROUP_CODE + "'   and Flag=0");
-
+                return _EzBusinessHelper.ExecuteNonQuery1("update FFM_CRG_Group set Flag=1 where CMPYCODE='" + CmpyCode + "' and FFM_CRG_GROUP_CODE='" + FFM_CRG_GROUP_CODE + "'and Flag=0");
             }
             return false;
         }
