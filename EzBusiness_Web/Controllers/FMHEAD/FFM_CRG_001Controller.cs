@@ -105,6 +105,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(new { DeleteFlag = _FFMCRGService.DeleteFFM_CRG_001( list[0].CmpyCode, FFM_CRG_001_CODE, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
+       
         #endregion
     }
 }

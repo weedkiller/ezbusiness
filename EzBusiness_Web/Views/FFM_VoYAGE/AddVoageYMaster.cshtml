@@ -35,6 +35,14 @@
         $("#tablePODetails").on("change", "[name*='txtRotation']", function () {
             debugger;
             
+            if (EzHeadTxtvalid("[name *= 'FFM_VESSEL_CODE'] option:selected", "#tablePODetails tbody tr:last", "[name *= 'txtRotation']", "Please Enter VESSEL CODE", '0', '0') == true) {
+                return;
+            }
+
+            if (EzHeadTxtvalid("[name *= 'FFM_VOYAGE01_CODE']", "#tablePODetails tbody tr:last", "[name *= 'txtRotation']", "Please Enter VOYAGE CODE", '0', '0') == true) {
+                return;
+            }
+
             //Ezdteformtcurtime();
             //$(".time1").datetimepicker("destroy");
             tbldtpicker();
@@ -203,85 +211,83 @@
                             </div><br />
                             <!-- END FORM-->
 
-                              
-                                    <ul class="nav nav-tabs">
-                                        <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <br /><br />
-                                            <div class="col-md-12">
-                                                <div class="table-responsive">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="home" class="tab-pane fade in active">
+                                    <br /><br />
 
-                                                    <table class="table table-bordered stripe display hover" id="tablePODetails">
-                                                        <thead>
-                                                            <tr class="tr">
-                                                                <th> Sr.No </th>
-                                                                <th>Rotation</th>
-                                                                <th>Port</th>
-                                                                <th>ETA</th>
-                                                                <th>ETB</th>
-                                                                <th>ETD</th>
-                                                                <th>Port Stay Hrs</th>
-                                                                <th> sailing Hrs</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @{int RowNo = 1;}
-                                                            <tr>
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered stripe display hover" id="tablePODetails">
+                                                <thead>
+                                                    <tr class="tr">
+                                                        <th> Sr.No </th>
+                                                        <th>Rotation</th>
+                                                        <th>Port</th>
+                                                        <th>ETA</th>
+                                                        <th>ETB</th>
+                                                        <th>ETD</th>
+                                                        <th>Port Stay Hrs</th>
+                                                        <th> sailing Hrs</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{int RowNo = 1;}
+                                                    <tr>
 
-                                                                <td>
-                                                                    <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control",@readonly= "readonly" })
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtRotation", counter), null, new { @class = "grid-control" })
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="grid-group">
-                                                                        @*@Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control " })*@
-                                                                        @Html.DropDownList(string.Concat("txtport", counter), Model.PortList, new { @class = "grid-control" })
-                                                                        @*@Html.DropDownListFor(m => m.PORT, Model.PortList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtETA", counter), null, new { @class = "grid-control datepicker" })
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtETB", counter), null, new { @class = "grid-control datepicker" })
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtETD", counter), null, new { @class = "grid-control datepicker" })
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtPortStayhrs", counter), null, new { @class = "grid-control", @Type = "Number" })
-                                                                    </div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtSailinghrs", counter), null, new { @class = "grid-control", @Type = "Number" })
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                           
-                                                        </tbody>
-                                                    </table>
-                                               @Html.Hidden("hdnCounter", (++counter))
-                                            </div>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control",@readonly= "readonly" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("txtRotation", counter), null, new { @class = "grid-control" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @*@Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control " })*@
+                                                                @Html.DropDownList(string.Concat("txtport", counter), Model.PortList, new { @class = "grid-control" })
+                                                                @*@Html.DropDownListFor(m => m.PORT, Model.PortList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("txtETA", counter), null, new { @class = "grid-control datepicker" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("txtETB", counter), null, new { @class = "grid-control datepicker" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("txtETD", counter), null, new { @class = "grid-control datepicker" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("txtPortStayhrs", counter), null, new { @class = "grid-control", @Type = "Number" })
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="grid-group">
+                                                                @Html.TextBox(string.Concat("txtSailinghrs", counter), null, new { @class = "grid-control", @Type = "Number" })
+                                                            </div>
+                                                        </td>
+                                                    </tr>
 
-                                       
-                                    @*</div>
+                                                </tbody>
+                                            </table>
+                                            @Html.Hidden("hdnCounter", (++counter))
+                                        </div>
+                                    </div>
+                                </div>
 
-                                </div>*@
                             </div>
 
                                 <!-- <button>Hey, click me!</button> -->

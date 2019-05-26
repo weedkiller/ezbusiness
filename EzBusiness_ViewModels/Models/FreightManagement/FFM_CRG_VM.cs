@@ -17,13 +17,18 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string FFM_CRG_001_CODE { get; set; }
         public string NAME { get; set; }
         public List<SelectListItem> CRG_GROUP_CODEList { get; set; }
+        public List<SelectListItem> CRG_job_CODEList { get; set; }
+
+        public string INCOME_ACT { get; set; }
+        public List<SelectListItem> IncomeACTList { get; set; }
         public string FFM_CRG_GROUP_CODE { get; set; }
         public string DISPLAY_STATUS { get; set; }
         public bool SaveFlag { get; set; }
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
         public string UserName { get; set; }
-
+        public string OPERATION_TYPE { get; set; }
+        public string JOB_CODE { get; set; }
        public List<FFM_CRG_Details> crgnewDetails { get; set; }
         public FFM_CRG_Details newdetails { get; set; }
     }

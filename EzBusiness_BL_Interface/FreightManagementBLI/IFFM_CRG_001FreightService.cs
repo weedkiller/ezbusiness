@@ -17,6 +17,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
         List<FFM_CRG_VM> GetFFM_CRG_001(string CmpyCode);
         FFM_CRG_VM SaveFFM_CRG_001(FFM_CRG_VM CR);
         bool DeleteFFM_CRG_001( string CmpyCode, string FFM_CRG_001_CODE, string UserName);
+      
         List<FFM_CRG_Details> GetCRGDetailList(string CmpyCode, string VyogCode);
         List<SelectListItem> GetCRG_Group(string Cmpycode);
 
