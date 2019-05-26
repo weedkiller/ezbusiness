@@ -124,12 +124,12 @@
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
-            debugger;
+            
             var Fcur = {
                 FFM_unitDetailsnew: []
             };
             $("#tblcntr1 tbody tr").each(function (index, item) {
-                debugger;
+                
                 var CNTR_CODE = $(this).find("[name*='txtCODE']").val();
                 var CNTR_NAME = $(this).find("[name*='txtNAME']").val();
                 var Displayname = $(this).find("[name*='txtdisplaystatus'] option:selected").val();
@@ -269,7 +269,7 @@
                 var editButton = $(this);
 
                 if (hdnEditMode.val() == "true") {
-                    debugger;
+                    
                     var CURRENCY_NAMEEdit = $(tr).find("[name*='txtNAME']").val().trim();
                     var MASTER_STATUSEdit = $(tr).find("[name*='txtdisplaystatus'] option:selected").val();
                     //$(tr).find("[name*='txtLEAVE_TYPECODE'] option:selected").val();
@@ -301,7 +301,7 @@
                         console.log(thrownError);
                     });
                 } else {
-                    debugger;
+                    
                     var cntr_CODE = $(tr).find("td:eq(0)").text();
                     var cntr_NAME = $(tr).find("td:eq(1)").text();
                     var MASTER_STATUS = $(tr).find("td:eq(2)");
@@ -335,7 +335,7 @@
         });
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
-            debugger;
+            
             var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");

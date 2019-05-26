@@ -27,7 +27,7 @@
         var counter = $('#hdnCounter').val();
         $('.selectpicker').selectpicker('refresh');
         $("#tablePODetails").on("change", "[name*='txtjobcode']", function () {
-            debugger;
+            
             if (EzHeadTxtvalid("[name *= 'FFM_CRG_GROUP_CODE'] option:selected", "#tablePODetails tbody tr:last", "[name *= 'txtjobcode']", "Please Enter FFM GROUP CODE", "0", "0") == true) {
                 return;
             }
@@ -172,7 +172,7 @@
                                 </div>
                             </div>
 
-                                <div class="">
+                                
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
                                     </ul>
@@ -180,8 +180,8 @@
                                         <div id="home" class="tab-pane fade in active">
                                             <br /><br />
 
-                                            <div class="col-md-12 table-responsive">
-
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
                                                 <table class="table table-bordered stripe display hover" id="tablePODetails">
                                                     <thead>
                                                         <tr class="tr">
@@ -202,15 +202,15 @@
                                                             <td>
                                                                 <div class="grid-group">
                                                                     @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                    @*@Html.Label(counter.ToString())*@
+                                                                  
                                                                 </div>
                                                             </td>
                                                            
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @*@Html.TextBox(string.Concat("txtjobcode", counter), null, new { @class = "grid-control " })*@
+                                                                   
                                                                     @Html.DropDownList(string.Concat("txtjobcode", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })
-                                                                    @*@Html.DropDownListFor(m => m.JOB_CODE, Model.CRG_job_CODEList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                                   
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -221,13 +221,13 @@
                                                             <td>
                                                                 <div class="grid-group">
                                                                     @Html.DropDownListFor(m => m.OPERATION_TYPE, new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" } , new SelectListItem { Text = "TERM", Value = "TERM" } , new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
-                                                                    @*@Html.TextBox(string.Concat("txtoperationtype", counter), null, new { @class = "grid-control datepicker" })*@
+                                                                  
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
                                                                     @Html.DropDownList(string.Concat("txtincomeact", counter), Model.IncomeACTList, new { @class = "grid-control" })
-                                                                    @*@Html.TextBox(string.Concat("txtincomeact", counter), null, new { @class = "grid-control datepicker" })*@
+                                                                   
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -238,24 +238,19 @@
                                                             
                                                          
                                                         </tr>
-                                                        @*@*<tr>
-                                    <th></th>
-                                    <th class="id1">Total</th>
-                                    <th class="id1"></th>
-                                    <th class="id1"></th>
-                                    <th class="id1"></th>
-                                </tr>*@
+                                                        
                                                         
                                                     </tbody>
                                                 </table>
                                                 @Html.Hidden("hdnCounter", (++counter))
+                                                </div>
                                             </div>
 
 
                                         </div>
 
                                     </div>
-                                </div>
+                               
                         </div>
                          </div>
                     </div>
