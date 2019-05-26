@@ -18,16 +18,10 @@
 <script>
     $(function () {
         
-       // EzsetDatetxt();
+      
         counter = 1;
         drec = [];
-        /* delete grid record */
-        //$("#tablePODetails").on("click", "[name*='btnDelete']", function () {
-        //    drec.pop($(this).find("[name*='Datest']").val());
-        //    counter--;
-        //    $(this).closest("tr").remove();
-        //});
-
+        
         EzGriddel("#tablePODetails", "[name*='btnDelete']");
 
         /* Add new row & find duplicate data in table  */
@@ -98,11 +92,7 @@
         });
         $('body').on('focusin', '.datepicker', function () {
            
-            // var myDate = new Date(2012, 2, 11);
-
-            // $('#startdate').datetimepicker("setDate", myDate);
             $('.datepicker').datetimepicker({
-                // defaultDate: new Date(),
                 format: 'DD/MM/YYYY',
                 showClose: true,
                 showClear: true,
@@ -231,11 +221,10 @@
             <div class="row">
                 <div class="row">
                     <div class="col-md-12">
-                        <div style="overflow-x:auto;">
+                        <div class="table-responsive">
                             <table class="table table-bordered table-sm" id="tablePODetails">
                                 <thead>
-                                    <tr>
-                                        @*<th>Sr No</th>*@
+                                    <tr class="tr">
                                         <th>Shift Allocation Code</th>
                                         <th>Entyr Date</th>
                                         <th>Effective Date</th>
@@ -244,12 +233,6 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-
-                                        @*<td>
-                                            <label>@counter</label>
-                                            @Html.Label(counter.ToString())
-
-                                        </td>*@
                                         <td>
                                             <div class="grid-group">
                                                 @Html.TextBox(string.Concat("PRSFT002_code", counter), null, new { @class = "grid-control", @placeholder = "Code" })
