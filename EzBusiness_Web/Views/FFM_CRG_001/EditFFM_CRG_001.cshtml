@@ -30,8 +30,8 @@
 
         var counter = $('#hdnCounter').val();
 
-
-        $("#tablePODetails").each(function (index3, item) {
+        var index3 = 1;
+        $("#tablePODetails tbody tr").each(function (index3, item) {
             debugger;
             $("[name*='SNO" + (index3 + 1) + "']").val($("[name*='hdnSNO" + (index3 + 1) + "']").val());
             $("[name*='FFM_CRG_JOB_CODE" + (index3 + 1) + "']").val($("[name*='hdnFFM_CRG_JOB_CODE" + (index3 + 1) + "']").val());
@@ -71,15 +71,11 @@
                 tr.find("[name *= 'FFM_CRG_JOB_CODE']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'FFM_CRG_JOB_CODE']").val('');
-
-
             }
             else {
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
-
                     tr.clone(true, true).insertAfter(tr);
-
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                         .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
                     var trLast = $("#tablePODetails tr:last")
@@ -242,7 +238,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.DropDownListFor(m => m.OPERATION_TYPE, new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" }, new SelectListItem { Text = "TERM", Value = "TERM" }, new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control", @data_live_search = "true" })
+                                                                       @Html.DropDownList(string.Concat("OPERATION_TYPE", counter), new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" }, new SelectListItem { Text = "TERM", Value = "TERM" }, new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control", @data_live_search = "true" })
                                                                         @Html.Hidden(string.Concat("hdnOPERATION_TYPE", counter), item.OPERATION_TYPE)
                                                                         @*@Html.TextBox(string.Concat("OPERATION_TYPE", counter), null, new { @class = "grid-control " })
                                                                         @Html.Hidden(string.Concat("hdnOPERATION_TYPE", counter), item.OPERATION_TYPE)*@
