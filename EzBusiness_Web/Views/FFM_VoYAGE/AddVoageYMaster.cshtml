@@ -11,16 +11,34 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
+       // EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
+
+        var counter = parseInt($("#hdnCounter").val());
+        $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+            counter = 1;
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function (e) {
+                var tr1 = $(this).closest("tr");
+                tr1.find(":first").text(counter);
+                counter++;
+            });
+        });
+
+        var counter = $('#hdnCounter').val();
+
+
         $('.selectpicker').selectpicker('refresh');
-
-        EzdtePk('#txtETA,#txtETAB,#txtETAD');
-        Ezsetzerotxt();
-        Ezdatejoindate('#Entery_date1', '#joindate', '#Effect_From1','Entery Date shold be greater than equal to Joindate');
-
-        EzdateCond('#Effect_From1', '#Entery_date1', 'Effect Date shold be greater than equal to Entry Date');
+      //  EzdtePk('#txtETA,#txtETAB,#txtETAD');
+        //Ezsetzerotxt();
+        //Ezdteformtcurtime();
+        
         $("#tablePODetails").on("change", "[name*='txtRotation']", function () {
             debugger;
-            var counter = $("#Counter").val();
+            
+            //Ezdteformtcurtime();
+            //$(".time1").datetimepicker("destroy");
+            tbldtpicker();
+            $(".datepicker").datetimepicker("destroy");
             var tr = $(this).closest('tr');
             var tcunt = $("#tablePODetails").find("tr").length;
             drec = [];
@@ -44,17 +62,17 @@
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
                     tr.clone(true, true).insertAfter(tr);
-                    var trLast = $("#tableMetaSettings tr:last");
+                    var trLast = $("#tablePODetails tbody tr:last")
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tblcntr1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtsrno']").val(tcunt);
-                    $(this).closest('tr').next('tr').find("[name*='txtRotation']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtport'] option:selected").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtETA']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtETAB']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtETD']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtPortStayhrs']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtSailinghrs']").val('');
+                               .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                   // trLast.find("[name*='txtsrno']").val(tcunt);
+                    trLast.find("[name*='txtRotation']").val('');
+                    trLast.find("[name*='txtport'] option:selected").val('');
+                    trLast.find("[name*='txtETA']").val('');
+                    trLast.find("[name*='txtETAB']").val('');
+                    trLast.find("[name*='txtETD']").val('');
+                    trLast.find("[name*='txtPortStayhrs']").val('');
+                    trLast.find("[name*='txtSailinghrs']").val('');
                     trLast.find("[name *= 'txtsrno']").attr({
                         "name": ("txtsrno" + counter)
                     });
@@ -94,71 +112,17 @@
             });
 
         });
-        $("#EMPCODE").change(function () {
-            //$("#tablePODetails > tbody tr:last").empty();
-            //$("#tablePODetails > tbody tr:last").remove();
-            var e1 = $("#EMPCODE option:selected").val();
-            if (e1 != '0') {
-                Ezjoindate(e1, '#joindate');
 
-                $.get("/GetSalGrid").done(function (response) {
-                    var ary = [];
-                    ary = response;
-                    $("#tablePODetails > tbody tr").empty();
-                    $("#tablePODetails > tbody tr").remove();
-                    counter = 1;
-                    for (var i = 0; i < ary.length; i++) {
-                        var tr1 = "<tr>";
-                        var td = "<td><div class='form-group'>" + counter + "</div></td>"
-                        var td1 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='Code" + counter + "'></div></td>"
-                        //var td2 = "<td><div class='form-group'><input type='number' class='form-control' name='Name" + counter + "'></div></td>";
-                        var td2 = "<td><div class='form-group'><input type='text' Readonly='true' class='form-control' name='Name" + counter + "'></div></td>";
-                        var td3 = "<td><div class='form-group'><input type='text' class='form-control' name='Accountcode" + counter + "'></div></td>";
-                        var td4 = "<td><div class='form-group'><input type='number' class='form-control' name='AMOUNT" + counter + "'></div></td></tr>";
-                        $("#tablePODetails").append(tr1 + td + td1 + td2 + td3 + td4);
-                        var tr = $("#tablePODetails tbody tr");
-                        tr.find("[name='Code" + counter + "']").val(ary[i].Code);
-                        tr.find("[name='Name" + counter + "']").val(ary[i].Name);
-                        tr.find("[name='Accountcode" + counter + "']").val(ary[i].Accountcode);
-                        tr.find("[name='AMOUNT" + counter + "']").val('0.00');
-
-                        $("[name*='TOTAL']").val('0.00');
-                        //tr.find("[name='Amount" + counter + "']").val(ary[i].Amount);
-                        // tr.clone(true, true).insertAfter(tr);
-
-                        counter++;
-                    }
-                    Ezsetzerotxt();
-                });
-
-
-            }
-
-        });
-            $("#tablePODetails").on("change", "[name*='AMOUNT']", function () {
-                sumOfColumns();
+        $('body').on('focusin', '.time1', function () {
+            $('.time1').datetimepicker({
+                //defaultDate: new Date(),
+                format: 'LT',
+                showClose: true,
+                showClear: true,
             });
 
-            function sumOfColumns() {
-
-                var sum = 0.0;
-                var sum1 = 0.0;
-
-                $("#tablePODetails > tbody  > tr").each(function () {
-                    var amount = parseFloat($(this).find("[name*='AMOUNT']").val());
-                    sum += isNaN(amount) ? 0 : amount;
-                    $(this).find("[name*='AMOUNT']").val('' + amount);
-                    sum1 = sum * 12;
-
-                });
-                //var amount = 0;
-                //$("#tablePODetails").each(function () {
-                //    amount += $(this).val() == null ? 0 : parseInt($(this).val());
-                //});
-                //just update the total to sum
-                $("[name*='TOTAL']").val(sum);
-                //$("[name*='ContractAmountYearly']").val(sum1);
-            }
+        });
+      
 
             $("#FFM_VESSEL_CODE").change(function () {
                 debugger;
@@ -267,7 +231,7 @@
 
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control" })
+                                                                        @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control",@readonly= "readonly" })
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -299,31 +263,26 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtPortStayhrs", counter), null, new { @class = "grid-control" })
+                                                                        @Html.TextBox(string.Concat("txtPortStayhrs", counter), null, new { @class = "grid-control", @Type = "Number" })
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("txtSailinghrs", counter), null, new { @class = "grid-control" })
+                                                                        @Html.TextBox(string.Concat("txtSailinghrs", counter), null, new { @class = "grid-control", @Type = "Number" })
                                                                     </div>
                                                                 </td>
                                                             </tr>
-                                                            @*@*<tr>
-                                    <th></th>
-                                    <th class="id1">Total</th>
-                                    <th class="id1"></th>
-                                    <th class="id1"></th>
-                                    <th class="id1"></th>
-                                </tr>*@
+                                                           
                                                         </tbody>
                                                     </table>
-
-                                                </div>
+                                               @Html.Hidden("hdnCounter", (++counter))
                                             </div>
-                                      </div>
 
-                                
-                                </div>
+                                       
+                                    @*</div>
+
+                                </div>*@
+                            </div>
 
                                 <!-- <button>Hey, click me!</button> -->
                             </div>

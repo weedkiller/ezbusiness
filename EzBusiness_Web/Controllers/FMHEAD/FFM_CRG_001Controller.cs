@@ -34,7 +34,6 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return View();
             }
         }
-
         public ActionResult GetFM_CRG_001()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -47,11 +46,9 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return PartialView(_FFMCRGService.GetFFM_CRG_001(list[0].CmpyCode));
             }
         }
-
-
         [HttpPost]
         [Route("SaveFFM_CRG_001")]
-        public ActionResult SaveFFM_CRG_001(FFM_CRG_001_VM CR)
+        public ActionResult SaveFFM_CRG_001(FFM_CRG_VM CR)
         {
 
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;

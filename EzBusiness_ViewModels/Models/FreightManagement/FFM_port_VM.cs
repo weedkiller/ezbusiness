@@ -17,11 +17,13 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string FFM_PORT_CODE { get; set; }
         public string NAME { get; set; }
         public string COUNTRY { get; set; }
+
+        public  string PortType { get; set; }
         public string TERMINAL { get; set; }
         public string LATITUDE { get; set; }
         public string LANGITUDE { get; set; }
         public string DISPLY_STATUS { get; set; }
-        public List< SelectListItem> CountryList { get; set; }
+        public List<SelectListItem> CountryList { get; set; }
         public bool SaveFlag { get; set; }
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
@@ -45,6 +47,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public decimal LANGITUDE { get; set; }
         public string DISPLY_STATUS { get; set; }
         public string FFM_PACKING_CODE { get; set; }
+        public  string PortType { get; set; }
     }
 }
 

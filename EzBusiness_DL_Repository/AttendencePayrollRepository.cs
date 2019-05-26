@@ -12,6 +12,7 @@ using System.Configuration;
 
 namespace EzBusiness_DL_Repository
 {
+
     public class AttendencePayrollRepository : IAttendencePayrollRepository
     {
         DataSet ds = null;

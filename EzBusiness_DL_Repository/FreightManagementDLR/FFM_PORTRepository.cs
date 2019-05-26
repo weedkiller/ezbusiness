@@ -32,23 +32,32 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return false;
         }
 
-        public FFM_PORT_VM EditFFM_PORT(string CmpyCode, string FFM_PORT_CODE)
+        public FFM_PORT_VM EditFFM_PORT(string CmpyCode,string FFM_PORT_CODE)
         {
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            FFM_PORT_VM ObjList = new FFM_PORT_VM();
-            foreach (DataRow dr in drc)
+            ds = _EzBusinessHelper.ExecuteDataSet("select CMPYCODE,CREATED_BY,PORT_TYPE,CREATED_ON,UPDATED_BY,UPDATED_ON,FFM_PORT_CODE,NAME,COUNTRY,TERMINAL,LATITUDE,LANGITUDE,DISPLY_STATUS from FFM_PORT where FFM_PORT_CODE='" + FFM_PORT_CODE + "' and Flag=0");
+            FFM_PORT_VM ObjList = null;
+            if (ds.Tables.Count > 0)
             {
-                ObjList.FFM_PORT_CODE = dr["FFM_PORT_CODE"].ToString();
-                ObjList.NAME = dr["NAME"].ToString();
-                ObjList.CMPYCODE = dr["CMPYCODE"].ToString();
-                ObjList.COUNTRY = dr["COUNTRY"].ToString();
-                ObjList.UPDATED_BY = dr["UPDATED_BY"].ToString();
-                ObjList.UPDATED_ON = Convert.ToDateTime(dr["UPDATED_ON"].ToString());
-                ObjList.CREATED_BY = dr["CREATED_BY"].ToString();
-                ObjList.CREATED_ON = Convert.ToDateTime(dr["CREATED_ON"].ToString());
-                ObjList.DISPLY_STATUS = dr["DISPLY_STATUS"].ToString();
-                ObjList.TERMINAL = dr["TERMINAL"].ToString();
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                ObjList = new FFM_PORT_VM();
+                foreach (DataRow dr in drc)
+                {
+                    ObjList.FFM_PORT_CODE = dr["FFM_PORT_CODE"].ToString();
+                    ObjList.NAME = dr["NAME"].ToString();
+                    ObjList.CMPYCODE = dr["CMPYCODE"].ToString();
+                    ObjList.COUNTRY = dr["COUNTRY"].ToString();
+                    ObjList.UPDATED_BY = dr["UPDATED_BY"].ToString();
+                    ObjList.UPDATED_ON = Convert.ToDateTime(dr["UPDATED_ON"].ToString());
+                    ObjList.CREATED_BY = dr["CREATED_BY"].ToString();
+                    ObjList.CREATED_ON = Convert.ToDateTime(dr["CREATED_ON"].ToString());
+                    ObjList.DISPLY_STATUS = dr["DISPLY_STATUS"].ToString();
+                    ObjList.TERMINAL = dr["TERMINAL"].ToString();
+                    ObjList.LANGITUDE = dr["LANGITUDE"].ToString();
+                    ObjList.LATITUDE = dr["LATITUDE"].ToString();
+                    ObjList.PortType = dr["PORT_TYPE"].ToString();
+                }
+               
             }
             return ObjList;
         }
@@ -58,7 +67,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         }
         public List<FFM_PORT> GetFFM_PORT(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_PORT_CODE,NAME,COUNTRY,TERMINAL,LATITUDE,LANGITUDE,DISPLY_STATUS from FFM_PORT where Flag=0");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_PORT_CODE,NAME,COUNTRY,PORT_TYPE,TERMINAL,LATITUDE,LANGITUDE,DISPLY_STATUS from FFM_PORT where Flag=0");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FFM_PORT> ObjList = new List<FFM_PORT>();
@@ -70,9 +79,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     NAME = dr["NAME"].ToString(),
                     COUNTRY = dr["COUNTRY"].ToString(),
                     TERMINAL = dr["TERMINAL"].ToString(),
-                    LANGITUDE=dr["LANGITUDE"].ToString(),
+                    LANGITUDE = dr["LANGITUDE"].ToString(),
                     LATITUDE = dr["LATITUDE"].ToString(),
                     DISPLY_STATUS = dr["DISPLY_STATUS"].ToString(),
+                    PORT_Type = dr["PORT_TYPE"].ToString(),
                 });
             }
             return ObjList;
@@ -120,9 +130,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + fpk.UserName + "',");
                             sb.Append("'" + fpk.UserName + "',");
                             sb.Append("'" + dtstr1 + "',");
+                            sb.Append("'" + fpk.PortType + "',");
                             sb.Append("'" + dtstr1 + "')");
 
-                            _EzBusinessHelper.ExecuteNonQuery("insert into FFM_PORT(CMPYCODE,FFM_PORT_CODE,NAME,COUNTRY,TERMINAL,LANGITUDE,LATITUDE,DISPLY_STATUS,CREATED_BY,UPDATED_BY,CREATED_ON,UPDATED_ON) values(" + sb.ToString() + "");
+                            _EzBusinessHelper.ExecuteNonQuery("insert into FFM_PORT(CMPYCODE,FFM_PORT_CODE,NAME,COUNTRY,TERMINAL,LANGITUDE,LATITUDE,DISPLY_STATUS,CREATED_BY,UPDATED_BY,CREATED_ON,PORT_TYPE,UPDATED_ON) values(" + sb.ToString() + "");
                             _EzBusinessHelper.ActivityLog(fpk.CMPYCODE, fpk.UserName, "Add PORT Code", fpk.FFM_PORT_CODE, Environment.MachineName);
 
                             fpk.SaveFlag = true;
@@ -151,8 +162,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb.Append("LANGITUDE='" + fpk.LANGITUDE + "',");
                         sb.Append("LATITUDE='" + fpk.LATITUDE + "',");
                         sb.Append("UPDATED_BY='" + fpk.UserName + "',");
-                        sb.Append("UPDATED_ON='" + dtstr1 + "'");
-
+                        sb.Append("UPDATED_ON='" + dtstr1 + "',");
+                        sb.Append("PORT_TYPE='" + fpk.PortType + "'");
                         _EzBusinessHelper.ExecuteNonQuery("update FFM_PORT set  " + sb + " where  FFM_PORT_CODE='" + fpk.FFM_PORT_CODE + "' and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and
 
                         _EzBusinessHelper.ActivityLog(fpk.CMPYCODE, fpk.UserName, "Update FFM_PORT", fpk.FFM_PORT_CODE, Environment.MachineName);

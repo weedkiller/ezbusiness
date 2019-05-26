@@ -102,12 +102,12 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
             }).ToList();
         }
 
-        public FNM_SL_VM GetFNM_SLAddNew(string Cmpycode)
+        public FNM_SL_VM GetFNM_SLAddNew(string Cmpycode,string type1)
         {
             return new FNM_SL_VM
             {
                 Currency_codeList = GetFNMCURRENCY(),
-                SUBLEDGER_TYPEList= GetFNMCAT(Cmpycode,"FM"),
+                SUBLEDGER_TYPEList= GetFNMCAT(Cmpycode, type1),
 
                 EditFlag = false
             };

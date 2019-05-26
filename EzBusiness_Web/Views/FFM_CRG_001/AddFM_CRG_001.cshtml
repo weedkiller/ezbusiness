@@ -1,4 +1,4 @@
-﻿@model EzBusiness_ViewModels.Models.FreightManagement.FFM_CRG_001_VM
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.FFM_CRG_VM
 
 @{
 
@@ -14,17 +14,82 @@
     $(function () {
         arr1 = [];
 
+        //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
+        var counter = parseInt($("#hdnCounter").val());
+        $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+            counter = 1;
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function (e) {
+                var tr1 = $(this).closest("tr");
+                tr1.find(":first").text(counter);
+                counter++;
+            });
+        });
+
+        var counter = $('#hdnCounter').val();
 
 
         $('.selectpicker').selectpicker('refresh');
+        $("#tablePODetails").on("change", "[name*='txtjobcode']", function () {
+            debugger;
+         //   var counter =1;
+            var tr = $(this).closest('tr');
+          //  var tcunt = $("#tablePODetails").find("tr").length;
+            drec = [];
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtjobcode']").val();
+                drec.push(ab);
+            });
 
-        
+            drec.splice($.inArray(tr.find("[name *= 'txtjobcode']").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'txtjobcode']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtjobcode']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtjobcode']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'txtjobcode']").val('');
+
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tablePODetails tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
+                    trLast.find("[name*='txtjobcode']").val('');
+                    trLast.find("[name*='txtjobname']").val('');
+                    trLast.find("[name*='txtoperationtype']").val('');
+                    trLast.find("[name*='txtincomeact']").val('');
+                    trLast.find("[name*='txtexpenceacgt']").val('');
+                    trLast.find("[name *= 'txtsrno']").attr({
+                        "name": ("txtsrno" + counter)
+                    });
+                    trLast.find("[name *= 'txtjobcode']").attr({
+                        "name": ("txtjobcode" + counter)
+                    });
+                    trLast.find("[name *= 'txtjobname']").attr({
+                        "name": ("txtjobname" + counter)
+                    });
+                    trLast.find("[name *= 'txtoperationtype']").attr({
+                        "name": ("txtoperationtype" + counter)
+                    });
+                    trLast.find("[name *= 'txtincomeact']").attr({
+                        "name": ("txtincomeact" + counter)
+                    });
+                    trLast.find("[name *= 'txtexpenceacgt']").attr({
+                        "name": ("txtexpenceacgt" + counter)
+                    });
+                    trLast.find(":first").text(counter);
+                }
+                counter++;
+            }
+         
+        });
     });
-
-
-
-
-
 </script>
 
 
@@ -94,7 +159,89 @@
                                     <!-- END FORM-->
                                 </div>
                             </div>
+
+                                <div class="">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="home" class="tab-pane fade in active">
+                                            <br /><br />
+
+                                            <div class="col-md-12 table-responsive">
+
+                                                <table class="table table-bordered stripe display hover" id="tablePODetails">
+                                                    <thead>
+                                                        <tr class="tr">
+                                                            <th>Sr.No</th>                                                         
+                                                            <th>Job Code</th>
+                                                            <th>Job Name</th>
+                                                            <th>Operation Type</th>
+                                                            <th>Income Act</th>
+                                                            <th>Expense ACGT</th>
+                                                          
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @{int RowNo = 1;}
+                                                        <tr>
+
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                    @*@Html.Label(counter.ToString())*@
+                                                                </div>
+                                                            </td>
+                                                           
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("txtjobcode", counter), null, new { @class = "grid-control " })
+                                                                    @*@Html.DropDownList(string.Concat("txtjobcode", counter), Model.CRG_GROUP_CODEList, new { @class = "grid-control" })*@
+                                                                    @*@Html.DropDownListFor(m => m.PORT, Model.PortList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("txtjobname", counter), null, new { @class = "grid-control datepicker" })
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("txtoperationtype", counter), null, new { @class = "grid-control datepicker" })
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("txtincomeact", counter), null, new { @class = "grid-control datepicker" })
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="grid-group">
+                                                                    @Html.TextBox(string.Concat("txtexpenceacgt", counter), null, new { @class = "grid-control" })
+                                                                </div>
+                                                            </td>
+                                                         
+                                                        </tr>
+                                                        @*@*<tr>
+                                    <th></th>
+                                    <th class="id1">Total</th>
+                                    <th class="id1"></th>
+                                    <th class="id1"></th>
+                                    <th class="id1"></th>
+                                </tr>*@
+                                                        
+                                                    </tbody>
+                                                </table>
+                                                @Html.Hidden("hdnCounter", (++counter))
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
                         </div>
+                         </div>
                     </div>
 
                 </div>

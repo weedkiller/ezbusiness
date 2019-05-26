@@ -22,8 +22,14 @@
         $("#btnNew").click(function () {
             var n = EzAuthenticationBtn("/SubLedger", "NewIt");
             if (n == 1) {
+
+                var SUBLEDGER_TYPE = '';
+                var path = $("#hdnpath").val();
+                if (path == "<li>Finance Management</li><li>Master</li><li>SubLedger</li>") {
+                    SUBLEDGER_TYPE = "FM"
+                }
                 $("#editshow").hide();
-                $.get("FNM_SL/AddSupplier", function (response) {
+                $.get("FNM_SL/AddSupplier", { type1: SUBLEDGER_TYPE }, function (response) {
                     $("#DRContainer").html(response);
                 });
                 $(this).css("visibility", "hidden");

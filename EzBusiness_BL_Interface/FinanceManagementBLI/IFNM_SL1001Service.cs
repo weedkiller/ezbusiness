@@ -14,7 +14,7 @@ namespace EzBusiness_BL_Interface.FinanceManagementBLI
         List<FNM_SL_VM> GetFNM_SL(string CmpyCode, string Sublesertype);
         FNM_SL_VM SaveFNM_SL(FNM_SL_VM ac);
         FNM_SL_VM EditFNM_SL(string CmpyCode, string FNM_SL1001_CODE);
-        FNM_SL_VM GetFNM_SLAddNew(string Cmpycode);
+        FNM_SL_VM GetFNM_SLAddNew(string Cmpycode,string type1);
         List<FNM_SL1002DetailNew> GetFNMSL002DetailList(string CmpyCode, string FNM_SL1001_CODE);
 
 

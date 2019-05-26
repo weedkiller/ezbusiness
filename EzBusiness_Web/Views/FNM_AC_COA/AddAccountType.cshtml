@@ -20,6 +20,19 @@
             $(this).attr('autocomplete', 'off');
         });
 
+      
+
+        $('input[type=radio][name=PL_BS]').change(function() {
+            if (this.value == 'P') {
+                $('#rdbl1').text("Expenses");
+                $('#rdbl2').text("Income");
+            }
+            else if (this.value == 'B') {                
+                $('#rdbl1').text("Asset");
+                $('#rdbl2').text("Liability");
+            }
+        });
+
     });
 
 
@@ -185,12 +198,13 @@
                                                     <label class="control-label col-md-3">Nature</label>
                                                     <div class="col-md-9 input-field">
                                                         <label class="radio-inline" checked="checked">
-                                                            @Html.RadioButtonFor(m => m.NATURE, "D", new { @checked = "checked" }) Expenses
+                                                            @Html.RadioButtonFor(m => m.NATURE, "E", new { @checked = "checked" })<label id="rdbl1">Expenses</label> 
                                                         </label>
                                                         <label class="radio-inline">
-                                                            @Html.RadioButtonFor(m => m.NATURE, "C") Income
+                                                            @Html.RadioButtonFor(m => m.NATURE, "I") <label id="rdbl2">Income</label> 
                                                         </label>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
