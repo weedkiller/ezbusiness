@@ -245,7 +245,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             {
                 try
                 {
-                   
+
+                    #region FF_QTN002
                     List<FF_QTN002> ObjList = new List<FF_QTN002>();
                     ObjList.AddRange(FQV.FF_QTN002Detail.Select(m => new FF_QTN002
                     {
@@ -261,43 +262,198 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         sno=m.sno,                        
                     }).ToList());
 
-
-                    //-----------------
-
+                    #endregion
+                  
+                    #region FF_QTN003
                     List<FF_QTN003> ObjList1 = new List<FF_QTN003>();
                     ObjList1.AddRange(FQV.FF_QTN003Detail.Select(m => new FF_QTN003
                     {
                    Width=m.Width,
                    Sno=m.Sno,
-
+                   Act_LBS=m.Act_LBS,
+                   Dime_weight=m.Dime_weight,
+                   Height=m.Height,
+                   inside_Unit=m.inside_Unit,
+                   No_of_qty=m.No_of_qty,
+                   Pkg_No=m.Pkg_No,
+                   unit_type=m.unit_type,
+                   Volume=m.Volume,
                     }).ToList());
+
+                    #endregion
+
+                    #region FF_QTN004
+
+                    List<FF_QTN004> ObjList2= new List<FF_QTN004>();
+                    ObjList2.AddRange(FQV.FF_QTN004Detail.Select(m => new FF_QTN004
+                    {
+                      CLUASE_CODE=m.CLUASE_CODE,
+                      CLUASE_NAME=m.CLUASE_NAME
+                    }).ToList());
+
+                    #endregion  
+
+                    #region FF_QTN005
+                    List<FF_QTN005> ObjList3 = new List<FF_QTN005>();
+                    ObjList3.AddRange(FQV.FF_QTN005Detail.Select(m => new FF_QTN005
+                    {
+                        Crg_code=m.Crg_code,
+                        Crg_name=m.Crg_name,
+                        Cust_code=m.Cust_code,
+                        Cust_Ctrl_Act=m.Cust_Ctrl_Act,
+                        Cust_Curr_Rate=m.Cust_Curr_Rate,
+                        Cust_Curr_Code=m.Cust_Curr_Code,
+                        Cust_Local_amt=m.Cust_Local_amt,
+                        Cust_name=m.Cust_name,
+                       Cust_Net_Amt=m.Cust_Net_Amt,
+                       Cust_Rate=m.Cust_Rate,
+                       Cust_Total_amt=m.Cust_Total_amt,
+                       Cust_Var_Amt=m.Cust_Var_Amt,
+                       Expense_GL_Code=m.Expense_GL_Code,
+                       Income_GL_Code=m.Income_GL_Code,
+                       Sno=m.Sno,
+                       PAY_MODE=m.PAY_MODE,
+                       Unit_Code=m.Unit_Code,
+                       VendVar_Amt=m.VendVar_Amt,
+                       Vend_Ctrl_Act=m.Vend_Ctrl_Act,
+                       Vend_name=m.Vend_name,
+                       Vend_code=m.Vend_code,
+                       Vend_Curr_Code=m.Vend_Curr_Code,
+                       Vend_Curr_Rate=m.Vend_Curr_Rate,
+                       Vend_Local_amt=m.Vend_Local_amt,
+                       Vend_Net_Amt=m.Vend_Net_Amt,
+                       Vend_Rate=m.Vend_Rate,
+                       Vend_Total_amt=m.Vend_Total_amt,                                         
+                    }).ToList());
+                    #endregion
+
                     //---
                     int n, i = 0;
+
+                    #region FF_QTN002 INSERT LOOP
                     n = ObjList.Count;
                     while (n > 0)
                     {
                        
-                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FFM_CRG_002 where FFM_CRG_001_CODE='" + ObjList[n - 1].FF_QTN001_CODE + "' and  CmpyCode='" + ObjList[n - 1].CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_QTN002 where FF_QTN001_CODE='" + FQV.FF_QTN001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
                         if (Stats1 == 0)
                         {
                             StringBuilder sb = new StringBuilder();
 
-                            //sb.Append("'" + FQV.FFM_CRG_001_CODE + "',");
-                            //sb.Append("'" + ObjList[n - 1].SNO + "',");
-                            //sb.Append("'" + ObjList[n - 1].FFM_CRG_JOB_CODE + "',");
-                            //sb.Append("'" + ObjList[n - 1].FFM_CRG_JOB_NAME + "',");
-                            //sb.Append("'" + ObjList[n - 1].OPERATION_TYPE + "',");
-                            //sb.Append("'" + ObjList[n - 1].INCOME_ACT + "',");
-                            //sb.Append("'" + ObjList[n - 1].EXPENSE_ACGT + "',");
-                            //sb.Append("'" + FQV.DISPLAY_STATUS + "',");
-                            //sb.Append("'" + FQV.CMPYCODE + "')");
-                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACGT,DISPLAY_STATUS,cmpycode) values(" + sb.ToString() + "");
+                            sb.Append("'" + FQV.FF_QTN001_CODE + "',");
+                            sb.Append("'" + ObjList[n - 1].CBM + "',");
+                            sb.Append("'" + ObjList[n - 1].CFT + "',");
+                            sb.Append("'" + ObjList[n - 1].Container + "',");
+                            sb.Append("'" + ObjList[n - 1].Contents + "',");
+                            sb.Append("'" + ObjList[n - 1].Cont_Type + "',");
+                            sb.Append("'" + ObjList[n - 1].KG + "',");
+                            sb.Append("'" + ObjList[n - 1].LBS + "',");
+                            sb.Append("'" + ObjList[n - 1].No_of_qty + "',");
+                            sb.Append("'" + ObjList[n - 1].Seal1 + "',");
+                            sb.Append("'" + ObjList[n - 1].sno + "',");                            
+                            sb.Append("'" + FQV.CMPYCODE + "')");
+                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN002(FF_QTN001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,cmpycode) values(" + sb.ToString() + "");
                             _EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Add FFM Charge", ObjList[n - 1].FF_QTN001_CODE, Environment.MachineName);
 
                         }
                         
                         n = n - 1;
                     }
+                    #endregion
+
+
+                    #region FF_QTN003 INSERT LOOP
+                    n = ObjList1.Count;
+                    while (n > 0)
+                    {
+
+                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_QTN003 where FF_QTN001_CODE='" + FQV.FF_QTN001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                        if (Stats1 == 0)
+                        {
+                            StringBuilder sb = new StringBuilder();                            
+                            sb.Append("'" + FQV.FF_QTN001_CODE + "',");
+                            sb.Append("'" + ObjList1[n - 1].Act_LBS + "',");
+                            sb.Append("'" + ObjList1[n - 1].Dime_weight + "',");
+                            sb.Append("'" + ObjList1[n - 1].Height + "',");
+                            sb.Append("'" + ObjList1[n - 1].inside_Unit + "',");
+                            sb.Append("'" + ObjList1[n - 1].No_of_qty + "',");
+                            sb.Append("'" + ObjList1[n - 1].Pkg_No + "',");
+                            sb.Append("'" + ObjList1[n - 1].Sno + "',");
+                            sb.Append("'" + ObjList1[n - 1].unit_type + "',");
+                            sb.Append("'" + ObjList1[n - 1].Volume + "',");
+                            
+                            sb.Append("'" + FQV.CMPYCODE + "')");
+                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN003(FF_QTN001_CODE,Act_LBS,Dime_weight,Height,inside_Unit,No_of_qty,Pkg_No,Sno,unit_type,Volume,cmpycode) values(" + sb.ToString() + "");
+                            
+                        }
+
+                        n = n - 1;
+                    }
+                    #endregion
+
+                    #region FF_QTN004 INSERT LOOP
+                    n = ObjList2.Count;
+                    while (n > 0)
+                    {
+                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_QTN004 where FF_QTN001_CODE='" + FQV.FF_QTN001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                        if (Stats1 == 0)
+                        {
+                            StringBuilder sb = new StringBuilder();
+                            sb.Append("'" + FQV.FF_QTN001_CODE + "',");
+                            sb.Append("'" + ObjList2[n - 1].CLUASE_CODE + "',");
+                            sb.Append("'" + ObjList2[n - 1].CLUASE_NAME + "',");                                                    
+                            sb.Append("'" + FQV.CMPYCODE + "')");
+                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN004(FF_QTN001_CODE,CLUASE_CODE,CLUASE_NAME,cmpycode) values(" + sb.ToString() + "");                           
+                        }
+
+                        n = n - 1;
+                    }
+                    #endregion
+
+                    #region FF_QTN005 INSERT LOOP
+                    n = ObjList3.Count;
+                    while (n > 0)
+                    {
+                        int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_QTN005 where FF_QTN001_CODE='" + FQV.FF_QTN001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                        if (Stats1 == 0)
+                        {
+                            StringBuilder sb = new StringBuilder();
+                            sb.Append("'" + FQV.FF_QTN001_CODE + "',");
+                            sb.Append("'" + ObjList3[n - 1].Crg_code + "',");
+                            sb.Append("'" + ObjList3[n - 1].Crg_name + "',");
+                            sb.Append("'" + ObjList3[n - 1].Cust_code + "',");
+                            sb.Append("'" + ObjList3[n - 1].Cust_Ctrl_Act + "',");
+                            sb.Append("'" + ObjList3[n - 1].Cust_Curr_Code + "',");
+                            sb.Append("'" + ObjList3[n - 1].Cust_Curr_Rate + "',");
+                            sb.Append("'" + ObjList3[n - 1].Cust_Local_amt + "',");
+                            sb.Append("'" + ObjList3[n - 1].Cust_name + "',");
+                            sb.Append("'" + ObjList3[n - 1].Cust_Net_Amt + "',");
+                            sb.Append("'" + ObjList3[n - 1].Cust_Rate + "',");
+                            sb.Append("'" + ObjList3[n - 1].Cust_Total_amt + "',");
+                            sb.Append("'" + ObjList3[n - 1].Cust_Var_Amt + "',");
+                            sb.Append("'" + ObjList3[n - 1].Expense_GL_Code + "',");
+                            sb.Append("'" + ObjList3[n - 1].Income_GL_Code + "',");
+                            sb.Append("'" + ObjList3[n - 1].PAY_MODE + "',");
+                            sb.Append("'" + ObjList3[n - 1].Sno + "',");
+                            sb.Append("'" + ObjList3[n - 1].Unit_Code + "',");
+                            sb.Append("'" + ObjList3[n - 1].VendVar_Amt + "',");
+                            sb.Append("'" + ObjList3[n - 1].Vend_code + "',");
+                            sb.Append("'" + ObjList3[n - 1].Vend_Ctrl_Act + "',");
+                            sb.Append("'" + ObjList3[n - 1].Vend_Curr_Code + "',");
+                            sb.Append("'" + ObjList3[n - 1].Vend_Curr_Rate + "',");
+                            sb.Append("'" + ObjList3[n - 1].Vend_Local_amt + "',");
+                            sb.Append("'" + ObjList3[n - 1].Vend_name + "',");
+                            sb.Append("'" + ObjList3[n - 1].Vend_Net_Amt + "',");
+                            sb.Append("'" + ObjList3[n - 1].Vend_Rate + "',");
+                            sb.Append("'" + ObjList3[n - 1].Vend_Total_amt + "',");
+                            sb.Append("'" + FQV.CMPYCODE + "')");
+                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN005(FF_QTN001_CODE,CLUASE_CODE,CLUASE_NAME,cmpycode) values(" + sb.ToString() + "");
+                        }
+
+                        n = n - 1;
+                    }
+                    #endregion
+
                     if (i > 0)
                     {
                         StringBuilder sb = new StringBuilder();

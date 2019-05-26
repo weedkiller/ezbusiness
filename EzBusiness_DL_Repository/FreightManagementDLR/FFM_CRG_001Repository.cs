@@ -339,7 +339,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public List<FNM_AC_COA> GetIncomeAct(string Cmpycode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("select FNM_AC_COA_CODE,NAME from  FNM_AC_COA where SUBLEDGER_TYPE='Entry level' and  CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("select FNM_AC_COA_CODE,NAME from  FNM_AC_COA where SUBLEDGER_TYPE='ENTRY' and  CmpyCode='" + Cmpycode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNM_AC_COA> ObjList = new List<FNM_AC_COA>();
