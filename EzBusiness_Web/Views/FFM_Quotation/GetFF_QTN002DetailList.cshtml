@@ -1,18 +1,16 @@
-﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_QTN_VM
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_QTN_VM>
 
 <script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
-   Ezsidetbl("#POList", "#POList tfoot td", false, "#POList thead");        
+   Ezsidetbl("#POList", "#POList tfoot td", false, "#POList thead");
 </script>
 
 
-<table id="POList" class="table table-bordered stripe display hover table-responsive">
-    <thead>
-        <tr class="tr">
-            <th><table id="POList" class="table table-bordered stripe display hover portal-drivers">
+<table id="POList" class="table table-bordered stripe display hover portal-drivers">
+
     <thead>
         <tr class="tr">
             <th>QTN Code</th>
@@ -28,38 +26,25 @@
             <th>MOVE_TYPE</th>
             <th>REF No</th>
             <th>Vessal</th>
-            <th>Voyage</th>
-            <th></th>
+            <th>Voyage</th>           
         </tr>
     </thead>
     <tfoot>
         <tr>
-            <td>Code</td>
-            <td>Name</td>
-            <td>
-                Date Of Birth
-            </td>
-            <td>
-                Contact No
-            </td>
-            <td>
-                EMail Id
-            </td>
-            <td>
-                Nationality
-            </td>
-            <td>
-                Division Code
-            </td>
-            <td>
-                Location
-            </td>
-            <td>
-                VisaLocation
-            </td>
-            <td>
-                Reporting Employee
-            </td>
+            <td>QTN Code</td>
+            <td>Cust Code</td>
+            <td>Contact</td>
+            <td>Telephone</td>
+            <td>Email</td>
+            <td>Customer_Ref</td>
+            <td>Pickup Place</td>
+            <td>POL</td>
+            <td>POD</td>
+            <td>FND</td>
+            <td>MOVE_TYPE</td>
+            <td>REF No</td>
+            <td>Vessal</td>
+            <td>Voyage</td>       
         </tr>
     </tfoot>
     <tbody>
@@ -67,137 +52,51 @@
         {
             <tr>
                 <td>
-                    @Html.Hidden("hdnMRCode", po.EmpCode)
-                    @po.EmpCode
+                    @Html.Hidden("hdnMRCode", po.FF_QTN001_CODE)
+                    @po.FF_QTN001_CODE
                 </td>
                 <td>
-                    @po.Empname
+                    @po.CUST_CODE
                 </td>
                 <td>
-                    @Convert.ToDateTime(@po.DOB).ToString("dd/MM/yyyy")
+                   @po.CONTACT
                 </td>
                 <td>
-                    @po.ContactNo
+                    @po.TELEPHONE
                 </td>
                 <td>
-                    @po.EMail
+                    @po.EMAIL
                 </td>
                 <td>
-                    @po.Nationality
+                    @po.CUSTOMER_REF
                 </td>
                 <td>
-                    @Html.Hidden("hdnDivisionCode", po.DivisionCode)
-                    @po.DivisionCode
+                    @Html.Hidden("hdnDivisionCode", po.PICKUP_PLACE)
+                    @po.PICKUP_PLACE
                 </td>
                 <td>
-                    @po.LocCode
+                    @po.POL
                 </td>
                 <td>
-                    @po.VisaLocation
+                    @po.POD
                 </td>
                 <td>
-                    @po.ReportingEmp
-                </td>
-
-            </tr>
-        }
-    </tbody>
-</table></th>
-            <th>Name</th>
-            <th>
-                Date Of Birth
-            </th>
-            <th>
-                Contact No
-            </th>
-            <th>
-                EMail Id
-            </th>
-            <th>
-                Nationality
-            </th>
-            <th>
-                Division Code
-            </th>
-            <th>
-                Location
-            </th>
-            <th>
-                VisaLocation
-            </th>
-            <th>
-                Reporting Employee
-            </th>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <td>Code</td>
-            <td>Name</td>
-            <td>
-                Date Of Birth
-            </td>
-            <td>
-                Contact No
-            </td>
-            <td>
-                EMail Id
-            </td>
-            <td>
-                Nationality
-            </td>
-            <td>
-                Division Code
-            </td>
-            <td>
-                Location
-            </td>
-            <td>
-                VisaLocation
-            </td>
-            <td>
-                Reporting Employee
-            </td>
-        </tr>
-    </tfoot>
-    <tbody>
-        @foreach (var po in Model)
-        {
-            <tr>
-                <td>
-                    @Html.Hidden("hdnMRCode", po.EmpCode)
-                    @po.EmpCode
+                    @po.FND
                 </td>
                 <td>
-                    @po.Empname
+                    @po.MOVE_TYPE
                 </td>
                 <td>
-                    @Convert.ToDateTime(@po.DOB).ToString("dd/MM/yyyy")
+                    @po.REF_NO
                 </td>
                 <td>
-                    @po.ContactNo
+                    @po.VESSEL
                 </td>
                 <td>
-                    @po.EMail
+                    @po.VOYAGE
                 </td>
-                <td>
-                    @po.Nationality
-                </td>
-                <td>
-                    @Html.Hidden("hdnDivisionCode", po.DivisionCode)
-                    @po.DivisionCode
-                </td>
-                <td>
-                    @po.LocCode
-                </td>
-                <td>
-                    @po.VisaLocation
-                </td>
-                <td>
-                    @po.ReportingEmp
-                </td>
-
             </tr>
         }
     </tbody>
 </table>
+               

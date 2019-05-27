@@ -11,7 +11,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 {
     public interface IFF_QTNService
     {
-        List<FF_QTN001> GetFF_QTN(string CmpyCode);
+        List<FF_QTN_VM> GetFF_QTN(string CmpyCode);
         FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE);
         FF_QTN_VM SaveFF_QTN_VM(FF_QTN_VM FQV);
 
@@ -24,7 +24,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 
         List<SelectListItem> GetDepart(string CmpyCode);
 
-        
+        List<SelectListItem> GetPortList(string CmpyCode);
         List<SelectListItem> GetVESSELList(string CmpyCode);
         List<SelectListItem> GetVOYAGEList(string CmpyCode);
         List<SelectListItem> GetSL(string CmpyCode);

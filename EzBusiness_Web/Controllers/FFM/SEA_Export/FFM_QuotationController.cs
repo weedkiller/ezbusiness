@@ -20,8 +20,9 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
         {
             _QTNService = new FF_QTNService();
         }
+
         [Route("Quotation")]
-        public ActionResult GetQuotation()
+        public ActionResult FFM_Quotation()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -30,10 +31,12 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-
-                return View(_QTNService.GetFF_QTN(list[0].CmpyCode));
+                return View();
             }
         }
+
+    
+        
 
         public ActionResult DeleteFF_QTN(string FF_QTN001_CODE)
         {
@@ -48,7 +51,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
         [Route("EditFF_QTNDetails")]
-        public ActionResult GetFF_QTNDetailsEdit(string FF_QTN001_CODE)
+        public ActionResult FF_QTNDetailsEdit(string FF_QTN001_CODE)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -57,11 +60,25 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_QTNService.GetFF_QTNDetailsEdit(list[0].CmpyCode, FF_QTN001_CODE), JsonRequestBehavior.AllowGet);
+                return PartialView(_QTNService.GetFF_QTNDetailsEdit(list[0].CmpyCode, FF_QTN001_CODE));
             }
         }
 
-        public ActionResult GetFF_QTN002DetailList(string FF_QTN001_CODE)
+        [Route("AddFF_QTNDetails")]
+        public ActionResult AddFF_QTNDetails()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_QTNService.GetFF_QTN_AddNew(list[0].CmpyCode));
+            }
+        }
+
+        public ActionResult GetFF_QTN002DetailList()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -71,7 +88,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             else
             {
 
-                return View(_QTNService.GetFF_QTN002DetailList(list[0].CmpyCode, FF_QTN001_CODE));
+                return PartialView(_QTNService.GetFF_QTN(list[0].CmpyCode));
             }
         }
         public ActionResult saveFFM_CLAUSE(FF_QTN_VM Fcur)

@@ -29,7 +29,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_QTNRepo.DeleteFF_QTN(CmpyCode, FF_QTN001_CODE, UserName);
         }
 
-        public List<FF_QTN001> GetFF_QTN(string CmpyCode)
+        public List<FF_QTN_VM> GetFF_QTN(string CmpyCode)
         {
             return _FF_QTNRepo.GetFF_QTN(CmpyCode);
         }
@@ -126,6 +126,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.FF_QTN003Detail = GetFF_QTN003DetailList(CmpyCode, FF_QTN001_CODE);
             poEdit.FF_QTN004Detail = GetFF_QTN004DetailList(CmpyCode, FF_QTN001_CODE);
             poEdit.FF_QTN005Detail = GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE);
+            poEdit.PortList = GetPortList(CmpyCode);
             poEdit.DEPARTMENTList = GetDepart(CmpyCode);
             poEdit.MoveCodeList = GetMoveCode(CmpyCode);
             poEdit.CLAUSEList = GetCLAUSE(CmpyCode);
@@ -218,8 +219,17 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 DEPARTMENTList=GetDepart(Cmpycode),
                 MoveCodeList=GetMoveCode(Cmpycode),
                 VESSELList=GetVESSELList(Cmpycode),
+                PortList=GetPortList(Cmpycode),
                 EditFlag = false
             };
+        }
+
+        public List<SelectListItem> GetPortList(string CmpyCode)
+        {
+            var PortList = _FF_QTNRepo.GetPortList(CmpyCode)
+                                                 .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                 .ToList();
+            return InsertFirstElementDDL(PortList);
         }
     }
 }

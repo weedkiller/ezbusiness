@@ -1,27 +1,28 @@
-﻿@model EzBusiness_ViewModels.Models.FreightManagement.FFM_CRG_VM
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_QTN_VM
 
 @{
-    ViewBag.Title = "FM_CRG_001CategoryMaster";
+    ViewBag.Title = "FFM_Quotation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <script src="~/Scripts/EzComNDW.js"></script>
+
 <script>
     $(function () {
-        EzAuthentication("/Chargemaster");
+        EzAuthentication("/Quotation");
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
         function GetDrs() {
-            $.get("/FFM_CRG_001/GetFM_CRG_001", function (response) {
+            $.get("/FFM_Quotation/GetFF_QTN002DetailList", function (response) {
                 $("#DRListContainer").html(response);
             });
         }
         $("#btnNew").click(function () {
-            var n = EzAuthenticationBtn("/Chargemaster", "NewIt");
+            var n = EzAuthenticationBtn("/Quotation", "NewIt");
             if (n == 1) {
                 $("#editshow").hide();
-                $.get("FFM_CRG_001/AddFM_CRG_001", function (response) {
+                $.get("AddFF_QTNDetails", function (response) {
                     $("#DRContainer").html(response);
                 });
                 $(this).css("visibility", "hidden");
@@ -34,7 +35,7 @@
             $("#editshow").hide();
         });
         $("#btnEdit").click(function () {
-            var n = EzAuthenticationBtn("/Chargemaster", "ViewIt");
+            var n = EzAuthenticationBtn("/Quotation", "ViewIt");
             if (n == 1) {
                 $(this).css("visibility", "hidden");
                 EzbtnEditAcVis();
@@ -51,8 +52,8 @@
             $("#editshow").hide();
         });
 
-        $("#btnDelete").click(function () {            
-            var n = EzAuthenticationBtn("/Chargemaster", "DeleteIt");
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/Quotation", "DeleteIt");
             if (n == 1) {
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
@@ -69,15 +70,15 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                        
-                        var FFM_CRG_001_CODE = $("[name*='FFM_CRG_001_CODE']").val();
-                        
-                        $.getJSON("/DeleteFFM_CRG_001", { FFM_CRG_001_CODE: FFM_CRG_001_CODE }).done(function (data) {
+
+                        var FFM_Quotation_CODE = $("[name*='FFM_Quotation_CODE']").val();
+
+                        $.getJSON("/DeleteFFM_Quotation", { FFM_Quotation_CODE: FFM_Quotation_CODE }).done(function (data) {
                             debugger
-                                if (data.DeleteFlag) {
-                                    window.location = '/Chargemaster'
+                            if (data.DeleteFlag) {
+                                window.location = '/Quotation'
                             } else {
-                                    EzAlertdele(FFM_CRG_001_CODE);
+                                EzAlertdele(FFM_Quotation_CODE);
                             }
                         });
                         swalWithBootstrapButtons.fire(
@@ -102,7 +103,7 @@
         });
         $("#btnSave").click(function () {
             debugger
-            var n = EzAuthenticationBtn("/Chargemaster", "EditIt");
+            var n = EzAuthenticationBtn("/Quotation", "EditIt");
             var k = 0;
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
@@ -113,20 +114,20 @@
                     EditFlag: false,
                     FFM_CRG_GROUP_CODE: $("[name*='FFM_CRG_GROUP_CODE'] option:selected").val(),
                     DISPLAY_STATUS: $("[name*='DISPLAY_STATUS'] option:selected").val(),
-                    FFM_CRG_001_CODE: $("[name*='FFM_CRG_001_CODE']").val(),
+                    FFM_Quotation_CODE: $("[name*='FFM_Quotation_CODE']").val(),
                     NAME: $("[name*='NAME']").val(),
                     crgnewDetails: []
                 };
                 var SNO = 0;
                 $("#tablePODetails tbody tr").each(function (index, item) {
                     debugger;
-                  
+
                     var FFM_CRG_JOB_CODE = $(this).find("[name*='txtjobcode'] option:selected").val();
                     var FFM_CRG_JOB_NAME = $(this).find("[name*='txtjobname']").val();
                     var OPERATION_TYPE = $(this).find("[name*='OPERATION_TYPE'] option:selected").val();
                     var INCOME_ACT = $(this).find("[name*='txtincomeact'] option:selected").val();
                     var EXPENSE_ACGT = $(this).find("[name*='txtexpenceacgt'] option:selected").val();
-                 
+
                     if (FFM_CRG_JOB_NAME != "") {
                         SNO = SNO + 1;
                         var FNM_unitDetail = {
@@ -137,7 +138,7 @@
                             OPERATION_TYPE: OPERATION_TYPE,
                             INCOME_ACT: INCOME_ACT,
                             EXPENSE_ACGT: EXPENSE_ACGT,
-                         
+
                         };
                         CR.crgnewDetails.push(FNM_unitDetail);
                     }
@@ -146,7 +147,7 @@
                 var validationResult = ValidateForm(CR);
                 if (validationResult.formValid) {
 
-                    $.post("/SaveFFM_CRG_001", CR).done(function (response) {
+                    $.post("/SaveFFM_Quotation", CR).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
 
 
@@ -165,57 +166,57 @@
                     //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                     EzAlerterrtxt(validationResult.ErrorMessage);
                 }
-            } else if (opMode == "Edit" && n==1 ) {
+            } else if (opMode == "Edit" && n == 1) {
                 // Code for Adding Purchase order
                 var CR = {
-                        EditFlag: true,
-                        FFM_CRG_GROUP_CODE: $("[name*='FFM_CRG_GROUP_CODE'] option:selected").val(),
-                        DISPLAY_STATUS: $("[name*='DISPLAY_STATUS'] option:selected").val(),
-                        FFM_CRG_001_CODE: $("[name*='FFM_CRG_001_CODE']").val(),
-                        NAME: $("[name*='NAME']").val(),
-                        FFM_CRG_GROUP_CODE: $("[name*='FFM_CRG_GROUP_CODE'] option:selected").val(),
-                        DISPLAY_STATUS: $("[name*='DISPLAY_STATUS'] option:selected").val(),
-                        FFM_CRG_001_CODE: $("[name*='FFM_CRG_001_CODE']").val(),
-                        NAME: $("[name*='NAME']").val(),
-                        crgnewDetails: []
+                    EditFlag: true,
+                    FFM_CRG_GROUP_CODE: $("[name*='FFM_CRG_GROUP_CODE'] option:selected").val(),
+                    DISPLAY_STATUS: $("[name*='DISPLAY_STATUS'] option:selected").val(),
+                    FFM_Quotation_CODE: $("[name*='FFM_Quotation_CODE']").val(),
+                    NAME: $("[name*='NAME']").val(),
+                    FFM_CRG_GROUP_CODE: $("[name*='FFM_CRG_GROUP_CODE'] option:selected").val(),
+                    DISPLAY_STATUS: $("[name*='DISPLAY_STATUS'] option:selected").val(),
+                    FFM_Quotation_CODE: $("[name*='FFM_Quotation_CODE']").val(),
+                    NAME: $("[name*='NAME']").val(),
+                    crgnewDetails: []
                 };
                 var SNO = 0;
-                    $("#tablePODetails tbody tr").each(function (index, item) {
-                        
-                        //var SNO = $(this).find("[name*='SNO']").val();                       
-                        var FFM_CRG_JOB_CODE = $(this).find("[name*='FFM_CRG_JOB_CODE'] option:selected").val();
-                        var FFM_CRG_JOB_NAME = $(this).find("[name*='FFM_CRG_JOB_NAME']").val();
-                        var OPERATION_TYPE = $(this).find("[name*='OPERATION_TYPE'] option:selected").val();
-                        var INCOME_ACT = $(this).find("[name*='INCOME_ACT'] option:selected").val();
-                        var EXPENSE_ACGT = $(this).find("[name*='EXPENSE_ACGT'] option:selected").val();
+                $("#tablePODetails tbody tr").each(function (index, item) {
 
-                        if (FFM_CRG_JOB_NAME !="") {
-                            SNO = SNO + 1;
-                            var FNM_unitDetail = {
-                                SNO: SNO,
-                                FFM_CRG_JOB_CODE: FFM_CRG_JOB_CODE,
-                                FFM_CRG_JOB_NAME: FFM_CRG_JOB_NAME,
-                                OPERATION_TYPE: OPERATION_TYPE,
-                                INCOME_ACT: INCOME_ACT,
-                                EXPENSE_ACGT: EXPENSE_ACGT,
+                    //var SNO = $(this).find("[name*='SNO']").val();                       
+                    var FFM_CRG_JOB_CODE = $(this).find("[name*='FFM_CRG_JOB_CODE'] option:selected").val();
+                    var FFM_CRG_JOB_NAME = $(this).find("[name*='FFM_CRG_JOB_NAME']").val();
+                    var OPERATION_TYPE = $(this).find("[name*='OPERATION_TYPE'] option:selected").val();
+                    var INCOME_ACT = $(this).find("[name*='INCOME_ACT'] option:selected").val();
+                    var EXPENSE_ACGT = $(this).find("[name*='EXPENSE_ACGT'] option:selected").val();
 
-                            };
-                            CR.crgnewDetails.push(FNM_unitDetail);
-                        }
-                    });
+                    if (FFM_CRG_JOB_NAME != "") {
+                        SNO = SNO + 1;
+                        var FNM_unitDetail = {
+                            SNO: SNO,
+                            FFM_CRG_JOB_CODE: FFM_CRG_JOB_CODE,
+                            FFM_CRG_JOB_NAME: FFM_CRG_JOB_NAME,
+                            OPERATION_TYPE: OPERATION_TYPE,
+                            INCOME_ACT: INCOME_ACT,
+                            EXPENSE_ACGT: EXPENSE_ACGT,
+
+                        };
+                        CR.crgnewDetails.push(FNM_unitDetail);
+                    }
+                });
 
                 var validationResult = ValidateForm(CR);
-                    if (validationResult.formValid) {
-                        $.post("/SaveFFM_CRG_001", CR).done(function (response) {
-                                if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                                    EzAlertSave();
-                                    EzbtnsaveAcVis("#DRContainer");
-                                    $("#DRContainer").html(drHtml);
-                                    GetDrs();
-                                } else {
-                                    EzAlerterrtxt(response.ErrorMessage);
-                                }
-                            });
+                if (validationResult.formValid) {
+                    $.post("/SaveFFM_Quotation", CR).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            EzAlertSave();
+                            EzbtnsaveAcVis("#DRContainer");
+                            $("#DRContainer").html(drHtml);
+                            GetDrs();
+                        } else {
+                            EzAlerterrtxt(response.ErrorMessage);
+                        }
+                    });
                 } else {
                     EzAlerterrtxt(validationResult.ErrorMessage);
                 }
@@ -232,11 +233,11 @@
             };
 
             if (CR.EditFlag == false) {
-                if (CR.FFM_CRG_001_CODE == '') {
+                if (CR.FFM_Quotation_CODE == '') {
                     response.ErrorMessage += " CODE ,";
                 }
             } else if (CR.EditFlag == true) {
-                if (CR.FFM_CRG_001_CODE == '') {
+                if (CR.FFM_Quotation_CODE == '') {
                     response.ErrorMessage += "CODE ,";
                 }
             }
@@ -245,68 +246,61 @@
             }
             else if (CR.NAME == '') {
                 response.ErrorMessage += "NAME ,";
-            } 
-           
+            }
+
 
 
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
             }
-            else
-            {
-                response.ErrorMessage="Enter Mandatory fields "+response.ErrorMessage+"."
+            else {
+                response.ErrorMessage = "Enter Mandatory fields " + response.ErrorMessage + "."
             }
 
-                    return response;
-                }
+            return response;
+        }
 
-                function parseDate(s) {
-                    var b = s.split(/\D/);
-                    return new Date(b[0], --b[1], b[2]);
-                }
+        function parseDate(s) {
+            var b = s.split(/\D/);
+            return new Date(b[0], --b[1], b[2]);
+        }
 
-                $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-                    console.log(thrownError);
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+        $(document).on("click", "#POList tbody tr", function () {
+            EzbtnEditAcVis();
+            var operationMode = $("#hdnOperationMode").val();
+            if (operationMode == "Edit") {
+                $("#POList > tbody").children().removeClass("active");
+                $(this).addClass("active");
+
+                var Code = $(this).find("[name*='hdnFFM_Quotation_CODE']").val();
+
+
+                $.get("EditFFM_Quotation", { Code: Code }).done(function (response) {
+                    $("#DRContainer").html(response);
+
+                    //$("#btnDelete").prop("disabled", false);
+                    $("#btnDelete").css("visibility", "");
+
+                    $("#btnPrint").css("visibility", "hidden");
                 });
-
-                $(document).on("click", "#POList tbody tr", function ()
-                {
-                    EzbtnEditAcVis();
-                    var operationMode = $("#hdnOperationMode").val();
-                    if (operationMode == "Edit")
-                    {
-                        $("#POList > tbody").children().removeClass("active");
-                        $(this).addClass("active");
-
-                        var Code = $(this).find("[name*='hdnFFM_CRG_001_CODE']").val();
-                        
-
-                        $.get("EditFFM_CRG_001", { Code: Code }).done(function (response)
-                        {
-                            $("#DRContainer").html(response);
-
-                            //$("#btnDelete").prop("disabled", false);
-                            $("#btnDelete").css("visibility", "");
-
-                            $("#btnPrint").css("visibility", "hidden");
-                        });
-                    }
-                });
+            }
+        });
 
 
 
-                $("#btnPrint").click(function () {
+        $("#btnPrint").click(function () {
 
-                    var n = EzAuthenticationBtn("/AccountType", "PrintIt");
-                    if (n == 1) {
-                        var code1 = $("[name*='Code']").val();
-                        window.open("/AccountTypeReportForm/?code=" + code1 + "", '_blank');
-                    }
-                });
-            });
-
-
-
+            var n = EzAuthenticationBtn("/AccountType", "PrintIt");
+            if (n == 1) {
+                var code1 = $("[name*='Code']").val();
+                window.open("/AccountTypeReportForm/?code=" + code1 + "", '_blank');
+            }
+        });
+    });
 </script>
 
 
@@ -384,7 +378,7 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @Html.Action("GetFM_CRG_001", "FFM_CRG_001")
+                                                @Html.Action("GetFF_QTN002DetailList", "FFM_Quotation")
                                             </div>
 
                                         </div>

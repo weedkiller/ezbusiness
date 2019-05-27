@@ -40,15 +40,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return false;
         }
      
-        public List<FF_QTN001> GetFF_QTN(string CmpyCode)
+        public List<FF_QTN_VM> GetFF_QTN(string CmpyCode)
         {                                       
             ds = _EzBusinessHelper.ExecuteDataSet("Select FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,Total_Profit from FF_QTN001 where Flag=0 and CMPYCODE='" + CmpyCode + "' ");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
-            List<FF_QTN001> ObjList = new List<FF_QTN001>();
+            List<FF_QTN_VM> ObjList = new List<FF_QTN_VM>();
             foreach (DataRow dr in drc)
             {
-                ObjList.Add(new FF_QTN001()
+                ObjList.Add(new FF_QTN_VM()
                 {
                     CARRIER = dr["CARRIER"].ToString(),
                     CONTACT = dr["FFM_CRG_JOB_NAME"].ToString(),
@@ -852,6 +852,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 });
             }
             return ObjList;
+        }
+
+        public List<ComDropTbl> GetPortList(string CmpyCode)
+        {
+            return drop.GetCommonDrop("FFM_PORT_CODE as [Code],NAME as [CodeName]", "FFM_PORT", "CMPYCODE='" + CmpyCode + "' and Flag=0");
         }
     }
 }

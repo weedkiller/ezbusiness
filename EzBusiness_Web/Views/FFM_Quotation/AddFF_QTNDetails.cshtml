@@ -1,0 +1,738 @@
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_QTN_VM
+
+@{
+
+    var counter5 = 1;
+    var counter4 = 1;
+    var counter3 = 1;
+    var counter2 = 1;
+}
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+        arr1 = [];
+        $('.selectpicker').selectpicker('refresh');
+        //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
+        var counter5 = parseInt($("#hdnCounter5").val());
+       $("#tablePODetails5").on("click", "[name*='btnDelete']", function () {
+          $(this).closest("tr").remove();
+            counter = 1;
+             $('#tablePODetails5 tbody tr td:nth-child(1)').each(function (e) {
+                 var tr1 = $(this).closest("tr");
+                 tr1.find(":first").text(counter5);
+                 counter5++;
+             });
+       });
+
+       var counter4 = parseInt($("#hdnCounter4").val());
+       $("#tablePODetails4").on("click", "[name*='btnDelete']", function () {
+           $(this).closest("tr").remove();
+           counter4 = 1;
+           $('#tablePODetails4 tbody tr td:nth-child(1)').each(function (e) {
+               var tr1 = $(this).closest("tr");
+               tr1.find(":first").text(counter4);
+               counter4++;
+           });
+       });
+
+
+       var counter3 = parseInt($("#hdnCounter3").val());
+       $("#tablePODetails3").on("click", "[name*='btnDelete']", function () {
+           $(this).closest("tr").remove();
+           counter3 = 1;
+           $('#tablePODetails3 tbody tr td:nth-child(1)').each(function (e) {
+               var tr1 = $(this).closest("tr");
+               tr1.find(":first").text(counter3);
+               counter3++;
+           });
+       });
+
+       var counter2 = parseInt($("#hdnCounter2").val());
+       $("#tablePODetails2").on("click", "[name*='btnDelete']", function () {
+           $(this).closest("tr").remove();
+           counter2 = 1;
+           $('#tablePODetails2 tbody tr td:nth-child(1)').each(function (e) {
+               var tr1 = $(this).closest("tr");
+               tr1.find(":first").text(counter3);
+               counter3++;
+           });
+       });
+
+       var counter5 = parseInt($("#hdnCounter5").val());
+        $('.selectpicker').selectpicker('refresh');
+        $("#tablePODetails5").on("change", "[name*='txtCrg_code']", function () {                   
+            var tr = $(this).closest('tr');
+            var JobCode = tr.find("[name*='txtCrg_code'] option:selected").text();
+            var array = JobCode.split("-");          
+            tr.find("[name*='txtCrg_name']").val(array[1].trim());
+            drec = [];
+            $('#tablePODetails5 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtCrg_code']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'txtCrg_code']").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'txtCrg_code']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtCrg_code']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtjobcode']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'txtCrg_code']").val('');
+
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tablePODetails5 tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter5 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tablePODetails5 tbody tr:nth-last-child(2)");
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
+                    trLast.find("[name*='txtCrg_code'] option:selected").val('');
+                    trLast.find("[name*='txtCrg_name']").val('');
+                    trLast.find("[name*='txtoperationtype']").val('');
+                    trLast.find("[name*='txtincomeact'] option:selected").val('');
+                    trLast.find("[name*='txtexpenceacgt']").val('');
+                    trLast.find("[name *= 'txtsrno']").attr({
+                        "name": ("txtsrno" + counter5)
+                    });
+                    trLast.find("[name *= 'txtjobcode']").attr({
+                        "name": ("txtjobcode" + counter5)
+                    });
+                    trLast.find("[name *= 'txtjobname']").attr({
+                        "name": ("txtjobname" + counter5)
+                    });
+                    trLast.find("[name *= 'txtIncome_GL_Code']").attr({
+                        "name": ("txtIncome_GL_Code" + counter5)
+                    });
+                    trLast.find("[name *= 'txtExpense_GL_Code']").attr({
+                        "name": ("txtExpense_GL_Code" + counter5)
+                    });
+                    trLast.find("[name *= 'txtUnit_Code']").attr({
+                        "name": ("txtUnit_Code" + counter5)
+                    });
+                    trLast.find("[name *= 'txtCust_code']").attr({
+                        "name": ("txtCust_code" + counter5)
+                    });
+                    trLast.find("[name *= 'txtCust_name']").attr({
+                        "name": ("txtCust_name" + counter5)
+                    });
+                    trLast.find("[name *= 'txtCust_Ctrl_Act']").attr({
+                        "name": ("txtCust_Ctrl_Act" + counter5)
+                    });                    
+                    trLast.find("[name *= 'txtCust_Curr_Code']").attr({
+                        "name": ("txtCust_Curr_Code" + counter5)
+                    });
+                    trLast.find("[name *= 'txtCust_Curr_Rate']").attr({
+                        "name": ("txtCust_Curr_Rate" + counter5)
+                    });                                        
+                    trLast.find("[name *= 'txtCust_Total_amt']").attr({
+                        "name": ("txtCust_Total_amt" + counter5)
+                    });
+                    trLast.find("[name *= 'txtCust_Var_Amt']").attr({
+                        "name": ("txtCust_Var_Amt" + counter5)
+                    });
+                    trLast.find("[name *= 'txtCust_Net_Amt']").attr({
+                        "name": ("txtCust_Net_Amt" + counter5)
+                    });
+                    trLast.find("[name *= 'txtCust_Local_amt']").attr({
+                        "name": ("txtCust_Local_amt" + counter5)
+                    });
+                    trLast.find("[name *= 'txtPAY_MODE']").attr({
+                        "name": ("txtPAY_MODE" + counter5)
+                    });
+                    trLast.find("[name *= 'txtVend_code']").attr({
+                        "name": ("txtVend_code" + counter5)
+                    });
+                    trLast.find("[name *= 'txtVend_name']").attr({
+                        "name": ("txtVend_name" + counter5)
+                    });
+
+                    trLast.find("[name *= 'txtVend_Ctrl_Act']").attr({
+                        "name": ("txtVend_Ctrl_Act" + counter5)
+                    });
+                    trLast.find("[name *= 'txtVend_Curr_Code']").attr({
+                        "name": ("txtVend_Curr_Code" + counter5)
+                    });
+                    trLast.find("[name *= 'txtVend_Curr_Rate']").attr({
+                        "name": ("txtVend_Curr_Rate" + counter5)
+                    });
+                    trLast.find("[name *= 'txtVend_Rate']").attr({
+                        "name": ("txtVend_Rate" + counter5)
+                    });
+                    trLast.find("[name *= 'txtVend_Total_amt']").attr({
+                        "name": ("txtVend_Total_amt" + counter5)
+                   });                                       
+                    trLast.find("[name *= 'txtVendVar_Amt']").attr({
+                        "name": ("txtVendVar_Amt" + counter5)
+                    });
+                    trLast.find("[name *= 'txtVend_Net_Amt']").attr({
+                        "name": ("txtVend_Net_Amt" + counter5)
+                    });
+                    trLast.find("[name *= 'txtVend_Local_amt']").attr({
+                        "name": ("txtVend_Local_amt" + counter5)
+                    });                                                                                            
+                    trLast.find(":first").text(counter5);
+                }
+                counter5++;
+            }
+
+
+
+        });
+
+        var counter4 = parseInt($("#hdnCounter4").val());
+        $("#tablePODetails4").on("change", "[name*='txtCLAUSE_CODE']", function () {
+
+            var tr = $(this).closest('tr');
+            var JobCode = tr.find("[name*='txtCLAUSE_CODE'] option:selected").text();
+            var array = JobCode.split("-");
+            //   var counter =1;
+            tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim())
+
+            //  var tcunt = $("#tablePODetails").find("tr").length;
+            drec = [];
+            $('#tablePODetails4 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtCLAUSE_CODE']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'txtCLAUSE_CODE']").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'txtCLAUSE_CODE']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtCLAUSE_CODE']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtCLAUSE_CODE']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'txtCLAUSE_CODE']").val('');
+
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tablePODetails4 tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter4 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tablePODetails4 tbody tr:nth-last-child(2)");
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
+                    trLast.find("[name*='txtCLAUSE_CODE'] option:selected").val('');
+                    trLast.find("[name*='txtCLAUSE_NAME']").val('');
+                    
+                    trLast.find("[name *= 'txtCLAUSE_CODE']").attr({
+                        "name": ("txtCLAUSE_CODE" + counter4)
+                    });
+                    trLast.find("[name *= 'txtCLAUSE_NAME']").attr({
+                        "name": ("txtCLAUSE_NAME" + counter4)
+                    });
+                    
+                    trLast.find(":first").text(counter4);
+                }
+                counter4++;
+            }
+
+
+
+        });
+
+        var counter3 = parseInt($("#hdnCounter3").val());
+        $("#tablePODetails3").on("change", "[name*='txtPkg_No']", function () {
+
+            var tr = $(this).closest('tr');
+           
+            //  var tcunt = $("#tablePODetails").find("tr").length;
+            drec = [];
+            $('#tablePODetails3 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtPkg_No']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'txtPkg_No']").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'txtPkg_No']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtPkg_No']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtPkg_No']").focus();
+                EzAlerterrtxt("Already Exist Pkg No '" + dr + "'");
+                tr.find("[name *= 'txtPkg_No']").val('');
+
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tablePODetails3 tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter3 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tablePODetails3 tbody tr:nth-last-child(2)");
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
+                    trLast.find("[name*='txtPkg_No']").val('');
+                    trLast.find("[name*='txtNo_of_qty']").val('');
+
+                    trLast.find("[name *= 'txtNo_of_qty']").attr({
+                        "name": ("txtNo_of_qty" + counter3)
+                    });
+                    trLast.find("[name *= 'txtunit_type']").attr({
+                        "name": ("txtunit_type" + counter3)
+                    });
+                    trLast.find("[name *= 'txtHeight']").attr({
+                        "name": ("txtHeight" + counter3)
+                    });                    
+                    trLast.find("[name *= 'txtWidth']").attr({
+                        "name": ("txtWidth" + counter3)
+                    });
+                    trLast.find("[name *= 'txtAct_LBS']").attr({
+                        "name": ("txtAct_LBS" + counter3)
+                    });
+                    trLast.find("[name *= 'txtinside_Unit']").attr({
+                        "name": ("txtinside_Unit" + counter3)
+                    });
+                    trLast.find("[name *= 'txtVolume']").attr({
+                        "name": ("txtVolume" + counter3)
+                    });
+                    trLast.find("[name *= 'txtDime_weight']").attr({
+                        "name": ("txtDime_weight" + counter3)
+                    });                   
+                    trLast.find(":first").text(counter3);
+                }
+                counter3++;
+            }
+
+
+
+        });
+
+        var counter2 = parseInt($("#hdnCounter2").val());
+        $("#tablePODetails2").on("change", "[name*='txtContainer']", function () {
+
+            var tr = $(this).closest('tr');
+           
+           
+            drec = [];
+            $('#tablePODetails2 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).find("[name *= 'txtContainer']").val();
+                drec.push(ab);
+            });
+
+            drec.splice($.inArray(tr.find("[name *= 'txtContainer']").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'txtContainer']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtContainer']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtContainer']").focus();
+                EzAlerterrtxt("Already Exist Container '" + dr + "'");
+                tr.find("[name *= 'txtContainer']").val('');
+
+
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    tr.clone(true, true).insertAfter(tr);
+                    var trLast = $("#tablePODetails2 tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
+                    trLast.find("[name*='txtContainer']").val('');               
+                    trLast.find("[name*='txtsno']").attr({
+                        "name": ("txtsno" + counter2)
+                    });
+                    trLast.find("[name*='txtCont_Type']").attr({
+                        "name": ("txtCont_Type" + counter2)
+                    });
+                    trLast.find("[name*='txtSeal1']").attr({
+                        "name": ("txtSeal1" + counter2)
+                    });
+                    trLast.find("[name*='txtNo_of_qty']").attr({
+                        "name": ("txtNo_of_qty" + counter2)
+                    });
+                    trLast.find("[name*='txtContents']").attr({
+                        "name": ("txtContents" + counter2)
+                    });
+                    trLast.find("[name*='txtLBS']").attr({
+                        "name": ("txtLBS" + counter2)
+                    });
+                    trLast.find("[name*='txtKG']").attr({
+                        "name": ("txtKG" + counter2)
+                    });
+                    trLast.find("[name*='txtCFT']").attr({
+                        "name": ("txtCFT" + counter2)
+                    });
+                    trLast.find("[name*='txtCBM']").attr({
+                        "name": ("txtCBM" + counter2)
+                    });                                                                          
+                    trLast.find(":first").text(counter2);
+                }
+                counter2++;
+            }
+
+
+
+        });
+
+    });
+</script>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+                                <div class="form-body">
+                                    <div class="col-md-6">
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Customer</label>
+                                                    <div class="col-md-4 input-field">
+                                                        <input type="text" class="form-control" name="" />
+                                                    </div>
+                                                    <div class="col-md-4 input-field">
+                                                        <input type="text" class="form-control" name="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Contact</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.TextBoxFor(m => m.CONTACT, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Telephone</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.TextBoxFor(m => m.TELEPHONE, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Fax</label>
+                                                    <div class="col-md-8 input-field">
+                                                        <input type="text" class="form-control" name="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Custom Ref</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.TextBoxFor(m => m.CUSTOMER_REF, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Pickup Place</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.TextBoxFor(m => m.PICKUP_PLACE, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">State</label>
+                                                    <div class="col-md-8 input-field">
+                                                        <input type="text" class="form-control" name="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">zip</label>
+                                                    <div class="col-md-8 input-field">
+                                                        <input type="text" class="form-control" name="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Port Of Load</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.DropDownListFor(m => m.POL, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Port Of Dsch</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.DropDownListFor(m => m.POD, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Final Destn<i class="star">*</i></label>
+                                                    <div class="col-xs-7 col-md-8 input-field">
+                                                        @Html.DropDownListFor(m => m.PICKUP_PLACE, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Country</label>
+                                                    <div class="col-xs-7 col-md-8 input-field">
+                                                        <input type="text" class="form-control" name="" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Zip</label>
+                                                    <div class="col-xs-7 col-md-8 input-field">
+                                                        <input type="text" class="form-control" name="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Move Type</label>
+                                                    <div class="col-xs-7 col-md-8 input-field">
+                                                        @Html.DropDownListFor(m => m.MOVE_TYPE, Model.MoveCodeList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Ref No.</label>
+                                                    <div class="col-xs-7 col-md-8 input-field">
+                                                        @Html.TextBoxFor(m => m.REF_NO, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Vessel</label>
+                                                    <div class="col-xs-7 col-md-8 input-field">
+                                                        @Html.DropDownListFor(m => m.VESSEL, Model.VESSELList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">voy</label>
+                                                    <div class="col-xs-7 col-md-8 input-field">
+                                                        @Html.DropDownListFor(m => m.VOYAGE, Model.VOYAGEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Carrier</label>
+                                                    <div class="col-md-8 input-field">
+                                                        @Html.DropDownListFor(m => m.CARRIER, Model.SLList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Effective</label>
+                                                    <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                        <input type="text" class="form-control" name="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Expiration</label>
+                                                    <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                        <input type="text" class="form-control" name="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Quoted By</label>
+                                                    <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                        <input type="text" class="form-control" name="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Department</label>
+                                                    <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                        @Html.DropDownListFor(m => m.DEPARTMENT, Model.DEPARTMENTList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+
+
+
+
+
+
+                                    </div>
+
+
+                                    <div class="col-md-12">
+                                        <div class="">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active b1"><a data-toggle="tab" href="#home">Dimension</a></li>
+                                                <li class="b1"><a data-toggle="tab" href="#menu1">Clauses</a></li>
+                                                <li class="b1"><a data-toggle="tab" href="#menu2">Charges</a></li>
+                                            </ul>
+
+                                            <br />
+                                            <div class="tab-content">
+
+                                                <div id="home" class="tab-pane fade in active">
+                                                    <br /><br />
+
+
+                                                    <div class="col-md-12">
+                                                        <div class="table-responsive">
+
+                                                            <table class="table table-bordered stripe display hover" id="tablePODetails">
+                                                                <thead>
+                                                                    <tr class="tr">
+                                                                        <th>Container</th>
+                                                                        <th>Type</th>
+                                                                        <th>Seal 1</th>
+                                                                        <th>Pieces</th>
+                                                                        <th>Contents</th>
+                                                                        <th>Wt. LBS</th>
+                                                                        <th>Wt. Kg</th>
+                                                                        <th>CFT</th>
+                                                                        <th>CBM</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    <tr>
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+
+
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="form-group">
+
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+
+                                                                            </div>
+                                                                        </td>
+
+
+                                                                    </tr>
+
+
+
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div id="menu1" class="tab-pane fade">
+
+                                                </div>
+
+                                                <div id="menu2" class="tab-pane fade">
+
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
