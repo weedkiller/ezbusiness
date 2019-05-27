@@ -30,11 +30,9 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-
                 return View(_QTNService.GetFF_QTN(list[0].CmpyCode));
             }
         }
-
         public ActionResult DeleteFF_QTN(string FF_QTN001_CODE)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
