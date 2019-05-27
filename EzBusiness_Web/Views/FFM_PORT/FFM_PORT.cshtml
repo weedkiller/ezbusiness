@@ -10,17 +10,20 @@
 
 <script>
     $(function () {
+        debugger;
         EzAuthentication("/PORTMASTER")
         Ezsetzerotxt();
-
+        GetDatatable();
         //EzsetDatetxt();
         var lvHtml = $("#POContainer").html();
         $("#POListContainer1").hide();
-        function GetLeaveList() {
-            $.get("/FFM_PORT/GetPortList", function (response) {
-                $("#POListContainer").html(response);
-            });
-        }
+        //function GetLeaveList() {
+        //    debugger;
+        //    $.get("/FFM_PORT/GetPortList", function (response) {
+        //        debugger;
+        //        GetDatatable(responce);
+        //    });
+        //}
         $("#btnNew").click(function () {
             var n = EzAuthenticationBtn("/PORTMASTER", "NewIt");
             if (n == 1) {
@@ -49,12 +52,16 @@
             }
         });
         $("#btnCancel").click(function () {
-            $("#editshow").hide();
-            $("#POContainer").html(lvHtml);
+           
+           $("#editshow").hide();
+           $("#POContainer").html(lvHtml);
             EzbtnCancelAcVis();
             Ezsetzerotxt();
             //EzsetDatetxt();
             $("#POListContainer1").hide();
+            location.reload();
+          // ;
+
            // EzdtePk('#Entry_Date1');
         });
         $("#btnDelete").click(function () {
@@ -197,9 +204,7 @@
                     EzAlerterrtxt(validationResult.ErrorMessage);
                 }
             }
-        });
-       
-
+        });       
         function ValidateForm(inv) {
 
             var response = {
@@ -237,7 +242,7 @@
             console.log(thrownError);
         });
         $(document).on("click", "#POList tbody tr", function () {
-
+            debugger;
             $("#btnSave").prop("disabled", false);
             $("#btnDelete").prop("disabled", false);
             EzbtnEditAcVis();
@@ -245,7 +250,7 @@
             if (operationMode == "Edit") {
                 $("#POList > tbody").children().removeClass("active");
                 $(this).addClass("active");
-                var FFM_PORT_CODE = $(this).find("#hdnFFM_PORT_CODE").val();
+                var FFM_PORT_CODE = $(this).find("td:eq(0)").text();;
                 $.get("EditFFM_PORT", { FFM_PORT_CODE: FFM_PORT_CODE }).done(function (response) {
                     $("#POContainer").html(response);
                     //$("#btnDelete").prop("disabled", false);
@@ -253,11 +258,66 @@
                 });
             }
         });
-
         EzdtePk('#Entry_Date1');
+
+        function GetDatatable() {
+            debugger;
+            //$('#POList').empty();
+            $.fn.dataTable.ext.errorMode = 'none';
+            $("#divsrly").show();
+          
+            var t = $('#POList').DataTable({
+                "ColumnDefs": [{ "searchable": false, "orderable": true }],
+             //   "order": [[0, 'asc']],
+                //"scrollY": true, 
+                //  "scrollX": true,
+                "language":
+                {
+                    "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
+                },
+                "dom": 'lBfrtip',
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "buttons": [
+                          'excel',
+                          'pdf'
+                ],
+                //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                //    var oSettings = this.fnSettings();
+                //    $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+                //    return nRow;
+                //},
+                "processing": true,
+                "serverSide": true,
+                "ajax":
+                {
+                    "async": false,
+                    "cache": false,
+                    "type": "POST",
+                    "url": '/FFM_PORT/GetPortList',
+                    "dataType": "json",
+                   // "data": newrow,
+                },
+                "destroy": true,
+                "columns": [                              
+                              {
+                              "data": "FFM_PORT_CODE",                                
+                              },
+                              { "data": "NAME" },
+                              { "data": "COUNTRY" },
+                              { "data": "TERMINAL" },
+                              { "data": "LATITUDE" },
+                              { "data": "LANGITUDE" },
+                             // { "data": "PortType" },
+                              { "data": "DISPLY_STATUS" },                                                                  
+                ]
+            });
+            //t.on('order.dt search.dt', function () {
+            //    t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+            //        cell.innerHTML = i + 1;
+            //    });
+            //}).draw();
+        }
     });
-
-
 
 </script>
 <br />
@@ -298,7 +358,36 @@
                                 <div class="custom-form-wrapper">
                                     <!-- BEGIN FORM-->
                                     <div class="container" id="POListContainer">
-                                        @Html.Action("GetPortList", "FFM_PORT")
+                                        <div class="table-responsive">
+                                            <table id="POList" class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr class="tr">                                                       
+                                                        <th>Port Code</th>
+                                                        <th>Name</th>
+                                                        <th>Country</th>
+                                                        <th>Terminal</th>
+                                                        <th>Latitude</th>
+                                                        <th>Langitude</th>
+                                                        <th>Display Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>                                                        
+                                                        <td>Port Code</td>
+                                                        <td>Name</td>
+                                                        <td>Country</td>
+                                                        <td>Terminal</td>
+                                                        <td>Latitude</td>
+                                                        <td>Langitude</td>                                                       
+                                                        <td>Display Status</td>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>                                                   
+                                                     <tr>                                                           
+                                                     </tr>                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -306,8 +395,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
