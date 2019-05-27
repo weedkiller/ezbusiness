@@ -51,8 +51,7 @@
             $("#editshow").hide();
         });
 
-        $("#btnDelete").click(function () {
-            
+        $("#btnDelete").click(function () {            
             var n = EzAuthenticationBtn("/Chargemaster", "DeleteIt");
             if (n == 1) {
                 const swalWithBootstrapButtons = Swal.mixin({
@@ -120,13 +119,13 @@
                 };
                 var SNO = 0;
                 $("#tablePODetails tbody tr").each(function (index, item) {
-                    
+                    debugger;
                   
                     var FFM_CRG_JOB_CODE = $(this).find("[name*='txtjobcode'] option:selected").val();
                     var FFM_CRG_JOB_NAME = $(this).find("[name*='txtjobname']").val();
-                    var OPERATION_TYPE = $(this).find("[name*='txtoperationtype'] option:selected").val();
+                    var OPERATION_TYPE = $(this).find("[name*='OPERATION_TYPE'] option:selected").val();
                     var INCOME_ACT = $(this).find("[name*='txtincomeact'] option:selected").val();
-                    var EXPENSE_ACGT = $(this).find("[name*='txtexpenceacgt']").val();
+                    var EXPENSE_ACGT = $(this).find("[name*='txtexpenceacgt'] option:selected").val();
                  
                     if (FFM_CRG_JOB_NAME != "") {
                         SNO = SNO + 1;
@@ -188,7 +187,7 @@
                         var FFM_CRG_JOB_NAME = $(this).find("[name*='FFM_CRG_JOB_NAME']").val();
                         var OPERATION_TYPE = $(this).find("[name*='OPERATION_TYPE'] option:selected").val();
                         var INCOME_ACT = $(this).find("[name*='INCOME_ACT'] option:selected").val();
-                        var EXPENSE_ACGT = $(this).find("[name*='EXPENSE_ACGT']").val();
+                        var EXPENSE_ACGT = $(this).find("[name*='EXPENSE_ACGT'] option:selected").val();
 
                         if (FFM_CRG_JOB_NAME !="") {
                             SNO = SNO + 1;
@@ -212,6 +211,7 @@
                                     EzAlertSave();
                                     EzbtnsaveAcVis("#DRContainer");
                                     $("#DRContainer").html(drHtml);
+                                    GetDrs();
                                 } else {
                                     EzAlerterrtxt(response.ErrorMessage);
                                 }
