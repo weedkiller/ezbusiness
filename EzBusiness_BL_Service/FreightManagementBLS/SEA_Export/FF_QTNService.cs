@@ -29,7 +29,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_QTNRepo.DeleteFF_QTN(CmpyCode, FF_QTN001_CODE, UserName);
         }
 
-        public List<FF_QTN001> GetFF_QTN(string CmpyCode)
+        public List<FF_QTN_VM> GetFF_QTN(string CmpyCode)
         {
             return _FF_QTNRepo.GetFF_QTN(CmpyCode);
         }

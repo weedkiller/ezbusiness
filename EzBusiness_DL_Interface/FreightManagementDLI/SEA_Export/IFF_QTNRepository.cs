@@ -12,7 +12,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
 {
     public interface IFF_QTNRepository
     {
-        List<FF_QTN001> GetFF_QTN(string CmpyCode);
+        List<FF_QTN_VM> GetFF_QTN(string CmpyCode);
         FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE);
         FF_QTN_VM SaveFF_QTN_VM(FF_QTN_VM FQV);       
         List<FF_QTN002New> GetFF_QTN002DetailList(string CmpyCode, string FF_QTN001_CODE);
