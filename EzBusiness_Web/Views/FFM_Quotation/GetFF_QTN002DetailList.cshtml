@@ -1,4 +1,4 @@
-﻿@model IEnumerable < EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_QTN_VM>
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_QTN_VM>
 
 <script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
@@ -26,39 +26,77 @@
             <th>MOVE_TYPE</th>
             <th>REF No</th>
             <th>Vessal</th>
-            <th>Voyage</th>
-            <th></th>
+            <th>Voyage</th>           
         </tr>
     </thead>
     <tfoot>
         <tr>
-            <td>Code</td>
-            <td>Name</td>
-            <td>
-                Date Of Birth
-            </td>
-            <td>
-                Contact No
-            </td>
-            <td>
-                EMail Id
-            </td>
-            <td>
-                Nationality
-            </td>
-            <td>
-                Division Code
-            </td>
-            <td>
-                Location
-            </td>
-            <td>
-                VisaLocation
-            </td>
-            <td>
-                Reporting Employee
-            </td>
+            <td>QTN Code</td>
+            <td>Cust Code</td>
+            <td>Contact</td>
+            <td>Telephone</td>
+            <td>Email</td>
+            <td>Customer_Ref</td>
+            <td>Pickup Place</td>
+            <td>POL</td>
+            <td>POD</td>
+            <td>FND</td>
+            <td>MOVE_TYPE</td>
+            <td>REF No</td>
+            <td>Vessal</td>
+            <td>Voyage</td>       
         </tr>
     </tfoot>
-    <tbody></tbody>
-</table>  
+    <tbody>
+        @foreach (var po in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnMRCode", po.FF_QTN001_CODE)
+                    @po.FF_QTN001_CODE
+                </td>
+                <td>
+                    @po.CUST_CODE
+                </td>
+                <td>
+                   @po.CONTACT
+                </td>
+                <td>
+                    @po.TELEPHONE
+                </td>
+                <td>
+                    @po.EMAIL
+                </td>
+                <td>
+                    @po.CUSTOMER_REF
+                </td>
+                <td>
+                    @Html.Hidden("hdnDivisionCode", po.PICKUP_PLACE)
+                    @po.PICKUP_PLACE
+                </td>
+                <td>
+                    @po.POL
+                </td>
+                <td>
+                    @po.POD
+                </td>
+                <td>
+                    @po.FND
+                </td>
+                <td>
+                    @po.MOVE_TYPE
+                </td>
+                <td>
+                    @po.REF_NO
+                </td>
+                <td>
+                    @po.VESSEL
+                </td>
+                <td>
+                    @po.VOYAGE
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+               
