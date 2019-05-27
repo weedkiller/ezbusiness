@@ -75,11 +75,11 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {
-                return Redirect("Login/InLogin");
+               return Redirect("Login/InLogin");
             }
             else
             {
-                return Json(_ClauseService.EditFFM_CLAUSE(list[0].CmpyCode, FFM_CLAUSE_Code), JsonRequestBehavior.AllowGet);
+               return Json(_ClauseService.EditFFM_CLAUSE(list[0].CmpyCode, FFM_CLAUSE_Code), JsonRequestBehavior.AllowGet);
             }
         }
     }

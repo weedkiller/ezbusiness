@@ -20,6 +20,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
         {
             _QTNService = new FF_QTNService();
         }
+        [Route("Quotation")]
         public ActionResult GetQuotation()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
