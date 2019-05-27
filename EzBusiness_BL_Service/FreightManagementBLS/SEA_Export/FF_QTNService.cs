@@ -128,7 +128,12 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.FF_QTN005Detail = GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE);
             poEdit.DEPARTMENTList = GetDepart(CmpyCode);
             poEdit.MoveCodeList = GetMoveCode(CmpyCode);
-
+            poEdit.CLAUSEList = GetCLAUSE(CmpyCode);
+            poEdit.CRG_002List = GetCRG_002(CmpyCode);
+            poEdit.SLList = GetSL(CmpyCode);
+            poEdit.VESSELList = GetVESSELList(CmpyCode);
+            poEdit.VOYAGEList = GetVOYAGEList(CmpyCode);
+            poEdit.EditFlag = true;
             return poEdit;
         }
 
@@ -160,6 +165,61 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                                           .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                           .ToList();
             return InsertFirstElementDDL(DepartList);
+        }
+
+        public List<SelectListItem> GetVESSELList(string CmpyCode)
+        {
+            var VESSELList = _FF_QTNRepo.GetVESSELList(CmpyCode)
+                                                 .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                 .ToList();
+            return InsertFirstElementDDL(VESSELList);
+        }
+
+        public List<SelectListItem> GetVOYAGEList(string CmpyCode)
+        {
+            var VOYAGEList = _FF_QTNRepo.GetVOYAGEList(CmpyCode)
+                                                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                  .ToList();
+            return InsertFirstElementDDL(VOYAGEList);
+        }
+
+        public List<SelectListItem> GetSL(string CmpyCode)
+        {
+            var SLList = _FF_QTNRepo.GetCLAUSE(CmpyCode)
+                                                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                  .ToList();
+            return InsertFirstElementDDL(SLList);
+        }
+
+        public List<SelectListItem> GetCLAUSE(string CmpyCode)
+        {
+            var CLAUSEList = _FF_QTNRepo.GetCLAUSE(CmpyCode)
+                                                .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                .ToList();
+            return InsertFirstElementDDL(CLAUSEList);
+        }
+
+        public List<SelectListItem> GetCRG_002(string CmpyCode)
+        {
+            var CRG_002List = _FF_QTNRepo.GetCRG_002(CmpyCode)
+                                           .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                           .ToList();
+            return InsertFirstElementDDL(CRG_002List);
+        }
+
+        public FF_QTN_VM GetFF_QTN_AddNew(string Cmpycode)
+        {
+            return new FF_QTN_VM
+            {
+                VOYAGEList=GetVESSELList(Cmpycode),
+                SLList=GetVESSELList(Cmpycode),
+                CLAUSEList=GetCLAUSE(Cmpycode),
+                CRG_002List=GetCRG_002(Cmpycode),
+                DEPARTMENTList=GetDepart(Cmpycode),
+                MoveCodeList=GetMoveCode(Cmpycode),
+                VESSELList=GetVESSELList(Cmpycode),
+                EditFlag = false
+            };
         }
     }
 }
