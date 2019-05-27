@@ -20,8 +20,9 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
         {
             _QTNService = new FF_QTNService();
         }
+
         [Route("Quotation")]
-        public ActionResult GetQuotation()
+        public ActionResult FFM_Quotation()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -30,9 +31,13 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return View(_QTNService.GetFF_QTN(list[0].CmpyCode));
+                return View();
             }
         }
+
+    
+        
+
         public ActionResult DeleteFF_QTN(string FF_QTN001_CODE)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
