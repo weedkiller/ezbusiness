@@ -54,6 +54,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
 
         public List<SelectListItem> VESSELList { get; set; }
 
+        public List<SelectListItem> PortList { get; set; }
         public Decimal Total_Cost { get; set; }
         public Decimal Total_Billed { get; set; }
         public Decimal Total_Profit { get; set; }
