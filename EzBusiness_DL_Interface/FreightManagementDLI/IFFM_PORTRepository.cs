@@ -12,7 +12,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
 {
     public interface IFFM_PORTRepository
     {
-        List<FFM_PORT> GetFFM_PORT(string CmpyCode);
+        List<FFM_PORT_VM> GetFFM_PORT(string CmpyCode);
 
         FFM_PORT_VM SaveFFM_PORT(FFM_PORT_VM fpk);
         List<Nation> GetCountryList(string CmpyCode);

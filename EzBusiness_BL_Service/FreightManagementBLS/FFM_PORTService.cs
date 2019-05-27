@@ -41,20 +41,21 @@ namespace EzBusiness_BL_Service
 
         public List<FFM_PORT_VM> GetFFM_PORT(string CmpyCode)
         {
-            return _FFM_PORTRepo.GetFFM_PORT(CmpyCode).Select(m => new FFM_PORT_VM
-            {
-                CMPYCODE = m.CMPYCODE,
-                NAME = m.NAME,
-                FFM_PORT_CODE = m.FFM_PORT_CODE,
-                COUNTRY = m.COUNTRY,
-                TERMINAL = m.TERMINAL,
-                LANGITUDE=m.LANGITUDE,
-                LATITUDE=m.LATITUDE,
-                PortType=m.PORT_Type,
-                DISPLY_STATUS = m.DISPLY_STATUS,
-                CountryList = GetCountryList(CmpyCode),
-                
-            }).ToList();
+            //return _FFM_PORTRepo.GetFFM_PORT(CmpyCode).Select(m => new FFM_PORT_VM
+            //{
+            //    CMPYCODE = m.CMPYCODE,
+            //    NAME = m.NAME,
+            //    FFM_PORT_CODE = m.FFM_PORT_CODE,
+            //    COUNTRY = m.COUNTRY,
+            //    TERMINAL = m.TERMINAL,
+            //    LANGITUDE=m.LANGITUDE,
+            //    LATITUDE=m.LATITUDE,
+            //    PortType=m.PORT_Type,
+            //    DISPLY_STATUS = m.DISPLY_STATUS,
+            //    CountryList = GetCountryList(CmpyCode),
+
+            //}).ToList();
+            return _FFM_PORTRepo.GetFFM_PORT(CmpyCode);
         }
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
         {

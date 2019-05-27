@@ -65,15 +65,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         {
           return   drop.GetNationList(CmpyCode);
         }
-        public List<FFM_PORT> GetFFM_PORT(string CmpyCode)
+        public List<FFM_PORT_VM> GetFFM_PORT(string CmpyCode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_PORT_CODE,NAME,COUNTRY,PORT_TYPE,TERMINAL,LATITUDE,LANGITUDE,DISPLY_STATUS from FFM_PORT where Flag=0");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
-            List<FFM_PORT> ObjList = new List<FFM_PORT>();
+            List<FFM_PORT_VM> ObjList = new List<FFM_PORT_VM>();
             foreach (DataRow dr in drc)
             {
-                ObjList.Add(new FFM_PORT()
+                ObjList.Add(new FFM_PORT_VM()
                 {
                     FFM_PORT_CODE = dr["FFM_PORT_CODE"].ToString(),
                     NAME = dr["NAME"].ToString(),
@@ -82,7 +82,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     LANGITUDE = dr["LANGITUDE"].ToString(),
                     LATITUDE = dr["LATITUDE"].ToString(),
                     DISPLY_STATUS = dr["DISPLY_STATUS"].ToString(),
-                    PORT_Type = dr["PORT_TYPE"].ToString(),
+                   // PORT_Type = dr["PORT_TYPE"].ToString(),
                 });
             }
             return ObjList;
