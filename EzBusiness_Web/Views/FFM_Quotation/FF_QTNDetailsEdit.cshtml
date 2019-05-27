@@ -140,8 +140,8 @@
            counter2 = 1;
            $('#tablePODetails2 tbody tr td:nth-child(1)').each(function (e) {
                var tr1 = $(this).closest("tr");
-               tr1.find(":first").text(counter3);
-               counter3++;
+               tr1.find(":first").text(counter2);
+               counter2++;
            });
        });
 
@@ -474,6 +474,16 @@
                             <div class="form-horizontal">
                                 <div class="form-body">
                                     <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Code</label>
+                                                    <div class="col-md-4 input-field">
+                                                        @Html.TextBoxFor(m => m.FF_QTN001_CODE, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div class="row">
                                             <div class="col-md-12">
@@ -587,9 +597,9 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label col-xs-3 col-md-3">Final Destn<i class="star">*</i></label>
+                                                    <label class="control-label col-xs-3 col-md-3 gridtext">Final Destn<i class="star">*</i></label>
                                                     <div class="col-xs-7 col-md-8 input-field">
-                                                        @Html.DropDownListFor(m => m.PICKUP_PLACE, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.FND, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -615,7 +625,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label col-xs-3 col-md-3">Move Type</label>
+                                                    <label class="control-label col-xs-3 col-md-3 gridtext">Move Type</label>
                                                     <div class="col-xs-7 col-md-8 input-field">
                                                         @Html.DropDownListFor(m => m.MOVE_TYPE, Model.MoveCodeList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                     </div>
@@ -644,7 +654,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label col-xs-3 col-md-3">voy</label>
+                                                    <label class="control-label col-xs-3 col-md-3">Voy</label>
                                                     <div class="col-xs-7 col-md-8 input-field">
                                                         @Html.DropDownListFor(m => m.VOYAGE, Model.VOYAGEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                     </div>
@@ -683,7 +693,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label col-xs-3 col-md-3">Quoted By</label>
+                                                    <label class="control-label col-xs-3 col-md-3 gridtext">Quoted By</label>
                                                     <div class="col-xs-7 col-md-8 input-field radiobtn1">
                                                         <input type="text" class="form-control" name="" />
                                                     </div>
@@ -714,96 +724,408 @@
                                     <div class="col-md-12">
                                         <div class="">
                                             <ul class="nav nav-tabs">
-                                                <li class="active b1"><a data-toggle="tab" href="#home">Dimension</a></li>
-                                                <li class="b1"><a data-toggle="tab" href="#menu1">Clauses</a></li>
-                                                <li class="b1"><a data-toggle="tab" href="#menu2">Charges</a></li>
+                                                <li class="active b1"><a data-toggle="tab" href="#home">Container</a></li>
+                                                <li class="b1"><a data-toggle="tab" href="#menu1">Dimension</a></li>
+                                                <li class="b1"><a data-toggle="tab" href="#menu2">Clauses</a></li>
+                                                <li class="b1"><a data-toggle="tab" href="#menu3">Charges</a></li>
                                             </ul>
 
                                             <br />
                                             <div class="tab-content">
-
                                                 <div id="home" class="tab-pane fade in active">
-                                                    <br /><br />
-
-
+                                                    <br />
                                                     <div class="col-md-12">
                                                         <div class="table-responsive">
-
-                                                            <table class="table table-bordered stripe display hover" id="tablePODetails">
+                                                            <table class="table table-bordered stripe display hover" id="tablePODetails2">
                                                                 <thead>
                                                                     <tr class="tr">
+                                                                        <th>Sr. No</th>
                                                                         <th>Container</th>
                                                                         <th>Type</th>
                                                                         <th>Seal 1</th>
-                                                                        <th>Pieces</th>
+                                                                        <th>No. of Quantity</th>
                                                                         <th>Contents</th>
                                                                         <th>Wt. LBS</th>
-                                                                        <th>Wt. Kg</th>
+                                                                        <th>Wt. KG</th>
                                                                         <th>CFT</th>
                                                                         <th>CBM</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-
+                                                                    @{int RowNo = 1;}
                                                                     <tr>
 
                                                                         <td>
                                                                             <div class="grid-group">
-
-
+                                                                                @Html.TextBox(string.Concat("txtsrno", counter2), @RowNo, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                             </div>
                                                                         </td>
-
                                                                         <td>
                                                                             <div class="form-group">
-
+                                                                                @Html.TextBox(string.Concat("txtContainer", counter2), null, new { @class = "grid-control" })
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <div class="grid-group">
-
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="form-group">
-
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="form-group">
-
+                                                                                @Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <div class="grid-group">
-
+                                                                                @Html.TextBox(string.Concat("txtSeal1", counter2), null, new { @class = "grid-control" })
                                                                             </div>
                                                                         </td>
-
-
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter2), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtContents", counter2), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtLBS", counter2), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtKG", counter2), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCFT", counter2), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCBM", counter2), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
                                                                     </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
+                                                <div id="menu1" class="tab-pane fade in">
+                                                    <br />
+                                                    <div class="col-md-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered stripe display hover" id="tablePODetails3">
+                                                                <thead>
+                                                                    <tr class="tr">
+                                                                        <th>Sr. No</th>
+                                                                        <th>Plg No.</th>
+                                                                        <th>No. of Qty</th>
+                                                                        <th>Unit Type</th>
+                                                                        <th>Height</th>
+                                                                        <th>width</th>
+                                                                        <th>Act. LBS</th>
+                                                                        <th>Inside Unit</th>
+                                                                        <th>Volume</th>
+                                                                        <th>Dime Weight</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @{int RowNo1 = 1;}
+                                                                    <tr>
 
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtsrno", counter3), @RowNo1, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtPkg_No", counter3), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter3), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtunit_type", counter3), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtHeight", counter3), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
 
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtWidth", counter3), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtAct_LBS", counter3), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtinside_Unit", counter3), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtVolume", counter3), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtDime_weight", counter3), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
                                                                 </tbody>
                                                             </table>
 
                                                         </div>
                                                     </div>
-
-
-
                                                 </div>
 
-                                                <div id="menu1" class="tab-pane fade">
+                                                <div id="menu2" class="tab-pane fade in">
+                                                    <br />
+                                                    <div class="col-md-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered stripe display hover" id="tablePODetails4">
+                                                                <thead>
+                                                                    <tr class="tr">
+                                                                        <th>Code</th>
+                                                                        <th>Name</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.DropDownList(string.Concat("txtCLAUSE_CODE", counter4), Model.CLAUSEList, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
 
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
-                                                <div id="menu2" class="tab-pane fade">
+                                                <div id="menu3" class="tab-pane fade">
+                                                    <br />
+                                                    <div class="col-md-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered stripe display hover" id="tablePODetails5">
+                                                                <thead>
+                                                                    <tr class="tr gridtext">
+                                                                        <th>	Sno	</th>
+                                                                        <th>	Crg_code	</th>
+                                                                        <th>	Crg_name	</th>
+                                                                        <th>	Income_GL_Code	</th>
+                                                                        <th>	Expense_GL_Code	</th>
+                                                                        <th>	Unit_Code	</th>
+                                                                        <th>	Cust_code	</th>
+                                                                        <th>	Cust_name	</th>
+                                                                        <th>	Cust_Ctrl_Act	</th>
+                                                                        <th>	Cust_Curr_Code	</th>
+                                                                        <th>	Cust_Curr_Rate	</th>
+                                                                        <th>	Cust_Rate	</th>
+                                                                        <th>	Cust_Total_amt	</th>
+                                                                        <th>	Cust_Var_Amt	</th>
+                                                                        <th>	Cust_Net_Amt	</th>
+                                                                        <th>	Cust_Local_amt	</th>
+                                                                        <th>	PAY_MODE	</th>
+                                                                        <th>	Vend_code	</th>
+                                                                        <th>	Vend_name	</th>
+                                                                        <th>	Vend_Ctrl_Act	</th>
+                                                                        <th>	Vend_Curr_Code	</th>
+                                                                        <th>	Vend_Curr_Rate	</th>
+                                                                        <th>	Vend_Rate	</th>
+                                                                        <th>	Vend_Total_amt	</th>
+                                                                        <th>	VendVar_Amt	</th>
+                                                                        <th>	Vend_Net_Amt	</th>
+                                                                        <th>	Vend_Local_amt	</th>
 
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @{int RowNo5 = 1;}
+                                                                    <tr>
 
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtsrno", counter5), @RowNo5, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                            </div>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCrg_code", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtIncome_GL_Code", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtExpense_GL_Code", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtUnit_Code", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_code", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Ctrl_Act", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Curr_Code", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Curr_Rate", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Rate", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Var_Amt", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Local_amt", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @*@Html.TextBox(string.Concat("txtPAY_MODE", counter5), null, new { @class = "grid-control" })*@
+                                                                                @Html.DropDownList(string.Concat("txtPAY_MODE", counter5), new List<SelectListItem> { new SelectListItem { Text = "PREPAID", Value = "PP" }, new SelectListItem { Text = "COLLECTION", Value = "COL" } }, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_code", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_Ctrl_Act", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_Curr_Code", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_Curr_Rate", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_Rate", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtVendVar_Amt", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_Local_amt", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Curr_Code", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Curr_Rate", counter5), null, new { @class = "grid-control" })
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
                                                 </div>
-
 
                                             </div>
                                         </div>
