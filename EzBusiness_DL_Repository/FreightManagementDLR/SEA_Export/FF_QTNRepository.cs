@@ -853,5 +853,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             }
             return ObjList;
         }
+
+        public List<ComDropTbl> GetPortList(string CmpyCode)
+        {
+            return drop.GetCommonDrop("FFM_PORT_CODE as [Code],NAME as [CodeName]", "FFM_PORT", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+        }
     }
 }

@@ -22,6 +22,8 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
 
         List<ComDropTbl> GetMOVEList(string CmpyCode);
         List<ComDropTbl> GetVESSELList(string CmpyCode);
+
+        List<ComDropTbl> GetPortList(string CmpyCode);
         List<ComDropTbl> GetVOYAGEList(string CmpyCode);
         List<ComDropTbl> GetSL(string CmpyCode);
         List<ComDropTbl> GetDepart(string CmpyCode);

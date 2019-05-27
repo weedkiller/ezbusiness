@@ -60,7 +60,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_QTNService.GetFF_QTNDetailsEdit(list[0].CmpyCode, FF_QTN001_CODE), JsonRequestBehavior.AllowGet);
+                return PartialView(_QTNService.GetFF_QTNDetailsEdit(list[0].CmpyCode, FF_QTN001_CODE));
             }
         }
 
@@ -74,7 +74,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_QTNService.GetFF_QTN_AddNew(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return PartialView(_QTNService.GetFF_QTN_AddNew(list[0].CmpyCode));
             }
         }
 
@@ -88,7 +88,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             else
             {
 
-                return View(_QTNService.GetFF_QTN(list[0].CmpyCode));
+                return PartialView(_QTNService.GetFF_QTN(list[0].CmpyCode));
             }
         }
         public ActionResult saveFFM_CLAUSE(FF_QTN_VM Fcur)
