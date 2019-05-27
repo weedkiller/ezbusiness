@@ -9,6 +9,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
     public class FFM_QuotationController : Controller
     {
         // GET: FFM_Quotation
+        [Route("Quotation")]
         public ActionResult GetQuotation()
         {
             return View();
