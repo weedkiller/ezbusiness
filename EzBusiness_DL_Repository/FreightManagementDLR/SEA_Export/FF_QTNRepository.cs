@@ -51,9 +51,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.Add(new FF_QTN_VM()
                 {
                     CARRIER = dr["CARRIER"].ToString(),
-                    CONTACT = dr["FFM_CRG_JOB_NAME"].ToString(),
-                    CUSTOMER_REF = dr["INCOME_ACT"].ToString(),
-                    CUST_CODE = dr["EXPENSE_ACGT"].ToString(),
+                    CONTACT = dr["CONTACT"].ToString(),
+                    CUSTOMER_REF = dr["CUSTOMER_REF"].ToString(),
+                    CUST_CODE = dr["CUST_CODE"].ToString(),
                     DEPARTMENT=dr["DEPARTMENT"].ToString(),
                     EMAIL=dr["EMAIL"].ToString(),
                     FF_QTN001_CODE=dr["FF_QTN001_CODE"].ToString(),
@@ -80,7 +80,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<FF_QTN002New> GetFF_QTN002DetailList(string CmpyCode, string FF_QTN001_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FFM_CRG_002 where Flag=0 and FF_QTN001_CODE='" + FF_QTN001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_QTN002 where Flag=0 and FF_QTN001_CODE='" + FF_QTN001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FF_QTN002New> ObjList = new List<FF_QTN002New>();
@@ -131,7 +131,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select CLUASE_CODE,CLUASE_NAME from FF_QTN004 where Flag=0 and FF_QTN001_CODE='" + FF_QTN001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select CLAUSE_CODE,CLAUSE_NAME from FF_QTN004 where Flag=0 and FF_QTN001_CODE='" + FF_QTN001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FF_QTN004New> ObjList = new List<FF_QTN004New>();
@@ -139,8 +139,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             {
                 ObjList.Add(new FF_QTN004New()
                 {
-                    CLUASE_CODE = dr["CLUASE_CODE"].ToString(),
-                    CLUASE_NAME = dr["CLUASE_NAME"].ToString(),                  
+                    CLUASE_CODE = dr["CLAUSE_CODE"].ToString(),
+                    CLUASE_NAME = dr["CLAUSE_NAME"].ToString(),                  
                 });
             }
             return ObjList;
@@ -199,9 +199,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             {
 
                 ObjList.CARRIER = dr["CARRIER"].ToString();
-                ObjList.CONTACT = dr["FFM_CRG_JOB_NAME"].ToString();
-                ObjList.CUSTOMER_REF = dr["INCOME_ACT"].ToString();
-                ObjList.CUST_CODE = dr["EXPENSE_ACGT"].ToString();
+                ObjList.CONTACT = dr["CONTACT"].ToString();
+                ObjList.CUSTOMER_REF = dr["CUSTOMER_REF"].ToString();
+                ObjList.CUST_CODE = dr["CUST_CODE"].ToString();
                 ObjList.DEPARTMENT = dr["DEPARTMENT"].ToString();
                 ObjList.EMAIL = dr["EMAIL"].ToString();
                 ObjList.FF_QTN001_CODE = dr["FF_QTN001_CODE"].ToString();
@@ -251,83 +251,93 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     {
                         #region FF_QTN002
                         List<FF_QTN002> ObjList = new List<FF_QTN002>();
-                        ObjList.AddRange(FQV.FF_QTN002Detail.Select(m => new FF_QTN002
+                        if (FQV.FF_QTN002Detail != null)
                         {
-                            CFT = m.CFT,
-                            CBM = m.CBM,
-                            Container = m.Container,
-                            Contents = m.Contents,
-                            Cont_Type = m.Cont_Type,
-                            KG = m.KG,
-                            LBS = m.LBS,
-                            No_of_qty = m.No_of_qty,
-                            Seal1 = m.Seal1,
-                            sno = m.sno,
-                        }).ToList());
+                            ObjList.AddRange(FQV.FF_QTN002Detail.Select(m => new FF_QTN002
+                            {
+                                CFT = m.CFT,
+                                CBM = m.CBM,
+                                Container = m.Container,
+                                Contents = m.Contents,
+                                Cont_Type = m.Cont_Type,
+                                KG = m.KG,
+                                LBS = m.LBS,
+                                No_of_qty = m.No_of_qty,
+                                Seal1 = m.Seal1,
+                                sno = m.sno,
+                            }).ToList());
+                        }
 
                         #endregion
 
                         #region FF_QTN003
                         List<FF_QTN003> ObjList1 = new List<FF_QTN003>();
-                        ObjList1.AddRange(FQV.FF_QTN003Detail.Select(m => new FF_QTN003
+                        if (FQV.FF_QTN003Detail != null)
                         {
-                            Width = m.Width,
-                            Sno = m.Sno,
-                            Act_LBS = m.Act_LBS,
-                            Dime_weight = m.Dime_weight,
-                            Height = m.Height,
-                            inside_Unit = m.inside_Unit,
-                            No_of_qty = m.No_of_qty,
-                            Pkg_No = m.Pkg_No,
-                            unit_type = m.unit_type,
-                            Volume = m.Volume,
-                        }).ToList());
-
+                            ObjList1.AddRange(FQV.FF_QTN003Detail.Select(m => new FF_QTN003
+                            {
+                                Width = m.Width,
+                                Sno = m.Sno,
+                                Act_LBS = m.Act_LBS,
+                                Dime_weight = m.Dime_weight,
+                                Height = m.Height,
+                                inside_Unit = m.inside_Unit,
+                                No_of_qty = m.No_of_qty,
+                                Pkg_No = m.Pkg_No,
+                                unit_type = m.unit_type,
+                                Volume = m.Volume,
+                            }).ToList());
+                        }
                         #endregion
 
                         #region FF_QTN004
 
                         List<FF_QTN004> ObjList2 = new List<FF_QTN004>();
-                        ObjList2.AddRange(FQV.FF_QTN004Detail.Select(m => new FF_QTN004
+                        if (FQV.FF_QTN004Detail != null)
                         {
-                            CLUASE_CODE = m.CLUASE_CODE,
-                            CLUASE_NAME = m.CLUASE_NAME
-                        }).ToList());
-
+                            ObjList2.AddRange(FQV.FF_QTN004Detail.Select(m => new FF_QTN004
+                            {
+                                CLUASE_CODE = m.CLUASE_CODE,
+                                CLUASE_NAME = m.CLUASE_NAME
+                            }).ToList());
+                        }
                         #endregion
 
                         #region FF_QTN005
                         List<FF_QTN005> ObjList3 = new List<FF_QTN005>();
-                        ObjList3.AddRange(FQV.FF_QTN005Detail.Select(m => new FF_QTN005
+                        if (FQV.FF_QTN005Detail != null)
                         {
-                            Crg_code = m.Crg_code,
-                            Crg_name = m.Crg_name,
-                            Cust_code = m.Cust_code,
-                            Cust_Ctrl_Act = m.Cust_Ctrl_Act,
-                            Cust_Curr_Rate = m.Cust_Curr_Rate,
-                            Cust_Curr_Code = m.Cust_Curr_Code,
-                            Cust_Local_amt = m.Cust_Local_amt,
-                            Cust_name = m.Cust_name,
-                            Cust_Net_Amt = m.Cust_Net_Amt,
-                            Cust_Rate = m.Cust_Rate,
-                            Cust_Total_amt = m.Cust_Total_amt,
-                            Cust_Var_Amt = m.Cust_Var_Amt,
-                            Expense_GL_Code = m.Expense_GL_Code,
-                            Income_GL_Code = m.Income_GL_Code,
-                            Sno = m.Sno,
-                            PAY_MODE = m.PAY_MODE,
-                            Unit_Code = m.Unit_Code,
-                            VendVar_Amt = m.VendVar_Amt,
-                            Vend_Ctrl_Act = m.Vend_Ctrl_Act,
-                            Vend_name = m.Vend_name,
-                            Vend_code = m.Vend_code,
-                            Vend_Curr_Code = m.Vend_Curr_Code,
-                            Vend_Curr_Rate = m.Vend_Curr_Rate,
-                            Vend_Local_amt = m.Vend_Local_amt,
-                            Vend_Net_Amt = m.Vend_Net_Amt,
-                            Vend_Rate = m.Vend_Rate,
-                            Vend_Total_amt = m.Vend_Total_amt,
-                        }).ToList());
+                            ObjList3.AddRange(FQV.FF_QTN005Detail.Select(m => new FF_QTN005
+                            {
+                                Crg_code = m.Crg_code,
+                                Crg_name = m.Crg_name,
+                                Cust_code = m.Cust_code,
+                                Cust_Ctrl_Act = m.Cust_Ctrl_Act,
+                                Cust_Curr_Rate = m.Cust_Curr_Rate,
+                                Cust_Curr_Code = m.Cust_Curr_Code,
+                                Cust_Local_amt = m.Cust_Local_amt,
+                                Cust_name = m.Cust_name,
+                                Cust_Net_Amt = m.Cust_Net_Amt,
+                                Cust_Rate = m.Cust_Rate,
+                                Cust_Total_amt = m.Cust_Total_amt,
+                                Cust_Var_Amt = m.Cust_Var_Amt,
+                                Expense_GL_Code = m.Expense_GL_Code,
+                                Income_GL_Code = m.Income_GL_Code,
+                                Sno = m.Sno,
+                                PAY_MODE = m.PAY_MODE,
+                                Unit_Code = m.Unit_Code,
+                                VendVar_Amt = m.VendVar_Amt,
+                                Vend_Ctrl_Act = m.Vend_Ctrl_Act,
+                                Vend_name = m.Vend_name,
+                                Vend_code = m.Vend_code,
+                                Vend_Curr_Code = m.Vend_Curr_Code,
+                                Vend_Curr_Rate = m.Vend_Curr_Rate,
+                                Vend_Local_amt = m.Vend_Local_amt,
+                                Vend_Net_Amt = m.Vend_Net_Amt,
+                                Vend_Rate = m.Vend_Rate,
+                                Vend_Total_amt = m.Vend_Total_amt,
+                            }).ToList());
+                        }
                         #endregion
 
                         //---
@@ -458,8 +468,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         #endregion
 
                         #region FF_QTN001 INSERT Header
-                        if (i > 0)
-                        {
+                        //if (i > 0)
+                        //{
                             StringBuilder sb4 = new StringBuilder();
                             sb4.Append("'" + FQV.UserName + "',");
                             sb4.Append("'" + dtstr1 + "',");
@@ -493,7 +503,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             _EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Update FF QTN", FQV.FF_QTN001_CODE, Environment.MachineName);
                             FQV.SaveFlag = true;
                             FQV.ErrorMessage = string.Empty;
-                        }
+                        scope1.Complete();
+                        //}
                         return FQV;
                     }
                 }
@@ -546,83 +557,92 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             // #region ObjectList
                             #region FF_QTN002
                             List<FF_QTN002> ObjList = new List<FF_QTN002>();
-                            ObjList.AddRange(FQV.FF_QTN002Detail.Select(m => new FF_QTN002
+                            if (FQV.FF_QTN002Detail != null)
                             {
-                                CFT = m.CFT,
-                                CBM = m.CBM,
-                                Container = m.Container,
-                                Contents = m.Contents,
-                                Cont_Type = m.Cont_Type,
-                                KG = m.KG,
-                                LBS = m.LBS,
-                                No_of_qty = m.No_of_qty,
-                                Seal1 = m.Seal1,
-                                sno = m.sno,
-                            }).ToList());
+                                ObjList.AddRange(FQV.FF_QTN002Detail.Select(m => new FF_QTN002
+                                {
+                                    CFT = m.CFT,
+                                    CBM = m.CBM,
+                                    Container = m.Container,
+                                    Contents = m.Contents,
+                                    Cont_Type = m.Cont_Type,
+                                    KG = m.KG,
+                                    LBS = m.LBS,
+                                    No_of_qty = m.No_of_qty,
+                                    Seal1 = m.Seal1,
+                                    sno = m.sno,
+                                }).ToList());
+                            }
 
                             #endregion
 
                             #region FF_QTN003
                             List<FF_QTN003> ObjList1 = new List<FF_QTN003>();
-                            ObjList1.AddRange(FQV.FF_QTN003Detail.Select(m => new FF_QTN003
+                            if (FQV.FF_QTN003Detail != null)
                             {
-                                Width = m.Width,
-                                Sno = m.Sno,
-                                Act_LBS = m.Act_LBS,
-                                Dime_weight = m.Dime_weight,
-                                Height = m.Height,
-                                inside_Unit = m.inside_Unit,
-                                No_of_qty = m.No_of_qty,
-                                Pkg_No = m.Pkg_No,
-                                unit_type = m.unit_type,
-                                Volume = m.Volume,
-                            }).ToList());
-
+                                ObjList1.AddRange(FQV.FF_QTN003Detail.Select(m => new FF_QTN003
+                                {
+                                    Width = m.Width,
+                                    Sno = m.Sno,
+                                    Act_LBS = m.Act_LBS,
+                                    Dime_weight = m.Dime_weight,
+                                    Height = m.Height,
+                                    inside_Unit = m.inside_Unit,
+                                    No_of_qty = m.No_of_qty,
+                                    Pkg_No = m.Pkg_No,
+                                    unit_type = m.unit_type,
+                                    Volume = m.Volume,
+                                }).ToList());
+                            }
                             #endregion
 
                             #region FF_QTN004
-
                             List<FF_QTN004> ObjList2 = new List<FF_QTN004>();
-                            ObjList2.AddRange(FQV.FF_QTN004Detail.Select(m => new FF_QTN004
+                            if (FQV.FF_QTN004Detail != null)
                             {
-                                CLUASE_CODE = m.CLUASE_CODE,
-                                CLUASE_NAME = m.CLUASE_NAME
-                            }).ToList());
-
+                                ObjList2.AddRange(FQV.FF_QTN004Detail.Select(m => new FF_QTN004
+                                {
+                                    CLUASE_CODE = m.CLUASE_CODE,
+                                    CLUASE_NAME = m.CLUASE_NAME
+                                }).ToList());
+                            }
                             #endregion
 
                             #region FF_QTN005
                             List<FF_QTN005> ObjList3 = new List<FF_QTN005>();
-                            ObjList3.AddRange(FQV.FF_QTN005Detail.Select(m => new FF_QTN005
+                            if (FQV.FF_QTN005Detail != null)
                             {
-                                Crg_code = m.Crg_code,
-                                Crg_name = m.Crg_name,
-                                Cust_code = m.Cust_code,
-                                Cust_Ctrl_Act = m.Cust_Ctrl_Act,
-                                Cust_Curr_Rate = m.Cust_Curr_Rate,
-                                Cust_Curr_Code = m.Cust_Curr_Code,
-                                Cust_Local_amt = m.Cust_Local_amt,
-                                Cust_name = m.Cust_name,
-                                Cust_Net_Amt = m.Cust_Net_Amt,
-                                Cust_Rate = m.Cust_Rate,
-                                Cust_Total_amt = m.Cust_Total_amt,
-                                Cust_Var_Amt = m.Cust_Var_Amt,
-                                Expense_GL_Code = m.Expense_GL_Code,
-                                Income_GL_Code = m.Income_GL_Code,
-                                Sno = m.Sno,
-                                PAY_MODE = m.PAY_MODE,
-                                Unit_Code = m.Unit_Code,
-                                VendVar_Amt = m.VendVar_Amt,
-                                Vend_Ctrl_Act = m.Vend_Ctrl_Act,
-                                Vend_name = m.Vend_name,
-                                Vend_code = m.Vend_code,
-                                Vend_Curr_Code = m.Vend_Curr_Code,
-                                Vend_Curr_Rate = m.Vend_Curr_Rate,
-                                Vend_Local_amt = m.Vend_Local_amt,
-                                Vend_Net_Amt = m.Vend_Net_Amt,
-                                Vend_Rate = m.Vend_Rate,
-                                Vend_Total_amt = m.Vend_Total_amt,
-                            }).ToList());
+                                ObjList3.AddRange(FQV.FF_QTN005Detail.Select(m => new FF_QTN005
+                                {
+                                    Crg_code = m.Crg_code,
+                                    Crg_name = m.Crg_name,
+                                    Cust_code = m.Cust_code,
+                                    Cust_Ctrl_Act = m.Cust_Ctrl_Act,
+                                    Cust_Curr_Rate = m.Cust_Curr_Rate,
+                                    Cust_Curr_Code = m.Cust_Curr_Code,
+                                    Cust_Local_amt = m.Cust_Local_amt,
+                                    Cust_name = m.Cust_name,
+                                    Cust_Net_Amt = m.Cust_Net_Amt,
+                                    Cust_Rate = m.Cust_Rate,
+                                    Cust_Total_amt = m.Cust_Total_amt,
+                                    Cust_Var_Amt = m.Cust_Var_Amt,
+                                    Expense_GL_Code = m.Expense_GL_Code,
+                                    Income_GL_Code = m.Income_GL_Code,
+                                    Sno = m.Sno,
+                                    PAY_MODE = m.PAY_MODE,
+                                    Unit_Code = m.Unit_Code,
+                                    VendVar_Amt = m.VendVar_Amt,
+                                    Vend_Ctrl_Act = m.Vend_Ctrl_Act,
+                                    Vend_name = m.Vend_name,
+                                    Vend_code = m.Vend_code,
+                                    Vend_Curr_Code = m.Vend_Curr_Code,
+                                    Vend_Curr_Rate = m.Vend_Curr_Rate,
+                                    Vend_Local_amt = m.Vend_Local_amt,
+                                    Vend_Net_Amt = m.Vend_Net_Amt,
+                                    Vend_Rate = m.Vend_Rate,
+                                    Vend_Total_amt = m.Vend_Total_amt,
+                                }).ToList());
+                            }
                             #endregion
 
                             //---
@@ -836,7 +856,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<FFM_CRG> GetCRGINCEXP(string CmpyCode, string FFM_CRG_001_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,INCOME_ACT,EXPENSE_ACGT from FFM_CRG_002 where Flag=0 and FFM_CRG_001_CODE='"+ FFM_CRG_001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,INCOME_ACT,EXPENSE_ACT from FFM_CRG_002 where Flag=0 and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FFM_CRG> ObjList = new List<FFM_CRG>();
@@ -847,7 +867,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     FFM_CRG_JOB_CODE = dr["FFM_CRG_JOB_CODE"].ToString(),
                     FFM_CRG_JOB_NAME = dr["FFM_CRG_JOB_NAME"].ToString(),
                     INCOME_ACT= dr["INCOME_ACT"].ToString(),
-                    EXPENSE_ACGT = dr["EXPENSE_ACGT"].ToString(),
+                    EXPENSE_ACGT = dr["EXPENSE_ACT"].ToString(),
 
                 });
             }
