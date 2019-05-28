@@ -32,6 +32,15 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<SelectListItem> GetCLAUSE(string CmpyCode);
 
         List<SelectListItem> GetCRG_002(string CmpyCode);
+
+        List<SelectListItem> GetCust(string CmpyCode);
+
+        List<SelectListItem> GetVendor(string CmpyCode);
+
+        List<SelectListItem> GetCurcode(string CmpyCode);
+
+
+        List<SelectListItem> GetUnitcode(string CmpyCode);
         bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName);
     }
 }

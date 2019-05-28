@@ -878,5 +878,25 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
         {
             return drop.GetCommonDrop("FFM_PORT_CODE as [Code],NAME as [CodeName]", "FFM_PORT", "CMPYCODE='" + CmpyCode + "' and Flag=0");
         }
+
+        public List<ComDropTbl> GetCust(string CmpyCode)
+        {
+            return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "SUBLEDGER_TYPE='OP' and CMPYCODE='" + CmpyCode + "' and Flag=0");
+        }
+
+        public List<ComDropTbl> GetVendor(string CmpyCode)
+        {
+            return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "SUBLEDGER_TYPE='FM' and CMPYCODE='" + CmpyCode + "' and Flag=0");
+        }
+
+        public List<ComDropTbl> GetCurcode(string CmpyCode)
+        {
+            return drop.GetCommonDrop("CURRENCY_CODE as [Code],CURRENCY_NAME as [CodeName]", "FNM_CURRENCY", " Flag=0");
+        }
+
+        public List<ComDropTbl> GetUnitcode(string CmpyCode)
+        {
+            return drop.GetCommonDrop("FFM_UNIT_CODE as [Code],NAME as [CodeName]", "FNM_CURRENCY", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+        }
     }
 }
