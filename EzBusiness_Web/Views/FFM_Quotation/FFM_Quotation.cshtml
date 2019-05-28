@@ -71,14 +71,14 @@
                 }).then((result) => {
                     if (result.value) {
 
-                        var FFM_Quotation_CODE = $("[name*='FFM_Quotation_CODE']").val();
+                        var FF_QTN001_CODE = $("[name*='FF_QTN001_CODE']").val();
 
-                        $.getJSON("/DeleteFFM_Quotation", { FFM_Quotation_CODE: FFM_Quotation_CODE }).done(function (data) {
+                        $.getJSON("/DeleteQuotation", { FF_QTN001_CODE: FF_QTN001_CODE }).done(function (data) {
                             debugger
                             if (data.DeleteFlag) {
                                 window.location = '/Quotation'
                             } else {
-                                EzAlertdele(FFM_Quotation_CODE);
+                                EzAlertdele(FF_QTN001_CODE);
                             }
                         });
                         swalWithBootstrapButtons.fire(
@@ -110,44 +110,174 @@
 
             if (opMode == "Add") {
                 // Code for Adding MainTable
-                var CR = {
-                    EditFlag: false,
-                    FFM_CRG_GROUP_CODE: $("[name*='FFM_CRG_GROUP_CODE'] option:selected").val(),
-                    DISPLAY_STATUS: $("[name*='DISPLAY_STATUS'] option:selected").val(),
-                    FFM_Quotation_CODE: $("[name*='FFM_Quotation_CODE']").val(),
-                    NAME: $("[name*='NAME']").val(),
-                    crgnewDetails: []
-                };
-                var SNO = 0;
-                $("#tablePODetails tbody tr").each(function (index, item) {
-                    debugger;
+                var FQV = {
+                    EditFlag: false,                   
+                    FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
+                    CUST_CODE: $("[name*='CUST_CODE'] option:selected").val(),
+                    CONTACT: $("[name*='CONTACT']").val(),
+                    TELEPHONE: $("[name*='TELEPHONE']").val(),
+                    EMAIL: $("[name*='EMAIL']").val(),
+                    CUSTOMER_REF: $("[name*='CUSTOMER_REF']").val(),
+                    PICKUP_PLACE: $("[name*='PICKUP_PLACE'] option:selected").val(),
+                    POL: $("[name*='POL'] option:selected").val(),
+                    POD: $("[name*='POD'] option:selected").val(),
+                    FND: $("[name*='FND'] option:selected").val(),
+                    MOVE_TYPE: $("[name*='MOVE_TYPE'] option:selected").val(),
+                    REF_NO: $("[name*='REF_NO']").val(),
+                    VESSEL: $("[name*='VESSEL'] option:selected").val(),
+                    VOYAGE: $("[name*='VOYAGE'] option:selected").val(),
+                    CARRIER: $("[name*='CARRIER'] option:selected").val(),
+                    EFFECT_FROM: Ezsetdtpkdate($("[name*='EFFECT_FROM1']").val()),
+                    EFFECT_UPTO: Ezsetdtpkdate($("[name*='EFFECT_UPTO1']").val()),
+                    DEPARTMENT: $("[name*='DEPARTMENT'] option:selected").val(),
+                    Total_Cost: $("[name*='Total_Cost']").val(),
+                    Total_Billed: $("[name*='Total_Billed']").val(),
+                    Total_Profit: $("[name*='Total_Profit']").val(),
+                    FF_QTN002Detail: [],
+                    FF_QTN003Detail: [],
+                    FF_QTN004Detail: [],
+                    FF_QTN005Detail: [],
+                };             
+                $("#tablePODetails2 tbody tr").each(function (index, item) {                  
+                    var sno = $(this).find("[name*='txtsno']").val();
+                    var Container = $(this).find("[name*='txtContainer']").val();
+                    var Cont_Type = $(this).find("[name*='txtCont_Type']").val();
+                    var Seal1 = $(this).find("[name*='txtSeal1']").val();
+                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+                    var Contents = $(this).find("[name*='txtContents']").val();
+                    var LBS = $(this).find("[name*='txtLBS']").val();
+                    var KG = $(this).find("[name*='txtKG']").val();
+                    var CFT = $(this).find("[name*='txtCFT']").val();
+                    var CBM = $(this).find("[name*='txtCBM']").val();
 
-                    var FFM_CRG_JOB_CODE = $(this).find("[name*='txtjobcode'] option:selected").val();
-                    var FFM_CRG_JOB_NAME = $(this).find("[name*='txtjobname']").val();
-                    var OPERATION_TYPE = $(this).find("[name*='OPERATION_TYPE'] option:selected").val();
-                    var INCOME_ACT = $(this).find("[name*='txtincomeact'] option:selected").val();
-                    var EXPENSE_ACGT = $(this).find("[name*='txtexpenceacgt'] option:selected").val();
-
-                    if (FFM_CRG_JOB_NAME != "") {
-                        SNO = SNO + 1;
-                        var FNM_unitDetail = {
-
-                            SNO: SNO,
-                            FFM_CRG_JOB_CODE: FFM_CRG_JOB_CODE,
-                            FFM_CRG_JOB_NAME: FFM_CRG_JOB_NAME,
-                            OPERATION_TYPE: OPERATION_TYPE,
-                            INCOME_ACT: INCOME_ACT,
-                            EXPENSE_ACGT: EXPENSE_ACGT,
-
+                    if (Container != "" && Cont_Type!='') {
+                      
+                        var FF_QTN002Details = {
+                            sno:sno,
+                            Container:Container,
+                            Cont_Type:Cont_Type,
+                            Seal1:Seal1,
+                            No_of_qty:No_of_qty,
+                            Contents:Contents,
+                            LBS:LBS,
+                            KG:KG,
+                            CFT:CFT,
+                            CBM: CBM
                         };
-                        CR.crgnewDetails.push(FNM_unitDetail);
+                        FQV.FF_QTN002Detail.push(FF_QTN002Details);
                     }
                 });
 
-                var validationResult = ValidateForm(CR);
+                $("#tablePODetails3 tbody tr").each(function (index, item) {
+                    var sno = $(this).find("[name*='txtsno']").val();
+                    var Pkg_No = $(this).find("[name*='txtPkg_No']").val();
+                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+                    var unit_type = $(this).find("[name*='txtunit_type']").val();
+                    var Height = $(this).find("[name*='txtHeight']").val();
+                    var Width = $(this).find("[name*='txtWidth']").val();
+                    var Act_LBS = $(this).find("[name*='txtAct_LBS']").val();
+                    var inside_Unit = $(this).find("[name*='txtinside_Unit']").val();
+                    var Volume = $(this).find("[name*='txtVolume']").val();
+                    var Dime_weight = $(this).find("[name*='txtDime_weight']").val();
+
+                    if (Pkg_No != "" && No_of_qty != '') {
+                        var FF_QTN003Details = {
+                            Sno: Sno,
+                            Pkg_No:Pkg_No,
+                        No_of_qty:No_of_qty,
+                        unit_type:unit_type,
+                        Height:Height,
+                        Width:Width,
+                        Act_LBS:Act_LBS,
+                        inside_Unit:inside_Unit,
+                        Volume:Volume,
+                        Dime_weight:Dime_weight,
+                        };
+                        FQV.FF_QTN003Detail.push(FF_QTN003Details);
+                    }
+                });
+
+
+                $("#tablePODetails4 tbody tr").each(function (index, item) {
+                    var CLAUSE_CODE = $(this).find("[name*='txtCLAUSE_CODE']").val();
+                    var CLAUSE_NAME = $(this).find("[name*='txtCLAUSE_NAME']").val();                 
+                    if (CLAUSE_CODE != "" && CLAUSE_NAME != '') {
+                        var FF_QTN004Details = {
+                            CLAUSE_CODE:CLAUSE_CODE,
+                            CLAUSE_NAME:CLAUSE_NAME
+                        };
+                        FQV.FF_QTN004Detail.push(FF_QTN004Details);
+                    }
+                });
+
+
+                $("#tablePODetails5 tbody tr").each(function (index, item) {
+                    var Sno = $(this).find("[name*='txtSno']").val();
+                    var Crg_code = $(this).find("[name*='txtCrg_code']").val();
+                    var Crg_name = $(this).find("[name*='txtCrg_name']").val();
+                    var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
+                    var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
+                    var Unit_Code = $(this).find("[name*='txtUnit_Code']").val();
+                    var Cust_code = $(this).find("[name*='txtCust_code']").val();
+                    var Cust_name = $(this).find("[name*='txtCust_name']").val();
+                    var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
+                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']").val();
+                    var Cust_Curr_Rate = $(this).find("[name*='txtCust_Curr_Rate']").val();
+                    var Cust_Rate = $(this).find("[name*='txtCust_Rate']").val();
+                    var Cust_Total_amt = $(this).find("[name*='txtCust_Total_amt']").val();
+                    var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
+                    var Cust_Net_Amt = $(this).find("[name*='txtCust_Net_Amt']").val();
+                    var Cust_Local_amt = $(this).find("[name*='txtCust_Local_amt']").val();
+                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']").val();
+                    var Vend_code = $(this).find("[name*='txtVend_code']").val();
+                    var Vend_name = $(this).find("[name*='txtVend_name']").val();
+                    var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
+                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']").val();
+                    var Vend_Curr_Rate = $(this).find("[name*='txtVend_Curr_Rate']").val();
+                    var Vend_Rate = $(this).find("[name*='txtVend_Rate']").val();
+                    var Vend_Total_amt = $(this).find("[name*='txtVend_Total_amt']").val();
+                    var VendVar_Amt = $(this).find("[name*='txtVendVar_Amt']").val();
+                    var Vend_Net_Amt = $(this).find("[name*='txtVend_Net_Amt']").val();
+                    var Vend_Local_amt = $(this).find("[name*='txtVend_Local_amt']").val();
+
+                    if (Crg_code != "" && Crg_name != '') {
+                        var FF_QTN005Details = {
+                            Sno:Sno,
+                            Crg_code:Crg_code,
+                            Crg_name:Crg_name,
+                            Income_GL_Code:Income_GL_Code,
+                            Expense_GL_Code:Expense_GL_Code,
+                            Unit_Code:Unit_Code,
+                            Cust_code:Cust_code,
+                            Cust_name:Cust_name,
+                            Cust_Ctrl_Act:Cust_Ctrl_Act,
+                            Cust_Curr_Code:Cust_Curr_Code,
+                            Cust_Curr_Rate:Cust_Curr_Rate,
+                            Cust_Rate:Cust_Rate,
+                            Cust_Total_amt:Cust_Total_amt,
+                            Cust_Var_Amt:Cust_Var_Amt,
+                            Cust_Net_Amt:Cust_Net_Amt,
+                            Cust_Local_amt:Cust_Local_amt,
+                            PAY_MODE:PAY_MODE,
+                            Vend_code:Vend_code,
+                            Vend_name:Vend_name,
+                            Vend_Ctrl_Act:Vend_Ctrl_Act,
+                            Vend_Curr_Code:Vend_Curr_Code,
+                            Vend_Curr_Rate:Vend_Curr_Rate,
+                            Vend_Rate:Vend_Rate,
+                            Vend_Total_amt:Vend_Total_amt,
+                            VendVar_Amt:VendVar_Amt,
+                            Vend_Net_Amt:Vend_Net_Amt,
+                            Vend_Local_amt:Vend_Local_amt
+                        };
+                        FQV.FF_QTN005Detail.push(FF_QTN005Details);
+                    }
+                });
+
+                var validationResult = ValidateForm(FQV);
                 if (validationResult.formValid) {
 
-                    $.post("/SaveFFM_Quotation", CR).done(function (response) {
+                    $.post("/SaveFFM_Quotation", FQV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
 
 
@@ -168,46 +298,168 @@
                 }
             } else if (opMode == "Edit" && n == 1) {
                 // Code for Adding Purchase order
-                var CR = {
+                var FQV = {
                     EditFlag: true,
-                    FFM_CRG_GROUP_CODE: $("[name*='FFM_CRG_GROUP_CODE'] option:selected").val(),
-                    DISPLAY_STATUS: $("[name*='DISPLAY_STATUS'] option:selected").val(),
-                    FFM_Quotation_CODE: $("[name*='FFM_Quotation_CODE']").val(),
-                    NAME: $("[name*='NAME']").val(),
-                    FFM_CRG_GROUP_CODE: $("[name*='FFM_CRG_GROUP_CODE'] option:selected").val(),
-                    DISPLAY_STATUS: $("[name*='DISPLAY_STATUS'] option:selected").val(),
-                    FFM_Quotation_CODE: $("[name*='FFM_Quotation_CODE']").val(),
-                    NAME: $("[name*='NAME']").val(),
-                    crgnewDetails: []
+                    FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
+                    CUST_CODE: $("[name*='CUST_CODE'] option:selected").val(),
+                    CONTACT: $("[name*='CONTACT']").val(),
+                    TELEPHONE: $("[name*='TELEPHONE']").val(),
+                    EMAIL: $("[name*='EMAIL']").val(),
+                    CUSTOMER_REF: $("[name*='CUSTOMER_REF']").val(),
+                    PICKUP_PLACE: $("[name*='PICKUP_PLACE'] option:selected").val(),
+                    POL: $("[name*='POL'] option:selected").val(),
+                    POD: $("[name*='POD'] option:selected").val(),
+                    FND: $("[name*='FND'] option:selected").val(),
+                    MOVE_TYPE: $("[name*='MOVE_TYPE'] option:selected").val(),
+                    REF_NO: $("[name*='REF_NO']").val(),
+                    VESSEL: $("[name*='VESSEL'] option:selected").val(),
+                    VOYAGE: $("[name*='VOYAGE'] option:selected").val(),
+                    CARRIER: $("[name*='CARRIER'] option:selected").val(),
+                    EFFECT_FROM: Ezsetdtpkdate($("[name*='EFFECT_FROM1']").val()),
+                    EFFECT_UPTO: Ezsetdtpkdate($("[name*='EFFECT_UPTO1']").val()),
+                    DEPARTMENT: $("[name*='DEPARTMENT'] option:selected").val(),
+                    Total_Cost: $("[name*='Total_Cost']").val(),
+                    Total_Billed: $("[name*='Total_Billed']").val(),
+                    Total_Profit: $("[name*='Total_Profit']").val(),
+                    FF_QTN002Detail: [],
+                    FF_QTN003Detail: [],
+                    FF_QTN004Detail: [],
+                    FF_QTN005Detail: [],
                 };
-                var SNO = 0;
-                $("#tablePODetails tbody tr").each(function (index, item) {
+                $("#tablePODetails2 tbody tr").each(function (index, item) {
+                    var sno = $(this).find("[name*='txtsno']").val();
+                    var Container = $(this).find("[name*='txtContainer']").val();
+                    var Cont_Type = $(this).find("[name*='txtCont_Type']").val();
+                    var Seal1 = $(this).find("[name*='txtSeal1']").val();
+                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+                    var Contents = $(this).find("[name*='txtContents']").val();
+                    var LBS = $(this).find("[name*='txtLBS']").val();
+                    var KG = $(this).find("[name*='txtKG']").val();
+                    var CFT = $(this).find("[name*='txtCFT']").val();
+                    var CBM = $(this).find("[name*='txtCBM']").val();
 
-                    //var SNO = $(this).find("[name*='SNO']").val();                       
-                    var FFM_CRG_JOB_CODE = $(this).find("[name*='FFM_CRG_JOB_CODE'] option:selected").val();
-                    var FFM_CRG_JOB_NAME = $(this).find("[name*='FFM_CRG_JOB_NAME']").val();
-                    var OPERATION_TYPE = $(this).find("[name*='OPERATION_TYPE'] option:selected").val();
-                    var INCOME_ACT = $(this).find("[name*='INCOME_ACT'] option:selected").val();
-                    var EXPENSE_ACGT = $(this).find("[name*='EXPENSE_ACGT'] option:selected").val();
+                    if (Container != "" && Cont_Type != '') {
 
-                    if (FFM_CRG_JOB_NAME != "") {
-                        SNO = SNO + 1;
-                        var FNM_unitDetail = {
-                            SNO: SNO,
-                            FFM_CRG_JOB_CODE: FFM_CRG_JOB_CODE,
-                            FFM_CRG_JOB_NAME: FFM_CRG_JOB_NAME,
-                            OPERATION_TYPE: OPERATION_TYPE,
-                            INCOME_ACT: INCOME_ACT,
-                            EXPENSE_ACGT: EXPENSE_ACGT,
-
+                        var FF_QTN002Details = {
+                            sno: sno,
+                            Container: Container,
+                            Cont_Type: Cont_Type,
+                            Seal1: Seal1,
+                            No_of_qty: No_of_qty,
+                            Contents: Contents,
+                            LBS: LBS,
+                            KG: KG,
+                            CFT: CFT,
+                            CBM: CBM
                         };
-                        CR.crgnewDetails.push(FNM_unitDetail);
+                        FQV.FF_QTN002Detail.push(FF_QTN002Details);
+                    }
+                });
+                $("#tablePODetails3 tbody tr").each(function (index, item) {
+                    var sno = $(this).find("[name*='txtsno']").val();
+                    var Pkg_No = $(this).find("[name*='txtPkg_No']").val();
+                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+                    var unit_type = $(this).find("[name*='txtunit_type']").val();
+                    var Height = $(this).find("[name*='txtHeight']").val();
+                    var Width = $(this).find("[name*='txtWidth']").val();
+                    var Act_LBS = $(this).find("[name*='txtAct_LBS']").val();
+                    var inside_Unit = $(this).find("[name*='txtinside_Unit']").val();
+                    var Volume = $(this).find("[name*='txtVolume']").val();
+                    var Dime_weight = $(this).find("[name*='txtDime_weight']").val();
+
+                    if (Pkg_No != "" && No_of_qty != '') {
+                        var FF_QTN003Details = {
+                            Sno: Sno,
+                            Pkg_No: Pkg_No,
+                            No_of_qty: No_of_qty,
+                            unit_type: unit_type,
+                            Height: Height,
+                            Width: Width,
+                            Act_LBS: Act_LBS,
+                            inside_Unit: inside_Unit,
+                            Volume: Volume,
+                            Dime_weight: Dime_weight,
+                        };
+                        FQV.FF_QTN003Detail.push(FF_QTN003Details);
+                    }
+                });
+                $("#tablePODetails4 tbody tr").each(function (index, item) {
+                    var CLAUSE_CODE = $(this).find("[name*='txtCLAUSE_CODE']").val();
+                    var CLAUSE_NAME = $(this).find("[name*='txtCLAUSE_NAME']").val();
+                    if (CLAUSE_CODE != "" && CLAUSE_NAME != '') {
+                        var FF_QTN004Details = {
+                            CLAUSE_CODE: CLAUSE_CODE,
+                            CLAUSE_NAME: CLAUSE_NAME
+                        };
+                        FQV.FF_QTN004Detail.push(FF_QTN004Details);
+                    }
+                });
+                $("#tablePODetails5 tbody tr").each(function (index, item) {
+                    var Sno = $(this).find("[name*='txtSno']").val();
+                    var Crg_code = $(this).find("[name*='txtCrg_code']").val();
+                    var Crg_name = $(this).find("[name*='txtCrg_name']").val();
+                    var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
+                    var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
+                    var Unit_Code = $(this).find("[name*='txtUnit_Code']").val();
+                    var Cust_code = $(this).find("[name*='txtCust_code']").val();
+                    var Cust_name = $(this).find("[name*='txtCust_name']").val();
+                    var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
+                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']").val();
+                    var Cust_Curr_Rate = $(this).find("[name*='txtCust_Curr_Rate']").val();
+                    var Cust_Rate = $(this).find("[name*='txtCust_Rate']").val();
+                    var Cust_Total_amt = $(this).find("[name*='txtCust_Total_amt']").val();
+                    var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
+                    var Cust_Net_Amt = $(this).find("[name*='txtCust_Net_Amt']").val();
+                    var Cust_Local_amt = $(this).find("[name*='txtCust_Local_amt']").val();
+                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']").val();
+                    var Vend_code = $(this).find("[name*='txtVend_code']").val();
+                    var Vend_name = $(this).find("[name*='txtVend_name']").val();
+                    var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
+                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']").val();
+                    var Vend_Curr_Rate = $(this).find("[name*='txtVend_Curr_Rate']").val();
+                    var Vend_Rate = $(this).find("[name*='txtVend_Rate']").val();
+                    var Vend_Total_amt = $(this).find("[name*='txtVend_Total_amt']").val();
+                    var VendVar_Amt = $(this).find("[name*='txtVendVar_Amt']").val();
+                    var Vend_Net_Amt = $(this).find("[name*='txtVend_Net_Amt']").val();
+                    var Vend_Local_amt = $(this).find("[name*='txtVend_Local_amt']").val();
+
+                    if (Crg_code != "" && Crg_name != '') {
+                        var FF_QTN005Details = {
+                            Sno: Sno,
+                            Crg_code: Crg_code,
+                            Crg_name: Crg_name,
+                            Income_GL_Code: Income_GL_Code,
+                            Expense_GL_Code: Expense_GL_Code,
+                            Unit_Code: Unit_Code,
+                            Cust_code: Cust_code,
+                            Cust_name: Cust_name,
+                            Cust_Ctrl_Act: Cust_Ctrl_Act,
+                            Cust_Curr_Code: Cust_Curr_Code,
+                            Cust_Curr_Rate: Cust_Curr_Rate,
+                            Cust_Rate: Cust_Rate,
+                            Cust_Total_amt: Cust_Total_amt,
+                            Cust_Var_Amt: Cust_Var_Amt,
+                            Cust_Net_Amt: Cust_Net_Amt,
+                            Cust_Local_amt: Cust_Local_amt,
+                            PAY_MODE: PAY_MODE,
+                            Vend_code: Vend_code,
+                            Vend_name: Vend_name,
+                            Vend_Ctrl_Act: Vend_Ctrl_Act,
+                            Vend_Curr_Code: Vend_Curr_Code,
+                            Vend_Curr_Rate: Vend_Curr_Rate,
+                            Vend_Rate: Vend_Rate,
+                            Vend_Total_amt: Vend_Total_amt,
+                            VendVar_Amt: VendVar_Amt,
+                            Vend_Net_Amt: Vend_Net_Amt,
+                            Vend_Local_amt: Vend_Local_amt
+                        };
+                        FQV.FF_QTN005Detail.push(FF_QTN005Details);
                     }
                 });
 
-                var validationResult = ValidateForm(CR);
+                var validationResult = ValidateForm(FQV);
                 if (validationResult.formValid) {
-                    $.post("/SaveFFM_Quotation", CR).done(function (response) {
+                    $.post("/SaveFFM_Quotation", FQV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
                             EzAlertSave();
                             EzbtnsaveAcVis("#DRContainer");
@@ -225,29 +477,23 @@
 
         });
 
-        function ValidateForm(CR) {
+        function ValidateForm(FQV) {
 
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
 
-            if (CR.EditFlag == false) {
-                if (CR.FFM_Quotation_CODE == '') {
+            if (FQV.EditFlag == false) {
+                if (FQV.FF_QTN001_CODE == '') {
                     response.ErrorMessage += " CODE ,";
                 }
-            } else if (CR.EditFlag == true) {
-                if (CR.FFM_Quotation_CODE == '') {
+            } else if (FQV.EditFlag == true) {
+                if (FQV.FF_QTN001_CODE == '') {
                     response.ErrorMessage += "CODE ,";
                 }
             }
-            if (CR.FFM_CRG_GROUP_CODE == '0') {
-                response.ErrorMessage += "Group CODE ,";
-            }
-            else if (CR.NAME == '') {
-                response.ErrorMessage += "NAME ,";
-            }
-
+        
 
 
             if (response.ErrorMessage.length == 0) {
@@ -276,10 +522,10 @@
                 $("#POList > tbody").children().removeClass("active");
                 $(this).addClass("active");
 
-                var Code = $(this).find("[name*='hdnFFM_Quotation_CODE']").val();
+                var FF_QTN001_CODE = $(this).find("[name*='hdnFF_QTN001_CODE']").val();
 
 
-                $.get("EditFFM_Quotation", { Code: Code }).done(function (response) {
+                $.get("EditFF_QTNDetails", { FF_QTN001_CODE: FF_QTN001_CODE }).done(function (response) {
                     $("#DRContainer").html(response);
 
                     //$("#btnDelete").prop("disabled", false);
