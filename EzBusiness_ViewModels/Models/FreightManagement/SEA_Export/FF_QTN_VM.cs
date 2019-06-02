@@ -35,6 +35,13 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public string REF_NO { get; set; }
         public string VESSEL { get; set; }
         public string VOYAGE { get; set; }
+
+        public string PZIP { get; set; }
+
+        public string PSTATE { get; set; }
+        public string FDZIP { get; set; }
+
+        public string FDSTATE { get; set; }
         public string CARRIER { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -148,5 +155,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal VendVar_Amt { get; set; }
         public Decimal Vend_Net_Amt { get; set; }
         public Decimal Vend_Local_amt { get; set; }
+
+        public Decimal No_of_qty { get; set; }
     }
 }

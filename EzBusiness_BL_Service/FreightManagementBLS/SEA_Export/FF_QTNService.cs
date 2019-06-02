@@ -138,7 +138,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.CRG_002List = GetCRG_002(CmpyCode);
             poEdit.SLList = GetSL(CmpyCode);
             poEdit.VESSELList = GetVESSELList(CmpyCode);
-            poEdit.VOYAGEList = GetVOYAGEList(CmpyCode);
+            poEdit.VOYAGEList = GetVOYAGEList(CmpyCode,poEdit.VESSEL);
             poEdit.EditFlag = true;
             return poEdit;
         }
@@ -181,9 +181,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return InsertFirstElementDDL(VESSELList);
         }
 
-        public List<SelectListItem> GetVOYAGEList(string CmpyCode)
+        public List<SelectListItem> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE)
         {
-            var VOYAGEList = _FF_QTNRepo.GetVOYAGEList(CmpyCode)
+            var VOYAGEList = _FF_QTNRepo.GetVOYAGEList(CmpyCode, FFM_VESSEL_CODE)
                                                   .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                   .ToList();
             return InsertFirstElementDDL(VOYAGEList);
@@ -191,7 +191,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 
         public List<SelectListItem> GetSL(string CmpyCode)
         {
-            var SLList = _FF_QTNRepo.GetCLAUSE(CmpyCode)
+            var SLList = _FF_QTNRepo.GetSL(CmpyCode)
                                                   .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                   .ToList();
             return InsertFirstElementDDL(SLList);
@@ -220,9 +220,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 CustList=GetCust(Cmpycode),
                 CurList=GetCurcode(Cmpycode),
                 UnitcodeList=GetUnitcode(Cmpycode),
-                VendorList =GetVESSELList(Cmpycode),
-                VOYAGEList=GetVESSELList(Cmpycode),
-                SLList=GetVESSELList(Cmpycode),
+                VendorList = GetVendor(Cmpycode),
+                VOYAGEList=GetVOYAGEList(Cmpycode,"NA"),
+                SLList=GetVendor(Cmpycode),
                 CLAUSEList=GetCLAUSE(Cmpycode),
                 CRG_002List=GetCRG_002(Cmpycode),
                 DEPARTMENTList=GetDepart(Cmpycode),
@@ -267,10 +267,15 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 
         public List<SelectListItem> GetUnitcode(string CmpyCode)
         {
-            var UnitcodeList = _FF_QTNRepo.GetCurcode(CmpyCode)
+            var UnitcodeList = _FF_QTNRepo.GetUnitcode(CmpyCode)
                                                     .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                     .ToList();
             return InsertFirstElementDDL(UnitcodeList);
+        }
+
+        public decimal GetCurRate(string CmpyCode, string CurCode)
+        {
+            return _FF_QTNRepo.GetCurRate(CmpyCode, CurCode);
         }
     }
 }

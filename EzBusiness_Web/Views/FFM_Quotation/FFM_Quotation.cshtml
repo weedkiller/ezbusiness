@@ -111,14 +111,14 @@
             if (opMode == "Add") {
                 // Code for Adding MainTable
                 var FQV = {
-                    EditFlag: false,                   
+                    EditFlag: false,
                     FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
                     CUST_CODE: $("[name*='CUST_CODE'] option:selected").val(),
                     CONTACT: $("[name*='CONTACT']").val(),
                     TELEPHONE: $("[name*='TELEPHONE']").val(),
                     EMAIL: $("[name*='EMAIL']").val(),
                     CUSTOMER_REF: $("[name*='CUSTOMER_REF']").val(),
-                    PICKUP_PLACE: $("[name*='PICKUP_PLACE'] option:selected").val(),
+                    PICKUP_PLACE: $("[name*='PICKUP_PLACE']").val(),
                     POL: $("[name*='POL'] option:selected").val(),
                     POD: $("[name*='POD'] option:selected").val(),
                     FND: $("[name*='FND'] option:selected").val(),
@@ -133,11 +133,15 @@
                     Total_Cost: $("[name*='Total_Cost']").val(),
                     Total_Billed: $("[name*='Total_Billed']").val(),
                     Total_Profit: $("[name*='Total_Profit']").val(),
+                    PZIP: $("[name*='PZIP']").val(),
+                    PSTATE: $("[name*='PSTATE']").val(),
+                    FDZIP: $("[name*='FDZIP']").val(),
+                    FDSTATE: $("[name*='FDSTATE']").val(),
                     FF_QTN002Detail: [],
                     FF_QTN003Detail: [],
                     FF_QTN004Detail: [],
                     FF_QTN005Detail: [],
-                };             
+                };
                 $("#tablePODetails2 tbody tr").each(function (index, item) {                  
                     var sno = $(this).find("[name*='txtsno']").val();
                     var Container = $(this).find("[name*='txtContainer']").val();
@@ -182,7 +186,7 @@
 
                     if (Pkg_No != "" && No_of_qty != '') {
                         var FF_QTN003Details = {
-                            Sno: Sno,
+                            Sno: sno,
                             Pkg_No:Pkg_No,
                         No_of_qty:No_of_qty,
                         unit_type:unit_type,
@@ -212,31 +216,33 @@
 
 
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
-                    var Sno = $(this).find("[name*='txtSno']").val();
-                    var Crg_code = $(this).find("[name*='txtCrg_code']").val();
+                    var Sno = $(this).find("[name*='txtsno']").val();
+                    var Crg_code = $(this).find("[name*='txtCrg_code']  option:selected").val();
                     var Crg_name = $(this).find("[name*='txtCrg_name']").val();
-                    var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
-                    var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
-                    var Unit_Code = $(this).find("[name*='txtUnit_Code']").val();
-                    var Cust_code = $(this).find("[name*='txtCust_code']").val();
+                    //var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
+                    //var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
+                    var Unit_Code = $(this).find("[name*='txtUnit_code'] option:selected").val();
+                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+                    
+                    var Cust_code = $(this).find("[name*='txtCust_code']  option:selected").val();
                     var Cust_name = $(this).find("[name*='txtCust_name']").val();
-                    var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
-                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']").val();
+                   // var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
+                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']  option:selected").val();
                     var Cust_Curr_Rate = $(this).find("[name*='txtCust_Curr_Rate']").val();
                     var Cust_Rate = $(this).find("[name*='txtCust_Rate']").val();
                     var Cust_Total_amt = $(this).find("[name*='txtCust_Total_amt']").val();
-                    var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
+                    //var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
                     var Cust_Net_Amt = $(this).find("[name*='txtCust_Net_Amt']").val();
                     var Cust_Local_amt = $(this).find("[name*='txtCust_Local_amt']").val();
-                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']").val();
-                    var Vend_code = $(this).find("[name*='txtVend_code']").val();
+                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']  option:selected").val();
+                    var Vend_code = $(this).find("[name*='txtVend_code']  option:selected").val();
                     var Vend_name = $(this).find("[name*='txtVend_name']").val();
-                    var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
-                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']").val();
+                    ///var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
+                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']  option:selected").val();
                     var Vend_Curr_Rate = $(this).find("[name*='txtVend_Curr_Rate']").val();
                     var Vend_Rate = $(this).find("[name*='txtVend_Rate']").val();
                     var Vend_Total_amt = $(this).find("[name*='txtVend_Total_amt']").val();
-                    var VendVar_Amt = $(this).find("[name*='txtVendVar_Amt']").val();
+                   // var VendVar_Amt = $(this).find("[name*='txtVendVar_Amt']").val();
                     var Vend_Net_Amt = $(this).find("[name*='txtVend_Net_Amt']").val();
                     var Vend_Local_amt = $(this).find("[name*='txtVend_Local_amt']").val();
 
@@ -245,28 +251,28 @@
                             Sno:Sno,
                             Crg_code:Crg_code,
                             Crg_name:Crg_name,
-                            Income_GL_Code:Income_GL_Code,
-                            Expense_GL_Code:Expense_GL_Code,
+                           // Income_GL_Code:Income_GL_Code,
+                           // Expense_GL_Code:Expense_GL_Code,
                             Unit_Code:Unit_Code,
                             Cust_code:Cust_code,
                             Cust_name:Cust_name,
-                            Cust_Ctrl_Act:Cust_Ctrl_Act,
+                           // Cust_Ctrl_Act:Cust_Ctrl_Act,
                             Cust_Curr_Code:Cust_Curr_Code,
                             Cust_Curr_Rate:Cust_Curr_Rate,
                             Cust_Rate:Cust_Rate,
                             Cust_Total_amt:Cust_Total_amt,
-                            Cust_Var_Amt:Cust_Var_Amt,
+                           // Cust_Var_Amt:Cust_Var_Amt,
                             Cust_Net_Amt:Cust_Net_Amt,
                             Cust_Local_amt:Cust_Local_amt,
                             PAY_MODE:PAY_MODE,
                             Vend_code:Vend_code,
                             Vend_name:Vend_name,
-                            Vend_Ctrl_Act:Vend_Ctrl_Act,
+                           // Vend_Ctrl_Act:Vend_Ctrl_Act,
                             Vend_Curr_Code:Vend_Curr_Code,
                             Vend_Curr_Rate:Vend_Curr_Rate,
                             Vend_Rate:Vend_Rate,
                             Vend_Total_amt:Vend_Total_amt,
-                            VendVar_Amt:VendVar_Amt,
+                         //   VendVar_Amt:VendVar_Amt,
                             Vend_Net_Amt:Vend_Net_Amt,
                             Vend_Local_amt:Vend_Local_amt
                         };
@@ -306,7 +312,7 @@
                     TELEPHONE: $("[name*='TELEPHONE']").val(),
                     EMAIL: $("[name*='EMAIL']").val(),
                     CUSTOMER_REF: $("[name*='CUSTOMER_REF']").val(),
-                    PICKUP_PLACE: $("[name*='PICKUP_PLACE'] option:selected").val(),
+                    PICKUP_PLACE: $("[name*='PICKUP_PLACE']").val(),
                     POL: $("[name*='POL'] option:selected").val(),
                     POD: $("[name*='POD'] option:selected").val(),
                     FND: $("[name*='FND'] option:selected").val(),
@@ -321,6 +327,10 @@
                     Total_Cost: $("[name*='Total_Cost']").val(),
                     Total_Billed: $("[name*='Total_Billed']").val(),
                     Total_Profit: $("[name*='Total_Profit']").val(),
+                    PZIP: $("[name*='PZIP']").val(),
+                    PSTATE: $("[name*='PSTATE']").val(),
+                    FDZIP: $("[name*='FDZIP']").val(),
+                    FDSTATE: $("[name*='FDSTATE']").val(),
                     FF_QTN002Detail: [],
                     FF_QTN003Detail: [],
                     FF_QTN004Detail: [],
@@ -369,7 +379,7 @@
 
                     if (Pkg_No != "" && No_of_qty != '') {
                         var FF_QTN003Details = {
-                            Sno: Sno,
+                            Sno: sno,
                             Pkg_No: Pkg_No,
                             No_of_qty: No_of_qty,
                             unit_type: unit_type,
@@ -395,31 +405,33 @@
                     }
                 });
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
-                    var Sno = $(this).find("[name*='txtSno']").val();
-                    var Crg_code = $(this).find("[name*='txtCrg_code']").val();
+                    var Sno = $(this).find("[name*='txtsno']").val();
+                    var Crg_code = $(this).find("[name*='txtCrg_code']  option:selected").val();
                     var Crg_name = $(this).find("[name*='txtCrg_name']").val();
-                    var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
-                    var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
-                    var Unit_Code = $(this).find("[name*='txtUnit_Code']").val();
-                    var Cust_code = $(this).find("[name*='txtCust_code']").val();
+                    //var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
+                    //var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
+                    var Unit_Code = $(this).find("[name*='txtUnit_code'] option:selected").val();
+                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+
+                    var Cust_code = $(this).find("[name*='txtCust_code']  option:selected").val();
                     var Cust_name = $(this).find("[name*='txtCust_name']").val();
-                    var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
-                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']").val();
+                    // var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
+                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']  option:selected").val();
                     var Cust_Curr_Rate = $(this).find("[name*='txtCust_Curr_Rate']").val();
                     var Cust_Rate = $(this).find("[name*='txtCust_Rate']").val();
                     var Cust_Total_amt = $(this).find("[name*='txtCust_Total_amt']").val();
-                    var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
+                    //var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
                     var Cust_Net_Amt = $(this).find("[name*='txtCust_Net_Amt']").val();
                     var Cust_Local_amt = $(this).find("[name*='txtCust_Local_amt']").val();
-                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']").val();
-                    var Vend_code = $(this).find("[name*='txtVend_code']").val();
+                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']  option:selected").val();
+                    var Vend_code = $(this).find("[name*='txtVend_code']  option:selected").val();
                     var Vend_name = $(this).find("[name*='txtVend_name']").val();
-                    var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
-                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']").val();
+                    ///var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
+                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']  option:selected").val();
                     var Vend_Curr_Rate = $(this).find("[name*='txtVend_Curr_Rate']").val();
                     var Vend_Rate = $(this).find("[name*='txtVend_Rate']").val();
                     var Vend_Total_amt = $(this).find("[name*='txtVend_Total_amt']").val();
-                    var VendVar_Amt = $(this).find("[name*='txtVendVar_Amt']").val();
+                    // var VendVar_Amt = $(this).find("[name*='txtVendVar_Amt']").val();
                     var Vend_Net_Amt = $(this).find("[name*='txtVend_Net_Amt']").val();
                     var Vend_Local_amt = $(this).find("[name*='txtVend_Local_amt']").val();
 
@@ -428,28 +440,28 @@
                             Sno: Sno,
                             Crg_code: Crg_code,
                             Crg_name: Crg_name,
-                            Income_GL_Code: Income_GL_Code,
-                            Expense_GL_Code: Expense_GL_Code,
+                            //Income_GL_Code: Income_GL_Code,
+                            //Expense_GL_Code: Expense_GL_Code,
                             Unit_Code: Unit_Code,
                             Cust_code: Cust_code,
                             Cust_name: Cust_name,
-                            Cust_Ctrl_Act: Cust_Ctrl_Act,
+                            //Cust_Ctrl_Act: Cust_Ctrl_Act,
                             Cust_Curr_Code: Cust_Curr_Code,
                             Cust_Curr_Rate: Cust_Curr_Rate,
                             Cust_Rate: Cust_Rate,
                             Cust_Total_amt: Cust_Total_amt,
-                            Cust_Var_Amt: Cust_Var_Amt,
+                          //  Cust_Var_Amt: Cust_Var_Amt,
                             Cust_Net_Amt: Cust_Net_Amt,
                             Cust_Local_amt: Cust_Local_amt,
                             PAY_MODE: PAY_MODE,
                             Vend_code: Vend_code,
                             Vend_name: Vend_name,
-                            Vend_Ctrl_Act: Vend_Ctrl_Act,
+                          //  Vend_Ctrl_Act: Vend_Ctrl_Act,
                             Vend_Curr_Code: Vend_Curr_Code,
                             Vend_Curr_Rate: Vend_Curr_Rate,
                             Vend_Rate: Vend_Rate,
                             Vend_Total_amt: Vend_Total_amt,
-                            VendVar_Amt: VendVar_Amt,
+                           // VendVar_Amt: VendVar_Amt,
                             Vend_Net_Amt: Vend_Net_Amt,
                             Vend_Local_amt: Vend_Local_amt
                         };
@@ -490,10 +502,41 @@
                 }
             } else if (FQV.EditFlag == true) {
                 if (FQV.FF_QTN001_CODE == '') {
-                    response.ErrorMessage += "CODE ,";
+                    response.ErrorMessage += "Code ,";
                 }
             }
-        
+            if (FQV.CUST_CODE == "0") {
+                response.ErrorMessage += "Customer Code  ,";
+            }
+            if (FQV.POL == "0") {
+                response.ErrorMessage += "Port Of Load  ,";
+            }
+
+            if (FQV.POD == "0") {
+                response.ErrorMessage += "Port Of Dsch  ,";
+            }
+
+            if (FQV.FND == "0") {
+                response.ErrorMessage += "Final Destination  ,";
+            }
+            if (FQV.MOVE_TYPE == "0") {
+                response.ErrorMessage += "Move Type  ,";
+            }
+            if (FQV.VESSEL == "0") {
+                response.ErrorMessage += "VESSEL  ,";
+            }
+            if (FQV.VOYAGE == "0") {
+                response.ErrorMessage += "VOYAGE  ,";
+            }
+
+            if (FQV.EFFECT_UPTO1 == "") {
+                response.ErrorMessage += "EFFECT UPTO  ,";
+            }
+            if (FQV.EFFECT_FROM1 == "") {
+                response.ErrorMessage += "EFFECT FROM  ,";
+            }
+            
+            
 
 
             if (response.ErrorMessage.length == 0) {

@@ -106,5 +106,32 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return Json(_QTNService.SaveFF_QTN_VM(FQV), JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult GetVESSELCodeList(string VESSEL)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetVOYAGEList(list[0].CmpyCode, VESSEL), JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public ActionResult GetCurRate(string CurCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetCurRate(list[0].CmpyCode, CurCode), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

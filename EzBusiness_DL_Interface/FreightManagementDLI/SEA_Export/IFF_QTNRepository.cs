@@ -24,7 +24,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<ComDropTbl> GetVESSELList(string CmpyCode);
 
         List<ComDropTbl> GetPortList(string CmpyCode);
-        List<ComDropTbl> GetVOYAGEList(string CmpyCode);
+        List<ComDropTbl> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE);
         List<ComDropTbl> GetSL(string CmpyCode);
         List<ComDropTbl> GetDepart(string CmpyCode);
         List<ComDropTbl> GetCLAUSE(string CmpyCode);
@@ -44,6 +44,8 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
 
         List<FFM_CRG> GetCRGINCEXP(string CmpyCode,string FFM_CRG_001_CODE);
         bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName);
-      
+
+        decimal GetCurRate(string CmpyCode, string CurCode);
+
     }
 }
