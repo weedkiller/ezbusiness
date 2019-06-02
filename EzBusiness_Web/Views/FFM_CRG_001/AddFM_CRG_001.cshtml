@@ -98,6 +98,10 @@
                         "name": ("txtexpenceacgt" + counter)
                     });
                     trLast.find(":first").text(counter);
+
+                    trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+                    trLast.find("[name *= 'txtjobcode']").selectpicker('refresh');
+                   // trLast.find("[name *= 'ItemUnit']").selectpicker('refresh');
                 }
                 counter++;
             }
@@ -106,7 +110,15 @@
          
         });
 
-       
+        $('.selectpicker').selectpicker({
+            style: 'btn-info',
+            size: 4,
+
+        });
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
     });
 </script>
 
@@ -164,8 +176,6 @@
                                                     <label class="control-label col-md-3">Display Status<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
                                                         @Html.DropDownListFor(m => m.DISPLAY_STATUS, new List<SelectListItem> { new SelectListItem { Text = "Yes", Value = "Y" }, new SelectListItem { Text = "No", Value = "N" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
-
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -175,9 +185,7 @@
                                     <!-- END FORM-->
                                 </div>
                             </div>
-
-                                
-                                    <ul class="nav nav-tabs">
+                                  <ul class="nav nav-tabs">
                                         <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
                                     </ul>
                                     <div class="tab-content">
@@ -186,17 +194,15 @@
                                             <div class="col-md-12">
                                                 <div class="table-responsive">
 
-                                                    <table class="table table-bordered stripe display hover" id="tablePODetails">
+                                                    <table class="table table-bordered table-sm" id="tablePODetails">
                                                         <thead>
                                                             <tr class="tr">
-                                                                <th>Sr.No</th>
-                                                                <th>Job Code</th>
-                                                                <th>Job Name</th>
-                                                                <th>Operation Type</th>
-                                                                <th>Income Act</th>
-                                                                <th>Expense ACGT</th>
-
-
+                                                                <th style="width: 3%">Sr.No</th>
+                                                                <th style="width: 30%">Job Code</th>
+                                                                <th style="width: 5%">Job Name</th>
+                                                                <th style="width: 20%">Operation Type</th>
+                                                                <th style="width: 30%">Income Act</th>
+                                                                <th style="width: 30%">Expense ACGT</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -213,7 +219,7 @@
                                                                 <td>
                                                                     <div class="form-group">
                                                                         @*@Html.TextBox(string.Concat("txtjobcode", counter), null, new { @class = "grid-control " })*@
-                                                                        @Html.DropDownList(string.Concat("txtjobcode", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })
+                                                                        @Html.DropDownList(string.Concat("txtjobcode", counter), Model.CRG_job_CODEList, new { @class = "selectpicker  form-control", @data_live_search = "true" })
                                                                         @*@Html.DropDownListFor(m => m.JOB_CODE, Model.CRG_job_CODEList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
                                                                     </div>
                                                                 </td>
@@ -281,7 +287,15 @@
             });
         </script>
 
+        <script type="text/javascript">
+    $('.table-responsive').on('show.bs.dropdown', function () {
+        $('.table-responsive').css("overflow", "inherit");
+    });
 
+    //$('.table-responsive').on('hide.bs.dropdown', function () {
+    //    $('.table-responsive').css("overflow", "auto");
+    //})
+        </script>
 
         <!-- Purchase Request List End -->
         <!-- Row end -->
