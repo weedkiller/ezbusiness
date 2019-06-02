@@ -46,6 +46,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 ObjList.DISPLAY_STATUS = dr["DISPLAY_STATUS"].ToString();
                 ObjList.FFM_CRG_GROUP_CODE = dr["FFM_CRG_GROUP_CODE"].ToString();
                 ObjList.NAME= dr["NAME"].ToString();
+                ObjList.VAT_CODE = dr["VAT_CODE"].ToString();
+                ObjList.VAT_GL_CODE = dr["VAT_GL_CODE"].ToString();
                 
 
             }

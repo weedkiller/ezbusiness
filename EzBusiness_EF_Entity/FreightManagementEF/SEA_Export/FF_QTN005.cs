@@ -37,5 +37,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public Decimal VendVar_Amt { get; set; }
         public Decimal Vend_Net_Amt { get; set; }
         public Decimal Vend_Local_amt { get; set; }
+        public Decimal No_of_qty { get; set; }
+        
     }
 }

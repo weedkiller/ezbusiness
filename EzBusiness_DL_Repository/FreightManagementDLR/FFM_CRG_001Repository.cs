@@ -114,18 +114,22 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 {
                     var Drecord = new List<string>();
                     List<FFM_CRG> ObjList = new List<FFM_CRG>();
-                    ObjList.AddRange(FCur.crgnewDetails.Select(m => new FFM_CRG
+                    if (FCur.crgnewDetails != null)
                     {
-                        CMPYCODE = m.CMPYCODE,
-                        SNO = m.SNO,
-                        FFM_CRG_001_CODE = m.FFM_CRG_001_CODE,
-                        FFM_CRG_JOB_CODE = m.FFM_CRG_JOB_CODE,
-                        FFM_CRG_JOB_NAME = m.FFM_CRG_JOB_NAME,
-                        OPERATION_TYPE = m.OPERATION_TYPE,
-                        DISPLAY_STATUS = m.DISPLAY_STATUS,
-                        INCOME_ACT = m.INCOME_ACT,
-                        EXPENSE_ACGT = m.EXPENSE_ACGT,                     
-                    }).ToList());
+                        ObjList.AddRange(FCur.crgnewDetails.Select(m => new FFM_CRG
+                        {
+                            CMPYCODE = m.CMPYCODE,
+                            SNO = m.SNO,
+                            FFM_CRG_001_CODE = m.FFM_CRG_001_CODE,
+                            FFM_CRG_JOB_CODE = m.FFM_CRG_JOB_CODE,
+                            FFM_CRG_JOB_NAME = m.FFM_CRG_JOB_NAME,
+                            OPERATION_TYPE = m.OPERATION_TYPE,
+                            DISPLAY_STATUS = m.DISPLAY_STATUS,
+                            INCOME_ACT = m.INCOME_ACT,
+                            EXPENSE_ACGT = m.EXPENSE_ACGT,
+                        }).ToList());
+                    }
+                  
                     int n, i = 0;
                     n = ObjList.Count;
                     while (n > 0)
@@ -181,6 +185,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_001(created_by,created_On,UPdated_By,Updated_ON,FFM_CRG_001_CODE,CMPYCODE,FFM_CRG_GROUP_CODE,NAME,Display_Status) values(" + sb.ToString() + "");
                         FCur.SaveFlag = true;
                         FCur.ErrorMessage = string.Empty;
+                    }else
+                    {
+                        FCur.ErrorMessage = "Enter atleast one Record on Grid";
                     }
                     return FCur;
 
@@ -228,27 +235,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                                 }).ToList());
                             }
-                            StringBuilder sb = new StringBuilder();
 
-                            sb.Append("FFM_CRG_001_CODE='" + FCur.FFM_CRG_001_CODE + "',");
-                            sb.Append("CMPYCODE='" + FCur.CMPYCODE + "',");
-                            sb.Append("FFM_CRG_GROUP_CODE='" + FCur.FFM_CRG_GROUP_CODE + "',");
-                            sb.Append("DISPLAY_STATUS='" + FCur.DISPLAY_STATUS + "',");
-                            sb.Append("NAME='" + FCur.NAME + "',");
-                            sb.Append("UPDATED_BY='" + FCur.UserName + "',");
-                            sb.Append("UPDATED_ON='" + dtstr1 + "'");
-                            _EzBusinessHelper.ExecuteNonQuery("update FFM_CRG_001 set  " + sb + " where  FFM_CRG_001_CODE='" + FCur.FFM_CRG_001_CODE + "' and  cmpycode='" + FCur.CMPYCODE + "' and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and                         
-                                                                                                                                                                                                                // _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Voyage", ObjList[n - 1].FFM_VOYAGE01_CODE, Environment.MachineName);
                             int n, i = 0;
                             n = ObjList.Count;
                             while (n > 0)
                             {
-                                //ETA1 = Convert.ToDateTime(ObjList[n - 1].ETA);
-                                //ETA2 = ETA1.ToString("yyyy-MM-dd hh:mm:ss tt");
-                                //ETB1 = Convert.ToDateTime(ObjList[n - 1].ETB);
-                                //ETB2 = ETB1.ToString("yyyy-MM-dd hh:mm:ss tt");
-                                //ETD1 = Convert.ToDateTime(ObjList[n - 1].ETD);
-                                //ETD2 = ETD1.ToString("yyyy-MM-dd hh:mm:ss tt");
+
 
                                 StringBuilder sb1 = new StringBuilder();
 
@@ -264,10 +256,29 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                                 i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
                                 //_EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Voyage", ObjList[n - 1].FFM_VOYAGE01_CODE, Environment.MachineName);
 
-                               // _EzBusinessHelper.ExecuteNonQuery("insert into FFM_VOYAGE02(ffm_VOYAGE01_CODE,SNO,ROTATION,PORT,ETA,ETB,ETD,PORT_STAY_HRS,SAILING_HRS,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
+                                // _EzBusinessHelper.ExecuteNonQuery("insert into FFM_VOYAGE02(ffm_VOYAGE01_CODE,SNO,ROTATION,PORT,ETA,ETB,ETD,PORT_STAY_HRS,SAILING_HRS,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
                                 n = n - 1;
                             }
-                            _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Update FFM CRG", FCur.FFM_CRG_001_CODE, Environment.MachineName);
+                            if (i > 0)
+                            {
+                                StringBuilder sb = new StringBuilder();
+
+                                sb.Append("FFM_CRG_001_CODE='" + FCur.FFM_CRG_001_CODE + "',");
+                                sb.Append("CMPYCODE='" + FCur.CMPYCODE + "',");
+                                sb.Append("FFM_CRG_GROUP_CODE='" + FCur.FFM_CRG_GROUP_CODE + "',");
+                                sb.Append("DISPLAY_STATUS='" + FCur.DISPLAY_STATUS + "',");
+                                sb.Append("NAME='" + FCur.NAME + "',");
+                                sb.Append("UPDATED_BY='" + FCur.UserName + "',");
+                                sb.Append("UPDATED_ON='" + dtstr1 + "'");
+                                _EzBusinessHelper.ExecuteNonQuery("update FFM_CRG_001 set  " + sb + " where  FFM_CRG_001_CODE='" + FCur.FFM_CRG_001_CODE + "' and  cmpycode='" + FCur.CMPYCODE + "' and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and                         
+                                _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Update FFM CRG", FCur.FFM_CRG_001_CODE, Environment.MachineName);
+                            }
+                            else
+                            {
+                                FCur.ErrorMessage = "Enter atleast one Record on Grid";
+                            }// _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Voyage", ObjList[n - 1].FFM_VOYAGE01_CODE, Environment.MachineName);
+                           
+                            
                         }
                        
                         FCur.ErrorMessage = string.Empty;
