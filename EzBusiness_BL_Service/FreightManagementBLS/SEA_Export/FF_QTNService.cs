@@ -127,6 +127,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.FF_QTN004Detail = GetFF_QTN004DetailList(CmpyCode, FF_QTN001_CODE);
             poEdit.FF_QTN005Detail = GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE);
             poEdit.PortList = GetPortList(CmpyCode);
+            poEdit.CustList = GetCust(CmpyCode);
+            poEdit.VendorList = GetVESSELList(CmpyCode);
+            poEdit.CurList = GetCurcode(CmpyCode);
+            poEdit.UnitcodeList = GetUnitcode(CmpyCode);
+
             poEdit.DEPARTMENTList = GetDepart(CmpyCode);
             poEdit.MoveCodeList = GetMoveCode(CmpyCode);
             poEdit.CLAUSEList = GetCLAUSE(CmpyCode);
@@ -212,6 +217,10 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         {
             return new FF_QTN_VM
             {
+                CustList=GetCust(Cmpycode),
+                CurList=GetCurcode(Cmpycode),
+                UnitcodeList=GetUnitcode(Cmpycode),
+                VendorList =GetVESSELList(Cmpycode),
                 VOYAGEList=GetVESSELList(Cmpycode),
                 SLList=GetVESSELList(Cmpycode),
                 CLAUSEList=GetCLAUSE(Cmpycode),
@@ -230,6 +239,38 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                                                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                  .ToList();
             return InsertFirstElementDDL(PortList);
+        }
+
+        public List<SelectListItem> GetCust(string CmpyCode)
+        {
+            var CustList = _FF_QTNRepo.GetCust(CmpyCode)
+                                                     .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                     .ToList();
+            return InsertFirstElementDDL(CustList);
+        }
+
+        public List<SelectListItem> GetVendor(string CmpyCode)
+        {
+            var VendorList = _FF_QTNRepo.GetCust(CmpyCode)
+                                                      .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                      .ToList();
+            return InsertFirstElementDDL(VendorList);
+        }
+
+        public List<SelectListItem> GetCurcode(string CmpyCode)
+        {
+            var CurList = _FF_QTNRepo.GetCurcode(CmpyCode)
+                                                    .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                    .ToList();
+            return InsertFirstElementDDL(CurList);
+        }
+
+        public List<SelectListItem> GetUnitcode(string CmpyCode)
+        {
+            var UnitcodeList = _FF_QTNRepo.GetCurcode(CmpyCode)
+                                                    .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                    .ToList();
+            return InsertFirstElementDDL(UnitcodeList);
         }
     }
 }
