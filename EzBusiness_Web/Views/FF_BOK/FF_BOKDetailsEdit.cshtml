@@ -1,4 +1,4 @@
-﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_QTN_VM
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_BOK_VM
 
 @{
 
@@ -16,16 +16,15 @@
 <script>
     $(function () {
         arr1 = [];
-        
-        
-        EzdteformtDOB('#EFFECT_FROM1', 'DD/MM/YYYY');
-        EzdteformtDOB('#EFFECT_UPTO1', 'DD/MM/YYYY');
         $('.selectpicker').selectpicker('refresh');
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
+        EzdtePkEdit('#ETA1', "#ETA", 'DD/MM/YYYY');
+        EzdtePkEdit('#ETD1', "#ETD", 'DD/MM/YYYY');
+        EzdtePkEdit('#FF_BOK001_DATE1', "#FF_BOK001_DATE", 'DD/MM/YYYY');
         var counter5 = parseInt($("#hdnCounter5").val());
        $("#tablePODetails5").on("click", "[name*='btnDelete']", function () {
           $(this).closest("tr").remove();
-          counter5 = 1;
+            counter5 = 1;
              $('#tablePODetails5 tbody tr td:nth-child(1)').each(function (e) {
                  var tr1 = $(this).closest("tr");
                  tr1.find(":first").text(counter5);
@@ -33,18 +32,100 @@
              });
        });
 
+       var counter5 = $('#hdnCounter5').val();
+
+       var index5 = 1;
+       $("#tablePODetails5 tbody tr").each(function (index5, item) {
+           $("[name*='txtsno" + (index5 + 1) + "']").val($("[name*='hdnsno" + (index5 + 1) + "']").val());
+           $("[name*='txtCrg_name" + (index5 + 1) + "']").val($("[name*='hdnCrg_name" + (index5 + 1) + "']").val());
+           $("[name*='txtIncome_GL_Code" + (index5 + 1) + "']").val($("[name*='hdnIncome_GL_Code" + (index5 + 1) +"']").val());
+           $("[name*='txtExpense_GL_Code" + (index5 + 1) +"']").val($("[name*='hdnExpense_GL_Code" + (index5 + 1) +"']").val());
+           $("[name*='txtUnit_Code" + (index5 + 1) +"']").val($("[name*='hdnUnit_Code" + (index5 + 1) +"']").val());
+           $("[name*='txtCust_code" + (index5 + 1) +"']").val($("[name*='hdnCust_code" + (index5 + 1) +"']").val());
+           $("[name*='txtCust_name" + (index5 + 1) + "']").val($("[name*='hdnCust_name" + (index5 + 1) +"']").val());
+           $("[name*='txtCust_Ctrl_Act" + (index5 + 1) + "']").val($("[name*='hdnCust_Ctrl_Act" + (index5 + 1) +"']").val());
+           $("[name*='txtCust_Curr_Code" + (index5 + 1) + "']").val($("[name*='hdnCust_Curr_Code" + (index5 + 1) +"']").val());
+           $("[name*='txtCust_Curr_Rate" + (index5 + 1) + "']").val($("[name*='hdnCust_Curr_Rate" + (index5 + 1) +"']").val());
+           $("[name*='txtCust_Rate" + (index5 + 1) + "']").val($("[name*='hdnCust_Rate" + (index5 + 1) +"']").val());
+           $("[name*='txtCust_Total_amt" + (index5 + 1) + "']").val($("[name*='hdnCust_Total_amt" + (index5 + 1) +"']").val());
+           $("[name*='txtCust_Var_Amt" + (index5 + 1) + "']").val($("[name*='hdnCust_Var_Amt" + (index5 + 1) +"']").val());
+           $("[name*='txtCust_Net_Amt" + (index5 + 1) + "']").val($("[name*='hdnCust_Net_Amt" + (index5 + 1) + "']").val());
+           $("[name*='txtCust_Local_amt" + (index5 + 1) + "']").val($("[name*='hdnCust_Local_amt" + (index5 + 1) + "']").val());
+           $("[name*='txtPAY_MODE" + (index5 + 1) + "']").val($("[name*='hdnPAY_MODE" + (index5 + 1) + "']").val());
+           $("[name*='txtVend_code" + (index5 + 1) + "']").val($("[name*='hdnVend_code" + (index5 + 1) + "']").val());
+           $("[name*='txtVend_name" + (index5 + 1) + "']").val($("[name*='hdnVend_name" + (index5 + 1) + "']").val());
+           $("[name*='txtVend_Ctrl_Act" + (index5 + 1) + "']").val($("[name*='hdnVend_Ctrl_Act" + (index5 + 1) + "']").val());
+           $("[name*='txtVend_Curr_Code" + (index5 + 1) + "']").val($("[name*='hdnVend_Curr_Code" + (index5 + 1) + "']").val());
+           $("[name*='txtVend_Curr_Rate" + (index5 + 1) + "']").val($("[name*='hdnVend_Curr_Rate" + (index5 + 1) + "']").val());
+           $("[name*='txtVend_Rate" + (index5 + 1) + "']").val($("[name*='hdnVend_Rate" + (index5 + 1) + "']").val());
+           $("[name*='txtVend_Total_amt" + (index5 + 1) + "']").val($("[name*='hdnVend_Total_amt" + (index5 + 1) + "']").val());
+           $("[name*='txtVendVar_Amt" + (index5 + 1) + "']").val($("[name*='hdnVendVar_Amt" + (index5 + 1) + "']").val());
+           $("[name*='txtVend_Net_Amt" + (index5 + 1) + "']").val($("[name*='hdnVend_Net_Amt" + (index5 + 1) + "']").val());
+           $("[name*='txtVend_Local_amt" + (index5 + 1) + "']").val($("[name*='hdnVend_Local_amt" + (index5 + 1) + "']").val());
+
+           index5 = index5 + 1;
+       });
+
+       $("#tablePODetails5 tbody tr:last").find("[name*='txtsno']").val(counter5);
+
        var counter4 = parseInt($("#hdnCounter4").val());
        $("#tablePODetails4").on("click", "[name*='btnDelete']", function () {
            $(this).closest("tr").remove();
-           counter4 = 1;
-           $('#tablePODetails4 tbody tr td:nth-child(1)').each(function (e) {
-               var tr1 = $(this).closest("tr");
-               tr1.find(":first").text(counter4);
-               counter4++;
-           });
+           //counter4 = 1;
+           //$('#tablePODetails4 tbody tr td:nth-child(1)').each(function (e) {
+           //    var tr1 = $(this).closest("tr");
+           //    //tr1.find(":first").text(counter4);
+           //    counter4++;
+           //});
        });
 
 
+       var index4 = 1;
+       $("#tablePODetails4 tbody tr").each(function (index4, item) {
+           debugger;
+           $("[name*='txtCLAUSE_CODE" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_CODE" + (index4 + 1) + "']").val());
+           $("[name*='txtCLAUSE_NAME" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_NAME" + (index4 + 1) + "']").val());
+           index4 = index4 + 1;
+       });
+
+       var index3 = 1;
+       var counter3 = $('#hdnCounter3').val();
+       $("#tablePODetails3 tbody tr").each(function (index3, item) {
+           debugger;
+           $("[name*='txtsno" + (index3 + 1) + "']").val($("[name*='hdnsno" + (index3 + 1) + "']").val());
+           $("[name*='txtPkg_No" + (index3 + 1) + "']").val($("[name*='hdnPkg_No" + (index3 + 1) + "']").val());
+           $("[name*='txtNo_of_qty" + (index3 + 1) + "']").val($("[name*='hdnNo_of_qty" + (index3 + 1) + "']").val());
+            $("[name*='txtunit_type" + (index3 + 1) + "']").val($("[name*='hdnunit_type"  + (index3 + 1) + "']").val());
+        $("[name*='txtHeight" + (index3 + 1) + "']").val($("[name*='hdnHeight" + (index3 + 1) + "']").val());
+        $("[name*='txtWidth" + (index3 + 1) + "']").val($("[name*='hdnWidth "+ (index3 + 1) + "']").val());
+           $("[name*='txtAct_LBS" + (index3 + 1) + "']").val($("[name*='hdnAct_LBS" + (index3 + 1) + "']").val());
+           $("[name*='txtinside_Unit" + (index3 + 1) + "']").val($("[name*='hdninside_Unit" + (index3 + 1) + "']").val());
+           $("[name*='txtVolume" + (index3 + 1) + "']").val($("[name*='hdnVolume" + (index3 + 1) + "']").val());
+           $("[name*='txtDime_weight" + (index3 + 1) + "']").val($("[name*='hdnDime_weight" + (index3 + 1) + "']").val());
+
+
+           index3 = index3 + 1;
+       });
+
+       $("#tablePODetails3 tbody tr:last").find("[name*='txtsno']").val(counter3);
+       var index2 = 1;
+       var counter2 = $('#hdnCounter2').val();
+       $("#tablePODetails2 tbody tr").each(function (index2, item) {
+           debugger;
+           $("[name*='txtsno" + (index2 + 1) + "']").val($("[name*='hdnsno" + (index2 + 1) + "']").val());
+           $("[name*='txtContainer" + (index2 + 1) + "']").val($("[name*='hdnContainer" + (index2 + 1) + "']").val());
+           $("[name*='txtCont_Type" + (index2 + 1) + "']").val($("[name*='hdnCont_Type" + (index2 + 1) + "']").val());
+           $("[name*='txtSeal1" + (index2 + 1) + "']").val($("[name*='hdnSeal1" + (index2 + 1) + "']").val());
+           $("[name*='txtNo_of_qty" + (index2 + 1) + "']").val($("[name*='hdnNo_of_qty" + (index2 + 1) + "']").val());
+           $("[name*='txtContents" + (index2 + 1) + "']").val($("[name*='hdnContents" + (index2 + 1) + "']").val());
+           $("[name*='txtLBS" + (index2 + 1) + "']").val($("[name*='hdnLBS" + (index2 + 1) + "']").val());
+           $("[name*='txtKG" + (index2 + 1) + "']").val($("[name*='hdnKG" + (index2 + 1) + "']").val());
+           $("[name*='txtCFT" + (index2 + 1) + "']").val($("[name*='hdnCFT" + (index2 + 1) + "']").val());
+           $("[name*='txtCBM" + (index2 + 1) + "']").val($("[name*='hdnCBM" + (index2 + 1) + "']").val());
+
+           index2 = index2 + 1;
+       });
+       $("#tablePODetails2 tbody tr:last").find("[name*='txtsno']").val(counter2);
        var counter3 = parseInt($("#hdnCounter3").val());
        $("#tablePODetails3").on("click", "[name*='btnDelete']", function () {
            $(this).closest("tr").remove();
@@ -55,6 +136,7 @@
                counter3++;
            });
        });
+
 
        var counter2 = parseInt($("#hdnCounter2").val());
        $("#tablePODetails2").on("click", "[name*='btnDelete']", function () {
@@ -67,123 +149,127 @@
            });
        });
 
-       $("#tablePODetails5").on("change", "[name*='txtCust_code']", function () {
-           var tr = $(this).closest('tr');
-           var JobCode = tr.find("[name*='txtCust_code'] option:selected").text();
-           var array = JobCode.split("-");
-           tr.find("[name*='txtCust_name']").val(array[1].trim());
-       });
-
-
-       $("#tablePODetails4").on("change", "[name*='txtCLAUSE_CODE']", function () {
-           var tr = $(this).closest('tr');
-           var JobCode = tr.find("[name*='txtCLAUSE_CODE'] option:selected").text();
-           var array = JobCode.split("-");
-           tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim());
-       });
-
-       $("#tablePODetails5").on("change", "[name*='txtVend_code']", function () {
-           var tr = $(this).closest('tr');
-           var JobCode = tr.find("[name*='txtVend_code'] option:selected").text();
-           var array = JobCode.split("-");
-           tr.find("[name*='txtVend_name']").val(array[1].trim());
-
-       });
-
-       $("#tablePODetails5").on("change", "[name*='txtCust_Curr_Code']", function () {
-           var tr = $(this).closest('tr');
-           var CurCode = tr.find("[name*='txtCust_Curr_Code'] option:selected").val();
-           $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
-               debugger;
-               var ary = [];
-               ary = response;
-               tr.find("[name*='txtCust_Curr_Rate']").val(ary);
-           });
-
-       });
-
-
-
-       $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
-           var tr = $(this).closest('tr');
-           var rate = parseFloat(tr.find("[name*='txtCust_Rate']").val());
-           var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
-           var Vrate = parseFloat(tr.find("[name*='txtVend_Rate']").val());
-           qty = isNaN(qty) ? 0 : qty;
-           rate = isNaN(rate) ? 0 : rate;
-           Vrate = isNaN(Vrate) ? 0 : Vrate;
-           tr.find("[name*='txtCust_Total_amt']").val(productmul(qty, rate));
-           tr.find("[name*='txtVend_Total_amt']").val(productmul(qty, Vrate));
-           tr.find("[name*='txtVend_Net_Amt']").val(tr.find("[name*='txtVend_Total_amt']").val());
-           sumOfColumns();
-       });
-
-       $("#tablePODetails5").on("change", "[name*='txtCust_Rate']", function () {
-           var tr = $(this).closest('tr');
-           var rate = parseFloat(tr.find("[name*='txtCust_Rate']").val());
-           var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());          
-           qty = isNaN(qty) ? 0 : qty;
-           rate = isNaN(rate) ? 0 : rate;         
-           tr.find("[name*='txtCust_Total_amt']").val(productmul(qty, rate));
-
-           tr.find("[name*='txtCust_Net_Amt']").val(tr.find("[name*='txtCust_Total_amt']").val());
-           sumOfColumns();
-       });
-  
-       $("#tablePODetails5").on("change", "[name*='txtVend_Rate']", function () {
-           var tr = $(this).closest('tr');
-           var Vrate = parseFloat(tr.find("[name*='txtVend_Rate']").val());
-           var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
-           qty = isNaN(qty) ? 0 : qty;
-           Vrate = isNaN(Vrate) ? 0 : Vrate;
-           tr.find("[name*='txtVend_Total_amt']").val(productmul(qty, Vrate));
-           tr.find("[name*='txtVend_Net_Amt']").val(tr.find("[name*='txtVend_Total_amt']").val());
-           sumOfColumns();
-           
-       });
-
-       function productmul(qty, rate) {        
-           return (parseFloat(qty) * parseFloat(rate))+0; //variation should be zero
-       }
-
-       function sumOfColumns() {
-           var sum = 0.0;
-           var sum1 = 0.0;
-           $("#tablePODetails5 > tbody  > tr").each(function () {
-               var amount = parseFloat($(this).find("[name*='txtVend_Net_Amt']").val());
-               var amount1 = parseFloat($(this).find("[name*='txtCust_Net_Amt']").val());
-               sum += isNaN(amount) ? 0 : amount;
-               sum1 += isNaN(amount1) ? 0 : amount1;                            
-           });          
-           $("[name*='Total_Billed']").val('' + sum);
-           $("[name*='Total_Cost']").val('' + sum1);
-           $("[name*='Total_Profit']").val('' + (sum1 - sum));
-       }
-
-       $("#tablePODetails5").on("change", "[name*='txtVend_Curr_Code']", function () {
-           var tr = $(this).closest('tr');
-           var CurCode = tr.find("[name*='txtCust_Curr_Code'] option:selected").val();
-           $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
-               debugger;
-               var ary = [];
-               ary = response;
-               tr.find("[name*='txtVend_Curr_Rate']").val(ary);
-           });
-
-       });
-
        var counter5 = parseInt($("#hdnCounter5").val());
+        $('.selectpicker').selectpicker('refresh');
+        $("#tablePODetails5").on("change", "[name*='txtCust_code']", function () {
+            var tr = $(this).closest('tr');
+            var JobCode = tr.find("[name*='txtCust_code'] option:selected").text();
+            var array = JobCode.split("-");
+            tr.find("[name*='txtCust_name']").val(array[1].trim());
+        });
+
+
+        $("#tablePODetails4").on("change", "[name*='txtCLAUSE_CODE']", function () {
+            var tr = $(this).closest('tr');
+            var JobCode = tr.find("[name*='txtCLAUSE_CODE'] option:selected").text();
+            var array = JobCode.split("-");
+            tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim());
+        });
+
+        $("#tablePODetails5").on("change", "[name*='txtVend_code']", function () {
+            var tr = $(this).closest('tr');
+            var JobCode = tr.find("[name*='txtVend_code'] option:selected").text();
+            var array = JobCode.split("-");
+            tr.find("[name*='txtVend_name']").val(array[1].trim());
+
+        });
+
+        $("#tablePODetails5").on("change", "[name*='txtCust_Curr_Code']", function () {
+            var tr = $(this).closest('tr');
+            var CurCode = tr.find("[name*='txtCust_Curr_Code'] option:selected").val();
+            $.get("FF_BOK/GetCurRate", { CurCode: CurCode }).done(function (response) {
+                debugger;
+                var ary = [];
+                ary = response;
+                tr.find("[name*='txtCust_Curr_Rate']").val(ary);
+            });
+
+        });
+
+
+
+        $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
+            var tr = $(this).closest('tr');
+            var rate = parseFloat(tr.find("[name*='txtCust_Rate']").val());
+            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            var Vrate = parseFloat(tr.find("[name*='txtVend_Rate']").val());
+            qty = isNaN(qty) ? 0 : qty;
+            rate = isNaN(rate) ? 0 : rate;
+            Vrate = isNaN(Vrate) ? 0 : Vrate;
+            tr.find("[name*='txtCust_Total_amt']").val(productmul(qty, rate));
+            tr.find("[name*='txtVend_Total_amt']").val(productmul(qty, Vrate));
+            tr.find("[name*='txtVend_Net_Amt']").val(tr.find("[name*='txtVend_Total_amt']").val());
+            sumOfColumns();
+        });
+
+        $("#tablePODetails5").on("change", "[name*='txtCust_Rate']", function () {
+            var tr = $(this).closest('tr');
+            var rate = parseFloat(tr.find("[name*='txtCust_Rate']").val());
+            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            qty = isNaN(qty) ? 0 : qty;
+            rate = isNaN(rate) ? 0 : rate;
+            tr.find("[name*='txtCust_Total_amt']").val(productmul(qty, rate));
+
+            tr.find("[name*='txtCust_Net_Amt']").val(tr.find("[name*='txtCust_Total_amt']").val());
+            sumOfColumns();
+        });
+
+
+
+
+        $("#tablePODetails5").on("change", "[name*='txtVend_Rate']", function () {
+            var tr = $(this).closest('tr');
+            var Vrate = parseFloat(tr.find("[name*='txtVend_Rate']").val());
+            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            qty = isNaN(qty) ? 0 : qty;
+            Vrate = isNaN(Vrate) ? 0 : Vrate;
+            tr.find("[name*='txtVend_Total_amt']").val(productmul(qty, Vrate));
+            tr.find("[name*='txtVend_Net_Amt']").val(tr.find("[name*='txtVend_Total_amt']").val());
+            sumOfColumns();
+        });
+
+        function productmul(qty, rate) {
+            return (parseFloat(qty) * parseFloat(rate)) + 0; //variation should be zero
+        }
+
+        function sumOfColumns() {
+            var sum = 0.0;
+            var sum1 = 0.0;
+            $("#tablePODetails5 > tbody  > tr").each(function () {
+                var amount = parseFloat($(this).find("[name*='txtVend_Net_Amt']").val());
+                var amount1 = parseFloat($(this).find("[name*='txtCust_Net_Amt']").val());
+                sum += isNaN(amount) ? 0 : amount;
+                sum1 += isNaN(amount1) ? 0 : amount1;
+            });
+            $("[name*='Total_Billed']").val('' + sum);
+            $("[name*='Total_Cost']").val('' + sum1);
+            $("[name*='Total_Profit']").val('' + (sum1 - sum));
+        }
+
+        $("#tablePODetails5").on("change", "[name*='txtVend_Curr_Code']", function () {
+            var tr = $(this).closest('tr');
+            var CurCode = tr.find("[name*='txtCust_Curr_Code'] option:selected").val();
+            $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
+                debugger;
+                var ary = [];
+                ary = response;
+                tr.find("[name*='txtVend_Curr_Rate']").val(ary);
+            });
+
+        });
+
+        var counter5 = parseInt($("#hdnCounter5").val())+1;
         $('.selectpicker').selectpicker('refresh');
         $("#tablePODetails5").on("change", "[name*='txtCrg_code']", function () {
             debugger;
             var tr = $(this).closest('tr');
             var JobCode = tr.find("[name*='txtCrg_code'] option:selected").text();
-            var array = JobCode.split("-");          
+            var array = JobCode.split("-");
             tr.find("[name*='txtCrg_name']").val(array[1].trim());
             drec = [];
             $('#tablePODetails5 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
-                var ab =  $(this).closest("tr").find("[name *= 'txtCrg_code']  option:selected").val();
+                var ab = $(this).closest("tr").find("[name *= 'txtCrg_code']  option:selected").val();
                 drec.push(ab);
             });
 
@@ -204,11 +290,11 @@
                     var trLast = $("#tablePODetails5 tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter5 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails5 tbody tr:nth-last-child(2)");
-                    //trLast.find("[name*='txtsno']").val(tcunt);
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
                     trLast.find("[name*='txtCrg_code'] option:selected").val('');
                     trLast.find("[name*='txtCrg_name']").val('');
                     trLast.find("[name*='txtoperationtype']").val('');
-                    
+
                     trLast.find("[name *= 'txtsno']").attr({
                         "name": ("txtsno" + counter5)
                     });
@@ -278,7 +364,7 @@
                     });
                     trLast.find("[name *= 'txtVend_Total_amt']").attr({
                         "name": ("txtVend_Total_amt" + counter5)
-                   });
+                    });
                     trLast.find("[name *= 'txtVendVar_Amt']").attr({
                         "name": ("txtVendVar_Amt" + counter5)
                     });
@@ -331,7 +417,7 @@
                     var trLast = $("#tablePODetails4 tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter4 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails4 tbody tr:nth-last-child(2)");
-                    //trLast.find("[name*='txtsno']").val(tcunt);
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
                     trLast.find("[name*='txtCLAUSE_CODE'] option:selected").val('');
                     trLast.find("[name*='txtCLAUSE_NAME']").val('');
 
@@ -351,7 +437,7 @@
 
         });
 
-        var counter3 = parseInt($("#hdnCounter3").val());
+        var counter3 = parseInt($("#hdnCounter3").val())+1;
         $("#tablePODetails3").on("change", "[name*='txtPkg_No']", function () {
 
             var tr = $(this).closest('tr');
@@ -381,7 +467,7 @@
                     var trLast = $("#tablePODetails3 tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter3 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails3 tbody tr:nth-last-child(2)");
-                    //trLast.find("[name*='txtsno']").val(tcunt);
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
                     trLast.find("[name*='txtPkg_No']").val('');
                     trLast.find("[name*='txtNo_of_qty']").val('');
 
@@ -418,11 +504,11 @@
 
         });
 
-        var counter2 = parseInt($("#hdnCounter2").val());
+        var counter2 = parseInt($("#hdnCounter2").val())+1;
         $("#tablePODetails2").on("change", "[name*='txtContainer']", function () {
 
             var tr = $(this).closest('tr');
-
+            debugger;
 
             drec = [];
             $('#tablePODetails2 tbody tr td:nth-child(1)').each(function () {
@@ -443,12 +529,13 @@
             }
             else {
                 tr.css("background", "");
+                
                 if (tr.is(":last-child")) {
                     tr.clone(true, true).insertAfter(tr);
-                    var trLast = $("#tablePODetails2 tr:last");
+                    var trLast = $("#tablePODetails2 tbody tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
-                    //trLast.find("[name*='txtsno']").val(tcunt);
+                    trLast.find("[name*='txtsno']").val(counter2);
                     trLast.find("[name*='txtContainer']").val('');
                     trLast.find("[name*='txtsno']").attr({
                         "name": ("txtsno" + counter2)
@@ -487,8 +574,13 @@
         });
 
 
-        $('#CUST_CODE').change(function () {
-            var JobCode = $("[name*='CUST_CODE'] option:selected").text();
+
+        var JobCode = $("[name*='BILL_TO'] option:selected").text();
+        var array = JobCode.split("-");
+        $('#CustName').val(array[1].trim());
+
+        $('#BILL_TO').change(function () {
+            var JobCode = $("[name*='BILL_TO'] option:selected").text();
             var array = JobCode.split("-");
             $('#CustName').val(array[1].trim());
         });
@@ -496,13 +588,13 @@
             var VESSEL = $('#VESSEL option:selected').val();
             $.get("FFM_Quotation/GetVESSELCodeList", { VESSEL: VESSEL }).done(function (response) {
                 debugger;
-                $('#VOYAGE').empty();             
+                $('#VOYAGE').empty();
                 var ary = [];
                 ary = response;
                 for (var i = 0; i < ary.length; i++) {
                     $('#VOYAGE').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                }               
-                $('#VOYAGE').val(0);              
+                }
+                $('#VOYAGE').val(0);
                 $('.selectpicker').selectpicker('refresh');
             });
         });
@@ -512,9 +604,12 @@
 
 
 <div class="row">
-    @Html.Hidden("hdnCounter2", (counter2))
-    @Html.Hidden("hdnCounter3", (counter3))
-    @Html.Hidden("hdnCounter5", (counter5))
+
+
+
+    @Html.HiddenFor(m => m.ETD)
+    @Html.HiddenFor(m => m.ETA)
+    @Html.HiddenFor(m => m.FF_BOK001_DATE)
     <div class="col-md-12">
         <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
             <div class="custom-form-wrapper">
@@ -529,18 +624,32 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Code<i class="star">*</i></label>
                                                 <div class="col-md-4 input-field">
+                                                    @Html.TextBoxFor(m => m.FF_BOK001_CODE, new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-md-4 input-field">
+                                                    <input id="FF_BOK001_DATE1" class="form-control datepicker" name="FF_BOK001_DATE1" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">QTN Code<i class="star">*</i></label>
+                                                <div class="col-md-4 input-field">
                                                     @Html.TextBoxFor(m => m.FF_QTN001_CODE, new { @class = "form-control" })
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
+
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">Customer<i class="star">*</i></label>
+                                                <label class="control-label col-md-4">Bill To<i class="star">*</i></label>
                                                 <div class="col-md-4 input-field">
-                                                    @Html.DropDownListFor(m => m.CUST_CODE, Model.CustList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                    @Html.DropDownListFor(m => m.BILL_TO, Model.BILL_TOList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                                 <div class="col-md-4 input-field">
                                                     <input type="text" class="form-control" name="CustName" id="CustName" />
@@ -551,9 +660,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">Contact</label>
+                                                <label class="control-label col-md-4">SHIPPER</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.CONTACT, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.SHIPPER, Model.SHIPPERList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                             </div>
                                         </div>
@@ -562,9 +671,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">Telephone</label>
+                                                <label class="control-label col-md-4">CONSIGNEE</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.TELEPHONE, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.CONSIGNEE, Model.CONSIGNEEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                             </div>
                                         </div>
@@ -573,9 +682,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">EMAIL</label>
+                                                <label class="control-label col-md-4">FORWARDER</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.EMAIL, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.FORWARDER, Model.FORWARDERList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                             </div>
                                         </div>
@@ -584,43 +693,14 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">Custom Ref</label>
+                                                <label class="control-label col-md-4">PICKUP_PLACE</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.CUSTOMER_REF, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.PICKUP_PLACE, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4">Pickup Place</label>
-                                                <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.PICKUP_PLACE, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4">State</label>
-                                                <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.PSTATE, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4">zip</label>
-                                                <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.PZIP, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -656,9 +736,9 @@
                                         <!--/span-->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3 col-md-3">State</label>
+                                                <label class="control-label col-xs-3 col-md-3">PLACE_OF_RCPT</label>
                                                 <div class="col-xs-7 col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.FDSTATE, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.PLACE_OF_RCPT, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                             </div>
 
@@ -667,9 +747,9 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3 col-md-3">Zip</label>
+                                                <label class="control-label col-xs-3 col-md-3">DELIVERY_AT</label>
                                                 <div class="col-xs-7 col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.FDZIP, new { @class = "form-control" })
+                                                    @Html.TextBoxFor(m => m.DELIVERY_AT, new { @class = "form-control" })
                                                 </div>
                                             </div>
                                         </div>
@@ -722,17 +802,17 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3 col-md-3">Effective<i class="star">*</i></label>
+                                                <label class="control-label col-xs-3 col-md-3">ETD<i class="star">*</i></label>
                                                 <div class="col-xs-7 col-md-8 input-field radiobtn1">
-                                                    <input id="EFFECT_FROM1" class="form-control datepicker" name="EFFECT_FROM1" />
+                                                    <input id="ETD1" class="form-control datepicker" name="ETD1" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3 col-md-3">Expiration<i class="star">*</i></label>
+                                                <label class="control-label col-xs-3 col-md-3">ETA<i class="star">*</i></label>
                                                 <div class="col-xs-7 col-md-8 input-field radiobtn1">
-                                                    <input id="EFFECT_UPTO1" class="form-control datepicker" name="EFFECT_UPTO1" />
+                                                    <input id="ETA1" class="form-control datepicker" name="ETA1" />
                                                 </div>
                                             </div>
                                         </div>
@@ -782,11 +862,81 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @{int RowNo = 1;}
+                                                                @foreach (var item in Model.FF_BOK002Detail)
+                                                                {
+                                                                    <tr>
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                                @Html.Hidden(string.Concat("hdnsno", counter2), item.sno)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtContainer", counter2), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnContainer", counter2), item.Container)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnCont_Type", counter2), item.Cont_Type)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtSeal1", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnSeal1", counter2), item.Seal1)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnNo_of_qty", counter2), item.No_of_qty)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtContents", counter2), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnContents", counter2), item.Contents)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtLBS", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnLBS", counter2), item.LBS)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtKG", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnKG", counter2), item.KG)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCFT", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnCFT", counter2), item.CFT)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCBM", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnCBM", counter2), item.CBM)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    counter2++;
+                                                                }
                                                                 <tr>
+
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtsno", counter2), @RowNo, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                            @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -835,8 +985,11 @@
                                                                         </div>
                                                                     </td>
                                                                 </tr>
+
+                                                             
                                                             </tbody>
                                                         </table>
+                                                        @Html.Hidden("hdnCounter2", (counter2))
                                                     </div>
                                                 </div>
                                             </div>
@@ -861,12 +1014,83 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @{int RowNo1 = 1;}
+
+                                                                @foreach (var item in Model.FF_BOK003Detail)
+                                                                {
+                                                                    <tr>
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                                @Html.Hidden(string.Concat("hdnsno", counter3), item.Sno)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtPkg_No", counter3), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnPkg_No", counter3), item.Pkg_No)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnNo_of_qty", counter3), item.No_of_qty)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtunit_type", counter3), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnunit_type", counter3), item.unit_type)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtHeight", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnHeight", counter3), item.Height)
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtWidth", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnWidth", counter3), item.Width)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtAct_LBS", counter3), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnAct_LBS", counter3), item.Act_LBS)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtinside_Unit", counter3), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdninside_Unit", counter3), item.inside_Unit)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtVolume", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnVolume", counter3), item.Volume)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtDime_weight", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnDime_weight", counter3), item.Dime_weight)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    counter3++;
+                                                                }
                                                                 <tr>
 
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtsno", counter3), @RowNo1, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                            @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -916,9 +1140,11 @@
                                                                         </div>
                                                                     </td>
                                                                 </tr>
+                                                               
                                                             </tbody>
-                                                        </table>
 
+                                                        </table>
+                                                        @Html.Hidden("hdnCounter3", (counter3))
                                                     </div>
                                                 </div>
                                             </div>
@@ -935,6 +1161,29 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
+                                                                @foreach (var item in Model.FF_BOK004Detail)
+
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.DropDownList(string.Concat("txtCLAUSE_CODE", counter4), Model.CLAUSEList, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnCLAUSE_NAME", counter4), item.CLUASE_CODE)
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                                @Html.Hidden(string.Concat("hdnCLAUSE_NAME", counter4), item.CLUASE_NAME)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    counter4++;
+                                                                }
                                                                 <tr>
                                                                     <td>
                                                                         <div class="grid-group">
@@ -963,35 +1212,185 @@
                                                                 <tr class="tr gridtext">
                                                                     <th>	Sno	</th>
                                                                     <th>	Charge Code	</th>
-                                                                    <th>	Charge Name	</th>                                                                 
+                                                                    <th>	Charge Name	</th>
                                                                     <th>	Pay Mode</th>
                                                                     <th>	Unit	</th>
-                                                                    <th>	No of Qty	</th>                                                                 
+                                                                    <th>	No of Qty	</th>
                                                                     <th>	Customer Rate	</th>
                                                                     <th>	Curr. Code	</th>
                                                                     <th>	Curr.Rate	</th>
                                                                     <th>	Customer Code	</th>
                                                                     <th>	Customer Name	</th>
-                                                                    <th>	Total Amount	</th>                                                                  
+                                                                    <th>	Total Amount	</th>
                                                                     <th>	Net Amount	</th>
                                                                     <th>	Vendor Rate	</th>
-                                                                    <th>	Curr. Code	</th>                                                                   
+                                                                    <th>	Curr. Code	</th>
                                                                     <th>	Curr.Rate	</th>
                                                                     <th>	Vendor Code	</th>
                                                                     <th>	Vendor Name	</th>
                                                                     <th>	Total Amount	</th>
                                                                     <th>	Net Amount	</th>
-                                                                   
-                                                                 
+
+
 
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @{int RowNo5 = 1;}
+
+                                                                @foreach (var item in Model.FF_BOK005Detail)
+                                                                {
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                                @Html.Hidden(string.Concat("hdnsno", counter5), item.Sno)
+                                                                            </div>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.DropDownList(string.Concat("txtCrg_code", counter5), Model.CRG_002List, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnCrg_code", counter5), item.Crg_code)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                                @Html.Hidden(string.Concat("hdnCrg_name", counter5), item.Crg_name)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.DropDownList(string.Concat("txtPAY_MODE", counter5), new List<SelectListItem> { new SelectListItem { Text = "PREPAID", Value = "PP" }, new SelectListItem { Text = "COLLECTION", Value = "COL" } }, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnPAY_MODE", counter5), item.PAY_MODE)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.DropDownList(string.Concat("txtUnit_code", counter5), Model.UnitcodeList, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnUnit_code", counter5), item.Unit_Code)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnNo_of_qty", counter5), item.No_of_qty)
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_Rate", counter5), item.Cust_Rate)
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.DropDownList(string.Concat("txtCust_Curr_Code", counter4), Model.CurList, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_Curr_Code", counter5), item.Cust_Curr_Code)
+                                                                            </div>
+                                                                        </td>
+
+
+
+
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Curr_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_Curr_Rate", counter5), item.Cust_Curr_Rate)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.DropDownList(string.Concat("txtCust_code", counter4), Model.VendorList, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_code", counter5), item.Cust_code)
+                                                                            </div>
+                                                                        </td>
+
+
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_name", counter5), item.Cust_name)
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_Total_amt", counter5), item.Cust_Total_amt)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_Net_Amt", counter5), item.Cust_Net_Amt)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_Rate", counter5), item.Vend_Rate)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+
+                                                                                @Html.DropDownList(string.Concat("txtVend_Curr_Code", counter4), Model.CurList, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_Curr_Code", counter5), item.Vend_Curr_Code)
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_Curr_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_Curr_Rate", counter5), item.Vend_Curr_Rate)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+
+                                                                                @Html.DropDownList(string.Concat("txtVend_code", counter4), Model.VendorList, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_code", counter5), item.Vend_code)
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_name", counter5), item.Vend_name)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_Total_amt", counter5), item.Vend_Total_amt)
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_Net_Amt", counter5), item.Vend_Net_Amt)
+                                                                            </div>
+                                                                        </td>
+
+
+
+
+                                                                        <td>
+                                                                            <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                        </td>
+                                                                    </tr>
+                                                                    counter5++;
+                                                                }
+
                                                                 <tr>
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtsno", counter5), @RowNo5, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                            @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                         </div>
 
                                                                     </td>
@@ -1010,14 +1409,15 @@
                                                                         <div class="form-group">
                                                                             @Html.DropDownList(string.Concat("txtPAY_MODE", counter5), new List<SelectListItem> { new SelectListItem { Text = "PREPAID", Value = "PP" }, new SelectListItem { Text = "COLLECTION", Value = "COL" } }, new { @class = "grid-control" })
                                                                         </div>
-                                                                    </td>                                                            <td>
+                                                                    </td>
+                                                                    <td>
                                                                         <div class="grid-group">
-                                                                            @Html.DropDownList(string.Concat("txtUnit_code", counter4), Model.UnitcodeList, new { @class = "grid-control" })
+                                                                            @Html.DropDownList(string.Concat("txtUnit_code", counter5), Model.UnitcodeList, new { @class = "grid-control" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-group">
-                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter5), null, new { @class = "grid-control" ,@Type="Number"})
+                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
                                                                         </div>
                                                                     </td>
 
@@ -1033,9 +1433,9 @@
                                                                         </div>
                                                                     </td>
 
-                                                                    
-                                                 
-                                                                   
+
+
+
                                                                     <td>
                                                                         <div class="form-group">
                                                                             @Html.TextBox(string.Concat("txtCust_Curr_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
@@ -1046,29 +1446,29 @@
                                                                             @Html.DropDownList(string.Concat("txtCust_code", counter4), Model.VendorList, new { @class = "grid-control" })
                                                                         </div>
                                                                     </td>
-                                                                   
 
-                                                                  
+
+
                                                                     <td>
                                                                         <div class="grid-group">
                                                                             @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
                                                                         </div>
                                                                     </td>
-                                                                    
+
                                                                     <td>
                                                                         <div class="form-group">
                                                                             @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
                                                                         </div>
-                                                                    </td>
+                                                                     </td>
                                                                     <td>
                                                                         <div class="form-group">
                                                                             @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
                                                                         </div>
                                                                     </td>
-                                               
 
-                                                                   
-                                                                    
+
+
+
                                                                     <td>
                                                                         <div class="form-group">
                                                                             @Html.TextBox(string.Concat("txtVend_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
@@ -1092,7 +1492,7 @@
                                                                             @Html.DropDownList(string.Concat("txtVend_code", counter4), Model.VendorList, new { @class = "grid-control" })
                                                                         </div>
                                                                     </td>
-                                                                    
+
                                                                     <td>
                                                                         <div class="grid-group">
                                                                             @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
@@ -1105,16 +1505,17 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control",@ReadOnly="ReadOnly" })
+                                                                            @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
                                                                         </div>
                                                                     </td>
-                                                                    
 
-                                                                 
+
+
                                                                 </tr>
+                                                             
                                                             </tbody>
                                                         </table>
-
+                                                        @Html.Hidden("hdnCounter5", (counter5))
                                                     </div>
                                                 </div>
                                             </div>
@@ -1122,42 +1523,37 @@
                                         </div>
                                     </div>
 
-                                   
-                                </div>
-
-                                <div class="col-md-8">
+                                    
+                                    <div class="col-md-8">
                                     </div>
-                                <div class="col-md-4">
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label class="control-label col-xs-3 col-md-3">Income</label>
-                                            <div class="col-md-7">
-                                                @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @Readonly = "Readonly" })
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3 col-md-3">Income</label>
+                                                <div class="col-md-7">
+                                                    @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @Readonly = "Readonly" })
+                                                </div>
                                             </div>
                                         </div>
-                                   </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label class="control-label col-xs-3 col-md-3">Cost</label>
-                                            <div class="col-md-7">
-                                                @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @Readonly = "Readonly" })
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3 col-md-3">Cost</label>
+                                                <div class="col-md-7">
+                                                    @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @Readonly = "Readonly" })
+                                                </div>
                                             </div>
                                         </div>
-                                   </div>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label class="control-label col-xs-3 col-md-3">Profit</label>
-                                            <div class="col-md-7">
-                                                @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @Readonly = "Readonly" })
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3 col-md-3">Profit</label>
+                                                <div class="col-md-7">
+                                                    @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @Readonly = "Readonly" })
+                                                </div>
                                             </div>
                                         </div>
+
                                     </div>
-
                                 </div>
-
-                              </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -1165,3 +1561,4 @@
             </div>
         </div>
     </div>
+</div>
