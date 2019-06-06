@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
+{
+   public partial class FF_BL004
+    {
+        public string FF_BL001_CODE { get; set; }
+        public string CMPYCODE { get; set; }
+        public string CLAUSE_CODE { get; set; }
+        public string CLAUSE_NAME { get; set; }
+    }
+}

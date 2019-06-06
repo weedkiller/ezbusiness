@@ -1,4 +1,4 @@
-﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_BOK_VM
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_BL_VM
 
 @{
 
@@ -20,7 +20,7 @@
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
         EzdtePkEdit('#ETA1', "#ETA", 'DD/MM/YYYY');
         EzdtePkEdit('#ETD1', "#ETD", 'DD/MM/YYYY');
-        EzdtePkEdit('#FF_BOK001_DATE1', "#FF_BOK001_DATE", 'DD/MM/YYYY');
+        EzdtePkEdit('#FF_BL001_DATE1', "#FF_BL001_DATE", 'DD/MM/YYYY');
         var counter5 = parseInt($("#hdnCounter5").val());
        $("#tablePODetails5").on("click", "[name*='btnDelete']", function () {
           $(this).closest("tr").remove();
@@ -177,7 +177,7 @@
         $("#tablePODetails5").on("change", "[name*='txtCust_Curr_Code']", function () {
             var tr = $(this).closest('tr');
             var CurCode = tr.find("[name*='txtCust_Curr_Code'] option:selected").val();
-            $.get("FF_BOK/GetCurRate", { CurCode: CurCode }).done(function (response) {
+            $.get("FF_BL/GetCurRate", { CurCode: CurCode }).done(function (response) {
                 debugger;
                 var ary = [];
                 ary = response;
@@ -529,7 +529,7 @@
             }
             else {
                 tr.css("background", "");
-                
+
                 if (tr.is(":last-child")) {
                     tr.clone(true, true).insertAfter(tr);
                     var trLast = $("#tablePODetails2 tbody tr:last");
@@ -609,7 +609,7 @@
 
     @Html.HiddenFor(m => m.ETD)
     @Html.HiddenFor(m => m.ETA)
-    @Html.HiddenFor(m => m.FF_BOK001_DATE)
+    @Html.HiddenFor(m => m.FF_BL001_DATE)
     <div class="col-md-12">
         <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
             <div class="custom-form-wrapper">
@@ -624,10 +624,10 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Code<i class="star">*</i></label>
                                                 <div class="col-md-4 input-field">
-                                                    @Html.TextBoxFor(m => m.FF_BOK001_CODE, new { @class = "form-control" })
+                                                    @Html.TextBoxFor(m => m.FF_BL001_CODE, new { @class = "form-control" })
                                                 </div>
                                                 <div class="col-md-4 input-field">
-                                                    <input id="FF_BOK001_DATE1" class="form-control datepicker" name="FF_BOK001_DATE1" />
+                                                    <input id="FF_BL001_DATE1" class="form-control datepicker" name="FF_BL001_DATE1" />
                                                 </div>
                                             </div>
                                         </div>
@@ -640,10 +640,20 @@
                                                     @Html.TextBoxFor(m => m.FF_QTN001_CODE, new { @class = "form-control" })
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                     </div>
 
-
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">Book Code<i class="star">*</i></label>
+                                                <div class="col-md-4 input-field">
+                                                    @Html.TextBoxFor(m => m.FF_BOK001_CODE, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -862,7 +872,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @foreach (var item in Model.FF_BOK002Detail)
+                                                                @foreach (var item in Model.FF_BL002Detail)
                                                                 {
                                                                     <tr>
 
@@ -986,7 +996,7 @@
                                                                     </td>
                                                                 </tr>
 
-                                                             
+
                                                             </tbody>
                                                         </table>
                                                         @Html.Hidden("hdnCounter2", (counter2))
@@ -1015,7 +1025,7 @@
                                                             </thead>
                                                             <tbody>
 
-                                                                @foreach (var item in Model.FF_BOK003Detail)
+                                                                @foreach (var item in Model.FF_BL003Detail)
                                                                 {
                                                                     <tr>
 
@@ -1140,7 +1150,7 @@
                                                                         </div>
                                                                     </td>
                                                                 </tr>
-                                                               
+
                                                             </tbody>
 
                                                         </table>
@@ -1161,7 +1171,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @foreach (var item in Model.FF_BOK004Detail)
+                                                                @foreach (var item in Model.FF_BL004Detail)
 
                                                                 {
                                                                     <tr>
@@ -1237,7 +1247,7 @@
                                                             </thead>
                                                             <tbody>
 
-                                                                @foreach (var item in Model.FF_BOK005Detail)
+                                                                @foreach (var item in Model.FF_BL005Detail)
                                                                 {
 
                                                                     <tr>
@@ -1459,7 +1469,7 @@
                                                                         <div class="form-group">
                                                                             @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
                                                                         </div>
-                                                                     </td>
+                                                                    </td>
                                                                     <td>
                                                                         <div class="form-group">
                                                                             @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
@@ -1512,7 +1522,7 @@
 
 
                                                                 </tr>
-                                                             
+
                                                             </tbody>
                                                         </table>
                                                         @Html.Hidden("hdnCounter5", (counter5))
@@ -1523,7 +1533,7 @@
                                         </div>
                                     </div>
 
-                                    
+
                                     <div class="col-md-8">
                                     </div>
                                     <div class="col-md-4">

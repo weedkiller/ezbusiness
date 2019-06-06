@@ -69,12 +69,12 @@
        var counter4 = parseInt($("#hdnCounter4").val());
        $("#tablePODetails4").on("click", "[name*='btnDelete']", function () {
            $(this).closest("tr").remove();
-           counter4 = 1;
-           $('#tablePODetails4 tbody tr td:nth-child(1)').each(function (e) {
-               var tr1 = $(this).closest("tr");
-               tr1.find(":first").text(counter4);
-               counter4++;
-           });
+           //counter4 = 1;
+           //$('#tablePODetails4 tbody tr td:nth-child(1)').each(function (e) {
+           //    var tr1 = $(this).closest("tr");
+           //    tr1.find(":first").text(counter4);
+           //    counter4++;
+           //});
        });
 
        
@@ -288,7 +288,7 @@
                     var trLast = $("#tablePODetails5 tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter5 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails5 tbody tr:nth-last-child(2)");
-                    //trLast.find("[name*='txtsrno']").val(tcunt);
+                    trLast.find("[name*='txtsno']").val(counter5);
                     trLast.find("[name*='txtCrg_code'] option:selected").val('');
                     trLast.find("[name*='txtCrg_name']").val('');
                     trLast.find("[name*='txtoperationtype']").val('');
@@ -437,9 +437,7 @@
 
         var counter3 = parseInt($("#hdnCounter3").val())+1;
         $("#tablePODetails3").on("change", "[name*='txtPkg_No']", function () {
-
             var tr = $(this).closest('tr');
-
             //  var tcunt = $("#tablePODetails").find("tr").length;
             drec = [];
             $('#tablePODetails3 tbody tr td:nth-child(1)').each(function () {
@@ -465,7 +463,7 @@
                     var trLast = $("#tablePODetails3 tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter3 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails3 tbody tr:nth-last-child(2)");
-                    //trLast.find("[name*='txtsrno']").val(tcunt);
+                    trLast.find("[name*='txtsno']").val(counter3);
                     trLast.find("[name*='txtPkg_No']").val('');
                     trLast.find("[name*='txtNo_of_qty']").val('');
 
@@ -502,7 +500,7 @@
 
         });
 
-        var counter2 = parseInt($("#hdnCounter2").val());
+        var counter2 = parseInt($("#hdnCounter2").val())+1;
         $("#tablePODetails2").on("change", "[name*='txtContainer']", function () {
 
             var tr = $(this).closest('tr');
@@ -532,7 +530,7 @@
                     var trLast = $("#tablePODetails2 tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
-                    //trLast.find("[name*='txtsrno']").val(tcunt);
+                    trLast.find("[name*='txtsno']").val(counter2);
                     trLast.find("[name*='txtContainer']").val('');
                     trLast.find("[name*='txtsno']").attr({
                         "name": ("txtsno" + counter2)
@@ -892,7 +890,7 @@
 
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                                @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @disabled="disabled" })
                                                                                 @Html.Hidden(string.Concat("hdnsno", counter2), item.sno)
                                                                             </div>
                                                                         </td>
@@ -960,7 +958,7 @@
 
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                            @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @disabled="disabled" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -1045,7 +1043,7 @@
 
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                                @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled="disabled" })
                                                                                 @Html.Hidden(string.Concat("hdnsno", counter3), item.Sno)
                                                                             </div>
                                                                         </td>
@@ -1112,9 +1110,14 @@
                                                                 }
                                                                 <tr>
 
+                                                                    @*<td>
+                                                                        <div class="grid-group">
+                                                                            @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled="disabled" })
+                                                                        </div>
+                                                                    </td>*@
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                            @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled="disabled" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -1198,7 +1201,7 @@
 
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                                @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @disabled="disabled" })
                                                                                 @Html.Hidden(string.Concat("hdnCLAUSE_NAME", counter4), item.CLUASE_NAME)
                                                                             </div>
                                                                         </td>
@@ -1217,7 +1220,7 @@
 
                                                                     <td>
                                                                         <div class="form-group">
-                                                                            @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                            @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @disabled="disabled" })
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1267,7 +1270,7 @@
                                                                     <tr>
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                                @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @disabled="disabled" })
                                                                                 @Html.Hidden(string.Concat("hdnsno", counter5), item.Sno)
                                                                             </div>
 
@@ -1280,7 +1283,7 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                                @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
                                                                                 @Html.Hidden(string.Concat("hdnCrg_name", counter5), item.Crg_name)
                                                                             </div>
                                                                         </td>
@@ -1337,20 +1340,20 @@
 
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                                @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
                                                                                 @Html.Hidden(string.Concat("hdnCust_name", counter5), item.Cust_name)
                                                                             </div>
                                                                         </td>
 
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
+                                                                                @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
                                                                                 @Html.Hidden(string.Concat("hdnCust_Total_amt", counter5), item.Cust_Total_amt)
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
+                                                                                @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
                                                                                 @Html.Hidden(string.Concat("hdnCust_Net_Amt", counter5), item.Cust_Net_Amt)
                                                                             </div>
                                                                         </td>
@@ -1384,19 +1387,19 @@
 
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                                @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
                                                                                 @Html.Hidden(string.Concat("hdnVend_name", counter5), item.Vend_name)
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
+                                                                                @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
                                                                                 @Html.Hidden(string.Concat("hdnVend_Total_amt", counter5), item.Vend_Total_amt)
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                                @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @disabled="disabled" })
                                                                                 @Html.Hidden(string.Concat("hdnVend_Net_Amt", counter5), item.Vend_Net_Amt)
                                                                             </div>
                                                                         </td>
@@ -1414,7 +1417,7 @@
                                                                 <tr>
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @Readonly = "Readonly" })
+                                                                            @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @disabled="disabled" })
                                                                         </div>
 
                                                                     </td>
@@ -1426,7 +1429,7 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                            @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -1475,18 +1478,18 @@
 
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                            @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
                                                                         </div>
                                                                     </td>
 
                                                                     <td>
                                                                         <div class="form-group">
-                                                                            @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
+                                                                            @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-group">
-                                                                            @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
+                                                                            @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
                                                                         </div>
                                                                     </td>
 
@@ -1519,17 +1522,17 @@
 
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                            @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-group">
-                                                                            @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
+                                                                            @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
+                                                                            @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @disabled="disabled" })
                                                                         </div>
                                                                     </td>
 
@@ -1556,7 +1559,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3 col-md-3">Income</label>
                                                 <div class="col-md-7">
-                                                    @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @Readonly = "Readonly" })
+                                                    @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @disabled="disabled" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1564,7 +1567,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3 col-md-3">Cost</label>
                                                 <div class="col-md-7">
-                                                    @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @Readonly = "Readonly" })
+                                                    @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @disabled="disabled" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1572,7 +1575,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3 col-md-3">Profit</label>
                                                 <div class="col-md-7">
-                                                    @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @Readonly = "Readonly" })
+                                                    @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @disabled="disabled" })
                                                 </div>
                                             </div>
                                         </div>

@@ -1,0 +1,107 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_BL_VM>
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+   Ezsidetbl("#POList", "#POList tfoot td", false, "#POList thead");
+</script>
+
+
+<table id="POList" class="table table-bordered stripe display hover portal-drivers">
+
+    <thead>
+        <tr class="tr">
+            <th>BILL Code</th>
+            <th>BILL Date</th>
+            <th>QTN Code</th>
+            <th>Book Code</th>
+            <th>BILL TO</th>
+            <th>SHIPPER</th>
+            <th>CONSIGNEE</th>
+            <th>FORWARDER</th>
+            <th>PICKUP_PLACE</th>
+            <th>POL</th>
+            <th>POD</th>
+            <th>FND</th>
+            <th>PLACE OF RCPT</th>
+            <th>MOVE TYPE</th>
+            <th>DELIVERY AT</th>
+            <th>REF No</th>
+            <th>Vessal</th>
+            <th>Voyage</th>
+            <th>ETD</th>
+            <th>ETA</th>
+            <th>CARRIER</th>
+            <th>DEPARTMENT</th>
+            <th>Total Cost</th>
+            <th>Total Billed</th>
+            <th>Total Profit</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td>BILL Code</td>
+            <td>BILL Date</td>
+            <td>QTN Code</td>
+            <td>Book Code</td>
+            <td>BILL TO</td>
+            <td>SHIPPER</td>
+            <td>CONSIGNEE</td>
+            <td>FORWARDER</td>
+            <td>PICKUP_PLACE</td>
+            <td>POL</td>
+            <td>POD</td>
+            <td>FND</td>
+            <td>PLACE OF RCPT</td>
+            <td>MOVE TYPE</td>
+            <td>DELIVERY AT</td>
+            <td>REF No</td>
+            <td>Vessal</td>
+            <td>Voyage</td>
+            <td>ETD</td>
+            <td>ETA</td>
+            <td>CARRIER</td>
+            <td>DEPARTMENT</td>
+            <td>Total Cost</td>
+            <td>Total Billed</td>
+            <td>Total Profit</td>
+        </tr>
+    </tfoot>
+    <tbody>
+        @foreach (var po in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnFF_BL001_CODE", po.FF_BL001_CODE)
+                    @po.FF_BL001_CODE
+                </td>
+                <td>@Convert.ToDateTime(@po.FF_BL001_DATE).ToString("dd/MM/yyyy")</td>
+                <td>@po.FF_QTN001_CODE</td>
+                <td>@po.FF_BOK001_CODE</td>
+                <td>@po.BILL_TO</td>
+                <td>@po.SHIPPER</td>
+                <td>@po.CONSIGNEE</td>
+                <td>@po.FORWARDER</td>
+                <td>@po.PICKUP_PLACE</td>
+                <td>@po.POL</td>
+                <td>@po.POD</td>
+                <td>@po.FND</td>
+                <td>@po.PLACE_OF_RCPT</td>
+                <td>@po.MOVE_TYPE</td>
+                <td>@po.DELIVERY_AT</td>
+                <td>@po.REF_NO</td>
+                <td>@po.VESSEL</td>
+                <td>@po.VOYAGE</td>
+                <td> @Convert.ToDateTime(@po.ETD).ToString("dd/MM/yyyy")</td>
+                <td>@Convert.ToDateTime(@po.ETA).ToString("dd/MM/yyyy")</td>
+                <td>@po.CARRIER</td>
+                <td>@po.DEPARTMENT</td>
+                <td>@po.Total_Cost</td>
+                <td>@po.Total_Billed</td>
+                <td>@po.Total_Profit</td>
+            </tr>
+        }
+    </tbody>
+</table>
