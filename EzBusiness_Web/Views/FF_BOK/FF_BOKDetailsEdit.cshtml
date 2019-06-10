@@ -1,4 +1,5 @@
-﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_QTN_VM
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_BOK_VM
+
 @{
 
     var counter5 = 1;
@@ -17,8 +18,9 @@
         arr1 = [];
         $('.selectpicker').selectpicker('refresh');
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
-        EzdtePkEdit('#EFFECT_FROM1', "#EFFECT_FROM", 'DD/MM/YYYY');
-        EzdtePkEdit('#EFFECT_UPTO1', "#EFFECT_UPTO", 'DD/MM/YYYY');
+        EzdtePkEdit('#ETA1', "#ETA", 'DD/MM/YYYY');
+        EzdtePkEdit('#ETD1', "#ETD", 'DD/MM/YYYY');
+        EzdtePkEdit('#FF_BOK001_DATE1', "#FF_BOK001_DATE", 'DD/MM/YYYY');
         var counter5 = parseInt($("#hdnCounter5").val());
        $("#tablePODetails5").on("click", "[name*='btnDelete']", function () {
           $(this).closest("tr").remove();
@@ -72,17 +74,17 @@
            //counter4 = 1;
            //$('#tablePODetails4 tbody tr td:nth-child(1)').each(function (e) {
            //    var tr1 = $(this).closest("tr");
-           //    tr1.find(":first").text(counter4);
+           //    //tr1.find(":first").text(counter4);
            //    counter4++;
            //});
        });
 
-       
+
        var index4 = 1;
        $("#tablePODetails4 tbody tr").each(function (index4, item) {
            debugger;
            $("[name*='txtCLAUSE_CODE" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_CODE" + (index4 + 1) + "']").val());
-           $("[name*='txtCLAUSE_NAME" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_NAME" + (index4 + 1) + "']").val());                   
+           $("[name*='txtCLAUSE_NAME" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_NAME" + (index4 + 1) + "']").val());
            index4 = index4 + 1;
        });
 
@@ -175,7 +177,7 @@
         $("#tablePODetails5").on("change", "[name*='txtCust_Curr_Code']", function () {
             var tr = $(this).closest('tr');
             var CurCode = tr.find("[name*='txtCust_Curr_Code'] option:selected").val();
-            $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
+            $.get("FF_BOK/GetCurRate", { CurCode: CurCode }).done(function (response) {
                 debugger;
                 var ary = [];
                 ary = response;
@@ -288,7 +290,7 @@
                     var trLast = $("#tablePODetails5 tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter5 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails5 tbody tr:nth-last-child(2)");
-                    trLast.find("[name*='txtsno']").val(counter5);
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
                     trLast.find("[name*='txtCrg_code'] option:selected").val('');
                     trLast.find("[name*='txtCrg_name']").val('');
                     trLast.find("[name*='txtoperationtype']").val('');
@@ -381,7 +383,7 @@
 
         });
 
-        var counter4 = parseInt($("#hdnCounter4").val())+1;
+        var counter4 = parseInt($("#hdnCounter4").val());
         $("#tablePODetails4").on("change", "[name*='txtCLAUSE_CODE']", function () {
 
             var tr = $(this).closest('tr');
@@ -437,7 +439,9 @@
 
         var counter3 = parseInt($("#hdnCounter3").val())+1;
         $("#tablePODetails3").on("change", "[name*='txtPkg_No']", function () {
+
             var tr = $(this).closest('tr');
+
             //  var tcunt = $("#tablePODetails").find("tr").length;
             drec = [];
             $('#tablePODetails3 tbody tr td:nth-child(1)').each(function () {
@@ -463,7 +467,7 @@
                     var trLast = $("#tablePODetails3 tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter3 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails3 tbody tr:nth-last-child(2)");
-                    trLast.find("[name*='txtsno']").val(counter3);
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
                     trLast.find("[name*='txtPkg_No']").val('');
                     trLast.find("[name*='txtNo_of_qty']").val('');
 
@@ -504,7 +508,7 @@
         $("#tablePODetails2").on("change", "[name*='txtContainer']", function () {
 
             var tr = $(this).closest('tr');
-
+            debugger;
 
             drec = [];
             $('#tablePODetails2 tbody tr td:nth-child(1)').each(function () {
@@ -525,9 +529,10 @@
             }
             else {
                 tr.css("background", "");
+                
                 if (tr.is(":last-child")) {
                     tr.clone(true, true).insertAfter(tr);
-                    var trLast = $("#tablePODetails2 tr:last");
+                    var trLast = $("#tablePODetails2 tbody tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
                     trLast.find("[name*='txtsno']").val(counter2);
@@ -570,12 +575,12 @@
 
 
 
-        var JobCode = $("[name*='CUST_CODE'] option:selected").text();
+        var JobCode = $("[name*='BILL_TO'] option:selected").text();
         var array = JobCode.split("-");
         $('#CustName').val(array[1].trim());
 
-        $('#CUST_CODE').change(function () {
-            var JobCode = $("[name*='CUST_CODE'] option:selected").text();
+        $('#BILL_TO').change(function () {
+            var JobCode = $("[name*='BILL_TO'] option:selected").text();
             var array = JobCode.split("-");
             $('#CustName').val(array[1].trim());
         });
@@ -599,11 +604,12 @@
 
 
 <div class="row">
-    
-   
-   
-    @Html.HiddenFor(m=>m.EFFECT_FROM)
-    @Html.HiddenFor(m => m.EFFECT_UPTO)
+
+
+
+    @Html.HiddenFor(m => m.ETD)
+    @Html.HiddenFor(m => m.ETA)
+    @Html.HiddenFor(m => m.FF_BOK001_DATE)
     <div class="col-md-12">
         <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
             <div class="custom-form-wrapper">
@@ -618,18 +624,32 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Code<i class="star">*</i></label>
                                                 <div class="col-md-4 input-field">
+                                                    @Html.TextBoxFor(m => m.FF_BOK001_CODE, new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-md-4 input-field">
+                                                    <input id="FF_BOK001_DATE1" class="form-control datepicker" name="FF_BOK001_DATE1" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-4">QTN Code<i class="star">*</i></label>
+                                                <div class="col-md-4 input-field">
                                                     @Html.TextBoxFor(m => m.FF_QTN001_CODE, new { @class = "form-control" })
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
+
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">Customer<i class="star">*</i></label>
+                                                <label class="control-label col-md-4">Bill To<i class="star">*</i></label>
                                                 <div class="col-md-4 input-field">
-                                                    @Html.DropDownListFor(m => m.CUST_CODE, Model.CustList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                    @Html.DropDownListFor(m => m.BILL_TO, Model.BILL_TOList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                                 <div class="col-md-4 input-field">
                                                     <input type="text" class="form-control" name="CustName" id="CustName" />
@@ -640,9 +660,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">Contact</label>
+                                                <label class="control-label col-md-4">Shipper</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.CONTACT, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.SHIPPER, Model.SHIPPERList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                             </div>
                                         </div>
@@ -651,9 +671,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">Telephone</label>
+                                                <label class="control-label col-md-4">Consignee</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.TELEPHONE, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.CONSIGNEE, Model.CONSIGNEEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                             </div>
                                         </div>
@@ -662,54 +682,25 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">EMAIL</label>
+                                                <label class="control-label col-md-4">Forwarder</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.EMAIL, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.FORWARDER, Model.FORWARDERList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4">Custom Ref</label>
-                                                <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.CUSTOMER_REF, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Pickup Place</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.PICKUP_PLACE, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.PICKUP_PLACE, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4">State</label>
-                                                <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.PSTATE, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-md-4">zip</label>
-                                                <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.PZIP, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -745,9 +736,9 @@
                                         <!--/span-->
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3 col-md-3">State</label>
+                                                <label class="control-label col-xs-3 col-md-3">Place of Rcpt</label>
                                                 <div class="col-xs-7 col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.FDSTATE, new { @class = "form-control" })
+                                                    @Html.DropDownListFor(m => m.PLACE_OF_RCPT, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                 </div>
                                             </div>
 
@@ -756,9 +747,9 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3 col-md-3">Zip</label>
+                                                <label class="control-label col-xs-3 col-md-3">Delivery At</label>
                                                 <div class="col-xs-7 col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.FDZIP, new { @class = "form-control" })
+                                                    @Html.TextBoxFor(m => m.DELIVERY_AT, new { @class = "form-control" })
                                                 </div>
                                             </div>
                                         </div>
@@ -808,29 +799,25 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                     <div class="row">
-
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3 col-md-3">Effective<i class="star">*</i></label>
+                                                <label class="control-label col-xs-3 col-md-3">ETD<i class="star">*</i></label>
                                                 <div class="col-xs-7 col-md-8 input-field radiobtn1">
-                                                    <input id="EFFECT_FROM1" class="form-control datepicker" name="EFFECT_FROM1" />
+                                                    <input id="ETD1" class="form-control datepicker" name="ETD1" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3 col-md-3">Expiration<i class="star">*</i></label>
+                                                <label class="control-label col-xs-3 col-md-3">ETA<i class="star">*</i></label>
                                                 <div class="col-xs-7 col-md-8 input-field radiobtn1">
-                                                    <input id="EFFECT_UPTO1" class="form-control datepicker" name="EFFECT_UPTO1" />
+                                                    <input id="ETA1" class="form-control datepicker" name="ETA1" />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3 col-md-3">Department</label>
@@ -841,15 +828,6 @@
                                         </div>
 
                                     </div>
-
-
-
-
-
-
-
-
-
                                 </div>
 
 
@@ -884,13 +862,13 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @foreach (var item in Model.FF_QTN002Detail)
+                                                                @foreach (var item in Model.FF_BOK002Detail)
                                                                 {
                                                                     <tr>
 
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @disabled="disabled" })
+                                                                                @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                                 @Html.Hidden(string.Concat("hdnsno", counter2), item.sno)
                                                                             </div>
                                                                         </td>
@@ -958,7 +936,7 @@
 
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @disabled="disabled" })
+                                                                            @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -1008,7 +986,7 @@
                                                                     </td>
                                                                 </tr>
 
-
+                                                             
                                                             </tbody>
                                                         </table>
                                                         @Html.Hidden("hdnCounter2", (counter2))
@@ -1037,13 +1015,13 @@
                                                             </thead>
                                                             <tbody>
 
-                                                                @foreach (var item in Model.FF_QTN003Detail)
+                                                                @foreach (var item in Model.FF_BOK003Detail)
                                                                 {
                                                                     <tr>
 
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled="disabled" })
+                                                                                @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                                 @Html.Hidden(string.Concat("hdnsno", counter3), item.Sno)
                                                                             </div>
                                                                         </td>
@@ -1110,14 +1088,9 @@
                                                                 }
                                                                 <tr>
 
-                                                                    @*<td>
-                                                                        <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled="disabled" })
-                                                                        </div>
-                                                                    </td>*@
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled="disabled" })
+                                                                            @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -1167,7 +1140,7 @@
                                                                         </div>
                                                                     </td>
                                                                 </tr>
-
+                                                               
                                                             </tbody>
 
                                                         </table>
@@ -1188,7 +1161,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @foreach (var item in Model.FF_QTN004Detail)
+                                                                @foreach (var item in Model.FF_BOK004Detail)
 
                                                                 {
                                                                     <tr>
@@ -1201,7 +1174,7 @@
 
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @disabled="disabled" })
+                                                                                @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                                 @Html.Hidden(string.Concat("hdnCLAUSE_NAME", counter4), item.CLUASE_NAME)
                                                                             </div>
                                                                         </td>
@@ -1220,7 +1193,7 @@
 
                                                                     <td>
                                                                         <div class="form-group">
-                                                                            @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @disabled="disabled" })
+                                                                            @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1264,13 +1237,13 @@
                                                             </thead>
                                                             <tbody>
 
-                                                                @foreach (var item in Model.FF_QTN005Detail)
+                                                                @foreach (var item in Model.FF_BOK005Detail)
                                                                 {
 
                                                                     <tr>
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @disabled="disabled" })
+                                                                                @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                                 @Html.Hidden(string.Concat("hdnsno", counter5), item.Sno)
                                                                             </div>
 
@@ -1283,7 +1256,7 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
+                                                                                @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
                                                                                 @Html.Hidden(string.Concat("hdnCrg_name", counter5), item.Crg_name)
                                                                             </div>
                                                                         </td>
@@ -1340,20 +1313,20 @@
 
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
+                                                                                @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
                                                                                 @Html.Hidden(string.Concat("hdnCust_name", counter5), item.Cust_name)
                                                                             </div>
                                                                         </td>
 
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
+                                                                                @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
                                                                                 @Html.Hidden(string.Concat("hdnCust_Total_amt", counter5), item.Cust_Total_amt)
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
+                                                                                @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
                                                                                 @Html.Hidden(string.Concat("hdnCust_Net_Amt", counter5), item.Cust_Net_Amt)
                                                                             </div>
                                                                         </td>
@@ -1387,19 +1360,19 @@
 
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
+                                                                                @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
                                                                                 @Html.Hidden(string.Concat("hdnVend_name", counter5), item.Vend_name)
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
+                                                                                @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
                                                                                 @Html.Hidden(string.Concat("hdnVend_Total_amt", counter5), item.Vend_Total_amt)
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @disabled="disabled" })
+                                                                                @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
                                                                                 @Html.Hidden(string.Concat("hdnVend_Net_Amt", counter5), item.Vend_Net_Amt)
                                                                             </div>
                                                                         </td>
@@ -1417,7 +1390,7 @@
                                                                 <tr>
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @disabled="disabled" })
+                                                                            @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                         </div>
 
                                                                     </td>
@@ -1429,7 +1402,7 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
+                                                                            @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -1478,18 +1451,18 @@
 
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
+                                                                            @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
                                                                         </div>
                                                                     </td>
 
                                                                     <td>
                                                                         <div class="form-group">
-                                                                            @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
+                                                                            @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
                                                                         </div>
-                                                                    </td>
+                                                                     </td>
                                                                     <td>
                                                                         <div class="form-group">
-                                                                            @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
+                                                                            @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
                                                                         </div>
                                                                     </td>
 
@@ -1522,24 +1495,24 @@
 
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
+                                                                            @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class="form-group">
-                                                                            @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
+                                                                            @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @ReadOnly = "ReadOnly" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @disabled="disabled" })
+                                                                            @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @ReadOnly = "ReadOnly" })
                                                                         </div>
                                                                     </td>
 
 
 
                                                                 </tr>
-
+                                                             
                                                             </tbody>
                                                         </table>
                                                         @Html.Hidden("hdnCounter5", (counter5))
@@ -1550,8 +1523,7 @@
                                         </div>
                                     </div>
 
-                                   
-
+                                    
                                     <div class="col-md-8">
                                     </div>
                                     <div class="col-md-4">
@@ -1559,7 +1531,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3 col-md-3">Income</label>
                                                 <div class="col-md-7">
-                                                    @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @disabled="disabled" })
+                                                    @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @Readonly = "Readonly" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1567,7 +1539,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3 col-md-3">Cost</label>
                                                 <div class="col-md-7">
-                                                    @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @disabled="disabled" })
+                                                    @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @Readonly = "Readonly" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1575,7 +1547,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3 col-md-3">Profit</label>
                                                 <div class="col-md-7">
-                                                    @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @disabled="disabled" })
+                                                    @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @Readonly = "Readonly" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1590,4 +1562,3 @@
         </div>
     </div>
 </div>
-
