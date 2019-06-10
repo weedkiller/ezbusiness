@@ -23,7 +23,6 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         [Route("PORTMASTER")]
         public ActionResult FFM_PORT(string CmpyCode)
         {
-
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {
@@ -63,7 +62,6 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                     string orderDir = Request.Form.GetValues("order[0][dir]")[0];
                     int startRec = Convert.ToInt32(Request.Form.GetValues("start")[0]);
                     int pageSize = Convert.ToInt32(Request.Form.GetValues("length")[0]);
-
                     if (pageSize == -1)
                     {
                         draw = "2";
@@ -122,12 +120,10 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             // Return info.
             return result;
         }
-
         private List<FFM_PORT_VM> salaryprocessColumnWithOrder(string order, string orderDir, List<FFM_PORT_VM> data)
         {
             // Initialization.
             List<FFM_PORT_VM> lst = new List<FFM_PORT_VM>();
-
             try
             {
                 // Sorting
@@ -162,7 +158,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.LATITUDE).ToList()
                                                                                                    : data.OrderBy(p => p.LATITUDE).ToList();
                         break;
-                    case "6":
+                    case "5":
                         // Setting.
                         lst = orderDir.Equals("DESC", StringComparison.CurrentCultureIgnoreCase) ? data.OrderByDescending(p => p.LANGITUDE).ToList()
                                                                                                    : data.OrderBy(p => p.LANGITUDE).ToList();

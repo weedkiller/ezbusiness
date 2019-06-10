@@ -967,12 +967,10 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
        
 
 
-        function Ezsidetbl1(ide, idef, lk, idfoot) {
-   
-            $(document).ready(function () {
-                
-                // Setup - add a text input to each footer cell
-                
+        function Ezsidetbl1(ide, idef, lk, idfoot) {   
+
+            $(document).ready(function () {               
+                // Setup - add a text input to each footer cell                
                 // $(ide).addClass('');
                 var k = $(idef).length;
                 $(idef).each(function () {
@@ -1461,6 +1459,48 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                 }
             });
 
+        }
+
+          function Ezsidetbl1112(ide, idef, lk, idfoot,tname) {   
+              $(document).ready(function () {
+                  // Setup - add a text input to each footer cell                
+                  // $(ide).addClass('');
+                  var k = $(idef).length;
+                  $(idef).each(function () {
+                      if (lk == true) {
+                          if (k > 1) {
+                              var title = '';//$(this).text();
+                              $(this).html('<input type="text"   placeholder="Search ' + title + '"  />');
+                              k = k - 1;
+                          }
+                      } else {
+                          var title = '';//$(this).text();
+                          $(this).html('<input type="text"   placeholder="search' + title + '" style="border-radius:5px""/>');
+                      }
+                  });
+                  // DataTable                
+                  tname.columns().every(function () {
+                      var that = this;
+                      $('input', this.footer()).on('keyup change', function (ev) {
+                          if (that.search() !== this.value) { //only on enter keypress (code 13)
+                              that
+                                .search(this.value)
+                                .draw();
+                          }
+                      });
+                  });
+                  var r = $(idef);
+                  r.find('td').each(function () {
+                      $(this).css('padding', 8);
+                  });
+                  $(idfoot).append(r);
+                  $('#search_0').css('text-align', 'center');
+
+                  $('div.dataTables_filter input').addClass('form-control input-sm');
+
+                  $('' + ide + '_length').hide();
+                  $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+              });
         }
 
 
