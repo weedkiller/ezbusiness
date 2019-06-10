@@ -182,8 +182,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             catch (Exception ex)
             {
                 fpk.SaveFlag = false;
-
-
+                fpk.ErrorMessage = "Something GEtting Wrong";
             }
 
             return fpk;

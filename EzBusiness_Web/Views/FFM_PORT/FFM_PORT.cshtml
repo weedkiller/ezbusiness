@@ -7,7 +7,6 @@
 }
 
 <script src="~/Scripts/EzComNDW.js"></script>
-
 <script>
     $(function () {
         debugger;
@@ -260,18 +259,21 @@
             }
         });
         EzdtePk('#Entry_Date1');
-
+       
         function GetDatatable() {
             debugger;
             //$('#POList').empty();
             $.fn.dataTable.ext.errorMode = 'none';
             $("#divsrly").show();
-          
+         
             var t = $('#POList').DataTable({
                 "ColumnDefs": [{ "searchable": false, "orderable": true }],
-             //   "order": [[0, 'asc']],
+               "order": [[0, 'asc']],
                 //"scrollY": true, 
                 //  "scrollX": true,
+               "paging": true,
+               "ordering": true,
+               "info": true,
                 "language":
                 {
                     "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
@@ -289,6 +291,7 @@
                 //},
                 "processing": true,
                 "serverSide": true,
+                "destroy": true,
                 "ajax":
                 {
                     "async": false,
@@ -298,7 +301,7 @@
                     "dataType": "json",
                    // "data": newrow,
                 },
-                "destroy": true,
+              
                 "columns": [                              
                               {
                               "data": "FFM_PORT_CODE",                                
@@ -312,13 +315,8 @@
                               { "data": "DISPLY_STATUS" },                                                                  
                 ]
             });
-            //t.on('order.dt search.dt', function () {
-            //    t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
-            //        cell.innerHTML = i + 1;
-            //    });
-            //}).draw();
-        }
-        Ezsidetbl1("#POList", "#POList tfoot td",true, "#POList thead");
+            Ezsidetbl1112("#POList", "#POList tfoot td", true, "#POList thead","t");
+        }       
     });
 </script>
 <br />
@@ -331,10 +329,8 @@
             <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
             <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <input type="hidden" id="hdnOperationMode" value="" />
-
         </div>
     </div>
-
 </div>
 <br />
 <div class="row">
@@ -349,7 +345,6 @@
                 <label class="row" id="ErrorMessage" style="color:red">
                     <strong></strong>
                 </label>
-
                 <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
                     <div class="custom-form-wrapper">
                         <div id="POContainer">
