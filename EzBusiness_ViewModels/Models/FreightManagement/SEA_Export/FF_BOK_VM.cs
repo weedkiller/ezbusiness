@@ -85,6 +85,10 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public List<SelectListItem> SHIPPERList { get; set; }
         public List<SelectListItem> CONSIGNEEList { get; set; }
         public List<SelectListItem> FORWARDERList { get; set; }
+        public List<SelectListItem> JobTypList { get; set; }
+        public List<SelectListItem> ConTypList { get; set; }
+        public string JOB_TYPE { get; set; }
+        public string TRANS_TYPE { get; set; }
     }
     public class FF_BOK002New
     {

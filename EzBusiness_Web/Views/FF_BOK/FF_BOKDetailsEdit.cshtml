@@ -37,6 +37,7 @@
        var index5 = 1;
        $("#tablePODetails5 tbody tr").each(function (index5, item) {
            $("[name*='txtsno" + (index5 + 1) + "']").val($("[name*='hdnsno" + (index5 + 1) + "']").val());
+           $("[name*='txtCrg_code" + (index5 + 1) + "']").val($("[name*='hdnCrg_code" + (index5 + 1) + "']").val());
            $("[name*='txtCrg_name" + (index5 + 1) + "']").val($("[name*='hdnCrg_name" + (index5 + 1) + "']").val());
            $("[name*='txtIncome_GL_Code" + (index5 + 1) + "']").val($("[name*='hdnIncome_GL_Code" + (index5 + 1) +"']").val());
            $("[name*='txtExpense_GL_Code" + (index5 + 1) +"']").val($("[name*='hdnExpense_GL_Code" + (index5 + 1) +"']").val());
@@ -598,6 +599,9 @@
                 $('.selectpicker').selectpicker('refresh');
             });
         });
+        $("#tablePODetails2 tbody tr:last").find("[name*='txtsno']").val(counter2 - 1);
+        $("#tablePODetails3 tbody tr:last").find("[name*='txtsno']").val(counter3 - 1);
+        $("#tablePODetails5 tbody tr:last").find("[name*='txtsno']").val(counter5 - 1);
 
     });
 </script>
@@ -826,7 +830,14 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3 col-md-3">Job Type</label>
+                                                <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                    @Html.DropDownListFor(m => m.JOB_TYPE, Model.JobTypList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -880,7 +891,8 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })
+                                                                                @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
+                                                                                @Html.DropDownList(string.Concat("txtCont_Type", counter2), Model.ConTypList, new { @class = "grid-control" })
                                                                                 @Html.Hidden(string.Concat("hdnCont_Type", counter2), item.Cont_Type)
                                                                             </div>
                                                                         </td>
@@ -946,7 +958,8 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })
+                                                                            @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
+                                                                            @Html.DropDownList(string.Concat("txtCont_Type", counter2), Model.ConTypList, new { @class = "grid-control" })
                                                                         </div>
                                                                     </td>
                                                                     <td>

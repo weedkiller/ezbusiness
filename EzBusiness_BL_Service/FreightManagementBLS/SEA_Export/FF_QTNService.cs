@@ -131,7 +131,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.VendorList = GetVESSELList(CmpyCode);
             poEdit.CurList = GetCurcode(CmpyCode);
             poEdit.UnitcodeList = GetUnitcode(CmpyCode);
-
+            poEdit.ConTypList = GetContTyp(CmpyCode);
             poEdit.DEPARTMENTList = GetDepart(CmpyCode);
             poEdit.MoveCodeList = GetMoveCode(CmpyCode);
             poEdit.CLAUSEList = GetCLAUSE(CmpyCode);
@@ -229,6 +229,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 MoveCodeList=GetMoveCode(Cmpycode),
                 VESSELList=GetVESSELList(Cmpycode),
                 PortList=GetPortList(Cmpycode),
+                ConTypList=GetContTyp(Cmpycode),
                 EditFlag = false
             };
         }
@@ -276,6 +277,13 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         public decimal GetCurRate(string CmpyCode, string CurCode)
         {
             return _FF_QTNRepo.GetCurRate(CmpyCode, CurCode);
+        }
+         public List<SelectListItem> GetContTyp(string CmpyCode)
+        {
+            var ContTypList = _FF_QTNRepo.GetContTyp(CmpyCode)
+                                                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                  .ToList();
+            return InsertFirstElementDDL(ContTypList);
         }
     }
 }

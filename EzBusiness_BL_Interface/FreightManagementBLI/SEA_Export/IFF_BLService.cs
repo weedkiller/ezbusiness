@@ -32,12 +32,14 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 
         List<SelectListItem> GetCRG_002(string CmpyCode);
 
+        List<SelectListItem> GetContTyp(string CmpyCode);
+
         List<SelectListItem> GetCust(string CmpyCode);
 
         List<SelectListItem> GetVendor(string CmpyCode);
 
         List<SelectListItem> GetCurcode(string CmpyCode);
-
+        List<SelectListItem> GETJobTypList(string CmpyCode);
 
         List<SelectListItem> GetUnitcode(string CmpyCode);
         bool DeleteFF_BL(string CmpyCode, string FF_BL001_CODE, string UserName);

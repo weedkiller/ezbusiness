@@ -880,7 +880,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
         {
             return drop.GetCommonDrop("FFM_CRG_001_CODE as [Code],NAme as [CodeName]", "FFM_CRG_001", "CMPYCODE='" + CmpyCode + "' and Flag=0");
         }
-
+        public List<ComDropTbl> GetContTyp(string CmpyCode)
+        {
+            return drop.GetCommonDrop("FFM_CNTR_CODE as [Code],NAME as [CodeName]", "FFM_CNTR", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+        }
         public List<FFM_CRG> GetCRGINCEXP(string CmpyCode, string FFM_CRG_001_CODE)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,INCOME_ACT,EXPENSE_ACT from FFM_CRG_002 where Flag=0 and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 

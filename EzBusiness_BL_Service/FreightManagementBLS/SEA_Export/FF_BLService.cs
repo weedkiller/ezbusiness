@@ -130,12 +130,12 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.VendorList = GetVESSELList(CmpyCode);
             poEdit.CurList = GetCurcode(CmpyCode);
             poEdit.UnitcodeList = GetUnitcode(CmpyCode);
-
+            poEdit.JobTypList = GETJobTypList(CmpyCode);
             poEdit.DEPARTMENTList = GetDepart(CmpyCode);
             poEdit.MoveCodeList = GetMoveCode(CmpyCode);
             poEdit.CLAUSEList = GetCLAUSE(CmpyCode);
             poEdit.CRG_002List = GetCRG_002(CmpyCode);
-
+            poEdit.ConTypList = GetContTyp(CmpyCode);
             poEdit.SLList = GetSL(CmpyCode,"FM");
             poEdit.BILL_TOList = GetSL(CmpyCode, "FM");
             poEdit.SHIPPERList = GetSL(CmpyCode, "OP");
@@ -227,6 +227,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 UnitcodeList = GetUnitcode(Cmpycode),
                 VendorList = GetVendor(Cmpycode),
                 VOYAGEList = GetVOYAGEList(Cmpycode, "NA"),
+                JobTypList=GETJobTypList(Cmpycode),
                 SLList = GetVendor(Cmpycode),
                 CLAUSEList = GetCLAUSE(Cmpycode),
                 CRG_002List = GetCRG_002(Cmpycode),
@@ -238,6 +239,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             SHIPPERList = GetSL(Cmpycode, "OP"),
            CONSIGNEEList = GetSL(Cmpycode, "OP"),
             FORWARDERList = GetSL(Cmpycode, "OP"),
+            ConTypList=GetContTyp(Cmpycode),
             EditFlag = false
             };
         }
@@ -285,6 +287,22 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         public decimal GetCurRate(string CmpyCode, string CurCode)
         {
             return _FF_BLRepo.GetCurRate(CmpyCode, CurCode);
+        }
+
+        public List<SelectListItem> GETJobTypList(string CmpyCode)
+        {
+            var JobTypList = _FF_BLRepo.GETJobTypList(CmpyCode)
+                                                   .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                   .ToList();
+            return InsertFirstElementDDL(JobTypList);
+        }
+
+        public List<SelectListItem> GetContTyp(string CmpyCode)
+        {
+            var ContTypList = _FF_BLRepo.GetContTyp(CmpyCode)
+                                                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                  .ToList();
+            return InsertFirstElementDDL(ContTypList);
         }
     }
 }

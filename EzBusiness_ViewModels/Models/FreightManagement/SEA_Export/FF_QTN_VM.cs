@@ -67,7 +67,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
 
         public List<SelectListItem> VendorList { get; set; }
 
-
+        public List<SelectListItem> ConTypList { get; set; }
         public List<SelectListItem> CurList { get; set; }
 
         public List<SelectListItem> UnitcodeList { get; set; }

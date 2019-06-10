@@ -42,6 +42,9 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
 
         List<ComDropTbl> GetUnitcode(string CmpyCode);
 
+
+        List<ComDropTbl> GetContTyp(string CmpyCode);
+
         List<FFM_CRG> GetCRGINCEXP(string CmpyCode,string FFM_CRG_001_CODE);
         bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName);
 
