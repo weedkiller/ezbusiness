@@ -31,8 +31,6 @@
     <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
     <link href="~/Scripts/sweetalret/sweetalert2.min.css" rel="stylesheet" />    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  
 </head>
 <body>
     <div id="wrapper">
@@ -140,10 +138,6 @@
     <script src="~/Scripts/datatables/js/buttons.html5.min.js"></script>
     <script src="~/Scripts/sweetalret/sweetalert2.all.min.js"></script>
 
-    
-  
-
-   
     <script>
         $(document).ready(function () {
             
@@ -156,38 +150,39 @@
             $("#sidebar").hide();
 
             $("#sidebarCollapse").click(function () {
-                
+                debugger;
               $("#sidebar").toggle();
               //  $(this).addClass("active1");  
-               // $(this).removeClass("active1");
-               
+               // $(this).removeClass("active1");               
             });     
             $("#sidebarCollapsetemp1").click(function () {
-                $("#sidebar").toggle();
-               
+                debugger;
+                $("#sidebar").toggle();               
             });   
-          
-            jQuery.expr[':'].casecontains = (a, b, c) => jQuery(a).text().toUpperCase().indexOf(c[3].toUpperCase()) >= 0;
-            var pathname = document.location.pathname;  
-            
-            $('a[href*="' + pathname + '"]').each(function () {
-                
-                    $(this).css("background-color", "#4ECDC4");
-                    $(this).css("color", "#f2f2f2");
-                    $(this).show(); 
-                    $('#search1').val($(this).text());                                       
-                    $(".treeview li>ul").show();
-                    // first hide the div #link-content lists from view
-                    $('#link-content li').hide();
-                    // but secretly unhide the collapsed links
-                    // using .show, so the nested uls can be viewed
-                    $('#link-content li.nav-item ul').show();
-                    // then filter in the matching links only
-                    $('#link-content li:casecontains("' + $('#search1').val() + '")').show();                
-            });  
-
+            debugger;
+      jQuery.expr[':'].casecontains = (a, b, c) => jQuery(a).text().toUpperCase().indexOf(c[3].toUpperCase()) >= 0;
+      var pathname = document.location.pathname; 
+      
+    
+          $('a[href*="' + pathname + '"]').each(function () {
+              debugger;
+              $(this).css("background-color", "#4ECDC4");
+              $(this).css("color", "#f2f2f2");
+              $(this).show(); 
+              $('#search1').val($(this).text());                                       
+              $(".treeview li>ul").show();
+              // first hide the div #link-content lists from view
+              $('#link-content li').hide();
+              // but secretly unhide the collapsed links
+              // using .show, so the nested uls can be viewed
+              $('#link-content li.nav-item ul').show();
+              // then filter in the matching links only
+              $('#link-content li:casecontains("' + $('#search1').val() + '")').show();                
+          });  
+  
                   //         
-                $('.search-filter').on('keyup', function () {                    
+      $('.search-filter').on('keyup', function () {  
+                    debugger;
                     var input = $('.search-filter').val();
                     if (input.length != 0) {                          
                         $(".treeview li>ul").show();
@@ -198,7 +193,7 @@
                         $('#link-content li.nav-item ul').show();
                         // then filter in the matching links only
                         $('#link-content li:casecontains("' + input + '")').show();                           
-                    } else {
+                      } else{
                         $(".treeview li>ul").css('display', 'none');            
                         // secretly unhide the collapsed links
                         $('#link-content li.nav-item ul').hide();
@@ -206,22 +201,25 @@
                         $('#link-content li').show();
                     }
                 });
-
+      debugger;
                 var url = pathname;
                 var currentItem = $(".treeview").find("[href$='" + url + "']");
                 var path1 = "";
                 var i=0;
-                $(currentItem.parents("li").get().reverse()).each(function () {                   
+           
+                $(currentItem.parents("li").get().reverse()).each(function () {       
+                    debugger;
+               
                     if(i!=0){                       
                         path1 += "<li>" + $(this).attr('value') +"</li>";
-                    }
-                    i=i+1;
-                    
-                });
+                        $('#link-content li.nav-item ul').show();
+                     }
+                   i=i+1;                    
+                });  
+            
                 $("#hdnpath").val(path1);
-                $(".breadcrumb").html(path1);
-               
-        });
-    </script>
+                $(".breadcrumb").html(path1);                       
+    });
+</script>
 </body>
 </html>
