@@ -13,7 +13,8 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public string UPDATED_BY { get; set; }
         public DateTime UPDATED_ON { get; set; }
         public string CMPYCODE { get; set; }
-      
+        public string TRANS_TYPE { get; set; }
+        public string JOB_TYPE { get; set; }
         public string FF_BOK001_CODE { get; set; }
         public DateTime FF_BOK001_DATE { get; set; }
         public string FF_QTN001_CODE { get; set; }

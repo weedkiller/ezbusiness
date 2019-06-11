@@ -19,10 +19,10 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<FF_BOK003New> GetFF_BOK003DetailList(string CmpyCode, string FF_BOK001_CODE);
         List<FF_BOK004New> GetFF_BOK004DetailList(string CmpyCode, string FF_BOK001_CODE);
         List<FF_BOK005New> GetFF_BOK005DetailList(string CmpyCode, string FF_BOK001_CODE);
-
+        List<ComDropTbl> GetContTyp(string CmpyCode);
         List<ComDropTbl> GetMOVEList(string CmpyCode);
         List<ComDropTbl> GetVESSELList(string CmpyCode);
-
+        List<ComDropTbl> GETJobTypList(string CmpyCode);
         List<ComDropTbl> GetPortList(string CmpyCode);
         List<ComDropTbl> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE);
         List<ComDropTbl> GetSL(string CmpyCode,string Typ1);

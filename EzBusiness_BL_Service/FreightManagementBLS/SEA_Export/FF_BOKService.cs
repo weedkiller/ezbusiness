@@ -130,9 +130,10 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.VendorList = GetVESSELList(CmpyCode);
             poEdit.CurList = GetCurcode(CmpyCode);
             poEdit.UnitcodeList = GetUnitcode(CmpyCode);
-
+            poEdit.JobTypList = GETJobTypList(CmpyCode);
             poEdit.DEPARTMENTList = GetDepart(CmpyCode);
             poEdit.MoveCodeList = GetMoveCode(CmpyCode);
+            poEdit.ConTypList = GetContTyp(CmpyCode);
             poEdit.CLAUSEList = GetCLAUSE(CmpyCode);
             poEdit.CRG_002List = GetCRG_002(CmpyCode);
 
@@ -209,7 +210,13 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                                                 .ToList();
             return InsertFirstElementDDL(CLAUSEList);
         }
-
+        public List<SelectListItem> GetContTyp(string CmpyCode)
+        {
+            var ContTypList = _FF_BOKRepo.GetContTyp(CmpyCode)
+                                                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                  .ToList();
+            return InsertFirstElementDDL(ContTypList);
+        }
         public List<SelectListItem> GetCRG_002(string CmpyCode)
         {
             var CRG_002List = _FF_BOKRepo.GetCRG_002(CmpyCode)
@@ -228,6 +235,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 VendorList = GetVendor(Cmpycode),
                 VOYAGEList = GetVOYAGEList(Cmpycode, "NA"),
                 SLList = GetVendor(Cmpycode),
+                JobTypList=GETJobTypList(Cmpycode),
                 CLAUSEList = GetCLAUSE(Cmpycode),
                 CRG_002List = GetCRG_002(Cmpycode),
                 DEPARTMENTList = GetDepart(Cmpycode),
@@ -238,6 +246,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             SHIPPERList = GetSL(Cmpycode, "OP"),
            CONSIGNEEList = GetSL(Cmpycode, "OP"),
             FORWARDERList = GetSL(Cmpycode, "OP"),
+            ConTypList=GetContTyp(Cmpycode),
             EditFlag = false
             };
         }
@@ -285,6 +294,14 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         public decimal GetCurRate(string CmpyCode, string CurCode)
         {
             return _FF_BOKRepo.GetCurRate(CmpyCode, CurCode);
+        }
+
+        public List<SelectListItem> GETJobTypList(string CmpyCode)
+        {
+            var JobTypList = _FF_BOKRepo.GETJobTypList(CmpyCode)
+                                                    .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                    .ToList();
+            return InsertFirstElementDDL(JobTypList);
         }
     }
 }

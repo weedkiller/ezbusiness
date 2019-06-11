@@ -35,6 +35,7 @@
        var index5 = 1;
        $("#tablePODetails5 tbody tr").each(function (index5, item) {
            $("[name*='txtsno" + (index5 + 1) + "']").val($("[name*='hdnsno" + (index5 + 1) + "']").val());
+           $("[name*='txtCrg_code" + (index5 + 1) + "']").val($("[name*='hdnCrg_code" + (index5 + 1) + "']").val());
            $("[name*='txtCrg_name" + (index5 + 1) + "']").val($("[name*='hdnCrg_name" + (index5 + 1) + "']").val());
            $("[name*='txtIncome_GL_Code" + (index5 + 1) + "']").val($("[name*='hdnIncome_GL_Code" + (index5 + 1) +"']").val());
            $("[name*='txtExpense_GL_Code" + (index5 + 1) +"']").val($("[name*='hdnExpense_GL_Code" + (index5 + 1) +"']").val());
@@ -64,7 +65,7 @@
            index5 = index5 + 1;
        });
 
-       $("#tablePODetails5 tbody tr:last").find("[name*='txtsno']").val(counter5);
+      // $("#tablePODetails5 tbody tr:last").find("[name*='txtsno']").val(counter5);
 
        var counter4 = parseInt($("#hdnCounter4").val());
        $("#tablePODetails4").on("click", "[name*='btnDelete']", function () {
@@ -105,7 +106,7 @@
            index3 = index3 + 1;
        });
 
-       $("#tablePODetails3 tbody tr:last").find("[name*='txtsno']").val(counter3);
+      // $("#tablePODetails3 tbody tr:last").find("[name*='txtsno']").val(counter3);
        var index2 = 1;
        var counter2 = $('#hdnCounter2').val();
        $("#tablePODetails2 tbody tr").each(function (index2, item) {
@@ -123,7 +124,7 @@
 
            index2 = index2 + 1;
        });
-       $("#tablePODetails2 tbody tr:last").find("[name*='txtsno']").val(counter2);
+    //   $("#tablePODetails2 tbody tr:last").find("[name*='txtsno']").val(counter2);
        var counter3 = parseInt($("#hdnCounter3").val());
        $("#tablePODetails3").on("click", "[name*='btnDelete']", function () {
            $(this).closest("tr").remove();
@@ -593,7 +594,9 @@
                 $('.selectpicker').selectpicker('refresh');
             });
         });
-
+        $("#tablePODetails2 tbody tr:last").find("[name*='txtsno']").val(counter2 - 1);
+        $("#tablePODetails3 tbody tr:last").find("[name*='txtsno']").val(counter3 - 1);
+        $("#tablePODetails5 tbody tr:last").find("[name*='txtsno']").val(counter5 - 1);
     });
 </script>
 
@@ -902,7 +905,8 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })
+                                                                                @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
+                                                                                @Html.DropDownList(string.Concat("txtCont_Type", counter2), Model.ConTypList, new { @class = "grid-control" })
                                                                                 @Html.Hidden(string.Concat("hdnCont_Type", counter2), item.Cont_Type)
                                                                             </div>
                                                                         </td>
@@ -968,7 +972,8 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="grid-group">
-                                                                            @Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })
+                                                                            @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
+                                                                            @Html.DropDownList(string.Concat("txtCont_Type", counter2), Model.ConTypList, new { @class = "grid-control" })
                                                                         </div>
                                                                     </td>
                                                                     <td>
