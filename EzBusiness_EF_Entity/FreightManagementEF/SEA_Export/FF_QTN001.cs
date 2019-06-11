@@ -41,5 +41,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public string FDZIP { get; set; }
 
         public string FDSTATE { get; set; }
+
+        public string Commodity_code { get; set; }
     }
 }

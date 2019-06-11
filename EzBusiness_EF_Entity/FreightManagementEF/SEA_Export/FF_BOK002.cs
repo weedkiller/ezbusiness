@@ -21,6 +21,7 @@ public string FF_BOK001_CODE { get; set; }
         public Decimal KG { get; set; }
         public Decimal CFT { get; set; }
         public Decimal CBM { get; set; }
-       
+        public string Commodity_code { get; set; }
+
     }
 }

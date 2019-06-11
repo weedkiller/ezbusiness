@@ -47,7 +47,8 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 LBS = m.LBS,
                 No_of_qty = m.No_of_qty,
                 Seal1 = m.Seal1,
-                sno = m.sno
+                sno = m.sno,
+                Commodity_code=m.Commodity_code
 
             }).ToList();
         }
@@ -127,7 +128,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.FF_BOK005Detail = GetFF_BOK005DetailList(CmpyCode, FF_BOK001_CODE);
             poEdit.PortList = GetPortList(CmpyCode);
             poEdit.CustList = GetCust(CmpyCode);
-            poEdit.VendorList = GetVESSELList(CmpyCode);
+            poEdit.VendorList = GetVendor(CmpyCode);
             poEdit.CurList = GetCurcode(CmpyCode);
             poEdit.UnitcodeList = GetUnitcode(CmpyCode);
             poEdit.JobTypList = GETJobTypList(CmpyCode);
@@ -136,7 +137,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.ConTypList = GetContTyp(CmpyCode);
             poEdit.CLAUSEList = GetCLAUSE(CmpyCode);
             poEdit.CRG_002List = GetCRG_002(CmpyCode);
-
+            poEdit.Commodityist = GetCommodityistList(CmpyCode);
             poEdit.SLList = GetSL(CmpyCode,"FM");
             poEdit.BILL_TOList = GetSL(CmpyCode, "FM");
             poEdit.SHIPPERList = GetSL(CmpyCode, "OP");
@@ -220,8 +221,8 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         public List<SelectListItem> GetCRG_002(string CmpyCode)
         {
             var CRG_002List = _FF_BOKRepo.GetCRG_002(CmpyCode)
-                                           .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
-                                           .ToList();
+                                          .Select(m => new SelectListItem { Value = m.FFM_CRG_JOB_CODE, Text = string.Concat(m.FFM_CRG_JOB_CODE, " - ", m.FFM_CRG_JOB_NAME, " - ", m.INCOME_ACT, " - ", m.EXPENSE_ACGT) })
+                                          .ToList();
             return InsertFirstElementDDL(CRG_002List);
         }
 
@@ -247,6 +248,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
            CONSIGNEEList = GetSL(Cmpycode, "OP"),
             FORWARDERList = GetSL(Cmpycode, "OP"),
             ConTypList=GetContTyp(Cmpycode),
+            Commodityist=GetCommodityistList(Cmpycode),
             EditFlag = false
             };
         }
@@ -262,7 +264,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         public List<SelectListItem> GetCust(string CmpyCode)
         {
             var CustList = _FF_BOKRepo.GetCust(CmpyCode)
-                                                     .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                     .Select(m => new SelectListItem { Value = m.CUSTOMER_CODE, Text = string.Concat(m.CUSTOMER_CODE, " - ", m.CUSTOMER_NAME, " - ", m.CONTROL_ACT) })
                                                      .ToList();
             return InsertFirstElementDDL(CustList);
         }
@@ -270,7 +272,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         public List<SelectListItem> GetVendor(string CmpyCode)
         {
             var VendorList = _FF_BOKRepo.GetCust(CmpyCode)
-                                                      .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                      .Select(m => new SelectListItem { Value = m.CUSTOMER_CODE, Text = string.Concat(m.CUSTOMER_CODE, " - ", m.CUSTOMER_NAME, " - ", m.CONTROL_ACT) })
                                                       .ToList();
             return InsertFirstElementDDL(VendorList);
         }
@@ -302,6 +304,13 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                                                     .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                     .ToList();
             return InsertFirstElementDDL(JobTypList);
+        }
+        public List<SelectListItem> GetCommodityistList(string CmpyCode)
+        {
+            var CommodityList = _FF_BOKRepo.GetCommodityistList(CmpyCode)
+                                                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                  .ToList();
+            return InsertFirstElementDDL(CommodityList);
         }
     }
 }

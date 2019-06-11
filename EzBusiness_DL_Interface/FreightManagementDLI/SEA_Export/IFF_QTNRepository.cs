@@ -21,6 +21,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE);
 
         List<ComDropTbl> GetMOVEList(string CmpyCode);
+        List<ComDropTbl> GetCommodityistList(string CmpyCode);
         List<ComDropTbl> GetVESSELList(string CmpyCode);
 
         List<ComDropTbl> GetPortList(string CmpyCode);
@@ -29,12 +30,12 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<ComDropTbl> GetDepart(string CmpyCode);
         List<ComDropTbl> GetCLAUSE(string CmpyCode);
 
-        List<ComDropTbl> GetCRG_002(string CmpyCode);
+        List<FFM_CRG> GetCRG_002(string CmpyCode);
 
 
-        List<ComDropTbl> GetCust(string CmpyCode);
+        List<ComDropTbl1> GetCust(string CmpyCode);
 
-        List<ComDropTbl> GetVendor(string CmpyCode);
+        List<ComDropTbl1> GetVendor(string CmpyCode);
 
 
         List<ComDropTbl> GetCurcode(string CmpyCode);

@@ -49,6 +49,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal Total_Cost { get; set; }
         public Decimal Total_Billed { get; set; }
         public Decimal Total_Profit { get; set; }
+        public string Commodity_code { get; set; }
         public bool SaveFlag { get; set; }
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
@@ -87,6 +88,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public List<SelectListItem> FORWARDERList { get; set; }
         public List<SelectListItem> JobTypList { get; set; }
         public List<SelectListItem> ConTypList { get; set; }
+        public List<SelectListItem> Commodityist { get; set; }
         public string JOB_TYPE { get; set; }
         public string TRANS_TYPE { get; set; }
     }
@@ -102,6 +104,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal KG { get; set; }
         public Decimal CFT { get; set; }
         public Decimal CBM { get; set; }
+        public string Commodity_code { get; set; }
     }
     public class FF_BOK003New
     {

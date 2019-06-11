@@ -20,5 +20,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public Decimal KG { get; set; }
         public Decimal CFT { get; set; }
         public Decimal CBM { get; set; }
+
+        public string Commodity_code { get; set; }
     }
 }
