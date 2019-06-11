@@ -115,8 +115,11 @@
                     DISPLAY_STATUS: $("[name*='DISPLAY_STATUS'] option:selected").val(),
                     FFM_CRG_001_CODE: $("[name*='FFM_CRG_001_CODE']").val(),
                     NAME: $("[name*='NAME']").val(),
+                    //Name_Arabic: $("[name*='Name_Arabic']"),
                     crgnewDetails: []
                 };
+
+
                 var SNO = 0;
                 $("#tablePODetails tbody tr").each(function (index, item) {
                     debugger;
@@ -126,7 +129,7 @@
                     var OPERATION_TYPE = $(this).find("[name*='OPERATION_TYPE'] option:selected").val();
                     var INCOME_ACT = $(this).find("[name*='txtincomeact'] option:selected").val();
                     var EXPENSE_ACGT = $(this).find("[name*='txtexpenceacgt'] option:selected").val();
-                 
+                    var arabic_name = $(this).find("[name*='txtArabicname']").val();
                     if (FFM_CRG_JOB_NAME != "") {
                         SNO = SNO + 1;
                         var FNM_unitDetail = {
@@ -137,7 +140,7 @@
                             OPERATION_TYPE: OPERATION_TYPE,
                             INCOME_ACT: INCOME_ACT,
                             EXPENSE_ACGT: EXPENSE_ACGT,
-                         
+                            Arabic_Name: arabic_name,
                         };
                         CR.crgnewDetails.push(FNM_unitDetail);
                     }
@@ -188,7 +191,7 @@
                         var OPERATION_TYPE = $(this).find("[name*='OPERATION_TYPE'] option:selected").val();
                         var INCOME_ACT = $(this).find("[name*='INCOME_ACT'] option:selected").val();
                         var EXPENSE_ACGT = $(this).find("[name*='EXPENSE_ACGT'] option:selected").val();
-
+                        var arabic_name = $(this).find("[name*='FFM_CRG_Arabic_NAME']").val();
                         if (FFM_CRG_JOB_NAME !="") {
                             SNO = SNO + 1;
                             var FNM_unitDetail = {
@@ -198,7 +201,7 @@
                                 OPERATION_TYPE: OPERATION_TYPE,
                                 INCOME_ACT: INCOME_ACT,
                                 EXPENSE_ACGT: EXPENSE_ACGT,
-
+                                Arabic_Name:arabic_name
                             };
                             CR.crgnewDetails.push(FNM_unitDetail);
                         }

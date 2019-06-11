@@ -54,6 +54,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 INCOME_ACT = m.INCOME_ACT,
                 EXPENSE_ACGT = m.EXPENSE_ACGT,
                 FFM_CRG_001_CODE = m.FFM_CRG_001_CODE,
+                Arabic_Name=m.Arabic_Name
               //  SailingHrs = m.SailingHrs,
 
             }).ToList();

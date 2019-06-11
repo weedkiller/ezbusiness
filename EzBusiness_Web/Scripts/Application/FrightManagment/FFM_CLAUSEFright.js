@@ -346,7 +346,6 @@
                         cancelButtonClass: 'btn btn-danger',
                         buttonsStyling: false,
                     })
-
                     swalWithBootstrapButtons.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",
@@ -411,12 +410,10 @@
                     $(this).html('<span class="glyphicon glyphicon-trash"></span>');
                     $(this).attr('title', 'Delete');
                     hdnEditMode.val("false");
-
                     tableDis("F");
                 }
             }
         });
-
 
         var k = 0;
         function tableDis(k) {
@@ -429,7 +426,6 @@
                 $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
                 $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
                 $("#btnAdd").prop('disabled', false);
-
             }
         }
 

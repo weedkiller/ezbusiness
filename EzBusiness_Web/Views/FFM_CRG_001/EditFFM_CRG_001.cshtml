@@ -42,8 +42,9 @@
             $("[name*='INCOME_ACT" + (index3 + 1) + "']").val($("[name*='hdnINCOME_ACT" + (index3 + 1) + "']").val());
            
             $("[name*='EXPENSE_ACGT" + (index3 + 1) + "']").val($("[name*='hdnEXPENSE_ACGT" + (index3 + 1) + "']").val());
+            $("[name*='FFM_CRG_Arabic_NAME" + (index3 + 1) + "']").val($("[name*='hdnFFM_CRG_Arabic_NAME" + (index3 + 1) + "']").val());
 
-            index3 = index3 + 1;
+            index3 = index3 + 1; 
         });
       
         $("#tablePODetails tbody tr:last").find("[name*='SNO']").val(counter);
@@ -209,6 +210,7 @@
                                                             <th>Operation Type</th>
                                                             <th>Income Act</th>
                                                             <th>Expense ACGT</th>
+                                                            <th>Arabic Name</th>
 
                                                         </tr>
                                                     </thead>
@@ -218,7 +220,7 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control" ,@Readonly= "Readonly" })
+                                                                        @Html.TextBox(string.Concat("SNO", counter), null, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                         @Html.Hidden(string.Concat("hdnSNO", counter), item.SNO)
                                                                         @*@Html.Label(item.SNO.ToString())*@
                                                                     </div>
@@ -259,13 +261,19 @@
                                                                     </div>
                                                                 </td>
                                                                 <td>
-                                                                    <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                    <div class="grid-group">
+                                                                        @*@Html.DropDownList(string.Concat("PORT", counter), Model.PortList, new { @class = "grid-control" })*@
+                                                                        @Html.TextBox(string.Concat("FFM_CRG_Arabic_NAME", counter), null, new { @class = "grid-control" })
+                                                                        @Html.Hidden(string.Concat("hdnFFM_CRG_Arabic_NAME", counter), item.Arabic_Name)
+                                                                    </div>
                                                                 </td>
+                                                                <td>
+                                                                    <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete", counter)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                </td>
+                                                              
                                                             </tr>
                                                             counter++;
                                                         }
-                                                       
-                                                          
                                                         <tr>
 
                                                             <td>

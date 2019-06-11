@@ -20,7 +20,6 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
     {
         DataSet ds = null;
         DataTable dt = null;
-
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
         public bool DeleteFFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE,  string UserName)
         {
@@ -127,6 +126,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             DISPLAY_STATUS = m.DISPLAY_STATUS,
                             INCOME_ACT = m.INCOME_ACT,
                             EXPENSE_ACGT = m.EXPENSE_ACGT,
+                            Name_Arabic=m.Arabic_Name,
                         }).ToList());
                     }
                   
@@ -153,15 +153,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + ObjList[n - 1].INCOME_ACT + "',");
                             sb.Append("'" + ObjList[n - 1].EXPENSE_ACGT + "',");                          
                             sb.Append("'" + FCur.DISPLAY_STATUS + "',");
+                            sb.Append("'" + ObjList[n - 1].Name_Arabic + "',");
                             sb.Append("'" + FCur.CMPYCODE + "')");                        
-                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,DISPLAY_STATUS,cmpycode) values(" + sb.ToString() + "");
+                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,DISPLAY_STATUS,name_arabic,cmpycode) values(" + sb.ToString() + "");
                             _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Charge", ObjList[n - 1].FFM_CRG_001_CODE, Environment.MachineName);
-
                         }
                         else
                         {
                             Drecord.Add(FCur.FFM_CRG_001_CODE.ToString());
-                            //  branch.Drecord = Drecord;
+                            //branch.Drecord = Drecord;
                             FCur.SaveFlag = false;
                             FCur.ErrorMessage = "Duplicate Record";
                         }
@@ -232,6 +232,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                                     DISPLAY_STATUS = m.DISPLAY_STATUS,
                                     INCOME_ACT = m.INCOME_ACT,
                                     EXPENSE_ACGT = m.EXPENSE_ACGT,
+                                    Name_Arabic = m.Arabic_Name,
 
                                 }).ToList());
                             }
@@ -251,9 +252,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                                 sb1.Append("'" + ObjList[n - 1].OPERATION_TYPE + "',");
                                 sb1.Append("'" + ObjList[n - 1].INCOME_ACT + "',");
                                 sb1.Append("'" + ObjList[n - 1].EXPENSE_ACGT + "',");
+                                sb1.Append("'" + ObjList[n - 1].Name_Arabic + "',");
                                 sb1.Append("'" + FCur.DISPLAY_STATUS + "',");
                                 sb1.Append("'" + FCur.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,name_arabic,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
                                 //_EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Voyage", ObjList[n - 1].FFM_VOYAGE01_CODE, Environment.MachineName);
 
                                 // _EzBusinessHelper.ExecuteNonQuery("insert into FFM_VOYAGE02(ffm_VOYAGE01_CODE,SNO,ROTATION,PORT,ETA,ETB,ETD,PORT_STAY_HRS,SAILING_HRS,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
@@ -305,7 +307,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         public List<FFM_CRG_Details> GetCRGDetailList(string CmpyCode, string CRGCode)
         {
             List<FFM_CRG_Details> ObjList = null;
-            ds = _EzBusinessHelper.ExecuteDataSet("select SNO,FFM_CRG_JOB_CODE,FFM_CRG_001_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT from FFM_CRG_002 where cmpycode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + CRGCode + "' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("select SNO,FFM_CRG_JOB_CODE,FFM_CRG_001_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,name_arabic from FFM_CRG_002 where cmpycode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + CRGCode + "' and Flag=0");
             if (ds.Tables.Count > 0)
             {
                 dt = ds.Tables[0];
@@ -323,7 +325,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         EXPENSE_ACGT = dr["EXPENSE_ACT"].ToString(),
                         FFM_CRG_001_CODE = dr["FFM_CRG_001_CODE"].ToString(),
                         // SailingHrs = Convert.ToInt32(dr["SAILING_HRS"].ToString()),
-
+                        Arabic_Name = dr["name_arabic"].ToString(),
                     });
 
                 }

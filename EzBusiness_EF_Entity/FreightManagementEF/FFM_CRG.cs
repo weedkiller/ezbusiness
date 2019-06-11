@@ -28,7 +28,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF
        // public string DISPLAY_STATUS { get; set; }
         public string INCOME_ACT { get; set; }
         public string EXPENSE_ACGT { get; set; }
-       
+       public string Name_Arabic { get; set; }
 
     }
 }
