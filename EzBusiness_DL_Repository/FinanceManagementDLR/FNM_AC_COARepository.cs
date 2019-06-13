@@ -114,8 +114,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb.Append("'" + ac.MASTER_STATUS + "',");
                         sb.Append("'" + ac.NOTE + "',");
                         sb.Append("'" + ac.NATURE + "',");
+                        sb.Append("'" + ac.Name_Arabic + "',");
                         sb.Append("'" + ac.PL_BS + "')");
-                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(CMPYCODE,FNM_AC_COA_CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_TYPE,SUBLEDGER_TYPE,SUBLEDGER_CAT,MASTER_STATUS,NOTE,NATURE,PL_BS) values(" + sb.ToString() + "");
+                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(CMPYCODE,FNM_AC_COA_CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_TYPE,SUBLEDGER_TYPE,SUBLEDGER_CAT,MASTER_STATUS,NOTE,NATURE,Name_Arabic,PL_BS) values(" + sb.ToString() + "");
                         _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Add FNM_AC_COA", ac.CODE, Environment.MachineName);
                         ac.SaveFlag = true;
                         ac.ErrorMessage = string.Empty;
@@ -147,10 +148,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     sb.Append("SUBLEDGER_CAT='" + ac.SUBLEDGER_CAT + "',");
                     sb.Append("NOTE='" + ac.NOTE + "',");
                     sb.Append("NATURE='" + ac.NATURE + "',");
+                    sb.Append("Name_Arabic='" + ac.Name_Arabic + "',");
                     sb.Append("PL_BS='" + ac.PL_BS + "'");
                     _EzBusinessHelper.ExecuteNonQuery("update FNM_AC_COA set  " + sb + " where CMPYCODE='" + ac.COMPANY_UID + "' and  FNM_AC_COA_CODE='" + ac.CODE + "' and Flag=0");
                     _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Update FNM_AC_COA", ac.CODE, Environment.MachineName);
-
                     ac.SaveFlag = true;
                     ac.ErrorMessage = string.Empty;
                 }
@@ -159,12 +160,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     ac.SaveFlag = false;
                     ac.ErrorMessage = "Record not available";
                 }
-
             }
             catch (Exception ex)
             {
                 ac.SaveFlag = false;
-
 
             }
 
@@ -173,7 +172,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public FNM_AC_COA_VM EditFNM_AC_COA(string CmpyCode, string Code)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_AC_COA where CMPYCODE='" + CmpyCode + "' and FNM_AC_COA_CODE='" + Code + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select CMPYCODE,FNM_AC_COA_CODE,NAME,Head_code,group_code,SUBGROUP_code,COA_TYPE,SUBLEDGER_TYPE,SUBLEDGER_CAT,MASTER_STATUS,NOTE,NATURE,Name_Arabic,PL_BS from FNM_AC_COA where CMPYCODE='" + CmpyCode + "' and FNM_AC_COA_CODE='" + Code + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FNM_AC_COA_VM ObjList = new FNM_AC_COA_VM();
@@ -192,6 +191,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 ObjList.MASTER_STATUS = dr["MASTER_STATUS"].ToString();
                 ObjList.NOTE = dr["NOTE"].ToString();
                 ObjList.NATURE = dr["NATURE"].ToString();
+                ObjList.Name_Arabic = dr["Name_Arabic"].ToString();
                 ObjList.PL_BS = dr["PL_BS"].ToString();
             }
             return ObjList;

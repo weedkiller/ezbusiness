@@ -41,7 +41,6 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public bool EditFlag { get; set; }       
         public string ErrorMessage { get; set; }
         public string UserName { get; set; }
-   
-       
+        public string Name_Arabic { get; set; }                  
     }
 }

@@ -66,7 +66,6 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
         }
 
-
         [Route("DeleteAccountTypeS")]
         public ActionResult DeleteAccountType(string Code)
         {
@@ -110,8 +109,6 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(_FNM_AC_COAService.SaveFNM_AC_COA(FNM), JsonRequestBehavior.AllowGet);
             }
         }
-
-
         #endregion
     }
 }
