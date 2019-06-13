@@ -10,5 +10,6 @@ namespace EzBusiness_EF_Entity
     {
         public string Code { get; set; }
         public string CodeName { get; set; }
+        
     }
 }

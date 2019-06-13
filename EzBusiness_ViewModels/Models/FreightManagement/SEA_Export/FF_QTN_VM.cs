@@ -51,6 +51,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public DateTime EFFECT_UPTO { get; set; }
         public string DEPARTMENT { get; set; }
 
+        public string Commodity_code { get; set; }
         public List<SelectListItem> DEPARTMENTList { get; set; }
         public List<SelectListItem> CLAUSEList { get; set; }
         public List<SelectListItem> CRG_002List { get; set; }
@@ -71,6 +72,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public List<SelectListItem> CurList { get; set; }
 
         public List<SelectListItem> UnitcodeList { get; set; }
+        public List<SelectListItem> Commodityist { get; set; }
 
         public Decimal Total_Cost { get; set; }
         public Decimal Total_Billed { get; set; }
@@ -100,6 +102,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public int sno { get; set; }
         public string Container { get; set; }
         public string Cont_Type { get; set; }
+        public string Commodity_code { get; set; }
         public int Seal1 { get; set; }
         public int No_of_qty { get; set; }
         public string Contents { get; set; }

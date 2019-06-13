@@ -44,5 +44,8 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public Decimal Total_Cost { get; set; }
         public Decimal Total_Billed { get; set; }
         public Decimal Total_Profit { get; set; }
+
+
+        public string Commodity_code { get; set; }
     }
 }

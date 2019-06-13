@@ -26,8 +26,8 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<SelectListItem> GetPortList(string CmpyCode);
         List<SelectListItem> GetVESSELList(string CmpyCode);
         List<SelectListItem> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE);
-        List<SelectListItem> GetSL(string CmpyCode, string typ1);
-
+        List<SelectListItem> GetSL(string CmpyCode, string typ1);        
+        List<SelectListItem> GetCommodityistList(string CmpyCode);
         List<SelectListItem> GetCLAUSE(string CmpyCode);
 
         List<SelectListItem> GetCRG_002(string CmpyCode);

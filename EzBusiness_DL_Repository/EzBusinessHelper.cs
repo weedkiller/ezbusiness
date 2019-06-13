@@ -17,7 +17,7 @@ namespace EzBusiness_DL_Repository
     public class EzBusinessHelper
     {
         SqlConnection cn = null;
-        string connStr;
+        string connStr, connStr1;
         SqlCommand cmd = null;
         SqlDataAdapter da = null;
         SqlTransaction trans = null;
@@ -31,6 +31,8 @@ namespace EzBusiness_DL_Repository
             try
             {
                 connStr = ConfigurationManager.ConnectionStrings["UMNIAHConn"].ToString();
+
+                connStr1 = ConfigurationManager.ConnectionStrings["UMNIAHConn1"].ToString();
                 //using (SqlConnection cn = new SqlConnection())
                 //{
                 //    cn.Open();
@@ -42,7 +44,7 @@ namespace EzBusiness_DL_Repository
                 //else
                 //{
                 //    cn.Open();
-                   
+
 
                 //}
             }
@@ -51,7 +53,33 @@ namespace EzBusiness_DL_Repository
                 errormsg=ex.Message;
             }           
         }
-      
+
+        public DataSet ExecuteDataSet1(string sqlCommandText)
+        {
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connStr))
+                {
+
+                    //if (cn.State != ConnectionState.Open)
+                    cn.Open();
+
+                    da = new SqlDataAdapter(sqlCommandText, cn);
+                    da.SelectCommand.CommandTimeout = 0;
+                    ds = new DataSet();
+                    da.Fill(ds);
+                }
+            }
+            catch (Exception ex)
+            {
+                errormsg = ex.Message;
+            }
+
+            return ds;
+
+
+        }
         public DataSet ExecuteDataSet(string sqlCommandText)
         {
            

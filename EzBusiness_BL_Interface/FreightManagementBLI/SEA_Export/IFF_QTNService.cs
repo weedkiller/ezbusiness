@@ -22,6 +22,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE);
         List<SelectListItem> GetMoveCode(string CmpyCode);
 
+        List<SelectListItem> GetCommodityistList(string CmpyCode);
         List<SelectListItem> GetDepart(string CmpyCode);
         List<SelectListItem> GetContTyp(string CmpyCode);
         List<SelectListItem> GetPortList(string CmpyCode);

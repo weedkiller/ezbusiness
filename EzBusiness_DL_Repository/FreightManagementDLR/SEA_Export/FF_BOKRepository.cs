@@ -83,7 +83,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<FF_BOK002New> GetFF_BOK002DetailList(string CmpyCode, string FF_BOK001_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_BOK002 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Commodity_code,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_BOK002 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FF_BOK002New> ObjList = new List<FF_BOK002New>();
@@ -100,7 +100,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     LBS = Convert.ToDecimal(dr["LBS"].ToString()),
                     No_of_qty = Convert.ToInt32(dr["No_of_qty"].ToString()),
                     Seal1 = Convert.ToInt32(dr["Seal1"].ToString()),
-                    sno = Convert.ToInt32(dr["sno"].ToString())
+                    sno = Convert.ToInt32(dr["sno"].ToString()),
+                    Commodity_code=dr["Commodity_code"].ToString()
 
 
                 });
@@ -196,7 +197,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public FF_BOK_VM GetFF_BOKDetailsEdit(string CmpyCode, string FF_BOK001_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select TRANS_TYPE,JOB_TYPE,FORWARDER,SHIPPER,PLACE_OF_RCPT,FF_QTN001_CODE,FF_BOK001_DATE,DELIVERY_AT,CARRIER,BILL_TO,DEPARTMENT,FF_BOK001_CODE,ETD,ETA,FND,MOVE_TYPE,PICKUP_PLACE,POD,POL,REF_NO,Total_Billed,Total_Cost,Total_Profit,VESSEL,VOYAGE,CONSIGNEE from FF_BOK001 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Commodity_code,TRANS_TYPE,JOB_TYPE,FORWARDER,SHIPPER,PLACE_OF_RCPT,FF_QTN001_CODE,FF_BOK001_DATE,DELIVERY_AT,CARRIER,BILL_TO,DEPARTMENT,FF_BOK001_CODE,ETD,ETA,FND,MOVE_TYPE,PICKUP_PLACE,POD,POL,REF_NO,Total_Billed,Total_Cost,Total_Profit,VESSEL,VOYAGE,CONSIGNEE from FF_BOK001 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FF_BOK_VM ObjList = new FF_BOK_VM();
@@ -230,6 +231,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.FF_BOK001_DATE = Convert.ToDateTime(dr["FF_BOK001_DATE"].ToString());
                 ObjList.FORWARDER = dr["FORWARDER"].ToString();
                 ObjList.PLACE_OF_RCPT = dr["PLACE_OF_RCPT"].ToString();
+                ObjList.Commodity_code = dr["Commodity_code"].ToString();
            
 
 
@@ -280,6 +282,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 No_of_qty = m.No_of_qty,
                                 Seal1 = m.Seal1,
                                 sno = m.sno,
+                                Commodity_code=m.Commodity_code,
                             }).ToList());
                         }
 
@@ -381,8 +384,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 sb.Append("'" + ObjList[n - 1].No_of_qty + "',");
                                 sb.Append("'" + ObjList[n - 1].Seal1 + "',");
                                 sb.Append("'" + ObjList[n - 1].sno + "',");
+                                sb.Append("'" + ObjList[n - 1].Commodity_code + "',");
                                 sb.Append("'" + FQV.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK002(FF_BOK001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,cmpycode) values(" + sb.ToString() + "");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK002(FF_BOK001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,Commodity_code,cmpycode) values(" + sb.ToString() + "");
                                 //_EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Add FFM Charge", ObjList[n - 1].FF_BOK001_CODE, Environment.MachineName);
 
                             }
@@ -520,10 +524,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         sb4.Append("'" + FQV.Total_Billed + "',");
                         sb4.Append("'" + FQV.JOB_TYPE + "',");
                         sb4.Append("'" + FQV.TRANS_TYPE + "',");
-                        
+                        sb4.Append("'" + FQV.Commodity_code + "',");
                         sb4.Append("'" + FQV.Total_Profit + "')");
 
-                        i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_BOK001_CODE,FF_BOK001_DATE,FF_QTN001_CODE,BILL_TO,SHIPPER,CONSIGNEE,FORWARDER,PICKUP_PLACE,POL,POD,FND,PLACE_OF_RCPT,MOVE_TYPE,DELIVERY_AT,REF_NO,VESSEL,VOYAGE,ETD,ETA,CARRIER,DEPARTMENT,Total_Cost,Total_Billed,JOB_TYPE,TRANS_TYPE,Total_Profit) values(" + sb4.ToString() + "");
+                        i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_BOK001_CODE,FF_BOK001_DATE,FF_QTN001_CODE,BILL_TO,SHIPPER,CONSIGNEE,FORWARDER,PICKUP_PLACE,POL,POD,FND,PLACE_OF_RCPT,MOVE_TYPE,DELIVERY_AT,REF_NO,VESSEL,VOYAGE,ETD,ETA,CARRIER,DEPARTMENT,Total_Cost,Total_Billed,JOB_TYPE,TRANS_TYPE,Commodity_code,Total_Profit) values(" + sb4.ToString() + "");
 
                         #endregion
                         _EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Update FF BOK", FQV.FF_BOK001_CODE, Environment.MachineName);
@@ -581,7 +585,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             FQT1.VOYAGE = FQV.VOYAGE;
                             FQT1.JOB_TYPE = FQV.JOB_TYPE;
                             FQT1.TRANS_TYPE = FQV.TRANS_TYPE;
-
+                            FQT1.Commodity_code = FQV.Commodity_code;
 
                             _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK002 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "'");
                             _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK003 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "'");
@@ -604,6 +608,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     No_of_qty = m.No_of_qty,
                                     Seal1 = m.Seal1,
                                     sno = m.sno,
+                                    Commodity_code=m.Commodity_code,
                                 }).ToList());
                             }
 
@@ -703,8 +708,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb5.Append("'" + ObjList[n - 1].No_of_qty + "',");
                                     sb5.Append("'" + ObjList[n - 1].Seal1 + "',");
                                     sb5.Append("'" + ObjList[n - 1].sno + "',");
+                                    sb5.Append("'" + ObjList[n - 1].Commodity_code + "',");
                                     sb5.Append("'" + FQV.CMPYCODE + "')");
-                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK002(FF_BOK001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,cmpycode) values(" + sb5.ToString() + "");
+                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK002(FF_BOK001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,Commodity_code,cmpycode) values(" + sb5.ToString() + "");
                                     //_EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Add FFM Charge", ObjList[n - 1].FF_BOK001_CODE, Environment.MachineName);
 
                                 }
@@ -838,7 +844,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb9.Append("Total_Billed='" + FQV.Total_Billed + "',");
                             sb9.Append("JOB_TYPE='" + FQV.JOB_TYPE + "',");
                             sb9.Append("TRANS_TYPE='" + FQV.TRANS_TYPE + "',");
-                            
+                            sb9.Append("Commodity_code='" + FQV.Commodity_code + "',");
                             sb9.Append("Total_Profit='" + FQV.Total_Profit + "'");
 
 
@@ -894,9 +900,24 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return drop.GetCommonDrop("FFM_CLAUSE_CODE as [Code],NAME as [CodeName]", "FFM_CLAUSE", "CMPYCODE='" + CmpyCode + "' and Flag=0");
         }
 
-        public List<ComDropTbl> GetCRG_002(string CmpyCode)
+        public List<FFM_CRG> GetCRG_002(string CmpyCode)
         {
-            return drop.GetCommonDrop("FFM_CRG_001_CODE as [Code],NAme as [CodeName]", "FFM_CRG_001", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet1("SELECT  H.FFM_CRG_001_CODE CHARGE_CODE, H.NAME CHARGE_NAME,D.INCOME_ACT ,D.EXPENSE_ACT   FROM FFM_CRG_001 H INNER JOIN FFM_CRG_002 D ON H.FFM_CRG_001_CODE=D.FFM_CRG_001_CODE and H.flag=d.flag where D.operation_type='SEA' and h.cmpycode='" + CmpyCode + "' and D.flag=0");// CMPYCODE='" + CmpyCode + "' and 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FFM_CRG> ObjList = new List<FFM_CRG>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FFM_CRG()
+                {
+                    FFM_CRG_JOB_CODE = dr["CHARGE_CODE"].ToString(),
+                    FFM_CRG_JOB_NAME = dr["CHARGE_NAME"].ToString(),
+                    INCOME_ACT = dr["INCOME_ACT"].ToString(),
+                    EXPENSE_ACGT = dr["EXPENSE_ACT"].ToString(),
+
+                });
+            }
+            return ObjList;
         }
         public List<ComDropTbl> GetContTyp(string CmpyCode)
         {
@@ -927,14 +948,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return drop.GetCommonDrop("FFM_PORT_CODE as [Code],NAME as [CodeName]", "FFM_PORT", "CMPYCODE='" + CmpyCode + "' and Flag=0");
         }
 
-        public List<ComDropTbl> GetCust(string CmpyCode)
+        public List<ComDropTbl1> GetCust(string CmpyCode)
         {
-            return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "SUBLEDGER_TYPE='OP' and CMPYCODE='" + CmpyCode + "' and Flag=0");
+            return drop.GetCommonDrop1("A.FNM_SL1001_CODE CUSTOMER_CODE,A.Name CUSTOMER_NAME,B.COA_CODE CONTROL_ACT", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='ARP' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0");
         }
 
-        public List<ComDropTbl> GetVendor(string CmpyCode)
+        public List<ComDropTbl1> GetVendor(string CmpyCode)
         {
-            return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "SUBLEDGER_TYPE='FM' and CMPYCODE='" + CmpyCode + "' and Flag=0");
+            return drop.GetCommonDrop1("A.FNM_SL1001_CODE CUSTOMER_CODE,A.Name CUSTOMER_NAME,B.COA_CODE CONTROL_ACT", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='APP' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0");
         }
 
         public List<ComDropTbl> GetCurcode(string CmpyCode)
@@ -959,6 +980,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
         public List<ComDropTbl> GETJobTypList(string CmpyCode)
         {
             return drop.GetCommonDrop("FFM_JOB_CODE as [Code],NAME as [CodeName]", "FFM_JOB", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+        }
+        public List<ComDropTbl> GetCommodityistList(string CmpyCode)
+        {
+            return drop.GetCommonDrop("FFM_COM_CODE as [Code],NAME as [CodeName]", "FFM_COM", "CMPYCODE='" + CmpyCode + "' and Flag=0");
         }
     }
 }

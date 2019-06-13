@@ -1,5 +1,6 @@
 ﻿using EzBusiness_EF_Entity;
 using EzBusiness_EF_Entity.FreightManagementEF;
+using EzBusiness_EF_Entity.FreightManagementEF.SEA_Export;
 using EzBusiness_ViewModels.Models.FreightManagement.SEA_Export;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<FF_BOK005New> GetFF_BOK005DetailList(string CmpyCode, string FF_BOK001_CODE);
         List<ComDropTbl> GetContTyp(string CmpyCode);
         List<ComDropTbl> GetMOVEList(string CmpyCode);
+        List<ComDropTbl> GetCommodityistList(string CmpyCode);
         List<ComDropTbl> GetVESSELList(string CmpyCode);
         List<ComDropTbl> GETJobTypList(string CmpyCode);
         List<ComDropTbl> GetPortList(string CmpyCode);
@@ -29,12 +31,12 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<ComDropTbl> GetDepart(string CmpyCode);
         List<ComDropTbl> GetCLAUSE(string CmpyCode);
 
-        List<ComDropTbl> GetCRG_002(string CmpyCode);
+        List<FFM_CRG> GetCRG_002(string CmpyCode);
 
 
-        List<ComDropTbl> GetCust(string CmpyCode);
+        List<ComDropTbl1> GetCust(string CmpyCode);
 
-        List<ComDropTbl> GetVendor(string CmpyCode);
+        List<ComDropTbl1> GetVendor(string CmpyCode);
 
 
         List<ComDropTbl> GetCurcode(string CmpyCode);

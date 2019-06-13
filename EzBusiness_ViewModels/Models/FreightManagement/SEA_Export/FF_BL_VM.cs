@@ -51,6 +51,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal Total_Cost { get; set; }
         public Decimal Total_Billed { get; set; }
         public Decimal Total_Profit { get; set; }
+
+        public string Commodity_code { get; set; }
         public bool SaveFlag { get; set; }
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
@@ -68,6 +70,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public List<SelectListItem> CRG_002List { get; set; }
 
         public List<SelectListItem> SLList { get; set; }
+
+        public List<SelectListItem> Commodityist { get; set; }
 
         public List<SelectListItem> VOYAGEList { get; set; }
         public List<SelectListItem> MoveCodeList { get; set; }
@@ -106,6 +110,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal KG { get; set; }
         public Decimal CFT { get; set; }
         public Decimal CBM { get; set; }
+
+        public string Commodity_code { get; set; }
     }
     public class FF_BL003New
     {
