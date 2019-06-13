@@ -902,7 +902,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<FFM_CRG> GetCRG_002(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("SELECT  H.FFM_CRG_001_CODE CHARGE_CODE, H.NAME CHARGE_NAME,D.INCOME_ACT ,D.EXPENSE_ACT   FROM FFM_CRG_001 H INNER JOIN FFM_CRG_002 D ON H.FFM_CRG_001_CODE=D.FFM_CRG_001_CODE and H.flag=d.flag where D.operation_type='SEA' and h.cmpycode='" + CmpyCode + "' and D.flag=0");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet1("SELECT  H.FFM_CRG_001_CODE CHARGE_CODE, H.NAME CHARGE_NAME,D.INCOME_ACT ,D.EXPENSE_ACT   FROM FFM_CRG_001 H INNER JOIN FFM_CRG_002 D ON H.FFM_CRG_001_CODE=D.FFM_CRG_001_CODE and H.flag=d.flag where D.operation_type='SEA' and h.cmpycode='" + CmpyCode + "' and D.flag=0");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FFM_CRG> ObjList = new List<FFM_CRG>();

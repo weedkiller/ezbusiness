@@ -72,14 +72,16 @@
 </div>
 
 
+
 <script>
 
   
 
     $(document).ready(function () {
+        debugger;
         $(".treeview li>ul").css('display', 'none'); // Hide all 2-level ul
         $(".collapsible").click(function (e) {
-            
+            debugger;      
             e.preventDefault();
             var breadcrumb = [];
             var treeView = this;
@@ -89,12 +91,23 @@
             jQuery.expr[':'].casecontains = (a, b, c) => jQuery(a).text().toUpperCase().indexOf(c[3].toUpperCase()) >= 0;
 
             if ($('#search1').val() != '') {
+
+                $('#search1').val('');
+
                 $(".treeview li>ul").css('display', 'none');
+
                 // secretly unhide the collapsed links
                 $('#link-content li.nav-item ul').hide();
                 // if search is empty, show the div and reset columns
                 $('#link-content li').show();
-                $('#search1').val('');
+              
+
+                $(".treeview li>ul").first().show();
+               // $('#search1').val('');
+
+                //$(this).toggleClass("collapse expand");
+                //$(this).closest('li').children('ul').slideToggle();
+                
             }
         });
 
