@@ -856,7 +856,7 @@ namespace EzBusiness_DL_Repository
 
         public List<ComDropTbl> GetCommonDrop(string colname, string tblname, string condition)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select " + colname + " from " + tblname + " where " + condition + "");// 
+            ds = _EzBusinessHelper.ExecuteDataSet1("Select " + colname + " from " + tblname + " where " + condition + "");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<ComDropTbl> ObjList = new List<ComDropTbl>();
@@ -874,7 +874,7 @@ namespace EzBusiness_DL_Repository
 
         public List<ComDropTbl1> GetCommonDrop1(string colname, string tblname, string condition)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select " + colname + " from " + tblname + " where " + condition + "");// 
+            ds = _EzBusinessHelper.ExecuteDataSet1("Select " + colname + " from " + tblname + " where " + condition + "");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<ComDropTbl1> ObjList = new List<ComDropTbl1>();
