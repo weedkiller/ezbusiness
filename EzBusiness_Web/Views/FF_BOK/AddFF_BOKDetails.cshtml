@@ -16,7 +16,7 @@
 <script>
     $(function () {
         arr1 = [];
-
+      //  GetBillDataList();
 
         EzdteformtDOB('#ETA1', 'DD/MM/YYYY');
         EzdteformtDOB('#ETD1', 'DD/MM/YYYY');
@@ -46,6 +46,26 @@
            });
        });
 
+        function GetBillDataList()
+        {
+            $.ajax({
+                "async": false,
+                "cache": false,
+                "type": "POST",
+                "url": 'FF_BOK/GetBill_No_Data',
+                "dataType":'json',
+               // "data": newrow,
+                success:function(data)
+                {
+                    debugger;
+                    for (var i = 0; i <= data.length; i++)
+                    {
+                        $('#myTable').append('<tr><td>data[0].Code</td></tr>');
+                    }
+                   
+                }
+            })
+        }
 
        var counter3 = parseInt($("#hdnCounter3").val());
        $("#tablePODetails3").on("click", "[name*='btnDelete']", function () {
@@ -560,16 +580,22 @@
                                             </div>
                                         </div>
 
-
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="form-group">
                                                             <label class="control-label col-md-4">Bill To<i class="star">*</i></label>
                                                             <div class="col-md-4 input-field">
                                                                 @Html.DropDownListFor(m => m.BILL_TO, Model.BILL_TOList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                                @*<input type="text" class="form-control" name="CustName" id="ddlbilllno" />*@
                                                             </div>
                                                             <div class="col-md-4 input-field">
-                                                                <input type="text" class="form-control" name="CustName" id="CustName" />
+                                                                @*<input type="text" class="form-control" name="CustName" id="CustName" />
+                                                                <table id="myTable" class="table-responsive">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>*@
                                                             </div>
                                                         </div>
                                                     </div>
