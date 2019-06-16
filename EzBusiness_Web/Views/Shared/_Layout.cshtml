@@ -38,6 +38,7 @@
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
            
             <input type="hidden" id="hdnpath" />
+            <input type="hidden" id="hdncurrentpath" />
             <header class="header black-bg">
              
                 <div class="sidebar-toggle-box">
@@ -150,7 +151,7 @@
             $("#sidebar").hide();
 
             $("#sidebarCollapse").click(function () {
-                debugger;
+                
               $("#sidebar").toggle();
               //  $(this).addClass("active1");  
                // $(this).removeClass("active1");               
@@ -165,7 +166,7 @@
       
     
           $('a[href*="' + pathname + '"]').each(function () {
-              debugger;
+              
               $(this).css("background-color", "#4ECDC4");
               $(this).css("color", "#f2f2f2");
               $(this).show(); 
@@ -182,7 +183,7 @@
   
                   //         
       $('.search-filter').on('keyup', function () {  
-          debugger;
+                    
                     var input = $('.search-filter').val();
                     if (input.length != 0) {                          
                         $(".treeview li>ul").show();
@@ -202,14 +203,15 @@
                        
                     }
                 });
-    
+      
                 var url = pathname;
                 var currentItem = $(".treeview").find("[href$='" + url + "']");
                 var path1 = "";
                 var i=0;
                
                 $(currentItem.parents("li").get().reverse()).each(function () {       
-                   
+                    
+               
                     if(i!=0){                       
                         path1 += "<li>" + $(this).attr('value') +"</li>";
                         $('#link-content li.nav-item ul').show();
@@ -220,7 +222,7 @@
                      }
                    i=i+1;                    
                 });  
-            
+                $("#hdncurrentpath").val(pathname)
                 $("#hdnpath").val(path1);
                 $(".breadcrumb").html(path1);                       
     });
