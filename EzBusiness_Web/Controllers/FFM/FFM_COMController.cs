@@ -70,6 +70,21 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(new { DeleteFlag = _FFMCOMService.DeleteFFM_COM(FFM_COM_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
+        [Route("COMGROUP")]
+        public ActionResult COMGROUPCode(string CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_FFMCOMService.GetFFM_COM_GROUP(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
         #endregion
     }
 }

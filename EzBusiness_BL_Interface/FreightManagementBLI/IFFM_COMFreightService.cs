@@ -16,6 +16,8 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
         List<FFM_COM_VM> GetFFM_COM(string CmpyCode);
         FFM_COM_VM SaveFFM_COM(FFM_COM_VM FC);
         bool DeleteFFM_COM(string FFM_COM_CODE, string CmpyCode, string UserName);
+
+        List<FFM_COM_GROUP> GetFFM_COM_GROUP(string CmpyCode);
         #endregion
     }
 }

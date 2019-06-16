@@ -49,7 +49,25 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     CMPYCODE = dr["CmpyCode"].ToString(),
                     FFM_COM_CODE = dr["FFM_COM_CODE"].ToString(),
                     NAME = dr["NAME"].ToString(),
+                    C_TYPE=dr["C_TYPE"].ToString()
 
+                });
+            }
+            return ObjList;
+        }
+
+        public List<FFM_COM_GROUP> GetFFM_COM_GROUP(string CmpyCode)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_COM_GROUP_CODE,NAME from FFM_COM_GROUP where CmpyCode='" + CmpyCode + "' and Flag=0");// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FFM_COM_GROUP> ObjList = new List<FFM_COM_GROUP>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FFM_COM_GROUP()
+                {                    
+                    FFM_COM_GROUP_CODE = dr["FFM_COM_GROUP_CODE"].ToString(),
+                    NAME = dr["NAME"].ToString(),
                 });
             }
             return ObjList;
@@ -77,6 +95,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         CMPYCODE = m.CMPYCODE,
                         FFM_COM_CODE = m.FFM_COM_CODE,
                         NAME = m.NAME,
+                        C_TYPE=m.C_TYPE
 
                     }).ToList());
                     int n = 0;
@@ -94,9 +113,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + FC.UserName + "',");
                             sb.Append("'" + dtstr1 + "',");
                             sb.Append("'" + FC.UserName + "',");
+                            sb.Append("'" + ObjList[n - 1].C_TYPE + "',");
                             sb.Append("'" + dtstr1 + "')");
 
-                            _EzBusinessHelper.ExecuteNonQuery("insert into FFM_COM(CMPYCODE,FFM_COM_CODE,NAME,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON) values(" + sb.ToString() + "");
+                            _EzBusinessHelper.ExecuteNonQuery("insert into FFM_COM(CMPYCODE,FFM_COM_CODE,NAME,CREATED_BY,CREATED_ON,UPDATED_BY,C_TYPE,UPDATED_ON) values(" + sb.ToString() + "");
 
                             _EzBusinessHelper.ActivityLog(FC.CMPYCODE, FC.UserName, "Add FN Category", ObjList[n - 1].FFM_COM_CODE, Environment.MachineName);
 
@@ -129,6 +149,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     sb.Append("CREATED_BY='" + FC.UserName + "',");
                     sb.Append("CREATED_ON='" + dtstr1 + "',");
                     sb.Append("UPDATED_BY='" + FC.UserName + "',");
+                    sb.Append("C_TYPE='" + FC.C_TYPE + "',");
                     sb.Append("UPDATED_ON='" + dtstr1 + "'");
                     
                     _EzBusinessHelper.ExecuteNonQuery("update FFM_COM set  " + sb + " where FFM_COM_CODE='" + FC.FFM_COM_CODE + "' and Flag=0");

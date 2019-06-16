@@ -33,6 +33,16 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 CMPYCODE = m.CMPYCODE,
                 FFM_COM_CODE = m.FFM_COM_CODE,
                 NAME = m.NAME,
+                C_TYPE=m.C_TYPE,
+            }).ToList();
+        }
+
+        public List<FFM_COM_GROUP> GetFFM_COM_GROUP(string CmpyCode)
+        {
+            return _FFMCOMRepo.GetFFM_COM_GROUP(CmpyCode).Select(m => new FFM_COM_GROUP
+            {                
+                FFM_COM_GROUP_CODE = m.FFM_COM_GROUP_CODE,
+                NAME = m.NAME,
             }).ToList();
         }
 

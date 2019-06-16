@@ -1505,8 +1505,12 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
 
 
+        function EzajaxCall(url, data, doneCallback) {
+   
+    return $.post(url, data, function() {}, "json").done(doneCallback).fail('No Records');
+        }
 
-
+       
 
 
 

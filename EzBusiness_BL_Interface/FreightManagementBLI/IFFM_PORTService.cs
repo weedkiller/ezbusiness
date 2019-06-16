@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace EzBusiness_BL_Interface.FreightManagementBLI
 {
@@ -15,5 +16,6 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
         bool DeleteFFM_PORT(string FFM_PORT_CODE, string CmpyCode, string UserName);
         FFM_PORT_VM EditFFM_PORT(string CmpyCode, string FFM_PORT_CODE);
         FFM_PORT_VM NewFFM_PORT(string CmpyCode);
+        List<SelectListItem> GetCountryList(string CmpyCode);
     }
 }

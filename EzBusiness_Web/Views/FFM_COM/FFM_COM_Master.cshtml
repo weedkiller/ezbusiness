@@ -23,7 +23,10 @@
 <script>
     var Doks = [];
     $(function () {
+        
         $("#tblUnits1").hide();
+        var paydeductons = [];
+        GetCOMGROUPList();
         $("#btnAdd").click(function () {
             var n = EzAuthenticationBtn("/COMCategoryMaster", "NewIt");
             if (n == 1) {
@@ -36,6 +39,9 @@
                 Ezprop(abk, "disabled", false);
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
+                var counter = $("#Counter").val();
+              
+               
             }
         });
 
@@ -122,11 +128,12 @@
             $("#tblUnits1 tbody tr").each(function (index, item) {
                 var FFM_COM_CODE = $(this).find("[name*='txtFFM_COM_CODE']").val();
                 var NAME = $(this).find("[name*='txtNAME']").val();
-
+                var C_TYPE = $(this).find("[name*='ddlPayDeductOn1']").val().trim();
                 if ((FFM_COM_CODE != "") && (NAME != "")) {
                     var FFM_COMDetail = {
                         FFM_COM_CODE: FFM_COM_CODE,
                         NAME: NAME,
+                        C_TYPE: C_TYPE,
 
                     };
                     FC.FFM_COMNew.push(FFM_COMDetail);
@@ -145,6 +152,7 @@
                         var tr = $(this).closest("tr");
                         var codeAdd = $(tr).find("[name*='txtFFM_COM_CODE']").val().trim();
                         var nameAdd = $(tr).find("[name*='txtNAME']").val().trim();
+                        var C_TYPEAdd = $(tr).find("[name*='ddlPayDeductOn1']").val().trim();
 
                         if (response.Drecord.length > 0) {
                             var ary1 = [];
@@ -154,7 +162,7 @@
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
 
-                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
+                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd + "</td><td>" + C_TYPEAdd +
                                     "</td> ";
                                 //newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
                                 //    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
@@ -176,13 +184,14 @@
                             $("[name*='txtFFM_COM_CODE']").val();
                             $("[name*='txtNAME']").val();
 
+                            $("[name*='ddlPayDeductOn1']").val();
 
                             $("#tblUnits1").hide();
 
                             if (codeAdd != '' && nameAdd != '') {
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
-                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd +
+                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd + "</td><td>" + DivCodeAdd +
                                     "</td> ";
                                 newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
                                     "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
@@ -233,6 +242,7 @@
 
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
+            debugger;
             var n = EzAuthenticationBtn("/COMCategoryMaster", "EditIt");
             if (n == 1) {
                 var counter = $("#Counter").val();
@@ -242,22 +252,24 @@
                 var hdnDocCode = $(tr).find("td:eq(0)").text().trim();
                 var index = $(this).attr("name").substring(4);
                 var docnameTd = $(tr).find("td:eq(1)");
+                var paydeductonTd = $(tr).find("td:eq(2)");
 
                 var editButton = $(this);
 
                 if (hdnEditMode.val() == "true") {
                     var docnameEdit = $(tr).find("[name*='txtNAME']").val().trim();
-
+                    var C_TYPEEdit = $(tr).find("[name*='ddlPayDeductOn1']").val();
                     var FC = {
                         CmpyCode: hdnCmpyCode,
                         FFM_COM_CODE: hdnDocCode,
                         NAME: docnameEdit,
+                        C_TYPE:C_TYPEEdit,
                         EditFlag: true
                     };
 
                     $.post("/FFM_COM/SaveFFM_COM", FC).done(function (response) {
                         docnameTd.text(response.NAME);
-
+                        paydeductonTd.text(response.C_TYPE);
                         hdnEditMode.val("false");
                         editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
                         editButton.attr('title', 'Edit');
@@ -274,8 +286,10 @@
                     var docname = $(tr).find("td:eq(1)").text();
                     $('#inpdocname').val(docname.trim());
                     docnameTd.html("<input type='text' class='grid-control' name='txtNAME" + index + "' value='" + docname.trim() + "' />");
-
-
+                    var paydeducton = $(tr).find("td:eq(2)").text().trim();
+                    $('#ddlPayDeductOn1').val(paydeducton);
+                    paydeductonTd.html(GetPayDeductOnDDL(index));
+                    paydeductonTd.find("select").val(paydeducton);
 
                     $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
                     $(this).attr('title', 'Update');
@@ -355,10 +369,12 @@
                 }
                 else {
                     var nameTd = $(tr).find("td:eq(1)");
-
+                    var paydeductonTd = $(tr).find("td:eq(2)");
                     var nameEdit = $('#inpdocname').val();
+                    var paydeductonEdit = $('#ddlPayDeductOn1').val();
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
                     nameTd.html(nameEdit);
+                    paydeductonTd.html(paydeductonEdit);
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
                     $(this).html('<span class="glyphicon glyphicon-trash"></span>');
@@ -369,7 +385,53 @@
                 }
             }
         });
+
+
+       
+       
     });
+
+   
+    function GetCOMGROUPList() {
+        debugger;
+        var index = 1;
+        $.ajax({
+            url: "/COMGROUP",
+            dataType: "json",
+            success: function (data) {
+                paydeductons = data;
+
+                if (paydeductons.length > 0) {
+
+                    var mySelect = $('#ddlPayDeductOn1');
+                    
+                    mySelect.append(
+                            $('<option>-Select Group Code-</option>')
+                        );
+                    for (var i in paydeductons) {
+                        mySelect.append(
+                            $('<option></option>').val(paydeductons[i].FFM_COM_GROUP_CODE).html(paydeductons[i].NAME)
+                        );
+                    }
+                }
+            },
+            error: function () {
+                EzAlerterrtxt('error occurred');
+            }
+        });
+    }
+
+    function GetPayDeductOnDDL(index) {
+
+        if (paydeductons.length > 0) {
+            var ddlPayDeductOn = "<select class='target grid-control'  name='ddlPayDeductOn1" + index + "'>";
+            for (var i in paydeductons) {
+                ddlPayDeductOn += "<option value='" + paydeductons[i].FFM_COM_GROUP_CODE + "'>" + paydeductons[i].NAME + "</option>";
+            }
+            ddlPayDeductOn += "</select>";
+        }
+        return ddlPayDeductOn;
+    }
 
     var k = 0;
     function tableDis(k) {
@@ -385,6 +447,8 @@
 
         }
     }
+
+
 </script>
 
 <script>
@@ -419,7 +483,9 @@ $(document).ready(function(){
                     <th>
                         @Html.DisplayNameFor(model => model.NAME)
                     </th>
-
+                    <th>
+                        @Html.DisplayNameFor(model => model.C_TYPE)
+                    </th>
 
                     <th></th>
                 </tr>
@@ -436,6 +502,12 @@ $(document).ready(function(){
                     <td>
                         <div class="grid-group">
                             @Html.TextBox(string.Concat("txtNAME", counter), null, new { @class = "grid-control" })
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid-group">
+                            <select class="grid-control" name="ddlPayDeductOn1" id="ddlPayDeductOn1"></select>
+
                         </div>
                     </td>
 
@@ -455,6 +527,9 @@ $(document).ready(function(){
                             <th>
                                 @Html.DisplayNameFor(model => model.NAME)
                             </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.C_TYPE)
+                            </th>
 
                             <th></th>
 
@@ -468,7 +543,9 @@ $(document).ready(function(){
                             <td>
                                 @Html.DisplayNameFor(model => model.NAME)
                             </td>
-
+                            <td>
+                                @Html.DisplayNameFor(model => model.C_TYPE)
+                            </td>
 
                             <td></td>
                         </tr>
@@ -482,6 +559,9 @@ $(document).ready(function(){
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.NAME)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.C_TYPE)
                                 </td>
 
 
