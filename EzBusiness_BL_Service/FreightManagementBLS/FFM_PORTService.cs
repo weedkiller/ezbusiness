@@ -33,7 +33,7 @@ namespace EzBusiness_BL_Service
         public FFM_PORT_VM NewFFM_PORT(string CmpyCode)
         {
             return new FFM_PORT_VM
-            {                                
+            {
                 CountryList = GetCountryList(CmpyCode),
                 EditFlag = false
             };

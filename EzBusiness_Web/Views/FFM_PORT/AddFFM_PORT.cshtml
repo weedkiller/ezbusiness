@@ -12,14 +12,52 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
+<style>
+    .ui-autocomplete {
+        max-height: 200px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+        /* add padding to account for vertical scrollbar */
+        padding-right: 20px;
+    }
+</style>
 
-
-<script src="~/Scripts/EzComNDW.js"></script>
 <script>
 
     $('.selectpicker').selectpicker('refresh');
-   
+
+    
+    //$("#COUNTRYtbl").autocomplete({
+    //    source: function (request, response) {
+    //        $.ajax({
+    //            url: "/FFM_PORT/GetCountry",
+    //            type: "POST",
+    //            dataType: "json",
+    //            data: { Prefix: request.term },
+    //            success: function (data) {
+    //                response($.map(data, function (item) {
+    //                    return { label: item.Text, value: item.Value };
+    //                }))
+
+    //            }
+    //        })
+    //    },
+    //    minLength: 0,
+    //    messages: {
+    //        noResults: "",
+    //        results: function (count) {
+    //            return count + (count > 1 ? ' results' : ' result ') + ' found';
+    //        }
+    //    }
+    //}).focus(function () {     
+    //    $(this).data("uiAutocomplete").search($(this).text());
+    //});
+  
 </script>
+<input id="hfCustomer" type="hidden">
 <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
     <div class="custom-form-wrapper">
         <div id="POContainer">
@@ -72,6 +110,7 @@
                                                 <label class="control-label col-md-4">Country</label>
                                                 <div class="col-md-8 input-field">
                                                     @Html.DropDownListFor(m => m.COUNTRY, Model.CountryList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                    @*<input id="COUNTRYtbl" type="text" class="selectpicker form-control"/>*@
                                                 </div>
                                             </div>
                                         </div>

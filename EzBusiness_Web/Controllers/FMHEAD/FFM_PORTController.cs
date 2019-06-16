@@ -251,5 +251,18 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(_fpService.EditFFM_PORT(list[0].CmpyCode, FFM_PORT_CODE), JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpPost]
+        public JsonResult GetCountry(string Prefix)
+            {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Json("Login/InLogin");
+            }
+            else
+            {
+                return Json(_fpService.GetCountryList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
