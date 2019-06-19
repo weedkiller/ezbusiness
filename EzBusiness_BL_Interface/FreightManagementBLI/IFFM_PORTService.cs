@@ -17,5 +17,8 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
         FFM_PORT_VM EditFFM_PORT(string CmpyCode, string FFM_PORT_CODE);
         FFM_PORT_VM NewFFM_PORT(string CmpyCode);
         List<SelectListItem> GetCountryList(string CmpyCode);
+
+        List<SelectListItem> CountryEdit(string CmpyCode, string code);
+        List<SelectListItem> GetCountryList1(string CmpyCode,string Prefix);
     }
 }

@@ -14,48 +14,19 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 <link href="~/Styles/jquery-ui.css" rel="stylesheet" />
-<style>
-    .ui-autocomplete {
-        max-height: 200px;
-        overflow-y: auto;
-        /* prevent horizontal scrollbar */
-        overflow-x: hidden;
-        /* add padding to account for vertical scrollbar */
-        padding-right: 20px;
-    }
-</style>
 
 <script>
-
     $('.selectpicker').selectpicker('refresh');
+    $("#NAME").on("focus", function () {
+        $("#COUNTRY").removeClass('selectpicker');
+        EzDropFill("COUNTRY", "/FFM_PORT/GetCountry1");
+    });
 
-    
-    //$("#COUNTRYtbl").autocomplete({
-    //    source: function (request, response) {
-    //        $.ajax({
-    //            url: "/FFM_PORT/GetCountry",
-    //            type: "POST",
-    //            dataType: "json",
-    //            data: { Prefix: request.term },
-    //            success: function (data) {
-    //                response($.map(data, function (item) {
-    //                    return { label: item.Text, value: item.Value };
-    //                }))
-
-    //            }
-    //        })
-    //    },
-    //    minLength: 0,
-    //    messages: {
-    //        noResults: "",
-    //        results: function (count) {
-    //            return count + (count > 1 ? ' results' : ' result ') + ' found';
-    //        }
-    //    }
-    //}).focus(function () {     
-    //    $(this).data("uiAutocomplete").search($(this).text());
-    //});
-  
+    $("#COUNTRY").on("click", function () {
+        debugger;
+        $("#COUNTRY").removeClass('selectpicker');
+        EzDropFill("COUNTRY", "/FFM_PORT/GetCountry1");
+    });
 </script>
 <input id="hfCustomer" type="hidden">
 <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
@@ -80,6 +51,10 @@
             <div class="custom-form-wrapper">
                 <div id="POContainer">
                     <div class="row">
+                        
+                        @*English Text: <input size="40" type="text" id="txtEnglish" /> <br />
+                        Hindi Text`enter code here` : <input size="40" type="text" id="txtHindi" />*@
+
                         <div class="custom-form-wrapper">
                             <!-- BEGIN FORM-->
                             <div class="form-horizontal">
@@ -109,12 +84,17 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Country</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.DropDownListFor(m => m.COUNTRY, Model.CountryList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                    @*<input id="COUNTRYtbl" type="text" class="selectpicker form-control"/>*@
-                                                </div>
+                                                    @{
+                                                        var TypeListdata1 = new SelectList(new[]
+                                                        {
+                                                        new SelectListItem { Text = "-Select-", Value = "-1" },                                                       
+                                                         }, "Value", "Text");
+                                                    }
+                                                    @Html.DropDownListFor(m => m.COUNTRY, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })                                                   
                                             </div>
                                         </div>
                                     </div>
+                                        </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -157,7 +137,7 @@
                                                         new SelectListItem { Text = "SEA", Value = "SEA"},
                                                          }, "Value", "Text");
                                                         }
-                                                        @Html.DropDownListFor(m => m.PortType, TypeListdata, new { @class = "form-control selectpicker" })
+                                                        @Html.DropDownListFor(m => m.PortType, TypeListdata, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                                     </div>
                                                </div>
                                         </div>
@@ -174,7 +154,7 @@
                                                         new SelectListItem { Text = "NO", Value = "N"},
                                                          }, "Value", "Text");
                                                     }
-                                                    @Html.DropDownListFor(m => m.DISPLY_STATUS, TypeList, new { @class = "form-control selectpicker" })
+                                                    @Html.DropDownListFor(m => m.DISPLY_STATUS, TypeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                                 </div>
                                             </div>
                                         </div>
@@ -190,6 +170,17 @@
 </div>
 
 
+<script>
+
+  
+
+   
+    
+
+
+    
+
+</script>
 
    
 

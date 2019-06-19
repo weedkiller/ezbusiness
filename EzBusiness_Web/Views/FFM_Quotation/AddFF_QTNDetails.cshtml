@@ -15,6 +15,62 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
+
+        //$("#FF_QTN001_CODE").on("focus", function () {
+        //    $("#CUST_CODE").removeClass('selectpicker');
+        //    EzDropFill("CUST_CODE", "/FFM_Quotation/GetCust");
+        //});
+
+        //$("#CONTACT").on("focus", function () {
+        //    $("#POL").removeClass('selectpicker');
+        //    EzDropFill("POL", "/FFM_Quotation/GetPortList");
+        //});
+        //$("#TELEPHONE").on("focus", function () {
+        //    $("#POD").removeClass('selectpicker');
+        //    EzDropFill("POD", "/FFM_Quotation/GetPortList");
+        //});
+        //$("#EMAIL").on("focus", function () {
+        //    $("#FND").removeClass('selectpicker');
+        //    EzDropFill("FND", "/FFM_Quotation/GetPortList");
+        //});
+        //$("#CUSTOMER_REF").on("focus", function () {
+        //    $("#MOVE_TYPE").removeClass('selectpicker');
+        //    EzDropFill("MOVE_TYPE", "/FFM_Quotation/GetMoveCode");
+        //});
+
+        //$("#PICKUP_PLACE").on("focus", function () {
+        //    $("#VESSEL").removeClass('selectpicker');
+        //    EzDropFill("VESSEL", "/FFM_Quotation/GetVESSELList");
+        //});
+
+        //$("#PSTATE").on("focus", function () {
+        //    debugger;
+        //    $("#Commodity_code").removeClass('selectpicker');
+        //    EzDropFill("Commodity_code", "/FFM_Quotation/GetCommodityistList");
+        //});
+        //$("#PZIP").on("focus", function () {
+        //    debugger;
+        //    $("#CARRIER").removeClass('selectpicker');
+        //    EzDropFill("CARRIER", "/FFM_Quotation/GetVendor");
+        //});       
+        //$("#FDSTATE").on("focus", function () {
+        //    debugger;
+        //    $("#DEPARTMENT").removeClass('selectpicker');
+        //    EzDropFill("DEPARTMENT", "/FFM_Quotation/GetDepart");
+        //});
+     
+        EzDropFillEvent("CUST_CODE", "click", "CUST_CODE", "/FFM_Quotation/GetCust");
+        EzDropFillEvent("POD", "click", "POD", "/FFM_Quotation/GetPortList");
+        EzDropFillEvent("FND", "click", "FND", "/FFM_Quotation/GetPortList");
+        EzDropFillEvent("POL", "click", "POL", "/FFM_Quotation/GetPortList");
+        EzDropFillEvent("MOVE_TYPE", "click", "MOVE_TYPE", "/FFM_Quotation/GetMoveCode");
+        EzDropFillEvent("VESSEL", "click", "VESSEL", "/FFM_Quotation/GetVESSELList");
+        EzDropFillEvent("Commodity_code", "click", "Commodity_code", "/FFM_Quotation/GetCommodityistList");
+        EzDropFillEvent("CARRIER", "click", "CARRIER", "/FFM_Quotation/GetVendor");
+        EzDropFillEvent("DEPARTMENT", "click", "DEPARTMENT", "/FFM_Quotation/GetDepart");
+
+       
+
         arr1 = [];
         
         
@@ -497,8 +553,13 @@
 
         $('#CUST_CODE').change(function () {
             var JobCode = $("[name*='CUST_CODE'] option:selected").text();
-            var array = JobCode.split("-");
-            $('#CustName').val(array[1].trim());
+            if (JobCode != '') {
+                var array = JobCode.split("-");
+                if (array.length > 1) {
+                    $('#CustName').val(array[1].trim());
+                }                
+            }
+           
         });
         $('#VESSEL').change(function () {
             var VESSEL = $('#VESSEL option:selected').val();
@@ -515,6 +576,17 @@
             });
         });
 
+
+       
+       
+        
+        
+        
+        
+       
+        
+        
+
     });
 </script>
 
@@ -523,6 +595,12 @@
     @Html.Hidden("hdnCounter2", (counter2))
     @Html.Hidden("hdnCounter3", (counter3))
     @Html.Hidden("hdnCounter5", (counter5))
+    @{
+        var TypeListdata1 = new SelectList(new[]
+        {
+            new SelectListItem { Text = "-Select-", Value = "-1" },
+            }, "Value", "Text");
+    }
     <div class="col-md-12">
         <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
             <div class="custom-form-wrapper">
@@ -549,7 +627,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Customer<i class="star">*</i></label>
                                                     <div class="col-md-4 input-field">
-                                                        @Html.DropDownListFor(m => m.CUST_CODE, Model.CustList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.CUST_CODE, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                     </div>
                                                     <div class="col-md-4 input-field">
                                                         <input type="text" class="form-control" name="CustName" id="CustName" />
@@ -635,7 +713,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Port Of Load<i class="star">*</i></label>
                                                     <div class="col-md-8 input-field">
-                                                        @Html.DropDownListFor(m => m.POL, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.POL, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -645,7 +723,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Port Of Dsch<i class="star">*</i></label>
                                                     <div class="col-md-8 input-field">
-                                                        @Html.DropDownListFor(m => m.POD, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.POD, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -658,7 +736,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3 gridtext">Final Destn<i class="star">*</i></label>
                                                     <div class="col-xs-7 col-md-8 input-field">
-                                                        @Html.DropDownListFor(m => m.FND, Model.PortList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.FND, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -679,7 +757,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3 gridtext">Move Type <span class="star">*</span></label>
                                                     <div class="col-xs-7 col-md-8 input-field">
-                                                        @Html.DropDownListFor(m => m.MOVE_TYPE, Model.MoveCodeList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.MOVE_TYPE, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -697,7 +775,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3 gridtext">Vessel <span class="star">*</span></label>
                                                     <div class="col-xs-7 col-md-8 input-field">
-                                                        @Html.DropDownListFor(m => m.VESSEL, Model.VESSELList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.VESSEL, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -716,7 +794,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Commodity</label>
                                                     <div class="col-xs-7 col-md-8 input-field radiobtn1">
-                                                        @Html.DropDownListFor(m => m.Commodity_code, Model.Commodityist, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.Commodity_code, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -724,7 +802,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Voy <span class="star">*</span></label>
                                                     <div class="col-xs-7 col-md-8 input-field">
-                                                        @Html.DropDownListFor(m => m.VOYAGE, Model.VOYAGEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.VOYAGE, TypeListdata1, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -737,7 +815,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Carrier</label>
                                                     <div class="col-md-8 input-field">
-                                                        @Html.DropDownListFor(m => m.CARRIER, Model.SLList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.CARRIER, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -765,7 +843,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Department</label>
                                                     <div class="col-xs-7 col-md-8 input-field radiobtn1">
-                                                        @Html.DropDownListFor(m => m.DEPARTMENT, Model.DEPARTMENTList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.DEPARTMENT, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                     </div>
                                                 </div>
                                             </div>
