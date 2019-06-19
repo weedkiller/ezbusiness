@@ -77,6 +77,19 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
+        public  ActionResult GetBill_No_Data()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_BOKService.GetPortList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult GetFF_BOK002DetailList()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;

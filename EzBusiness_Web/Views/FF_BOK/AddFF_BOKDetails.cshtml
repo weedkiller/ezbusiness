@@ -16,7 +16,7 @@
 <script>
     $(function () {
         arr1 = [];
-
+      //  GetBillDataList();
 
         EzdteformtDOB('#ETA1', 'DD/MM/YYYY');
         EzdteformtDOB('#ETD1', 'DD/MM/YYYY');
@@ -46,6 +46,26 @@
            });
        });
 
+        function GetBillDataList()
+        {
+            $.ajax({
+                "async": false,
+                "cache": false,
+                "type": "POST",
+                "url": 'FF_BOK/GetBill_No_Data',
+                "dataType":'json',
+               // "data": newrow,
+                success:function(data)
+                {
+                    debugger;
+                    for (var i = 0; i <= data.length; i++)
+                    {
+                        $('#myTable').append('<tr><td>data[0].Code</td></tr>');
+                    }
+                   
+                }
+            })
+        }
 
        var counter3 = parseInt($("#hdnCounter3").val());
        $("#tablePODetails3").on("click", "[name*='btnDelete']", function () {
