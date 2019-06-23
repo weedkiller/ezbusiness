@@ -62,16 +62,20 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
 
         public List<SelectListItem> VESSELList { get; set; }
 
-        public List<SelectListItem> PortList { get; set; }
+        public List<SelectListItem> PortList1 { get; set; }
+
+        public List<SelectListItem> PortList2 { get; set; }
+        public List<SelectListItem> PortList3 { get; set; }
 
         public List<SelectListItem> CustList { get; set; }
 
         public List<SelectListItem> VendorList { get; set; }
 
-        public List<SelectListItem> ConTypList { get; set; }
+      
         public List<SelectListItem> CurList { get; set; }
 
         public List<SelectListItem> UnitcodeList { get; set; }
+        public List<SelectListItem> ConTypList { get; set; }
         public List<SelectListItem> Commodityist { get; set; }
 
         public Decimal Total_Cost { get; set; }
@@ -110,6 +114,9 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal KG { get; set; }
         public Decimal CFT { get; set; }
         public Decimal CBM { get; set; }
+
+        public List<SelectListItem> ConTypList1 { get; set; }
+        public List<SelectListItem> Commodityist1 { get; set; }
     }
     public class FF_QTN003New
     {  
@@ -128,6 +135,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
     {     
         public string CLUASE_CODE { get; set; }
         public string CLUASE_NAME { get; set; }
+        public List<SelectListItem> CLAUSEList4 { get; set; }
     }
     public class FF_QTN005New
     {              
@@ -160,5 +168,17 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal Vend_Local_amt { get; set; }
 
         public Decimal No_of_qty { get; set; }
+
+        public List<SelectListItem> VendorList5 { get; set; }
+        public List<SelectListItem> CVendorList5 { get; set; }
+        
+        public List<SelectListItem> VCurList5 { get; set; }
+
+        public List<SelectListItem> UnitcodeList5 { get; set; }
+        public List<SelectListItem> CRG_002List5 { get; set; }
+
+        public List<SelectListItem> CCurList5 { get; set; }
+
+
     }
 }

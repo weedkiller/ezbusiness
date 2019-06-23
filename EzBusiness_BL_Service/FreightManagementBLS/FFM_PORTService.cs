@@ -93,7 +93,7 @@ namespace EzBusiness_BL_Service
 
         public List<SelectListItem> CountryEdit(string CmpyCode, string code)
         {
-            var itemCodes = _FFM_PORTRepo.GetCountryList(CmpyCode).Where(m=>m.Code.ToString().ToLower().Contains(code.ToLower())).ToList()
+            var itemCodes = _FFM_PORTRepo.GetCountryList(CmpyCode).Where(m=>m.Code.ToString() == code).ToList()
                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
                                     .ToList();
             return InsertFirstElementDDL(itemCodes);
