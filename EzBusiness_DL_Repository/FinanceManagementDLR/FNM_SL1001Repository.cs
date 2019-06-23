@@ -63,7 +63,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                 ObjList.Fax = dr["Fax"].ToString();
                 ObjList.SUBLEDGER_TYPE = dr["SUBLEDGER_TYPE"].ToString();
                 ObjList.Web_site = dr["Web_site"].ToString();
-                
+                ObjList.Name_Arabic = dr["Name_Arabic"].ToString();
 
             }
             return ObjList;
@@ -71,7 +71,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
 
         public List<FNM_SL1001> GetFNM_SL(string CmpyCode,string SubledgerType)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNM_SL1001_CODE,Name,Print_Name,Web_site,Email,Tel,Fax,Address,Contact1,Contact2,Contact3,Currency_code,credit_limit,SUBLEDGER_TYPE from FNM_SL1001 where CmpyCode='" + CmpyCode + "' and SUBLEDGER_TYPE='"+SubledgerType+"' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNM_SL1001_CODE,Name,Print_Name,Web_site,Email,Tel,Fax,Address,Contact1,Contact2,Contact3,Currency_code,credit_limit,SUBLEDGER_TYPE,Name_Arabic from FNM_SL1001 where CmpyCode='" + CmpyCode + "' and SUBLEDGER_TYPE='"+SubledgerType+"' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNM_SL1001> ObjList = new List<FNM_SL1001>();
@@ -92,7 +92,8 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                     Print_Name=dr["Print_Name"].ToString(),
                     Tel=dr["Tel"].ToString(),
                     Web_site=dr["Web_site"].ToString(),
-                    SUBLEDGER_TYPE=dr["SUBLEDGER_TYPE"].ToString(),                    
+                    SUBLEDGER_TYPE=dr["SUBLEDGER_TYPE"].ToString(),
+                    Name_Arabic = dr["Name_Arabic"].ToString(),
                 });
             }
             return ObjList;
@@ -188,6 +189,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                     FNMSL.Fax = FNSL.Fax;
                     FNMSL.FNM_SL1001_CODE = FNSL.FNM_SL1001_CODE;
                     FNMSL.Name = FNSL.Name;
+                    FNMSL.Name_Arabic = FNSL.Name_Arabic;
                     FNMSL.Print_Name = FNSL.Print_Name;
                     FNMSL.SUBLEDGER_TYPE = FNSL.SUBLEDGER_TYPE;
                     FNMSL.Tel = FNSL.Tel;
@@ -234,6 +236,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                         sb.Append("Web_site,");
                         sb.Append("UPDATED_ON,");
                         sb.Append("DIVISION,");
+                        sb.Append("Name_Arabic,");
                         sb.Append("CREATED_ON)");
                        
 
@@ -259,6 +262,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                         sb.Append("'" + FNMSL.Web_site + "',");
                         sb.Append("'" + dtstr7 + "',");
                         sb.Append("'"+ FNMSL.DIVISION + "',");
+                        sb.Append("'" + FNMSL.Name_Arabic + "',");
                         sb.Append("'" + dtstr7 + "')");
                         
 
@@ -380,12 +384,11 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                             sb.Append("UPDATED_BY='" + FNSL.UserName + "',");
                             sb.Append("Web_site='" + FNSL.Web_site + "',");
                             sb.Append("UPDATED_ON='" + dtstr7 + "',");
+                            sb.Append("Name_Arabic='" + FNSL.Name_Arabic + "',");
                             sb.Append("CREATED_ON='" + dtstr7 + "'");
                         _EzBusinessHelper.ExecuteNonQuery("update FNM_SL1001 set " + sb + " where Cmpycode='" + FNSL.CMPYCODE + "' and FNM_SL1001_CODE='" + FNSL.FNM_SL1001_CODE + "'");
 
-
                             #endregion
-
                             #region FNMSL002
                             n = ObjList.Count;
                             while (n > 0)

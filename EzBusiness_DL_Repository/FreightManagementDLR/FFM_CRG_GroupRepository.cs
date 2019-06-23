@@ -19,7 +19,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         DataTable dt = null;
 
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
-        public bool DeleteFFM_CRG_Group(string FFM_CRG_GROUP_CODE, string CmpyCode, string UserName)
+        public bool DeleteFFM_CRG_Group(string CmpyCode,string FFM_CRG_GROUP_CODE, string UserName)
         {
           
 
@@ -48,7 +48,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 ObjList.NAME= dr["NAME"].ToString();
                 ObjList.VAT_CODE = dr["VAT_CODE"].ToString();
                 ObjList.VAT_GL_CODE = dr["VAT_GL_CODE"].ToString();
-                
+                ObjList.Name_Arabic = dr["Name_Arabic"].ToString();
 
             }
             return ObjList;
@@ -71,7 +71,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     DISPLAY_STATUS = dr["DISPLAY_STATUS"].ToString(),
                     NAME = dr["NAME"].ToString(),
                     VAT_CODE=dr["VAT_CODE"].ToString(),
-                    VAT_GL_CODE=dr["VAT_GL_CODE"].ToString()                                     
+                    VAT_GL_CODE=dr["VAT_GL_CODE"].ToString(),
+                    Name_Arabic=dr["Name_Arabic"].ToString(),                                  
                 });
             }
             return ObjList; 
@@ -99,14 +100,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + FCG.FFM_CRG_GROUP_CODE + "',");
                             sb.Append("'" + FCG.DISPLAY_STATUS + "',");
                             sb.Append("'" + FCG.NAME + "',");
-                        sb.Append("'" + FCG.VAT_CODE + "',");
-                        sb.Append("'" + FCG.VAT_GL_CODE + "',");
-                        sb.Append("'" + dtstr1 + "',");
+                            sb.Append("'" + FCG.VAT_CODE + "',");
+                            sb.Append("'" + FCG.VAT_GL_CODE + "',");
+                            sb.Append("'" + dtstr1 + "',");
                             sb.Append("'" + dtstr1 + "',");
                             sb.Append("'" + FCG.UserName + "',");
+                            sb.Append("'" + FCG.Name_Arabic + "',");
                             sb.Append("'" + FCG.UserName + "')");
                                                      
-                            _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_GROUP(CMPYCODE,FFM_CRG_GROUP_CODE,DISPLAY_STATUS,NAME,VAT_CODE,VAT_GL_CODE,CREATED_ON,UPDATED_ON,CREATED_BY,UPDATED_BY) values(" + sb.ToString() + "");
+                            _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_GROUP(CMPYCODE,FFM_CRG_GROUP_CODE,DISPLAY_STATUS,NAME,VAT_CODE,VAT_GL_CODE,CREATED_ON,UPDATED_ON,CREATED_BY,Name_Arabic,UPDATED_BY) values(" + sb.ToString() + "");
 
                             _EzBusinessHelper.ActivityLog(FCG.CMPYCODE, FCG.UserName, "Add Charge group", FCG.FFM_CRG_GROUP_CODE, Environment.MachineName);
 
@@ -129,7 +131,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FFM_CRG_GROUP where CmpyCode='" + FCG.CMPYCODE + "' and FFM_CRG_GROUP_CODE='" + FCG.FFM_CRG_GROUP_CODE + "'and Flag=0");
                 if (StatsEdit != 0)
                 {
-                    _EzBusinessHelper.ExecuteNonQuery("update FFM_CRG_GROUP set NAME='" + FCG.NAME + "',VAT_GL_CODE='"+ FCG.VAT_GL_CODE + "',VAT_CODE='"+ FCG.VAT_CODE +"',UPDATED_ON='" + dtstr1 + "',UPDATED_BY='" + FCG.UserName + "',FFM_CRG_GROUP_CODE='" + FCG.FFM_CRG_GROUP_CODE + "',DISPLAY_STATUS='" + FCG.DISPLAY_STATUS + "' where CmpyCode='" + FCG.CMPYCODE + "' and FFM_CRG_GROUP_CODE='" + FCG.FFM_CRG_GROUP_CODE + "'");
+                    _EzBusinessHelper.ExecuteNonQuery("update FFM_CRG_GROUP set NAME='" + FCG.NAME + "',VAT_GL_CODE='"+ FCG.VAT_GL_CODE + "',VAT_CODE='"+ FCG.VAT_CODE +"',UPDATED_ON='" + dtstr1 + "',UPDATED_BY='" + FCG.UserName + "',FFM_CRG_GROUP_CODE='" + FCG.FFM_CRG_GROUP_CODE + "',DISPLAY_STATUS='" + FCG.DISPLAY_STATUS + "',Name_Arabic='" + FCG.Name_Arabic + "' where CmpyCode='" + FCG.CMPYCODE + "' and FFM_CRG_GROUP_CODE='" + FCG.FFM_CRG_GROUP_CODE + "'");
 
                     _EzBusinessHelper.ActivityLog(FCG.CMPYCODE, FCG.UserName, "Update Charge Group", FCG.FFM_CRG_GROUP_CODE, Environment.MachineName);
 

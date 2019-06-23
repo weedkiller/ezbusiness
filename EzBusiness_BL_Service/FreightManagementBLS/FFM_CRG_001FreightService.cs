@@ -106,6 +106,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 NAME = m.NAME,
                 DISPLAY_STATUS = m.DISPLAY_STATUS,
                 FFM_CRG_GROUP_CODE = m.FFM_CRG_GROUP_CODE,
+                Name_Arabic=m.Name_Arabic
             }).ToList();
         }
 

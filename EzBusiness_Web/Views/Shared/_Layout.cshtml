@@ -32,6 +32,7 @@
     <link href="~/Scripts/sweetalret/sweetalert2.min.css" rel="stylesheet" />    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
     <div id="wrapper">
         <!-- Navigation -->
@@ -47,9 +48,7 @@
                 <!--logo start-->
                 <a href="#" class="logo"><b>EZware Technology</b></a>
                     <div class="col-md-8" style="margin-left:20px;">
-                        <ul class="breadcrumb">
-
-                           
+                        <ul class="breadcrumb">                           
                         </ul>
                     </div>
                
@@ -57,16 +56,11 @@
 
                 <div class="top-menu">
                     <ul class="nav pull-right top-menu" >
-                        @*<li><a class="logout" href="/Logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>*@
-                        
-                        <li><a class="logout" href="/Logout" style="display:none" id="logout1"><img src="~/Content/Images/logout33333.png" class="logores" id="logout"/></a></li>
-                       
+                        @*<li><a class="logout" href="/Logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>*@                        
+                        <li><a class="logout" href="/Logout" style="display:none" id="logout1"><img src="~/Content/Images/logout33333.png" class="logores" id="logout"/></a></li>                       
                     </ul>
-                </div>
-               
-            </header>
-           
-
+                </div>               
+            </header>           
             <aside>
                 <div id="sidebar" class="nav-collapse collapse">
 
@@ -138,10 +132,14 @@
     <script src="~/Scripts/datatables/js/buttons.print.min.js"></script>
     <script src="~/Scripts/datatables/js/buttons.html5.min.js"></script>
     <script src="~/Scripts/sweetalret/sweetalert2.all.min.js"></script>
-
+    <style>
+          .treeview  li>ul .open {
+  color: #889599;
+  background-color: #F7F9FA;
+ }
+    </style>
     <script>
-        $(document).ready(function () {
-            
+        $(document).ready(function () {            
             $('#logout1').show();
             $("#loginuser_img").show();
             var empdata=@Html.Raw(Json.Encode(HttpContext.Current.Session["SesDet"]));
@@ -162,8 +160,10 @@
             //});   
             debugger;
       jQuery.expr[':'].casecontains = (a, b, c) => jQuery(a).text().toUpperCase().indexOf(c[3].toUpperCase()) >= 0;
-      var pathname = document.location.pathname; 
-      
+      var pathname = document.location.pathname;       
+    
+            //Or else you can go with below one too
+            //$("#nav li:first").find('a').trigger('click');
     
           $('a[href*="' + pathname + '"]').each(function () {
               
@@ -180,7 +180,7 @@
               // then filter in the matching links only
              $('#link-content li:casecontains("' + $('#search1').val() + '")').show();                
           });  
-  
+       
             //         
       $('.search-filter').on('keyup', function () {  
                     
@@ -208,7 +208,7 @@
                 var currentItem = $(".treeview").find("[href$='" + url + "']");
                 var path1 = "";
                 var i=0;
-               
+                $('#link-content li.nav-item ul').parent();
                 $(currentItem.parents("li").get().reverse()).each(function () {       
                     
                

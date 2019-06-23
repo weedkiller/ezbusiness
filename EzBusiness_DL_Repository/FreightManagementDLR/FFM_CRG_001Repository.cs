@@ -38,7 +38,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public FFM_CRG_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CRG_001_CODE,NAME,FFM_CRG_GROUP_CODE,DISPLAY_STATUS from FFM_CRG_001 where CMPYCODE='" + CmpyCode + "' and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CRG_001_CODE,NAME,FFM_CRG_GROUP_CODE,DISPLAY_STATUS,Name_Arabic from FFM_CRG_001 where CMPYCODE='" + CmpyCode + "' and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FFM_CRG_VM ObjList = new FFM_CRG_VM();
@@ -50,7 +50,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 ObjList.NAME = dr["NAME"].ToString();
                 ObjList.FFM_CRG_GROUP_CODE = dr["FFM_CRG_GROUP_CODE"].ToString();
                 ObjList.DISPLAY_STATUS = dr["DISPLAY_STATUS"].ToString();
-                
+                ObjList.Name_Arabic = dr["Name_Arabic"].ToString();
             }
             return ObjList;
         }
@@ -93,7 +93,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         FFM_CRG_001_CODE = dr["FFM_CRG_001_CODE"].ToString(),
                         NAME = dr["NAME"].ToString(),
                         FFM_CRG_GROUP_CODE = dr["FFM_CRG_GROUP_CODE"].ToString(),
-                        DISPLAY_STATUS = dr["DISPLAY_STATUS"].ToString()
+                        DISPLAY_STATUS = dr["DISPLAY_STATUS"].ToString(),
+                        Name_Arabic = dr["Name_Arabic"].ToString()
                     });
                 }
             }
@@ -126,7 +127,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             DISPLAY_STATUS = m.DISPLAY_STATUS,
                             INCOME_ACT = m.INCOME_ACT,
                             EXPENSE_ACGT = m.EXPENSE_ACGT,
-                            Name_Arabic=m.Arabic_Name,
+                          //  Name_Arabic=m.Arabic_Name,
                         }).ToList());
                     }
                   
@@ -153,9 +154,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + ObjList[n - 1].INCOME_ACT + "',");
                             sb.Append("'" + ObjList[n - 1].EXPENSE_ACGT + "',");                          
                             sb.Append("'" + FCur.DISPLAY_STATUS + "',");
-                            sb.Append("'" + ObjList[n - 1].Name_Arabic + "',");
+                          //  sb.Append("'" + ObjList[n - 1].Name_Arabic + "',");
                             sb.Append("'" + FCur.CMPYCODE + "')");                        
-                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,DISPLAY_STATUS,name_arabic,cmpycode) values(" + sb.ToString() + "");
+                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,DISPLAY_STATUS,cmpycode) values(" + sb.ToString() + "");
                             _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Charge", ObjList[n - 1].FFM_CRG_001_CODE, Environment.MachineName);
                         }
                         else
@@ -175,14 +176,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                         sb.Append("'" + dtstr1 + "',");
                         sb.Append("'" + FCur.UserName + "',");
-
                         sb.Append("'" + dtstr1 + "',");
                         sb.Append("'" + FCur.FFM_CRG_001_CODE + "',");
                         sb.Append("'" + FCur.CMPYCODE + "',");
                         sb.Append("'" + FCur.FFM_CRG_GROUP_CODE + "',");
                         sb.Append("'" + FCur.NAME + "',");
+                        sb.Append("'" + FCur.Name_Arabic + "',");
                         sb.Append("'" + FCur.DISPLAY_STATUS + "')");
-                        i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_001(created_by,created_On,UPdated_By,Updated_ON,FFM_CRG_001_CODE,CMPYCODE,FFM_CRG_GROUP_CODE,NAME,Display_Status) values(" + sb.ToString() + "");
+                        i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_001(created_by,created_On,UPdated_By,Updated_ON,FFM_CRG_001_CODE,CMPYCODE,FFM_CRG_GROUP_CODE,NAME,Name_Arabic,Display_Status) values(" + sb.ToString() + "");
                         FCur.SaveFlag = true;
                         FCur.ErrorMessage = string.Empty;
                     }else
@@ -232,7 +233,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                                     DISPLAY_STATUS = m.DISPLAY_STATUS,
                                     INCOME_ACT = m.INCOME_ACT,
                                     EXPENSE_ACGT = m.EXPENSE_ACGT,
-                                    Name_Arabic = m.Arabic_Name,
+                                  
 
                                 }).ToList());
                             }
@@ -252,10 +253,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                                 sb1.Append("'" + ObjList[n - 1].OPERATION_TYPE + "',");
                                 sb1.Append("'" + ObjList[n - 1].INCOME_ACT + "',");
                                 sb1.Append("'" + ObjList[n - 1].EXPENSE_ACGT + "',");
-                                sb1.Append("'" + ObjList[n - 1].Name_Arabic + "',");
+                               // sb1.Append("'" + ObjList[n - 1].Name_Arabic + "',");
                                 sb1.Append("'" + FCur.DISPLAY_STATUS + "',");
                                 sb1.Append("'" + FCur.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,name_arabic,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_CRG_002(FFM_CRG_001_CODE,SNO,FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
                                 //_EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Add FFM Voyage", ObjList[n - 1].FFM_VOYAGE01_CODE, Environment.MachineName);
 
                                 // _EzBusinessHelper.ExecuteNonQuery("insert into FFM_VOYAGE02(ffm_VOYAGE01_CODE,SNO,ROTATION,PORT,ETA,ETB,ETD,PORT_STAY_HRS,SAILING_HRS,DISPLAY_STATUS,cmpycode) values(" + sb1.ToString() + "");
@@ -270,8 +271,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                                 sb.Append("FFM_CRG_GROUP_CODE='" + FCur.FFM_CRG_GROUP_CODE + "',");
                                 sb.Append("DISPLAY_STATUS='" + FCur.DISPLAY_STATUS + "',");
                                 sb.Append("NAME='" + FCur.NAME + "',");
-                                sb.Append("UPDATED_BY='" + FCur.UserName + "',");
-                                sb.Append("UPDATED_ON='" + dtstr1 + "'");
+                                sb.Append("UPDATED_BY='" + FCur.UserName + "',");                            
+                                sb.Append("UPDATED_ON='" + dtstr1 + "',");
+                                sb.Append("Name_Arabic='" + FCur.Name_Arabic + "'");
                                 _EzBusinessHelper.ExecuteNonQuery("update FFM_CRG_001 set  " + sb + " where  FFM_CRG_001_CODE='" + FCur.FFM_CRG_001_CODE + "' and  cmpycode='" + FCur.CMPYCODE + "' and Flag=0");//CmpyCode='" + FCur.CMPYCODE + "' and                         
                                 _EzBusinessHelper.ActivityLog(FCur.CMPYCODE, FCur.UserName, "Update FFM CRG", FCur.FFM_CRG_001_CODE, Environment.MachineName);
                             }
@@ -325,7 +327,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         EXPENSE_ACGT = dr["EXPENSE_ACT"].ToString(),
                         FFM_CRG_001_CODE = dr["FFM_CRG_001_CODE"].ToString(),
                         // SailingHrs = Convert.ToInt32(dr["SAILING_HRS"].ToString()),
-                        Arabic_Name = dr["name_arabic"].ToString(),
+                      //  Arabic_Name = dr["name_arabic"].ToString(),
                     });
 
                 }
