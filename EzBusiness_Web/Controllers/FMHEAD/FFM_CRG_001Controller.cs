@@ -105,7 +105,46 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(new { DeleteFlag = _FFMCRGService.DeleteFFM_CRG_001( list[0].CmpyCode, FFM_CRG_001_CODE, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
-       
+
+
+        public ActionResult GetCRG_GroupList()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_FFMCRGService.GetCRG_Group(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetIncomeActList()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_FFMCRGService.GetIncomeAct(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetJobCodeList()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_FFMCRGService.GetJobCode(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #endregion
     }
 }

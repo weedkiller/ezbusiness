@@ -20,6 +20,8 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
       
         List<FFM_CRG_Details> GetCRGDetailList(string CmpyCode, string VyogCode);
         List<SelectListItem> GetCRG_Group(string Cmpycode);
+        List<SelectListItem> GetJobCode(string Cmpycode);
+        List<SelectListItem> GetIncomeAct(string Cmpycode);
 
         FFM_CRG_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE);
 
