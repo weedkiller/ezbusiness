@@ -218,18 +218,18 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         {
             return new FF_QTN_VM
             {
-                CustList=GetCust(Cmpycode),
+                //CustList=GetCust(Cmpycode),
                 CurList=GetCurcode(Cmpycode),
                 UnitcodeList=GetUnitcode(Cmpycode),
                 VendorList = GetVendor(Cmpycode),
-                VOYAGEList=GetVOYAGEList(Cmpycode,"NA"),
-                SLList=GetVendor(Cmpycode),
-                CLAUSEList=GetCLAUSE(Cmpycode),
+                //VOYAGEList=GetVOYAGEList(Cmpycode,"NA"),
+                //SLList=GetVendor(Cmpycode),
+                CLAUSEList =GetCLAUSE(Cmpycode),
                 CRG_002List=GetCRG_002(Cmpycode),
-                DEPARTMENTList=GetDepart(Cmpycode),
-                MoveCodeList=GetMoveCode(Cmpycode),
-                VESSELList=GetVESSELList(Cmpycode),
-                PortList=GetPortList(Cmpycode),
+                //DEPARTMENTList=GetDepart(Cmpycode),
+                //MoveCodeList=GetMoveCode(Cmpycode),
+                //VESSELList=GetVESSELList(Cmpycode),
+                //PortList=GetPortList(Cmpycode),
                 ConTypList=GetContTyp(Cmpycode),
                 Commodityist= GetCommodityistList(Cmpycode),
                 EditFlag = false

@@ -27,14 +27,15 @@ namespace EzBusiness_BL_Service
         public FFM_PORT_VM EditFFM_PORT(string CmpyCode, string FFM_PORT_CODE)
         {
             var FFM_PORTEdit = _FFM_PORTRepo.EditFFM_PORT(CmpyCode, FFM_PORT_CODE);
-            FFM_PORTEdit.CountryList = GetCountryList(CmpyCode);
+            //FFM_PORTEdit.CountryList = GetCountryList(CmpyCode);
+            FFM_PORTEdit.CountryList = CountryEdit(CmpyCode, FFM_PORTEdit.COUNTRY);
             return FFM_PORTEdit;
         }
         public FFM_PORT_VM NewFFM_PORT(string CmpyCode)
         {
             return new FFM_PORT_VM
             {
-                CountryList = GetCountryList(CmpyCode),
+                //CountryList = GetCountryList(CmpyCode),
                 EditFlag = false
             };
         }
@@ -79,6 +80,23 @@ namespace EzBusiness_BL_Service
         public FFM_PORT_VM SaveFFM_PORT(FFM_PORT_VM FC)
         {
             return _FFM_PORTRepo.SaveFFM_PORT(FC);
+        }
+
+        public List<SelectListItem> GetCountryList1(string CmpyCode, string Prefix)
+        {
+            var itemCodes = _FFM_PORTRepo.GetCountryList(CmpyCode).Where(m=> m.Name.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                    .Select(m => new SelectListItem { Value = m.Code, Text = m.Name })
+                                    .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+
+        public List<SelectListItem> CountryEdit(string CmpyCode, string code)
+        {
+            var itemCodes = _FFM_PORTRepo.GetCountryList(CmpyCode).Where(m=>m.Code.ToString().ToLower().Contains(code.ToLower())).ToList()
+                 .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
+                                    .ToList();
+            return InsertFirstElementDDL(itemCodes);
         }
     }
 }

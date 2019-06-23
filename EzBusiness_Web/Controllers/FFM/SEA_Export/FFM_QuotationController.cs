@@ -133,5 +133,157 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return Json(_QTNService.GetCurRate(list[0].CmpyCode, CurCode), JsonRequestBehavior.AllowGet);
             }
         }
+
+
+        public ActionResult GetCust(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetCust(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetCurcode(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetCurcode(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetUnitcode(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetUnitcode(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetVendor(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetVendor(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetCLAUSE(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetCLAUSE(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetCRG_002(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetCRG_002(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetDepart(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetDepart(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetMoveCode(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetMoveCode(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetVESSELList(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetVESSELList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetPortList(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetPortList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetContTyp(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetContTyp(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetCommodityistList(String CmpyCode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetCommodityistList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

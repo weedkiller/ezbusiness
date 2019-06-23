@@ -261,6 +261,20 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
+                return Json(_fpService.GetCountryList1(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetCountry1()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Json("Login/InLogin");
+            }
+            else
+            {
                 return Json(_fpService.GetCountryList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
             }
         }
