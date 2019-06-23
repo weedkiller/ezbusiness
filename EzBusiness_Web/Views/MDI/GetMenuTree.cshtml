@@ -33,7 +33,7 @@
         font-weight: bold;
         
     }
-
+  
     .treeview li {
     }
 
@@ -46,7 +46,10 @@
             color: #4ECDC4;
         }
     
-    
+    .treeview > li > a.open {
+  color: #889599;
+  background-color: #F7F9FA;
+}
 </style>
 
 
@@ -77,6 +80,28 @@
     $(document).ready(function () {
         debugger;
         $(".treeview li>ul").css('display', 'none'); // Hide all 2-level ul
+
+        $(".treeview > li > a").on("click", function(e)   {
+            debugger;
+            if ($(this).parent().has("ul")) {
+                e.preventDefault();
+            }
+
+            if (!$(this).hasClass("open")) {
+                // hide any open menus and remove all other classes
+                $("#nav li ul").slideUp(350);
+                $("#nav li a").removeClass("open");
+
+                // open our new menu and add the open class
+                $(this).next("ul").slideDown(350);
+                $(this).addClass("open");
+            } else if ($(this).hasClass("open")){
+                $(this).removeClass("open");
+                $(this).next("ul").slideUp(350);
+            }
+        $(".treeview > li:first > a").trigger('click');
+    });
+
         $(".collapsible").click(function (e) {
             debugger;      
             e.preventDefault();
@@ -99,13 +124,40 @@
                 // if search is empty, show the div and reset columns
                 $('#link-content li').show();
               
-
-                $(".treeview li>ul").first().show();
-               // $('#search1').val('');
-
+                //$(".treeview li>ul").children('td').eq(1).show();
+          
+              //var secondCell = $(".treeview li>ul").children()[0];
+            //  alert(secondCell.textContent);
+                // $('#search1').val('');
+              var pathname = document.location.pathname; 
+              var url = pathname;
+            
+              var currentItem = $(".treeview").find("[href$='" + url + "']");
+              var i = 0;
                 //$(this).toggleClass("collapse expand");
                 //$(this).closest('li').children('ul').slideToggle();
+              $(currentItem.parents("li").get().reverse()).each(function () {
+                  debugger;
+                  if (i != 0) {
+                    
+                      var path1 = $(this).attr('value');
+                    
+                  }
+                  if (i == 0)
+                  {
+                      $(".treeview li>ul").first().show();
+                  }
+                  i = i + 1;
+              });
                 
+              e.preventDefault();
+              var breadcrumb = [];
+              var treeView = this;
+                //data
+              $(this).toggleClass("collapse expand");
+              $(this).closest('li').children('ul').slideToggle();
+              jQuery.expr[':'].casecontains = (a, b, c) => jQuery(a).text().toUpperCase().indexOf(c[3].toUpperCase()) >= 0;
+
             }
         });
 

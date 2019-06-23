@@ -29,5 +29,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF
         public string Currency_code { get; set; }
         public Decimal credit_limit { get; set; }
         public string SUBLEDGER_TYPE { get; set; }
+
+        public string Name_Arabic { get; set; }
     }
 }
