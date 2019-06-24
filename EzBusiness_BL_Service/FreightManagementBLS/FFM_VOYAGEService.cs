@@ -56,6 +56,22 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                                         .ToList();
             return InsertFirstElementDDL(CurrencyList);
         }
+
+        public List<SelectListItem> GetVessalCodeEdit(string CmpyCode, string code)
+        {
+            var CurrencyList = _FFM_VOYEGERepo.GetVessalCode(CmpyCode).Where(m => m.FFM_VESSEL_CODE.ToString() == code).ToList()
+                                        .Select(m => new SelectListItem { Value = m.FFM_VESSEL_CODE, Text = string.Concat(m.FFM_VESSEL_CODE, " - ", m.NAME) })
+                                        .ToList();
+            return InsertFirstElementDDL(CurrencyList);
+        }
+
+        public List<SelectListItem> GetPortListEdit(string CmpyCode,string code)
+        {
+            var CurrencyList = _FFM_VOYEGERepo.GetPortList(CmpyCode).Where(m => m.FFM_PORT_CODE.ToString() == code).ToList()
+                                        .Select(m => new SelectListItem { Value = m.FFM_PORT_CODE, Text = string.Concat(m.FFM_PORT_CODE, " - ", m.NAME) })
+                                        .ToList();
+            return InsertFirstElementDDL(CurrencyList);
+        }
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
         {
             items.Insert(0, new SelectListItem
@@ -70,8 +86,8 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         {
           
             var poEdit = _FFM_VOYEGERepo.EditVoyagMaster(CmpyCode,VyogCode);
-            poEdit.VessalCodeList = GetVessalCode(CmpyCode);
-            poEdit.PortList = GetPortList(CmpyCode);
+            poEdit.VessalCodeList = GetVessalCodeEdit(CmpyCode, poEdit.FFM_VESSEL_CODE);//GetVessalCode(CmpyCode);
+          //  poEdit.PortList = GetPortList(CmpyCode);
             poEdit.newdetails = GetVayogeDetailList(CmpyCode, VyogCode);   
             return poEdit;    
         }
@@ -83,10 +99,10 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
 
         //    return InsertFirstElementDDL(itemCodes);
         //}
-        public List<FFM_VOYAGEA> GetVayogeDetailList(string CmpyCode, string VyogCode)
+        public List<FFM_VOYAGEANew> GetVayogeDetailList(string CmpyCode, string VyogCode)
         {
             var povoyagList = _FFM_VOYEGERepo.GetVayogeDetailList(CmpyCode, VyogCode);
-            return povoyagList.Select(m => new FFM_VOYAGEA
+            return povoyagList.Select(m => new FFM_VOYAGEANew
             {
                 SNO = m.SNO,
                 ROTATION = m.ROTATION,
@@ -96,7 +112,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 ETD = m.ETD,
                 PortStayHours = m.PortStayHours,
                 SailingHrs=m.SailingHrs,
-               
+               PortList1= GetPortListEdit(CmpyCode,m.PORT)
             }).ToList();
         }
         public FFM_VOYAGE_VM AddVoyageMaster(string CmpyCode)
@@ -105,8 +121,8 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             List<SessionListnew> list = HttpContext.Current.Session["SesDet"] as List<SessionListnew>;
             return new FFM_VOYAGE_VM
             {
-                VessalCodeList = GetVessalCode(CmpyCode),
-                PortList=GetPortList(CmpyCode),
+                //VessalCodeList = GetVessalCode(CmpyCode),
+                //PortList=GetPortList(CmpyCode),
             };
         }
 
