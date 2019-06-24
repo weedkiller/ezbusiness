@@ -26,8 +26,7 @@ function ezValidateNumbers(tableid, ids) {
 //        confirmButtonText: 'Yes, delete it!',
 //        cancelButtonText: 'No, cancel!',
 //        reverseButtons: true
-//    })
-  
+//    })  
 //}
 
 function EzAlertSave() {
@@ -60,7 +59,7 @@ function EzAuthentication(Rpath) {
                 allowOutsideClick: false,
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    return window.location.href = "/Index";
+                  return window.location.href = "/Index";
                 }
             }])
         }              
@@ -116,8 +115,7 @@ function Ezjoindate(EmpCode, hidte) {
     });
     
 }
-function Ezjoindatetbl(EmpCode) {
-    
+function Ezjoindatetbl(EmpCode) {    
     var a=''
     $.ajax({
         async: false,
@@ -1677,7 +1675,8 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
           }
 
 
-          function EzDropFillEventTbl1(tblid,ide, EveNames, ids, urls,idh,EMode) {
+          function EzDropFillEventTbl1(tblid, ide, EveNames, ids, urls, idh, EMode) {
+              debugger;
               $(tblid).on(EveNames, ide, function () {
               var tr = $(this).closest('tr');
               debugger;
