@@ -14,6 +14,12 @@
             $(this).attr('autocomplete', 'off');
         });
 
+        EzDropFillEvent("FLAG", "click", "FLAG", "GetCountryCodes");
+
+        EzDropFillEvent("VESSEL_TYPE", "click", "VESSEL_TYPE", "/FFM_VESSEL/GetContainer");
+        EzDropFillEvent("COUNTRY", "click", "COUNTRY", "GetCountryCodes");
+
+        
     });
 
 </script>
@@ -22,7 +28,12 @@
 <!-- Row start -->
 <div class="row">
     <!--updated code-->
-
+    @{
+        var TypeListdata1 = new SelectList(new[]
+        {
+            new SelectListItem { Text = "-Select-", Value = "-1" },
+            }, "Value", "Text");
+    }
     <div class="col-md-12 no-padding navbar-expand-lg">
 
         <div class="panel-body" style="margin-left:10px;">
@@ -65,7 +76,7 @@
                                                     <label class="control-label col-md-3">Flag<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
 
-                                                        @Html.DropDownListFor(m => m.FLAG, Model.COUNTRYList, new { @class = "form-control selectpicker", @data_live_search = "true", @data_size = "5" })
+                                                        @Html.DropDownListFor(m => m.FLAG, TypeListdata1, new { @class = "form-control", @data_live_search = "true", @data_size = "5" })
                                                     </div>
 
                                                 </div>
@@ -109,7 +120,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Vessel Type<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.VESSEL_TYPE, Model.ContainerList, new { @class = "form-control selectpicker", @data_live_search = "true", @data_size = "5" })
+                                                        @Html.DropDownListFor(m => m.VESSEL_TYPE, TypeListdata1, new { @class = "form-control", @data_live_search = "true", @data_size = "5" })
 
 
                                                     </div>
@@ -122,7 +133,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Country<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.COUNTRY, Model.COUNTRYList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.COUNTRY, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
 
                                                     </div>
                                                 </div>

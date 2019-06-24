@@ -22,6 +22,9 @@
 
 <script>
     var Doks = [];   
+
+    var paydeductons = [];
+
     $(function (){
         
         $("#tblUnits1").hide();      
@@ -61,8 +64,8 @@
 
         /*Enter Event*/
         EztableLstEnt("#tblUnits1", "[name*='txtSTATE']", "[name *= 'txtSno']", "T", "");
-        GetCountryCodes();
-        GetCurrencyCodes();
+        //GetCountryCodes();
+        //GetCurrencyCodes();
         /*Add Table Change Event*/
         $("#tblUnits1").on("change", "[name*='txtFNMBRANCH_CODE']", function () {
             
@@ -185,6 +188,10 @@
                 }
             });
         }
+
+        EzDropFillEventTbl1("#tblUnits1", "[name*='ddlCOUNTRY']", "click", "[name*='ddlCOUNTRY']", "GetCountryCodes", "", false);
+        EzDropFillEventTbl1("#tblUnits1", "[name*='ddlCURRENCY']", "click", "[name*='ddlCURRENCY']", "GetCurrencyCodes", "", false);
+
         /*Refresh */
         $("#btnCancel").click(function () {
             location.reload();
@@ -358,6 +365,8 @@
         });
 
 
+        var DESCRIPTION,PRINTNAME ,ADDRESS,EMAIL ,WEBSITE ,MOBILE ,COUNTRY,CURRENCY,STATE = '';
+
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             var n = EzAuthenticationBtn("/FNMBranch", "EditIt");
             if (n == 1) {
@@ -373,15 +382,15 @@
                 var EMAILTd = $(tr).find("td:eq(5)");
                 var WEBSITETd = $(tr).find("td:eq(6)");
                 var MOBILETd = $(tr).find("td:eq(7)");
-                var CURRENCYTd = $(tr).find("td:eq(8)");
-                var COUNTRYTd = $(tr).find("td:eq(9)");
+                var  COUNTRYTd = $(tr).find("td:eq(8)");
+                var  CURRENCYTd= $(tr).find("td:eq(9)");
                 var STATETd = $(tr).find("td:eq(10)");
 
                 var editButton = $(this);
 
                 if (hdnEditMode.val() == "true") {
                     var DESCRIPTIONEdit = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
-                  //  var SNOEdit = $(tr).find("[name*='txtSNO']").val().trim();
+                 
                     var PRINTNAMEEdit = $(tr).find("[name*='txtPRINTNAME']").val().trim();
                     var ADDRESSEdit = $(tr).find("[name*='txtADDRESS']").val().trim();
                     var EMAILEdit = $(tr).find("[name*='txtEMAIL']").val().trim();
@@ -431,16 +440,16 @@
                         console.log(thrownError);
                     });
                 } else {
-                    
-                    var DESCRIPTION = $(tr).find("td:eq(2)").text();
-                    var PRINTNAME = $(tr).find("td:eq(3)").text();
-                    var ADDRESS = $(tr).find("td:eq(4)").text();
-                    var EMAIL = $(tr).find("td:eq(5)").text();
-                    var WEBSITE = $(tr).find("td:eq(6)").text();
-                    var MOBILE = $(tr).find("td:eq(7)").text();
-                    var CURRENCY = $(tr).find("td:eq(8)").text();
-                    var COUNTRY = $(tr).find("td:eq(9)").text();
-                    var STATE = $(tr).find("td:eq(10)").text();
+                    debugger;
+                     DESCRIPTION = $(tr).find("td:eq(2)").text();
+                     PRINTNAME = $(tr).find("td:eq(3)").text();
+                     ADDRESS = $(tr).find("td:eq(4)").text();
+                     EMAIL = $(tr).find("td:eq(5)").text();
+                     WEBSITE = $(tr).find("td:eq(6)").text();
+                     MOBILE = $(tr).find("td:eq(7)").text();
+                     COUNTRY = $(tr).find("td:eq(8)").text().trim();
+                     CURRENCY = $(tr).find("td:eq(9)").text();
+                     STATE = $(tr).find("td:eq(10)").text();
 
                     $('#inpdocname').val(DESCRIPTION.trim());
 
@@ -450,12 +459,29 @@
                     EMAILTd.html("<input type='text' name='txtEMAIL" + index + "' value='" + EMAIL.trim() + "' />");
                     WEBSITETd.html("<input type='text' name='txtWEBSITE" + index + "' value='" + WEBSITE.trim() + "' />");
                     MOBILETd.html("<input type='text' name='txtMOBILE" + index + "' value='" + MOBILE.trim() + "' />");
-                    CURRENCYTd.html("<input type='text' name='txtCURRENCY" + index + "' value='" + CURRENCY.trim() + "' />");
-                    COUNTRYTd.html("<input type='text' name='txtCOUNTRY" + index + "' value='" + COUNTRY.trim() + "' />");
+                   // CURRENCYTd.html("<input type='text' name='txtCURRENCY" + index + "' value='" + CURRENCY.trim() + "' />");
+                  //  COUNTRYTd.html("<input type='text' name='txtCOUNTRY" + index + "' value='" + COUNTRY.trim() + "' />");
                     STATETd.html("<input type='text' name='txtSTATE" + index + "' value='" + STATE.trim() + "' />");
 
+                   
 
+                    //$("[name*='hdnCURRENCY']").val(CURRENCY.trim());
+                    if(CURRENCY.trim()==''){
+                        CURRENCYTd.html("<select class='grid-control' name='txtCURRENCY" + index + "' id='txtCURRENCY" + index + "'><option value='-1'>-Select-</option</select>");
+                    }else{
+                        CURRENCYTd.html("<select class='grid-control' name='txtCURRENCY" + index + "' id='txtCURRENCY" + index + "'><option value="+ CURRENCY.trim()  +">"+ CURRENCY.trim()  +"</option</select> <input id='hdnCURRENCY" + index + "'  name='hdnCURRENCY" + index + "' value="+CURRENCY.trim()+" type='hidden' />");
+                    }
+                    
+                   
 
+                         
+                    //$("[name*='hdnCOUNTRY']").val(COUNTRY.trim());
+
+                    if(COUNTRY.trim()==''){
+                        COUNTRYTd.html("<select class='grid-control' name='txtCOUNTRY" + index + "' id='txtCOUNTRY" + index + "'><option value='-1'>-Select-</option</select>");
+                    }else{
+                        COUNTRYTd.html("<select class='grid-control' name='txtCOUNTRY" + index + "' id='txtCOUNTRY" + index + "'><option value="+ COUNTRY.trim()  +">"+ COUNTRY.trim()  +"</option</select><input id='hdnCOUNTRY" + index + "' name='hdnCOUNTRY" + index + "' value="+COUNTRY.trim()+" type='hidden' />");
+                    }                                              
                     $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
                     $(this).attr('title', 'Update');
                     hdnEditMode.val("true");
@@ -470,6 +496,25 @@
                 }
             }
         });
+
+
+        EzDropFillEventTbl1("#tblUnits", "[name*='txtCURRENCY']", "click", "[name*='txtCURRENCY']", "/FFM_Quotation/GetCurcode", "hdnCURRENCY", true);
+
+        EzDropFillEventTbl1("#tblUnits", "[name*='txtCOUNTRY']", "click", "[name*='txtCOUNTRY']", "GetCountryCodes", "hdnCOUNTRY", true);
+
+
+        function GetPayDeductOnDDL(index) {
+       
+            if (paydeductons.length > 0) {
+                var ddlPayDeductOn = "<select class='target grid-control'  name='ddlCOUNTRY" + index + "'>";
+                for (var i in paydeductons) {
+                    ddlPayDeductOn += "<option value='" + paydeductons[i].DivisionCode + "'>" + paydeductons[i].DivisionName + "</option>";
+                }
+                ddlPayDeductOn += "</select>";
+            }
+            return ddlPayDeductOn;
+        }
+
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
             
@@ -533,11 +578,43 @@
 
                 }
                 else {
+                    
                     var nameTd = $(tr).find("td:eq(1)");
+                    var DESCRIPTIONTd = $(tr).find("td:eq(2)");
+                    var PRINTNAMETd = $(tr).find("td:eq(3)");
+                    var ADDRESSTd = $(tr).find("td:eq(4)");
+                    var EMAILTd = $(tr).find("td:eq(5)");
+                    var WEBSITETd = $(tr).find("td:eq(6)");
+                    var MOBILETd = $(tr).find("td:eq(7)");
+                    var  COUNTRYTd = $(tr).find("td:eq(8)");
+                    var  CURRENCYTd= $(tr).find("td:eq(9)");
+                    var STATETd = $(tr).find("td:eq(10)");
+
+                    //var DESCRIPTIONEdit = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
+                 
+                    //var PRINTNAMEEdit = $(tr).find("[name*='txtPRINTNAME']").val().trim();
+                    //var ADDRESSEdit = $(tr).find("[name*='txtADDRESS']").val().trim();
+                    //var EMAILEdit = $(tr).find("[name*='txtEMAIL']").val().trim();
+                    //var WEBSITEEdit = $(tr).find("[name*='txtWEBSITE']").val().trim();
+                    //var MOBILEEdit = $(tr).find("[name*='txtMOBILE']").val().trim();
+                    //var CURRENCYEdit = $(tr).find("[name*='txtCURRENCY']").val().trim();
+                    //var COUNTRYEdit = $(tr).find("[name*='txtCOUNTRY']").val().trim();
+                    //var STATEEdit = $(tr).find("[name*='txtSTATE']").val().trim();
+
 
                     var nameEdit = $('#inpdocname').val();
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
-                    nameTd.html(nameEdit);
+                  //  nameTd.html(nameEdit);
+                    DESCRIPTIONTd.html(DESCRIPTION);
+                    PRINTNAMETd.html(PRINTNAME);
+                    ADDRESSTd.html(ADDRESS);
+                    EMAILTd.html(EMAIL);
+                    WEBSITETd.html(WEBSITE);
+                    MOBILETd.html(MOBILE);
+                    COUNTRYTd.html(COUNTRY);
+                    CURRENCYTd.html(CURRENCY);
+                    STATETd.html(STATE);
+
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
                     $(this).html('<span class="glyphicon glyphicon-trash"></span>');
@@ -574,6 +651,10 @@ $(document).ready(function(){
 });
 </script>
 <br />
+@*<input id="hdnCURRENCY"  name="hdnCURRENCY" type="hidden" />
+<input id="hdnCOUNTRY" name="hdnCOUNTRY" type="hidden" />*@
+
+
 
 <div class="title-action">
     <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
@@ -686,13 +767,13 @@ $(document).ready(function(){
                             </td>
                             <td>
                                 <div class="grid-group">
-                                    @Html.DropDownList(string.Concat("ddlCOUNTRY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "0" }, }, new { @class = "selectpicker grid-control", @data_live_search = "true" })
+                                    @Html.DropDownList(string.Concat("ddlCOUNTRY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "-1" }, }, new { @class = "grid-control", @data_live_search = "true" })
                                 </div>
                             </td>
                             <td>
                                 <div class="grid-group">
 
-                                    @Html.DropDownList(string.Concat("ddlCURRENCY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "0" }, }, new { @class = "selectpicker grid-control", @data_live_search = "true" })
+                                    @Html.DropDownList(string.Concat("ddlCURRENCY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "-1" }, }, new { @class = "grid-control", @data_live_search = "true" })
                                 </div>
                             </td>
                             <td>
