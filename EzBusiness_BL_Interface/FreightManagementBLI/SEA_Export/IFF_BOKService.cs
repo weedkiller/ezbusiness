@@ -40,7 +40,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 
         List<SelectListItem> GetCurcode(string CmpyCode);
 
-
+        
         List<SelectListItem> GetUnitcode(string CmpyCode);
         bool DeleteFF_BOK(string CmpyCode, string FF_BOK001_CODE, string UserName);
 

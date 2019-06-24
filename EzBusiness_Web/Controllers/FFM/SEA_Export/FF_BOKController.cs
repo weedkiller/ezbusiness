@@ -145,5 +145,45 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return Json(_BOKService.GetCurRate(list[0].CmpyCode, CurCode), JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult GetSLList1()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_BOKService.GetSL(list[0].CmpyCode,"FM"), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetSLList2()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_BOKService.GetSL(list[0].CmpyCode, "OP"), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult GETJobTypList()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_BOKService.GETJobTypList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
