@@ -10,8 +10,12 @@
     $(function () {
         arr1 = [];
 
-
-
+        EzDropFillEvent("Head_code", "click", "Head_code", "/FNM_AC_COA/GetFMHead");
+        EzDropFillEvent("group_code", "click", "group_code", "/FNM_AC_COA/GetGroupCode");
+        EzDropFillEvent("SUBGROUP_code", "click", "SUBGROUP_code", "/FNM_AC_COA/GetSubGroup");
+        EzDropFillEvent("COA_TYPE", "click", "COA_TYPE", "/FNM_AC_COA/GetCOAType");
+        EzDropFillEvent("SUBLEDGER_CAT", "click", "SUBLEDGER_CAT", "/FNM_AC_COA/GetSubledgerCat");
+        
         $('.selectpicker').selectpicker('refresh');
 
 
@@ -44,6 +48,12 @@
 
 <!-- Row start -->
 <div class="row">
+    @{
+        var TypeListdata1 = new SelectList(new[]
+        {
+            new SelectListItem { Text = "-Select-", Value = "-1" },
+            }, "Value", "Text");
+    }
     <!--updated code-->
 
     <div class="col-md-12 no-padding navbar-expand-lg">
@@ -89,8 +99,8 @@
 
                                                     <label class="control-label col-md-3">Head Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-
-                                                        @Html.DropDownListFor(m => m.Head_code, Model.Head_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.Head_code, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
+                                                        @*@Html.DropDownListFor(m => m.Head_code, Model.Head_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
                                                     </div>
 
                                                 </div>
@@ -103,8 +113,8 @@
 
                                                     <label class="control-label col-md-3">Group Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.group_code, Model.group_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })
-
+                                                        @*@Html.DropDownListFor(m => m.group_code, Model.group_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                                        @Html.DropDownListFor(m => m.group_code, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
 
                                                     </div>
 
@@ -122,8 +132,8 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3"> Sub Group  Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-
-                                                        @Html.DropDownListFor(m => m.SUBGROUP_code, Model.SUBGROUP_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.SUBGROUP_code, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
+                                                        @*@Html.DropDownListFor(m => m.SUBGROUP_code, Model.SUBGROUP_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
                                                     </div>
                                                 </div>
                                             </div>
@@ -138,8 +148,8 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Coa Type<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.COA_TYPE, Model.COA_TYPEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
-
+                                                        @*@Html.DropDownListFor(m => m.COA_TYPE, Model.COA_TYPEList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                                        @Html.DropDownListFor(m => m.COA_TYPE, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
 
                                                     </div>
                                                 </div>
@@ -166,8 +176,8 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Sub Ledger Category<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.SUBLEDGER_CAT, Model.SUBLEDGER_CATList, new { @class = "form-control selectpicker", @data_live_search = "true" })
-
+                                                        @*@Html.DropDownListFor(m => m.SUBLEDGER_CAT, Model.SUBLEDGER_CATList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                                        @Html.DropDownListFor(m => m.SUBLEDGER_CAT, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
 
                                                     </div>
                                                 </div>

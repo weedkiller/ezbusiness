@@ -28,8 +28,8 @@
             $(this).attr('autocomplete', 'off');
         });
 
-
-
+        EzDropFillEvent("FROM_CURRENCY_CODE", "click", "FROM_CURRENCY_CODE", "/FFM_Quotation/GetCurcode");
+        EzDropFillEvent("TO_CURRENCY_CODE", "click", "TO_CURRENCY_CODE", "/FFM_Quotation/GetCurcode");
 
         
     });
@@ -43,6 +43,12 @@
 
 <!-- Row start -->
 <div class="row">
+    @{
+        var TypeListdata1 = new SelectList(new[]
+        {
+            new SelectListItem { Text = "-Select-", Value = "-1" },
+            }, "Value", "Text");
+    }
     <!--updated code-->
     <div class="col-md-12 no-padding navbar-expand-lg">
         <div class="panel-body" style="margin-left:10px;">
@@ -59,7 +65,9 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">From Currency Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.FROM_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.FROM_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control", @data_live_search = "true" })
+                                                        @Html.HiddenFor(m => m.FROM_CURRENCY_CODE)
+                                                        @*@Html.DropDownListFor(m => m.FROM_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
                                                     </div>
                                                 </div>
                                             </div>
@@ -71,7 +79,9 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">To Currency Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.TO_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.TO_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control", @data_live_search = "true" })
+                                                        @Html.HiddenFor(m => m.TO_CURRENCY_CODE)
+                                                        @*@Html.DropDownListFor(m => m.TO_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
 
                                                     </div>
                                                 </div>

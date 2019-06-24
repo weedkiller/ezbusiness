@@ -20,6 +20,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string FROM_CURRENCY_CODE { get; set; }
 
         public List<SelectListItem> FROM_CURRENCY_CODEList { get; set; }
+        public List<SelectListItem> TO_CURRENCY_CODEList { get; set; }
         public string TO_CURRENCY_CODE { get; set; }
         [DisplayName("ENTRY DATE")]
         public DateTime ENTRY_DATE { get; set; }
