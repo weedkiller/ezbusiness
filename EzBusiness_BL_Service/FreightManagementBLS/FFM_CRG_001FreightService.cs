@@ -55,6 +55,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
 
             }).ToList();
         }
+        //hii
         public FFM_CRG_VM FM_CRG_001AddNew(string CmpyCode)
         {
             return new FFM_CRG_VM
