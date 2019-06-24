@@ -109,6 +109,81 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(_FNM_AC_COAService.SaveFNM_AC_COA(FNM), JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult GetFMHead()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                //FNM.COMPANY_UID = list[0].CmpyCode;
+                //FNM.UserName = list[0].user_name;
+                return Json(_FNM_AC_COAService.GetFMHEAD(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetGroupCode()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                //FNM.COMPANY_UID = list[0].CmpyCode;
+                //FNM.UserName = list[0].user_name;
+                return Json(_FNM_AC_COAService.Getgroup_code(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetSubGroup()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                //FNM.COMPANY_UID = list[0].CmpyCode;
+                //FNM.UserName = list[0].user_name;
+                return Json(_FNM_AC_COAService.GetFNMSUBGROUP(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetCOAType()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                //FNM.COMPANY_UID = list[0].CmpyCode;
+                //FNM.UserName = list[0].user_name;
+                return Json(_FNM_AC_COAService.GetCOA_TYPEList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetSubledgerCat()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                //FNM.COMPANY_UID = list[0].CmpyCode;
+                //FNM.UserName = list[0].user_name;
+                return Json(_FNM_AC_COAService.GetSUBLEDGER_CAT(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
     }
 }
