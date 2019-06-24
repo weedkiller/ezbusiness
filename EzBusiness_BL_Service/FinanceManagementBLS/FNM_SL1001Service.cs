@@ -30,10 +30,10 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
         public FNM_SL_VM EditFNM_SL(string CmpyCode, string FNM_SL1001_CODE)
         {
             var FNM_SLEdit = _FNM_SL1001Rep.EditFNM_SL(CmpyCode, FNM_SL1001_CODE);
-            FNM_SLEdit.Currency_codeList = GetFNMCURRENCY();
+            FNM_SLEdit.Currency_codeList = GetFNMCURRENCYEdit(FNM_SLEdit.Currency_code);
             //FNM_SLEdit.SUBLEDGER_TYPE = FNM_SLEdit.SUBLEDGER_TYPE;
-            FNM_SLEdit.SUBLEDGER_TYPEList = GetFNMCAT(CmpyCode, FNM_SLEdit.SUBLEDGER_TYPE);
-            FNM_SLEdit.FNM_SL1002Details = GetFNMSL002DetailList(CmpyCode, FNM_SL1001_CODE);
+            //FNM_SLEdit.SUBLEDGER_TYPEList = GetFNMCAT(CmpyCode, FNM_SLEdit.SUBLEDGER_TYPE);
+            FNM_SLEdit.FNM_SL1002Details = GetFNMSL002DetailList(CmpyCode, FNM_SL1001_CODE,FNM_SLEdit.SUBLEDGER_TYPE);
             return FNM_SLEdit;
         }
 
@@ -46,11 +46,30 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
             return InsertFirstElementDDL(itemCodes);
         }
 
+      
+
+        public List<SelectListItem> GetFNMCATEdit(string CmpyCode, string type1,string code)
+        {
+            var itemCodes = _FNM_SL1001Rep.GetFNMCAT(CmpyCode, type1).Where(m => m.FNMSLCAT_CODE.ToString() == code).ToList()
+                                         .Select(m => new SelectListItem { Value = m.FNMSLCAT_CODE, Text = string.Concat(m.FNMSLCAT_CODE, " - ", m.DESCRIPTION) })
+                                         .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
         public List<SelectListItem> GetFNMCURRENCY()
         {
             var itemCodes = _FNM_SL1001Rep.GetCURRENCYList()
                                           .Select(m => new SelectListItem { Value = m.CURRENCY_CODE, Text = string.Concat(m.CURRENCY_CODE, " - ", m.CURRENCY_NAME) })
                                           .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+
+        public List<SelectListItem> GetFNMCURRENCYEdit(string Code)
+        {
+            var itemCodes = _FNM_SL1001Rep.GetCURRENCYList().Where(m => m.CURRENCY_CODE.ToString() == Code).ToList()
+                                         .Select(m => new SelectListItem { Value = m.CURRENCY_CODE, Text = string.Concat(m.CURRENCY_CODE, " - ", m.CURRENCY_NAME) })
+                                         .ToList();
 
             return InsertFirstElementDDL(itemCodes);
         }
@@ -64,7 +83,7 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
             return items;
         }
 
-        public List<FNM_SL1002DetailNew> GetFNMSL002DetailList(string CmpyCode, string FNM_SL1001_CODE)
+        public List<FNM_SL1002DetailNew> GetFNMSL002DetailList(string CmpyCode, string FNM_SL1001_CODE,string Type1)
         {
             return _FNM_SL1001Rep.GetFNM_SL1002(CmpyCode,FNM_SL1001_CODE).Select(m => new FNM_SL1002DetailNew
             {
@@ -74,9 +93,10 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
                FNM_SL1002_CODE=m.FNM_SL1002_CODE,
                FNM_SL1001_CODE=m.FNM_SL1001_CODE,
                DIVISION=m.DIVISION,
-               COA_NAME=m.COA_NAME
+               COA_NAME=m.COA_NAME,
+                SUBLEDGER_TYPEList1= GetFNMCATEdit(CmpyCode, Type1,m.FNM_SL1002_CODE)
 
-            }).ToList();
+        }).ToList();
         }
 
         public List<FNM_SL_VM> GetFNM_SL(string CmpyCode, string SubledgerType)
@@ -106,8 +126,8 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
         {
             return new FNM_SL_VM
             {
-                Currency_codeList = GetFNMCURRENCY(),
-                SUBLEDGER_TYPEList= GetFNMCAT(Cmpycode, type1),
+                //Currency_codeList = GetFNMCURRENCY(),
+                //SUBLEDGER_TYPEList= GetFNMCAT(Cmpycode, type1),
 
                 EditFlag = false
             };
@@ -128,10 +148,13 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
                 FNM_SL1002_CODE = m.FNM_SL1002_CODE,
                 FNM_SL1001_CODE = m.FNM_SL1001_CODE,
                 DIVISION = m.DIVISION,
-                COA_NAME=m.COA_NAME
+                COA_NAME=m.COA_NAME,
+            
 
             }).ToList();
         }
+
+       
 
         //public List<FNM_SL1002DetailNew> GetCatDropDetailListFilter(string CmpyCode, string FNMCAT_CODE)
         //{
@@ -161,7 +184,7 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
 
         //        }).ToList();
         //    }
-           
+
         //}
     }
 }

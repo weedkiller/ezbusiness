@@ -16,6 +16,18 @@
 <script>
     $(function () {
         arr1 = [];
+
+        EzDropFillEvent("FFM_CRG_GROUP_CODE", "click", "FFM_CRG_GROUP_CODE", "/FFM_CRG_001/GetCRG_GroupList");
+
+
+        EzDropFillEventTbl1("#tablePODetails", "[name*='txtjobcode']", "click", "[name*='txtjobcode']", "/FFM_CRG_001/GetJobCodeList", "", false);
+
+        EzDropFillEventTbl1("#tablePODetails", "[name*='txtincomeact']", "click", "[name*='txtincomeact']", "/FFM_CRG_001/GetIncomeActList", "", false);
+
+        EzDropFillEventTbl1("#tablePODetails", "[name*='txtexpenceacgt']", "click", "[name*='txtexpenceacgt']", "/FFM_CRG_001/GetIncomeActList", "", false);
+        
+
+
         $('.selectpicker').selectpicker('refresh');
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
         var counter = parseInt($("#hdnCounter").val());
@@ -128,6 +140,12 @@
 </script>
 <!-- Row start -->
 <div class="row">
+    @{
+        var TypeListdata1 = new SelectList(new[]
+        {
+            new SelectListItem { Text = "-Select-", Value = "-1" },
+            }, "Value", "Text");
+    }
     <!--updated code-->
     <div class="col-md-12 no-padding navbar-expand-lg">
         <div class="panel-body" style="margin-left:10px;">
@@ -144,7 +162,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Group Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.FFM_CRG_GROUP_CODE, Model.CRG_GROUP_CODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.FFM_CRG_GROUP_CODE, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -239,7 +257,7 @@
                                                                 <td>
                                                                     <div class="form-group">
                                                                         @*@Html.TextBox(string.Concat("txtjobcode", counter), null, new { @class = "grid-control " })*@
-                                                                        @Html.DropDownList(string.Concat("txtjobcode", counter), Model.CRG_job_CODEList, new { @class = "selectpicker  form-control", @data_live_search = "true" })
+                                                                        @Html.DropDownList(string.Concat("txtjobcode", counter), TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                                         @*@Html.DropDownListFor(m => m.JOB_CODE, Model.CRG_job_CODEList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
                                                                     </div>
                                                                 </td>
@@ -256,13 +274,13 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        @Html.DropDownList(string.Concat("txtincomeact", counter), Model.IncomeACTList, new { @class = "selectpicker grid-control", @data_live_search = "true" })
+                                                                        @Html.DropDownList(string.Concat("txtincomeact", counter), TypeListdata1, new { @class = "grid-control", @data_live_search = "true" })
                                                                         @*@Html.TextBox(string.Concat("txtincomeact", counter), null, new { @class = "grid-control datepicker" })*@
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.DropDownList(string.Concat("txtexpenceacgt", counter), Model.IncomeACTList, new { @class = "selectpicker grid-control", @data_live_search = "true" })
+                                                                        @Html.DropDownList(string.Concat("txtexpenceacgt", counter), TypeListdata1, new { @class = "grid-control", @data_live_search = "true" })
                                                                         @*@Html.TextBox(string.Concat("txtexpenceacgt", counter), null, new { @class = "grid-control" })*@
                                                                     </div>
                                                                 </td>

@@ -14,6 +14,22 @@
     $(function () {
         arr1 = [];
 
+
+        EzDropFillEvent("Currency_code", "click", "Currency_code", "/FFM_Quotation/GetCurcode ");
+
+
+        var SUBLEDGER_TYPE = '';
+        var path = $("#hdnpath").val();
+        if (path == "<li>Finance Management</li><li>Operational Customers</li><li>SubLedger</li>") {
+            SUBLEDGER_TYPE = "/FNM_SL/SUBLEDGER_TYPEList1";            
+        } else
+        {
+            SUBLEDGER_TYPE = "/FNM_SL/SUBLEDGER_TYPEList2";
+        }
+        EzDropFillEventTbl1("#tblFNMCURRATE", "[name*='FNM_SL1002_CODE']", "click", "[name*='FNM_SL1002_CODE']", SUBLEDGER_TYPE, "", false);
+
+      
+
         $('.selectpicker').selectpicker('refresh');
 
       //  EzdtePk('#ENTRY_DATE1');
@@ -190,6 +206,12 @@
 
 <!-- Row start -->
 <div class="row">
+    @{
+        var TypeListdata1 = new SelectList(new[]
+        {
+            new SelectListItem { Text = "-Select-", Value = "-1" },
+            }, "Value", "Text");
+    }
     <!--updated code-->
     <div class="col-md-12 no-padding navbar-expand-lg">
         <div class="panel-body" style="margin-left:10px;">
@@ -333,7 +355,8 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Currency code<i class="star">*</i></label>
                                         <div class="col-md-9 input-field">
-                                            @Html.DropDownListFor(m => m.Currency_code, Model.Currency_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.Currency_code, Model.Currency_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                            @Html.DropDownListFor(m => m.Currency_code, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                         </div>
                                     </div>
                                 </div>
@@ -398,7 +421,8 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        @Html.DropDownList(string.Concat("FNM_SL1002_CODE", counter), Model.SUBLEDGER_TYPEList, new { @class = "selectpicker grid-control subledg", @data_live_search = "true" })
+                                                                        @Html.DropDownList(string.Concat("FNM_SL1002_CODE", counter), TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
+                                                                        @*@Html.DropDownList(string.Concat("FNM_SL1002_CODE", counter), Model.SUBLEDGER_TYPEList, new { @class = "selectpicker grid-control subledg", @data_live_search = "true" })*@
                                                                     </div>
                                                                 </td>
                                                                 <td>

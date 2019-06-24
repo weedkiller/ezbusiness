@@ -27,20 +27,13 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         public FFM_CRG_VM EditFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE)
         {
             var FFM_CRG_001Edit = _FFMCRGRepo.EditFM_CRG_001(CmpyCode, FFM_CRG_001_CODE);
-            FFM_CRG_001Edit.CRG_GROUP_CODEList = GetCRG_Group(CmpyCode);
-            FFM_CRG_001Edit.CRG_job_CODEList = GetJobCode(CmpyCode);
-            FFM_CRG_001Edit.IncomeACTList = GetIncomeAct(CmpyCode);
+            FFM_CRG_001Edit.CRG_GROUP_CODEList = GetCRG_GroupEdit(CmpyCode, FFM_CRG_001Edit.FFM_CRG_GROUP_CODE);
+            //FFM_CRG_001Edit.CRG_job_CODEList = GetJobCode(CmpyCode);
+            //FFM_CRG_001Edit.IncomeACTList = GetIncomeAct(CmpyCode);
             FFM_CRG_001Edit.crgnewDetails=GetCRGDetailList(CmpyCode, FFM_CRG_001_CODE);
             return FFM_CRG_001Edit;
         }
-        public List<SelectListItem> GetJobCode(string Cmpycode)
-        {
-            var itemCodes = _FFMCRGRepo.GetJobCode(Cmpycode)
-                                         .Select(m => new SelectListItem { Value = m.FFM_JOB_CODE, Text = string.Concat(m.FFM_JOB_CODE, " - ", m.NAME) })
-                                         .ToList();
-
-            return InsertFirstElementDDL(itemCodes);
-        }
+      
 
         public List<FFM_CRG_Details> GetCRGDetailList(string CmpyCode, string FFM_CRG_001_CODE)
         {
@@ -54,22 +47,34 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 INCOME_ACT = m.INCOME_ACT,
                 EXPENSE_ACGT = m.EXPENSE_ACGT,
                 FFM_CRG_001_CODE = m.FFM_CRG_001_CODE,
-                Arabic_Name=m.Arabic_Name
-              //  SailingHrs = m.SailingHrs,
+                Arabic_Name=m.Arabic_Name,
+                CRG_job_CODEList1=GetJobCodeEdit(CmpyCode,m.FFM_CRG_JOB_CODE),
+                IncomeACTList1=GetIncomeActEdit(CmpyCode,m.INCOME_ACT),
+                IncomeACTList2=GetIncomeActEdit(CmpyCode,m.EXPENSE_ACGT)
+                //  SailingHrs = m.SailingHrs,
 
             }).ToList();
         }
+        //hii
         public FFM_CRG_VM FM_CRG_001AddNew(string CmpyCode)
         {
             return new FFM_CRG_VM
             {
-                CRG_GROUP_CODEList = GetCRG_Group(CmpyCode),
-                CRG_job_CODEList=GetJobCode(CmpyCode),
-                IncomeACTList= GetIncomeAct(CmpyCode),
+                //CRG_GROUP_CODEList = GetCRG_Group(CmpyCode),
+                //CRG_job_CODEList=GetJobCode(CmpyCode),
+                //IncomeACTList= GetIncomeAct(CmpyCode),
                 EditFlag = false
             };
         }
 
+        public List<SelectListItem> GetJobCode(string Cmpycode)
+        {
+            var itemCodes = _FFMCRGRepo.GetJobCode(Cmpycode)
+                                         .Select(m => new SelectListItem { Value = m.FFM_JOB_CODE, Text = string.Concat(m.FFM_JOB_CODE, " - ", m.NAME) })
+                                         .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
         public List<SelectListItem> GetCRG_Group(string Cmpycode)
         {
             var itemCodes = _FFMCRGRepo.GetCRG_Group(Cmpycode)
@@ -81,6 +86,31 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         public List<SelectListItem> GetIncomeAct(string Cmpycode)
         {
             var itemCodes = _FFMCRGRepo.GetIncomeAct(Cmpycode)
+                                         .Select(m => new SelectListItem { Value = m.CODE, Text = string.Concat(m.CODE, " - ", m.NAME) })
+                                         .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+
+        public List<SelectListItem> GetJobCodeEdit(string Cmpycode,string Code)
+        {
+            var itemCodes = _FFMCRGRepo.GetJobCode(Cmpycode).Where(m => m.FFM_JOB_CODE.ToString() == Code).ToList()
+                                         .Select(m => new SelectListItem { Value = m.FFM_JOB_CODE, Text = string.Concat(m.FFM_JOB_CODE, " - ", m.NAME) })
+                                         .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+        public List<SelectListItem> GetCRG_GroupEdit(string Cmpycode, string Code)
+        {
+            var itemCodes = _FFMCRGRepo.GetCRG_Group(Cmpycode).Where(m => m.FFM_CRG_GROUP_CODE.ToString() == Code).ToList()
+                                         .Select(m => new SelectListItem { Value = m.FFM_CRG_GROUP_CODE, Text = string.Concat(m.FFM_CRG_GROUP_CODE, " - ", m.NAME) })
+                                         .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+        public List<SelectListItem> GetIncomeActEdit(string Cmpycode, string Code)
+        {
+            var itemCodes = _FFMCRGRepo.GetIncomeAct(Cmpycode).Where(m => m.CODE.ToString() == Code).ToList()
                                          .Select(m => new SelectListItem { Value = m.CODE, Text = string.Concat(m.CODE, " - ", m.NAME) })
                                          .ToList();
 

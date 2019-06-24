@@ -45,6 +45,9 @@ namespace EzBusiness_ViewModels.Models.FinaceMgmt
 
         public List<SelectListItem> SUBLEDGER_TYPEList { get; set; }
 
+
+ 
+
         [DisplayName("SubLedger Type")]
         public string SUBLEDGER_TYPE { get; set; }
 
@@ -68,5 +71,7 @@ namespace EzBusiness_ViewModels.Models.FinaceMgmt
         public string COA_CODE { get; set; }
 
         public string COA_NAME { get; set; }
+
+        public List<SelectListItem> SUBLEDGER_TYPEList1 { get; set; }
     }
 }

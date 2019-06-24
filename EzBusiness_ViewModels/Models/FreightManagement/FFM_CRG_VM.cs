@@ -46,6 +46,12 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string INCOME_ACT { get; set; }
         public string EXPENSE_ACGT { get; set; }
         public string Arabic_Name { get; set; }
-     
+
+
+        public List<SelectListItem> CRG_job_CODEList1 { get; set; }
+        public List<SelectListItem> IncomeACTList1 { get; set; }
+
+        public List<SelectListItem> IncomeACTList2 { get; set; }
+
     }
 }

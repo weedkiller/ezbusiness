@@ -152,11 +152,23 @@
                 showClear: true,
             });
 
-        });       
+        });
+
+        EzDropFillEvent("FFM_VESSEL_CODE", "click", "FFM_VESSEL_CODE", "GetVessalCode");
+
+
+        EzDropFillEventTbl1("#tablePODetails", "[name*='txtport']", "click", "[name*='txtport']", "/FFM_Quotation/GetPortList", "hdnPORT", true);
+
   });
 
 </script>
 <div id="POContainer">
+    @{
+        var TypeListdata1 = new SelectList(new[]
+        {
+            new SelectListItem { Text = "-Select-", Value = "-1" },
+            }, "Value", "Text");
+    }
     <div class="panel panel-default" id="showAddpanel">
         <div class="panel-body">
             <div>
@@ -169,7 +181,8 @@
                                     <label class="control-label col-md-3">Vessal Code</label>
                                     <div class="col-md-8 input-field">
                                         @*<select class="form-control" id="ddlvessalcode" name="ddlvessalcode"></select>*@
-                                        @Html.DropDownListFor(m => m.FFM_VESSEL_CODE, Model.VessalCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                        @Html.DropDownListFor(m => m.FFM_VESSEL_CODE, Model.VessalCodeList, new { @class = "form-control", @data_live_search = "true" })
+                                        @Html.HiddenFor(m=>m.FFM_VESSEL_CODE)
                                     </div>
                                 </div>
                             </div>
@@ -274,7 +287,7 @@
                 </td>
                 <td>
                     <div class="grid-group">
-                        @Html.DropDownList(string.Concat("txtport", counter), Model.PortList, new { @class = "selectpicker grid-control", @data_live_search = "true" })
+                        @Html.DropDownList(string.Concat("txtport", counter), item.PortList1, new { @class = "grid-control", @data_live_search = "true" })
                         @*@Html.TextBox(string.Concat("PORT", counter), null, new { @class = "grid-control" })*@
                         @Html.Hidden(string.Concat("hdnPORT", counter), item.PORT)
                     </div>
@@ -331,7 +344,7 @@
                             <td>
                                 <div class="grid-group">
                                     @*@Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control " })*@
-                                    @Html.DropDownList(string.Concat("txtport", counter), Model.PortList, new { @class = "selectpicker grid-control", @data_live_search = "true" })
+                                    @Html.DropDownList(string.Concat("txtport", counter),TypeListdata1, new { @class = "selectpicker grid-control", @data_live_search = "true" })
                                     @*@Html.DropDownListFor(m => m.PORT, Model.PortList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
                                 </div>
                             </td>

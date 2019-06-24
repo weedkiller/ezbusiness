@@ -14,6 +14,12 @@
 <script>
     $(function () {
         arr1 = [];
+
+
+       
+
+
+
         $('.selectpicker').selectpicker('refresh');
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
 
@@ -120,6 +126,17 @@
             }
            
         });
+
+
+        EzDropFillEvent("FFM_CRG_GROUP_CODE", "click", "FFM_CRG_GROUP_CODE", "/FFM_CRG_001/GetCRG_GroupList");
+
+
+        EzDropFillEventTbl1("#tablePODetails", "[name*='txtjobcode']", "click", "[name*='txtjobcode']", "/FFM_CRG_001/GetJobCodeList", "", false);
+
+        EzDropFillEventTbl1("#tablePODetails", "[name*='txtincomeact']", "click", "[name*='txtincomeact']", "/FFM_CRG_001/GetIncomeActList", "", false);
+
+        EzDropFillEventTbl1("#tablePODetails", "[name*='txtexpenceacgt']", "click", "[name*='txtexpenceacgt']", "/FFM_CRG_001/GetIncomeActList", "", false);
+
     });
 
 </script>
@@ -127,6 +144,12 @@
 
 <!-- Row start -->
 <div class="row">
+    @{
+        var TypeListdata1 = new SelectList(new[]
+        {
+            new SelectListItem { Text = "-Select-", Value = "-1" },
+            }, "Value", "Text");
+    }
     <!--updated code-->
     <div class="col-md-12 no-padding navbar-expand-lg">
         <div class="panel-body" style="margin-left:10px;">
@@ -143,7 +166,8 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Group Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.FFM_CRG_GROUP_CODE, Model.CRG_GROUP_CODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.FFM_CRG_GROUP_CODE, Model.CRG_GROUP_CODEList, new { @class = "form-control", @data_live_search = "true" })
+                                                        @Html.HiddenFor(m => m.FFM_CRG_GROUP_CODE)
                                                     </div>
                                                 </div>
                                             </div>
@@ -237,7 +261,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.DropDownList(string.Concat("FFM_CRG_JOB_CODE", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })
+                                                                        @Html.DropDownList(string.Concat("FFM_CRG_JOB_CODE", counter), item.CRG_job_CODEList1, new { @class = "grid-control" })
                                                                         @*@Html.TextBox(string.Concat("FFM_CRG_JOB_CODE", counter), null, new { @class = "grid-control" })*@
                                                                         @Html.Hidden(string.Concat("hdnFFM_CRG_JOB_CODE", counter), item.FFM_CRG_JOB_CODE)
                                                                     </div>
@@ -258,14 +282,14 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.DropDownList(string.Concat("INCOME_ACT", counter), Model.IncomeACTList, new { @class = "grid-control" })
+                                                                        @Html.DropDownList(string.Concat("INCOME_ACT", counter), item.IncomeACTList1, new { @class = "grid-control" })
                                                                         @*@Html.TextBox(string.Concat("INCOME_ACT", counter), null, new { @class = "grid-control " })*@
                                                                         @Html.Hidden(string.Concat("hdnINCOME_ACT", counter), item.INCOME_ACT)
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.DropDownList(string.Concat("EXPENSE_ACGT", counter), Model.IncomeACTList, new { @class = "grid-control" })
+                                                                        @Html.DropDownList(string.Concat("EXPENSE_ACGT", counter), item.IncomeACTList2, new { @class = "grid-control" })
                                                                         @*@Html.TextBox(string.Concat("EXPENSE_ACGT", counter), null, new { @class = "grid-control " })*@
                                                                         @Html.Hidden(string.Concat("hdnEXPENSE_ACGT", counter), item.EXPENSE_ACGT)
                                                                     </div>
@@ -294,7 +318,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.DropDownList(string.Concat("FFM_CRG_JOB_CODE", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })
+                                                                    @Html.DropDownList(string.Concat("FFM_CRG_JOB_CODE", counter), TypeListdata1, new { @class = "grid-control" })
                                                                     @*@Html.TextBox(string.Concat("FFM_CRG_JOB_CODE", counter), null, new { @class = "grid-control" })*@
                                                                 </div>
                                                             </td>
@@ -316,14 +340,14 @@
                                                             <td>
                                                                 <div class="grid-group">
                                                                     @*@Html.TextBox(string.Concat("INCOME_ACT", counter), null, new { @class = "grid-control " })*@
-                                                                    @Html.DropDownList(string.Concat("INCOME_ACT", counter), Model.IncomeACTList, new { @class = "grid-control" })
+                                                                    @Html.DropDownList(string.Concat("INCOME_ACT", counter), TypeListdata1, new { @class = "grid-control" })
                                                                     @*<input id="ETB1" class="form-control datepicker" name="ETB1" />
                     @Html.HiddenFor(m => m.ETB)*@
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.DropDownList(string.Concat("EXPENSE_ACGT", counter), Model.IncomeACTList, new { @class = "grid-control" })
+                                                                    @Html.DropDownList(string.Concat("EXPENSE_ACGT", counter), TypeListdata1, new { @class = "grid-control" })
                                                                     @*@Html.TextBox(string.Concat("EXPENSE_ACGT", counter), null, new { @class = "grid-control " })*@
                                                                     @*<input id="ETD1" class="form-control datepicker" name="ETD1" />
                     @Html.HiddenFor(m => m.ETD)*@

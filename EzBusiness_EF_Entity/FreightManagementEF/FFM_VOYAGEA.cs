@@ -29,5 +29,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF
         //   public string FFM_VOYAGE01_CODE { get; set; }
         public string NAME { get; set; }
         //  public string DISPLAY_STATUS { get; set; }
+
+
     }
 }
