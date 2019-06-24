@@ -107,7 +107,18 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(_FFM_VESSELService.SaveFFM_VESSEL(FNM), JsonRequestBehavior.AllowGet);
             }
         }
-
+        public ActionResult GetContainer()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_FFM_VESSELService.GetContainer(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
 
         #endregion
     }

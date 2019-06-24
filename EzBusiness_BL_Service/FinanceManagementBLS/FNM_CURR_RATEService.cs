@@ -31,7 +31,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         public FNM_CURR_RATE_VM EditFNM_CURR_RATE(string CmpyCode, string FROM_CURRENCY_CODE, DateTime ENTRY_DATE)
         {
             var FNM_AC_COAEdit = _FNM_CURR_RATERep.EditFNM_CURR_RATE(CmpyCode, FROM_CURRENCY_CODE,ENTRY_DATE);
-            FNM_AC_COAEdit.FROM_CURRENCY_CODEList   = GetFNMCURRENCY();
+            //FNM_AC_COAEdit.FROM_CURRENCY_CODEList   = GetFNMCURRENCY();
+            FNM_AC_COAEdit.FROM_CURRENCY_CODEList = GetFNMCURRENCYEDIT(FNM_AC_COAEdit.FROM_CURRENCY_CODE);
+            FNM_AC_COAEdit.TO_CURRENCY_CODEList = GetFNMCURRENCYEDIT(FNM_AC_COAEdit.TO_CURRENCY_CODE);
             FNM_AC_COAEdit.FNM_CURRENCYRateDetailNew = GetCURRENCYRateDetailList1(CmpyCode,FROM_CURRENCY_CODE, ENTRY_DATE);  
             return FNM_AC_COAEdit;
         }
@@ -39,6 +41,15 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         public List<SelectListItem> GetFNMCURRENCY()
         {
             var itemCodes = _FNM_CURR_RATERep.GetFNMCURRENCY()
+                                          .Select(m => new SelectListItem { Value = m.CURRENCY_CODE, Text = string.Concat(m.CURRENCY_CODE, " - ", m.CURRENCY_NAME) })
+                                          .ToList();
+
+            return InsertFirstElementDDL(itemCodes);
+        }
+
+        public List<SelectListItem> GetFNMCURRENCYEDIT(string Code)
+        {
+            var itemCodes = _FNM_CURR_RATERep.GetFNMCURRENCY().Where(m => m.CURRENCY_CODE.ToString() == Code).ToList()
                                           .Select(m => new SelectListItem { Value = m.CURRENCY_CODE, Text = string.Concat(m.CURRENCY_CODE, " - ", m.CURRENCY_NAME) })
                                           .ToList();
 

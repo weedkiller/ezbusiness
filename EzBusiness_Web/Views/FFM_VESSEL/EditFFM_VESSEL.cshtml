@@ -16,6 +16,11 @@
             $(this).attr('autocomplete', 'off');
         });
 
+        EzDropFillEvent("FLAG", "click", "FLAG", "GetCountryCodes");
+
+        EzDropFillEvent("VESSEL_TYPE", "click", "VESSEL_TYPE", "/FFM_VESSEL/GetContainer");
+        EzDropFillEvent("COUNTRY", "click", "COUNTRY", "GetCountryCodes");
+
     });
 
 </script>
@@ -67,7 +72,8 @@
                                                     <label class="control-label col-md-3">Flag<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
 
-                                                        @Html.DropDownListFor(m => m.FLAG, Model.COUNTRYList, new { @class = "form-control selectpicker", @data_live_search = "true", @data_size = "5" })
+                                                        @Html.DropDownListFor(m => m.FLAG, Model.FlagList, new { @class = "form-control", @data_live_search = "true", @data_size = "5" })
+                                                        @Html.HiddenFor(m=>m.FLAG)
                                                     </div>
 
                                                 </div>
@@ -113,8 +119,8 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Vessel Type<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.VESSEL_TYPE, Model.ContainerList, new { @class = "form-control selectpicker", @data_live_search = "true", @data_size = "5" })
-
+                                                        @Html.DropDownListFor(m => m.VESSEL_TYPE, Model.ContainerList, new { @class = "form-control", @data_live_search = "true", @data_size = "5" })
+                                                        @Html.HiddenFor(m => m.VESSEL_TYPE)
 
                                                     </div>
                                                 </div>
@@ -126,8 +132,8 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Country<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.COUNTRY, Model.COUNTRYList, new { @class = "form-control selectpicker", @data_live_search = "true", @data_size = "5" })
-
+                                                        @Html.DropDownListFor(m => m.COUNTRY, Model.COUNTRYList, new { @class = "form-control", @data_live_search = "true", @data_size = "5" })
+                                                        @Html.HiddenFor(m => m.COUNTRY)
 
                                                     </div>
                                                 </div>
