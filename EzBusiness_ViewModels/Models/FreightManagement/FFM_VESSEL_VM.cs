@@ -27,6 +27,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string COUNTRY { get; set; }
 
         public List<SelectListItem> COUNTRYList { get; set; }
+
+        public List<SelectListItem> FlagList { get; set; }
         public bool SaveFlag { get; set; }
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
