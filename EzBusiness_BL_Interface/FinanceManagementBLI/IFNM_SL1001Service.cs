@@ -15,12 +15,14 @@ namespace EzBusiness_BL_Interface.FinanceManagementBLI
         FNM_SL_VM SaveFNM_SL(FNM_SL_VM ac);
         FNM_SL_VM EditFNM_SL(string CmpyCode, string FNM_SL1001_CODE);
         FNM_SL_VM GetFNM_SLAddNew(string Cmpycode,string type1);
-        List<FNM_SL1002DetailNew> GetFNMSL002DetailList(string CmpyCode, string FNM_SL1001_CODE);
-
-
+        List<FNM_SL1002DetailNew> GetFNMSL002DetailList(string CmpyCode, string FNM_SL1001_CODE,string Type1);
+        
+       
         List<SelectListItem> GetFNMCURRENCY();
 
         List<SelectListItem> GetFNMCAT(string CmpyCode,string type1);
+
+     
 
         List<FNM_SL1002DetailNew> GetFNM_SL1002Add(string CmpyCode, string FNMCAT_CODE);
 
