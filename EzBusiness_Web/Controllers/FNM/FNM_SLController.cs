@@ -121,6 +121,7 @@ namespace EzBusiness_Web.Controllers.FNM
             }
         }
 
+       
 
         public ActionResult GetCatDropDetailList(string SUBLEDGER_TYPE)
         {
@@ -145,6 +146,31 @@ namespace EzBusiness_Web.Controllers.FNM
             else
             {
                 return Json(_FNM_SLService.GetFNMCAT(list[0].CmpyCode, SUBLEDGER_TYPE), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult SUBLEDGER_TYPEList1()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_FNM_SLService.GetFNMCAT(list[0].CmpyCode,"FM"), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult SUBLEDGER_TYPEList2()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_FNM_SLService.GetFNMCAT(list[0].CmpyCode, "OP"), JsonRequestBehavior.AllowGet);
             }
         }
 
