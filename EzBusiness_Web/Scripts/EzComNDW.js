@@ -1722,4 +1722,31 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                   $(tblid1).css("height", $(tblid2).height() + hsize);
               });
           }
+
+
+         function EzTbltxtdrpidchanged(tblid,txtid,counter,typ,trLast)
+          {
+             debugger;
+             var n = txtid.length;
+            // var trLast = '';
+             while (n > 0) {
+
+                 trLast.find("[name *= '" + txtid[n - 1] + "']").attr(
+                          "name", "" + txtid[n - 1] + "" + counter
+                      );
+                 trLast.find("[id *= '" + txtid[n - 1] + "']").attr(
+                           "id", "" + txtid[n - 1] + "" + counter
+                       );
+                 if(typ=="drp")
+                 {
+                     trLast.find("[data-id *= '" + txtid[n - 1] + "']").attr(
+                       "data-id", "" + txtid[n - 1] + "" + counter
+                   );
+                   
+                   
+                 }
+                 n--;
+             }
+          
+      }
    
