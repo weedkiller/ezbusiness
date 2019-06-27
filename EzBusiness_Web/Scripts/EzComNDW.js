@@ -1676,17 +1676,17 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
 
           function EzDropFillEventTbl1(tblid, ide, EveNames, ids, urls, idh, EMode) {
-              debugger;
+              //debugger;
               $(tblid).on(EveNames, ide, function () {
               var tr = $(this).closest('tr');
-              debugger;
-              //$(ids).removeClass('selectpicker');
+              //debugger;
+              $(ids).removeClass('selectpicker');
               var a = 0;
               var selectedValue = tr.find(ids + " option:selected").val();
               var lenG = tr.find(ids + " > option").length;
               if (selectedValue == null || selectedValue == '-1' || lenG <= 3) {
                   tr.find(ids).empty();
-                  debugger;
+                  //debugger;
                   $.ajax({
                       async: false,
                       cache: false,
@@ -1695,7 +1695,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                       dataType: "json",
                       contentType: "application/json; charset=utf-8",
                       success: function (data) {
-                          //$(ids).addClass('selectpicker');
+                          $(ids).addClass('selectpicker');
                           $.each(data, function (i) {
                               tr.find(ids).append($('<option>', {
                                   value: data[i].Value,
@@ -1703,7 +1703,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                               }))
 
                           });
-                          //$(ids).selectpicker('refresh');
+                          $(ids).selectpicker('refresh');
                           //$("#" + ids).selectpicker('refresh');
                           a = 1;
                       }
@@ -1723,8 +1723,9 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
           });
           }
 
-
-
-   
-
+          function EzDropEventTblHeight(tblid1, tblid2, ide, EveNames,hsize) {
+              $(tblid1).on(EveNames, ide, function (e) {
+                  $(tblid1).css("height", $(tblid2).height() + hsize);
+              });
+          }
    
