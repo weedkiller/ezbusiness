@@ -34,8 +34,6 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
-
-
         [Route("DeleteBL")]
         public ActionResult DeleteFF_BL(string FF_BL001_CODE)
         {

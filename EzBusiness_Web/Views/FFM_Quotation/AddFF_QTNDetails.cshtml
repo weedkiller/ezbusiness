@@ -13,6 +13,32 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+
+<script type="text/javascript">
+    //$(function () {
+
+  
+    //$('.btn-group bootstrap-select grid-control').on('click', function () {
+    //    debugger;
+    //        var t = $(this),
+    //          m = $(e.target).find('.dropdown-menu'),
+    //          tb = t.offset().top + t.height(),
+    //          mb = m.offset().top + m.outerHeight(true),
+    //          d = 20; // Space for shadow + scrollbar.
+    //        if (t[0].scrollWidth > t.innerWidth()) {
+    //            if (mb + d > tb) {
+    //                t.css('padding-bottom', ((mb + d) - tb));
+    //            }
+    //        } else {
+    //            t.css('overflow', 'visible');
+    //        }
+    //    }).on('hidden.bs.dropdown', function () {
+    //        $(this).css({
+    //            'padding-bottom': '',
+    //            'overflow': ''
+    //        });
+    //    });
+</script>
 <script>
     $(function () {
         EzDropFillEvent("FF_QTN001_CODE", "focus", "CUST_CODE", "/FFM_Quotation/GetCust");
@@ -44,7 +70,10 @@
         EzDropFillEventTbl1("#tablePODetails5", "[name*='txtVend_code']", "click", "[name*='txtVend_code']", "/FFM_Quotation/GetVendor", "", false);
         EzDropFillEventTbl1("#tablePODetails5", "[name*='txtUnit_code']", "click", "[name*='txtUnit_code']", "/FFM_Quotation/GetUnitcode", "", false);
         EzDropFillEventTbl1("#tablePODetails4", "[name*='txtCLAUSE_CODE']", "click", "[name*='txtCLAUSE_CODE']", "/FFM_Quotation/GetCLAUSE", "", false);
-                                                 
+                      
+        
+      
+
         arr1 = [];
         
         
@@ -61,6 +90,7 @@
                  tr1.find(":first").text(counter5);
                  counter5++;
              });
+             $("#tablePODetails5").css("height", "auto");
        });
 
        var counter4 = parseInt($("#hdnCounter4").val());
@@ -99,10 +129,13 @@
 
        $("#tablePODetails5").on("change", "[name*='txtCust_code']", function () {
            var tr = $(this).closest('tr');
+           $("#tablePODetails5").css("height", "auto");
            var JobCode = tr.find("[name*='txtCust_code'] option:selected").text();
            var array = JobCode.split("-");
            tr.find("[name*='txtCust_name']").val(array[1].trim());
            tr.find("[name*='txtCust_Ctrl_Act']").val(array[2].trim());
+         
+          
        });
 
 
@@ -111,19 +144,23 @@
            var JobCode = tr.find("[name*='txtCLAUSE_CODE'] option:selected").text();
            var array = JobCode.split("-");
            tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim());
+
        });
 
        $("#tablePODetails5").on("change", "[name*='txtVend_code']", function () {
            var tr = $(this).closest('tr');
+           $("#tablePODetails5").css("height", "auto");
            var JobCode = tr.find("[name*='txtVend_code'] option:selected").text();
            var array = JobCode.split("-");
            tr.find("[name*='txtVend_name']").val(array[1].trim());
            tr.find("[name*='txtVend_Ctrl_Act']").val(array[2].trim());
+          
 
        });
 
        $("#tablePODetails5").on("change", "[name*='txtCust_Curr_Code']", function () {
            var tr = $(this).closest('tr');
+           $("#tablePODetails5").css("height", "auto");
            var CurCode = tr.find("[name*='txtCust_Curr_Code'] option:selected").val();
            $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
                debugger;
@@ -131,6 +168,7 @@
                ary = response;
                tr.find("[name*='txtCust_Curr_Rate']").val(ary);
            });
+         
 
        });
 
@@ -194,14 +232,14 @@
 
        $("#tablePODetails5").on("change", "[name*='txtVend_Curr_Code']", function () {
            var tr = $(this).closest('tr');
+           $("#tablePODetails5").css("height", "auto");
            var CurCode = tr.find("[name*='txtCust_Curr_Code'] option:selected").val();
            $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
                debugger;
                var ary = [];
                ary = response;
                tr.find("[name*='txtVend_Curr_Rate']").val(ary);
-           });
-
+           });        
        });
 
        var counter5 = parseInt($("#hdnCounter5").val())+1;
@@ -209,12 +247,16 @@
         $("#tablePODetails5").on("change", "[name*='txtCrg_code']", function () {
             debugger;
             var tr = $(this).closest('tr');
+         
             var JobCode = tr.find("[name*='txtCrg_code'] option:selected").text();
 
-            var array = JobCode.split("-");          
-            tr.find("[name*='txtCrg_name']").val(array[1].trim());
-            tr.find("[name*='txtIncome_GL_Code']").val(array[2].trim());
-            tr.find("[name*='txtExpense_GL_Code']").val(array[3].trim());
+            var array = JobCode.split("-");
+            if (array.length > 3) {
+                tr.find("[name*='txtCrg_name']").val(array[1].trim());
+                tr.find("[name*='txtIncome_GL_Code']").val(array[2].trim());
+                tr.find("[name*='txtExpense_GL_Code']").val(array[3].trim());
+            }
+           
             drec = [];
             $('#tablePODetails5 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
@@ -235,116 +277,239 @@
             else {
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
-                     tr.clone(true, true).insertAfter(tr);
-                    //$('#tablePODetails5 tr:last').clone().insertAfter('#tablePODetails5 tr:last');
+                  
+                    $('#tablePODetails5 tr:last').clone().insertAfter('#tablePODetails5 tr:last');
 
                     var trLast = $("#tablePODetails5 tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter5 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails5 tbody tr:nth-last-child(2)");
-                    //trLast.find("[name*='txtsno']").val(tcunt);
-
-                    //var cloned = $("#tablePODetails5 tbody tr:last").clone(true); // clone last row
-                    //// looping over last row's inputs
-                    //$("#tablePODetails5 tbody tr:last").find('select').each(function () {
-                    //    cloned.find('select[name^=' + this.name.replace('[]', '') + ']').val(0);
-                    //});
-                    //$("#tablePODetails5 > tbody").append(cloned);
-                    //$("#tablePODetails5 > tbody tr:last").prev().remove();
-
-                    trLast.find("[name*='txtCrg_code'] option:selected").val('');
-                    trLast.find("[name*='txtCrg_name']").val('');
-                    trLast.find("[name*='txtoperationtype']").val('');
                     
-                    trLast.find("[name *= 'txtsno']").attr({
-                        "name": ("txtsno" + counter5)
-                    });
-                    trLast.find("[name *= 'txtjobcode']").attr({
-                        "name": ("txtjobcode" + counter5)
-                    });
-                    trLast.find("[name *= 'txtjobname']").attr({
-                        "name": ("txtjobname" + counter5)
-                    });
-                    trLast.find("[name *= 'txtIncome_GL_Code']").attr({
-                        "name": ("txtIncome_GL_Code" + counter5)
-                    });
-                    trLast.find("[name *= 'txtExpense_GL_Code']").attr({
-                        "name": ("txtExpense_GL_Code" + counter5)
-                    });
-                    trLast.find("[name *= 'txtUnit_Code']").attr({
-                        "name": ("txtUnit_Code" + counter5)
-                    });
-                    trLast.find("[name *= 'txtCust_code']").attr({
-                        "name": ("txtCust_code" + counter5)
-                    });
-                    trLast.find("[name *= 'txtCust_name']").attr({
-                        "name": ("txtCust_name" + counter5)
-                    });
-                    trLast.find("[name *= 'txtCust_Ctrl_Act']").attr({
-                        "name": ("txtCust_Ctrl_Act" + counter5)
-                    });
-                    trLast.find("[name *= 'txtCust_Curr_Code']").attr({
-                        "name": ("txtCust_Curr_Code" + counter5)
-                    });
-                    trLast.find("[name *= 'txtCust_Curr_Rate']").attr({
-                        "name": ("txtCust_Curr_Rate" + counter5)
-                    });
-                    trLast.find("[name *= 'txtCust_Total_amt']").attr({
-                        "name": ("txtCust_Total_amt" + counter5)
-                    });
-                    trLast.find("[name *= 'txtCust_Var_Amt']").attr({
-                        "name": ("txtCust_Var_Amt" + counter5)
-                    });
-                    trLast.find("[name *= 'txtCust_Net_Amt']").attr({
-                        "name": ("txtCust_Net_Amt" + counter5)
-                    });
-                    trLast.find("[name *= 'txtCust_Local_amt']").attr({
-                        "name": ("txtCust_Local_amt" + counter5)
-                    });
-                    trLast.find("[name *= 'txtPAY_MODE']").attr({
-                        "name": ("txtPAY_MODE" + counter5)
-                    });
-                    trLast.find("[name *= 'txtVend_code']").attr({
-                        "name": ("txtVend_code" + counter5)
-                    });
-                    trLast.find("[name *= 'txtVend_name']").attr({
-                        "name": ("txtVend_name" + counter5)
-                    });
 
-                    trLast.find("[name *= 'txtVend_Ctrl_Act']").attr({
-                        "name": ("txtVend_Ctrl_Act" + counter5)
-                    });
-                    trLast.find("[name *= 'txtVend_Curr_Code']").attr({
-                        "name": ("txtVend_Curr_Code" + counter5)
-                    });
-                    trLast.find("[name *= 'txtVend_Curr_Rate']").attr({
-                        "name": ("txtVend_Curr_Rate" + counter5)
-                    });
-                    trLast.find("[name *= 'txtVend_Rate']").attr({
-                        "name": ("txtVend_Rate" + counter5)
-                    });
-                    trLast.find("[name *= 'txtVend_Total_amt']").attr({
-                        "name": ("txtVend_Total_amt" + counter5)
-                   });
-                    trLast.find("[name *= 'txtVendVar_Amt']").attr({
-                        "name": ("txtVendVar_Amt" + counter5)
-                    });
-                    trLast.find("[name *= 'txtVend_Net_Amt']").attr({
-                        "name": ("txtVend_Net_Amt" + counter5)
-                    });
-                    trLast.find("[name *= 'txtVend_Local_amt']").attr({
-                        "name": ("txtVend_Local_amt" + counter5)
-                    });
+                   // trLast.find("[name *= 'ItemDescription']").attr(
+                   //    "name", "ItemDescription" + counter
+                   //);
+                   // trLast.find("[name *= 'ItemDescription']").attr(
+                   // "id", "ItemDescription" + counter
+                   // );
+                    
+                    trLast.find("[name *= 'txtsno']").attr(
+                        "name", "txtsno" + counter5
+                    );
+                    trLast.find("[name *= 'txtsno']").attr(
+                        "id", "txtsno" + counter5
+                    );
+
+                    trLast.find("[name *= 'txtCrg_code']").attr(
+                       "name", "txtCrg_code" + counter5
+                   );
+                    trLast.find("[name *= 'txtCrg_code']").attr(
+                        "id", "txtCrg_code" + counter5
+                    );
+                    trLast.find("[name *= 'txtCrg_code']").attr(
+                       "data-id", "txtCrg_code" + counter5
+                   );
+                    trLast.find("[name *= 'txtCrg_name']").attr(
+                     "name", "txtCrg_name" + counter5
+                 );
+                    trLast.find("[name *= 'txtCrg_name']").attr(
+                        "id", "txtCrg_name" + counter5
+                    );
+                    trLast.find("[name *= 'txtIncome_GL_Code']").attr(
+                    "name", "txtIncome_GL_Code" + counter5
+                );
+                    trLast.find("[name *= 'txtIncome_GL_Code']").attr(
+                        "id", "txtIncome_GL_Code" + counter5
+                    );
+
+                    trLast.find("[name *= 'txtExpense_GL_Code']").attr(
+                    "name", "txtExpense_GL_Code" + counter5
+                );
+                    trLast.find("[name *= 'txtExpense_GL_Code']").attr(
+                        "id", "txtExpense_GL_Code" + counter5
+                    );
+
+                    trLast.find("[name *= 'txtUnit_Code']").attr(
+                  "name", "txtUnit_Code" + counter5
+              );
+                    trLast.find("[name *= 'txtUnit_Code']").attr(
+                        "id", "txtUnit_Code" + counter5
+                    );
+                    trLast.find("[name *= 'txtUnit_Code']").attr(
+                      "data-id", "txtUnit_Code" + counter5
+                  );
+                    
+                    trLast.find("[name *= 'txtCust_code']").attr(
+                 "name", "txtCust_code" + counter5
+             );
+                    trLast.find("[name *= 'txtCust_code']").attr(
+                        "id", "txtCust_code" + counter5
+                    );
+                    trLast.find("[name *= 'txtCust_code']").attr(
+                      "data-id", "txtCust_code" + counter5
+                  );
+                    trLast.find("[name *= 'txtCust_name']").attr(
+                 "name", "txtCust_name" + counter5
+                    );
+                    trLast.find("[name *= 'txtCust_name']").attr(
+                        "id", "txtCust_name" + counter5
+                    );
+
+
+                    trLast.find("[name *= 'txtCust_Ctrl_Act']").attr(
+                    "name", "txtCust_Ctrl_Act" + counter5
+                     );
+                    trLast.find("[name *= 'txtCust_Ctrl_Act']").attr(
+                        "id", "txtCust_Ctrl_Act" + counter5
+                    );
+                   
+                   
+                    trLast.find("[name *= 'txtCust_Curr_Code']").attr(
+                     "name", "txtCust_Curr_Code" + counter5
+                         );
+
+                    trLast.find("[name *= 'txtCust_Curr_Code']").attr(
+                        "id", "txtCust_Curr_Code" + counter5
+                    );
+                    trLast.find("[name *= 'txtCust_Curr_Code']").attr(
+                      "data-id", "txtCust_Curr_Code" + counter5
+                    );
+
+                    trLast.find("[name *= 'txtCust_Curr_Rate']").attr(
+                     "name", "txtCust_Curr_Rate" + counter5
+                     );
+                    trLast.find("[name *= 'txtCust_Curr_Rate']").attr(
+                        "id", "txtCust_Curr_Rate" + counter5
+                    );
+                   
+
+                    trLast.find("[name *= 'txtCust_Total_amt']").attr(
+                    "name", "txtCust_Total_amt" + counter5
+                    );
+                    trLast.find("[name *= 'txtCust_Total_amt']").attr(
+                        "id", "txtCust_Total_amt" + counter5
+                    );
+
+                    trLast.find("[name *= 'txtCust_Var_Amt']").attr(
+                   "name", "txtCust_Var_Amt" + counter5
+                    );
+                    trLast.find("[name *= 'txtCust_Var_Amt']").attr(
+                        "id", "txtCust_Var_Amt" + counter5
+                    );
+
+                 
+                    trLast.find("[name *= 'txtCust_Net_Amt']").attr(
+                   "name", "txtCust_Net_Amt" + counter5
+                     );
+                    trLast.find("[name *= 'txtCust_Net_Amt']").attr(
+                        "id", "txtCust_Net_Amt" + counter5
+                    );
+                    
+                    trLast.find("[name *= 'txtCust_Local_amt']").attr(
+                  "name", "txtCust_Local_amt" + counter5
+                    );
+                    trLast.find("[name *= 'txtCust_Local_amt']").attr(
+                        "id", "txtCust_Local_amt" + counter5
+                    );
+
+                    trLast.find("[name *= 'txtPAY_MODE']").attr(
+                     "name", "txtPAY_MODE" + counter5
+                     );
+                    trLast.find("[name *= 'txtPAY_MODE']").attr(
+                        "id", "txtPAY_MODE" + counter5
+                    );
+                    trLast.find("[name *= 'txtPAY_MODE']").attr(
+                       "data-id", "txtPAY_MODE" + counter5
+                   );
+                  
+
+                    trLast.find("[name *= 'txtVend_code']").attr(
+                 "name", "txtVend_code" + counter5
+                 );
+                    trLast.find("[name *= 'txtVend_code']").attr(
+                        "id", "txtVend_code" + counter5
+                    );
+                    trLast.find("[name *= 'txtVend_code']").attr(
+                       "data-id", "txtVend_code" + counter5
+                   );
+                   
+                   
+                    trLast.find("[name *= 'txtVend_name']").attr(
+                  "name", "txtVend_name" + counter5
+                     );
+                    trLast.find("[name *= 'txtVend_name']").attr(
+                        "id", "txtVend_name" + counter5
+                    );
+                   
+                    trLast.find("[name *= 'txtVend_Ctrl_Act']").attr(
+                      "name", "txtVend_Ctrl_Act" + counter5
+                        );
+                    trLast.find("[name *= 'txtVend_Ctrl_Act']").attr(
+                        "id", "txtVend_Ctrl_Act" + counter5
+                    );
+
+                  
+                    trLast.find("[name *= 'txtVend_Curr_Code']").attr(
+                    "name", "txtVend_Curr_Code" + counter5
+                    );
+                    trLast.find("[name *= 'txtVend_Curr_Code']").attr(
+                        "id", "txtVend_Curr_Code" + counter5
+                    );
+
+                    trLast.find("[name *= 'txtVend_Curr_Code']").attr(
+                        "data-id", "txtVend_Curr_Code" + counter5
+                    );
+
+
+                    trLast.find("[name *= 'txtVend_Curr_Rate']").attr(
+                     "name", "txtVend_Curr_Rate" + counter5
+                        );
+                    trLast.find("[name *= 'txtVend_Curr_Rate']").attr(
+                        "id", "txtVend_Curr_Rate" + counter5
+                    );
+                  
+                    trLast.find("[name *= 'txtVend_Rate']").attr(
+                     "name", "txtVend_Rate" + counter5
+                    );
+                    trLast.find("[name *= 'txtVend_Rate']").attr(
+                        "id", "txtVend_Rate" + counter5
+                    );                                   
+                    trLast.find("[name *= 'txtVend_Total_amt']").attr(
+                       "name", "txtVend_Total_amt" + counter5
+                    );
+                    trLast.find("[name *= 'txtVend_Total_amt']").attr(
+                        "id", "txtVend_Total_amt" + counter5
+                    );                   
+                    trLast.find("[name *= 'txtVendVar_Amt']").attr(
+                        "name", "txtVendVar_Amt" + counter5
+                    );
+                    trLast.find("[name *= 'txtVendVar_Amt']").attr(
+                        "id", "txtVendVar_Amt" + counter5
+                    );
+                    trLast.find("[name *= 'txtVend_Net_Amt']").attr(
+                       "name", "txtVend_Net_Amt" + counter5
+                    );
+                    trLast.find("[name *= 'txtVend_Net_Amt']").attr(
+                        "id", "txtVend_Net_Amt" + counter5
+                    );
+
+                    trLast.find("[name *= 'txtVend_Local_amt']").attr(
+                    "name", "txtVend_Local_amt" + counter5
+                    );
+                    trLast.find("[name *= 'txtVend_Local_amt']").attr(
+                        "id", "txtVend_Local_amt" + counter5
+                    );                                                       
                     trLast.find(":first").text(counter5);
+                    trLast.find('select[name^=txtCrg_code' + counter5 + ']').val(0);
 
-                    //trLast.find('select[name^=txtCrg_code' + counter5 + ']').val(0);
-
-                    //trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
-                    //trLast.find("[name *= 'txtCrg_code']").selectpicker('refresh');
-                    //trLast.find("[name *= 'ItemUnit']").selectpicker('refresh');
+                    trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+                    trLast.find("[name *= 'txtCrg_code']").selectpicker('refresh');
+                    trLast.find("[name *= 'ItemUnit']").selectpicker('refresh');
                 }
                 counter5++;
             }
 
+
+            $("#tablePODetails5").css("height", "auto");
 
 
         });
@@ -568,19 +733,14 @@
             });
         });
 
-
-       
-       
-        
-        
-        
-        
-       
-        
-        
-
+        EzDropEventTblHeight("#tablePODetails5", "#table-responsive-cliente", "#txtCrg_code" + counter5 - 1, 'focusin', 80);
+      
     });
+
+    
 </script>
+
+
 
 <script type="text/javascript">
     $(function () {
@@ -1120,9 +1280,9 @@
 
                                                 <div id="menu3" class="tab-pane fade">
                                                     <br />
-                                                    <div class="col-md-12">
-                                                        <div class="table-responsive ak-holder">
-                                                            <table class="table table-bordered stripe display hover" id="tablePODetails5">
+                                                    <div class="col-md-12"> 
+                                                        <div class="alt-table-responsive" id="table-responsive-cliente" >
+                                                            <table class="table table-bordered stripe display hover portal-drivers" id="tablePODetails5">
                                                                 <thead>
                                                                     <tr class="tr gridtext">
                                                                         <th>	Sno	</th>
@@ -1161,7 +1321,7 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.DropDownList(string.Concat("txtCrg_code", counter5), TypeListdata1, new { @class = "grid-control", @data_live_search = "true", @data_dropup_auto = "false" })
+                                                                                @Html.DropDownList(string.Concat("txtCrg_code", counter5), TypeListdata1, new { @class = "grid-control", @data_live_search = "true", @data_dropup_auto = "false", @data_boundary ="window" })
 
                                                                             </div>
                                                                         </td>
@@ -1196,7 +1356,7 @@
 
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.DropDownList(string.Concat("txtCust_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control" })
+                                                                                @Html.DropDownList(string.Concat("txtCust_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control", @data_live_search = "true", @data_dropup_auto = "false" })
                                                                             </div>
                                                                         </td>
 
@@ -1210,7 +1370,7 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.DropDownList(string.Concat("txtCust_code", counter4), TypeListdata1, new { @class = "grid-control" })
+                                                                                @Html.DropDownList(string.Concat("txtCust_code", counter4), TypeListdata1, new { @class = "grid-control", @data_live_search = "true" })
                                                                             </div>
                                                                         </td>
 
@@ -1245,7 +1405,7 @@
                                                                         <td>
                                                                             <div class="form-group">
 
-                                                                                @Html.DropDownList(string.Concat("txtVend_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control" })
+                                                                                @Html.DropDownList(string.Concat("txtVend_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control", @data_live_search = "true" })
                                                                             </div>
                                                                         </td>
 
