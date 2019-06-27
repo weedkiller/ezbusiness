@@ -1,5 +1,4 @@
 ﻿
-
 function ezValidateNumbers(tableid, ids) {
     $(tableid).on("keydown", ids, function (e) {
         var keycode = event.which;
@@ -38,8 +37,7 @@ function EzAlertSave() {
         showLoaderOnConfirm: true,
     }])
 }
-function EzHeadTxtvalid(ide, tbl, tblid, errmsg, typH,typ) {
-   
+function EzHeadTxtvalid(ide, tbl, tblid, errmsg, typH,typ) {   
     if ($(ide).val() == typH) {
         EzAlerterrtxt(errmsg);
         var trLast1 = $(tbl);
@@ -68,8 +66,7 @@ function EzAuthentication(Rpath) {
 
 /*Salary Proceess Condition check*/
 
-function EzSalrProcCondiont(Empcode, dtmonthyy) {
-    
+function EzSalrProcCondiont(Empcode, dtmonthyy) {    
     var a = 0;   
     $.ajax({
         async: false,
@@ -392,7 +389,6 @@ function EzcheckedFnEint(Idinp, Idnme) {
 }
 function EzcheckedFnES(Idinp, Idnme, Idtxt) {
     $(Idinp).change(function () {
-
         if ($(Idinp).val() == "Y") {
             $(Idinp).val("N");
             $(Idnme).removeAttr("checked", "checked");
@@ -405,10 +401,8 @@ function EzcheckedFnES(Idinp, Idnme, Idtxt) {
         }
     });
 }
-function EzcheckedFnED(Idinp, Idnme, Idtxt) {
-   
-    $(Idinp).change(function () {
-       
+function EzcheckedFnED(Idinp, Idnme, Idtxt) {   
+    $(Idinp).change(function () {       
         if ($(Idinp).val() == "Y") {
             $(Idinp).val("N");
             $(Idnme).removeAttr("checked", "checked");
@@ -1728,4 +1722,31 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                   $(tblid1).css("height", $(tblid2).height() + hsize);
               });
           }
+
+
+         function EzTbltxtdrpidchanged(tblid,txtid,counter,typ,trLast)
+          {
+             debugger;
+             var n = txtid.length;
+            // var trLast = '';
+             while (n > 0) {
+
+                 trLast.find("[name *= '" + txtid[n - 1] + "']").attr(
+                          "name", "" + txtid[n - 1] + "" + counter
+                      );
+                 trLast.find("[id *= '" + txtid[n - 1] + "']").attr(
+                           "id", "" + txtid[n - 1] + "" + counter
+                       );
+                 if(typ=="drp")
+                 {
+                     trLast.find("[data-id *= '" + txtid[n - 1] + "']").attr(
+                       "data-id", "" + txtid[n - 1] + "" + counter
+                   );
+                   
+                   
+                 }
+                 n--;
+             }
+          
+      }
    
