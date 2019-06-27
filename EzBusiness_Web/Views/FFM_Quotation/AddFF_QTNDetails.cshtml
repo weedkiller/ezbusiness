@@ -582,6 +582,40 @@
     });
 </script>
 
+<script type="text/javascript">
+    $(function () {
+        //add BT DD show event
+        $(".dropdown").on("show.bs.dropdown", function () {
+            var $btnDropDown = $(this).find(".dropdown-toggle");
+            var $listHolder = $(this).find(".dropdown-menu");
+            //reset position property for DD container
+            $(this).css("position", "static");
+            $listHolder.css({
+                "top": ($btnDropDown.offset().top + $btnDropDown.outerHeight(true)) + "px",
+                "left": $btnDropDown.offset().left + "px"
+            });
+            $listHolder.data("open", true);
+        });
+        //add BT DD hide event
+        $(".dropdown").on("hidden.bs.dropdown", function () {
+            var $listHolder = $(this).find(".dropdown-menu");
+            $listHolder.data("open", false);
+        });
+        //add on scroll for table holder
+        $(".ak-holder").scroll(function () {
+            var $ddHolder = $(this).find(".dropdown")
+            var $btnDropDown = $(this).find(".dropdown-toggle");
+            var $listHolder = $(this).find(".dropdown-menu");
+            if ($listHolder.data("open")) {
+                $listHolder.css({
+                    "top": ($btnDropDown.offset().top + $btnDropDown.outerHeight(true)) + "px",
+                    "left": $btnDropDown.offset().left + "px"
+                });
+                $ddHolder.toggleClass("open", ($btnDropDown.offset().left > $(this).offset().left))
+            }
+        })
+    });
+</script>
 
 <div class="row">
     @Html.Hidden("hdnCounter2", (counter2))
@@ -1087,7 +1121,7 @@
                                                 <div id="menu3" class="tab-pane fade">
                                                     <br />
                                                     <div class="col-md-12">
-                                                        <div class="table-responsive">
+                                                        <div class="table-responsive ak-holder">
                                                             <table class="table table-bordered stripe display hover" id="tablePODetails5">
                                                                 <thead>
                                                                     <tr class="tr gridtext">

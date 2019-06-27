@@ -138,7 +138,6 @@ namespace EzBusiness_Web.Controllers
             else
             {
                 //return PartialView(_masterService.GetTreeData(list[0].CmpyCode));
-
                 return PartialView(_masterService.GetTreeData1(list[0].CmpyCode, list[0].user_name, list[0].Utype, "R"));
             }
         }
@@ -161,32 +160,28 @@ namespace EzBusiness_Web.Controllers
         public ActionResult EditUserRightMaster(string Username)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-
             if (list == null)
             {
-                return Redirect("Login/InLogin");
+               return Redirect("Login/InLogin");
             }
             else
             {
-                return PartialView(_MenuRights.GetUsersRightsEdit(list[0].CmpyCode, Username));
+               return PartialView(_MenuRights.GetUsersRightsEdit(list[0].CmpyCode, Username));
             }
         }
 
         public ActionResult AddUserRightMaster()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-
             if (list == null)
             {
                 return Redirect("Login/InLogin");
             }
             else
             {
-
                 return PartialView(_MenuRights.GetMenuItemRUNew(list[0].CmpyCode));
             }
         }
-
         [HttpPost]
         [Route("SaveUserRight")]
         public ActionResult SaveUserRight(MenuItemRUVM Users)
@@ -219,7 +214,6 @@ namespace EzBusiness_Web.Controllers
                 return Json(new { DeleteFlag = _MenuRights.DeleteUsers(list[0].CmpyCode, user_name,list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
-
         [Route("GetUserRight")]
         public ActionResult GetUserRight(string user_name,string Utype)
         {
@@ -235,8 +229,6 @@ namespace EzBusiness_Web.Controllers
             }
         }
 
-
-
         [Route("GetUserRightAuth")]
         public ActionResult GetUserRightAuth(string navurl)
         {
@@ -251,9 +243,6 @@ namespace EzBusiness_Web.Controllers
                 return Json(_MenuRights.GetUsersRightsAuth(list[0].CmpyCode, navurl, list[0].user_name), JsonRequestBehavior.AllowGet);
             }
         }
-
-
-
         //
     }
 }

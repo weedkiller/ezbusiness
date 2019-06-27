@@ -16,7 +16,6 @@
 
 <script>
     function readURL(input) {
-
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
@@ -33,8 +32,7 @@
         EzdtePk('#JoiningDate1,#LastRetDate1,#ContactDate1,#AbscondingDate1');     
         EzdteformtDOB('#DOB1', 'DD/MM/YYYY');
              
-        $('#ContactNo').keypress(function (event) {
-           
+        $('#ContactNo').keypress(function (event) {           
             var keycode = event.which;
             if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
                 event.preventDefault();
@@ -83,10 +81,8 @@
                 });
             }
         });
-        $("#sourcephoto").change(function () {
-            
-            readURL(this);
-           
+        $("#sourcephoto").change(function () {            
+            readURL(this);           
             var data = new FormData();
             var files = $("#sourcephoto").get(0).files;
             if (files.length > 0) {
@@ -102,7 +98,6 @@
                     //code after success
                     $("#user_img").val(response);
                     $('input[name="photpath"]').val('/Images/' + response);
-
                 },
                 error: function (er) {
                     EzAlerterrtxt(er);
@@ -110,8 +105,7 @@
             });
         });
         $('.selectpicker').selectpicker('refresh');
-        $('#DivisionCode').change(function () {
-           
+        $('#DivisionCode').change(function () {           
             var divcode = $('#DivisionCode option:selected').val();
             $.get("EmployeeMaster/GetBranchCodeList1", { divcode: divcode }).done(function (response) {
                 $('#BranchCode').empty();
@@ -127,8 +121,7 @@
                 $('.selectpicker').selectpicker('refresh');
             });
         });
-        $('#BranchCode').change(function () {
-           
+        $('#BranchCode').change(function () {           
             var divcode = $('#DivisionCode option:selected').val();
             var Brancode = $('#BranchCode option:selected').val();
             $.get("EmployeeMaster/GetDepartmentList", { divcode: divcode, Brancode: Brancode }).done(function (response) {
@@ -144,10 +137,8 @@
         });
 
 
-        $('#BankCode').change(function () {
-           
-            var BanCode = $('#BankCode option:selected').val();
-           
+        $('#BankCode').change(function () {           
+            var BanCode = $('#BankCode option:selected').val();           
             $.get("EmployeeMaster/GetBankBranchList", { BankCode: BanCode }).done(function (response) {
                 $('#BankBranchCode').empty();
                 var ary = [];
@@ -255,8 +246,7 @@
                 trLast.find("[name *= 'Specification']").attr({
                     "name": ("Specification" + counter2)
                 });
-                counter2++;
-               
+                counter2++;               
             }
         });
 
@@ -289,8 +279,7 @@
                     "name": ("NomineeDOB" + counter1)
                 });
                
-                counter1++;
-               
+                counter1++;               
             }
     });
 
@@ -344,7 +333,6 @@
                     "name": ("Description" + counter)
                 });
                 trLast.find(":first").text(counter);
-
             }
             counter++;
            
@@ -352,23 +340,18 @@
 
         
        
-        $('body').on('focusin', '.datepicker', function () {
-           
-           // var myDate = new Date(2012, 2, 11);
-           
+        $('body').on('focusin', '.datepicker', function () {           
+           // var myDate = new Date(2012, 2, 11);           
            // $('#startdate').datetimepicker("setDate", myDate);
             $('.datepicker').datetimepicker({
                // defaultDate: new Date(),
                 format: 'DD/MM/YYYY',
                 showClose: true,
                 showClear: true,
-                
-               
             });
 
         });
-        $('body').on('focusin', '.dt3', function () {
-           
+        $('body').on('focusin', '.dt3', function () {           
             // var myDate = new Date(2012, 2, 11);
           
             // $('#startdate').datetimepicker("setDate", myDate);
