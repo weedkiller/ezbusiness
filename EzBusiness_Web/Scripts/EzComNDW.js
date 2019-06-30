@@ -1670,49 +1670,50 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
 
           function EzDropFillEventTbl1(tblid, ide, EveNames, ids, urls, idh, EMode) {
-              //debugger;
+              //debugger;           
               $(tblid).on(EveNames, ide, function () {
               var tr = $(this).closest('tr');
-              //debugger;
-              $(ids).removeClass('selectpicker');
-              var a = 0;
-              var selectedValue = tr.find(ids + " option:selected").val();
-              var lenG = tr.find(ids + " > option").length;
-              if (selectedValue == null || selectedValue == '-1' || lenG <= 3) {
-                  tr.find(ids).empty();
-                  //debugger;
-                  $.ajax({
-                      async: false,
-                      cache: false,
-                      type: "POST",
-                      url: urls,//"/FFM_Quotation/GetContTyp",
-                      dataType: "json",
-                      contentType: "application/json; charset=utf-8",
-                      success: function (data) {
-                          $(ids).addClass('selectpicker');
-                          $.each(data, function (i) {
-                              tr.find(ids).append($('<option>', {
-                                  value: data[i].Value,
-                                  text: data[i].Text
-                              }))
+              debugger;          
+                        $(ids).removeClass('selectpicker');
+                        var a = 0;
+                        var selectedValue = tr.find(ids + " option:selected").val();
+                        var lenG = tr.find(ids + " > option").length;
+                        if (selectedValue == null || selectedValue == '-1' || lenG <= 3) {
+                            tr.find(ids).empty();
+                            //debugger;
+                            $.ajax({
+                                async: false,
+                                cache: false,
+                                type: "POST",
+                                url: urls,//"/FFM_Quotation/GetContTyp",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (data) {
+                                    $(ids).addClass('selectpicker');
+                                    $.each(data, function (i) {
+                                        tr.find(ids).append($('<option>', {
+                                            value: data[i].Value,
+                                            text: data[i].Text
+                                        }))
 
-                          });
-                          $(ids).selectpicker('refresh');
-                          //$("#" + ids).selectpicker('refresh');
-                          a = 1;
-                      }
-                  });
-                  //$("#" + ids).addClass('selectpicker');
-                  if (EMode == true) {
-                      if (tr.find("input[name*=" + idh + "]").val() != undefined) {
-                          tr.find(ids).val(tr.find("input[name*=" + idh + "]").val()).change();
-                    }
-                  }
-                  
+                                    });
+                                    $(ids).selectpicker('refresh');
+                                    //$("#" + ids).selectpicker('refresh');
+                                    a = 1;
+                                }
+                            });
+                            //$("#" + ids).addClass('selectpicker');
+                            if (EMode == true) {
+                                if (tr.find("input[name*=" + idh + "]").val() != undefined) {
+                                    tr.find(ids).val(tr.find("input[name*=" + idh + "]").val()).change();
+                                }
+                            }
 
-                  return a;
-              }
-              //});
+
+                            return a;
+                        }
+                        //});
+                      
 
           });
           }
@@ -1728,7 +1729,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
           {
              debugger;
              var n = txtid.length;
-            // var trLast = '';
+          
              while (n > 0) {
 
                  trLast.find("[name *= '" + txtid[n - 1] + "']").attr(
@@ -1743,6 +1744,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                        "data-id", "" + txtid[n - 1] + "" + counter
                    );
                    
+
                    
                  }
                  n--;

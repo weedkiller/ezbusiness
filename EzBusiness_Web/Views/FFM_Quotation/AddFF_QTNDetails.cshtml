@@ -38,15 +38,28 @@
        
         EzDropFillEventTbl1("#tablePODetails2", "[name*='txtCont_Type']", "click", "[name*='txtCont_Type']", "/FFM_Quotation/GetContTyp","",false);
         EzDropFillEventTbl1("#tablePODetails2", "[name*='txtCommodity_code']", "click", "[name*='txtCommodity_code']", "/FFM_Quotation/GetCommodityistList", "", false);
+
+        //var ids1 = [];
+        //ids1.push("[name*='txtCrg_code']", "[name*='txtCust_Curr_Code']", "[name*='txtCust_code']","[name*='txtVend_Curr_Code']", "[name*='txtVend_code']", "[name*='txtUnit_code']");
+        //var url1 = [];
+        //url1.push("/FFM_Quotation/GetCRG_002", "/FFM_Quotation/GetCurcode", "/FFM_Quotation/GetCust", "/FFM_Quotation/GetCurcode", "/FFM_Quotation/GetVendor", "/FFM_Quotation/GetUnitcode");
+
+
+        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCrg_code']", "click", ids1, url1, "", false);
+        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCust_Curr_Code']", "click", ids1, url1, "", false);
+        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCust_code']", "click", ids1, url1, "", false);
+        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtVend_Curr_Code']", "click", ids1, url1, "", false);
+        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtVend_code']", "click", ids1, url1, "", false);
+        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtUnit_code']", "click", ids1, url1, "", false);
+        EzDropFillEventTbl1("#tablePODetails4", "[name*='txtCLAUSE_CODE']", "click", "[name*='txtCLAUSE_CODE']", "/FFM_Quotation/GetCLAUSE", "", false);
+                      
+        
         EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCrg_code']", "click", "[name*='txtCrg_code']", "/FFM_Quotation/GetCRG_002", "", false);
         EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCust_Curr_Code']", "click", "[name*='txtCust_Curr_Code']", "/FFM_Quotation/GetCurcode", "", false);
         EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCust_code']", "click", "[name*='txtCust_code']", "/FFM_Quotation/GetCust", "", false);
         EzDropFillEventTbl1("#tablePODetails5", "[name*='txtVend_Curr_Code']", "click", "[name*='txtVend_Curr_Code']", "/FFM_Quotation/GetCurcode", "", false);
         EzDropFillEventTbl1("#tablePODetails5", "[name*='txtVend_code']", "click", "[name*='txtVend_code']", "/FFM_Quotation/GetVendor", "", false);
         EzDropFillEventTbl1("#tablePODetails5", "[name*='txtUnit_code']", "click", "[name*='txtUnit_code']", "/FFM_Quotation/GetUnitcode", "", false);
-        EzDropFillEventTbl1("#tablePODetails4", "[name*='txtCLAUSE_CODE']", "click", "[name*='txtCLAUSE_CODE']", "/FFM_Quotation/GetCLAUSE", "", false);
-                      
-        
       
 
         arr1 = [];
@@ -103,14 +116,12 @@
        });
 
        $("#tablePODetails5").on("change", "[name*='txtCust_code']", function () {
-           var tr = $(this).closest('tr');
+           var tr = $(this).closest('tr');           
            $("#tablePODetails5").css("height", "auto");
            var JobCode = tr.find("[name*='txtCust_code'] option:selected").text();
            var array = JobCode.split("-");
            tr.find("[name*='txtCust_name']").val(array[1].trim());
-           tr.find("[name*='txtCust_Ctrl_Act']").val(array[2].trim());
-         
-          
+           tr.find("[name*='txtCust_Ctrl_Act']").val(array[2].trim());         
        });
 
 
@@ -119,6 +130,9 @@
            var JobCode = tr.find("[name*='txtCLAUSE_CODE'] option:selected").text();
            var array = JobCode.split("-");
            tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim());
+
+           
+
 
        });
 
@@ -129,7 +143,25 @@
            var array = JobCode.split("-");
            tr.find("[name*='txtVend_name']").val(array[1].trim());
            tr.find("[name*='txtVend_Ctrl_Act']").val(array[2].trim());
-          
+           debugger;
+
+           var trLast = $("#tablePODetails5 tr:last");
+
+           trLast.find('td:eq(16),th:eq(16)').remove();
+
+           var tr6 = tr.find('td:eq(16)');
+           var $newRow = tr6.clone();
+           trLast.find('td').eq(15).after($newRow);         
+           droparry = [];
+           droparry.push('txtVend_code');
+
+           EzTbltxtdrpidchanged("#tablePODetails5", droparry, counter5-1, "drp", trLast);
+           var b = counter5 - 1;
+           var tr8 = trLast.find('td:eq(16)');
+           tr8.find('select[name^=txtVend_code' + b + ']').val(0);          
+           tr8.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+
+           tr8.find("[name *= 'txtVend_code']").selectpicker('refresh');          
 
        });
 
@@ -251,8 +283,11 @@
             }
             else {
                 tr.css("background", "");
-                if (tr.is(":last-child")) {
-                  
+                if (tr.is(":last-child")) {                                                       
+
+                   
+
+                 
                     $('#tablePODetails5 tr:last').clone().insertAfter('#tablePODetails5 tr:last');
 
                     var trLast = $("#tablePODetails5 tr:last");
@@ -261,20 +296,23 @@
                     debugger;
                     droparry = [];
                     txtarry = [];
-                 
-                    droparry.push('txtCust_Curr_Code','txtCrg_code','txtUnit_Code', 'txtCust_code', 'txtPAY_MODE', 'txtVend_code', 'txtVend_Curr_Code');                   
+
+                    droparry.push('txtCust_Curr_Code', 'txtCrg_code', 'txtUnit_Code', 'txtCust_code', 'txtPAY_MODE', 'txtVend_code', 'txtVend_Curr_Code');
                     txtarry.push('txtsno', 'txtCrg_name', 'txtIncome_GL_Code', 'txtExpense_GL_Code', 'txtCust_name', 'txtCust_Ctrl_Act', 'txtCust_Curr_Rate', 'txtCust_Total_amt', 'txtCust_Var_Amt', 'txtCust_Net_Amt', 'txtCust_Local_amt', 'txtVend_name', 'txtVend_Ctrl_Act', 'txtVend_Curr_Rate', 'txtVend_Total_amt', 'txtVendVar_Amt', 'txtVend_Net_Amt', 'txtVend_Local_amt');
 
                     EzTbltxtdrpidchanged("#tablePODetails5", droparry, counter5, "drp", trLast);
                     EzTbltxtdrpidchanged("#tablePODetails5", txtarry, counter5, "txt", trLast);
-                  
-             
+
+
                     trLast.find(":first").text(counter5);
                     trLast.find('select[name^=txtCrg_code' + counter5 + ']').val(0);
-                    trLast.find('select[name^=txtCrg_code' + counter5 + ']').val(0);
                     trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
-                    trLast.find("[name *= 'txtCrg_code']", "[name *= 'txtUnit_Code']", "[name*='txtCust_code']").selectpicker('refresh');
-                    trLast.find("[name *= 'ItemUnit']").selectpicker('refresh');
+                    trLast.find("[name *= 'txtCrg_code']").selectpicker('refresh');
+
+                   
+
+                    
+                    
                 }
                 counter5++;
             }
@@ -285,6 +323,8 @@
 
         });
 
+
+       
         var counter4 = parseInt($("#hdnCounter4").val())+1;
         $("#tablePODetails4").on("change", "[name*='txtCLAUSE_CODE']", function () {
 
