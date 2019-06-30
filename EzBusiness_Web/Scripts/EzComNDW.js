@@ -881,37 +881,25 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                 });
 
                 //  $(ide).DataTable().clear();
-
-
-
                 // DataTable
                 var tableInstance = $(ide).DataTable({
                     "paging": true,
                     "ordering": true,
                     "info": true,
                     //"scrollX": true,
-
                 });
-
-
-
-
 
                 //if (lk == true) {
                 //    $("#tblUnits_length").hide();
                 //}
-
-
-
                 tableInstance.columns().every(function () {
                     var that = this;
-
                     $('input', this.footer()).on('keyup change', function (ev) {
                         
                         if (that.search() !== this.value) { //only on enter keypress (code 13)
                             that
-                                .search(this.value)
-                                .draw();
+                            .search(this.value)
+                            .draw();
                         }
                     });
                 });
@@ -1670,10 +1658,10 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
 
           function EzDropFillEventTbl1(tblid, ide, EveNames, ids, urls, idh, EMode) {
-              //debugger;
+              debugger;
               $(tblid).on(EveNames, ide, function () {
               var tr = $(this).closest('tr');
-              //debugger;
+              debugger;
               $(ids).removeClass('selectpicker');
               var a = 0;
               var selectedValue = tr.find(ids + " option:selected").val();
@@ -1689,6 +1677,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                       dataType: "json",
                       contentType: "application/json; charset=utf-8",
                       success: function (data) {
+                          debugger;
                           $(ids).addClass('selectpicker');
                           $.each(data, function (i) {
                               tr.find(ids).append($('<option>', {
@@ -1724,7 +1713,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
           }
 
 
-         function EzTbltxtdrpidchanged(tblid,txtid,counter,typ,trLast)
+         function EzTbltxtdrpidchanged(txtid,counter,typ,trLast)
           {
              debugger;
              var n = txtid.length;

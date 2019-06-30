@@ -41,6 +41,7 @@
 </script>
 <script>
     $(function () {
+        debugger;
         EzDropFillEvent("FF_QTN001_CODE", "focus", "CUST_CODE", "/FFM_Quotation/GetCust");
         EzDropFillEvent("CONTACT", "focus", "POD", "/FFM_Quotation/GetPortList");
         EzDropFillEvent("TELEPHONE", "focus", "FND", "/FFM_Quotation/GetPortList");
@@ -290,15 +291,17 @@
                     droparry.push('txtCust_Curr_Code','txtCrg_code','txtUnit_Code', 'txtCust_code', 'txtPAY_MODE', 'txtVend_code', 'txtVend_Curr_Code');                   
                     txtarry.push('txtsno', 'txtCrg_name', 'txtIncome_GL_Code', 'txtExpense_GL_Code', 'txtCust_name', 'txtCust_Ctrl_Act', 'txtCust_Curr_Rate', 'txtCust_Total_amt', 'txtCust_Var_Amt', 'txtCust_Net_Amt', 'txtCust_Local_amt', 'txtVend_name', 'txtVend_Ctrl_Act', 'txtVend_Curr_Rate', 'txtVend_Total_amt', 'txtVendVar_Amt', 'txtVend_Net_Amt', 'txtVend_Local_amt');
 
-                    EzTbltxtdrpidchanged("#tablePODetails5", droparry, counter5, "drp", trLast);
-                    EzTbltxtdrpidchanged("#tablePODetails5", txtarry, counter5, "txt", trLast);
+                    EzTbltxtdrpidchanged(droparry, counter5, "drp", trLast);
+                    EzTbltxtdrpidchanged(txtarry, counter5, "txt", trLast);
                   
              
                     trLast.find(":first").text(counter5);
                     trLast.find('select[name^=txtCrg_code' + counter5 + ']').val(0);
-                    trLast.find('select[name^=txtCrg_code' + counter5 + ']').val(0);
+                //    trLast.find('select[name^=txtUnit_Code' + counter5 + ']').val(0);
+                 
                     trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
-                    trLast.find("[name *= 'txtCrg_code']", "[name *= 'txtUnit_Code']", "[name*='txtCust_code']").selectpicker('refresh');
+                    trLast.find("[name *= 'txtCrg_code']").selectpicker('refresh');
+                 //   trLast.find("[name *= 'txtUnit_Code']").selectpicker('refresh');
                     trLast.find("[name *= 'ItemUnit']").selectpicker('refresh');
                 }
                 counter5++;
