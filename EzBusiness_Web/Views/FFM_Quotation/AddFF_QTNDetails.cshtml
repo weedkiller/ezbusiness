@@ -40,18 +40,6 @@
         EzDropFillEventTbl1("#tablePODetails2", "[name*='txtCont_Type']", "click", "[name*='txtCont_Type']", "/FFM_Quotation/GetContTyp","",false);
         EzDropFillEventTbl1("#tablePODetails2", "[name*='txtCommodity_code']", "click", "[name*='txtCommodity_code']", "/FFM_Quotation/GetCommodityistList", "", false);
 
-        //var ids1 = [];
-        //ids1.push("[name*='txtCrg_code']", "[name*='txtCust_Curr_Code']", "[name*='txtCust_code']","[name*='txtVend_Curr_Code']", "[name*='txtVend_code']", "[name*='txtUnit_code']");
-        //var url1 = [];
-        //url1.push("/FFM_Quotation/GetCRG_002", "/FFM_Quotation/GetCurcode", "/FFM_Quotation/GetCust", "/FFM_Quotation/GetCurcode", "/FFM_Quotation/GetVendor", "/FFM_Quotation/GetUnitcode");
-
-
-        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCrg_code']", "click", ids1, url1, "", false);
-        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCust_Curr_Code']", "click", ids1, url1, "", false);
-        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCust_code']", "click", ids1, url1, "", false);
-        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtVend_Curr_Code']", "click", ids1, url1, "", false);
-        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtVend_code']", "click", ids1, url1, "", false);
-        //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtUnit_code']", "click", ids1, url1, "", false);
         EzDropFillEventTbl1("#tablePODetails4", "[name*='txtCLAUSE_CODE']", "click", "[name*='txtCLAUSE_CODE']", "/FFM_Quotation/GetCLAUSE", "", false);
                       
         
@@ -121,8 +109,14 @@
            $("#tablePODetails5").css("height", "auto");
            var JobCode = tr.find("[name*='txtCust_code'] option:selected").text();
            var array = JobCode.split("-");
-           tr.find("[name*='txtCust_name']").val(array[1].trim());
-           tr.find("[name*='txtCust_Ctrl_Act']").val(array[2].trim());         
+           if (array.length > 2) {
+               tr.find("[name*='txtCust_name']").val(array[1].trim());
+               tr.find("[name*='txtCust_Ctrl_Act']").val(array[2].trim());
+               tr.find("[name*='txt1Cust_code']").val(array[0].trim());
+           } else {
+               tr.find("[name*='txt1Cust_code']").val('');
+           }
+           EztblDropOneColumn("tablePODetails5", "txtCust_code", counter5, tr, 9, "txt1Cust_code");
        });
 
 
@@ -130,55 +124,105 @@
            var tr = $(this).closest('tr');
            var JobCode = tr.find("[name*='txtCLAUSE_CODE'] option:selected").text();
            var array = JobCode.split("-");
-           tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim());
-
+           if (array.length > 2) {
+               tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim());
+               tr.find("[name*='txt1CLAUSE_CODE']").val(array[0].trim());
+           }
+           else {
+               tr.find("[name*='txt1CLAUSE_CODE']").val('');
+           }
+           EztblDropOneColumn("tablePODetails4", "txtCLAUSE_CODE", counter4, tr, 0, "txt1CLAUSE_CODE");
            
 
 
        });
 
        $("#tablePODetails5").on("change", "[name*='txtVend_code']", function () {
+           debugger;
            var tr = $(this).closest('tr');
            $("#tablePODetails5").css("height", "auto");
            var JobCode = tr.find("[name*='txtVend_code'] option:selected").text();
-           var array = JobCode.split("-");
-           tr.find("[name*='txtVend_name']").val(array[1].trim());
-           tr.find("[name*='txtVend_Ctrl_Act']").val(array[2].trim());
-           debugger;
-
-           var trLast = $("#tablePODetails5 tr:last");
-
-           trLast.find('td:eq(16),th:eq(16)').remove();
-
-           var tr6 = tr.find('td:eq(16)');
-           var $newRow = tr6.clone();
-           trLast.find('td').eq(15).after($newRow);         
-           droparry = [];
-           droparry.push('txtVend_code');
-
-           EzTbltxtdrpidchanged("#tablePODetails5", droparry, counter5-1, "drp", trLast);
-           var b = counter5 - 1;
-           var tr8 = trLast.find('td:eq(16)');
-           tr8.find('select[name^=txtVend_code' + b + ']').val(0);          
-           tr8.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
-
-           tr8.find("[name *= 'txtVend_code']").selectpicker('refresh');          
+           var array = JobCode.split("-");          
+           if (array.length > 2) {
+               tr.find("[name*='txtVend_name']").val(array[1].trim());
+               tr.find("[name*='txtVend_Ctrl_Act']").val(array[2].trim());
+               tr.find("[name*='txt1Vend_code']").val(array[0].trim());
+           }
+           else {
+               tr.find("[name*='txt1Vend_code']").val('');
+           }
+           EztblDropOneColumn("tablePODetails5", "txtVend_code", counter5, tr, 16, "txt1Vend_code");
+          
 
        });
 
        $("#tablePODetails5").on("change", "[name*='txtCust_Curr_Code']", function () {
            var tr = $(this).closest('tr');
+           debugger;
            $("#tablePODetails5").css("height", "auto");
-           var CurCode = tr.find("[name*='txtCust_Curr_Code'] option:selected").val();
-           $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
-               debugger;
-               var ary = [];
-               ary = response;
-               tr.find("[name*='txtCust_Curr_Rate']").val(ary);
-           });
+           var CurCode = tr.find("[name*='txtCust_Curr_Code'] option:selected").text();
+           var array = CurCode.split("-");
+           if (array.length > 1) {
+               tr.find("[name*='txt1Cust_Curr_Code']").val(array[0].trim());
+               $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
+                   debugger;
+                   var ary = [];
+                   ary = response;
+                   tr.find("[name*='txtCust_Curr_Rate']").val(ary);
+               });
+           } else {
+               tr.find("[name*='txt1Cust_Curr_Code']").val('');
+           }
+           EztblDropOneColumn("tablePODetails5", "txtCust_Curr_Code", counter5, tr, 7, "txt1Cust_Curr_Code");
+          
          
 
        });
+
+       $("#tablePODetails5").on("change", "[name*='txtUnit_code']", function () {
+           debugger;
+           var tr = $(this).closest('tr');
+           var CurCode = tr.find("[name*='txtUnit_code'] option:selected").text();
+           var array = CurCode.split("-");
+           if (array.length > 1) {
+               tr.find("[name*='txt1Unit_code']").val(array[0].trim());
+               EztblDropOneColumn("tablePODetails5", "txtUnit_code", counter5, tr, 4, "txt1Unit_code");
+               
+           } else {
+               tr.find("[name*='txt1Unit_code']").val('');
+           }
+           $("#tablePODetails5").css("height", "auto");
+       })
+
+      
+
+       $("#tablePODetails2").on("change", "[name*='txtCont_Type']", function () {
+           var tr = $(this).closest('tr');
+           var CurCode = tr.find("[name*='txtCont_Type'] option:selected").text();
+           var array = CurCode.split("-");
+           if (array.length > 1) {
+               tr.find("[name*='txt1Cont_Type']").val(array[0].trim());                             
+           }
+           else {
+               tr.find("[name*='txt1Cont_Type']").val('');
+           }
+           EztblDropOneColumn1("tablePODetails2", "txtCont_Type", counter2, tr, 2, "txt1Cont_Type");
+           $("#tablePODetails2").css("height", "auto");
+       })
+
+       $("#tablePODetails2").on("change", "[name*='txtCommodity_code']", function () {
+           var tr = $(this).closest('tr');
+           var CurCode = tr.find("[name*='txtCommodity_code'] option:selected").text();
+           var array = CurCode.split("-");
+           if (array.length > 1) {
+               tr.find("[name*='txt1Commodity_code']").val(array[0].trim());                                     
+           }
+           else {
+               tr.find("[name*='txt1Commodity_code']").val('');
+           }
+           $("#tablePODetails2").css("height", "auto");
+           EztblDropOneColumn1("tablePODetails2", "txtCommodity_code", counter2, tr, 3, "txt1Commodity_code");
+       })
 
 
 
@@ -241,13 +285,22 @@
        $("#tablePODetails5").on("change", "[name*='txtVend_Curr_Code']", function () {
            var tr = $(this).closest('tr');
            $("#tablePODetails5").css("height", "auto");
-           var CurCode = tr.find("[name*='txtCust_Curr_Code'] option:selected").val();
-           $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
-               debugger;
-               var ary = [];
-               ary = response;
-               tr.find("[name*='txtVend_Curr_Rate']").val(ary);
-           });        
+           var CurCode = tr.find("[name*='txtVend_Curr_Code'] option:selected").text();
+           var array = CurCode.split("-");
+           if (array.length > 1) {
+               tr.find("[name*='txt1Vend_Curr_Code']").val(array[0].trim());
+               $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
+                   debugger;
+                   var ary = [];
+                   ary = response;
+                   tr.find("[name*='txtVend_Curr_Rate']").val(ary);
+               });
+               
+           } else {
+               tr.find("[name*='txt1Vend_Curr_Code']").val('');
+           }
+           $("#tablePODetails5").css("height", "auto");
+           EztblDropOneColumn("tablePODetails5", "txtVend_Curr_Code", counter5, tr, 14, "txt1Vend_Curr_Code");
        });
 
        var counter5 = parseInt($("#hdnCounter5").val())+1;
@@ -255,58 +308,116 @@
         $("#tablePODetails5").on("change", "[name*='txtCrg_code']", function () {
             debugger;
             var tr = $(this).closest('tr');
-         
-            var JobCode = tr.find("[name*='txtCrg_code'] option:selected").text();
 
-            var array = JobCode.split("-");
-            if (array.length > 3) {
-                tr.find("[name*='txtCrg_name']").val(array[1].trim());
-                tr.find("[name*='txtIncome_GL_Code']").val(array[2].trim());
-                tr.find("[name*='txtExpense_GL_Code']").val(array[3].trim());
+            tr.find("[name*='txt1Crg_code']").attr('style', 'width:81%');
+            var Vcde = tr.prev().find("[name *= 'txtVend_code'] option:selected").val();
+            var Ccur = tr.prev().find("[name *= 'txtCust_Curr_Code'] option:selected").val();
+            var Vcur = tr.prev().find("[name *= 'txtVend_Curr_Code'] option:selected").val();
+            var Ucde = tr.prev().find("[name *= 'txtUnit_code'] option:selected").val();
+            var Ccde = tr.prev().find("[name *= 'txtCust_code'] option:selected").val();
+            var t = true;
+
+            k = tr.find("[name*='txtCrg_code'] option:selected").val();
+            if (k == '0') {
+                t = false;
+                tr.find("[name*='txtCrg_name']").val('');
+                tr.find("[name*='txtIncome_GL_Code']").val('');
+                tr.find("[name*='txtExpense_GL_Code']").val('');
+                tr.find("[name*='txt1Crg_code']").val('');
+                $("#tablePODetails5").css("height", "auto");
             }
-           
-            drec = [];
-            $('#tablePODetails5 tbody tr td:nth-child(1)').each(function () {
-                //add item to array
-                var ab =  $(this).closest("tr").find("[name *= 'txtCrg_code']  option:selected").val();
-                drec.push(ab);
-            });
-
-            drec.splice($.inArray(tr.find("[name *= 'txtCrg_code'] option:selected").val(), drec), 1);
-            if ($.inArray(tr.find("[name *= 'txtCrg_code']").val(), drec) >= 0) {
-                var dr = tr.find("[name *= 'txtCrg_code']").val();
-                tr.css("background", "red");
-                tr.find("[name *= 'txtCrg_code']").focus();
-                EzAlerterrtxt("Already Exist Code '" + dr + "'");
-                tr.find("[name *= 'txtCrg_code']").val('');
-            }
-            else {
-                tr.css("background", "");
-                if (tr.is(":last-child")) {                                                       
-
-                    $('#tablePODetails5 tr:last').clone().insertAfter('#tablePODetails5 tr:last');
-
-                    var trLast = $("#tablePODetails5 tr:last");
-                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter5 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tablePODetails5 tbody tr:nth-last-child(2)");
-                    debugger;
-                    droparry = [];
-                    txtarry = [];
-
-                    droparry.push('txtCust_Curr_Code', 'txtCrg_code', 'txtUnit_Code', 'txtCust_code', 'txtPAY_MODE', 'txtVend_code', 'txtVend_Curr_Code');
-                    txtarry.push('txtsno', 'txtCrg_name', 'txtIncome_GL_Code', 'txtExpense_GL_Code', 'txtCust_name', 'txtCust_Ctrl_Act', 'txtCust_Curr_Rate', 'txtCust_Total_amt', 'txtCust_Var_Amt', 'txtCust_Net_Amt', 'txtCust_Local_amt', 'txtVend_name', 'txtVend_Ctrl_Act', 'txtVend_Curr_Rate', 'txtVend_Total_amt', 'txtVendVar_Amt', 'txtVend_Net_Amt', 'txtVend_Local_amt');
-
-                    EzTbltxtdrpidchanged(droparry, counter5, "drp", trLast);
-                    EzTbltxtdrpidchanged(txtarry, counter5, "txt", trLast);
-
-                    trLast.find(":first").text(counter5);
-                    trLast.find('select[name^=txtCrg_code' + counter5 + ']').val(0);
-                    trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
-                    trLast.find("[name *= 'txtCrg_code']").selectpicker('refresh');
+            if ($('#tablePODetails5 tbody tr').length == 2 ) {
+                if ((Vcde == '-1' || Vcde == '0') || (Ccur == '-1' || Ccur == '0') || (Vcur == '-1' || Vcur == '0') || (Ucde == '-1' || Ucde == '0') || (Ccde == '-1' || Ccde == '0')) {
+                 EzAlerterrtxt('Please Fill First Row');                 
+                 var text = tr.find("select[name=txtCrg_code2] option[value='0']").text();
+                 //We need to show the text inside the span that the plugin show
+                 tr.find('.bootstrap-select .filter-option').text(text);
+                 //Check the selected attribute for the real select
+                 tr.find('select[name=txtCrg_code2]').val(0);
+                 t = false;
+                 $("#tablePODetails5").css("height", "auto");
                 }
-                counter5++;
+             
+            }
+             if(t==true)
+            {
+                var JobCode = tr.find("[name*='txtCrg_code'] option:selected").text();
+                debugger;
+                var array = JobCode.split("-");
+                if (array.length > 3) {
+                    tr.find("[name*='txtCrg_name']").val(array[1].trim());
+                    tr.find("[name*='txtIncome_GL_Code']").val(array[2].trim());
+                    tr.find("[name*='txtExpense_GL_Code']").val(array[3].trim());
+                    tr.find("[name*='txt1Crg_code']").val(array[0].trim());
+                }
+
+                drec = [];
+                $('#tablePODetails5 tbody tr td:nth-child(1)').each(function () {
+                    //add item to array
+                    var ab = $(this).closest("tr").find("[name *= 'txtCrg_code']  option:selected").val();
+                    drec.push(ab);
+                });
+
+                drec.splice($.inArray(tr.find("[name *= 'txtCrg_code'] option:selected").val(), drec), 1);
+                if ($.inArray(tr.find("[name *= 'txtCrg_code']").val(), drec) >= 0) {
+                    var dr = tr.find("[name *= 'txtCrg_code']").val();
+                    tr.css("background", "red");
+                    tr.find("[name *= 'txtCrg_code']").focus();
+                    EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                    tr.find("[name *= 'txtCrg_code']").val('');
+                    tr.find("[name*='txt1Crg_code']").val('');
+
+
+                }
+                else {
+                    tr.css("background", "");
+                    if (tr.is(":last-child")) {
+                        $('#tablePODetails5 tr:last').clone().insertAfter('#tablePODetails5 tr:last');
+
+                        var trLast = $("#tablePODetails5 tr:last");
+                        $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter5 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                                   .appendTo("#tablePODetails5 tbody tr:nth-last-child(2)");
+                        debugger;
+                        droparry = [];
+                        txtarry = [];
+
+                        droparry.push('txtCust_Curr_Code', 'txtCrg_code', 'txtUnit_Code', 'txtCust_code', 'txtPAY_MODE', 'txtVend_code', 'txtVend_Curr_Code');
+                        txtarry.push('txtsno', 'txtCrg_name', 'txtIncome_GL_Code', 'txtExpense_GL_Code', 'txtCust_name', 'txtCust_Ctrl_Act', 'txtCust_Curr_Rate', 'txtCust_Total_amt', 'txtCust_Var_Amt', 'txtCust_Net_Amt', 'txtCust_Local_amt', 'txtVend_name', 'txtVend_Ctrl_Act', 'txtVend_Curr_Rate', 'txtVend_Total_amt', 'txtVendVar_Amt', 'txtVend_Net_Amt', 'txtVend_Local_amt', 'txt1Crg_code');
+                        txtarry.push('txt1Cust_Curr_Code',  'txt1Unit_Code', 'txt1Cust_code',  'txt1Vend_code', 'txt1Vend_Curr_Code');
+
+                        EzTbltxtdrpidchanged(droparry, counter5, "drp", trLast);
+                        EzTbltxtdrpidchanged(txtarry, counter5, "txt", trLast);
+
+
+                        trLast.find(":first").text(counter5);
+                        trLast.find('select[name^=txtCrg_code' + counter5 + ']').val(0);
+                        trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+                        trLast.find("[name *= 'txtCrg_code']").selectpicker('refresh');
+                        trLast.find("[name *= 'txtVend_code']").selectpicker('refresh');
+
+                        trLast.find("[name *= 'txtPAY_MODE']").selectpicker('refresh');
+
+                        trLast.find("[name *= 'txtCust_Curr_Code']").selectpicker('refresh');
+
+                        trLast.find("[name *= 'txtVend_Curr_Code']").selectpicker('refresh');
+                        trLast.find("[name *= 'txtUnit_code']").selectpicker('refresh');
+                        trLast.find("[name *= 'txtCust_code']").selectpicker('refresh');
+
+
+                        trLast.find("[name*='txtCrg_name']").val('');
+                        trLast.find("[name*='txtIncome_GL_Code']").val('');
+                        trLast.find("[name*='txtExpense_GL_Code']").val('');
+                        trLast.find("[name*='txt1Crg_code']").val('');
+
+                    }
+                    counter5++;
+                }
+
+
+               
             }
             $("#tablePODetails5").css("height", "auto");
+
         });
 
         var counter4 = parseInt($("#hdnCounter4").val())+1;
@@ -425,75 +536,72 @@
 
         });
 
-        var counter2 = parseInt($("#hdnCounter2").val())+1;
-        $("#tablePODetails2").on("change", "[name*='txtContainer']", function () {
-
+        var counter2 = parseInt($("#hdnCounter2").val()) + 1;
+        $("#tablePODetails2").on("change", "[name*='txtContainer']", function () {           
             var tr = $(this).closest('tr');
-
-
-            drec = [];
-            $('#tablePODetails2 tbody tr td:nth-child(1)').each(function () {
-                //add item to array
-                var ab = $(this).find("[name *= 'txtContainer']").val();
-                drec.push(ab);
-            });
-
-            drec.splice($.inArray(tr.find("[name *= 'txtContainer']").val(), drec), 1);
-            if ($.inArray(tr.find("[name *= 'txtContainer']").val(), drec) >= 0) {
-                var dr = tr.find("[name *= 'txtContainer']").val();
-                tr.css("background", "red");
-                tr.find("[name *= 'txtContainer']").focus();
-                EzAlerterrtxt("Already Exist Container '" + dr + "'");
-                tr.find("[name *= 'txtContainer']").val('');
-
-
-            }
-            else {
-                tr.css("background", "");
-                if (tr.is(":last-child")) {
-                    tr.clone(true, true).insertAfter(tr);
-                    var trLast = $("#tablePODetails2 tr:last");
-                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
-                    //trLast.find("[name*='txtsno']").val(tcunt);
-                    trLast.find("[name*='txtContainer']").val('');
-                    trLast.find("[name*='txtsno']").attr({
-                        "name": ("txtsno" + counter2)
-                    });
-                    trLast.find("[name*='txtCont_Type']").attr({
-                        "name": ("txtCont_Type" + counter2)
-                    });
-
-                    trLast.find("[name*='txtCommodity_code']").attr({
-                        "name": ("txtCommodity_code" + counter2)
-                    });
-                    trLast.find("[name*='txtSeal1']").attr({
-                        "name": ("txtSeal1" + counter2)
-                    });
-                    trLast.find("[name*='txtNo_of_qty']").attr({
-                        "name": ("txtNo_of_qty" + counter2)
-                    });
-                    trLast.find("[name*='txtContents']").attr({
-                        "name": ("txtContents" + counter2)
-                    });
-                    trLast.find("[name*='txtLBS']").attr({
-                        "name": ("txtLBS" + counter2)
-                    });
-                    trLast.find("[name*='txtKG']").attr({
-                        "name": ("txtKG" + counter2)
-                    });
-                    trLast.find("[name*='txtCFT']").attr({
-                        "name": ("txtCFT" + counter2)
-                    });
-                    trLast.find("[name*='txtCBM']").attr({
-                        "name": ("txtCBM" + counter2)
-                    });
-                    trLast.find(":first").text(counter2);
+            debugger;
+            var ctyp = tr.prev().find("[name *= 'txtCont_Type'] option:selected").val();
+            var Comcode = tr.prev().find("[name *= 'txtCommodity_code'] option:selected").val();
+            var t = true;
+           
+            if ($('#tablePODetails2 tbody tr').length == 2) {
+                if ((ctyp == '-1' || ctyp == '0') || (Comcode == '-1' || Comcode == '0')) {
+                    EzAlerterrtxt('Please Fill First Row');                                     
+                    t = false;
+                    $("#tablePODetails2").css("height", "auto");
                 }
-                counter2++;
+
             }
+            if (t == true) {
+                drec = [];
+                $('#tablePODetails2 tbody tr td:nth-child(1)').each(function () {
+                    //add item to array
+                    var ab = $(this).find("[name *= 'txtContainer']").val();
+                    drec.push(ab);
+                });
+
+                drec.splice($.inArray(tr.find("[name *= 'txtContainer']").val(), drec), 1);
+                if ($.inArray(tr.find("[name *= 'txtContainer']").val(), drec) >= 0) {
+                    var dr = tr.find("[name *= 'txtContainer']").val();
+                    tr.css("background", "red");
+                    tr.find("[name *= 'txtContainer']").focus();
+                    EzAlerterrtxt("Already Exist Container '" + dr + "'");
+                    tr.find("[name *= 'txtContainer']").val('');
 
 
+                }
+                else {
+                    tr.css("background", "");
+                    if (tr.is(":last-child")) {
+                        tr.clone(true, true).insertAfter(tr);
+                        var trLast = $("#tablePODetails2 tr:last");
+                        $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                                   .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
+                        //trLast.find("[name*='txtsno']").val(tcunt);
+                        trLast.find("[name*='txtContainer']").val('');
+
+
+                        droparry1 = [];
+                        txtarry1 = [];
+
+                        droparry1.push('txtCont_Type', 'txtCommodity_code');
+                        txtarry1.push('txtsno', 'txtSeal1', 'txtNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
+                        txtarry1.push('txt1Cont_Type', 'txt1Commodity_code');
+
+                        EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
+                        EzTbltxtdrpidchanged(txtarry1, counter2, "txt", trLast);
+
+                      
+                        trLast.find(":first").text(counter2);
+                        //trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+                        trLast.find("[name *= 'txtCont_Type']").selectpicker('refresh');
+                        trLast.find("[name *= 'txtCommodity_code']").selectpicker('refresh');
+
+                    }
+                    counter2++;
+                }
+
+            }
 
         });
 
@@ -532,40 +640,7 @@
 
 
 
-<script type="text/javascript">
-    $(function () {
-        //add BT DD show event
-        $(".dropdown").on("show.bs.dropdown", function () {
-            var $btnDropDown = $(this).find(".dropdown-toggle");
-            var $listHolder = $(this).find(".dropdown-menu");
-            //reset position property for DD container
-            $(this).css("position", "static");
-            $listHolder.css({
-                "top": ($btnDropDown.offset().top + $btnDropDown.outerHeight(true)) + "px",
-                "left": $btnDropDown.offset().left + "px"
-            });
-            $listHolder.data("open", true);
-        });
-        //add BT DD hide event
-        $(".dropdown").on("hidden.bs.dropdown", function () {
-            var $listHolder = $(this).find(".dropdown-menu");
-            $listHolder.data("open", false);
-        });
-        //add on scroll for table holder
-        $(".ak-holder").scroll(function () {
-            var $ddHolder = $(this).find(".dropdown")
-            var $btnDropDown = $(this).find(".dropdown-toggle");
-            var $listHolder = $(this).find(".dropdown-menu");
-            if ($listHolder.data("open")) {
-                $listHolder.css({
-                    "top": ($btnDropDown.offset().top + $btnDropDown.outerHeight(true)) + "px",
-                    "left": $btnDropDown.offset().left + "px"
-                });
-                $ddHolder.toggleClass("open", ($btnDropDown.offset().left > $(this).offset().left))
-            }
-        })
-    });
-</script>
+
 
 <div class="row">
     @Html.Hidden("hdnCounter2", (counter2))
@@ -891,25 +966,31 @@
                                                                     @{int RowNo = 1;}
                                                                     <tr>
                                                                         <td>
-                                                                            <div class="grid-group">
+                                                                            
                                                                                 @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @Readonly = "Readonly" })
-                                                                            </div>
+                                                                           
                                                                         </td>
                                                                         <td>
-                                                                            <div class="form-group">
+                                                                            
                                                                                 @Html.TextBox(string.Concat("txtContainer", counter2), null, new { @class = "grid-control" })
-                                                                            </div>
+                                                                           
+                                                                        </td>
+                                                                        <td>
+                                                                            
+                                                                                @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
+                                                                            @Html.TextBox(string.Concat("txt1Cont_Type", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                @Html.DropDownList(string.Concat("txtCont_Type", counter2), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })
+
+                                                                            
+
+                                                                            
+                                                                            
                                                                         </td>
                                                                         <td>
                                                                             <div class="grid-group">
                                                                                 @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
-                                                                                @Html.DropDownList(string.Concat("txtCont_Type", counter2), TypeListdata1, new { @class = "grid-control" })
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="grid-group">
-                                                                                @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
-                                                                                @Html.DropDownList(string.Concat("txtCommodity_code", counter2), TypeListdata1, new { @class = "grid-control" })
+                                                                                @Html.TextBox(string.Concat("txt1Commodity_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                @Html.DropDownList(string.Concat("txtCommodity_code", counter2), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })
                                                                             </div>
                                                                         </td>
                                                                         <td>
@@ -1051,7 +1132,8 @@
                                                                     <tr>
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.DropDownList(string.Concat("txtCLAUSE_CODE", counter4), TypeListdata1, new { @class = "grid-control" })
+                                                                                @Html.TextBox(string.Concat("txt1CLAUSE_CODE", counter4), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                @Html.DropDownList(string.Concat("txtCLAUSE_CODE", counter4), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })
                                                                             </div>
                                                                         </td>
 
@@ -1108,27 +1190,33 @@
                                                                             </div>
 
                                                                         </td>
-                                                                        <td>
-                                                                            <div class="form-group">
-                                                                                @Html.DropDownList(string.Concat("txtCrg_code", counter5), TypeListdata1, new { @class = "grid-control", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4 })
-
+                                                                        <td>                                                                            
+                                                                            <div class="grid-group">
+                                                                                @Html.TextBox(string.Concat("txt1Crg_code", counter5), null, new { @class = "grid-control", @disabled = "disabled",@style="width:70%" })
+                                                                               
+                                                                                @Html.DropDownList(string.Concat("txtCrg_code", counter5), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })
+                                                                               
                                                                             </div>
+                                                                           
                                                                         </td>
                                                                         <td>
-                                                                            <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
+                                                                            <div class="grid-group" >
+                                                                                @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @disabled = "disabled"  })
                                                                                 @Html.Hidden(string.Concat("txtIncome_GL_Code", counter5), null)
                                                                                 @Html.Hidden(string.Concat("txtExpense_GL_Code", counter5), null)
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.DropDownList(string.Concat("txtPAY_MODE", counter5), new List<SelectListItem> { new SelectListItem { Text = "PREPAID", Value = "PP" }, new SelectListItem { Text = "COLLECTION", Value = "COL" } }, new { @class = "grid-control" })
+                                                                                @*@Html.TextBox(string.Concat("txt1PAY_MODE", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })*@
+                                                                                @Html.DropDownList(string.Concat("txtPAY_MODE", counter5), new List<SelectListItem> { new SelectListItem { Text = "PREPAID", Value = "PP" }, new SelectListItem { Text = "COLLECTION", Value = "COL" } }, new { @class = "grid-control selectpicker", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4 })
                                                                             </div>
                                                                         </td>
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.DropDownList(string.Concat("txtUnit_code", counter5), TypeListdata1, new { @class = "grid-control",@data_live_search = "true", @data_dropup_auto = "false", @data_size = 4 })
+                                                                                @Html.TextBox(string.Concat("txt1Unit_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+
+                                                                                @Html.DropDownList(string.Concat("txtUnit_code", counter5), TypeListdata1, new { @class = "grid-control1",@data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })
                                                                             </div>
                                                                         </td>
                                                                         <td>
@@ -1145,7 +1233,8 @@
 
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.DropDownList(string.Concat("txtCust_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control", @data_live_search = "true", @data_dropup_auto = "false",@data_size=4 })
+                                                                                @Html.TextBox(string.Concat("txt1Cust_Curr_Code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                @Html.DropDownList(string.Concat("txtCust_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false",@data_size=4, @data_width = "3%" })
                                                                             </div>
                                                                         </td>
 
@@ -1159,7 +1248,8 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                @Html.DropDownList(string.Concat("txtCust_code", counter4), TypeListdata1, new { @class = "grid-control", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4 })
+                                                                                @Html.TextBox(string.Concat("txt1Cust_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                @Html.DropDownList(string.Concat("txtCust_code", counter4), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })
                                                                             </div>
                                                                         </td>
 
@@ -1193,8 +1283,8 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="form-group">
-
-                                                                                @Html.DropDownList(string.Concat("txtVend_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4 })
+                                                                                @Html.TextBox(string.Concat("txt1Vend_Curr_Code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                @Html.DropDownList(string.Concat("txtVend_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })
                                                                             </div>
                                                                         </td>
 
@@ -1205,8 +1295,8 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="form-group">
-
-                                                                                @Html.DropDownList(string.Concat("txtVend_code", counter4), TypeListdata1, new { @class = "grid-control" , @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4 })
+                                                                                @Html.TextBox(string.Concat("txt1Vend_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                @Html.DropDownList(string.Concat("txtVend_code", counter4), TypeListdata1, new { @class = "grid-control1" , @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })
                                                                             </div>
                                                                         </td>
 
