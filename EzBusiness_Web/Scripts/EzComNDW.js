@@ -881,37 +881,25 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                 });
 
                 //  $(ide).DataTable().clear();
-
-
-
                 // DataTable
                 var tableInstance = $(ide).DataTable({
                     "paging": true,
                     "ordering": true,
                     "info": true,
                     //"scrollX": true,
-
                 });
-
-
-
-
 
                 //if (lk == true) {
                 //    $("#tblUnits_length").hide();
                 //}
-
-
-
                 tableInstance.columns().every(function () {
                     var that = this;
-
                     $('input', this.footer()).on('keyup change', function (ev) {
                         
                         if (that.search() !== this.value) { //only on enter keypress (code 13)
                             that
-                                .search(this.value)
-                                .draw();
+                            .search(this.value)
+                            .draw();
                         }
                     });
                 });
@@ -1725,7 +1713,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
           }
 
 
-         function EzTbltxtdrpidchanged(tblid,txtid,counter,typ,trLast)
+         function EzTbltxtdrpidchanged(txtid,counter,typ,trLast)
           {
              debugger;
              var n = txtid.length;
