@@ -1742,6 +1742,9 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                  {
                      trLast.find("[data-id *= '" + txtid[n - 1] + "']").attr(
                        "data-id", "" + txtid[n - 1] + "" + counter
+
+
+
                    );
                    
 
@@ -1752,3 +1755,43 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
           
       }
    
+
+         function EztblDropOneColumn(tblid, dropid, counter5, tr, cellno) {
+             debugger;
+             if ($('#' + tblid + ' tbody tr').length <= 2) {
+                  var trLast = $("#"+tblid+" tr:last");
+                  trLast.find('td:eq(' + cellno + '),th:eq(' + cellno + ')').remove();
+                  var tr16 = tr.find('td:eq(' + cellno + ')');
+               var $newRow = tr16.clone();
+               trLast.find('td').eq(cellno - 1).after($newRow);
+               droparry = [];
+               droparry.push(dropid);
+              EzTbltxtdrpidchanged("#" + tblid + "", droparry, counter5 - 1, "drp", trLast);
+               var b = counter5 - 1;
+               var tr8 = trLast.find('td:eq(' + cellno + ')');
+               tr8.find('select[name^=' + dropid + '' + b + ']').val(0);
+               tr8.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+               tr8.find("[name *= "+dropid+"]").selectpicker('refresh');
+             }
+             
+         }
+
+         function EztblDropOneColumn1(tblid, dropid, counter5, tr, cellno) {
+             debugger;
+             //if ($('#' + tblid + ' tbody tr').length <= 2) {
+                 var trLast = $("#" + tblid + " tr:last");
+                 trLast.find('td:eq(' + cellno + '),th:eq(' + cellno + ')').remove();
+                 var tr16 = tr.find('td:eq(' + cellno + ')');
+                 var $newRow = tr16.clone();
+                 trLast.find('td').eq(cellno - 1).after($newRow);
+                 droparry = [];
+                 droparry.push(dropid);
+                 EzTbltxtdrpidchanged("#" + tblid + "", droparry, counter5 - 1, "drp", trLast);
+                 var b = counter5 - 1;
+                 var tr8 = trLast.find('td:eq(' + cellno + ')');
+                 tr8.find('select[name^=' + dropid + '' + b + ']').val(0);
+                 tr8.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+                 tr8.find("[name *= " + dropid + "]").selectpicker('refresh');
+             //}
+
+         }
