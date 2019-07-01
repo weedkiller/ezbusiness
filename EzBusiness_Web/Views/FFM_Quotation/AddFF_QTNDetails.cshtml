@@ -279,16 +279,11 @@
                 tr.find("[name *= 'txtCrg_code']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'txtCrg_code']").val('');
-
-
             }
             else {
                 tr.css("background", "");
                 if (tr.is(":last-child")) {                                                       
 
-                   
-
-                 
                     $('#tablePODetails5 tr:last').clone().insertAfter('#tablePODetails5 tr:last');
 
                     var trLast = $("#tablePODetails5 tr:last");
@@ -301,34 +296,21 @@
                     droparry.push('txtCust_Curr_Code', 'txtCrg_code', 'txtUnit_Code', 'txtCust_code', 'txtPAY_MODE', 'txtVend_code', 'txtVend_Curr_Code');
                     txtarry.push('txtsno', 'txtCrg_name', 'txtIncome_GL_Code', 'txtExpense_GL_Code', 'txtCust_name', 'txtCust_Ctrl_Act', 'txtCust_Curr_Rate', 'txtCust_Total_amt', 'txtCust_Var_Amt', 'txtCust_Net_Amt', 'txtCust_Local_amt', 'txtVend_name', 'txtVend_Ctrl_Act', 'txtVend_Curr_Rate', 'txtVend_Total_amt', 'txtVendVar_Amt', 'txtVend_Net_Amt', 'txtVend_Local_amt');
 
-                    EzTbltxtdrpidchanged("#tablePODetails5", droparry, counter5, "drp", trLast);
-                    EzTbltxtdrpidchanged("#tablePODetails5", txtarry, counter5, "txt", trLast);
-
+                    EzTbltxtdrpidchanged(droparry, counter5, "drp", trLast);
+                    EzTbltxtdrpidchanged(txtarry, counter5, "txt", trLast);
 
                     trLast.find(":first").text(counter5);
                     trLast.find('select[name^=txtCrg_code' + counter5 + ']').val(0);
                     trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
                     trLast.find("[name *= 'txtCrg_code']").selectpicker('refresh');
-
-                   
-
-                    
-                    
                 }
                 counter5++;
             }
-
-
             $("#tablePODetails5").css("height", "auto");
-
-
         });
 
-
-       
         var counter4 = parseInt($("#hdnCounter4").val())+1;
         $("#tablePODetails4").on("change", "[name*='txtCLAUSE_CODE']", function () {
-
             var tr = $(this).closest('tr');
             var JobCode = tr.find("[name*='txtCLAUSE_CODE'] option:selected").text();
             var array = JobCode.split("-");
@@ -344,14 +326,12 @@
             });
 
             drec.splice($.inArray(tr.find("[name *= 'txtCLAUSE_CODE']").val(), drec), 1);
-            if ($.inArray(tr.find("[name *= 'txtCLAUSE_CODE']").val(), drec) >= 0) {
+            if ($.inArray(tr.find("[name *= 'txtCLAUSE_CODE']").val(), drec) >= 0){
                 var dr = tr.find("[name *= 'txtCLAUSE_CODE']").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'txtCLAUSE_CODE']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'txtCLAUSE_CODE']").val('');
-
-
             }
             else {
                 tr.css("background", "");
@@ -375,8 +355,6 @@
                 }
                 counter4++;
             }
-
-
 
         });
 
@@ -619,7 +597,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
