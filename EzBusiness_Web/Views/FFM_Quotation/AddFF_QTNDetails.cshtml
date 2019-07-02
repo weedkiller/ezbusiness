@@ -13,7 +13,11 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
-
+<style>
+    .select-div, .input-div {
+  display: inline-block;
+}
+</style>
 
 <script>
     $(function () {
@@ -113,6 +117,7 @@
                tr.find("[name*='txtCust_name']").val(array[1].trim());
                tr.find("[name*='txtCust_Ctrl_Act']").val(array[2].trim());
                tr.find("[name*='txt1Cust_code']").val(array[0].trim());
+               tr.find(".dropdown-toggle").css('width', 0);
            } else {
                tr.find("[name*='txt1Cust_code']").val('');
            }
@@ -124,9 +129,10 @@
            var tr = $(this).closest('tr');
            var JobCode = tr.find("[name*='txtCLAUSE_CODE'] option:selected").text();
            var array = JobCode.split("-");
-           if (array.length > 2) {
+           if (array.length > 1) {
                tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim());
                tr.find("[name*='txt1CLAUSE_CODE']").val(array[0].trim());
+               tr.find(".dropdown-toggle").css('width', 0);
            }
            else {
                tr.find("[name*='txt1CLAUSE_CODE']").val('');
@@ -147,6 +153,7 @@
                tr.find("[name*='txtVend_name']").val(array[1].trim());
                tr.find("[name*='txtVend_Ctrl_Act']").val(array[2].trim());
                tr.find("[name*='txt1Vend_code']").val(array[0].trim());
+               tr.find(".dropdown-toggle").css('width', 0);
            }
            else {
                tr.find("[name*='txt1Vend_code']").val('');
@@ -170,6 +177,7 @@
                    ary = response;
                    tr.find("[name*='txtCust_Curr_Rate']").val(ary);
                });
+               tr.find(".dropdown-toggle").css('width', 0);
            } else {
                tr.find("[name*='txt1Cust_Curr_Code']").val('');
            }
@@ -187,7 +195,7 @@
            if (array.length > 1) {
                tr.find("[name*='txt1Unit_code']").val(array[0].trim());
                EztblDropOneColumn("tablePODetails5", "txtUnit_code", counter5, tr, 4, "txt1Unit_code");
-               
+               tr.find(".dropdown-toggle").css('width', 0);
            } else {
                tr.find("[name*='txt1Unit_code']").val('');
            }
@@ -201,7 +209,8 @@
            var CurCode = tr.find("[name*='txtCont_Type'] option:selected").text();
            var array = CurCode.split("-");
            if (array.length > 1) {
-               tr.find("[name*='txt1Cont_Type']").val(array[0].trim());                             
+               tr.find("[name*='txt1Cont_Type']").val(array[0].trim());
+               tr.find(".dropdown-toggle").css('width', 0);
            }
            else {
                tr.find("[name*='txt1Cont_Type']").val('');
@@ -215,11 +224,13 @@
            var CurCode = tr.find("[name*='txtCommodity_code'] option:selected").text();
            var array = CurCode.split("-");
            if (array.length > 1) {
-               tr.find("[name*='txt1Commodity_code']").val(array[0].trim());                                     
+               tr.find("[name*='txt1Commodity_code']").val(array[0].trim());
+               tr.find(".dropdown-toggle").css('width', 0);
            }
-           else {
+           else {               
                tr.find("[name*='txt1Commodity_code']").val('');
            }
+           tr.find('.btn dropdown-toggle btn-default').css("width", "0px");
            $("#tablePODetails2").css("height", "auto");
            EztblDropOneColumn1("tablePODetails2", "txtCommodity_code", counter2, tr, 3, "txt1Commodity_code");
        })
@@ -295,6 +306,7 @@
                    ary = response;
                    tr.find("[name*='txtVend_Curr_Rate']").val(ary);
                });
+               tr.find(".dropdown-toggle").css('width', 0);
                
            } else {
                tr.find("[name*='txt1Vend_Curr_Code']").val('');
@@ -349,6 +361,7 @@
                     tr.find("[name*='txtIncome_GL_Code']").val(array[2].trim());
                     tr.find("[name*='txtExpense_GL_Code']").val(array[3].trim());
                     tr.find("[name*='txt1Crg_code']").val(array[0].trim());
+                    tr.find(".dropdown-toggle").css('width', 0);
                 }
 
                 drec = [];
@@ -429,7 +442,12 @@
             var JobCode = tr.find("[name*='txtCLAUSE_CODE'] option:selected").text();
             var array = JobCode.split("-");
             //   var counter =1;
-            tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim())
+            if (array.length > 1) {
+                tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim())
+                tr.find("[name*='txt1CLAUSE_CODE']").val(array[0].trim())
+                tr.find(".dropdown-toggle").css('width', 0);
+            }
+         
 
             //  var tcunt = $("#tablePODetails").find("tr").length;
             drec = [];
@@ -1140,8 +1158,8 @@
                                                                     <tr>
                                                                         <td>
                                                                             <div class="grid-group">
-                                                                                @Html.TextBox(string.Concat("txt1CLAUSE_CODE", counter4), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
-                                                                                @Html.DropDownList(string.Concat("txtCLAUSE_CODE", counter4), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })
+                                                                                @Html.TextBox(string.Concat("txt1CLAUSE_CODE", counter4), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:95%" })
+                                                                                @Html.DropDownList(string.Concat("txtCLAUSE_CODE", counter4), TypeListdata1, new { @class = "grid-control2", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })
                                                                             </div>
                                                                         </td>
 
