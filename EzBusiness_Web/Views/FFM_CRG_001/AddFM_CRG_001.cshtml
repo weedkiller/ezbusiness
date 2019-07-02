@@ -3,6 +3,7 @@
 @{
 
     var counter = 1;
+    var counter1 = 1;
 }
 <script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Scripts/moment.min.js"></script>
@@ -12,25 +13,23 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 @*<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="https://www.google.com/jsapi">*@
-</script>
+@*</script>*@
 <script>
     $(function () {
         arr1 = [];
         
         EzDropFillEvent("FFM_CRG_GROUP_CODE", "click", "FFM_CRG_GROUP_CODE", "/FFM_CRG_001/GetCRG_GroupList");
 
-
         EzDropFillEventTbl1("#tablePODetails", "[name*='txtjobcode']", "click", "[name*='txtjobcode']", "/FFM_CRG_001/GetJobCodeList", "", false);
 
         EzDropFillEventTbl1("#tablePODetails", "[name*='txtincomeact']", "click", "[name*='txtincomeact']", "/FFM_CRG_001/GetIncomeActList", "", false);
 
         EzDropFillEventTbl1("#tablePODetails", "[name*='txtexpenceacgt']", "click", "[name*='txtexpenceacgt']", "/FFM_CRG_001/GetIncomeActList", "", false);
-        
-
+      
 
         $('.selectpicker').selectpicker('refresh');
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
-        var counter = parseInt($("#hdnCounter").val());
+        var counter =$("#hdnCounter").val();
        $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
           $(this).closest("tr").remove();
             counter = 1;
@@ -40,11 +39,11 @@
                  counter++;
              });
        });
-      
-        var counter = $('#hdnCounter').val();
+     
+       var counter1 =$('#hdnCounter').val();
         $('.selectpicker').selectpicker('refresh');
         $("#tablePODetails").on("change", "[name*='txtjobcode']", function () {
-
+            debugger
             if (EzHeadTxtvalid("[name *= 'FFM_CRG_GROUP_CODE'] option:selected", "#tablePODetails tbody tr:last", "[name *= 'txtjobcode']", "Please Enter FFM GROUP CODE", "0", "0") == true) {
                 return;
             }
@@ -56,7 +55,7 @@
             if (EzHeadTxtvalid("#NAME", "#tablePODetails tbody tr:last", "[name *= 'txtjobcode']", "Please Enter Name", '0', '0') == true) {
                 return;
             }
-            
+
             var tr = $(this).closest('tr');
             var JobCode = tr.find("[name*='txtjobcode'] option:selected").text();
             var array = JobCode.split("-");
@@ -79,53 +78,103 @@
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'txtjobcode']").val('');
                 tr.find("[name *= 'txtjobname']").val('');
-
-
             }
             else {
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
-                    tr.clone(true, true).insertAfter(tr);
+                    debugger;
+                    $('#tablePODetails tr:last').clone().insertAfter('#tablePODetails tr:last');
                     var trLast = $("#tablePODetails tr:last");
-                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter1 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
                     //trLast.find("[name*='txtsrno']").val(tcunt);
-                    trLast.find("[name*='txtjobcode'] option:selected").val('');
-                    trLast.find("[name*='txtjobname']").val('');
-                    trLast.find("[name*='txtoperationtype']").val('');
-                    trLast.find("[name*='txtincomeact'] option:selected").val('');
-                    trLast.find("[name*='txtexpenceacgt'] option:selected").val('');
-                    trLast.find("[name *= 'txtsrno']").attr({
-                        "name": ("txtsrno" + counter)
-                    });
-                    trLast.find("[name *= 'txtjobcode']").attr({
-                        "name": ("txtjobcode" + counter)
-                    });
-                    trLast.find("[name *= 'txtjobname']").attr({
-                        "name": ("txtjobname" + counter)
-                    });
-                    trLast.find("[name *= 'txtoperationtype']").attr({
-                        "name": ("txtoperationtype" + counter)
-                    });
-                    trLast.find("[name *= 'txtincomeact']").attr({
-                        "name": ("txtincomeact" + counter)
-                    });
-                    trLast.find("[name *= 'txtexpenceacgt']").attr({
-                        "name": ("txtexpenceacgt" + counter)
-                    });
-                    trLast.find(":first").text(counter);
 
+                    debugger;
+                    droparry = [];
+                    txtarry = [];
+
+                    droparry.push('txtjobcode', 'txtexpenceacgt', 'OPERATION_TYPE', 'txtincomeact');
+                    txtarry.push('txtjobname','txtsrno');
+
+                    EzTbltxtdrpidchanged(droparry, counter1, "drp", trLast);
+                    EzTbltxtdrpidchanged(txtarry, counter1, "txt", trLast);
+
+                    trLast.find(":first").text(counter1);
+                    trLast.find('select[name^=txtjobcode' + counter1 + ']').val(0);
+                    trLast.find('select[name^=OPERATION_TYPE' + counter1 + ']').val(0);
+                    trLast.find('select[name^=txtincomeact' + counter1 + ']').val(0);
                     trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
                     trLast.find("[name *= 'txtjobcode']").selectpicker('refresh');
-                   // trLast.find("[name *= 'ItemUnit']").selectpicker('refresh');
+                    trLast.find("[name *= 'OPERATION_TYPE']").selectpicker('refresh');
+                    trLast.find("[name *= 'txtincomeact']").selectpicker('refresh');
                 }
-                counter++;
+                counter1++;
             }
-
-
 
         });
       
+
+        $("#tablePODetails").on("change", "[name*='txtincomeact']", function () {
+            debugger;
+            var tr = $(this).closest('tr');
+            $("#tablePODetails").css("height", "auto");
+            var JobCode = tr.find("[name*='txtincomeact'] option:selected").text();
+            var array = JobCode.split("-");
+         //   tr.find("[name*='txtincomeact']").val(array[1].trim());
+         //   tr.find("[name*='txtincomeact']").val(array[2].trim());
+            debugger;
+
+            var trLast = $("#tablePODetails tr:last");
+
+            trLast.find('td:eq(4),th:eq(4)').remove();
+
+            var tr6 = tr.find('td:eq(4)');
+            var $newRow = tr6.clone();
+            trLast.find('td').eq(3).after($newRow);
+            droparry = [];
+            droparry.push('txtincomeact');
+
+            EzTbltxtdrpidchanged(droparry,counter1 - 1,"drp",trLast);
+            var b = counter1 - 1;
+            var tr8 = trLast.find('td:eq(4)');
+            tr8.find('select[name^=txtincomeact' + b + ']').val(0);
+            tr8.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+
+            tr8.find("[name *= 'txtincomeact']").selectpicker('refresh');
+
+        });
+
+
+        $("#tablePODetails").on("change", "[name*='txtexpenceacgt']", function () {
+            debugger;
+            var tr = $(this).closest('tr');
+            $("#tablePODetails").css("height", "auto");
+            var JobCode = tr.find("[name*='txtexpenceacgt'] option:selected").text();
+            var array = JobCode.split("-");
+            //   tr.find("[name*='txtincomeact']").val(array[1].trim());
+            //   tr.find("[name*='txtincomeact']").val(array[2].trim());
+            debugger;
+
+            var trLast = $("#tablePODetails tr:last");
+
+            trLast.find('td:eq(5),th:eq(5)').remove();
+
+            var tr6 = tr.find('td:eq(5)');
+            var $newRow = tr6.clone();
+            trLast.find('td').eq(4).after($newRow);
+            droparry = [];
+            droparry.push('txtexpenceacgt');
+
+            EzTbltxtdrpidchanged(droparry, counter1 - 1, "drp", trLast);
+            var b = counter1 - 1;
+            var tr8 = trLast.find('td:eq(5)');
+
+            tr8.find('select[name^=txtexpenceacgt' + b + ']').val(0);
+            tr8.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+            tr8.find("[name *= 'txtexpenceacgt']").selectpicker('refresh');
+        });
+
+
 
         $('.selectpicker').selectpicker({
             style: 'btn-info',
@@ -142,7 +191,7 @@
 <div class="row">
     @{
         var TypeListdata1 = new SelectList(new[]
-        {
+    {
             new SelectListItem { Text = "-Select-", Value = "-1" },
         }, "Value", "Text");
     }
@@ -211,12 +260,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div><br />
-                                      
+                                        </div><br />                                      
                                     <!-- END FORM-->
-                                </div>
-                            </div>
-                                  <ul class="nav nav-tabs">
+                                 </div>
+                             </div>
+                                    <ul class="nav nav-tabs">
                                         <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
                                     </ul>
                                     <div class="tab-content">
@@ -234,21 +282,19 @@
                                                                 <th style="width: 5%">Job Name</th>
                                                                 <th style="width: 20%">Operation Type</th>
                                                                 <th style="width: 30%">Income Act</th>
-                                                                <th style="width: 30%">Expense ACGT</th>
+                                                                <a href="~/Views/FFM_CRG_001/AddFM_CRG_001.cshtml">~/Views/FFM_CRG_001/AddFM_CRG_001.cshtml</a><th style="width: 30%">Expense ACGT</th>
                                                                 @*<th style="width: 30%">Name-Arabic</th>*@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             @{int RowNo = 1;}
                                                             <tr>
-
                                                                 <td>
                                                                     <div class="grid-group">
                                                                         @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control", @Readonly = "Readonly" })
                                                                         @*@Html.Label(counter.ToString())*@
                                                                     </div>
                                                                 </td>
-
                                                                 <td>
                                                                     <div class="form-group">
                                                                         @*@Html.TextBox(string.Concat("txtjobcode", counter), null, new { @class = "grid-control " })*@
@@ -269,14 +315,14 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        @Html.DropDownList(string.Concat("txtincomeact", counter), TypeListdata1, new { @class = "grid-control", @data_live_search = "true" })
-                                                                        @*@Html.TextBox(string.Concat("txtincomeact", counter), null, new { @class = "grid-control datepicker" })*@
+                                                                       @Html.DropDownList(string.Concat("txtincomeact", counter), TypeListdata1, new { @class = "grid-control", @data_live_search = "true" })
+                                                                       @*@Html.TextBox(string.Concat("txtincomeact", counter), null, new { @class = "grid-control datepicker" })*@
                                                                     </div>
                                                                 </td>
                                                                 <td>
-                                                                    <div class="grid-group">
-                                                                        @Html.DropDownList(string.Concat("txtexpenceacgt", counter), TypeListdata1, new { @class = "grid-control", @data_live_search = "true" })
-                                                                        @*@Html.TextBox(string.Concat("txtexpenceacgt", counter), null, new { @class = "grid-control" })*@
+                                                                   <div class="grid-group">
+                                                                       @Html.DropDownList(string.Concat("txtexpenceacgt", counter), TypeListdata1, new { @class = "grid-control", @data_live_search = "true" })
+                                                                       @*@Html.TextBox(string.Concat("txtexpenceacgt", counter), null, new { @class = "grid-control" })*@
                                                                     </div>
                                                                 </td>
                                                                 @*<td>
@@ -298,7 +344,6 @@
 
                 </div>
             </div>
-
         </div>
 
         <!-- Purchase Request List Start-->
