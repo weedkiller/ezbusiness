@@ -1658,11 +1658,11 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
 
           function EzDropFillEventTbl1(tblid, ide, EveNames, ids, urls, idh, EMode) {
-              //debugger;           
+              debugger;           
               $(tblid).on(EveNames, ide, function () {
               var tr = $(this).closest('tr');
               debugger;          
-                        $(ids).removeClass('selectpicker');
+                       $(ids).removeClass('selectpicker');
                         var a = 0;
                         var selectedValue = tr.find(ids + " option:selected").val();
                         var lenG = tr.find(ids + " > option").length;
@@ -1683,7 +1683,6 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                                             value: data[i].Value,
                                             text: data[i].Text
                                         }))
-
                                     });
                                     $(ids).selectpicker('refresh');
                                     //$("#" + ids).selectpicker('refresh');
