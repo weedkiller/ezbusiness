@@ -1788,3 +1788,33 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
              //}
 
          }
+
+         function ezModelPop() {
+             swal({
+                 title: 'Select Tranfer From',
+                 input: 'select',
+                 class:'selectpicker',
+                 inputOptions: {
+                     'DIRECT': 'DIRECT',
+                     'QUOT': 'Quotation'                    
+                 },
+                 inputPlaceholder: 'Select',
+                 showCancelButton: true,
+                 inputValidator: function (value) {
+                     return new Promise(function (resolve, reject) {
+                         if (value !== '') {
+                             resolve();
+                         } else {
+                             reject('You need to select a Tranfer From');
+                         }
+                     });
+                 }
+             }).then(function (result) {
+                 if (result.value) {
+                     swal({
+                         type: 'success',
+                         html: 'You selected: ' + result.value
+                     });
+                 }
+             });
+         }
