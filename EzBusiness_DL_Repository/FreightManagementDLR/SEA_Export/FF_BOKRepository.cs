@@ -42,7 +42,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<FF_BOK_VM> GetFF_BOK(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FORWARDER,SHIPPER,PLACE_OF_RCPT,FF_QTN001_CODE,FF_BOK001_DATE,DELIVERY_AT,CARRIER,BILL_TO,DEPARTMENT,FF_BOK001_CODE,ETD,ETA,FND,MOVE_TYPE,PICKUP_PLACE,POD,POL,REF_NO,Total_Billed,Total_Cost,Total_Profit,VESSEL,VOYAGE,CONSIGNEE from FF_BOK001 where Flag=0 and CMPYCODE='" + CmpyCode + "' ");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FORWARDER,SHIPPER,PLACE_OF_RCPT,FF_QTN001_CODE,FF_BOK001_DATE,DELIVERY_AT,CARRIER,BILL_TO,DEPARTMENT,FF_BOK001_CODE,ETD,ETA,FND,MOVE_TYPE,PICKUP_PLACE,POD,POL,REF_NO,Total_Billed,Total_Cost,Total_Profit,VESSEL,VOYAGE,CONSIGNEE,tranferFrom from FF_BOK001 where Flag=0 and CMPYCODE='" + CmpyCode + "' ");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FF_BOK_VM> ObjList = new List<FF_BOK_VM>();
@@ -73,8 +73,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     Total_Profit = Convert.ToDecimal(dr["Total_Profit"].ToString()),
                     VESSEL = dr["VESSEL"].ToString(),
                     VOYAGE = dr["VOYAGE"].ToString(),
-                    CONSIGNEE=dr["CONSIGNEE"].ToString()
-                    
+                    CONSIGNEE=dr["CONSIGNEE"].ToString(),
+                    tranferFrom=dr["tranferFrom"].ToString()
 
                 });
             }
@@ -525,9 +525,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         sb4.Append("'" + FQV.JOB_TYPE + "',");
                         sb4.Append("'" + FQV.TRANS_TYPE + "',");
                         sb4.Append("'" + FQV.Commodity_code + "',");
+                        sb4.Append("'" + FQV.tranferFrom + "',");
                         sb4.Append("'" + FQV.Total_Profit + "')");
 
-                        i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_BOK001_CODE,FF_BOK001_DATE,FF_QTN001_CODE,BILL_TO,SHIPPER,CONSIGNEE,FORWARDER,PICKUP_PLACE,POL,POD,FND,PLACE_OF_RCPT,MOVE_TYPE,DELIVERY_AT,REF_NO,VESSEL,VOYAGE,ETD,ETA,CARRIER,DEPARTMENT,Total_Cost,Total_Billed,JOB_TYPE,TRANS_TYPE,Commodity_code,Total_Profit) values(" + sb4.ToString() + "");
+                        i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_BOK001_CODE,FF_BOK001_DATE,FF_QTN001_CODE,BILL_TO,SHIPPER,CONSIGNEE,FORWARDER,PICKUP_PLACE,POL,POD,FND,PLACE_OF_RCPT,MOVE_TYPE,DELIVERY_AT,REF_NO,VESSEL,VOYAGE,ETD,ETA,CARRIER,DEPARTMENT,Total_Cost,Total_Billed,JOB_TYPE,TRANS_TYPE,Commodity_code,tranferFrom,Total_Profit) values(" + sb4.ToString() + "");
 
                         #endregion
                         _EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Update FF BOK", FQV.FF_BOK001_CODE, Environment.MachineName);
@@ -586,6 +587,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             FQT1.JOB_TYPE = FQV.JOB_TYPE;
                             FQT1.TRANS_TYPE = FQV.TRANS_TYPE;
                             FQT1.Commodity_code = FQV.Commodity_code;
+                            FQT1.tranferFrom = FQV.tranferFrom;
 
                             _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK002 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "'");
                             _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK003 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "'");
@@ -845,6 +847,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb9.Append("JOB_TYPE='" + FQV.JOB_TYPE + "',");
                             sb9.Append("TRANS_TYPE='" + FQV.TRANS_TYPE + "',");
                             sb9.Append("Commodity_code='" + FQV.Commodity_code + "',");
+                            sb9.Append("tranferFrom='" + FQV.tranferFrom + "',");
                             sb9.Append("Total_Profit='" + FQV.Total_Profit + "'");
 
 

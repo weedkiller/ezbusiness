@@ -100,6 +100,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public List<SelectListItem> Commodityist { get; set; }
         public string JOB_TYPE { get; set; }
         public string TRANS_TYPE { get; set; }
+
+        public string tranferFrom { get; set; }
     }
     public class FF_BOK002New
     {
