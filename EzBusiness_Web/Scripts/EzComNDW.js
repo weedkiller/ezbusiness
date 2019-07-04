@@ -1660,6 +1660,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
           function EzDropFillEventTbl1(tblid, ide, EveNames, ids, urls, idh, EMode) {
               debugger;           
               $(tblid).on(EveNames, ide, function () {
+                  debugger;
               var tr = $(this).closest('tr');
               debugger;          
                        $(ids).removeClass('selectpicker');
@@ -1698,6 +1699,10 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
 
                             return a;
+                        }
+                        else
+                        {
+
                         }
                         //});
                       
@@ -1782,4 +1787,34 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
                  tr8.find("[name*=" + txtid + "]").val('');
              //}
 
+         }
+
+         function ezModelPop() {
+             swal({
+                 title: 'Select Tranfer From',
+                 input: 'select',
+                 class:'selectpicker',
+                 inputOptions: {
+                     'DIRECT': 'DIRECT',
+                     'QUOT': 'Quotation'                    
+                 },
+                 inputPlaceholder: 'Select',
+                 showCancelButton: true,
+                 inputValidator: function (value) {
+                     return new Promise(function (resolve, reject) {
+                         if (value !== '') {
+                             resolve();
+                         } else {
+                             reject('You need to select a Tranfer From');
+                         }
+                     });
+                 }
+             }).then(function (result) {
+                 if (result.value) {
+                     swal({
+                         type: 'success',
+                         html: 'You selected: ' + result.value
+                     });
+                 }
+             });
          }

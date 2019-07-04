@@ -15,13 +15,18 @@
     $(function () {
         arr1 = [];
 
-
-       
-
-
-
         $('.selectpicker').selectpicker('refresh');
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
+        debugger;
+        var jobcode = '';
+
+
+        debugger;
+        EzDropFillEventTbl1("#tablePODetails", "[name*='FFM_CRG_JOB_COD']", "click", "[name*='FFM_CRG_JOB_COD']", "/FFM_CRG_001/GetJobCodeList", "hdnFFM_CRG_JOB_CODE", true);
+
+        EzDropFillEventTbl1("#tablePODetails", "[name*='INCOME_ACT']", "click", "[name*='INCOME_ACT']", "/FFM_CRG_001/GetIncomeActList", "hdnINCOME_ACT", true);
+
+        EzDropFillEventTbl1("#tablePODetails", "[name*='EXPENSE_ACGT']", "click", "[name*='EXPENSE_ACGT']", "/FFM_CRG_001/GetIncomeActList", "hdnEXPENSE_ACGT", true);
 
       
         var counter = parseInt($("#hdnCounter").val());
@@ -39,7 +44,8 @@
 
         var index3 = 1;
         $("#tablePODetails tbody tr").each(function (index3, item) {
-            
+            debugger;
+            jobcode = $("[name*='hdnFFM_CRG_JOB_CODE" + (index3 + 1) + "']").val();
             $("[name*='SNO" + (index3 + 1) + "']").val($("[name*='hdnSNO" + (index3 + 1) + "']").val());
             $("[name*='FFM_CRG_JOB_CODE" + (index3 + 1) + "']").val($("[name*='hdnFFM_CRG_JOB_CODE" + (index3 + 1) + "']").val());
             $("[name*='FFM_CRG_JOB_NAME" + (index3 + 1) + "']").val($("[name*='hdnFFM_CRG_JOB_NAME" + (index3 + 1) + "']").val());
@@ -55,87 +61,224 @@
       
         $("#tablePODetails tbody tr:last").find("[name*='SNO']").val(counter);
 
-        var counter = parseInt($('#hdnCounter').val())+1;
-        $("#tablePODetails").on("change", "[name*='FFM_CRG_JOB_CODE']", function () {
+      
+        //$("#tablePODetails").on("change", "[name*='FFM_CRG_JOB_CODE']", function () {
             
           
+        //    var tr = $(this).closest('tr');
+        //    var JobCode = tr.find("[name*='FFM_CRG_JOB_CODE'] option:selected").text();
+        //    var array = JobCode.split("-");
+        //    tr.find("[name*='FFM_CRG_JOB_NAME']").val(array[1].trim())
+          
+        //    $('.selectpicker').selectpicker('refresh');
+        //    drec = [];
+        //    $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
+        //        //add item to array
+        //        var ab = $(this).find("[name *= 'FFM_CRG_JOB_CODE']").val();
+        //        drec.push(ab);
+        //    });
+
+        //    drec.splice($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE']").val(), drec), 1);
+        //    if ($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE']").val(), drec) >= 0) {
+        //        var dr = tr.find("[name *= 'FFM_CRG_JOB_CODE']").val();
+        //        tr.css("background", "red");
+        //        tr.find("[name *= 'FFM_CRG_JOB_CODE']").focus();
+        //        EzAlerterrtxt("Already Exist Code '" + dr + "'");
+        //        tr.find("[name *= 'FFM_CRG_JOB_CODE']").val('');
+        //    }
+        //    else {
+        //        tr.css("background", "");
+        //        if (tr.is(":last-child")) {
+        //            tr.clone(true, true).insertAfter(tr);
+        //            $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+        //                .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+        //            var trLast = $("#tablePODetails tr:last")
+
+        //            //var cloned = $("#tablePODetails tbody tr:last").clone(true);
+
+        //            //$("#tablePODetails > tbody").append(cloned);
+        //            //$("#tablePODetails > tbody tr:last").prev().remove();
+                  
+        //            trLast.find("[name*='SNO']").val(counter);
+        //            trLast.find("[name*='FFM_CRG_JOB_CODE'] option:selected").val('');
+        //            trLast.find("[name*='FFM_CRG_JOB_NAME']").val('');
+        //            trLast.find("[name*='OPERATION_TYPE'] option:selected").val('');
+        //            trLast.find("[name*='INCOME_ACT'] option:selected").val('');
+        //            trLast.find("[name*='EXPENSE_ACGT']").val('');
+                
+
+        //            trLast.find("[name *= 'SNO']").attr({
+        //                "name": ("SNO" + counter)
+        //            });
+
+        //            trLast.find("[name *= 'FFM_CRG_JOB_CODE']").attr({
+        //                "name": ("FFM_CRG_JOB_CODE" + counter)
+        //            });
+        //            trLast.find("[name *= 'FFM_CRG_JOB_NAME']").attr({
+        //                "name": ("FFM_CRG_JOB_NAME" + counter)
+        //            });
+        //            trLast.find("[name *= 'OPERATION_TYPE']").attr({
+        //                "name": ("OPERATION_TYPE" + counter)
+        //            });
+        //            trLast.find("[name *= 'INCOME_ACT']").attr({
+        //                "name": ("INCOME_ACT" + counter)
+        //            });
+        //            trLast.find("[name *= 'EXPENSE_ACGT']").attr({
+        //                "name": ("EXPENSE_ACGT" + counter)
+        //            });
+        //            trLast.find(":first").text(counter);
+        //        }
+        //        counter++;
+        //    }
+           
+        //});
+
+
+     
+        var counter1 = parseInt($('#hdnCounter').val()) + 1;
+        $('.selectpicker').selectpicker('refresh');
+        $("#tablePODetails").on("change", "[name*='FFM_CRG_JOB_CODE']", function () {
+            debugger
+         
             var tr = $(this).closest('tr');
+            $("#tablePODetails").css("height", "auto");
             var JobCode = tr.find("[name*='FFM_CRG_JOB_CODE'] option:selected").text();
             var array = JobCode.split("-");
-            tr.find("[name*='FFM_CRG_JOB_NAME']").val(array[1].trim())
-          
-            $('.selectpicker').selectpicker('refresh');
+            //   tr.find("[name*='txtincomeact']").val(array[1].trim());
+            //   tr.find("[name*='txtincomeact']").val(array[2].trim());
+            debugger;
+            tr.find("[name*='FFM_CRG_JOB_CODE']").val(array[1].trim())
+            var trLast = $("#tablePODetails tr:last");
+
+            //trLast.find('td:eq(1),th:eq(1)').remove();
+
+            //var tr6 = tr.find('td:eq(1)');
+            //var $newRow = tr6.clone();
+            //trLast.find('td').eq(0).after($newRow);
             drec = [];
+            //drec.push('FFM_CRG_JOB_CODE');
+            ////
+
+            EzTbltxtdrpidchanged(drec, counter1 - 1, "drp", trLast);
+            //var b = counter1 - 1;
+            //var tr8 = trLast.find('td:eq(1)');
+            //tr8.find('select[name^=FFM_CRG_JOB_CODE' + b + ']').val(0);
+            //tr8.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+
+            //tr8.find("[name *= 'FFM_CRG_JOB_CODE']").selectpicker('refresh');
+
             $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
                 //add item to array
-                var ab = $(this).find("[name *= 'FFM_CRG_JOB_CODE']").val();
+                var ab = $(this).closest("tr").find("[name *= 'FFM_CRG_JOB_CODE'] option:selected").val();
                 drec.push(ab);
             });
 
-            drec.splice($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE']").val(), drec), 1);
-            if ($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE']").val(), drec) >= 0) {
-                var dr = tr.find("[name *= 'FFM_CRG_JOB_CODE']").val();
+            drec.splice($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE'] option:selected").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE'] option:selected").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'FFM_CRG_JOB_CODE'] option:selected").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'FFM_CRG_JOB_CODE']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'FFM_CRG_JOB_CODE']").val('');
+                tr.find("[name *= 'FFM_CRG_JOB_NAME']").val('');
             }
             else {
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
-                    tr.clone(true, true).insertAfter(tr);
-                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                        .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
-                    var trLast = $("#tablePODetails tr:last")
+                    debugger;
+                    $('#tablePODetails tr:last').clone().insertAfter('#tablePODetails tr:last');
+                    var trLast = $("#tablePODetails tr:last");
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter1 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                    //trLast.find("[name*='txtsrno']").val(tcunt);
 
-                    //var cloned = $("#tablePODetails tbody tr:last").clone(true);
+                    debugger;
+                    droparry = [];
+                    txtarry = [];
 
-                    //$("#tablePODetails > tbody").append(cloned);
-                    //$("#tablePODetails > tbody tr:last").prev().remove();
-                  
-                    trLast.find("[name*='SNO']").val(counter);
-                    trLast.find("[name*='FFM_CRG_JOB_CODE'] option:selected").val('');
-                    trLast.find("[name*='FFM_CRG_JOB_NAME']").val('');
-                    trLast.find("[name*='OPERATION_TYPE'] option:selected").val('');
-                    trLast.find("[name*='INCOME_ACT'] option:selected").val('');
-                    trLast.find("[name*='EXPENSE_ACGT']").val('');
-                
+                    droparry.push('FFM_CRG_JOB_CODE', 'EXPENSE_ACGT', 'OPERATION_TYPE', 'INCOME_ACT');
+                    txtarry.push('FFM_CRG_JOB_NAME', 'SNO');
 
-                    trLast.find("[name *= 'SNO']").attr({
-                        "name": ("SNO" + counter)
-                    });
+                    EzTbltxtdrpidchanged(droparry, counter1, "drp", trLast);
+                    EzTbltxtdrpidchanged(txtarry, counter1, "txt", trLast);
 
-                    trLast.find("[name *= 'FFM_CRG_JOB_CODE']").attr({
-                        "name": ("FFM_CRG_JOB_CODE" + counter)
-                    });
-                    trLast.find("[name *= 'FFM_CRG_JOB_NAME']").attr({
-                        "name": ("FFM_CRG_JOB_NAME" + counter)
-                    });
-                    trLast.find("[name *= 'OPERATION_TYPE']").attr({
-                        "name": ("OPERATION_TYPE" + counter)
-                    });
-                    trLast.find("[name *= 'INCOME_ACT']").attr({
-                        "name": ("INCOME_ACT" + counter)
-                    });
-                    trLast.find("[name *= 'EXPENSE_ACGT']").attr({
-                        "name": ("EXPENSE_ACGT" + counter)
-                    });
-                    trLast.find(":first").text(counter);
+                    trLast.find(":first").text(counter1);
+                    trLast.find('[name^=FFM_CRG_JOB_NAME' + counter1 + ']').val('');
+                    trLast.find('select[name^=FFM_CRG_JOB_CODE' + counter1 + ']').val(0);
+                    trLast.find('select[name^=OPERATION_TYPE' + counter1 + ']').val(0);
+                    trLast.find('select[name^=INCOME_ACT' + counter1 + ']').val(0);
+                    trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+                    trLast.find("[name *= 'FFM_CRG_JOB_CODE']").selectpicker('refresh');
+                    trLast.find("[name *= 'OPERATION_TYPE']").selectpicker('refresh');
+                    trLast.find("[name *= 'INCOME_ACT']").selectpicker('refresh');
                 }
-                counter++;
+                counter1++;
             }
-           
+
         });
 
 
-        EzDropFillEvent("FFM_CRG_GROUP_CODE", "click", "FFM_CRG_GROUP_CODE", "/FFM_CRG_001/GetCRG_GroupList");
+        $("#tablePODetails").on("change", "[name*='INCOME_ACT']", function () {
+            debugger;
+            var tr = $(this).closest('tr');
+            $("#tablePODetails").css("height", "auto");
+            var JobCode = tr.find("[name*='INCOME_ACT'] option:selected").text();
+            var array = JobCode.split("-");
+            //   tr.find("[name*='txtincomeact']").val(array[1].trim());
+            //   tr.find("[name*='txtincomeact']").val(array[2].trim());
+            debugger;
 
-        debugger;
-        EzDropFillEventTbl1("#tablePODetails", "[name*='FFM_CRG_JOB_COD']", "click", "[name*='FFM_CRG_JOB_COD']", "/FFM_CRG_001/GetJobCodeList", "hdnFFM_CRG_JOB_CODE", true);
+            var trLast = $("#tablePODetails tr:last");
 
-        EzDropFillEventTbl1("#tablePODetails", "[name*='INCOME_ACT']", "click", "[name*='INCOME_ACT']", "/FFM_CRG_001/GetIncomeActList", "hdnINCOME_ACT", true);
+            trLast.find('td:eq(4),th:eq(4)').remove();
 
-        EzDropFillEventTbl1("#tablePODetails", "[name*='EXPENSE_ACGT']", "click", "[name*='EXPENSE_ACGT']", "/FFM_CRG_001/GetIncomeActList", "hdnEXPENSE_ACGT", true);
+            var tr6 = tr.find('td:eq(4)');
+            var $newRow = tr6.clone();
+            trLast.find('td').eq(3).after($newRow);
+            droparry = [];
+            droparry.push('INCOME_ACT');
+
+            EzTbltxtdrpidchanged(droparry, counter1 - 1, "drp", trLast);
+            var b = counter1 - 1;
+            var tr8 = trLast.find('td:eq(4)');
+            tr8.find('select[name^=INCOME_ACT' + b + ']').val(0);
+            tr8.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+
+            tr8.find("[name *= 'INCOME_ACT']").selectpicker('refresh');
+
+        });
+
+
+        $("#tablePODetails").on("change", "[name*='EXPENSE_ACGT']", function () {
+            debugger;
+            var tr = $(this).closest('tr');
+            $("#tablePODetails").css("height", "auto");
+            var JobCode = tr.find("[name*='EXPENSE_ACGT'] option:selected").text();
+            var array = JobCode.split("-");
+            //   tr.find("[name*='txtincomeact']").val(array[1].trim());
+            //   tr.find("[name*='txtincomeact']").val(array[2].trim());
+            debugger;
+
+            var trLast = $("#tablePODetails tr:last");
+
+            trLast.find('td:eq(5),th:eq(5)').remove();
+
+            var tr6 = tr.find('td:eq(5)');
+            var $newRow = tr6.clone();
+            trLast.find('td').eq(4).after($newRow);
+            droparry = [];
+            droparry.push('EXPENSE_ACGT');
+
+            EzTbltxtdrpidchanged(droparry, counter1 - 1, "drp", trLast);
+            var b = counter1 - 1;
+            var tr8 = trLast.find('td:eq(5)');
+
+            tr8.find('select[name^=EXPENSE_ACGT' + b + ']').val(0);
+            tr8.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+            tr8.find("[name *= 'EXPENSE_ACGT']").selectpicker('refresh');
+        });
+
+
 
     });
 
@@ -261,7 +404,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.DropDownList(string.Concat("FFM_CRG_JOB_CODE", counter), item.CRG_job_CODEList1, new { @class = "grid-control" })
+                                                                        @Html.DropDownList(string.Concat("FFM_CRG_JOB_CODE", counter), item.CRG_job_CODEList1, new { @class = "form-control", @data_live_search = "true" })
                                                                         @*@Html.TextBox(string.Concat("FFM_CRG_JOB_CODE", counter), null, new { @class = "grid-control" })*@
                                                                         @Html.Hidden(string.Concat("hdnFFM_CRG_JOB_CODE", counter), item.FFM_CRG_JOB_CODE)
                                                                     </div>
@@ -275,32 +418,26 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                       @Html.DropDownList(string.Concat("OPERATION_TYPE", counter), new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" }, new SelectListItem { Text = "TERM", Value = "TERM" }, new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control", @data_live_search = "true" })
+                                                                       @Html.DropDownList(string.Concat("OPERATION_TYPE", counter), new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" }, new SelectListItem { Text = "TERM", Value = "TERM" }, new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                                                         @Html.Hidden(string.Concat("hdnOPERATION_TYPE", counter), item.OPERATION_TYPE)
                                                                        
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.DropDownList(string.Concat("INCOME_ACT", counter), item.IncomeACTList1, new { @class = "grid-control" })
+                                                                        @Html.DropDownList(string.Concat("INCOME_ACT", counter), item.IncomeACTList1, new { @class = "form-control", @data_live_search = "true" })
                                                                         @*@Html.TextBox(string.Concat("INCOME_ACT", counter), null, new { @class = "grid-control " })*@
                                                                         @Html.Hidden(string.Concat("hdnINCOME_ACT", counter), item.INCOME_ACT)
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div class="grid-group">
-                                                                        @Html.DropDownList(string.Concat("EXPENSE_ACGT", counter), item.IncomeACTList2, new { @class = "grid-control" })
+                                                                        @Html.DropDownList(string.Concat("EXPENSE_ACGT", counter), item.IncomeACTList2, new { @class = "form-control", @data_live_search = "true" })
                                                                         @*@Html.TextBox(string.Concat("EXPENSE_ACGT", counter), null, new { @class = "grid-control " })*@
                                                                         @Html.Hidden(string.Concat("hdnEXPENSE_ACGT", counter), item.EXPENSE_ACGT)
                                                                     </div>
                                                                 </td>
-                                                                <td>
-                                                                    <div class="grid-group">
-                                                                        @*@Html.DropDownList(string.Concat("PORT", counter), Model.PortList, new { @class = "grid-control" })*@
-                                                                        @Html.TextBox(string.Concat("FFM_CRG_Arabic_NAME", counter), null, new { @class = "grid-control" })
-                                                                        @Html.Hidden(string.Concat("hdnFFM_CRG_Arabic_NAME", counter), item.Arabic_Name)
-                                                                    </div>
-                                                                </td>
+                                                            
                                                                 <td>
                                                                     <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete", counter)"><span class="glyphicon glyphicon-remove"></span></button>
                                                                 </td>
@@ -318,20 +455,20 @@
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.DropDownList(string.Concat("FFM_CRG_JOB_CODE", counter), TypeListdata1, new { @class = "grid-control" })
+                                                                    @Html.DropDownList(string.Concat("FFM_CRG_JOB_CODE", counter), TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                                     @*@Html.TextBox(string.Concat("FFM_CRG_JOB_CODE", counter), null, new { @class = "grid-control" })*@
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
                                                                     @*@Html.DropDownList(string.Concat("PORT", counter), Model.PortList, new { @class = "grid-control" })*@
-                                                                    @Html.TextBox(string.Concat("FFM_CRG_JOB_NAME", counter), null, new { @class = "grid-control" })
+                                                                    @Html.TextBox(string.Concat("FFM_CRG_JOB_NAME", counter), null, new { @class = "form-control" })
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
                                                                     @*@Html.DropDownList(string.Concat("OPERATION_TYPE", counter), Model.CRG_job_CODEList, new { @class = "grid-control" })*@
-                                                                    @Html.DropDownListFor(m => m.OPERATION_TYPE, new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" }, new SelectListItem { Text = "TERM", Value = "TERM" }, new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "form-control", @data_live_search = "true" })
+                                                                    @Html.DropDownListFor(m => m.OPERATION_TYPE, new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" }, new SelectListItem { Text = "TERM", Value = "TERM" }, new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                                                     @*@Html.TextBox(string.Concat("OPERATION_TYPE", counter), null, new { @class = "grid-control " })*@
                                                                     @*<input id="ETA1" class="form-control datepicker" name="ETA1" />
                     @Html.HiddenFor(m => m.ETA)*@
@@ -340,14 +477,14 @@
                                                             <td>
                                                                 <div class="grid-group">
                                                                     @*@Html.TextBox(string.Concat("INCOME_ACT", counter), null, new { @class = "grid-control " })*@
-                                                                    @Html.DropDownList(string.Concat("INCOME_ACT", counter), TypeListdata1, new { @class = "grid-control" })
+                                                                    @Html.DropDownList(string.Concat("INCOME_ACT", counter), TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                                     @*<input id="ETB1" class="form-control datepicker" name="ETB1" />
                     @Html.HiddenFor(m => m.ETB)*@
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="grid-group">
-                                                                    @Html.DropDownList(string.Concat("EXPENSE_ACGT", counter), TypeListdata1, new { @class = "grid-control" })
+                                                                    @Html.DropDownList(string.Concat("EXPENSE_ACGT", counter), TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                                     @*@Html.TextBox(string.Concat("EXPENSE_ACGT", counter), null, new { @class = "grid-control " })*@
                                                                     @*<input id="ETD1" class="form-control datepicker" name="ETD1" />
                     @Html.HiddenFor(m => m.ETD)*@

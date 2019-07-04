@@ -9,6 +9,9 @@
 
 <script>
     $(function () {
+
+        
+
         EzAuthentication("/BOOKING");
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
@@ -20,14 +23,16 @@
         $("#btnNew").click(function () {
             var n = EzAuthenticationBtn("/BOOKING", "NewIt");
             if (n == 1) {
-                $("#editshow").hide();
-                $.get("AddFF_BOKDetails", function (response) {
-                    $("#DRContainer").html(response);
-                });
-                $(this).css("visibility", "hidden");
-                EzbtnNewAcVis();
-                $("#btnEdit").prop("disabled", true);
-                $("#DRListContainer1").hide();
+                ezModelPop();
+                //$('#myModal').modal('show');
+                //$("#editshow").hide();
+                //$.get("AddFF_BOKDetails", function (response) {
+                //    $("#DRContainer").html(response);
+                //});
+                //$(this).css("visibility", "hidden");
+                //EzbtnNewAcVis();
+                //$("#btnEdit").prop("disabled", true);
+                //$("#DRListContainer1").hide();
             }
         });
         $(".alert-close").click(function () {
@@ -138,6 +143,7 @@
                     Total_Profit: $("[name*='Total_Profit']").val(),
                     Commodity_code: $("[name*='Commodity_code'] option:selected").val(),
                     TRANS_TYPE: 'EXP',
+                    tranferFrom: $("[name*='tranferFrom'] option:selected").val(),
                     FF_BOK002Detail: [],
                     FF_BOK003Detail: [],
                     FF_BOK004Detail: [],
@@ -335,7 +341,8 @@
                     Total_Billed: $("[name*='Total_Billed']").val(),
                     Total_Profit: $("[name*='Total_Profit']").val(),
                     Commodity_code: $("[name*='Commodity_code'] option:selected").val(),
-                    TRANS_TYPE:'EXP',
+                    TRANS_TYPE: 'EXP',
+                    tranferFrom: $("[name*='tranferFrom'] option:selected").val(),
                     FF_BOK002Detail: [],
                     FF_BOK003Detail: [],
                     FF_BOK004Detail: [],
@@ -656,6 +663,14 @@
 <!-- Row start -->
 <div class="row">
     <!--updated code-->
+    <div id='myModal' class='modal'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+
+    </div>   
 
     <div class="col-md-12 no-padding navbar-expand-lg">
         <div class="panel panel-primary panl">
