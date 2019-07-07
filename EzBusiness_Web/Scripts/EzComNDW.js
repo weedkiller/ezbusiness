@@ -1660,6 +1660,7 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
           function EzDropFillEventTbl1(tblid, ide, EveNames, ids, urls, idh, EMode) {
               debugger;           
               $(tblid).on(EveNames, ide, function () {
+                  debugger;
               var tr = $(this).closest('tr');
               debugger;          
                        $(ids).removeClass('selectpicker');
@@ -1698,6 +1699,10 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
 
                             return a;
+                        }
+                        else
+                        {
+
                         }
                         //});
                       
