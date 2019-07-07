@@ -30,7 +30,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return View();
+                return View(_BOKService.GetFF_BOK_AddNew(list[0].CmpyCode));
             }
         }
 
@@ -60,6 +60,20 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             else
             {
                 return PartialView(_BOKService.GetFF_BOKDetailsEdit(list[0].CmpyCode, FF_BOK001_CODE));
+            }
+        }
+
+        [Route("QuotFF_BOKDetails")]
+        public ActionResult FF_BOKDetailsQuot(string FF_BOK001_CODE1)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_BOKService.GetFF_BOKDetailsQuot(list[0].CmpyCode, FF_BOK001_CODE1));
             }
         }
 
@@ -172,6 +186,19 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
+        public ActionResult GetQTNCODE()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                DateTime dt = System.DateTime.Now;
+                return Json(_BOKService.GetQTNCODE(list[0].CmpyCode, dt), JsonRequestBehavior.AllowGet);
+            }
+        }
 
         public ActionResult GETJobTypList()
         {

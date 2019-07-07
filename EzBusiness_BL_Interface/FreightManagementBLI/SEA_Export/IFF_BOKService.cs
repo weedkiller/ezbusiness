@@ -12,13 +12,16 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
     {
         List<FF_BOK_VM> GetFF_BOK(string CmpyCode);
         FF_BOK_VM GetFF_BOKDetailsEdit(string CmpyCode, string FF_BOK001_CODE);
+
+        FF_BOK_VM GetFF_BOKDetailsQuot(string CmpyCode, string FF_BOK001_CODE);
+
         FF_BOK_VM SaveFF_BOK_VM(FF_BOK_VM FQV);
 
         FF_BOK_VM GetFF_BOK_AddNew(string Cmpycode);
-        List<FF_BOK002New> GetFF_BOK002DetailList(string CmpyCode, string FF_BOK001_CODE);
-        List<FF_BOK003New> GetFF_BOK003DetailList(string CmpyCode, string FF_BOK001_CODE);
-        List<FF_BOK004New> GetFF_BOK004DetailList(string CmpyCode, string FF_BOK001_CODE);
-        List<FF_BOK005New> GetFF_BOK005DetailList(string CmpyCode, string FF_BOK001_CODE);
+        List<FF_BOK002New> GetFF_BOK002DetailList(string CmpyCode, string FF_BOK001_CODE,string typ);
+        List<FF_BOK003New> GetFF_BOK003DetailList(string CmpyCode, string FF_BOK001_CODE, string typ);
+        List<FF_BOK004New> GetFF_BOK004DetailList(string CmpyCode, string FF_BOK001_CODE, string typ);
+        List<FF_BOK005New> GetFF_BOK005DetailList(string CmpyCode, string FF_BOK001_CODE, string typ);
         List<SelectListItem> GetMoveCode(string CmpyCode);
         List<SelectListItem> GetCommodityistList(string CmpyCode);
         List<SelectListItem> GETJobTypList(string CmpyCode);
@@ -40,7 +43,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 
         List<SelectListItem> GetCurcode(string CmpyCode);
 
-        
+        List<SelectListItem> GetQTNCODE(string CmpyCode,DateTime dte);
         List<SelectListItem> GetUnitcode(string CmpyCode);
         bool DeleteFF_BOK(string CmpyCode, string FF_BOK001_CODE, string UserName);
 

@@ -33,9 +33,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_BOKRepo.GetFF_BOK(CmpyCode);
         }
 
-        public List<FF_BOK002New> GetFF_BOK002DetailList(string CmpyCode, string FF_BOK001_CODE)
+        public List<FF_BOK002New> GetFF_BOK002DetailList(string CmpyCode, string FF_BOK001_CODE,string typ)
         {
-            var FF_BOK002DetailList = _FF_BOKRepo.GetFF_BOK002DetailList(CmpyCode, FF_BOK001_CODE);
+            var FF_BOK002DetailList = _FF_BOKRepo.GetFF_BOK002DetailList(CmpyCode, FF_BOK001_CODE, typ);
             return FF_BOK002DetailList.Select(m => new FF_BOK002New
             {
                 CBM = m.CBM,
@@ -55,9 +55,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             }).ToList();
         }
 
-        public List<FF_BOK003New> GetFF_BOK003DetailList(string CmpyCode, string FF_BOK001_CODE)
+        public List<FF_BOK003New> GetFF_BOK003DetailList(string CmpyCode, string FF_BOK001_CODE,string typ)
         {
-            var FF_BOK003DetailList = _FF_BOKRepo.GetFF_BOK003DetailList(CmpyCode, FF_BOK001_CODE);
+            var FF_BOK003DetailList = _FF_BOKRepo.GetFF_BOK003DetailList(CmpyCode, FF_BOK001_CODE, typ);
             return FF_BOK003DetailList.Select(m => new FF_BOK003New
             {
                 Act_LBS = m.Act_LBS,
@@ -74,9 +74,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             }).ToList();
         }
 
-        public List<FF_BOK004New> GetFF_BOK004DetailList(string CmpyCode, string FF_BOK001_CODE)
+        public List<FF_BOK004New> GetFF_BOK004DetailList(string CmpyCode, string FF_BOK001_CODE,string typ)
         {
-            var FF_BOK004DetailList = _FF_BOKRepo.GetFF_BOK004DetailList(CmpyCode, FF_BOK001_CODE);
+            var FF_BOK004DetailList = _FF_BOKRepo.GetFF_BOK004DetailList(CmpyCode, FF_BOK001_CODE, typ);
             return FF_BOK004DetailList.Select(m => new FF_BOK004New
             {
                 CLUASE_CODE = m.CLUASE_CODE,
@@ -85,9 +85,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             }).ToList();
         }
 
-        public List<FF_BOK005New> GetFF_BOK005DetailList(string CmpyCode, string FF_BOK001_CODE)
+        public List<FF_BOK005New> GetFF_BOK005DetailList(string CmpyCode, string FF_BOK001_CODE,string typ)
         {
-            var FF_BOK005DetailList = _FF_BOKRepo.GetFF_BOK005DetailList(CmpyCode, FF_BOK001_CODE);
+            var FF_BOK005DetailList = _FF_BOKRepo.GetFF_BOK005DetailList(CmpyCode, FF_BOK001_CODE, typ);
             return FF_BOK005DetailList.Select(m => new FF_BOK005New
             {
                 Crg_code = m.Crg_code,
@@ -130,10 +130,10 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         public FF_BOK_VM GetFF_BOKDetailsEdit(string CmpyCode, string FF_BOK001_CODE)
         {
             var poEdit = _FF_BOKRepo.GetFF_BOKDetailsEdit(CmpyCode, FF_BOK001_CODE);
-            poEdit.FF_BOK002Detail = GetFF_BOK002DetailList(CmpyCode, FF_BOK001_CODE);
-            poEdit.FF_BOK003Detail = GetFF_BOK003DetailList(CmpyCode, FF_BOK001_CODE);
-            poEdit.FF_BOK004Detail = GetFF_BOK004DetailList(CmpyCode, FF_BOK001_CODE);
-            poEdit.FF_BOK005Detail = GetFF_BOK005DetailList(CmpyCode, FF_BOK001_CODE);
+            poEdit.FF_BOK002Detail = GetFF_BOK002DetailList(CmpyCode, FF_BOK001_CODE,"B");
+            poEdit.FF_BOK003Detail = GetFF_BOK003DetailList(CmpyCode, FF_BOK001_CODE, "B");
+            poEdit.FF_BOK004Detail = GetFF_BOK004DetailList(CmpyCode, FF_BOK001_CODE, "B");
+            poEdit.FF_BOK005Detail = GetFF_BOK005DetailList(CmpyCode, FF_BOK001_CODE, "B");
 
             poEdit.PortList1 = GetPortListEdit(CmpyCode, poEdit.POL);
             poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
@@ -273,25 +273,26 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         {
             return new FF_BOK_VM
             {
-           //     CustList = GetCust(Cmpycode),
-           //     CurList = GetCurcode(Cmpycode),
-           //     UnitcodeList = GetUnitcode(Cmpycode),
-           //     VendorList = GetVendor(Cmpycode),
-           //     VOYAGEList = GetVOYAGEList(Cmpycode, "NA"),
-           //     SLList = GetVendor(Cmpycode),
-           //     JobTypList=GETJobTypList(Cmpycode),
-           //     CLAUSEList = GetCLAUSE(Cmpycode),
-           //     CRG_002List = GetCRG_002(Cmpycode),
-           //     DEPARTMENTList = GetDepart(Cmpycode),
-           //     MoveCodeList = GetMoveCode(Cmpycode),
-           //     VESSELList = GetVESSELList(Cmpycode),
-           //     PortList = GetPortList(Cmpycode),               
-           // BILL_TOList = GetSL(Cmpycode, "FM"),
-           // SHIPPERList = GetSL(Cmpycode, "OP"),
-           //CONSIGNEEList = GetSL(Cmpycode, "OP"),
-           // FORWARDERList = GetSL(Cmpycode, "OP"),
-           // ConTypList=GetContTyp(Cmpycode),
-           // Commodityist=GetCommodityistList(Cmpycode),
+                //     CustList = GetCust(Cmpycode),
+                //     CurList = GetCurcode(Cmpycode),
+                //     UnitcodeList = GetUnitcode(Cmpycode),
+                //     VendorList = GetVendor(Cmpycode),
+                //     VOYAGEList = GetVOYAGEList(Cmpycode, "NA"),
+                //     SLList = GetVendor(Cmpycode),
+                //     JobTypList=GETJobTypList(Cmpycode),
+                //     CLAUSEList = GetCLAUSE(Cmpycode),
+                //     CRG_002List = GetCRG_002(Cmpycode),
+                //     DEPARTMENTList = GetDepart(Cmpycode),
+                //     MoveCodeList = GetMoveCode(Cmpycode),
+                //     VESSELList = GetVESSELList(Cmpycode),
+                //     PortList = GetPortList(Cmpycode),               
+                // BILL_TOList = GetSL(Cmpycode, "FM"),
+                // SHIPPERList = GetSL(Cmpycode, "OP"),
+                //CONSIGNEEList = GetSL(Cmpycode, "OP"),
+                // FORWARDERList = GetSL(Cmpycode, "OP"),
+                // ConTypList=GetContTyp(Cmpycode),
+                // Commodityist=GetCommodityistList(Cmpycode),
+                GetBOKCODEList = GetQTNCODE(Cmpycode,System.DateTime.Now),
             EditFlag = false
             };
         }
@@ -453,6 +454,73 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                                           .Select(m => new SelectListItem { Value = m.FFM_CRG_JOB_CODE, Text = string.Concat(m.FFM_CRG_JOB_CODE, " - ", m.FFM_CRG_JOB_NAME, " - ", m.INCOME_ACT, " - ", m.EXPENSE_ACGT) })
                                           .ToList();
             return InsertFirstElementDDL(CRG_002List);
+        }
+
+        public List<SelectListItem> GetQTNCODE(string CmpyCode,DateTime dte)
+        {
+            var CRG_002List = _FF_BOKRepo.GetQTNCODE(CmpyCode,dte)
+                                         .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                         .ToList();
+            return InsertFirstElementDDL(CRG_002List);
+        }
+
+        public FF_BOK_VM GetFF_BOKDetailsQuot(string CmpyCode, string FF_BOK001_CODE1)
+        {
+            var poEdit = _FF_BOKRepo.GetFF_BOKDetailsQuot(CmpyCode, FF_BOK001_CODE1);
+            poEdit.FF_BOK002Detail = GetFF_BOK002DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
+            poEdit.FF_BOK003Detail = GetFF_BOK003DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
+            poEdit.FF_BOK004Detail = GetFF_BOK004DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
+            poEdit.FF_BOK005Detail = GetFF_BOK005DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
+
+            poEdit.PortList1 = GetPortListEdit(CmpyCode, poEdit.POL);
+            poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
+            poEdit.PortList3 = GetPortListEdit(CmpyCode, poEdit.FND);
+
+            poEdit.PortList4 = GetPortListEdit(CmpyCode, poEdit.PLACE_OF_RCPT);
+
+
+            poEdit.PortList5 = GetPortListEdit(CmpyCode, poEdit.PICKUP_PLACE);
+
+            poEdit.CustList = GetCustEdit(CmpyCode, poEdit.BILL_TO);
+            poEdit.DEPARTMENTList = GetDepartEdit(CmpyCode, poEdit.DEPARTMENT);
+            poEdit.MoveCodeList = GetMoveCodeEdit(CmpyCode, poEdit.MOVE_TYPE);
+
+            poEdit.SLList = GetSLEdit(CmpyCode, poEdit.CARRIER, "FM");
+
+            poEdit.VESSELList = GetVESSELListEdit(CmpyCode, poEdit.VESSEL);
+            poEdit.VOYAGEList = GetVOYAGEList(CmpyCode, poEdit.VESSEL);
+            poEdit.Commodityist = GetCommodityistListEdit(CmpyCode, poEdit.Commodity_code);
+
+
+            poEdit.BILL_TOList = GetSLEdit(CmpyCode, poEdit.BILL_TO, "FM");
+            poEdit.SHIPPERList = GetSLEdit(CmpyCode, poEdit.SHIPPER, "OP");
+            poEdit.CONSIGNEEList = GetSLEdit(CmpyCode, poEdit.CONSIGNEE, "OP");
+            poEdit.FORWARDERList = GetSLEdit(CmpyCode, poEdit.FORWARDER, "OP");
+
+            poEdit.JobTypList = GETJobTypListEdit(CmpyCode, poEdit.JOB_TYPE);
+
+            //poEdit.PortList = GetPortList(CmpyCode);
+            //poEdit.CustList = GetCust(CmpyCode);
+            //poEdit.VendorList = GetVendor(CmpyCode);
+            //poEdit.CurList = GetCurcode(CmpyCode);
+            //poEdit.UnitcodeList = GetUnitcode(CmpyCode);
+            //poEdit.JobTypList = GETJobTypList(CmpyCode);
+            //poEdit.DEPARTMENTList = GetDepart(CmpyCode);
+            //poEdit.MoveCodeList = GetMoveCode(CmpyCode);
+            //poEdit.ConTypList = GetContTyp(CmpyCode);
+            //poEdit.CLAUSEList = GetCLAUSE(CmpyCode);
+            //poEdit.CRG_002List = GetCRG_002(CmpyCode);
+            //poEdit.Commodityist = GetCommodityistList(CmpyCode);
+            //poEdit.SLList = GetSL(CmpyCode,"FM");
+            //poEdit.BILL_TOList = GetSL(CmpyCode, "FM");
+            //poEdit.SHIPPERList = GetSL(CmpyCode, "OP");
+            //poEdit.CONSIGNEEList = GetSL(CmpyCode, "OP");
+            //poEdit.FORWARDERList= GetSL(CmpyCode, "OP");
+
+            //poEdit.VESSELList = GetVESSELList(CmpyCode);
+            poEdit.VOYAGEList = GetVOYAGEList(CmpyCode, poEdit.VESSEL);
+            poEdit.EditFlag = true;
+            return poEdit;
         }
     }
 }
