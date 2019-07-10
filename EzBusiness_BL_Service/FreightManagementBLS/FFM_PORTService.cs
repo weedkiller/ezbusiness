@@ -63,7 +63,7 @@ namespace EzBusiness_BL_Service
             items.Insert(0, new SelectListItem
             {
                 Value = "",
-                Text = "-Select List-"
+                Text = "Select List-"
             });
             return items;
         }
@@ -84,8 +84,8 @@ namespace EzBusiness_BL_Service
 
         public List<SelectListItem> GetCountryList1(string CmpyCode, string Prefix)
         {
-            var itemCodes = _FFM_PORTRepo.GetCountryList(CmpyCode).Where(m=> m.Name.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
-                                    .Select(m => new SelectListItem { Value = m.Code, Text = m.Name })
+            var itemCodes = _FFM_PORTRepo.GetCountryList(CmpyCode).Where(m=> m.Name.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                    .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, "-", m.Name) })
                                     .ToList();
 
             return InsertFirstElementDDL(itemCodes);

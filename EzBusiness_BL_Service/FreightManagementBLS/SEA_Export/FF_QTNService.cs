@@ -147,7 +147,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             //poEdit.CRG_002List = GetCRG_002(CmpyCode);
             poEdit.SLList = GetSLEdit(CmpyCode, poEdit.CARRIER);
             poEdit.VESSELList = GetVESSELListEdit(CmpyCode, poEdit.VESSEL);
-            poEdit.VOYAGEList = GetVOYAGEList(CmpyCode,poEdit.VESSEL);
+            //poEdit.VOYAGEList = GetVOYAGEList(CmpyCode,poEdit.VESSEL);
             poEdit.Commodityist = GetCommodityistListEdit(CmpyCode,poEdit.Commodity_code);
             poEdit.EditFlag = true;
             return poEdit;
@@ -169,9 +169,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_QTNRepo.SaveFF_QTN_VM(FQV);
         }
 
-        public List<SelectListItem> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE)
+        public List<SelectListItem> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE, string Prefix)
         {
-            var VOYAGEList = _FF_QTNRepo.GetVOYAGEList(CmpyCode, FFM_VESSEL_CODE)
+            var VOYAGEList = _FF_QTNRepo.GetVOYAGEList(CmpyCode, FFM_VESSEL_CODE).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                   .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                   .ToList();
             return InsertFirstElementDDL(VOYAGEList);
@@ -199,101 +199,101 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         }
 
 
-        public List<SelectListItem> GetMoveCode(string CmpyCode)
+        public List<SelectListItem> GetMoveCode(string CmpyCode,string Prefix)
         {
-            var CurrencyList = _FF_QTNRepo.GetMOVEList(CmpyCode)
+            var CurrencyList = _FF_QTNRepo.GetMOVEList(CmpyCode).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                           .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                           .ToList();
             return InsertFirstElementDDL(CurrencyList);
         }
-        public List<SelectListItem> GetPortList(string CmpyCode)
+        public List<SelectListItem> GetPortList(string CmpyCode, string Prefix)
         {
-            var PortList = _FF_QTNRepo.GetPortList(CmpyCode)
+            var PortList = _FF_QTNRepo.GetPortList(CmpyCode).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                  .ToList();
             return InsertFirstElementDDL(PortList);
         }
 
-        public List<SelectListItem> GetCust(string CmpyCode)
+        public List<SelectListItem> GetCust(string CmpyCode, string Prefix)
         {
-            var CustList = _FF_QTNRepo.GetCust(CmpyCode)
+            var CustList = _FF_QTNRepo.GetCust(CmpyCode).Where(m => m.CUSTOMER_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.CUSTOMER_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                      .Select(m => new SelectListItem { Value = m.CUSTOMER_CODE, Text = string.Concat(m.CUSTOMER_CODE, " - ", m.CUSTOMER_NAME, " - ", m.CONTROL_ACT) })
                                                      .ToList();
             return InsertFirstElementDDL(CustList);
         }
 
-        public List<SelectListItem> GetVendor(string CmpyCode)
+        public List<SelectListItem> GetVendor(string CmpyCode, string Prefix)
         {
-            var VendorList = _FF_QTNRepo.GetCust(CmpyCode)
+            var VendorList = _FF_QTNRepo.GetCust(CmpyCode).Where(m => m.CUSTOMER_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.CUSTOMER_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                       .Select(m => new SelectListItem { Value = m.CUSTOMER_CODE, Text = string.Concat(m.CUSTOMER_CODE, " - ", m.CUSTOMER_NAME, " - ", m.CONTROL_ACT) })
                                                       .ToList();
             return InsertFirstElementDDL(VendorList);
         }
 
-        public List<SelectListItem> GetCurcode(string CmpyCode)
+        public List<SelectListItem> GetCurcode(string CmpyCode, string Prefix)
         {
-            var CurList = _FF_QTNRepo.GetCurcode(CmpyCode)
+            var CurList = _FF_QTNRepo.GetCurcode(CmpyCode).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                     .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                     .ToList();
             return InsertFirstElementDDL(CurList);
         }
 
-        public List<SelectListItem> GetUnitcode(string CmpyCode)
+        public List<SelectListItem> GetUnitcode(string CmpyCode, string Prefix)
         {
-            var UnitcodeList = _FF_QTNRepo.GetUnitcode(CmpyCode)
+            var UnitcodeList = _FF_QTNRepo.GetUnitcode(CmpyCode).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                     .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                     .ToList();
             return InsertFirstElementDDL(UnitcodeList);
         }
        
-         public List<SelectListItem> GetContTyp(string CmpyCode)
+         public List<SelectListItem> GetContTyp(string CmpyCode, string Prefix)
         {
-            var ContTypList = _FF_QTNRepo.GetContTyp(CmpyCode)
+            var ContTypList = _FF_QTNRepo.GetContTyp(CmpyCode).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                   .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                   .ToList();
             return InsertFirstElementDDL(ContTypList);
         }
-        public List<SelectListItem> GetCommodityistList(string CmpyCode)
+        public List<SelectListItem> GetCommodityistList(string CmpyCode, string Prefix)
         {
-            var CommodityList = _FF_QTNRepo.GetCommodityistList(CmpyCode)
+            var CommodityList = _FF_QTNRepo.GetCommodityistList(CmpyCode).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                   .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                   .ToList();
             return InsertFirstElementDDL(CommodityList);
         }
 
-        public List<SelectListItem> GetDepart(string CmpyCode)
+        public List<SelectListItem> GetDepart(string CmpyCode, string Prefix)
         {
-            var DepartList = _FF_QTNRepo.GetDepart(CmpyCode)
+            var DepartList = _FF_QTNRepo.GetDepart(CmpyCode).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                           .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                           .ToList();
             return InsertFirstElementDDL(DepartList);
         }
-        public List<SelectListItem> GetVESSELList(string CmpyCode)
+        public List<SelectListItem> GetVESSELList(string CmpyCode, string Prefix)
         {
-            var VESSELList = _FF_QTNRepo.GetVESSELList(CmpyCode)
+            var VESSELList = _FF_QTNRepo.GetVESSELList(CmpyCode).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                  .ToList();
             return InsertFirstElementDDL(VESSELList);
         }    
-        public List<SelectListItem> GetSL(string CmpyCode)
+        public List<SelectListItem> GetSL(string CmpyCode, string Prefix)
         {
-            var SLList = _FF_QTNRepo.GetSL(CmpyCode)
+            var SLList = _FF_QTNRepo.GetSL(CmpyCode).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                   .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                   .ToList();
             return InsertFirstElementDDL(SLList);
         }
 
-        public List<SelectListItem> GetCLAUSE(string CmpyCode)
+        public List<SelectListItem> GetCLAUSE(string CmpyCode, string Prefix)
         {
-            var CLAUSEList = _FF_QTNRepo.GetCLAUSE(CmpyCode)
+            var CLAUSEList = _FF_QTNRepo.GetCLAUSE(CmpyCode).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                 .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                 .ToList();
             return InsertFirstElementDDL(CLAUSEList);
         }
 
-        public List<SelectListItem> GetCRG_002(string CmpyCode)
+        public List<SelectListItem> GetCRG_002(string CmpyCode,string Prefix)
         {
-            var CRG_002List = _FF_QTNRepo.GetCRG_002(CmpyCode)
+            var CRG_002List = _FF_QTNRepo.GetCRG_002(CmpyCode).Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                           .Select(m => new SelectListItem { Value = m.FFM_CRG_JOB_CODE, Text = string.Concat(m.FFM_CRG_JOB_CODE, " - ", m.FFM_CRG_JOB_NAME, " - ", m.INCOME_ACT, " - ", m.EXPENSE_ACGT) })
                                           .ToList();
             return InsertFirstElementDDL(CRG_002List);

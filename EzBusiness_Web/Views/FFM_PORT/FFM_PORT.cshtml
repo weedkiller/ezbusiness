@@ -134,7 +134,7 @@
                     EditFlag: false,
                     FFM_PORT_CODE: $('#FFM_PORT_CODE').val(),
                     NAME: $('#NAME').val(),
-                    COUNTRY: $("#COUNTRY option:selected").val(),
+                    COUNTRY:$('#hdncountry').val(), //$("#COUNTRY option:selected").val(),
                     TERMINAL: $('#TERMINAL').val(),
                     LATITUDE: $('#LATITUDE').val(),
                     LANGITUDE: $('#LANGITUDE').val(),
@@ -171,7 +171,7 @@
                     EditFlag: true,
                     FFM_PORT_CODE: $('#FFM_PORT_CODE').val(),
                     NAME: $('#NAME').val(),
-                    COUNTRY: $("#COUNTRY option:selected").val(),
+                    COUNTRY: $('#hdncountry').val(), //$("#COUNTRY option:selected").val(),
                     TERMINAL: $('#TERMINAL').val(),
                     LATITUDE: $('#LATITUDE').val(),
                     LANGITUDE: $('#LANGITUDE').val(),
@@ -206,7 +206,7 @@
             }
         });       
         function ValidateForm(inv) {
-
+            debugger;
             var response = {
                 ErrorMessage: "",
                 formValid: false
@@ -224,6 +224,9 @@
 
             if (inv.NAME == "") {
                 response.ErrorMessage += "**NAME is mandatory Fields.";
+            }
+            if (inv.COUNTRY == "-1") {
+                response.ErrorMessage += "**Country is mandatory Fields.";
             }
 
            

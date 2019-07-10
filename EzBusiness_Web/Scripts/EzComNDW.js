@@ -1789,4 +1789,269 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
          }
 
+
+         function EzAutoCompTxt(inpid, inphid, urls, boolval, inpname) {
+             $(inpid).autocomplete({
+                 source: function (request, response) {
+                     $.ajax({
+                         url: urls,
+                         type: "POST",
+                         dataType: "json",
+                         data: { Prefix: request.term },
+                         success: function (data) {
+                             if (data.length > 1) {
+                                 response($.map(data, function (item) {
+                                     return {
+                                         label: item.Text,//item.Value + ' - ' + item.Text,
+                                         value: item.Value,
+                                         val1: item.Value
+                                     };
+                                 }))
+                             } else {
+                                 $(inpid).val('');
+                                 $(inphid).val(-1);
+                                 response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+                             }
+                         }
+                     });
+                 },
+                 autoFocus: true,
+                 select: function (event, u) {
+                     debugger;
+                     var v = u.item.val1;
+                     if (u.item.val1 == -1 || u.item.val1 == '') {
+                         $(inphid).val('-1');
+                         return false;
+                     }
+                     else {
+                         if (boolval == true) {
+                             $(inpname).val(u.item.label);                             
+                         }
+                         $(inphid).val(v);
+                     }
+                 },
+                 minLength: 0
+             }).focus(function () {
+                 $(this).autocomplete("search","");
+
+             });
+             $(inpid).change(function () {
+                 if ($(inpid).val() != $(inphid).val()) {
+                     $(inpid).val('');
+                     $(inphid).val('-1');
+                 }
+             })
+             if ($(inpid).val() =='') {                
+                 $(inphid).val('-1');
+             }
+            
+         }
+
         
+        
+        
+         function EzAutotxtEventTbl1(tblid,EveNames, inpid, inphid, urls, boolval, inpname,txtfrst,msg,t,counter) {             
+            
+             $(tblid).on(EveNames, "[name*='" + inpid + "']", function () {
+                 debugger;
+                 var tr = $(this).closest('tr');
+                 var inp1 = counter;
+                 var t1 = true;
+                 if ($(tblid + " tbody tr").length > counter+1) {
+                       var inp1=  tr.find("td").eq(0).html();
+                 }
+             
+                 if (tr.find(txtfrst).val() == '' || tr.find(txtfrst).val() == "") {
+                     if (t == true) {
+                         EzAlerterrtxt(msg);
+                         tr.find(txtfrst).focus();
+                         t = false;
+                     }
+                     return;
+                 }
+                 t = true;
+                 $("#" + inpid + "" + inp1).autocomplete({
+                     source: function (request, response) {
+                         $.ajax({
+                             url: urls,
+                             type: "POST",
+                             dataType: "json",
+                             data: { Prefix: request.term },
+                             success: function (data) {
+                                 if (data.length > 1) {
+                                     response($.map(data, function (item) {
+                                         return {
+                                             label: item.Text,//item.Value + ' - ' + item.Text,
+                                             value: item.Value,
+                                             val1: item.Value
+                                         };
+                                     }))
+                                 } else {
+                                     tr.find("#" + inpid + "" + inp1).val('');
+                                     tr.find(inphid).val(-1);
+                                     response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+                                 }
+                             }
+                         });
+                     },
+                     autoFocus: true,
+                     select: function (event, u) {
+                         debugger;
+                         var v = u.item.val1;
+                         if (u.item.val1 == -1 || u.item.val1 == '') {
+                             tr.find(inphid).val(-1);
+                             if (boolval == true) {
+                                 tr.find(inpname).val('');
+                             }
+                             return false;
+                         }
+                         else {
+                             if (boolval == true) {
+                                 tr.find(inpname).val(u.item.label);
+                                 
+                             }
+                             tr.find("#" + inpid + "" + inp1).val(v);
+                         }
+                     },
+                     minLength: 0
+                 }).focus(function () {
+                     tr.find(this).autocomplete("search","");
+
+                 });
+                 tr.find("#" + inpid + "" + inp1).change(function () {
+                     if (tr.find("#" + inpid + "" + inp1).val() != tr.find(inphid).val()) {
+                         tr.find("#" + inpid + "" + inp1).val('');
+                         tr.find(inphid).val('-1');
+                         if (boolval == true) {
+                             tr.find(inpname).val('');
+                         }
+                     }
+                 })
+                 if (tr.find("#" + inpid + "" + inp1).val() == '') {
+                     tr.find(inphid).val('-1');
+                     if (boolval == true) {
+                         tr.find(inpname).val('');
+                     }
+                 }
+                 })
+                 
+             }
+        
+
+
+         function EzAutotxtEventTbl12(tblid,EveNames, inpid, inphid, urls, boolval, inpname) {             
+             $(tblid).on(EveNames, inpid, function () {                 
+                 var tr = $(this).closest('tr');
+                 $(inpid).autocomplete({
+                     source: function (request, response) {
+                         $.ajax({
+                             url: urls,
+                             type: "POST",
+                             dataType: "json",
+                             data: { Prefix: request.term },
+                             success: function (data) {
+                                 if (data.length > 1) {
+                                     response($.map(data, function (item) {
+                                         return {
+                                             label: item.Text,//item.Value + ' - ' + item.Text,
+                                             value: item.Value,
+                                             val1: item.Value
+                                         };
+                                     }))
+                                 } else {
+                                     tr.find(inpid).val('');
+                                     tr.find(inphid).val(-1);
+                                     response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+                                 }
+                             }
+                         });
+                     },
+                     autoFocus: true,
+                     select: function (event, u) {
+                         debugger;
+                         var v = u.item.val1;
+                         if (u.item.val1 == -1 || u.item.val1 == '') {
+                             tr.find(inphid).val(-1);
+                             if (boolval == true) {
+                                 tr.find(inpname).val('');
+                             }
+                             return false;
+                         }
+                         else {
+                             if (boolval == true) {
+                                 tr.find(inpname).val(u.item.label);
+                                 
+                             }
+                             tr.find(inphid).val(v);
+                         }
+                     },
+                     minLength: 0
+                 }).focus(function () {
+                     tr.find(this).autocomplete("search","");
+
+                 });
+                 tr.find(inpid).change(function () {
+                     if (tr.find(inpid).val() != tr.find(inphid).val()) {
+                         tr.find(inpid).val('');
+                         tr.find(inphid).val('-1');
+                         if (boolval == true) {
+                             tr.find(inpname).val('');
+                         }
+                     }
+                 })
+                 if (tr.find(inpid).val() == '') {
+                     tr.find(inphid).val('-1');
+                     if (boolval == true) {
+                         tr.find(inpname).val('');
+                     }
+                 }
+             })
+         }
+
+
+         function EzAutotxtEventTblStatic(tblid, EveNames, inpid, inphid, data1, boolval, inpname) {
+             $(tblid).on(EveNames, inpid, function () {
+                 var tr = $(this).closest('tr');
+                 $(inpid).autocomplete({
+                     source:data1 ,
+                     autoFocus: true,
+                     select: function (event, u) {
+                         debugger;
+                         var v = u.item.val1;
+                         if (u.item.val1 == -1 || u.item.val1 == '') {
+                             tr.find(inphid).val(-1);
+                             if (boolval == true) {
+                                 tr.find(inpname).val('');
+                             }
+                             return false;
+                         }
+                         else {
+                             if (boolval == true) {
+                                 tr.find(inpname).val(u.item.label);
+
+                             }
+                             tr.find(inphid).val(v);
+                         }
+                     },
+                     minLength: 0
+                 }).focus(function () {
+                     tr.find(this).autocomplete("search", "");
+
+                 });
+                 tr.find(inpid).change(function () {
+                     if (tr.find(inpid).val() != tr.find(inphid).val()) {
+                         tr.find(inpid).val('');
+                         tr.find(inphid).val('-1');
+                         if (boolval == true) {
+                             tr.find(inpname).val('');
+                         }
+                     }
+                 })
+                 if (tr.find(inpid).val() == '') {
+                     tr.find(inphid).val('-1');
+                     if (boolval == true) {
+                         tr.find(inpname).val('');
+                     }
+                 }
+             })
+         }
