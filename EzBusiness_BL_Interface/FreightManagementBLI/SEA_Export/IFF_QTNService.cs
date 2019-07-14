@@ -23,6 +23,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<SelectListItem> GetMoveCode(string CmpyCode, string Prefix);
 
         List<SelectListItem> GetCommodityistList(string CmpyCode, string Prefix);
+        List<SelectListItem> GetCommodityistListT(string CmpyCode, string Prefix);
         List<SelectListItem> GetDepart(string CmpyCode, string Prefix);
         List<SelectListItem> GetContTyp(string CmpyCode, string Prefix);
         List<SelectListItem> GetPortList(string CmpyCode, string Prefix);
@@ -35,6 +36,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<SelectListItem> GetCRG_002(string CmpyCode, string Prefix);
 
         List<SelectListItem> GetCust(string CmpyCode, string Prefix);
+        List<SelectListItem> GetCustT(string CmpyCode, string Prefix);
 
         List<SelectListItem> GetVendor(string CmpyCode, string Prefix);
 

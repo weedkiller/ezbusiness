@@ -24,14 +24,14 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<FF_BOK005New> GetFF_BOK005DetailList(string CmpyCode, string FF_BOK001_CODE, string typ);
         List<SelectListItem> GetMoveCode(string CmpyCode);
         List<SelectListItem> GetCommodityistList(string CmpyCode);
-        List<SelectListItem> GETJobTypList(string CmpyCode);
+        List<SelectListItem> GETJobTypList(string CmpyCode, string Prefix);
         List<SelectListItem> GetContTyp(string CmpyCode);
         List<SelectListItem> GetDepart(string CmpyCode);
 
         List<SelectListItem> GetPortList(string CmpyCode);
         List<SelectListItem> GetVESSELList(string CmpyCode);
         List<SelectListItem> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE);
-        List<SelectListItem> GetSL(string CmpyCode, string typ1);
+        List<SelectListItem> GetSL(string CmpyCode, string typ1, string Prefix);
 
         List<SelectListItem> GetCLAUSE(string CmpyCode);
 

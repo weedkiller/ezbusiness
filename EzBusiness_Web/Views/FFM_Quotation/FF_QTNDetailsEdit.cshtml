@@ -8,8 +8,8 @@
 }
 <script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Scripts/moment.min.js"></script>
-<script src="~/Scripts/bootstrap-select.min.js"></script>
-<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+@*<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />*@
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
@@ -37,7 +37,7 @@
 <script>
     $(document).ready(function () {
         arr1 = [];
-        $('.selectpicker').selectpicker('refresh');
+        
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
         EzdtePkEdit('#EFFECT_FROM1', "#EFFECT_FROM", 'DD/MM/YYYY');
         EzdtePkEdit('#EFFECT_UPTO1', "#EFFECT_UPTO", 'DD/MM/YYYY');
@@ -47,7 +47,9 @@
             counter5 = 1;
              $('#tablePODetails5 tbody tr td:nth-child(1)').each(function (e) {
                  var tr1 = $(this).closest("tr");
-                 tr1.find(":first").text(counter5);
+                 //tr1.find(":first").text(counter5);
+
+                 tr1.find("[name*='txtsno']").val(counter5);
                  droparry = [];
                  txtarry = [];
 
@@ -68,24 +70,21 @@
            $("[name*='txtsno" + (index5 + 1) + "']").val($("[name*='hdnsno" + (index5 + 1) + "']").val());
            $("[name*='txtCrg_code" + (index5 + 1) + "']").val($("[name*='hdnCrg_code" + (index5 + 1) + "']").val());
            $("[name*='txt1Crg_code" + (index5 + 1) + "']").val($("[name*='hdnCrg_code" + (index5 + 1) + "']").val());
-           
            $("[name*='txtCrg_name" + (index5 + 1) + "']").val($("[name*='hdnCrg_name" + (index5 + 1) + "']").val());
-           $("[name*='txtIncome_GL_Code" + (index5 + 1) + "']").val($("[name*='hdnIncome_GL_Code" + (index5 + 1) +"']").val());
-           $("[name*='txtExpense_GL_Code" + (index5 + 1) +"']").val($("[name*='hdnExpense_GL_Code" + (index5 + 1) +"']").val());
-           $("[name*='txtUnit_Code" + (index5 + 1) +"']").val($("[name*='hdnUnit_Code" + (index5 + 1) +"']").val());
-           $("[name*='txtCust_code" + (index5 + 1) + "']").val($("[name*='hdnCust_code" + (index5 + 1) + "']").val());
-
+           // $("[name*='txtIncome_GL_Code" + (index5 + 1) + "']").val($("[name*='hdnIncome_GL_Code" + (index5 + 1) +"']").val());
+           //  $("[name*='txtExpense_GL_Code" + (index5 + 1) +"']").val($("[name*='hdnExpense_GL_Code" + (index5 + 1) +"']").val());
+           $("[name*='txtUnit_Code" + (index5 + 1) + "']").val($("[name*='hdnUnit_Code" + (index5 + 1) + "']").val());
            $("[name*='txt1Unit_Code" + (index5 + 1) + "']").val($("[name*='hdnUnit_Code" + (index5 + 1) + "']").val());
+           $("[name*='txtCust_code" + (index5 + 1) + "']").val($("[name*='hdnCust_code" + (index5 + 1) + "']").val());
            $("[name*='txt1Cust_code" + (index5 + 1) + "']").val($("[name*='hdnCust_code" + (index5 + 1) + "']").val());
-
-           $("[name*='txtCust_name" + (index5 + 1) + "']").val($("[name*='hdnCust_name" + (index5 + 1) +"']").val());
-         //  $("[name*='txtCust_Ctrl_Act" + (index5 + 1) + "']").val($("[name*='hdnCust_Ctrl_Act" + (index5 + 1) +"']").val());
+           $("[name*='txtCust_name" + (index5 + 1) + "']").val($("[name*='hdnCust_name" + (index5 + 1) + "']").val());
+           // $("[name*='txtCust_Ctrl_Act" + (index5 + 1) + "']").val($("[name*='hdnCust_Ctrl_Act" + (index5 + 1) +"']").val());
            $("[name*='txtCust_Curr_Code" + (index5 + 1) + "']").val($("[name*='hdnCust_Curr_Code" + (index5 + 1) + "']").val());
            $("[name*='txt1Cust_Curr_Code" + (index5 + 1) + "']").val($("[name*='hdnCust_Curr_Code" + (index5 + 1) + "']").val());
-           $("[name*='txtCust_Curr_Rate" + (index5 + 1) + "']").val($("[name*='hdnCust_Curr_Rate" + (index5 + 1) +"']").val());
-           $("[name*='txtCust_Rate" + (index5 + 1) + "']").val($("[name*='hdnCust_Rate" + (index5 + 1) +"']").val());
-           $("[name*='txtCust_Total_amt" + (index5 + 1) + "']").val($("[name*='hdnCust_Total_amt" + (index5 + 1) +"']").val());
-           $("[name*='txtCust_Var_Amt" + (index5 + 1) + "']").val($("[name*='hdnCust_Var_Amt" + (index5 + 1) +"']").val());
+           $("[name*='txtCust_Curr_Rate" + (index5 + 1) + "']").val($("[name*='hdnCust_Curr_Rate" + (index5 + 1) + "']").val());
+           $("[name*='txtCust_Rate" + (index5 + 1) + "']").val($("[name*='hdnCust_Rate" + (index5 + 1) + "']").val());
+           $("[name*='txtCust_Total_amt" + (index5 + 1) + "']").val($("[name*='hdnCust_Total_amt" + (index5 + 1) + "']").val());
+           //$("[name*='txtCust_Var_Amt" + (index5 + 1) + "']").val($("[name*='hdnCust_Var_Amt" + (index5 + 1) +"']").val());
            $("[name*='txtCust_Net_Amt" + (index5 + 1) + "']").val($("[name*='hdnCust_Net_Amt" + (index5 + 1) + "']").val());
            $("[name*='txtCust_Local_amt" + (index5 + 1) + "']").val($("[name*='hdnCust_Local_amt" + (index5 + 1) + "']").val());
            $("[name*='txtPAY_MODE" + (index5 + 1) + "']").val($("[name*='hdnPAY_MODE" + (index5 + 1) + "']").val());
@@ -93,13 +92,13 @@
            $("[name*='txtVend_code" + (index5 + 1) + "']").val($("[name*='hdnVend_code" + (index5 + 1) + "']").val());
            $("[name*='txt1Vend_code" + (index5 + 1) + "']").val($("[name*='hdnVend_code" + (index5 + 1) + "']").val());
            $("[name*='txtVend_name" + (index5 + 1) + "']").val($("[name*='hdnVend_name" + (index5 + 1) + "']").val());
-         //  $("[name*='txtVend_Ctrl_Act" + (index5 + 1) + "']").val($("[name*='hdnVend_Ctrl_Act" + (index5 + 1) + "']").val());
+           //$("[name*='txtVend_Ctrl_Act" + (index5 + 1) + "']").val($("[name*='hdnVend_Ctrl_Act" + (index5 + 1) + "']").val());
            $("[name*='txtVend_Curr_Code" + (index5 + 1) + "']").val($("[name*='hdnVend_Curr_Code" + (index5 + 1) + "']").val());
            $("[name*='txt1Vend_Curr_Code" + (index5 + 1) + "']").val($("[name*='hdnVend_Curr_Code" + (index5 + 1) + "']").val());
            $("[name*='txtVend_Curr_Rate" + (index5 + 1) + "']").val($("[name*='hdnVend_Curr_Rate" + (index5 + 1) + "']").val());
            $("[name*='txtVend_Rate" + (index5 + 1) + "']").val($("[name*='hdnVend_Rate" + (index5 + 1) + "']").val());
            $("[name*='txtVend_Total_amt" + (index5 + 1) + "']").val($("[name*='hdnVend_Total_amt" + (index5 + 1) + "']").val());
-           $("[name*='txtVendVar_Amt" + (index5 + 1) + "']").val($("[name*='hdnVendVar_Amt" + (index5 + 1) + "']").val());
+           // $("[name*='txtVendVar_Amt" + (index5 + 1) + "']").val($("[name*='hdnVendVar_Amt" + (index5 + 1) + "']").val());
            $("[name*='txtVend_Net_Amt" + (index5 + 1) + "']").val($("[name*='hdnVend_Net_Amt" + (index5 + 1) + "']").val());
            $("[name*='txtVend_Local_amt" + (index5 + 1) + "']").val($("[name*='hdnVend_Local_amt" + (index5 + 1) + "']").val());
 
@@ -122,7 +121,7 @@
        
        var index4 = 1;
        $("#tablePODetails4 tbody tr").each(function (index4, item) {
-           
+           $("[name*='txt1CLAUSE_CODE" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_CODE" + (index4 + 1) + "']").val());
            $("[name*='txtCLAUSE_CODE" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_CODE" + (index4 + 1) + "']").val());
            $("[name*='txtCLAUSE_NAME" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_NAME" + (index4 + 1) + "']").val());                   
            index4 = index4 + 1;
@@ -175,55 +174,52 @@
 
         //------------
 
-       EzAutoCompTxt('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust", true, "#hdnCustName");
-       EzAutoCompTxt("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
-       EzAutoCompTxt("#FND", "#hdnFND", "/FFM_Quotation/GetPortList", false, "");
-       EzAutoCompTxt("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
-       EzAutoCompTxt("#MOVE_TYPE", "#hdnMOVE_TYPE", "/FFM_Quotation/GetMoveCode", false, "");
-       EzAutoCompTxt("#VESSEL", "#hdnVESSEL", "/FFM_Quotation/GetVESSELList", false, "");
-       EzAutoCompTxt("#Commodity_code", "#hdnCommodity_code", "/FFM_Quotation/GetCommodityistList", false, "");
-       EzAutoCompTxt("#CARRIER", "#hdnCARRIER", "/FFM_Quotation/GetSLList", false, "");
-       EzAutoCompTxt("#DEPARTMENT", "#hdnDEPARTMENT", "/FFM_Quotation/GetDepart", false, "");
-       //EzDropFillEvent("FF_QTN001_CODE", "focus", "CUST_CODE", "/FFM_Quotation/GetCust");
-       //EzDropFillEvent("CONTACT", "focus", "POD", "/FFM_Quotation/GetPortList");
-       //EzDropFillEvent("TELEPHONE", "focus", "FND", "/FFM_Quotation/GetPortList");
-       //EzDropFillEvent("EMAIL", "focus", "POL", "/FFM_Quotation/GetPortList");
-       //EzDropFillEvent("CUSTOMER_REF", "focus", "MOVE_TYPE", "/FFM_Quotation/GetMoveCode");
-       //EzDropFillEventSec("PICKUP_PLACE", "focus", "VESSEL", "/FFM_Quotation/GetVESSELList", "VOYAGE");
-       //EzDropFillEvent("PSTATE", "focus", "Commodity_code", "/FFM_Quotation/GetCommodityistList");
-       //EzDropFillEvent("PZIP", "focus", "CARRIER", "/FFM_Quotation/GetSLList");
-       //EzDropFillEvent("FDSTATE", "focus", "DEPARTMENT", "/FFM_Quotation/GetDepart");
-       //EzDropFillEvent("CUST_CODE", "click", "CUST_CODE", "/FFM_Quotation/GetCust");
-       //EzDropFillEvent("POD", "click", "POD", "/FFM_Quotation/GetPortList");
-       //EzDropFillEvent("FND", "click", "FND", "/FFM_Quotation/GetPortList");
-       //EzDropFillEvent("POL", "click", "POL", "/FFM_Quotation/GetPortList");
-       //EzDropFillEvent("MOVE_TYPE", "click", "MOVE_TYPE", "/FFM_Quotation/GetMoveCode");
-       //EzDropFillEvent("Commodity_code", "click", "Commodity_code", "/FFM_Quotation/GetCommodityistList");
-       //EzDropFillEvent("CARRIER", "click", "CARRIER", "/FFM_Quotation/GetSLList");
-       //EzDropFillEvent("DEPARTMENT", "click", "DEPARTMENT", "/FFM_Quotation/GetDepart");
+       EzAutoCompTxt1('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust");
+       EzAutoCompTxt1("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList");
+       EzAutoCompTxt1("#FND", "#hdnFND", "/FFM_Quotation/GetPortList");
+       EzAutoCompTxt1("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList");
+       EzAutoCompTxt1("#MOVE_TYPE", "#hdnMOVE_TYPE", "/FFM_Quotation/GetMoveCode");
+       EzAutoCompTxt1("#VESSEL", "#hdnVESSEL", "/FFM_Quotation/GetVESSELList");
+       EzAutoCompTxt1("#Commodity_code", "#hdnCommodity_code", "/FFM_Quotation/GetCommodityistList");
+       EzAutoCompTxt1("#CARRIER", "#hdnCARRIER", "/FFM_Quotation/GetSLList");
+       EzAutoCompTxt1("#DEPARTMENT", "#hdnDEPARTMENT", "/FFM_Quotation/GetDepart");
+        
+       $.ajax({
+           async: false,
+           cache: false,
+           url: "/FFM_Quotation/GetVESSELCodeList",
+           type: "POST",
+           dataType: "json",
+           data: { Prefix: $("#VOYAGE").val(), VESSEL: $("#hdnVESSEL").val() },
+           success: function (data) {
+               if (data.length > 0) {
+                   $("#VOYAGE").val(data[1].Text);
+                   $("#hdnVOYAGE").val(data[1].Value);
+               } else {
+                   $("#VOYAGE").val('');
+                   $("#hdnVOYAGE").val(-1);
+               }
+           }
+       });
 
-       //EzDropFillEventSec("VESSEL", "click", "VESSEL", "/FFM_Quotation/GetVESSELList", "VOYAGE");
+       EzAutoCompTxtE('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust", true, "#hdnCustName");
+       EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
+       EzAutoCompTxtE("#FND", "#hdnFND", "/FFM_Quotation/GetPortList", false, "");
+       EzAutoCompTxtE("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
+       EzAutoCompTxtE("#MOVE_TYPE", "#hdnMOVE_TYPE", "/FFM_Quotation/GetMoveCode", false, "");
+       EzAutoCompTxtE("#VESSEL", "#hdnVESSEL", "/FFM_Quotation/GetVESSELList", false, "");
+       EzAutoCompTxtE("#Commodity_code", "#hdnCommodity_code", "/FFM_Quotation/GetCommodityistList", false, "");
+       EzAutoCompTxtE("#CARRIER", "#hdnCARRIER", "/FFM_Quotation/GetSLList", false, "");
+       EzAutoCompTxtE("#DEPARTMENT", "#hdnDEPARTMENT", "/FFM_Quotation/GetDepart", false, "");
        
-      
-       //EzDropFillEventTbl1("#tablePODetails2", "[name*='txtCont_Type']", "click", "[name*='txtCont_Type']", "/FFM_Quotation/GetContTyp", "hdnCont_Type",true);
-       //EzDropFillEventTbl1("#tablePODetails2", "[name*='txtCommodity_code']", "click", "[name*='txtCommodity_code']", "/FFM_Quotation/GetCommodityistList", "hdnCommodity_code", true);
-       //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCrg_code']", "click", "[name*='txtCrg_code']", "/FFM_Quotation/GetCRG_002", "hdnCrg_code", true);
-       //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCust_Curr_Code']", "click", "[name*='txtCust_Curr_Code']", "/FFM_Quotation/GetCurcode", "hdnCust_Curr_Code", true);
-       //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtCust_code']", "click", "[name*='txtCust_code']", "/FFM_Quotation/GetCust", "hdnCust_code", true);
-       //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtVend_Curr_Code']", "click", "[name*='txtVend_Curr_Code']", "/FFM_Quotation/GetCurcode", "hdnVend_Curr_Code", true);
-       //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtVend_code']", "click", "[name*='txtVend_code']", "/FFM_Quotation/GetVendor", "hdnVend_code", true);
-       //EzDropFillEventTbl1("#tablePODetails5", "[name*='txtUnit_code']", "click", "[name*='txtUnit_code']", "/FFM_Quotation/GetUnitcode", "hdnUnit_code", true);
-        //EzDropFillEventTbl1("#tablePODetails4", "[name*='txtCLAUSE_CODE']", "click", "[name*='txtCLAUSE_CODE']", "/FFM_Quotation/GetCLAUSE", "hdnCLAUSE_CODE", true);
-
-       var t1 = $("#tablePODetails2 tbody tr").length;
-       EzAutotxtEventTbl1("#tablePODetails2", "focus", "txtCont_Type", "[name*='txt1Cont_Type']", "/FFM_Quotation/GetContTyp", false, "", "[name*='txtContainer']", "Enter Container", true, t1);
-       EzAutotxtEventTbl1("#tablePODetails2", "focus", "txtCommodity_code", "[name*='txt1Commodity_code']", "/FFM_Quotation/GetCommodityistList", false, "", "[name*='txtContainer']", "Enter Container", true, t1);
+       EzAutotxtEventTbl1("#tablePODetails2", "focus", "txtCont_Type", "[name*='txt1Cont_Type']", "/FFM_Quotation/GetContTyp", false, "", "[name*='txtContainer']", "Enter Container", true, "[name*='txtsno']");
+       EzAutotxtEventTbl1("#tablePODetails2", "focus", "txtCommodity_code", "[name*='txt1Commodity_code']", "/FFM_Quotation/GetCommodityistListT", false, "", "[name*='txtContainer']", "Enter Container", true, "[name*='txtsno']");
 
        EzAutotxtEventTbl12("#tablePODetails4", "focus", "[name*='txtCLAUSE_CODE']", "[name*='txt1CLAUSE_CODE']", "/FFM_Quotation/GetCLAUSE", true, "[name*='txtinpCLAUSE_CODE']");
 
        EzAutotxtEventTbl12("#tablePODetails5", "focus", "[name*='txtCrg_code']", "[name*='txt1Crg_code']", "/FFM_Quotation/GetCRG_002", true, "[name*='txtinpCrg_code']");
        EzAutotxtEventTbl12("#tablePODetails5", "focus", "[name*='txtCust_Curr_Code']", "[name*='txt1Cust_Curr_Code']", "/FFM_Quotation/GetCurcode", false, "");
-       EzAutotxtEventTbl12("#tablePODetails5", "focus", "[name*='txtCust_code']", "[name*='txt1Cust_code']", "/FFM_Quotation/GetCust", true, "[name*='txtinpCust_code']");
+       EzAutotxtEventTbl12("#tablePODetails5", "focus", "[name*='txtCust_code']", "[name*='txt1Cust_code']", "/FFM_Quotation/GetCustT", true, "[name*='txtinpCust_code']");
        EzAutotxtEventTbl12("#tablePODetails5", "focus", "[name*='txtVend_Curr_Code']", "[name*='txt1Vend_Curr_Code']", "/FFM_Quotation/GetCurcode", false, "");
        EzAutotxtEventTbl12("#tablePODetails5", "focus", "[name*='txtVend_code']", "[name*='txt1Vend_code']", "/FFM_Quotation/GetVendor", true, "[name*='txtinpVend_code']");
        EzAutotxtEventTbl12("#tablePODetails5", "focus", "[name*='txtUnit_code']", "[name*='txt1Unit_code']", "/FFM_Quotation/GetUnitcode", false, "");
@@ -242,7 +238,8 @@
            counter3 = 1;
            $('#tablePODetails3 tbody tr td:nth-child(1)').each(function (e) {
                var tr1 = $(this).closest("tr");
-               tr1.find(":first").text(counter3);
+               // tr1.find(":first").text(counter3);
+               tr1.find("[name*='txtsno']").val(counter3);
                counter3++;
            });
        });
@@ -254,7 +251,8 @@
            counter2 = 1;
            $('#tablePODetails2 tbody tr td:nth-child(1)').each(function (e) {
                var tr1 = $(this).closest("tr");
-               tr1.find(":first").text(counter2);
+               //tr1.find(":first").text(counter2);
+               tr1.find("[name*='txtsno']").val(counter2);
                droparry1 = [];
                txtarry1 = [];
 
@@ -267,22 +265,7 @@
        });
 
        var counter5 = parseInt($("#hdnCounter5").val());
-        $('.selectpicker').selectpicker('refresh');
-        $("#tablePODetails5").on("change", "[name*='txtCust_code']", function () {
-            var tr = $(this).closest('tr');
-            $("#tablePODetails5").css("height", "auto");
-            var JobCode = tr.find("[name*='txtCust_code'] option:selected").text();
-            var array = JobCode.split("-");
-            if (array.length > 2) {
-                tr.find("[name*='txtCust_name']").val(array[1].trim());
-                tr.find("[name*='txtCust_Ctrl_Act']").val(array[2].trim());
-                tr.find("[name*='txt1Cust_code']").val(array[0].trim());
-                tr.find(".dropdown-toggle").css('width', 0);
-            } else {
-                tr.find("[name*='txt1Cust_code']").val('');
-            }
-            EztblDropOneColumn("tablePODetails5", "txtCust_code", counter5, tr, 9, "txt1Cust_code");
-        });
+        
 
 
         $('#tablePODetails5').on('focusout', "[name*='txtCust_code']", function () {
@@ -702,7 +685,8 @@
                     EzTbltxtdrpidchanged(txtarry1, counter2, "txt", trLast);
 
                    
-                    trLast.find(":first").text(counter3);
+                    //trLast.find(":first").text(counter3);
+                    trLast.find("[name*='txtsno']").val(counter3);
                 }
                 counter3++;
             }
@@ -761,7 +745,8 @@
                     EzTbltxtdrpidchanged(txtarry1, counter2, "txt", trLast);
 
 
-                    trLast.find(":first").text(counter2);
+                    //trLast.find(":first").text(counter2);
+                    trLast.find("[name*='txtsno']").val(counter2);
 
                     trLast.find("[name *= 'txtCont_Type']").val('');
                     trLast.find("[name *= 'txtCommodity_code']").val('');
@@ -808,7 +793,7 @@
 
         $('#VOYAGE').on('focus', function (e) {
             var VESSEL = $("#hdnVESSEL").val();
-            if (VESSEL != '') {
+            if (VESSEL!=''){
                 $('#VOYAGE').autocomplete({
                     source: function (request, response) {
                         $.ajax({
@@ -820,9 +805,9 @@
                                 if (data.length > 1) {
                                     response($.map(data, function (item) {
                                         return {
-                                            label: item.Text,//item.Value + ' - ' + item.Text,
+                                            label: item.Text + '-' + item.Value,//item.Value + ' - ' + item.Text,
                                             value: item.Value,
-                                            val1: item.Value
+                                            val1: item.Text
                                         };
                                     }))
                                 } else {
@@ -833,33 +818,26 @@
                             }
                         });
                     },
-                    autoFocus: true,
+                
                     select: function (e, u) {
-                        debugger;
-                        var v = u.item.val1;
-                        if (u.item.val1 == -1 || u.item.val1 == '') {
-                            $("#hdnVOYAGE").val('-1');
+                        debugger
+                        //If the No match found" item is selected, clear the TextBox.
+                        if (u.item.value == -1) {
+                            //Clear the AutoComplete TextBox.
+                            $(this).val("");
+                            $("#hdnVOYAGE").val("-1");
                             return false;
+                        } else {
+                            $("#hdnVOYAGE").val(u.item.val1);
                         }
-                        else {
-                            $("#hdnVOYAGE").val(v);
-                        }
-                    },
+                    
+                    }
+                ,
                     minLength: 0
                 }).focus(function () {
                     $(this).autocomplete("search");
 
                 });
-                $('#VOYAGE').change(function () {
-                    if ($('#VOYAGE').val() != $("#hdnVOYAGE").val()) {
-                        $('#VOYAGE').val('');
-                        $("#hdnVOYAGE").val('-1');
-                    }
-                })
-                if ($('#VOYAGE').val() == '') {
-                    $("#hdnVOYAGE").val('-1');
-                }
-
             }
         });
 
@@ -1689,7 +1667,7 @@
                                                                     </td>
                                                                     <td>
                                                                         
-                                                                            @Html.TextBox(string.Concat("txt1Crg_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                            @Html.Hidden(string.Concat("txt1Crg_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
                                                                             @*@Html.DropDownList(string.Concat("txtCrg_code", counter5), item.CRG_002List5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
                                                                         @Html.Hidden(string.Concat("txtinpCrg_code", counter5), null, new { @class = "grid-control" })
                                                                         @Html.TextBox(string.Concat("txtCrg_code", counter5), null, new { @class = "grid-control" })
@@ -1706,7 +1684,7 @@
                                                                     </td>
                                                                     <td>
                                                                         
-                                                                            @Html.TextBox(string.Concat("txt1PAY_MODE", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                            @Html.Hidden(string.Concat("txt1PAY_MODE", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
                                                                             @*@Html.DropDownList(string.Concat("txtPAY_MODE", counter5), new List<SelectListItem> { new SelectListItem { Text = "PREPAID", Value = "PP" }, new SelectListItem { Text = "COLLECTION", Value = "COL" } }, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
                                                                         @Html.TextBox(string.Concat("txtPAY_MODE", counter5), null, new { @class = "grid-control" })
                                                                             @Html.Hidden(string.Concat("hdnPAY_MODE", counter5), item.PAY_MODE)

@@ -135,32 +135,32 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.FF_BOK004Detail = GetFF_BOK004DetailList(CmpyCode, FF_BOK001_CODE, "B");
             poEdit.FF_BOK005Detail = GetFF_BOK005DetailList(CmpyCode, FF_BOK001_CODE, "B");
 
-            poEdit.PortList1 = GetPortListEdit(CmpyCode, poEdit.POL);
-            poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
-            poEdit.PortList3 = GetPortListEdit(CmpyCode, poEdit.FND);
+            //poEdit.PortList1 = GetPortListEdit(CmpyCode, poEdit.POL);
+            //poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
+            //poEdit.PortList3 = GetPortListEdit(CmpyCode, poEdit.FND);
 
-            poEdit.PortList4 = GetPortListEdit(CmpyCode, poEdit.PLACE_OF_RCPT);
-
-
-            poEdit.PortList5 = GetPortListEdit(CmpyCode, poEdit.PICKUP_PLACE);
-
-            poEdit.CustList = GetCustEdit(CmpyCode, poEdit.BILL_TO);
-            poEdit.DEPARTMENTList = GetDepartEdit(CmpyCode, poEdit.DEPARTMENT);
-            poEdit.MoveCodeList = GetMoveCodeEdit(CmpyCode, poEdit.MOVE_TYPE);
-
-            poEdit.SLList = GetSLEdit(CmpyCode, poEdit.CARRIER,"FM");
-
-            poEdit.VESSELList = GetVESSELListEdit(CmpyCode, poEdit.VESSEL);
-            poEdit.VOYAGEList = GetVOYAGEList(CmpyCode, poEdit.VESSEL);
-            poEdit.Commodityist = GetCommodityistListEdit(CmpyCode, poEdit.Commodity_code);
+            //poEdit.PortList4 = GetPortListEdit(CmpyCode, poEdit.PLACE_OF_RCPT);
 
 
-            poEdit.BILL_TOList = GetSLEdit(CmpyCode,poEdit.BILL_TO, "FM");
-            poEdit.SHIPPERList = GetSLEdit(CmpyCode, poEdit.SHIPPER, "OP");
-            poEdit.CONSIGNEEList = GetSLEdit(CmpyCode, poEdit.CONSIGNEE, "OP");
-            poEdit.FORWARDERList = GetSLEdit(CmpyCode, poEdit.FORWARDER, "OP");
+            //poEdit.PortList5 = GetPortListEdit(CmpyCode, poEdit.PICKUP_PLACE);
 
-            poEdit.JobTypList = GETJobTypListEdit(CmpyCode, poEdit.JOB_TYPE);
+            //poEdit.CustList = GetCustEdit(CmpyCode, poEdit.BILL_TO);
+            //poEdit.DEPARTMENTList = GetDepartEdit(CmpyCode, poEdit.DEPARTMENT);
+            //poEdit.MoveCodeList = GetMoveCodeEdit(CmpyCode, poEdit.MOVE_TYPE);
+
+            //poEdit.SLList = GetSLEdit(CmpyCode, poEdit.CARRIER,"FM");
+
+            //poEdit.VESSELList = GetVESSELListEdit(CmpyCode, poEdit.VESSEL);
+            //poEdit.VOYAGEList = GetVOYAGEList(CmpyCode, poEdit.VESSEL);
+            //poEdit.Commodityist = GetCommodityistListEdit(CmpyCode, poEdit.Commodity_code);
+
+
+            //poEdit.BILL_TOList = GetSLEdit(CmpyCode,poEdit.BILL_TO, "FM");
+            //poEdit.SHIPPERList = GetSLEdit(CmpyCode, poEdit.SHIPPER, "OP");
+            //poEdit.CONSIGNEEList = GetSLEdit(CmpyCode, poEdit.CONSIGNEE, "OP");
+            //poEdit.FORWARDERList = GetSLEdit(CmpyCode, poEdit.FORWARDER, "OP");
+
+            //poEdit.JobTypList = GETJobTypListEdit(CmpyCode, poEdit.JOB_TYPE);
 
             //poEdit.PortList = GetPortList(CmpyCode);
             //poEdit.CustList = GetCust(CmpyCode);
@@ -239,12 +239,12 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return InsertFirstElementDDL(VOYAGEList);
         }
 
-        public List<SelectListItem> GetSL(string CmpyCode, string typ1)
+        public List<SelectListItem> GetSL(string CmpyCode, string typ1,string Prefix)
         {
-            var SLList = _FF_BOKRepo.GetSL(CmpyCode, typ1)
-                                                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+            var SLList = _FF_BOKRepo.GetSL(CmpyCode, typ1).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                                  .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
                                                   .ToList();
-            return InsertFirstElementDDL(SLList);
+            return SLList;
         }
 
         public List<SelectListItem> GetCLAUSE(string CmpyCode)
@@ -342,12 +342,12 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_BOKRepo.GetCurRate(CmpyCode, CurCode);
         }
 
-        public List<SelectListItem> GETJobTypList(string CmpyCode)
+        public List<SelectListItem> GETJobTypList(string CmpyCode,string Prefix)
         {
-            var JobTypList = _FF_BOKRepo.GETJobTypList(CmpyCode)
-                                                    .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+            var JobTypList = _FF_BOKRepo.GETJobTypList(CmpyCode).Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                                    .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
                                                     .ToList();
-            return InsertFirstElementDDL(JobTypList);
+            return JobTypList;
         }
         public List<SelectListItem> GetCommodityistList(string CmpyCode)
         {

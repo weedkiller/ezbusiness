@@ -319,6 +319,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 Seal1 = m.Seal1,
                                 sno = m.sno,
                                 Commodity_code=m.Commodity_code,
+                                Temp_Range_min = m.Temp_Range_min,
+                                Temp_Range_max = m.Temp_Range_max,
+                                Dimension = m.Dimension,
+                                Volume = m.Volume,
+                                GrossWeight = m.GrossWeight,
                             }).ToList());
                         }
 
@@ -421,8 +426,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 sb.Append("'" + ObjList[n - 1].Seal1 + "',");
                                 sb.Append("'" + ObjList[n - 1].sno + "',");
                                 sb.Append("'" + ObjList[n - 1].Commodity_code + "',");
+                                sb.Append("'" + ObjList[n - 1].Temp_Range_max + "',");
+                                sb.Append("'" + ObjList[n - 1].Temp_Range_min + "',");
+                                sb.Append("'" + ObjList[n - 1].Volume + "',");
+                                sb.Append("'" + ObjList[n - 1].GrossWeight + "',");
+                                sb.Append("'" + ObjList[n - 1].Dimension + "',");
                                 sb.Append("'" + FQV.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BL002(FF_BL001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,Commodity_code,cmpycode) values(" + sb.ToString() + "");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BL002(FF_BL001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,Commodity_code,Temp_Range_max,Temp_Range_min,Volume,GrossWeight,Dimension,cmpycode) values(" + sb.ToString() + "");
                                 //_EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Add FFM Charge", ObjList[n - 1].FF_BL001_CODE, Environment.MachineName);
 
                             }
@@ -648,6 +658,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     Seal1 = m.Seal1,
                                     sno = m.sno,
                                     Commodity_code=m.Commodity_code,
+                                    Temp_Range_min = m.Temp_Range_min,
+                                    Temp_Range_max = m.Temp_Range_max,
+                                    Dimension = m.Dimension,
+                                    Volume = m.Volume,
+                                    GrossWeight = m.GrossWeight,
                                 }).ToList());
                             }
 
@@ -748,9 +763,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb5.Append("'" + ObjList[n - 1].Seal1 + "',");
                                     sb5.Append("'" + ObjList[n - 1].sno + "',");
                                     sb5.Append("'" + ObjList[n - 1].Commodity_code + "',");
-
+                                    sb5.Append("'" + ObjList[n - 1].Temp_Range_max + "',");
+                                    sb5.Append("'" + ObjList[n - 1].Temp_Range_min + "',");
+                                    sb5.Append("'" + ObjList[n - 1].Volume + "',");
+                                    sb5.Append("'" + ObjList[n - 1].GrossWeight + "',");
+                                    sb5.Append("'" + ObjList[n - 1].Dimension + "',");
                                     sb5.Append("'" + FQV.CMPYCODE + "')");
-                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BL002(FF_BL001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,Commodity_code,cmpycode) values(" + sb5.ToString() + "");
+                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BL002(FF_BL001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,Commodity_code,Temp_Range_max,Temp_Range_min,Volume,GrossWeight,Dimension,cmpycode) values(" + sb5.ToString() + "");
                                     //_EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Add FFM Charge", ObjList[n - 1].FF_BL001_CODE, Environment.MachineName);
 
                                 }

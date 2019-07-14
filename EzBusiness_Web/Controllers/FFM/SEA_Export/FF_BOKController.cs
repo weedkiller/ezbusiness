@@ -160,7 +160,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
-        public ActionResult GetSLList1()
+        public ActionResult GetSLList1(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -169,11 +169,11 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_BOKService.GetSL(list[0].CmpyCode,"FM"), JsonRequestBehavior.AllowGet);
+                return Json(_BOKService.GetSL(list[0].CmpyCode,"FM", Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 
-        public ActionResult GetSLList2()
+        public ActionResult GetSLList2(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -182,7 +182,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_BOKService.GetSL(list[0].CmpyCode, "OP"), JsonRequestBehavior.AllowGet);
+                return Json(_BOKService.GetSL(list[0].CmpyCode, "OP", Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -200,7 +200,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
-        public ActionResult GETJobTypList()
+        public ActionResult GETJobTypList(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -209,7 +209,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_BOKService.GETJobTypList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_BOKService.GETJobTypList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
     }

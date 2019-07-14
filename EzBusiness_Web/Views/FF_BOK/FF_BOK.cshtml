@@ -19,9 +19,10 @@
         }
         $("#btnNew").click(function () {
             var n = EzAuthenticationBtn("/BOOKING", "NewIt");
+            debugger
             if (n == 1) {
                 var trf=$("#tranferFrom option:selected").val();
-                var QTN001_CODE=$("#FF_QTN001_CODE option:selected").val();
+                var QTN001_CODE = $("#FF_BOK001_CODE option:selected").val();
 
                 if (trf == '0') {
                     EzAlerterrtxt('Select Transfer');
@@ -47,6 +48,7 @@
                         $("#DRContainer").html(response);
                     });
                     $(this).css("visibility", "hidden");
+                    $("#btnTrigger").css("visibility", "hidden");
                     EzbtnNewAcVis();
                     $("#btnEdit").prop("disabled", true);
                     $("#DRListContainer1").hide();
@@ -59,7 +61,9 @@
         $("#btnEdit").click(function () {
             var n = EzAuthenticationBtn("/BOOKING", "ViewIt");
             if (n == 1) {
+                debugger;
                 $(this).css("visibility", "hidden");
+                $("#btnTrigger").css("visibility", "hidden");
                 EzbtnEditAcVis();
                 $("#DRListContainer1").show();
                 GetDrs();
@@ -139,31 +143,31 @@
                     FF_BOK001_CODE: $("[name*='FF_BOK001_CODE']").val(),
                     FF_BOK001_DATE: Ezsetdtpkdate($("[name*='FF_BOK001_DATE']").val()),
                     FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
-                    BILL_TO: $("[name*='BILL_TO'] option:selected").val(),
-                    SHIPPER: $("[name*='SHIPPER'] option:selected").val(),
-                    CONSIGNEE: $("[name*='CONSIGNEE'] option:selected").val(),
-                    FORWARDER: $("[name*='FORWARDER'] option:selected").val(),
+                    BILL_TO: $("[name*='hdnBILL_TO']").val(),
+                    SHIPPER: $("[name*='SHIPPER']").val(),
+                    CONSIGNEE: $("[name*='hdnCONSIGNEE']").val(),
+                    FORWARDER: $("[name*='hdnFORWARDER']").val(),
                     PICKUP_PLACE: $("[name*='PICKUP_PLACE']").val(),
-                    POL: $("[name*='POL'] option:selected").val(),
-                    POD: $("[name*='POD'] option:selected").val(),
-                    FND: $("[name*='FND'] option:selected").val(),
-                    PLACE_OF_RCPT: $("[name*='PLACE_OF_RCPT'] option:selected").val(),
-                    MOVE_TYPE: $("[name*='MOVE_TYPE'] option:selected").val(),
+                    POL: $("[name*='hdnPOL']").val(),
+                    POD: $("[name*='hdnPOD']").val(),
+                    FND: $("[name*='hdnFND']").val(),
+                    PLACE_OF_RCPT: $("[name*='hdnPLACE_OF_RCPT']").val(),
+                    MOVE_TYPE: $("[name*='hdnMOVE_TYPE']").val(),
                     DELIVERY_AT: $("[name*='DELIVERY_AT']").val(),
                     REF_NO: $("[name*='REF_NO']").val(),
-                    VESSEL: $("[name*='VESSEL'] option:selected").val(),
-                    VOYAGE: $("[name*='VOYAGE'] option:selected").val(),
-                    JOB_TYPE: $("[name*='JOB_TYPE'] option:selected").val(),
+                    VESSEL: $("[name*='hdnVESSEL']").val(),
+                    VOYAGE: $("[name*='hdnVOYAGE']").val(),
+                    JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
                     ETD: Ezsetdtpkdate($("[name*='ETD']").val()),
                     ETA: Ezsetdtpkdate($("[name*='ETA']").val()),
-                    CARRIER: $("[name*='CARRIER'] option:selected").val(),
-                    DEPARTMENT: $("[name*='DEPARTMENT'] option:selected").val(),
+                    CARRIER: $("[name*='hdnCARRIER']").val(),
+                    DEPARTMENT: $("[name*='hdnDEPARTMENT']").val(),
                     Total_Cost: $("[name*='Total_Cost']").val(),
                     Total_Billed: $("[name*='Total_Billed']").val(),
                     Total_Profit: $("[name*='Total_Profit']").val(),
-                    Commodity_code: $("[name*='Commodity_code'] option:selected").val(),
+                    Commodity_code: $("[name*='hdnCommodity_code']").val(),
                     TRANS_TYPE: 'EXP',
-                    tranferFrom: $("[name*='tranferFrom'] option:selected").val(),
+                    tranferFrom: $("[name*='tranferFrom']").val(),
                     FF_BOK002Detail: [],
                     FF_BOK003Detail: [],
                     FF_BOK004Detail: [],
@@ -172,8 +176,8 @@
                 $("#tablePODetails2 tbody tr").each(function (index, item) {
                     var sno = $(this).find("[name*='txtsno']").val();
                     var Container = $(this).find("[name*='txtContainer']").val();
-                    var Cont_Type = $(this).find("[name*='txtCont_Type'] option:selected").val();
-                    var Commodity_code = $(this).find("[name*='txtCommodity_code'] option:selected").val();                    
+                    var Cont_Type = $(this).find("[name*='txtCont_Type']").val();
+                    var Commodity_code = $(this).find("[name*='txtCommodity_code']").val();                    
                     var Seal1 = $(this).find("[name*='txtSeal1']").val();
                     var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
                     var Contents = $(this).find("[name*='txtContents']").val();
@@ -246,28 +250,28 @@
 
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
                     var Sno = $(this).find("[name*='txtsno']").val();
-                    var Crg_code = $(this).find("[name*='txtCrg_code']  option:selected").val();
+                    var Crg_code = $(this).find("[name*='txtCrg_code']").val();
                     var Crg_name = $(this).find("[name*='txtCrg_name']").val();
                     var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
                     var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
-                    var Unit_Code = $(this).find("[name*='txtUnit_code'] option:selected").val();
+                    var Unit_Code = $(this).find("[name*='txtUnit_code']").val();
                     var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
 
-                    var Cust_code = $(this).find("[name*='txtCust_code']  option:selected").val();
+                    var Cust_code = $(this).find("[name*='txtCust_code']").val();
                     var Cust_name = $(this).find("[name*='txtCust_name']").val();
                     var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
-                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']  option:selected").val();
+                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']").val();
                     var Cust_Curr_Rate = $(this).find("[name*='txtCust_Curr_Rate']").val();
                     var Cust_Rate = $(this).find("[name*='txtCust_Rate']").val();
                     var Cust_Total_amt = $(this).find("[name*='txtCust_Total_amt']").val();
                     //var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
                     var Cust_Net_Amt = $(this).find("[name*='txtCust_Net_Amt']").val();
                     var Cust_Local_amt = $(this).find("[name*='txtCust_Local_amt']").val();
-                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']  option:selected").val();
-                    var Vend_code = $(this).find("[name*='txtVend_code']  option:selected").val();
+                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE'] ").val();
+                    var Vend_code = $(this).find("[name*='txtVend_code'] ").val();
                     var Vend_name = $(this).find("[name*='txtVend_name']").val();
                     var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
-                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']  option:selected").val();
+                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']").val();
                     var Vend_Curr_Rate = $(this).find("[name*='txtVend_Curr_Rate']").val();
                     var Vend_Rate = $(this).find("[name*='txtVend_Rate']").val();
                     var Vend_Total_amt = $(this).find("[name*='txtVend_Total_amt']").val();
@@ -338,31 +342,31 @@
                     FF_BOK001_CODE: $("[name*='FF_BOK001_CODE']").val(),
                     FF_BOK001_DATE: Ezsetdtpkdate($("[name*='FF_BOK001_DATE1']").val()),
                     FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
-                    BILL_TO: $("[name*='BILL_TO'] option:selected").val(),
-                    SHIPPER: $("[name*='SHIPPER'] option:selected").val(),
-                    CONSIGNEE: $("[name*='CONSIGNEE'] option:selected").val(),
-                    FORWARDER: $("[name*='FORWARDER'] option:selected").val(),
+                    BILL_TO: $("[name*='hdnBILL_TO']").val(),
+                    SHIPPER: $("[name*='SHIPPER']").val(),
+                    CONSIGNEE: $("[name*='hdnCONSIGNEE']").val(),
+                    FORWARDER: $("[name*='hdnFORWARDER']").val(),
                     PICKUP_PLACE: $("[name*='PICKUP_PLACE']").val(),
-                    POL: $("[name*='POL'] option:selected").val(),
-                    POD: $("[name*='POD'] option:selected").val(),
-                    FND: $("[name*='FND'] option:selected").val(),
-                    PLACE_OF_RCPT: $("[name*='PLACE_OF_RCPT'] option:selected").val(),
-                    MOVE_TYPE: $("[name*='MOVE_TYPE'] option:selected").val(),
+                    POL: $("[name*='hdnPOL']").val(),
+                    POD: $("[name*='hdnPOD']").val(),
+                    FND: $("[name*='hdnFND']").val(),
+                    PLACE_OF_RCPT: $("[name*='hdnPLACE_OF_RCPT']").val(),
+                    MOVE_TYPE: $("[name*='hdnMOVE_TYPE']").val(),
                     DELIVERY_AT: $("[name*='DELIVERY_AT']").val(),
                     REF_NO: $("[name*='REF_NO']").val(),
-                    VESSEL: $("[name*='VESSEL'] option:selected").val(),
-                    VOYAGE: $("[name*='VOYAGE'] option:selected").val(),
-                    JOB_TYPE: $("[name*='JOB_TYPE'] option:selected").val(),
-                    ETD: Ezsetdtpkdate($("[name*='ETD1']").val()),
-                    ETA: Ezsetdtpkdate($("[name*='ETA1']").val()),
-                    CARRIER: $("[name*='CARRIER'] option:selected").val(),
-                    DEPARTMENT: $("[name*='DEPARTMENT'] option:selected").val(),
+                    VESSEL: $("[name*='hdnVESSEL']").val(),
+                    VOYAGE: $("[name*='hdnVOYAGE']").val(),
+                    JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
+                    ETD: Ezsetdtpkdate($("[name*='ETD']").val()),
+                    ETA: Ezsetdtpkdate($("[name*='ETA']").val()),
+                    CARRIER: $("[name*='hdnCARRIER']").val(),
+                    DEPARTMENT: $("[name*='hdnDEPARTMENT']").val(),
                     Total_Cost: $("[name*='Total_Cost']").val(),
                     Total_Billed: $("[name*='Total_Billed']").val(),
                     Total_Profit: $("[name*='Total_Profit']").val(),
-                    Commodity_code: $("[name*='Commodity_code'] option:selected").val(),
+                    Commodity_code: $("[name*='hdnCommodity_code']").val(),
                     TRANS_TYPE: 'EXP',
-                    tranferFrom: $("[name*='tranferFrom'] option:selected").val(),
+                    tranferFrom: $("[name*='tranferFrom']").val(),
                     FF_BOK002Detail: [],
                     FF_BOK003Detail: [],
                     FF_BOK004Detail: [],
@@ -371,8 +375,8 @@
                 $("#tablePODetails2 tbody tr").each(function (index, item) {
                     var sno = $(this).find("[name*='txtsno']").val();
                     var Container = $(this).find("[name*='txtContainer']").val();
-                    var Cont_Type = $(this).find("[name*='txtCont_Type']  option:selected").val();
-                    var Commodity_code = $(this).find("[name*='txtCommodity_code']  option:selected").val();
+                    var Cont_Type = $(this).find("[name*='txtCont_Type'] ").val();
+                    var Commodity_code = $(this).find("[name*='txtCommodity_code']").val();
                     var Seal1 = $(this).find("[name*='txtSeal1']").val();
                     var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
                     var Contents = $(this).find("[name*='txtContents']").val();
@@ -440,28 +444,28 @@
                 });
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
                     var Sno = $(this).find("[name*='txtsno']").val();
-                    var Crg_code = $(this).find("[name*='txtCrg_code']  option:selected").val();
+                    var Crg_code = $(this).find("[name*='txtCrg_code']").val();
                     var Crg_name = $(this).find("[name*='txtCrg_name']").val();
                     var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
                     var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
-                    var Unit_Code = $(this).find("[name*='txtUnit_code'] option:selected").val();
+                    var Unit_Code = $(this).find("[name*='txtUnit_code']").val();
                     var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
 
-                    var Cust_code = $(this).find("[name*='txtCust_code']  option:selected").val();
+                    var Cust_code = $(this).find("[name*='txtCust_code']").val();
                     var Cust_name = $(this).find("[name*='txtCust_name']").val();
                      var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
-                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']  option:selected").val();
+                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']").val();
                     var Cust_Curr_Rate = $(this).find("[name*='txtCust_Curr_Rate']").val();
                     var Cust_Rate = $(this).find("[name*='txtCust_Rate']").val();
                     var Cust_Total_amt = $(this).find("[name*='txtCust_Total_amt']").val();
                     //var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
                     var Cust_Net_Amt = $(this).find("[name*='txtCust_Net_Amt']").val();
                     var Cust_Local_amt = $(this).find("[name*='txtCust_Local_amt']").val();
-                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']  option:selected").val();
-                    var Vend_code = $(this).find("[name*='txtVend_code']  option:selected").val();
+                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE'] ").val();
+                    var Vend_code = $(this).find("[name*='txtVend_code']").val();
                     var Vend_name = $(this).find("[name*='txtVend_name']").val();
                     var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
-                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']  option:selected").val();
+                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']").val();
                     var Vend_Curr_Rate = $(this).find("[name*='txtVend_Curr_Rate']").val();
                     var Vend_Rate = $(this).find("[name*='txtVend_Rate']").val();
                     var Vend_Total_amt = $(this).find("[name*='txtVend_Total_amt']").val();
@@ -609,6 +613,7 @@
                     $("#btnDelete").css("visibility", "");
 
                     $("#btnPrint").css("visibility", "hidden");
+                    $("#btnTrigger").css("visibility", "hidden");
                 });
             }
         });

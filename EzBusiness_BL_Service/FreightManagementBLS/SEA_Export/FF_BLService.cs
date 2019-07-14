@@ -135,32 +135,32 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.FF_BL003Detail = GetFF_BL003DetailList(CmpyCode, FF_BL001_CODE, "BL");
             poEdit.FF_BL004Detail = GetFF_BL004DetailList(CmpyCode, FF_BL001_CODE, "BL");
             poEdit.FF_BL005Detail = GetFF_BL005DetailList(CmpyCode, FF_BL001_CODE, "BL");
-            poEdit.PortList1 = GetPortListEdit(CmpyCode, poEdit.POL);
-            poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
-            poEdit.PortList3 = GetPortListEdit(CmpyCode, poEdit.FND);
+            //poEdit.PortList1 = GetPortListEdit(CmpyCode, poEdit.POL);
+            //poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
+            //poEdit.PortList3 = GetPortListEdit(CmpyCode, poEdit.FND);
 
-            poEdit.PortList4 = GetPortListEdit(CmpyCode, poEdit.PLACE_OF_RCPT);
-
-
-            poEdit.PortList5 = GetPortListEdit(CmpyCode, poEdit.PICKUP_PLACE);
-
-            poEdit.CustList = GetCustEdit(CmpyCode, poEdit.BILL_TO);
-            poEdit.DEPARTMENTList = GetDepartEdit(CmpyCode, poEdit.DEPARTMENT);
-            poEdit.MoveCodeList = GetMoveCodeEdit(CmpyCode, poEdit.MOVE_TYPE);
-
-            poEdit.SLList = GetSLEdit(CmpyCode, poEdit.CARRIER, "FM");
-
-            poEdit.VESSELList = GetVESSELListEdit(CmpyCode, poEdit.VESSEL);
-            poEdit.VOYAGEList = GetVOYAGEList(CmpyCode, poEdit.VESSEL);
-            poEdit.Commodityist = GetCommodityistListEdit(CmpyCode, poEdit.Commodity_code);
+            //poEdit.PortList4 = GetPortListEdit(CmpyCode, poEdit.PLACE_OF_RCPT);
 
 
-            poEdit.BILL_TOList = GetSLEdit(CmpyCode, poEdit.BILL_TO, "FM");
-            poEdit.SHIPPERList = GetSLEdit(CmpyCode, poEdit.SHIPPER, "OP");
-            poEdit.CONSIGNEEList = GetSLEdit(CmpyCode, poEdit.CONSIGNEE, "OP");
-            poEdit.FORWARDERList = GetSLEdit(CmpyCode, poEdit.FORWARDER, "OP");
+            //poEdit.PortList5 = GetPortListEdit(CmpyCode, poEdit.PICKUP_PLACE);
 
-            poEdit.JobTypList = GETJobTypListEdit(CmpyCode, poEdit.JOB_TYPE);
+            //poEdit.CustList = GetCustEdit(CmpyCode, poEdit.BILL_TO);
+            //poEdit.DEPARTMENTList = GetDepartEdit(CmpyCode, poEdit.DEPARTMENT);
+            //poEdit.MoveCodeList = GetMoveCodeEdit(CmpyCode, poEdit.MOVE_TYPE);
+
+            //poEdit.SLList = GetSLEdit(CmpyCode, poEdit.CARRIER, "FM");
+
+            //poEdit.VESSELList = GetVESSELListEdit(CmpyCode, poEdit.VESSEL);
+            //poEdit.VOYAGEList = GetVOYAGEList(CmpyCode, poEdit.VESSEL);
+            //poEdit.Commodityist = GetCommodityistListEdit(CmpyCode, poEdit.Commodity_code);
+
+
+            //poEdit.BILL_TOList = GetSLEdit(CmpyCode, poEdit.BILL_TO, "FM");
+            //poEdit.SHIPPERList = GetSLEdit(CmpyCode, poEdit.SHIPPER, "OP");
+            //poEdit.CONSIGNEEList = GetSLEdit(CmpyCode, poEdit.CONSIGNEE, "OP");
+            //poEdit.FORWARDERList = GetSLEdit(CmpyCode, poEdit.FORWARDER, "OP");
+
+            //poEdit.JobTypList = GETJobTypListEdit(CmpyCode, poEdit.JOB_TYPE);
             //poEdit.PortList = GetPortList(CmpyCode);
             //poEdit.CustList = GetCust(CmpyCode);
             //poEdit.VendorList = GetVendor(CmpyCode);

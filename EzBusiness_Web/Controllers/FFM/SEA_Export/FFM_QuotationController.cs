@@ -148,6 +148,19 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
+        public ActionResult GetCustT(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetCustT(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult GetCurcode(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -282,6 +295,18 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             else
             {
                 return Json(_QTNService.GetCommodityistList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetCommodityistListT(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetCommodityistListT(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
         public ActionResult GetSLList(string Prefix)
