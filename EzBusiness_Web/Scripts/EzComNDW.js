@@ -1700,15 +1700,14 @@ function Ezsidetbl(ide, idef, lk, idfoot) {
 
                             return a;
                         }
-                        else
-                        {
-
-                        }
+                   
                         //});
                       
 
           });
           }
+
+
 
           function EzDropEventTblHeight(tblid1, tblid2, ide, EveNames,hsize) {
               $(tblid1).on(EveNames, ide, function (e) {
