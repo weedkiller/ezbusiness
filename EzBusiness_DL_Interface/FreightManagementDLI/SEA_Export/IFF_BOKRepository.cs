@@ -15,11 +15,14 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
 
         List<FF_BOK_VM> GetFF_BOK(string CmpyCode);
         FF_BOK_VM GetFF_BOKDetailsEdit(string CmpyCode, string FF_BOK001_CODE);
+
+        FF_BOK_VM GetFF_BOKDetailsQuot(string CmpyCode, string FF_BOK001_CODE);
+
         FF_BOK_VM SaveFF_BOK_VM(FF_BOK_VM FQV);
-        List<FF_BOK002New> GetFF_BOK002DetailList(string CmpyCode, string FF_BOK001_CODE);
-        List<FF_BOK003New> GetFF_BOK003DetailList(string CmpyCode, string FF_BOK001_CODE);
-        List<FF_BOK004New> GetFF_BOK004DetailList(string CmpyCode, string FF_BOK001_CODE);
-        List<FF_BOK005New> GetFF_BOK005DetailList(string CmpyCode, string FF_BOK001_CODE);
+        List<FF_BOK002New> GetFF_BOK002DetailList(string CmpyCode, string FF_BOK001_CODE,string typ);
+        List<FF_BOK003New> GetFF_BOK003DetailList(string CmpyCode, string FF_BOK001_CODE, string typ);
+        List<FF_BOK004New> GetFF_BOK004DetailList(string CmpyCode, string FF_BOK001_CODE, string typ);
+        List<FF_BOK005New> GetFF_BOK005DetailList(string CmpyCode, string FF_BOK001_CODE, string typ);
         List<ComDropTbl> GetContTyp(string CmpyCode);
         List<ComDropTbl> GetMOVEList(string CmpyCode);
         List<ComDropTbl> GetCommodityistList(string CmpyCode);
@@ -30,6 +33,8 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<ComDropTbl> GetSL(string CmpyCode,string Typ1);
         List<ComDropTbl> GetDepart(string CmpyCode);
         List<ComDropTbl> GetCLAUSE(string CmpyCode);
+
+        List<ComDropTbl> GetQTNCODE(string CmpyCode,DateTime vdate);
 
         List<FFM_CRG> GetCRG_002(string CmpyCode);
 

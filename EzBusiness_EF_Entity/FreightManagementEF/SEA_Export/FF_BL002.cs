@@ -23,5 +23,11 @@ public string FF_BL001_CODE { get; set; }
         public Decimal CBM { get; set; }
         public string Commodity_code { get; set; }
 
+        public Decimal Temp_Range_min { get; set; }
+        public Decimal Temp_Range_max { get; set; }
+        public Decimal Dimension { get; set; }
+        public Decimal Volume { get; set; }
+        public Decimal GrossWeight { get; set; }
+
     }
 }

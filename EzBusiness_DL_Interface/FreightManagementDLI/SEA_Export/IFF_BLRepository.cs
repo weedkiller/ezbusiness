@@ -15,11 +15,13 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
 
         List<FF_BL_VM> GetFF_BL(string CmpyCode);
         FF_BL_VM GetFF_BLDetailsEdit(string CmpyCode, string FF_BL001_CODE);
+
+        FF_BL_VM GetFF_BLDetailsBk(string CmpyCode, string FF_BOK001_CODE);
         FF_BL_VM SaveFF_BL_VM(FF_BL_VM FQV);
-        List<FF_BL002New> GetFF_BL002DetailList(string CmpyCode, string FF_BL001_CODE);
-        List<FF_BL003New> GetFF_BL003DetailList(string CmpyCode, string FF_BL001_CODE);
-        List<FF_BL004New> GetFF_BL004DetailList(string CmpyCode, string FF_BL001_CODE);
-        List<FF_BL005New> GetFF_BL005DetailList(string CmpyCode, string FF_BL001_CODE);
+        List<FF_BL002New> GetFF_BL002DetailList(string CmpyCode, string FF_BL001_CODE, string typ);
+        List<FF_BL003New> GetFF_BL003DetailList(string CmpyCode, string FF_BL001_CODE, string typ);
+        List<FF_BL004New> GetFF_BL004DetailList(string CmpyCode, string FF_BL001_CODE, string typ);
+        List<FF_BL005New> GetFF_BL005DetailList(string CmpyCode, string FF_BL001_CODE, string typ);
         List<ComDropTbl> GetContTyp(string CmpyCode);
         List<ComDropTbl> GetMOVEList(string CmpyCode);
         List<ComDropTbl> GetVESSELList(string CmpyCode);
@@ -50,5 +52,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         bool DeleteFF_BL(string CmpyCode, string FF_BL001_CODE, string UserName);
 
         decimal GetCurRate(string CmpyCode, string CurCode);
+
+        List<ComDropTbl> GetBOKCODE(string CmpyCode, DateTime vdate);
     }
 }

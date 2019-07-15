@@ -53,6 +53,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal Total_Profit { get; set; }
 
         public string Commodity_code { get; set; }
+
+        public string DG { get; set; }
         public bool SaveFlag { get; set; }
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
@@ -105,6 +107,9 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public List<SelectListItem> SHIPPERList { get; set; }
         public List<SelectListItem> CONSIGNEEList { get; set; }
         public List<SelectListItem> FORWARDERList { get; set; }
+
+        public List<SelectListItem> GetBOKCODEList { get; set; }
+        public string tranferFrom { get; set; }
     }
     public class FF_BL002New
     {
@@ -118,6 +123,13 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal KG { get; set; }
         public Decimal CFT { get; set; }
         public Decimal CBM { get; set; }
+
+
+        public Decimal Temp_Range_min { get; set; }
+        public Decimal Temp_Range_max { get; set; }
+        public Decimal Dimension { get; set; }
+        public Decimal Volume { get; set; }
+        public Decimal GrossWeight { get; set; }
 
         public string Commodity_code { get; set; }
         public List<SelectListItem> ConTypList1 { get; set; }

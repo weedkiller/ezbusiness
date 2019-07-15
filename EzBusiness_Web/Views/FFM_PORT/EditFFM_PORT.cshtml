@@ -11,10 +11,30 @@
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 <link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 
-
+<style>
+     .ui-autocomplete {
+         max-height: 100px;
+         overflow-y: auto;
+         /* prevent horizontal scrollbar */
+         overflow-x: hidden;
+     }
+     /* IE 6 doesn't support max-height
+    * we use height instead, but this forces the menu to always be this tall
+    */
+     * html .ui-autocomplete {
+         height: 100px;
+     }
+</style>
 
 <script type="text/javascript">
-    $('.selectpicker').selectpicker('refresh');
+    $(document).ready(function () {
+
+        $('#hdncountry').val($('#COUNTRY').val());
+        EzAutoCompTxt('#COUNTRY', '#hdncountry', "/FFM_PORT/GetCountry", false, "");
+       
+
+        $('.selectpicker').selectpicker('refresh');
+    });
 </script>
 <div class="row">
     <div class="col-md-12">
@@ -51,8 +71,10 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">COUNTRY</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.DropDownListFor(m => m.COUNTRY,Model.CountryList ,new { @class = "form-control", @data_live_search = "true" })                                                    
-                                                    @Html.HiddenFor(m => m.COUNTRY)                                                    
+                                                    @*@Html.DropDownListFor(m => m.COUNTRY,Model.CountryList ,new { @class = "form-control", @data_live_search = "true" })*@         
+                                                    @Html.TextBoxFor(m => m.COUNTRY, new { @class = "form-control",@placeholder="Select Country" })
+                                                    <input id="hdncountry" type="hidden" class="form-control" name="hdncountry" value="-1" />                                                                                                
+                                                    @*@Html.HiddenFor(m => m.COUNTRY)*@                                                    
                                                 </div>
                                                 
                                             </div>
@@ -102,7 +124,7 @@
                                                         new SelectListItem { Text = "SEA", Value = "SEA"},
                                                          }, "Value", "Text");
                                                         }
-                                                        @Html.DropDownListFor(m => m.PortType, TypeListdata, new { @class = "form-control" })
+                                                        @Html.DropDownListFor(m => m.PortType, TypeListdata, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                                     </div>
 
                                               
@@ -121,7 +143,7 @@
                                                         new SelectListItem { Text = "NO", Value = "N"},                                                  
                                                          }, "Value", "Text");
                                                     }
-                                                    @Html.DropDownListFor(m => m.DISPLY_STATUS , TypeList, new { @class = "form-control" })                                              
+                                                    @Html.DropDownListFor(m => m.DISPLY_STATUS , TypeList, new { @class = "form-control selectpicker", @data_live_search = "true" })                                              
                                                 </div>
                                             </div>
                                         </div>

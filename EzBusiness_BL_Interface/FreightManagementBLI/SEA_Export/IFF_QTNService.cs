@@ -20,28 +20,30 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<FF_QTN003New> GetFF_QTN003DetailList(string CmpyCode, string FF_QTN001_CODE);
         List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE);
         List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE);
-        List<SelectListItem> GetMoveCode(string CmpyCode);
+        List<SelectListItem> GetMoveCode(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetCommodityistList(string CmpyCode);
-        List<SelectListItem> GetDepart(string CmpyCode);
-        List<SelectListItem> GetContTyp(string CmpyCode);
-        List<SelectListItem> GetPortList(string CmpyCode);
-        List<SelectListItem> GetVESSELList(string CmpyCode);
-        List<SelectListItem> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE);
-        List<SelectListItem> GetSL(string CmpyCode);
+        List<SelectListItem> GetCommodityistList(string CmpyCode, string Prefix);
+        List<SelectListItem> GetCommodityistListT(string CmpyCode, string Prefix);
+        List<SelectListItem> GetDepart(string CmpyCode, string Prefix);
+        List<SelectListItem> GetContTyp(string CmpyCode, string Prefix);
+        List<SelectListItem> GetPortList(string CmpyCode, string Prefix);
+        List<SelectListItem> GetVESSELList(string CmpyCode, string Prefix);
+        List<SelectListItem> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE, string Prefix);
+        List<SelectListItem> GetSL(string CmpyCode, string Prefix);
        
-        List<SelectListItem> GetCLAUSE(string CmpyCode);
+        List<SelectListItem> GetCLAUSE(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetCRG_002(string CmpyCode);
+        List<SelectListItem> GetCRG_002(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetCust(string CmpyCode);
+        List<SelectListItem> GetCust(string CmpyCode, string Prefix);
+        List<SelectListItem> GetCustT(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetVendor(string CmpyCode);
+        List<SelectListItem> GetVendor(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetCurcode(string CmpyCode);
+        List<SelectListItem> GetCurcode(string CmpyCode, string Prefix);
 
 
-        List<SelectListItem> GetUnitcode(string CmpyCode);
+        List<SelectListItem> GetUnitcode(string CmpyCode, string Prefix);
         bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName);
 
         decimal GetCurRate(string CmpyCode, string CurCode);
