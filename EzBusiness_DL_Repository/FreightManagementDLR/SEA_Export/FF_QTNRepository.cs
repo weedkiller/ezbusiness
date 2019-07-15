@@ -231,7 +231,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return ObjList;
         }
 
-        public List<ComDropTbl> GetMOVEList(string CmpyCode)
+        public List<ComDropTbl> GetMOVEList(string CmpyCode, string Prefix)
         {
             return drop.GetCommonDrop("FFM_MOVE_CODE as [Code],NAME as [CodeName]", "FFM_MOVE", "CMPYCODE='"+ CmpyCode + "' and Flag=0");
         }
@@ -855,36 +855,36 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return FQV;
         }
 
-        public List<ComDropTbl> GetVESSELList(string CmpyCode)
+        public List<ComDropTbl> GetVESSELList(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("FFM_VESSEL_CODE as [Code],NAME as [CodeName]", "FFM_VESSEL", "CMPYCODE='" + CmpyCode + "' and Flag1=0");
+            return drop.GetCommonDrop("FFM_VESSEL_CODE as [Code],NAME as [CodeName]", "FFM_VESSEL", "CMPYCODE='" + CmpyCode + "' and Flag1=0 and (FFM_VESSEL_CODE like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
 
-        public List<ComDropTbl> GetVOYAGEList(string CmpyCode,string FFM_VESSEL_CODE)
+        public List<ComDropTbl> GetVOYAGEList(string CmpyCode,string FFM_VESSEL_CODE, string Prefix)
         {
 
             //select FFM_VOYAGE01_CODE,NAME from FFM_VOYAGE01 where Flag=0 and CMPYCODE='UM' and FFM_VESSEL_CODE=''
-            return drop.GetCommonDrop("FFM_VOYAGE01_CODE as [Code],NAME as [CodeName]", "FFM_VOYAGE01", "CMPYCODE='" + CmpyCode + "' and Flag=0 and FFM_VESSEL_CODE='"+ FFM_VESSEL_CODE + "'");
+            return drop.GetCommonDrop("FFM_VOYAGE01_CODE as [Code],NAME as [CodeName]", "FFM_VOYAGE01", "CMPYCODE='" + CmpyCode + "' and Flag=0 and FFM_VESSEL_CODE='"+ FFM_VESSEL_CODE + "' and (FFM_VOYAGE01_CODE like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
 
-        public List<ComDropTbl> GetSL(string CmpyCode)
+        public List<ComDropTbl> GetSL(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+            return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FNM_SL1001_CODE like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
 
-        public List<ComDropTbl> GetDepart(string CmpyCode)
+        public List<ComDropTbl> GetDepart(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("DepartmentCode as [Code],DepartmentName as [CodeName]", "MDEP009", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+            return drop.GetCommonDrop("DepartmentCode as [Code],DepartmentName as [CodeName]", "MDEP009", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (DepartmentCode like '" + Prefix + "%' or DepartmentName like '" + Prefix + "%')");
         }
 
-        public List<ComDropTbl> GetCLAUSE(string CmpyCode)
+        public List<ComDropTbl> GetCLAUSE(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("FFM_CLAUSE_CODE as [Code],NAME as [CodeName]", "FFM_CLAUSE", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+            return drop.GetCommonDrop("FFM_CLAUSE_CODE as [Code],NAME as [CodeName]", "FFM_CLAUSE", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FFM_CLAUSE_CODE like "+Prefix+"% or NAME like "+Prefix+"%)");
         }
 
-        public List<FFM_CRG> GetCRG_002(string CmpyCode)
+        public List<FFM_CRG> GetCRG_002(string CmpyCode, string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("SELECT  H.FFM_CRG_001_CODE CHARGE_CODE, H.NAME CHARGE_NAME,D.INCOME_ACT ,D.EXPENSE_ACT   FROM FFM_CRG_001 H INNER JOIN FFM_CRG_002 D ON H.FFM_CRG_001_CODE=D.FFM_CRG_001_CODE and H.flag=d.flag where D.operation_type='SEA' and h.cmpycode='" + CmpyCode + "' and D.flag=0");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("SELECT  H.FFM_CRG_001_CODE CHARGE_CODE, H.NAME CHARGE_NAME,D.INCOME_ACT ,D.EXPENSE_ACT   FROM FFM_CRG_001 H INNER JOIN FFM_CRG_002 D ON H.FFM_CRG_001_CODE=D.FFM_CRG_001_CODE and H.flag=d.flag where D.operation_type='SEA' and h.cmpycode='" + CmpyCode + "' and D.flag=0 and (H.FFM_CRG_001_CODE like '" + Prefix + "%' or H.NAME like '" + Prefix + "%')");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FFM_CRG> ObjList = new List<FFM_CRG>();
@@ -901,13 +901,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             }
             return ObjList;
         }
-        public List<ComDropTbl> GetContTyp(string CmpyCode)
+        public List<ComDropTbl> GetContTyp(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("FFM_CNTR_CODE as [Code],NAME as [CodeName]", "FFM_CNTR", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+            return drop.GetCommonDrop("FFM_CNTR_CODE as [Code],NAME as [CodeName]", "FFM_CNTR", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FFM_CNTR_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
-        public List<FFM_CRG> GetCRGINCEXP(string CmpyCode, string FFM_CRG_001_CODE)
+        public List<FFM_CRG> GetCRGINCEXP(string CmpyCode, string FFM_CRG_001_CODE, string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,INCOME_ACT,EXPENSE_ACT from FFM_CRG_002 where Flag=0 and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CRG_JOB_CODE,FFM_CRG_JOB_NAME,INCOME_ACT,EXPENSE_ACT from FFM_CRG_002 where Flag=0 and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "' and CMPYCODE='" + CmpyCode + "' and (FFM_CRG_JOB_CODE like '" + Prefix + "%' or FFM_CRG_JOB_NAME like '" + Prefix + "%')");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FFM_CRG> ObjList = new List<FFM_CRG>();
@@ -925,34 +925,34 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return ObjList;
         }
 
-        public List<ComDropTbl> GetPortList(string CmpyCode)
+        public List<ComDropTbl> GetPortList(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("FFM_PORT_CODE as [Code],NAME as [CodeName]", "FFM_PORT", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+            return drop.GetCommonDrop("FFM_PORT_CODE as [Code],NAME as [CodeName]", "FFM_PORT", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FFM_PORT_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
 
-        public List<ComDropTbl1> GetCust(string CmpyCode)
+        public List<ComDropTbl1> GetCust(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop1("A.FNM_SL1001_CODE CUSTOMER_CODE,A.Name CUSTOMER_NAME,B.COA_CODE CONTROL_ACT", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='ARP' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0");
+            return drop.GetCommonDrop1("A.FNM_SL1001_CODE CUSTOMER_CODE,A.Name CUSTOMER_NAME,B.COA_CODE CONTROL_ACT", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='ARP' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0 and (A.FNM_SL1001_CODE like '" + Prefix + "%' or A.Name like '" + Prefix + "%')");
         }
 
-        public List<ComDropTbl1> GetVendor(string CmpyCode)
+        public List<ComDropTbl1> GetVendor(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop1("A.FNM_SL1001_CODE CUSTOMER_CODE,A.Name CUSTOMER_NAME,B.COA_CODE CONTROL_ACT", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='APP' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0");
+            return drop.GetCommonDrop1("A.FNM_SL1001_CODE CUSTOMER_CODE,A.Name CUSTOMER_NAME,B.COA_CODE CONTROL_ACT", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='APP' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0 and (A.FNM_SL1001_CODE like '" + Prefix + "%' or A.Name like '" + Prefix + "%')");
         }
 
-        public List<ComDropTbl> GetCurcode(string CmpyCode)
+        public List<ComDropTbl> GetCurcode(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("CURRENCY_CODE as [Code],CURRENCY_NAME as [CodeName]", "FNM_CURRENCY", " Flag=0");
+            return drop.GetCommonDrop("CURRENCY_CODE as [Code],CURRENCY_NAME as [CodeName]", "FNM_CURRENCY", " Flag=0 and (CURRENCY_CODE like '" + Prefix + "%' or CURRENCY_NAME like '" + Prefix + "%')");
         }
 
-        public List<ComDropTbl> GetUnitcode(string CmpyCode)
+        public List<ComDropTbl> GetUnitcode(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("FFM_UNIT_CODE as [Code],NAME as [CodeName]", "FFM_UNIT", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+            return drop.GetCommonDrop("FFM_UNIT_CODE as [Code],NAME as [CodeName]", "FFM_UNIT", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FFM_UNIT_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
 
-        public List<ComDropTbl> GetCommodityistList(string CmpyCode)
+        public List<ComDropTbl> GetCommodityistList(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("FFM_COM_CODE as [Code],NAME as [CodeName]", "FFM_COM", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+            return drop.GetCommonDrop("FFM_COM_CODE as [Code],NAME as [CodeName]", "FFM_COM", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FFM_COM_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
         public decimal GetCurRate(string CmpyCode, string CurCode)
         {

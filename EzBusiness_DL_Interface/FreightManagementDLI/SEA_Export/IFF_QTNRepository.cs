@@ -20,33 +20,33 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE);     
         List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE);
 
-        List<ComDropTbl> GetMOVEList(string CmpyCode);
-        List<ComDropTbl> GetCommodityistList(string CmpyCode);
-        List<ComDropTbl> GetVESSELList(string CmpyCode);
+        List<ComDropTbl> GetMOVEList(string CmpyCode, string Prefix);
+        List<ComDropTbl> GetCommodityistList(string CmpyCode, string Prefix);
+        List<ComDropTbl> GetVESSELList(string CmpyCode, string Prefix);
 
-        List<ComDropTbl> GetPortList(string CmpyCode);
-        List<ComDropTbl> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE);
-        List<ComDropTbl> GetSL(string CmpyCode);
-        List<ComDropTbl> GetDepart(string CmpyCode);
-        List<ComDropTbl> GetCLAUSE(string CmpyCode);
+        List<ComDropTbl> GetPortList(string CmpyCode, string Prefix);
+        List<ComDropTbl> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE, string Prefix);
+        List<ComDropTbl> GetSL(string CmpyCode, string Prefix);
+        List<ComDropTbl> GetDepart(string CmpyCode, string Prefix);
+        List<ComDropTbl> GetCLAUSE(string CmpyCode, string Prefix);
 
-        List<FFM_CRG> GetCRG_002(string CmpyCode);
-
-
-        List<ComDropTbl1> GetCust(string CmpyCode);
-
-        List<ComDropTbl1> GetVendor(string CmpyCode);
+        List<FFM_CRG> GetCRG_002(string CmpyCode, string Prefix);
 
 
-        List<ComDropTbl> GetCurcode(string CmpyCode);
+        List<ComDropTbl1> GetCust(string CmpyCode, string Prefix);
+
+        List<ComDropTbl1> GetVendor(string CmpyCode, string Prefix);
 
 
-        List<ComDropTbl> GetUnitcode(string CmpyCode);
+        List<ComDropTbl> GetCurcode(string CmpyCode, string Prefix);
 
 
-        List<ComDropTbl> GetContTyp(string CmpyCode);
+        List<ComDropTbl> GetUnitcode(string CmpyCode, string Prefix);
 
-        List<FFM_CRG> GetCRGINCEXP(string CmpyCode,string FFM_CRG_001_CODE);
+
+        List<ComDropTbl> GetContTyp(string CmpyCode, string Prefix);
+
+        List<FFM_CRG> GetCRGINCEXP(string CmpyCode,string FFM_CRG_001_CODE, string Prefix);
         bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName);
 
         decimal GetCurRate(string CmpyCode, string CurCode);

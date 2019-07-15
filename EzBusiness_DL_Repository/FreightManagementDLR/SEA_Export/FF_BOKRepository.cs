@@ -957,9 +957,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return drop.GetCommonDrop("FFM_VOYAGE01_CODE as [Code],NAME as [CodeName]", "FFM_VOYAGE01", "CMPYCODE='" + CmpyCode + "' and Flag=0 and FFM_VESSEL_CODE='" + FFM_VESSEL_CODE + "'");
         }
 
-        public List<ComDropTbl> GetSL(string CmpyCode,string typ1)
+        public List<ComDropTbl> GetSL(string CmpyCode,string typ1, string Prefix)
         {
-            return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "CMPYCODE='" + CmpyCode + "' and  SUBLEDGER_TYPE='" + typ1 + "' and Flag=0");
+            return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "CMPYCODE='" + CmpyCode + "' and  SUBLEDGER_TYPE='" + typ1 + "' and Flag=0 and (FNM_SL1001_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
 
         public List<ComDropTbl> GetDepart(string CmpyCode)
@@ -1049,9 +1049,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return GetCurRate;
         }
 
-        public List<ComDropTbl> GETJobTypList(string CmpyCode)
+        public List<ComDropTbl> GETJobTypList(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("FFM_JOB_CODE as [Code],NAME as [CodeName]", "FFM_JOB", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+            return drop.GetCommonDrop("FFM_JOB_CODE as [Code],NAME as [CodeName]", "FFM_JOB", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FFM_JOB_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
         public List<ComDropTbl> GetCommodityistList(string CmpyCode)
         {
