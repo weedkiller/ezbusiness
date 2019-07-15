@@ -22,7 +22,7 @@
 
 
         debugger;
-        EzDropFillEventTbl1("#tablePODetails", "[name*='FFM_CRG_JOB_COD']", "click", "[name*='FFM_CRG_JOB_COD']", "/FFM_CRG_001/GetJobCodeList", "hdnFFM_CRG_JOB_CODE", true);
+        EzDropFillEventTbl1("#tablePODetails", "[name*='FFM_CRG_JOB_CODE']", "click", "[name*='FFM_CRG_JOB_CODE']", "/FFM_CRG_001/GetJobCodeList", "hdnFFM_CRG_JOB_CODE", true);
 
         EzDropFillEventTbl1("#tablePODetails", "[name*='INCOME_ACT']", "click", "[name*='INCOME_ACT']", "/FFM_CRG_001/GetIncomeActList", "hdnINCOME_ACT", true);
 
@@ -42,7 +42,7 @@
 
         var counter = $('#hdnCounter').val();
 
-        var index3 = 1;
+        var index3 = 0;
         $("#tablePODetails tbody tr").each(function (index3, item) {
             debugger;
             jobcode = $("[name*='hdnFFM_CRG_JOB_CODE" + (index3 + 1) + "']").val();
@@ -138,35 +138,17 @@
         var counter1 = parseInt($('#hdnCounter').val()) + 1;
         $('.selectpicker').selectpicker('refresh');
         $("#tablePODetails").on("change", "[name*='FFM_CRG_JOB_CODE']", function () {
-            debugger
-         
+            debugger         
             var tr = $(this).closest('tr');
             $("#tablePODetails").css("height", "auto");
             var JobCode = tr.find("[name*='FFM_CRG_JOB_CODE'] option:selected").text();
-            var array = JobCode.split("-");
-            //   tr.find("[name*='txtincomeact']").val(array[1].trim());
-            //   tr.find("[name*='txtincomeact']").val(array[2].trim());
-            debugger;
-            tr.find("[name*='FFM_CRG_JOB_CODE']").val(array[1].trim())
+            var array = JobCode.split("-");          
             var trLast = $("#tablePODetails tr:last");
-
-            //trLast.find('td:eq(1),th:eq(1)').remove();
-
-            //var tr6 = tr.find('td:eq(1)');
-            //var $newRow = tr6.clone();
-            //trLast.find('td').eq(0).after($newRow);
             drec = [];
-            //drec.push('FFM_CRG_JOB_CODE');
-            ////
+            drec.push('FFM_CRG_JOB_CODE');
+            EzTbltxtdrpidchanged(drec, counter1, "drp", trLast);
 
-            EzTbltxtdrpidchanged(drec, counter1 - 1, "drp", trLast);
-            //var b = counter1 - 1;
-            //var tr8 = trLast.find('td:eq(1)');
-            //tr8.find('select[name^=FFM_CRG_JOB_CODE' + b + ']').val(0);
-            //tr8.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
-
-            //tr8.find("[name *= 'FFM_CRG_JOB_CODE']").selectpicker('refresh');
-
+          
             $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
                 //add item to array
                 var ab = $(this).closest("tr").find("[name *= 'FFM_CRG_JOB_CODE'] option:selected").val();
@@ -211,6 +193,27 @@
                     trLast.find("[name *= 'FFM_CRG_JOB_CODE']").selectpicker('refresh');
                     trLast.find("[name *= 'OPERATION_TYPE']").selectpicker('refresh');
                     trLast.find("[name *= 'INCOME_ACT']").selectpicker('refresh');
+                }
+                else
+                {
+                    debugger;
+                    var trLast = $("#tablePODetails tr:last");
+                  
+                    droparry = [];
+                    txtarry = [];
+
+                    droparry.push('FFM_CRG_JOB_CODE');
+                  
+
+                    EzTbltxtdrpidchanged(droparry, counter1, "drp", trLast);
+                    EzTbltxtdrpidchanged(txtarry, counter1, "txt", trLast);
+
+                    trLast.find(":first").text(counter1);
+                
+                    trLast.find('select[name^=FFM_CRG_JOB_CODE' + counter1 + ']').val(0);                 
+                    trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+                    trLast.find("[name *= 'FFM_CRG_JOB_CODE']").selectpicker('refresh');
+                  
                 }
                 counter1++;
             }
@@ -471,7 +474,7 @@
                                                                     @Html.DropDownListFor(m => m.OPERATION_TYPE, new List<SelectListItem> { new SelectListItem { Text = "SEA", Value = "SEA" }, new SelectListItem { Text = "AIR", Value = "AIR" }, new SelectListItem { Text = "WAH", Value = "WAH" }, new SelectListItem { Text = "TERM", Value = "TERM" }, new SelectListItem { Text = "ROAD", Value = "ROAD" } }, new { @class = "selectpicker form-control", @data_live_search = "true" })
                                                                     @*@Html.TextBox(string.Concat("OPERATION_TYPE", counter), null, new { @class = "grid-control " })*@
                                                                     @*<input id="ETA1" class="form-control datepicker" name="ETA1" />
-                    @Html.HiddenFor(m => m.ETA)*@
+                                                                    @Html.HiddenFor(m => m.ETA)*@
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -479,7 +482,7 @@
                                                                     @*@Html.TextBox(string.Concat("INCOME_ACT", counter), null, new { @class = "grid-control " })*@
                                                                     @Html.DropDownList(string.Concat("INCOME_ACT", counter), TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
                                                                     @*<input id="ETB1" class="form-control datepicker" name="ETB1" />
-                    @Html.HiddenFor(m => m.ETB)*@
+                                                                    @Html.HiddenFor(m => m.ETB)*@
                                                                 </div>
                                                             </td>
                                                             <td>

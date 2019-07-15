@@ -12,7 +12,6 @@ namespace EzBusiness_ViewModels
 
         public const string producttype = "SV";
 
-
         public const string WorkingStatus = "Y";
 
         public const string DDLFirstVal = "0";
