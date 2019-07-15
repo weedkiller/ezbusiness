@@ -55,19 +55,19 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 STATE = m.STATE
             }).ToList();
         }
-        public List<SelectListItem> GetCountryCodes(string CmpyCode)
+        public List<SelectListItem> GetCountryCodes(string CmpyCode, string Prefix)
         {
-            var CountryList = _FNMBranchRepo.GetNationList(CmpyCode)
-                                        .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
+            var CountryList = _FNMBranchRepo.GetNationList(CmpyCode, Prefix)
+                                        .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                         .ToList();
-            return InsertFirstElementDDL(CountryList);
+            return CountryList;
         }
-        public List<SelectListItem> GetCurrencyCodes(string CmpyCode)
+        public List<SelectListItem> GetCurrencyCodes(string Prefix)
         {
-            var CurrencyList = _FNMBranchRepo.GetCurrencyList(CmpyCode)
-                                        .Select(m => new SelectListItem { Value = m.CURRENCY_CODE, Text = string.Concat(m.CURRENCY_CODE, " - ", m.CURRENCY_NAME) })
+            var CurrencyList = _FNMBranchRepo.GetCurrencyList(Prefix)
+                                        .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                         .ToList();
-            return InsertFirstElementDDL(CurrencyList);
+            return CurrencyList;
         }
         public FNMBranch_VM SaveFNMBranch(FNMBranch_VM FC)
         {

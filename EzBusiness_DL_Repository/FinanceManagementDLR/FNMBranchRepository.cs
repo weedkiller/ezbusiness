@@ -18,6 +18,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
         DropListFillFun drop = new DropListFillFun();
+        
         public bool DeleteFNMBranch(string FNMBranch_CODE, string CmpyCode, string UserName)
         {
 
@@ -32,13 +33,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             }
             return false;
         }
-        public List<Nation> GetNationList(string CmpyCode)
+        public List<ComDropTbl> GetNationList(string CmpyCode, string Prefix)
         {
-            return drop.GetNationList(CmpyCode);
+            //return drop.GetNationList(CmpyCode);
+            return drop.GetCommonDrop("Code,NAME as [CodeName]", "MNAT019", " CmpyCode='"+ CmpyCode + "' and (Code like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
-        public List<FNM_CURRENCY> GetCurrencyList(string CmpyCode)
+        public List<ComDropTbl> GetCurrencyList(string Prefix)
         {
-            return drop.GetCurrencyList(CmpyCode);
+            // return drop.GetCurrencyList(CmpyCode);
+            return drop.GetCommonDrop("CURRENCY_CODE as [Code],CURRENCY_NAME as [CodeName]", "FNM_CURRENCY", " Flag=0 and (CURRENCY_CODE like '" + Prefix + "%' or CURRENCY_NAME like '" + Prefix + "%')");
         }
         public List<FNMBranch> GetFNMBranch(string CmpyCode)
         {

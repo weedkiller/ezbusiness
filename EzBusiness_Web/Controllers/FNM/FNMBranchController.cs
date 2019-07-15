@@ -41,7 +41,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
         }
         [Route("GetCountryCodes")]
-        public ActionResult GetCountryCodes()
+        public ActionResult GetCountryCodes(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -50,11 +50,11 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(_branchService.GetCountryCodes(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_branchService.GetCountryCodes(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
         [Route("GetCurrencyCodes")]
-        public ActionResult GetCurrencyCodes()
+        public ActionResult GetCurrencyCodes(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -63,7 +63,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(_branchService.GetCurrencyCodes(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_branchService.GetCurrencyCodes(Prefix), JsonRequestBehavior.AllowGet);
             }
         }
         [HttpPost]

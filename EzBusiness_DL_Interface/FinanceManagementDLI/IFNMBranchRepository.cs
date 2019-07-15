@@ -13,8 +13,8 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
    public interface IFNMBranchRepository
     {
         List<FNMBranch> GetFNMBranch(string CmpyCode);
-        List<Nation> GetNationList(string CmpyCode);
-        List<FNM_CURRENCY> GetCurrencyList(string CmpyCode);
+        List<ComDropTbl> GetNationList(string CmpyCode, string Prefix);
+        List<ComDropTbl> GetCurrencyList(string Prefix);
         FNMBranch_VM SaveFNMBranch(FNMBranch_VM FH);
         //List<Country> GetNationList(string CmpyCode);
         bool DeleteFNMBranch(string FNMBranch_CODE, string CmpyCode, string UserName);
