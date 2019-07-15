@@ -4,7 +4,12 @@
     ViewBag.Title = "FNMBranch";
     var counter = 1;
 }
+
+
 <script src="~/Scripts/EzComNDW.js"></script>
+
+
+
 <script>
  $(function () {
         $("#dcm").hide();
@@ -189,8 +194,16 @@
             });
         }
 
-        EzDropFillEventTbl1("#tblUnits1", "[name*='ddlCOUNTRY']", "click", "[name*='ddlCOUNTRY']", "GetCountryCodes", "", false);
-        EzDropFillEventTbl1("#tblUnits1", "[name*='ddlCURRENCY']", "click", "[name*='ddlCURRENCY']", "GetCurrencyCodes", "", false);
+        //EzDropFillEventTbl1("#tblUnits1", "[name*='ddlCOUNTRY']", "click", "[name*='ddlCOUNTRY']", "GetCountryCodes", "", false);
+        //EzDropFillEventTbl1("#tblUnits1", "[name*='ddlCURRENCY']", "click", "[name*='ddlCURRENCY']", "GetCurrencyCodes", "", false);
+
+
+        EzAutotxtEventTbl12("#tblUnits1", "focus", "[name*='ddlCURRENCY']", "[name*='ddl1CURRENCY']", "GetCurrencyCodes", false, "");
+        EzAutotxtEventTbl12("#tblUnits1", "focus", "[name*='ddlCOUNTRY']", "[name*='ddl1COUNTRY']", "GetCountryCodes", false, "");
+
+        EzAutotxtEventTbl12("#tblUnits", "focus", "[name*='txtCURRENCY']", "[name*='txt1CURRENCY']", "GetCurrencyCodes", false, "");
+        EzAutotxtEventTbl12("#tblUnits", "focus", "[name*='txtCOUNTRY']", "[name*='txt1COUNTRY']", "GetCountryCodes", false, "");
+
 
         /*Refresh */
         $("#btnCancel").click(function () {
@@ -463,25 +476,28 @@
                   //  COUNTRYTd.html("<input type='text' name='txtCOUNTRY" + index + "' value='" + COUNTRY.trim() + "' />");
                     STATETd.html("<input type='text' name='txtSTATE" + index + "' value='" + STATE.trim() + "' />");
 
+                    CURRENCYTd.html("<input type='text' name='txtCURRENCY" + index + "' value='" + CURRENCY.trim() + "' /><input type='hidden' name='txt1CURRENCY" + index + "' value='" + CURRENCY.trim() + "' />");
+                    COUNTRYTd.html("<input type='text' name='txtCOUNTRY" + index + "' value='" + COUNTRY.trim() + "' /><input type='hidden' name='txt1COUNTRY" + index + "' value='" + COUNTRY.trim() + "' />");
+
                    
 
                     //$("[name*='hdnCURRENCY']").val(CURRENCY.trim());
-                    if(CURRENCY.trim()==''){
-                        CURRENCYTd.html("<select class='grid-control' name='txtCURRENCY" + index + "' id='txtCURRENCY" + index + "'><option value='-1'>-Select-</option</select>");
-                    }else{
-                        CURRENCYTd.html("<select class='grid-control' name='txtCURRENCY" + index + "' id='txtCURRENCY" + index + "'><option value="+ CURRENCY.trim()  +">"+ CURRENCY.trim()  +"</option</select> <input id='hdnCURRENCY" + index + "'  name='hdnCURRENCY" + index + "' value="+CURRENCY.trim()+" type='hidden' />");
-                    }
+                    //if(CURRENCY.trim()==''){
+                    //    CURRENCYTd.html("<select class='grid-control' name='txtCURRENCY" + index + "' id='txtCURRENCY" + index + "'><option value='-1'>-Select-</option</select>");
+                    //}else{
+                    //    CURRENCYTd.html("<select class='grid-control' name='txtCURRENCY" + index + "' id='txtCURRENCY" + index + "'><option value="+ CURRENCY.trim()  +">"+ CURRENCY.trim()  +"</option</select> <input id='hdnCURRENCY" + index + "'  name='hdnCURRENCY" + index + "' value="+CURRENCY.trim()+" type='hidden' />");
+                    //}
                     
                    
 
                          
-                    //$("[name*='hdnCOUNTRY']").val(COUNTRY.trim());
+                    ////$("[name*='hdnCOUNTRY']").val(COUNTRY.trim());
 
-                    if(COUNTRY.trim()==''){
-                        COUNTRYTd.html("<select class='grid-control' name='txtCOUNTRY" + index + "' id='txtCOUNTRY" + index + "'><option value='-1'>-Select-</option</select>");
-                    }else{
-                        COUNTRYTd.html("<select class='grid-control' name='txtCOUNTRY" + index + "' id='txtCOUNTRY" + index + "'><option value="+ COUNTRY.trim()  +">"+ COUNTRY.trim()  +"</option</select><input id='hdnCOUNTRY" + index + "' name='hdnCOUNTRY" + index + "' value="+COUNTRY.trim()+" type='hidden' />");
-                    }                                              
+                    //if(COUNTRY.trim()==''){
+                    //    COUNTRYTd.html("<select class='grid-control' name='txtCOUNTRY" + index + "' id='txtCOUNTRY" + index + "'><option value='-1'>-Select-</option</select>");
+                    //}else{
+                    //    COUNTRYTd.html("<select class='grid-control' name='txtCOUNTRY" + index + "' id='txtCOUNTRY" + index + "'><option value="+ COUNTRY.trim()  +">"+ COUNTRY.trim()  +"</option</select><input id='hdnCOUNTRY" + index + "' name='hdnCOUNTRY" + index + "' value="+COUNTRY.trim()+" type='hidden' />");
+                    //}                                              
                     $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
                     $(this).attr('title', 'Update');
                     hdnEditMode.val("true");
@@ -498,9 +514,9 @@
         });
 
 
-        EzDropFillEventTbl1("#tblUnits", "[name*='txtCURRENCY']", "click", "[name*='txtCURRENCY']", "/FFM_Quotation/GetCurcode", "hdnCURRENCY", true);
+        //EzDropFillEventTbl1("#tblUnits", "[name*='txtCURRENCY']", "click", "[name*='txtCURRENCY']", "/FFM_Quotation/GetCurcode", "hdnCURRENCY", true);
 
-        EzDropFillEventTbl1("#tblUnits", "[name*='txtCOUNTRY']", "click", "[name*='txtCOUNTRY']", "GetCountryCodes", "hdnCOUNTRY", true);
+        //EzDropFillEventTbl1("#tblUnits", "[name*='txtCOUNTRY']", "click", "[name*='txtCOUNTRY']", "GetCountryCodes", "hdnCOUNTRY", true);
 
 
         function GetPayDeductOnDDL(index) {
@@ -767,13 +783,17 @@ $(document).ready(function(){
                             </td>
                             <td>
                                 <div class="grid-group">
-                                    @Html.DropDownList(string.Concat("ddlCOUNTRY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "-1" }, }, new { @class = "grid-control", @data_live_search = "true" })
+                                    @*@Html.DropDownList(string.Concat("ddlCOUNTRY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "-1" }, }, new { @class = "grid-control", @data_live_search = "true" })*@
+                                    @Html.TextBox(string.Concat("ddlCOUNTRY", counter), null, new { @class = "grid-control" })
+                                    @Html.Hidden(string.Concat("ddl1COUNTRY", counter), null, new { @class = "grid-control" })
                                 </div>
                             </td>
                             <td>
                                 <div class="grid-group">
 
-                                    @Html.DropDownList(string.Concat("ddlCURRENCY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "-1" }, }, new { @class = "grid-control", @data_live_search = "true" })
+                                    @*@Html.DropDownList(string.Concat("ddlCURRENCY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "-1" }, }, new { @class = "grid-control", @data_live_search = "true" })*@
+                                    @Html.TextBox(string.Concat("ddlCURRENCY", counter), null, new { @class = "grid-control" })
+                                    @Html.Hidden(string.Concat("ddl1CURRENCY", counter), null, new { @class = "grid-control" })
                                 </div>
                             </td>
                             <td>

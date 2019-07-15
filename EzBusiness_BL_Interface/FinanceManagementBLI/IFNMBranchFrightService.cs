@@ -15,8 +15,8 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
        List<FNMBranch_VM> GetFNMBranch(string CmpyCode);
         FNMBranch_VM SaveFNMBranch(FNMBranch_VM FC);
         bool DeleteFNMBranch(string FNMBranch_CODE, string CmpyCode, string UserName);
-        List<SelectListItem> GetCountryCodes(string CmpyCode);
-        List<SelectListItem> GetCurrencyCodes(string CmpyCode); 
+        List<SelectListItem> GetCountryCodes(string CmpyCode, string Prefix);
+        List<SelectListItem> GetCurrencyCodes(string  Prefix); 
          FNMBranch_VM EditFNMBranch(string CmpyCode, string FNMBranchCOde);
         //List<SelectListItem> GetCountryCodes(string CmpyCode);
     }

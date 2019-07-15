@@ -27,10 +27,10 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<ComDropTbl> GetMOVEList(string CmpyCode);
         List<ComDropTbl> GetCommodityistList(string CmpyCode);
         List<ComDropTbl> GetVESSELList(string CmpyCode);
-        List<ComDropTbl> GETJobTypList(string CmpyCode);
+        List<ComDropTbl> GETJobTypList(string CmpyCode,string Prefix);
         List<ComDropTbl> GetPortList(string CmpyCode);
         List<ComDropTbl> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE);
-        List<ComDropTbl> GetSL(string CmpyCode,string Typ1);
+        List<ComDropTbl> GetSL(string CmpyCode,string Typ1, string Prefix);
         List<ComDropTbl> GetDepart(string CmpyCode);
         List<ComDropTbl> GetCLAUSE(string CmpyCode);
 
