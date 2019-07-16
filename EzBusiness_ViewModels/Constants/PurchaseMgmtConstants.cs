@@ -30,7 +30,5 @@ namespace EzBusiness_ViewModels
 
         public const string SalaryProcessHeader = "SP";
 
-
-    }
-    
+    }    
 }
