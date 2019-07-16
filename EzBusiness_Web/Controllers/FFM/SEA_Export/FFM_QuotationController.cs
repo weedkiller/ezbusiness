@@ -322,5 +322,18 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
+        public ActionResult GetBranchList(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetBranchListN(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

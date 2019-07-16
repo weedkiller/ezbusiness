@@ -47,5 +47,8 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName);
 
         decimal GetCurRate(string CmpyCode, string CurCode);
+
+
+        List<SelectListItem> GetBranchListN(string CmpyCode, string Prefix);
     }
 }

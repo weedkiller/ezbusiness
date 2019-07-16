@@ -79,6 +79,19 @@ namespace EzBusiness_Web.Controllers
         {
             return Json(_loginService.GetBranchList(CmpyCode,DivCode), JsonRequestBehavior.AllowGet);
         }
+
+        [Route("BranchCodeN")]
+        public ActionResult BranchCodeN(string CmpyCode)
+        {
+            return Json(_loginService.GetBranchListN(CmpyCode), JsonRequestBehavior.AllowGet);
+        }
+
+        [Route("DivisioncodeN")]
+        public ActionResult DivisioncodeN(string CmpyCode, string BranchCode)
+        {
+            return Json(_loginService.Divisioncode(CmpyCode, BranchCode), JsonRequestBehavior.AllowGet);
+        }
+
         [Route("DepartmentCode")]
         public ActionResult DepartmentCode(string CmpyCode, string DivCode,string Branchcode)
         {

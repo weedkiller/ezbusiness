@@ -69,5 +69,20 @@ namespace EzBusiness_BL_Service
                                       .ToList();
             return BranchList;
         }
+
+        public List<SelectListItem> GetBranchListN(string CmpyCode)
+        {
+            var BranchList = _LoginRepo.GetBranchListN(CmpyCode)
+                                      .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                      .ToList();
+            return BranchList;
+        }
+
+        public string Divisioncode(string CmpyCode, string BranchCode)
+        {
+            return _LoginRepo.Divisioncode(CmpyCode, BranchCode).ToString();
+                                      
+            
+        }
     }
 }

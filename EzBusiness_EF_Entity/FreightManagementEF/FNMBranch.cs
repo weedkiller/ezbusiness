@@ -22,5 +22,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF
         public string COUNTRY { get; set; }
         public string STATE { get; set; }
 
+        public string DIVISION { get; set; }
+
     }
 }

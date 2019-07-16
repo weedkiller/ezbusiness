@@ -141,5 +141,17 @@ namespace EzBusiness_DL_Repository
         {
             return DropListFill.GetDepCode(CmpyCode, DivCode, BranchCode);
         }
+
+        public List<ComDropTbl> GetBranchListN(string CmpyCode)
+        {
+            return DropListFill.GetCommonDrop("FNMBRANCH_CODE as [Code],DESCRIPTION as [CodeName]", "FNMBRANCH", "CMPYCODE='" + CmpyCode + "' and Flag=0");
+        }
+
+        public string Divisioncode(string CmpyCode, string BranchCode)
+        {
+            string qur = "select DIVISION from FNMBRANCH where CMPYCODE = '" + CmpyCode + "' and flag = 0 and FNMBRANCH_CODE = '" + BranchCode + "' ";
+            string Divisioncode = _EzBusinessHelper.ExecuteScalarS(qur);
+            return Divisioncode;
+        }
     }
 }

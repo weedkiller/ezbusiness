@@ -66,6 +66,20 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(_branchService.GetCurrencyCodes(Prefix), JsonRequestBehavior.AllowGet);
             }
         }
+
+       
+        public ActionResult GetDivisionList(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_branchService.GetDivisionList(list[0].CmpyCode,Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
         [HttpPost]
         //[Route("SaveFNMBranch")]
         public ActionResult SaveFNMBranch(FNMBranch_VM brnch)

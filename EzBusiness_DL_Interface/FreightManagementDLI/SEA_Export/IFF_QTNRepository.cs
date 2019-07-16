@@ -51,5 +51,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
 
         decimal GetCurRate(string CmpyCode, string CurCode);
 
+        List<ComDropTbl> GetBranchListN(string CmpyCode, string Prefix);
+
     }
 }

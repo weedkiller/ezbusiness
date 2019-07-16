@@ -22,7 +22,11 @@ namespace EzBusiness_DL_Interface
         List<Department> GetDepartmentList(string CmpyCode, string DivCode,string BranchCode);
 
 
-       
+        List<ComDropTbl> GetBranchListN(string CmpyCode);
+
+
+       string Divisioncode(string CmpyCode, string BranchCode);
+
         LoginVM Login(LoginVM LoginMaster);
 
         #endregion

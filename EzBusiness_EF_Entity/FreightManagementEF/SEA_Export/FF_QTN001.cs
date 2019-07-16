@@ -43,5 +43,8 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public string FDSTATE { get; set; }
 
         public string Commodity_code { get; set; }
+
+        public string FNMBRANCH_CODE { get; set; }
     }
+
 }

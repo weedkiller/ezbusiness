@@ -42,7 +42,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
      
         public List<FF_QTN_VM> GetFF_QTN(string CmpyCode)
         {                                       
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,Total_Profit from FF_QTN001 where Flag=0 and CMPYCODE='" + CmpyCode + "' ");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Commodity_code,FNMBRANCH_CODE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,Total_Profit from FF_QTN001 where Flag=0 and CMPYCODE='" + CmpyCode + "' ");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FF_QTN_VM> ObjList = new List<FF_QTN_VM>();
@@ -70,8 +70,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     Total_Cost= Convert.ToDecimal(dr["Total_Cost"].ToString()),
                     Total_Profit= Convert.ToDecimal(dr["Total_Profit"].ToString()),
                     VESSEL=dr["VESSEL"].ToString(),
-                    VOYAGE=dr["VOYAGE"].ToString()
-                
+                    VOYAGE=dr["VOYAGE"].ToString(),
+                    FNMBRANCH_CODE=dr["FNMBRANCH_CODE"].ToString(),
+                    Commodity_code=dr["Commodity_code"].ToString()
+
 
                 });
             }
@@ -194,7 +196,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select Commodity_code,PZIP,PSTATE,FDZIP,FDSTATE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,Total_Profit from FF_QTN001 where Flag=0 and FF_QTN001_CODE='" + FF_QTN001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMBRANCH_CODE,Commodity_code,PZIP,PSTATE,FDZIP,FDSTATE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,Total_Profit from FF_QTN001 where Flag=0 and FF_QTN001_CODE='" + FF_QTN001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FF_QTN_VM ObjList = new FF_QTN_VM();
@@ -227,6 +229,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.PSTATE = dr["PSTATE"].ToString();
                 ObjList.PZIP = dr["PZIP"].ToString();
                 ObjList.Commodity_code = dr["Commodity_code"].ToString();
+                ObjList.FNMBRANCH_CODE = dr["FNMBRANCH_CODE"].ToString();
             }
             return ObjList;
         }
@@ -513,8 +516,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb4.Append("'" + FQV.FDSTATE + "',");
                             sb4.Append("'" + FQV.FDZIP + "',");
                         sb4.Append("'" + FQV.Commodity_code + "',");
+                        sb4.Append("'" + FQV.FNMBRANCH_CODE + "',");
                         sb4.Append("'" + FQV.Total_Profit + "')");
-                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,PZIP,PSTATE,FDSTATE,FDZIP,Commodity_code,Total_Profit) values(" + sb4.ToString() + "");
+                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,PZIP,PSTATE,FDSTATE,FDZIP,Commodity_code,FNMBRANCH_CODE,Total_Profit) values(" + sb4.ToString() + "");
 
                             #endregion
                             _EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Update FF QTN", FQV.FF_QTN001_CODE, Environment.MachineName);
@@ -572,6 +576,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             FQT1.FDSTATE = FQV.FDSTATE;
                             FQT1.FDZIP = FQV.FDZIP;
                             FQT1.Commodity_code = FQV.Commodity_code;
+                            FQT1.FNMBRANCH_CODE = FQV.FNMBRANCH_CODE;
                             _EzBusinessHelper.ExecuteNonQuery("delete from FF_QTN002 where CmpyCode='" + FQV.CMPYCODE + "' and FF_QTN001_CODE='" + FQV.FF_QTN001_CODE + "'");
                             _EzBusinessHelper.ExecuteNonQuery("delete from FF_QTN003 where CmpyCode='" + FQV.CMPYCODE + "' and FF_QTN001_CODE='" + FQV.FF_QTN001_CODE + "'");
                             _EzBusinessHelper.ExecuteNonQuery("delete from FF_QTN004 where CmpyCode='" + FQV.CMPYCODE + "' and FF_QTN001_CODE='" + FQV.FF_QTN001_CODE + "'");
@@ -828,6 +833,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb9.Append("FDZIP='" + FQV.FDZIP + "',");
                             sb9.Append("FDSTATE='" + FQV.FDSTATE + "',");
                             sb9.Append("Commodity_code='" + FQV.Commodity_code + "',");
+                            sb9.Append("FNMBRANCH_CODE='" + FQV.FNMBRANCH_CODE + "',");
                             sb9.Append("Total_Profit='" + FQV.Total_Profit + "'");
                           
 
@@ -961,6 +967,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         " where a.CMPYCODE = '" + CmpyCode + "' and a.flag = 0 and a.FROM_CURRENCY_CODE = '" + CurCode + "'";
             decimal GetCurRate = _EzBusinessHelper.ExecuteScalarDec(qur);
             return GetCurRate;
+        }
+
+        public List<ComDropTbl> GetBranchListN(string CmpyCode, string Prefix)
+        {
+            return drop.GetCommonDrop("FNMBRANCH_CODE as [Code],DESCRIPTION as [CodeName]", "FNMBRANCH", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FNMBRANCH_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')");
         }
     }
 }

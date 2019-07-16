@@ -107,7 +107,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                 return Json(_FFM_VESSELService.SaveFFM_VESSEL(FNM), JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult GetContainer()
+        public ActionResult GetContainer(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -116,7 +116,19 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(_FFM_VESSELService.GetContainer(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_FFM_VESSELService.GetContainer(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetNationList(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_FFM_VESSELService.GetNationList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 
