@@ -18,7 +18,6 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         public FFM_VESSELController()
         {
             _FFM_VESSELService = new FFM_VESSELService();
-
         }
 
         #region  FNM_AC_COA Master

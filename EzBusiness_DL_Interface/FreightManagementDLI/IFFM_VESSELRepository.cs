@@ -15,7 +15,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
         List<FFM_VESSEL> GetFFM_VESSEL(string CmpyCode);      
         FFM_VESSEL_VM SaveFFM_VESSEL(FFM_VESSEL_VM ac);
         FFM_VESSEL_VM EditFFM_VESSEL(string CmpyCode, string FFM_VESSEL_CODE);
-        List<Nation> GetNationList(string CmpyCode);
+        List<Nation> GetNationList(string CmpyCode,string Prefix);
 
         List<FFM_CNTR> GetContainer(string CmpyCode);
 

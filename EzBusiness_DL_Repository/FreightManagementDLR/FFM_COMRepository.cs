@@ -56,9 +56,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return ObjList;
         }
 
-        public List<FFM_COM_GROUP> GetFFM_COM_GROUP(string CmpyCode)
+        public List<FFM_COM_GROUP> GetFFM_COM_GROUP(string CmpyCode,string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_COM_GROUP_CODE,NAME from FFM_COM_GROUP where CmpyCode='" + CmpyCode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_COM_GROUP_CODE,NAME from FFM_COM_GROUP where CmpyCode='" + CmpyCode + "' and Flag=0 and FFM_COM_GROUP_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%'");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FFM_COM_GROUP> ObjList = new List<FFM_COM_GROUP>();

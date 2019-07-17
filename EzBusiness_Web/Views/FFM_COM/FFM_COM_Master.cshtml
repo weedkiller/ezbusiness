@@ -121,7 +121,7 @@
         });
         /*Save Unit Table */
         $("#btnSave").click(function () {
-
+            debugger;
             var FC = {
                 FFM_COMNew: []
             };
@@ -172,7 +172,7 @@
                                    "'></td></tr>";
                                 $(firstRow).after(newRow);
                             }
-                            else if (codeAdd != '') {
+                            else if (codeAdd !='') {
                                 $(this).closest('tr').css("background", "red");
                             }
                             else {
@@ -191,7 +191,7 @@
                             if (codeAdd != '' && nameAdd != '') {
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
-                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd + "</td><td>" + DivCodeAdd +
+                                var newRow = "<tr><td>" + codeAdd + "</td><td>" + nameAdd + "</td><td>" + C_TYPEAdd +
                                     "</td> ";
                                 newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
                                     "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
@@ -240,7 +240,7 @@
             console.log(thrownError);
         });
 
-
+        var NAME, C_TYPE = '';
         $("#tblUnits").on("click", "[name^='Edit']", function () {
             debugger;
             var n = EzAuthenticationBtn("/COMCategoryMaster", "EditIt");
@@ -268,6 +268,7 @@
                     };
 
                     $.post("/FFM_COM/SaveFFM_COM", FC).done(function (response) {
+                        debugger;
                         docnameTd.text(response.NAME);
                         paydeductonTd.text(response.C_TYPE);
                         hdnEditMode.val("false");
@@ -275,7 +276,6 @@
                         editButton.attr('title', 'Edit');
                         tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                         tr.find("[name^='Delete']").attr('title', 'Delete');
-
                         tableDis("F");
                         EzAlertUpd(hdnDocCode);
                     });
@@ -283,14 +283,17 @@
                         console.log(thrownError);
                     });
                 } else {
-                    var docname = $(tr).find("td:eq(1)").text();
-                    $('#inpdocname').val(docname.trim());
-                    docnameTd.html("<input type='text' class='grid-control' name='txtNAME" + index + "' value='" + docname.trim() + "' />");
-                    var paydeducton = $(tr).find("td:eq(2)").text().trim();
-                    $('#ddlPayDeductOn1').val(paydeducton);
-                    paydeductonTd.html(GetPayDeductOnDDL(index));
-                    paydeductonTd.find("select").val(paydeducton);
+                    FFM_COM_CODE = $(tr).find("td:eq(0)").text();
+                    NAME = $(tr).find("td:eq(1)").text();
+                    C_TYPE = $(tr).find("td:eq(2)").text();
+                   
+                 //   $('#inpdocname').val(DESCRIPTION.trim());
 
+                    docnameTd.html("<input type='text' name='txtNAME" + index + "' value='" + NAME.trim() + "' />");
+                    //paydeductonTd.html("<input type='text' name='ddlPayDeductOn" + index + "' value='" + C_TYPE.trim() + "' />");
+
+                    paydeductonTd.html("<input type='text' name='ddlPayDeductOn" + index + "' value='" + C_TYPE.trim() + "' /><input type='hidden' name='ddl1PayDeductOn" + index + "' value='" + C_TYPE.trim() + "' />");
+                  
                     $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
                     $(this).attr('title', 'Update');
                     hdnEditMode.val("true");
@@ -307,7 +310,7 @@
         });
 
         $("#tblUnits").on("click", "[name^='Delete']", function () {
-            
+            debugger;
             var n = EzAuthenticationBtn("/COMCategoryMaster", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");
@@ -316,8 +319,8 @@
                 var hdnMode = $(this).parent().find('input:hidden:first');
                 var doccode = "";
                 if (hdnMode.val() == "false") {
-
                     const swalWithBootstrapButtons = Swal.mixin({
+
                         confirmButtonClass: 'btn btn-success',
                         cancelButtonClass: 'btn btn-danger',
                         buttonsStyling: false,
@@ -344,7 +347,7 @@
                                         $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
                                     }
                                     tr.remove();
-                                } else {
+                                }else {
                                     EzAlertdele(doccode);
                                 }
                             });
@@ -368,13 +371,19 @@
 
                 }
                 else {
+                    debugger;
+                 
+                    debugger;
                     var nameTd = $(tr).find("td:eq(1)");
                     var paydeductonTd = $(tr).find("td:eq(2)");
+
                     var nameEdit = $('#inpdocname').val();
-                    var paydeductonEdit = $('#ddlPayDeductOn1').val();
                     var hdnEditMode = $(this).parent().find('input:hidden:first');
-                    nameTd.html(nameEdit);
-                    paydeductonTd.html(paydeductonEdit);
+                    //  nameTd.html(nameEdit);
+                    nameTd.html(NAME);
+                    paydeductonTd.html(C_TYPE);
+                   
+
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
                     $(this).html('<span class="glyphicon glyphicon-trash"></span>');
@@ -387,7 +396,9 @@
         });
 
 
-       
+        EzAutotxtEventTbl12("#tblUnits1", "focus", "[name*='ddlPayDeductOn']", "[name*='ddl1PayDeductOn']", "/COMGROUP", false, "");
+
+        EzAutotxtEventTbl12("#tblUnits", "focus", "[name*='ddlPayDeductOn']", "[name*='ddl1PayDeductOn']", "/COMGROUP", false, "");
        
     });
 
@@ -506,12 +517,11 @@ $(document).ready(function(){
                     </td>
                     <td>
                         <div class="grid-group">
-                            <select class="grid-control" name="ddlPayDeductOn1" id="ddlPayDeductOn1"></select>
-
+                            @*<select class="grid-control" name="ddlPayDeductOn1" id="ddlPayDeductOn1"></select>*@
+                            @Html.TextBox(string.Concat("ddlPayDeductOn", counter), null, new { @class = "grid-control" })
+                            @Html.Hidden(string.Concat("ddl1PayDeductOn", counter), null, new { @class = "grid-control" })
                         </div>
                     </td>
-
-
                 </tr>
             </tbody>
         </table>
@@ -530,9 +540,7 @@ $(document).ready(function(){
                             <th>
                                 @Html.DisplayNameFor(model => model.C_TYPE)
                             </th>
-
                             <th></th>
-
                         </tr>
                     </thead>
                     <tfoot>
@@ -563,8 +571,6 @@ $(document).ready(function(){
                                 <td>
                                     @Html.DisplayFor(modelItem => item.C_TYPE)
                                 </td>
-
-
                                 <td>
                                     <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)"><span class="glyphicon glyphicon-pencil"></span></button>
                                     <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)"><span class="glyphicon glyphicon-trash"></span></button>

@@ -5,10 +5,7 @@
     var counter = 1;
 }
 
-
 <script src="~/Scripts/EzComNDW.js"></script>
-
-
 
 <script>
  $(function () {
@@ -27,11 +24,8 @@
 
 <script>
     var Doks = [];   
-
     var paydeductons = [];
-
-    $(function (){
-        
+    $(function (){        
         $("#tblUnits1").hide();      
         $("#btnAdd").click(function () {          
             var n = EzAuthenticationBtn("/Branch_Master", "NewIt");
@@ -59,7 +53,6 @@
         /*Code Tab Event*/
         EztableTabEve("#tblUnits1", "[name*='txtFNMBRANCH_CODE']", "[name *= 'txtDESCRIPTION']", "Please Enter FNMHEAD_CODE", 'T', "");
 
-
         EztableTabEve("#tblUnits1", "[name*='txtDESCRIPTION']", "[name *= 'txtPRINTNAME']", "Please Enter DESCRIPTION", 'T', "");
 
         EztableTabEve("#tblUnits1", "[name*='txtPRINTNAME']", "[name *= 'txtADDRESS']", "Please Enter PRINTNAME", 'T', "");
@@ -72,8 +65,7 @@
         //GetCountryCodes();
         //GetCurrencyCodes();
         /*Add Table Change Event*/
-        $("#tblUnits1").on("change", "[name*='txtFNMBRANCH_CODE']", function () {
-            
+        $("#tblUnits1").on("change", "[name*='txtFNMBRANCH_CODE']", function () {            
             var tr = $(this).closest('tr');
             var tcunt=$("#tblUnits1").find("tr").length;
             drec = [];
@@ -233,7 +225,6 @@
                 FNMBranchDetailsnew: []
             };
             $("#tblUnits1 tbody tr").each(function (index, item) {
-
                 var FNMBRANCH_CODE = $(this).find("[name*='txtFNMBRANCH_CODE']").val();
                 var DESCRIPTION = $(this).find("[name*='txtDESCRIPTION']").val();
                 var SNO = $(this).find("[name*='txtSNO']").val();
@@ -367,8 +358,8 @@
 
             return response;
         }
-        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
-            
+        $("#tblUnits1").on("click", "[name*='btnDelete']", function () { 
+            debugger;
             $(this).closest("tr").remove();
         });
 
@@ -381,6 +372,7 @@
         var DESCRIPTION,PRINTNAME ,ADDRESS,EMAIL ,WEBSITE ,MOBILE ,COUNTRY,CURRENCY,STATE = '';
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
+            debugger;
             var n = EzAuthenticationBtn("/FNMBranch", "EditIt");
             if (n == 1) {
                 var counter = $("#Counter").val();
@@ -479,8 +471,6 @@
                     CURRENCYTd.html("<input type='text' name='txtCURRENCY" + index + "' value='" + CURRENCY.trim() + "' /><input type='hidden' name='txt1CURRENCY" + index + "' value='" + CURRENCY.trim() + "' />");
                     COUNTRYTd.html("<input type='text' name='txtCOUNTRY" + index + "' value='" + COUNTRY.trim() + "' /><input type='hidden' name='txt1COUNTRY" + index + "' value='" + COUNTRY.trim() + "' />");
 
-                   
-
                     //$("[name*='hdnCURRENCY']").val(CURRENCY.trim());
                     //if(CURRENCY.trim()==''){
                     //    CURRENCYTd.html("<select class='grid-control' name='txtCURRENCY" + index + "' id='txtCURRENCY" + index + "'><option value='-1'>-Select-</option</select>");
@@ -488,9 +478,7 @@
                     //    CURRENCYTd.html("<select class='grid-control' name='txtCURRENCY" + index + "' id='txtCURRENCY" + index + "'><option value="+ CURRENCY.trim()  +">"+ CURRENCY.trim()  +"</option</select> <input id='hdnCURRENCY" + index + "'  name='hdnCURRENCY" + index + "' value="+CURRENCY.trim()+" type='hidden' />");
                     //}
                     
-                   
-
-                         
+   
                     ////$("[name*='hdnCOUNTRY']").val(COUNTRY.trim());
 
                     //if(COUNTRY.trim()==''){
@@ -532,8 +520,8 @@
         }
 
 
-        $("#tblUnits").on("click", "[name^='Delete']", function () {
-            
+        $("#tblUnits").on("click", "[name^='Delete']", function () {         
+            debugger;
             var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
             if (n == 1) {
                 var tr = $(this).closest("tr");
@@ -594,7 +582,7 @@
 
                 }
                 else {
-                    
+                    debugger;
                     var nameTd = $(tr).find("td:eq(1)");
                     var DESCRIPTIONTd = $(tr).find("td:eq(2)");
                     var PRINTNAMETd = $(tr).find("td:eq(3)");
@@ -636,7 +624,6 @@
                     $(this).html('<span class="glyphicon glyphicon-trash"></span>');
                     $(this).attr('title', 'Delete');
                     hdnEditMode.val("false");
-
                     tableDis("F");
                 }
             }
@@ -677,7 +664,6 @@ $(document).ready(function(){
     <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
     <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
     <input type="hidden" id="hdnOperationMode" value="" />
-
 </div>
 <label class="row" id="ErrorMessage" style="color:red;">
     <strong></strong>
