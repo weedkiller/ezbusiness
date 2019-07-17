@@ -236,7 +236,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<ComDropTbl> GetMOVEList(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("FFM_MOVE_CODE as [Code],NAME as [CodeName]", "FFM_MOVE", "CMPYCODE='"+ CmpyCode + "' and Flag=0");
+            return drop.GetCommonDrop("FFM_MOVE_CODE as [Code],NAME as [CodeName]", "FFM_MOVE", "CMPYCODE='"+ CmpyCode + "' and Flag=0 and (FFM_MOVE_CODE like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
 
         public FF_QTN_VM SaveFF_QTN_VM(FF_QTN_VM FQV)

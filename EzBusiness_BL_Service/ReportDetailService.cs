@@ -1111,7 +1111,7 @@ namespace EzBusiness_BL_Service
                
                 DivisionList = GetDivCodeList(CmpyCode),
                 Division = list[0].Divcode.ToString(),
-                VisaLocationList = GetVisLocList(CmpyCode),
+               // VisaLocationList = GetVisLocList(CmpyCode),
                 DepartmentList = GetDepartmentList(CmpyCode, list[0].Divcode)
 
             };
@@ -1136,10 +1136,10 @@ namespace EzBusiness_BL_Service
             return items;
         }
 
-        public List<SelectListItem> GetVisLocList(string CmpyCode)
+        public List<SelectListItem> GetVisLocList(string CmpyCode,string Prefix)
         {
-            var itemCodes = _empservice.GetVisaLocationList(CmpyCode)
-                                    .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
+            var itemCodes = _empservice.GetVisaLocationList(CmpyCode, Prefix)
+                                    .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
                                     .ToList();
 
             return InsertFirstElementDDL(itemCodes);

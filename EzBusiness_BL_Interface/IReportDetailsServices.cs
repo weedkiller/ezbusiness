@@ -55,7 +55,7 @@ namespace EzBusiness_BL_Interface
 
         List<SelectListItem> GetDivCodeList(string CmpyCode);
 
-        List<SelectListItem> GetVisLocList(string CmpyCode);
+        List<SelectListItem> GetVisLocList(string CmpyCode,string Prefix);
         List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode);
 
 

@@ -12,57 +12,57 @@ namespace EzBusiness_DL_Interface
     {
         #region Employee Master
 
-        List<CommonTable> GetCommList(string Type);
+        List<ComDropTbl> GetCommList(string Type, string Prefix);
 
-        List<Division> GetDivisionList(string CmpyCode);
+        List<ComDropTbl> GetDivisionList(string CmpyCode, string Prefix);
 
        
 
-        List<Profession> GetProfList(string CmpyCode);
+        List<ComDropTbl> GetProfList(string CmpyCode, string Prefix);
 
 
-        List<ProjectMaster> GetProjects(string CmpyCode);
+        List<ComDropTbl> GetProjects(string CmpyCode, string Prefix);
 
-        List<BankMaster> GetBankList(string CmpyCode);
+        List<ComDropTbl> GetBankList(string CmpyCode, string Prefix);
       //  List<Accounts_Tbl> GetAccList(string CmpyCode,string Typeofacc);
 
       
 
-        List<BankBranchTbl> GetBankBranchList(string CmpyCode,string Branchcode);
+        List<ComDropTbl> GetBankBranchList(string CmpyCode,string Branchcode, string Prefix);
 
-        List<BranchTbl> GetBranchCodeList(string CmpyCode,string divcode);
+        List<ComDropTbl> GetBranchCodeList(string CmpyCode,string divcode, string Prefix);
 
-        List<Department> GetDepartmentList(string CmpyCode, string divcode,string Brancode);
-
-
+        List<ComDropTbl> GetDepartmentList(string CmpyCode, string divcode,string Brancode, string Prefix);
 
 
-        List<Weekdays> GetWeekdaysList(string CmpyCode);
 
-        List<StatusMaster> GetStatusMasterList(string CmpyCode);
 
-        List<Nation> GetNationList(string CmpyCode);
+        List<ComDropTbl> GetWeekdaysList(string CmpyCode, string Prefix);
+
+        List<ComDropTbl> GetStatusMasterList(string CmpyCode, string Prefix);
+
+        List<ComDropTbl> GetNationList(string CmpyCode, string Prefix);
 
       //  List<Discipline> GetDisciplineList(string CmpyCode);
 
-        List<SubTrademaster> GetSubTrademaster(string CmpyCode);
+        List<ComDropTbl> GetSubTrademaster(string CmpyCode, string Prefix);
 
-        List<ShiftMaster> GetShiftMasterList(string CmpyCode);
+        List<ComDropTbl> GetShiftMasterList(string CmpyCode, string Prefix);
 
-        List<VisaLocation> GetVisaLocationList(string CmpyCode);
+        List<ComDropTbl> GetVisaLocationList(string CmpyCode, string Prefix);
 
-        List<TDSTypes> GetTDSTypesList(string CmpyCode);
+        List<ComDropTbl> GetTDSTypesList(string CmpyCode, string Prefix);
 
-        List<PaymentNature> GetPaymentNatureList(string CmpyCode);
+        List<ComDropTbl> GetPaymentNatureList(string CmpyCode, string Prefix);
 
-        List<TDSSection> GetTDSSection(string CmpyCode);
+        List<ComDropTbl> GetTDSSection(string CmpyCode, string Prefix);
 
        // List<EmployeeTypeMaster> GetEmployeeTypeMasterList(string CmpyCode);
 
-        List<Location> GetLocationList(string CmpyCode);
+        List<ComDropTbl> GetLocationList(string CmpyCode, string Prefix);
 
 
-        List<EducationLevel> GetDegreeList(string CmpyCode);
+        List<ComDropTbl> GetDegreeList(string CmpyCode, string Prefix);
 
 
         Employee_VM GetEmployeeMasterDetailsEdit(string CmpyCode, string EmpCode);
@@ -83,11 +83,11 @@ namespace EzBusiness_DL_Interface
 
         List<EducationDetail> GetEducationDetailList(string CmpyCode, string EmpCode);
      
-        List<Documents> GetDocList(string CmpyCode);
+        List<ComDropTbl> GetDocList(string CmpyCode, string Prefix);
 
-        List<Grade> GetSalution();
+        List<ComDropTbl> GetSalution(string Prefix);
 
-        List<Employee> GetEmpList1(string CmpyCode, string empcode);
+        List<ComDropTbl> GetEmpList1(string CmpyCode, string empcode, string Prefix);
 
         bool DeleteEmployee(string CmpyCode, string EmpCode, string UserName);
         #endregion

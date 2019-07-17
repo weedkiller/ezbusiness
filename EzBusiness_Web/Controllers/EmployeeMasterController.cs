@@ -199,7 +199,7 @@ namespace EzBusiness_Web.Controllers
                 return Json(new { DeleteFlag = _employeeService.DeleteEmployee(list[0].CmpyCode, EmpCode,list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }      
-        public ActionResult GetBankList()
+        public ActionResult GetBankList(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -208,10 +208,10 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetBankList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetBankList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }           
         }
-        public ActionResult GetBankBranchList(string BankCode)
+        public ActionResult GetBankBranchList(string PVal1, string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -220,10 +220,10 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetBankBranchList(list[0].CmpyCode, BankCode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetBankBranchList(list[0].CmpyCode, PVal1, Prefix), JsonRequestBehavior.AllowGet);
             }               
         }
-        public ActionResult GetDepartmentList(string divcode, string Brancode)
+        public ActionResult GetDepartmentList(string PVal1, string PVal2, string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -232,11 +232,11 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetDepartmentList(list[0].CmpyCode,divcode,Brancode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetDepartmentList(list[0].CmpyCode, PVal1, PVal2, Prefix), JsonRequestBehavior.AllowGet);
             }             
         }
 
-        public ActionResult GetBranchCodeList()
+        public ActionResult GetBranchCodeList(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -245,7 +245,21 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetBranchCodeList(list[0].CmpyCode,list[0].Divcode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetBranchCodeList(list[0].CmpyCode,list[0].Divcode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        
+        public ActionResult GetProjectList(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_employeeService.GetProjectList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -265,7 +279,7 @@ namespace EzBusiness_Web.Controllers
             //return File(filePath, "application/pdf");
         }
 
-        public ActionResult GetBranchCodeList1(string divcode)
+        public ActionResult GetBranchCodeList1(string PVal1, string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -274,7 +288,7 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetBranchCodeList(list[0].CmpyCode, divcode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetBranchCodeList(list[0].CmpyCode, PVal1, Prefix), JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -290,7 +304,7 @@ namespace EzBusiness_Web.Controllers
         //        return Json(_employeeService.GetDisciplineList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
         //    }               
         //}
-        public ActionResult GetDivisionList()
+        public ActionResult GetDivisionList(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -299,8 +313,20 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetDivisionList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetDivisionList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }           
+        }
+        public ActionResult GetNationList(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_employeeService.GetNationList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
         }
         //public ActionResult GetEmployeeTypeMasterList()
         //{
@@ -314,7 +340,7 @@ namespace EzBusiness_Web.Controllers
         //        return Json(_employeeService.GetEmployeeTypeMasterList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
         //    }            
         //}
-        public ActionResult GetWeekdaysList()
+        public ActionResult GetWeekdaysList(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -323,10 +349,10 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetWeekdaysList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetWeekdaysList(list[0].CmpyCode,Prefix), JsonRequestBehavior.AllowGet);
             }            
         }
-        public ActionResult GetProfList()
+        public ActionResult GetProfList(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -335,10 +361,11 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetProfList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetProfList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }             
         }
-        public ActionResult GetVisaLocationList()
+        
+             public ActionResult GetLocationList(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -347,10 +374,34 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetVisaLocationList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetLocationList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetVisaLocationList(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_employeeService.GetVisaLocationList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }             
         }
-        public ActionResult GetTDSTypesList()
+        public ActionResult GetStatusMasterList(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_employeeService.GetStatusMasterList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetTDSTypesList(string Prefix)
 
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -360,10 +411,10 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetTDSTypesList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetTDSTypesList(list[0].CmpyCode,Prefix), JsonRequestBehavior.AllowGet);
             }             
         }
-        public ActionResult GetTDSSection()
+        public ActionResult GetTDSSection(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -372,10 +423,10 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetTDSSection(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetTDSSection(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }             
         }
-        public ActionResult GetSubTrademaster()
+        public ActionResult GetSubTrademaster(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -384,10 +435,10 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetSubTrademaster(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetSubTrademaster(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }             
         }
-        public ActionResult GetShiftMasterList()
+        public ActionResult GetShiftMasterList(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -396,29 +447,42 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_employeeService.GetShiftMasterList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_employeeService.GetShiftMasterList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult GetCommList( )
-        {           
-                return Json(_employeeService.GetCommList("ATTTYPE"), JsonRequestBehavior.AllowGet);                       
+        public ActionResult GetCommList(string Prefix,string PVal1)
+        {           //"ATTTYPE"
+            return Json(_employeeService.GetCommList(PVal1, Prefix), JsonRequestBehavior.AllowGet);                       
         }
-        public ActionResult GetCommList1()
-        {
-            return Json(_employeeService.GetCommList("OTMULTIPLIER"), JsonRequestBehavior.AllowGet);
+        public ActionResult GetEmpList1(string Prefix, string PVal1)
+        {           //"ATTTYPE"
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_employeeService.GetEmpList1(list[0].CmpyCode, PVal1, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
 
-        }
-        public ActionResult GetCommList2()
-        {
-            return Json(_employeeService.GetCommList("BLOODGROUP"), JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult GetCommList3()
-        {            
-            return Json(_employeeService.GetCommList("BLOODGROUP"), JsonRequestBehavior.AllowGet);
-        }
-        public ActionResult GetCommList4()
-        {           
-            return Json(_employeeService.GetCommList("REGION"), JsonRequestBehavior.AllowGet);                  
-        }
+        //public ActionResult GetCommList1(string Prefix)
+        //{
+        //    return Json(_employeeService.GetCommList("OTMULTIPLIER", Prefix), JsonRequestBehavior.AllowGet);
+
+        //}
+        //public ActionResult GetCommList2(string Prefix)
+        //{
+        //    return Json(_employeeService.GetCommList("BLOODGROUP", Prefix), JsonRequestBehavior.AllowGet);
+        //}
+        //public ActionResult GetCommList3(string Prefix)
+        //{            
+        //    return Json(_employeeService.GetCommList("BLOODGROUP", Prefix), JsonRequestBehavior.AllowGet);
+        //}
+        //public ActionResult GetCommList4(string Prefix)
+        //{           
+        //    return Json(_employeeService.GetCommList("REGION", Prefix), JsonRequestBehavior.AllowGet);                  
+        //}
     }
 }

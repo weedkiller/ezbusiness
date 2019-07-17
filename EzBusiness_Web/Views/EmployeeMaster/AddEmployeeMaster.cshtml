@@ -13,6 +13,8 @@
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 
 <script>
     function readURL(input) {
@@ -105,55 +107,74 @@
             });
         });
         $('.selectpicker').selectpicker('refresh');
-        $('#DivisionCode').change(function () {           
-            var divcode = $('#DivisionCode option:selected').val();
-            $.get("EmployeeMaster/GetBranchCodeList1", { divcode: divcode }).done(function (response) {
-                $('#BranchCode').empty();
-                $('#DepartmentCode').empty();
-                var ary = [];
-                ary = response;
-                for (var i = 0; i < ary.length; i++) {
-                    $('#BranchCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                }
-                $('#DepartmentCode').append('<option value="0" selected="">-Select-</option>');
-                $('#BranchCode').val(0);
-                $('#DepartmentCode').val(0);
-                $('.selectpicker').selectpicker('refresh');
-            });
-        });
-        $('#BranchCode').change(function () {           
-            var divcode = $('#DivisionCode option:selected').val();
-            var Brancode = $('#BranchCode option:selected').val();
-            $.get("EmployeeMaster/GetDepartmentList", { divcode: divcode, Brancode: Brancode }).done(function (response) {
-                $('#DepartmentCode').empty();
-                var ary = [];
-                ary = response;
-                for (var i = 0; i < ary.length; i++) {
-                    $('#DepartmentCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                }
-                $('#DepartmentCode').val(0);
-                $('.selectpicker').selectpicker('refresh');
-            });
-        });
+        //$('#DivisionCode').change(function () {           
+        //    var divcode = $('#DivisionCode option:selected').val();
+        //    $.get("EmployeeMaster/GetBranchCodeList1", { divcode: divcode }).done(function (response) {
+        //        $('#BranchCode').empty();
+        //        $('#DepartmentCode').empty();
+        //        var ary = [];
+        //        ary = response;
+        //        for (var i = 0; i < ary.length; i++) {
+        //            $('#BranchCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+        //        }
+        //        $('#DepartmentCode').append('<option value="0" selected="">-Select-</option>');
+        //        $('#BranchCode').val(0);
+        //        $('#DepartmentCode').val(0);
+        //        $('.selectpicker').selectpicker('refresh');
+        //    });
+        //});
+        //$('#BranchCode').change(function () {           
+        //    var divcode = $('#DivisionCode option:selected').val();
+        //    var Brancode = $('#BranchCode option:selected').val();
+        //    $.get("EmployeeMaster/GetDepartmentList", { divcode: divcode, Brancode: Brancode }).done(function (response) {
+        //        $('#DepartmentCode').empty();
+        //        var ary = [];
+        //        ary = response;
+        //        for (var i = 0; i < ary.length; i++) {
+        //            $('#DepartmentCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+        //        }
+        //        $('#DepartmentCode').val(0);
+        //        $('.selectpicker').selectpicker('refresh');
+        //    });
+        //});
 
 
-        $('#BankCode').change(function () {           
-            var BanCode = $('#BankCode option:selected').val();           
-            $.get("EmployeeMaster/GetBankBranchList", { BankCode: BanCode }).done(function (response) {
-                $('#BankBranchCode').empty();
-                var ary = [];
-                ary = response;
-                for (var i = 0; i < ary.length; i++) {
-                    $('#BankBranchCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                }
-                $('#BankBranchCode').val(0);
-                $('.selectpicker').selectpicker('refresh');
-            });
-        });
+        //$('#BankCode').change(function () {           
+        //    var BanCode = $('#BankCode option:selected').val();           
+        //    $.get("EmployeeMaster/GetBankBranchList", { BankCode: BanCode }).done(function (response) {
+        //        $('#BankBranchCode').empty();
+        //        var ary = [];
+        //        ary = response;
+        //        for (var i = 0; i < ary.length; i++) {
+        //            $('#BankBranchCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+        //        }
+        //        $('#BankBranchCode').val(0);
+        //        $('.selectpicker').selectpicker('refresh');
+        //    });
+        //});
 
-
-       
-
+        //txtautocomplete
+        EzAutoCompTxtEParV1("#BloodGroup", "#hdnBloodGroup", "EmployeeMaster/GetCommList", false, "", "BLOODGROUP");
+        EzAutoCompTxtE("#Nationality", "#hdnNationality", "EmployeeMaster/GetNationList", false, "");
+        EzAutoCompTxtEParV1("#Religion", "#hdnReligion", "EmployeeMaster/GetCommList", false, "", "REGION");
+        EzAutoCompTxtE("#WorkingStatus", "#hdnWorkingStatus", "EmployeeMaster/GetStatusMasterList", false, "");
+        EzAutoCompTxtE("#LocCode", "#hdnLocCode", "EmployeeMaster/GetLocationList", false, "");        
+        EzAutoCompTxtE("#Week_off1", "#hdnWeek_off1", "EmployeeMaster/GetWeekdaysList", false, "");
+        EzAutoCompTxtE("#Week_off2", "#hdnWeek_off2", "EmployeeMaster/GetWeekdaysList", false, "");
+        EzAutoCompTxtE("#DivisionCode", "#hdnDivisionCode", "EmployeeMaster/GetDivisionList", false, "");
+        
+        EzAutoCompTxtEParV1("#ReportingEmp", "#hdnReportingEmp", "EmployeeMaster/GetCommList", false, "", "SELF");
+        EzAutoCompTxtEPar1("#BranchCode", "#hdnBranchCode", "EmployeeMaster/GetBranchCodeList1", false,"",  "#hdnDivisionCode");
+        EzAutoCompTxtEPar2("#DepartmentCode", "#hdnDepartmentCode", "EmployeeMaster/GetDepartmentList", false,"",  "#hdnDivisionCode",  "#hdnBranchCode");
+        EzAutoCompTxtE("#ProjectCode", "#hdnProjectCode", "EmployeeMaster/GetProjectList", false, "");
+        EzAutoCompTxtE("#BankCode", "#hdnBankCode", "EmployeeMaster/GetBankList", false, "");
+        EzAutoCompTxtE("#ProfCode", "#hdnProfCode", "EmployeeMaster/GetProfList", false, "");
+        EzAutoCompTxtE("#VisaLocation", "#hdnVisaLocation", "EmployeeMaster/GetVisaLocationList", false, "");
+        
+        EzAutoCompTxtpar1("#BankBranchCode", "#hdnBankBranchCode", "EmployeeMaster/GetBankBranchList", false, "", "BankCode", "#hdnBankCode");
+        
+        
+        //ReportingEmp
         Eary = [];
         Eary.push('input[name="AbscondingDate1"]');
        // Eary.push('input[name="RetirementDate"]');
@@ -168,16 +189,16 @@
         Eary.push("input[name='AbscondingYN']");
         EzsetNtxt(Eary);
 
-        if ($('#DepartmentCode').val() != '0')
-        {
-            $('#DepartmentCode').attr('disabled' , 'disabled')
-        }
-        if ($('#DivisionCode').val() != '0') {
-            $('#DivisionCode').attr('disabled', 'disabled')
-        }
-        if ($('#BranchCode').val() != '0') {
-            $('#BranchCode').attr('disabled', 'disabled')
-        }
+        //if ($('#DepartmentCode').val() != '0')
+        //{
+        //    $('#DepartmentCode').attr('disabled' , 'disabled')
+        //}
+        //if ($('#DivisionCode').val() != '0') {
+        //    $('#DivisionCode').attr('disabled', 'disabled')
+        //}
+        //if ($('#BranchCode').val() != '0') {
+        //    $('#BranchCode').attr('disabled', 'disabled')
+        //}
         EzcheckedFn("input[name='LeaveStatus']", "[name*='LeaveStatus']");
         EzcheckedFn("input[name='SupervisorYN']", "[name*='SupervisorYN']");
         EzcheckedFnS("input[name='PhysicallyDisabledYN']", "[name*='PhysicallyDisabledYN']", "input[name='PhysicallyDisabled']");
@@ -480,7 +501,9 @@
                 <div class="col-md-12 form-group addformheight">
                     <label class="control-label emptxt col-xs-5 col-md-5">Blood Group</label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.BloodGroup, Model.BloodGroupList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.BloodGroup, Model.BloodGroupList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.BloodGroup, new { @class = "form-control", @placeholder = "Select Blood Group" })
+                        <input id="hdnBloodGroup" type="hidden" class="form-control" name="hdnBloodGroup" value="-1" />      
                     </div>
                 </div>
                 <div class="col-md-12 form-group addformheight">
@@ -506,7 +529,9 @@
                 <div class="col-md-12 form-group addformheight">
                     <label class="control-label emptxt col-xs-5 col-md-5">Nationality <i class="star">*</i></label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.Nationality, Model.NationalityList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.Nationality, Model.NationalityList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.Nationality, new { @class = "form-control", @placeholder = "Select Nationality" })
+                        <input id="hdnNationality" type="hidden" class="form-control" name="hdnNationality" value="-1" /> 
                     </div>
                 </div>
                 <div class="col-md-12 form-group addformheight">
@@ -518,7 +543,9 @@
                 <div class="col-md-12 form-group addformheight">
                     <label class="control-label emptxt col-xs-5 col-md-5">Religion <i style="color:red;">*</i></label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.Religion, Model.ReligionList, new { @class = "form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.Religion, Model.ReligionList, new { @class = "form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.Religion, new { @class = "form-control", @placeholder = "Select Religion" })
+                        <input id="hdnReligion" type="hidden" class="form-control" name="hdnReligion" value="-1" />
                     </div>
                 </div>
 
@@ -546,13 +573,17 @@
                 <div class="col-md-12 form-group addformheight">
                     <label class="control-label emptxt col-xs-5 col-md-3">Status</label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.WorkingStatus, Model.WorkingStatusList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.WorkingStatus, Model.WorkingStatusList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.WorkingStatus, new { @class = "form-control", @placeholder = "Select Working Status" })
+                        <input id="hdnWorkingStatus" type="hidden" class="form-control" name="hdnWorkingStatus" value="-1" />
                     </div>
                 </div>
                 <div class="col-md-12 form-group addformheight">
                     <label class="control-label emptxt col-xs-5 col-md-3">Location</label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.LocCode, Model.LocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.LocCode, Model.LocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.LocCode, new { @class = "form-control", @placeholder = "Select LocCode" })
+                        <input id="hdnLocCode" type="hidden" class="form-control" name="hdnLocCode" value="-1" />
                     </div>
                 </div>
                
@@ -637,13 +668,18 @@
                 <div class="col-md-12 form-group addformheight">
                     <label class="control-label emptxt col-xs-5 col-md-5">Weekly Off 1</label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.Week_off1, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.Week_off1, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+
+                        @Html.TextBoxFor(m => m.Week_off1, new { @class = "form-control", @placeholder = "Select Week off1" })
+                        <input id="hdnWeek_off1" type="hidden" class="form-control" name="hdnWeek_off1" value="-1" />
                     </div>
                 </div>
                 <div class="col-md-12 form-group addformheight">
                     <label class="control-label emptxt col-xs-5 col-md-5">Weekly Off 2</label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.Week_off2, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.Week_off2, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.Week_off2, new { @class = "form-control", @placeholder = "Select Week off2" })
+                        <input id="hdnWeek_off2" type="hidden" class="form-control" name="hdnWeek_off2" value="-1" />
                     </div>
                 </div>
                 <div class="col-md-12 form-group addformheight">
@@ -834,7 +870,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Group<i class="star">*</i></label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.DivisionCode, new { @class = "form-control", @placeholder = "Select Division Code" })
+                                            <input id="hdnDivisionCode" type="hidden" class="form-control" name="hdnDivisionCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -843,7 +881,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Bank</label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.BankCode, Model.BankList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.BankCode, Model.BankList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.BankCode, new { @class = "form-control", @placeholder = "Select Bank Code" })
+                                            <input id="hdnBankCode" type="hidden" class="form-control" name="hdnBankCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -853,7 +893,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Branch Code</label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.BranchCode, Model.BranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.BranchCode, Model.BranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.BranchCode, new { @class = "form-control", @placeholder = "Select Branch Code" })
+                                            <input id="hdnBranchCode" type="hidden" class="form-control" name="hdnBranchCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -861,7 +903,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Bank Branch</label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.BankBranchCode, Model.BankBranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.BankBranchCode, Model.BankBranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.BankBranchCode, new { @class = "form-control", @placeholder = "Select Bank Branch Code" })
+                                            <input id="hdnBankBranchCode" type="hidden" class="form-control" name="hdnBankBranchCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -872,7 +916,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Department</label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.DepartmentCode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.DepartmentCode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.DepartmentCode, new { @class = "form-control", @placeholder = "Select Department Code" })
+                                            <input id="hdnDepartmentCode" type="hidden" class="form-control" name="hdnDepartmentCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -893,7 +939,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Project</label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.ProjectCode, new { @class = "form-control", @placeholder = "Select Project Code" })
+                                            <input id="hdnProjectCode" type="hidden" class="form-control" name="hdnProjectCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -920,7 +968,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Reporting To<i style="color:red;">*</i></label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.ReportingEmp, Model.ReportingEmpList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.ReportingEmp, Model.ReportingEmpList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.ReportingEmp, new { @class = "form-control", @placeholder = "Select Reporting Emp" })
+                                            <input id="hdnReportingEmp" type="hidden" class="form-control" name="hdnReportingEmp" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -929,7 +979,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Profession<i style="color:red;">*</i></label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.ProfCode, Model.ProfList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.ProfCode, Model.ProfList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.ProfCode, new { @class = "form-control", @placeholder = "Select Prof Code" })
+                                            <input id="hdnProfCode" type="hidden" class="form-control" name="hdnProfCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -941,7 +993,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Blood Group</label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.BloodGroup, Model.BloodGroupList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.BloodGroup, Model.BloodGroupList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.BloodGroup, new { @class = "form-control", @placeholder = "Select Blood Group" })
+                                            <input id="hdnBloodGroup" type="hidden" class="form-control" name="hdnBloodGroup" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1101,7 +1155,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Visa Location<i style="color:red;">*</i></label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.VisaLocation, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.VisaLocation, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.VisaLocation, new { @class = "form-control", @placeholder = "Select Visa Location" })
+                                            <input id="hdnVisaLocation" type="hidden" class="form-control" name="hdnVisaLocation" value="-1" />      
                                         </div>
                                     </div>
                                 </div>
@@ -1134,7 +1190,12 @@
                                         <tr>
                                             <td>
                                                 <div class="grid-group">
-                                                    @Html.DropDownList(string.Concat("DocCode", counter), Model.DocList, new { @class = "grid-control" })
+                                                    @*@Html.DropDownList(string.Concat("DocCode", counter), Model.DocList, new { @class = "grid-control" })*@
+                                                    @Html.Hidden(string.Concat("txt1DocCode", counter2), null, new { @class = "grid-control" })
+
+                                                    @Html.TextBox(string.Concat("txtDocCode", counter2), null, new { @class = "grid-control" })
+
+
                                                 </div>
                                             </td>
                                             <td>
@@ -1266,7 +1327,10 @@
                             </td>
                             <td>
                                 <div class="grid-group">
-                                    @Html.DropDownList(string.Concat("Degree", counter2), Model.DegreeList, new { @class = "grid-control" })
+                                    @*@Html.DropDownList(string.Concat("Degree", counter2), Model.DegreeList, new { @class = "grid-control" })*@
+                                    @Html.Hidden(string.Concat("txt1Degree", counter2), null, new { @class = "grid-control" })
+
+                                    @Html.TextBox(string.Concat("txtDegree", counter2), null, new { @class = "grid-control" })
                                 </div>
                             </td>
 

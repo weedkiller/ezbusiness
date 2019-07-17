@@ -14,59 +14,59 @@ namespace EzBusiness_BL_Interface
     public interface  IEmployeeMgmtService
     {
 
-        List<SelectListItem> GetCommList(string Type);
-        List<SelectListItem> GetDivisionList(string CmpyCode);
+        List<SelectListItem> GetCommList(string Type,string Prefix);
+        List<SelectListItem> GetDivisionList(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetProfList(string CmpyCode);
+        List<SelectListItem> GetProfList(string CmpyCode, string Prefix);
 
-        List<SelectListItem>  GetBankList(string CmpyCode);
+        List<SelectListItem>  GetBankList(string CmpyCode, string Prefix);
        // List<SelectListItem> GetAccList(string CmpyCode, string Typeofacc);
       
 
 
 
-        List<SelectListItem> GetBankBranchList(string CmpyCode, string BankCode);
+        List<SelectListItem> GetBankBranchList(string CmpyCode, string BankCode, string Prefix);
 
-        List<SelectListItem> GetBranchCodeList(string CmpyCode, string DivCode);
-        List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode, string Brancode);
+        List<SelectListItem> GetBranchCodeList(string CmpyCode, string DivCode, string Prefix);
+        List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode, string Brancode, string Prefix);
 
-        List<SelectListItem> GetWeekdaysList(string CmpyCode);
+        List<SelectListItem> GetWeekdaysList(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetStatusMasterList(string CmpyCode);
+        List<SelectListItem> GetStatusMasterList(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetNationList(string CmpyCode);
+        List<SelectListItem> GetNationList(string CmpyCode, string Prefix);
 
       //  List<SelectListItem> GetDisciplineList(string CmpyCode);
 
-        List<SelectListItem> GetSubTrademaster(string CmpyCode);
+        List<SelectListItem> GetSubTrademaster(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetShiftMasterList(string CmpyCode);
+        List<SelectListItem> GetShiftMasterList(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetVisaLocationList(string CmpyCode);
+        List<SelectListItem> GetVisaLocationList(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetTDSTypesList(string CmpyCode);
+        List<SelectListItem> GetTDSTypesList(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetPaymentNatureList(string CmpyCode);
+        List<SelectListItem> GetPaymentNatureList(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetTDSSection(string CmpyCode);
+        List<SelectListItem> GetTDSSection(string CmpyCode, string Prefix);
 
        // List<SelectListItem> GetEmployeeTypeMasterList(string CmpyCode);
 
-        List<SelectListItem> GetLocationList(string CmpyCode);
+        List<SelectListItem> GetLocationList(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetDocList(string CmpyCode);
+        List<SelectListItem> GetDocList(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetResidingYNList(string Type);
+        List<SelectListItem> GetResidingYNList(string Type, string Prefix);
 
-        List<SelectListItem> GetBloodGroupList(string Type);
+        List<SelectListItem> GetBloodGroupList(string Type, string Prefix);
 
-        List<SelectListItem> GetDegreeList(string Cmpycode);
+        List<SelectListItem> GetDegreeList(string Cmpycode, string Prefix);
 
-        List<SelectListItem> GetEmpList1(string cmpycode, string empcode);
+        List<SelectListItem> GetEmpList1(string cmpycode, string empcode, string Prefix);
 
-        List<SelectListItem> GetSalution();
+        List<SelectListItem> GetSalution( string Prefix);
 
-        List<SelectListItem> GetProjectList(string Cmpycode);
+        List<SelectListItem> GetProjectList(string Cmpycode, string Prefix);
 
 
         Employee_VM GetEmployeeMasterDetailsEdit(string CmpyCode, string EmpCode,string DivCode);
