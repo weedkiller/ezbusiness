@@ -7,6 +7,7 @@ using EzBusiness_DL_Interface.FreightManagementDLI;
 using EzBusiness_DL_Repository.FreightManagementDLR;
 using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
+using System.Web.Mvc;
 
 namespace EzBusiness_BL_Interface.FreightManagementBLI
 {
@@ -17,7 +18,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
         FFM_COM_VM SaveFFM_COM(FFM_COM_VM FC);
         bool DeleteFFM_COM(string FFM_COM_CODE, string CmpyCode, string UserName);
 
-        List<FFM_COM_GROUP> GetFFM_COM_GROUP(string CmpyCode);
+        List<SelectListItem> GetFFM_COM_GROUP(string CmpyCode,string Prefix);
         #endregion
     }
 }

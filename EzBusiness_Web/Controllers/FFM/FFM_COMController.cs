@@ -71,7 +71,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
         }
         [Route("COMGROUP")]
-        public ActionResult COMGROUPCode(string CmpyCode)
+        public ActionResult COMGROUPCode(string CmpyCode,string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -80,7 +80,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(_FFMCOMService.GetFFM_COM_GROUP(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_FFMCOMService.GetFFM_COM_GROUP(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
 
 

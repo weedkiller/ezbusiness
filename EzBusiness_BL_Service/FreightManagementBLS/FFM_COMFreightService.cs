@@ -8,6 +8,7 @@ using EzBusiness_DL_Interface.FreightManagementDLI;
 using EzBusiness_DL_Repository.FreightManagementDLR;
 using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
+using System.Web.Mvc;
 
 namespace EzBusiness_BL_Service.FreightManagementBLS
 {
@@ -37,13 +38,18 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             }).ToList();
         }
 
-        public List<FFM_COM_GROUP> GetFFM_COM_GROUP(string CmpyCode)
+        public List<SelectListItem> GetFFM_COM_GROUP(string CmpyCode,string Prefix)
         {
-            return _FFMCOMRepo.GetFFM_COM_GROUP(CmpyCode).Select(m => new FFM_COM_GROUP
-            {                
-                FFM_COM_GROUP_CODE = m.FFM_COM_GROUP_CODE,
-                NAME = m.NAME,
-            }).ToList();
+            //return _FFMCOMRepo.GetFFM_COM_GROUP(CmpyCode, Prefix).Select(m => new FFM_COM_GROUP
+            //{                
+            //    FFM_COM_GROUP_CODE = m.FFM_COM_GROUP_CODE,
+            //    NAME = m.NAME,
+            //}).ToList();
+
+            var GroupList  = _FFMCOMRepo.GetFFM_COM_GROUP(CmpyCode, Prefix)
+                                       .Select(m => new SelectListItem { Value = m.FFM_COM_GROUP_CODE, Text = string.Concat(m.FFM_COM_GROUP_CODE, " - ", m.NAME) })
+                                       .ToList();
+            return GroupList;
         }
 
         public FFM_COM_VM SaveFFM_COM(FFM_COM_VM FC)
