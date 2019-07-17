@@ -45,7 +45,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         }
         public List<FNMBranch> GetFNMBranch(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,STATE from FNMBRANCH where CMPYCODE='" + CmpyCode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,STATE,DIVISION from FNMBRANCH where CMPYCODE='" + CmpyCode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FNMBranch> ObjList = new List<FNMBranch>();
@@ -63,7 +63,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     MOBILE = dr["MOBILE"].ToString(),
                     CURRENCY = dr["CURRENCY"].ToString(),
                     COUNTRY = dr["COUNTRY"].ToString(),
-                    STATE=dr["STATE"].ToString()
+                    STATE=dr["STATE"].ToString(),
+                    DIVISION=dr["DIVISION"].ToString()
                 });
             }
             return ObjList;
@@ -90,7 +91,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         MOBILE = m.MOBILE,
                         CURRENCY = m.CURRENCY,
                         COUNTRY = m.COUNTRY,
-                        STATE = m.STATE
+                        STATE = m.STATE,
+                        DIVISION=m.DIVISION,
                     }).ToList());
                     int n = 0;
                     n = ObjList.Count;
@@ -113,9 +115,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb.Append("'" + ObjList[n - 1].MOBILE + "',");
                             sb.Append("'" + ObjList[n - 1].CURRENCY + "',");
                             sb.Append("'" + ObjList[n - 1].COUNTRY + "',");
+                            sb.Append("'" + ObjList[n - 1].DIVISION + "',");
                             sb.Append("'" + ObjList[n - 1].STATE + "')");
 
-                            _EzBusinessHelper.ExecuteNonQuery("insert into FNMBRANCH(FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,STATE) values(" + sb.ToString() + "");
+                            _EzBusinessHelper.ExecuteNonQuery("insert into FNMBRANCH(FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,DIVISION,STATE) values(" + sb.ToString() + "");
                             _EzBusinessHelper.ActivityLog(branch.CMPYCODE, branch.UserName, "Add FN Category", branch.FNMBRANCH_CODE, Environment.MachineName);
                             branch.SaveFlag = true;
                             branch.ErrorMessage = string.Empty;
@@ -148,6 +151,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     sb.Append("MOBILE='" + branch.MOBILE + "',");
                     sb.Append("CURRENCY='" + branch.CURRENCY + "',");
                     sb.Append("COUNTRY='" + branch.COUNTRY + "',");
+                    sb.Append("DIVISION='" + branch.DIVISION + "',");
                     sb.Append("STATE='" + branch.STATE + "'"); 
                     _EzBusinessHelper.ExecuteNonQuery("update FNMBRANCH set  " + sb + " where CmpyCode='" + branch.CMPYCODE + "' and FNMBRANCH_CODE='" + branch.FNMBRANCH_CODE + "' and Flag=0");
 
@@ -175,7 +179,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public FNMBranch_VM EditFNMBranch(string CmpyCode,string BranchCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,STATE from FNMBRANCH where CMPYCODE='" + CmpyCode + "' and FNMBRANCH_CODE='" + BranchCode + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select DIVISION,FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,STATE from FNMBRANCH where CMPYCODE='" + CmpyCode + "' and FNMBRANCH_CODE='" + BranchCode + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FNMBranch_VM ObjList = new FNMBranch_VM();
@@ -193,9 +197,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 ObjList.CURRENCY = dr["CURRENCY"].ToString();
                 ObjList.COUNTRY = dr["COUNTRY"].ToString();
                 ObjList.STATE = dr["STATE"].ToString();
-                
+                ObjList.DIVISION = dr["DIVISION"].ToString();
+
             }
             return ObjList;
+        }
+
+        public List<ComDropTbl> GetDivisionList(string CmpyCode, string Prefix)
+        {
+            return drop.GetCommonDrop("DivisionCode as [Code],DivisionName as [CodeName]", "MDIV011", " Flag=0 and (DivisionCode like '" + Prefix + "%' or DivisionName like '" + Prefix + "%')");
         }
     }
 }

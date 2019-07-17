@@ -322,6 +322,14 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_QTNRepo.GetCurRate(CmpyCode, CurCode);
         }
 
+        public List<SelectListItem> GetBranchListN(string CmpyCode, string Prefix)
+        {
+            var BranchList = _FF_QTNRepo.GetBranchListN(CmpyCode, Prefix)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                           .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code } )
+                                           .ToList();
+            return BranchList;
+        }
+
 
 
 

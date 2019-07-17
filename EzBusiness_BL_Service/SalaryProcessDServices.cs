@@ -74,8 +74,8 @@ namespace EzBusiness_BL_Service
         {
             var poedit = _salaryrepo.GetSalaryProcessEdit(CmpyCode, PRSFT001_code);
             poedit.DivisionList = GetDivCodeList(CmpyCode);
-            poedit.VisaLocationList = GetVisLocList(CmpyCode);               
-            poedit.VisaLocationList = GetVisLocList(CmpyCode);
+            //poedit.VisaLocationList = GetVisLocList(CmpyCode);               
+            //poedit.VisaLocationList = GetVisLocList(CmpyCode);
             poedit.DepartmentList = GetDepartmentList(CmpyCode, poedit.DivisionCode);
          //   poedit.salaryList = GetSalaryProcessGridEdit(poedit.year,poedit.Month,poedit.CmpyCode);
 
@@ -105,7 +105,7 @@ namespace EzBusiness_BL_Service
                 PRSP001_Code = _CodeRep.GetCode(CmpyCode,"SalaryProcess"),
                 DivisionList = GetDivCodeList(CmpyCode),
                 DivisionCode = list[0].Divcode.ToString(),
-                VisaLocationList =GetVisLocList(CmpyCode),
+                //VisaLocationList =GetVisLocList(CmpyCode),
                DepartmentList =GetDepartmentList(CmpyCode,list[0].Divcode)
 
             };
@@ -194,10 +194,10 @@ namespace EzBusiness_BL_Service
             return items;
         }
 
-        public List<SelectListItem> GetVisLocList(string CmpyCode)
+        public List<SelectListItem> GetVisLocList(string CmpyCode,string Prefix)
         {
-            var itemCodes = _empservice.GetVisaLocationList(CmpyCode)
-                                    .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
+            var itemCodes = _empservice.GetVisaLocationList(CmpyCode, Prefix)
+                                    .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
                                     .ToList();
 
             return InsertFirstElementDDL(itemCodes);

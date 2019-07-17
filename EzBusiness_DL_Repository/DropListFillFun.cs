@@ -872,6 +872,24 @@ namespace EzBusiness_DL_Repository
             return ObjList;
         }
 
+        public List<ComDropTbl> GetCommonDrop2(string query)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet1(query);// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<ComDropTbl> ObjList = new List<ComDropTbl>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new ComDropTbl()
+                {
+                    Code = dr["Code"].ToString(),
+                    CodeName = dr["CodeName"].ToString(),
+
+                });
+            }
+            return ObjList;
+        }
+
         public List<ComDropTbl1> GetCommonDrop1(string colname, string tblname, string condition)
         {
             ds = _EzBusinessHelper.ExecuteDataSet1("Select " + colname + " from " + tblname + " where " + condition + "");// 

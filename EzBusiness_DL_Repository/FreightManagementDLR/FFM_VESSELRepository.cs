@@ -151,26 +151,28 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return FVS;
         }
 
-        public List<Nation> GetNationList(string CmpyCode)
+        public List<ComDropTbl> GetNationList(string CmpyCode,string Prefix)
         {
-            return drop.GetNationList(CmpyCode);
+            //return drop.GetNationList(CmpyCode);
+            return drop.GetCommonDrop("CODE as [Code],NAME as [CodeName]", "MNAT019", "CMPYCODE='" + CmpyCode + "' and (CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
 
-        public List<FFM_CNTR> GetContainer(string CmpyCode)
+        public List<ComDropTbl> GetContainer(string CmpyCode,string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CNTR_CODE,NAME from FFM_CNTR where CmpyCode='" + CmpyCode + "' and Flag=0");// 
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<FFM_CNTR> ObjList = new List<FFM_CNTR>();
-            foreach (DataRow dr in drc)
-            {
-                ObjList.Add(new FFM_CNTR()
-                {
-                    FFM_CNTR_CODE = dr["FFM_CNTR_CODE"].ToString(),
-                    NAME = dr["NAME"].ToString()
-                });
-            }
-            return ObjList;
+            return drop.GetCommonDrop("FFM_CNTR_CODE as [Code],NAME as [CodeName]", "FFM_CNTR", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FFM_CNTR_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
+            //ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CNTR_CODE,NAME from FFM_CNTR where CmpyCode='" + CmpyCode + "' and Flag=0");// 
+            //dt = ds.Tables[0];
+            //DataRowCollection drc = dt.Rows;
+            //List<FFM_CNTR> ObjList = new List<FFM_CNTR>();
+            //foreach (DataRow dr in drc)
+            //{
+            //    ObjList.Add(new ComDropTbl()
+            //    {
+            //        FFM_CNTR_CODE = dr["FFM_CNTR_CODE"].ToString(),
+            //        NAME = dr["NAME"].ToString()
+            //    });
+            //}
+            //return ObjList;
         }
     }
 }

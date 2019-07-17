@@ -16,10 +16,21 @@
             $(this).attr('autocomplete', 'off');
         });
 
-        EzDropFillEvent("FLAG", "click", "FLAG", "GetCountryCodes");
+        EzAutoCompTxt1('#FLAG', '#hdnFLAG', "/FFM_VESSEL/GetNationList");
 
-        EzDropFillEvent("VESSEL_TYPE", "click", "VESSEL_TYPE", "/FFM_VESSEL/GetContainer");
-        EzDropFillEvent("COUNTRY", "click", "COUNTRY", "GetCountryCodes");
+        EzAutoCompTxt1('#VESSEL_TYPE', '#hdnVESSEL_TYPE', "/FFM_VESSEL/GetContainer");
+
+        EzAutoCompTxt1('#COUNTRY', '#hdnCOUNTRY', "/FFM_VESSEL/GetNationList");
+
+        EzAutoCompTxtE("#FLAG", "#hdnFLAG", "/FFM_VESSEL/GetNationList", false, "");
+        EzAutoCompTxtE("#VESSEL_TYPE", "#hdnVESSEL_TYPE", "/FFM_VESSEL/GetContainer", false, "");
+        EzAutoCompTxtE("#COUNTRY", "#hdnCOUNTRY", "/FFM_VESSEL/GetNationList", false, "");
+
+
+        //EzDropFillEvent("FLAG", "click", "FLAG", "GetCountryCodes");
+
+        //EzDropFillEvent("VESSEL_TYPE", "click", "VESSEL_TYPE", "/FFM_VESSEL/GetContainer");
+        //EzDropFillEvent("COUNTRY", "click", "COUNTRY", "GetCountryCodes");
 
     });
 
@@ -72,8 +83,10 @@
                                                     <label class="control-label col-md-3">Flag<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
 
-                                                        @Html.DropDownListFor(m => m.FLAG, Model.FlagList, new { @class = "form-control", @data_live_search = "true", @data_size = "5" })
-                                                        @Html.HiddenFor(m=>m.FLAG)
+                                                        @*@Html.DropDownListFor(m => m.FLAG, Model.FlagList, new { @class = "form-control", @data_live_search = "true", @data_size = "5" })
+                                                        @Html.HiddenFor(m=>m.FLAG)*@
+                                                        @Html.TextBoxFor(m => m.FLAG, new { @class = "form-control", @placeholder = "Select FLAG" })
+                                                        <input id="hdnFLAG" type="hidden" class="form-control" name="hdnFLAG" value="-1" />  
                                                     </div>
 
                                                 </div>
@@ -119,8 +132,11 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Vessel Type<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.VESSEL_TYPE, Model.ContainerList, new { @class = "form-control", @data_live_search = "true", @data_size = "5" })
-                                                        @Html.HiddenFor(m => m.VESSEL_TYPE)
+                                                        @*@Html.DropDownListFor(m => m.VESSEL_TYPE, Model.ContainerList, new { @class = "form-control", @data_live_search = "true", @data_size = "5" })
+                                                        @Html.HiddenFor(m => m.VESSEL_TYPE)*@
+
+                                                        @Html.TextBoxFor(m => m.VESSEL_TYPE, new { @class = "form-control", @placeholder = "Select VESSEL_TYPE" })
+                                                        <input id="hdnVESSEL_TYPE" type="hidden" class="form-control" name="hdnVESSEL_TYPE" value="-1" /> 
 
                                                     </div>
                                                 </div>
@@ -132,8 +148,11 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Country<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.COUNTRY, Model.COUNTRYList, new { @class = "form-control", @data_live_search = "true", @data_size = "5" })
-                                                        @Html.HiddenFor(m => m.COUNTRY)
+                                                        @*@Html.DropDownListFor(m => m.COUNTRY, Model.COUNTRYList, new { @class = "form-control", @data_live_search = "true", @data_size = "5" })
+                                                        @Html.HiddenFor(m => m.COUNTRY)*@
+
+                                                        @Html.TextBoxFor(m => m.COUNTRY, new { @class = "form-control", @placeholder = "Select COUNTRY" })
+                                                        <input id="hdnCOUNTRY" type="hidden" class="form-control" name="hdnCOUNTRY" value="-1" /> 
 
                                                     </div>
                                                 </div>

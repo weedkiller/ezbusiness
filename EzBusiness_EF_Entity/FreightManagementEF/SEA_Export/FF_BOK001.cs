@@ -43,5 +43,6 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public Decimal Total_Profit { get; set; }
         public string Commodity_code { get; set; }
         public string tranferFrom { get; set; }
+        public string FNMBRANCH_CODE { get; set; }
     }
 }

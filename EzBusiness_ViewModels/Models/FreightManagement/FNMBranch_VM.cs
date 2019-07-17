@@ -23,6 +23,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string CURRENCY { get; set; }
         public string COUNTRY { get; set; }
         public string STATE { get; set; }
+
+        public string DIVISION { get; set; }
         public bool SaveFlag { get; set; }
 
         public bool EditFlag { get; set; }
@@ -53,6 +55,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string CURRENCY { get; set; }
         public string COUNTRY { get; set; }
         public string STATE { get; set; }
-       
+
+        public string DIVISION { get; set; }
+
     }
 }

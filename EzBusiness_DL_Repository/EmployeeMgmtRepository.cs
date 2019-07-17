@@ -43,29 +43,34 @@ namespace EzBusiness_DL_Repository
         //{
         //    return drop.GetAccList(CmpyCode, Typeofacc);
         //}
-        public List<BankBranchTbl> GetBankBranchList(string CmpyCode, string BranchCode)
+        public List<ComDropTbl> GetBankBranchList(string CmpyCode, string BranchCode, string Prefix)
         {
-            return drop.GetBranchCode(CmpyCode, BranchCode);
+            //return drop.GetBranchCode(CmpyCode, BranchCode);
+            return drop.GetCommonDrop("PRBM002_code as [Code],Bank_branch_name as [CodeName]", "PRBM002", " CmpyCode='" + CmpyCode + "' and PRBM001_code='" + BranchCode + "' and Flag=0 and  (PRBM002_code like '" + Prefix + "%' or Bank_branch_name like '" + Prefix + "%')");
         }
-        public List<BankMaster> GetBankList(string CmpyCode)
+        public List<ComDropTbl> GetBankList(string CmpyCode, string Prefix)
         {
-            return drop.GetBankList(CmpyCode);
+            //return drop.GetBankList(CmpyCode);
+            return drop.GetCommonDrop("PRBM001_code as [Code],Bank_name as [CodeName]", "PRBM001", "CmpyCode='" + CmpyCode + "' and Flag=0 and  (PRBM001_code like '" + Prefix + "%' or Bank_name like '" + Prefix + "%')");
         }
-        public List<CommonTable> GetCommList(string Type)
+        public List<ComDropTbl> GetCommList(string Type, string Prefix)
         {
-            return drop.GetCommList(Type);
+            //return drop.GetCommList(Type);
+            return drop.GetCommonDrop("Code as [Code],Name as [CodeName]", "CMTBL003", "Type='" + Type + "' and  (Code like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
-        public List<Department> GetDepartmentList(string CmpyCode, string divcode, string Brancode)
+        public List<ComDropTbl> GetDepartmentList(string CmpyCode, string divcode, string Brancode, string Prefix)
         {
-            return drop.GetDepCode(CmpyCode, divcode, Brancode);
+            // return drop.GetDepCode(CmpyCode, divcode, Brancode);
+            return drop.GetCommonDrop("DepartmentCode as [Code],DepartmentName as [CodeName]", "MDEP009", "CmpyCode='" + CmpyCode + "'and BranchCode='" + Brancode + "' and DivisionCode='" + divcode + "' and Flag=0 and  (DepartmentCode like '" + Prefix + "%' or DepartmentName like '" + Prefix + "%')");
         }
         //public List<Discipline> GetDisciplineList(string CmpyCode)
         //{
         //    return drop.GetDisciplineList(CmpyCode);
         //}
-        public List<Division> GetDivisionList(string CmpyCode)
+        public List<ComDropTbl> GetDivisionList(string CmpyCode, string Prefix)
         {
-            return drop.GetDivCode(CmpyCode);
+            // return drop.GetDivCode(CmpyCode);
+            return drop.GetCommonDrop("DivisionCode as [Code],DivisionName as [CodeName]", "Mdiv08", "CmpyCode='" + CmpyCode + "' and  (DivisionCode like '" + Prefix + "%' or DivisionName like '" + Prefix + "%')");
             //ds = _EzBusinessHelper.ExecuteDataSet("Select DivisionCode,DivisionName from Mdiv08 where CmpyCode='" + CmpyCode + "' ");
             //dt = ds.Tables[0];
             //DataRowCollection drc = dt.Rows;
@@ -81,70 +86,89 @@ namespace EzBusiness_DL_Repository
             //}
             //return ObjList;
         }
-        public List<Documents> GetDocList(string CmpyCode)
+        public List<ComDropTbl> GetDocList(string CmpyCode, string Prefix)
         {
-            return drop.GetDocList(CmpyCode);
+            //return drop.GetDocList(CmpyCode);
+            return drop.GetCommonDrop("HRDOCM001_CODE as [Code],Name as [CodeName]", "HRDOCM001", "CmpyCode='" + CmpyCode + "' and  (HRDOCM001_CODE like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
 
-        public List<Location> GetLocationList(string CmpyCode)
+        public List<ComDropTbl> GetLocationList(string CmpyCode, string Prefix)
         {
-            return drop.GetLocationList(CmpyCode);
+            //return drop.GetLocationList(CmpyCode);
+            return drop.GetCommonDrop("LocCode as [Code],LocName as [CodeName]", "MLOC018", "CmpyCode='" + CmpyCode + "' and  (LocCode like '" + Prefix + "%' or LocName like '" + Prefix + "%')");
         }
-        public List<Nation> GetNationList(string CmpyCode)
+        public List<ComDropTbl> GetNationList(string CmpyCode, string Prefix)
         {
-            return drop.GetNationList(CmpyCode);
+            //return drop.GetNationList(CmpyCode);
+            return drop.GetCommonDrop("Code as [Code],Name as [CodeName]", "MNAT019", "CmpyCode='" + CmpyCode + "' and  (Code like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
-        public List<PaymentNature> GetPaymentNatureList(string CmpyCode)
+        public List<ComDropTbl> GetPaymentNatureList(string CmpyCode, string Prefix)
         {
-            return drop.GetPaymentNatureList(CmpyCode);
+            //return drop.GetPaymentNatureList(CmpyCode);
+            return drop.GetCommonDrop("Code as [Code],Name as [CodeName]", "MPAYNAT020", "CmpyCode='" + CmpyCode + "' and  (Code like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
-        public List<Profession> GetProfList(string CmpyCode)
+        public List<ComDropTbl> GetProfList(string CmpyCode, string Prefix)
         {
-            return drop.GetProfList(CmpyCode);
+            //return drop.GetProfList(CmpyCode);
+            return drop.GetCommonDrop("ProfCode as [Code],ProfName as [CodeName]", "MPROF021", "CmpyCode='" + CmpyCode + "' and Flag=0 and (ProfCode like '" + Prefix + "%' or ProfName like '" + Prefix + "%')");
         }
-        public List<Grade> GetSalution()
+        public List<ComDropTbl> GetSalution(string Prefix)
         {
-            return drop.GetSalution();
+            //return drop.GetSalution();
+            return drop.GetCommonDrop2("SELECT 'Mr' AS Code,'Mr' AS CodeName UNION SELECT 'Ms' AS Code,'Ms' AS CodeName UNION SELECT 'Mrs' AS Code,'Mrs' AS CodeName Order By Code");
+
         }
-        public List<ShiftMaster> GetShiftMasterList(string CmpyCode)
+        public List<ComDropTbl> GetShiftMasterList(string CmpyCode, string Prefix)
         {
-            return drop.GetShiftMasterList(CmpyCode);
+            // return drop.GetShiftMasterList(CmpyCode);
+            return drop.GetCommonDrop("PRSFT001_code as [Code],ShiftName as [CodeName]", "PRSFT001", "CmpyCode='" + CmpyCode + "' and Flag=0 and (PRSFT001_code like '" + Prefix + "%' or ShiftName like '" + Prefix + "%')");
         }
-        public List<StatusMaster> GetStatusMasterList(string CmpyCode)
+        public List<ComDropTbl> GetStatusMasterList(string CmpyCode, string Prefix)
         {
-            return drop.GetStatusMasterList(CmpyCode);
+            //return drop.GetStatusMasterList(CmpyCode);
+            return drop.GetCommonDrop("Code as [Code],Name as [CodeName]", "MSTS023", "CmpyCode='" + CmpyCode + "' and Flag=0 and (Code like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
-        public List<SubTrademaster> GetSubTrademaster(string CmpyCode)
+        public List<ComDropTbl> GetSubTrademaster(string CmpyCode, string Prefix)
         {
-            return drop.GetSubTrademaster(CmpyCode);
+            // return drop.GetSubTrademaster(CmpyCode);
+            return drop.GetCommonDrop("Code as [Code],Name as [CodeName]", "MSUBTRD024", "CmpyCode='" + CmpyCode + "' and (Code like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
-        public List<TDSSection> GetTDSSection(string CmpyCode)
+        public List<ComDropTbl> GetTDSSection(string CmpyCode, string Prefix)
         {
-            return drop.GetTDSSection(CmpyCode);
+            // return drop.GetTDSSection(CmpyCode);
+            return drop.GetCommonDrop("Code as [Code],Name as [CodeName]", "MTDSSEC025", "CmpyCode='" + CmpyCode + "' and (Code like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
-        public List<TDSTypes> GetTDSTypesList(string CmpyCode)
+        public List<ComDropTbl> GetTDSTypesList(string CmpyCode, string Prefix)
         {
-            return drop.GetTDSTypesList(CmpyCode);
+            //return drop.GetTDSTypesList(CmpyCode);
+            return drop.GetCommonDrop("Code as [Code],Name as [CodeName]", "MTTYP026", "CmpyCode='" + CmpyCode + "' and (Code like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
-        public List<VisaLocation> GetVisaLocationList(string CmpyCode)
+        public List<ComDropTbl> GetVisaLocationList(string CmpyCode, string Prefix)
         {
-            return drop.GetVisaLocationList(CmpyCode);
+            // return drop.GetVisaLocationList(CmpyCode);
+            return drop.GetCommonDrop("Code as [Code],Name as [CodeName]", "VLOC001", "CmpyCode='" + CmpyCode + "' and Flag=0 and (Code like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
-        public List<Weekdays> GetWeekdaysList(string CmpyCode)
+        public List<ComDropTbl> GetWeekdaysList(string CmpyCode, string Prefix)
         {
-            return drop.GetWeekdaysList(CmpyCode);
+            //return drop.GetWeekdaysList(CmpyCode);
+            return drop.GetCommonDrop("DayCode as [Code],DayName as [CodeName]", "WKDS001", "DayCode like '" + Prefix + "%' or DayName like '" + Prefix + "%' order by sno");
         }
-        public List<EducationLevel> GetDegreeList(string CmpyCode)
+        public List<ComDropTbl> GetDegreeList(string CmpyCode, string Prefix)
         {
-            return drop.GetDegreeList(CmpyCode);
+            //return drop.GetDegreeList(CmpyCode);
+            return drop.GetCommonDrop("Code as [Code],NAME as [CodeName]", "MEDUL013", "CmpyCode='" + CmpyCode + "'  and (Code like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
-        public List<Employee> GetEmpList1(string CmpyCode, string empcode)
+        public List<ComDropTbl> GetEmpList1(string CmpyCode, string empcode, string Prefix)
         {
-            return drop.GetEmpList1(CmpyCode, empcode);
+            // return drop.GetEmpList1(CmpyCode, empcode);
+
+            return drop.GetCommonDrop("'01' AS EmpCode as [Code], 'SELF' AS EmpName as [CodeName] UNION ALL SELECT EmpCode as [Code],EmpName as [CodeName]", "MEM001", "CmpyCode='" + CmpyCode + "' and Flag=0 and (EmpCode like '" + Prefix + "%' or EmpName like '" + Prefix + "%')");
+
         }
-        public List<ProjectMaster> GetProjects(string CmpyCode)
+        public List<ComDropTbl> GetProjects(string CmpyCode, string Prefix)
         {
-            return drop.GetProjects(CmpyCode);
+            // return drop.GetProjects(CmpyCode);           
+            return drop.GetCommonDrop("Code as [Code],NAME as [CodeName]", "MBR005", "CmpyCode='" + CmpyCode + "' and Flag=0 and (Code like '" + Prefix + "%' or Name like '" + Prefix + "%')");
         }
         #endregion
 
@@ -1263,9 +1287,12 @@ namespace EzBusiness_DL_Repository
             return EmpMs;
         }
 
-        public List<BranchTbl> GetBranchCodeList(string CmpyCode, string divcode)
+        public List<ComDropTbl> GetBranchCodeList(string CmpyCode, string divcode, string Prefix)
         {
-            return drop.GetBranchCode1(CmpyCode, divcode);
+            //return drop.GetBranchCode1(CmpyCode, divcode);
+
+            return drop.GetCommonDrop("Code as [Code],NAME as [CodeName]", "MBR005", "DivCode='"+ divcode +"' and CmpyCode='" + CmpyCode + "' and Flag=0 and (Code like '" + Prefix + "%' or Name like '" + Prefix + "%')");
+
         }
 
     }

@@ -17,9 +17,9 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
         FFM_VESSEL_VM EditFFM_VESSEL(string CmpyCode, string FFM_VESSEL_CODE);
         FFM_VESSEL_VM GetFFM_VESSELAddNew(string Cmpycode);
 
-        List<SelectListItem> GetNationList(string CmpyCode);
+        List<SelectListItem> GetNationList(string CmpyCode,string Prefix);
 
-        List<SelectListItem>  GetContainer(string CmpyCode);
+        List<SelectListItem>  GetContainer(string CmpyCode,string Prefix);
 
     }
 }

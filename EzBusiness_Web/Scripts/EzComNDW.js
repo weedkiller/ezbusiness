@@ -2016,9 +2016,9 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
                  dataType: "json",
                  data: { Prefix: $(inpid).val(), inppar: $(inpname).val() },
                  success: function (data) {
-                     if (data.length > 1) {
-                         $(inpid).val(data[1].Text);
-                         $(inphid).val(data[1].Value);
+                     if (data.length > 0) {
+                         $(inpid).val(data[0].Text);
+                         $(inphid).val(data[0].Value);
                      } else {
                          $(inpid).val('');
                          $(inphid).val(-1);
@@ -2027,6 +2027,212 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
              });
          }
 
+         function EzAutoCompTxtEPar1(inpid, inphid, urls, boolval, inpname, inparr) {
+             debugger;
+             $(inpid).autocomplete({
+                 source: function (request, response) {
+                     $.ajax({
+                         url: urls,
+                         type: "POST",
+                         dataType: "json",
+                         data: { Prefix: request.term, PVal1: $(inparr).val() },
+                         success: function (data) {
+                             if (data.length > 0) {
+                                 response($.map(data, function (item) {
+                                     return {
+                                         label: item.Text + '-' + item.Value,//item.Value + ' - ' + item.Text,
+                                         value: item.Value,
+                                         val1: item.Text
+                                     };
+                                 }))
+                             } else {
+                                 $(inpid).val('');
+                                 $(inphid).val(-1);
+                                 response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+                             }
+                         }
+                     });
+                 },
+                 // autoFocus: true,
+
+                 select: function (e, u) {
+                     debugger
+                     //If the No match found" item is selected, clear the TextBox.
+                     if (u.item.value == -1) {
+                         //Clear the AutoComplete TextBox.
+                         $(this).val("");
+                         $(inphid).val("-1");
+                         return false;
+                     } else {
+                         $(inphid).val(u.item.val1);
+                     }
+                     if (boolval == true) {
+                         $(inphid).val(u.item.val1);
+                         $(inpname).val(u.item.val1);
+                     }
+                 }
+        ,
+                 minLength: 0,
+
+
+
+             })
+         }
+
+         function EzAutoCompTxtEPar2(inpid, inphid, urls, boolval, inpname, inparr, inparr1) {
+             debugger;
+             $(inpid).autocomplete({
+                 source: function (request, response) {
+                     $.ajax({
+                         url: urls,
+                         type: "POST",
+                         dataType: "json",
+                         data: { Prefix: request.term, PVal1: $(inparr).val(), PVal2: $(inparr1).val() },
+                         success: function (data) {
+                             if (data.length > 0) {
+                                 response($.map(data, function (item) {
+                                     return {
+                                         label: item.Text + '-' + item.Value,//item.Value + ' - ' + item.Text,
+                                         value: item.Value,
+                                         val1: item.Text
+                                     };
+                                 }))
+                             } else {
+                                 $(inpid).val('');
+                                 $(inphid).val(-1);
+                                 response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+                             }
+                         }
+                     });
+                 },
+                 // autoFocus: true,
+
+                 select: function (e, u) {
+                     debugger
+                     //If the No match found" item is selected, clear the TextBox.
+                     if (u.item.value == -1) {
+                         //Clear the AutoComplete TextBox.
+                         $(this).val("");
+                         $(inphid).val("-1");
+                         return false;
+                     } else {
+                         $(inphid).val(u.item.val1);
+                     }
+                     if (boolval == true) {
+                         $(inphid).val(u.item.val1);
+                         $(inpname).val(u.item.val1);
+                     }
+                 }
+       ,
+                 minLength: 0,
+
+
+
+             })
+         }
+         function EzAutoCompTxtEPar3(inpid, inphid, urls, boolval, inpname, inparr, inparr1, inparr2) {
+             debugger;
+             $(inpid).autocomplete({
+                 source: function (request, response) {
+                     $.ajax({
+                         url: urls,
+                         type: "POST",
+                         dataType: "json",
+                         data: { Prefix: request.term, PVal1: $(inparr).val(), PVal2: $(inparr1).val(), PVal3: $(inparr2).val() },
+                         success: function (data) {
+                             if (data.length > 0) {
+                                 response($.map(data, function (item) {
+                                     return {
+                                         label: item.Text + '-' + item.Value,//item.Value + ' - ' + item.Text,
+                                         value: item.Value,
+                                         val1: item.Text
+                                     };
+                                 }))
+                             } else {
+                                 $(inpid).val('');
+                                 $(inphid).val(-1);
+                                 response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+                             }
+                         }
+                     });
+                 },
+                 // autoFocus: true,
+
+                 select: function (e, u) {
+                     debugger
+                     //If the No match found" item is selected, clear the TextBox.
+                     if (u.item.value == -1) {
+                         //Clear the AutoComplete TextBox.
+                         $(this).val("");
+                         $(inphid).val("-1");
+                         return false;
+                     } else {
+                         $(inphid).val(u.item.val1);
+                     }
+                     if (boolval == true) {
+                         $(inphid).val(u.item.val1);
+                         $(inpname).val(u.item.val1);
+                     }
+                 }
+,
+                 minLength: 0,
+
+
+
+             })
+         }
+
+         function EzAutoCompTxtEParV1(inpid, inphid, urls, boolval, inpname, inparrV) {
+             debugger;
+             $(inpid).autocomplete({
+                 source: function (request, response) {
+                     $.ajax({
+                         url: urls,
+                         type: "POST",
+                         dataType: "json",
+                         data: { Prefix: request.term, PVal1: inparrV },
+                         success: function (data) {
+                             if (data.length > 0) {
+                                 response($.map(data, function (item) {
+                                     return {
+                                         label: item.Text + '-' + item.Value,//item.Value + ' - ' + item.Text,
+                                         value: item.Value,
+                                         val1: item.Text
+                                     };
+                                 }))
+                             } else {
+                                 $(inpid).val('');
+                                 $(inphid).val(-1);
+                                 response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+                             }
+                         }
+                     });
+                 },
+                 // autoFocus: true,
+
+                 select: function (e, u) {
+                     debugger
+                     //If the No match found" item is selected, clear the TextBox.
+                     if (u.item.value == -1) {
+                         //Clear the AutoComplete TextBox.
+                         $(this).val("");
+                         $(inphid).val("-1");
+                         return false;
+                     } else {
+                         $(inphid).val(u.item.val1);
+                     }
+                     if (boolval == true) {
+                         $(inphid).val(u.item.val1);
+                         $(inpname).val(u.item.val1);
+                     }
+                 }
+        ,
+                 minLength: 0,
+
+
+
+             })
+         }
         
         
         

@@ -19,5 +19,11 @@ namespace EzBusiness_BL_Interface
         List<SelectListItem> GetBranchList(string CmpyCode, string DivCode);
         List<SelectListItem> GetDepartmentList(string CmpyCode, string DivCode, string BranchCode);
         LoginVM SaveLons(LoginVM LoginVM);
+
+
+        List<SelectListItem> GetBranchListN(string CmpyCode);
+
+
+        string Divisioncode(string CmpyCode, string BranchCode);
     }
 }

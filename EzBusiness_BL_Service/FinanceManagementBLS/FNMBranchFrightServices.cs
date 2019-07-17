@@ -52,7 +52,8 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 MOBILE = m.MOBILE,
                 CURRENCY = m.CURRENCY,
                 COUNTRY = m.COUNTRY,
-                STATE = m.STATE
+                STATE = m.STATE,
+                DIVISION=m.DIVISION
             }).ToList();
         }
         public List<SelectListItem> GetCountryCodes(string CmpyCode, string Prefix)
@@ -78,6 +79,13 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             return _FNMBranchRepo.EditFNMBranch(CmpyCode, BranchCode);
            
         }
-      
+
+        public List<SelectListItem> GetDivisionList(string CmpyCode, string Prefix)
+        {
+            var CurrencyList = _FNMBranchRepo.GetDivisionList(CmpyCode, Prefix)
+                                       .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                       .ToList();
+            return CurrencyList;
+        }
     }
 }

@@ -30,19 +30,19 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         public FFM_VESSEL_VM EditFFM_VESSEL(string CmpyCode, string FFM_VESSEL_CODE)
         {           
             var FFM_VESSELEdit = _FFM_VESSELRepo.EditFFM_VESSEL(CmpyCode, FFM_VESSEL_CODE);
-            FFM_VESSELEdit.COUNTRYList = GetNationListEdit(CmpyCode,FFM_VESSELEdit.COUNTRY);
-            FFM_VESSELEdit.ContainerList = GetContainerEdit(CmpyCode, FFM_VESSELEdit.VESSEL_TYPE);
-            FFM_VESSELEdit.FlagList= GetNationListEdit(CmpyCode, FFM_VESSELEdit.FLAG);
+            //FFM_VESSELEdit.COUNTRYList = GetNationListEdit(CmpyCode,FFM_VESSELEdit.COUNTRY);
+            //FFM_VESSELEdit.ContainerList = GetContainerEdit(CmpyCode, FFM_VESSELEdit.VESSEL_TYPE);
+            //FFM_VESSELEdit.FlagList= GetNationListEdit(CmpyCode, FFM_VESSELEdit.FLAG);
             return FFM_VESSELEdit;
         }
 
-        public List<SelectListItem> GetContainer(string CmpyCode)
+        public List<SelectListItem> GetContainer(string CmpyCode,string Prefix)
         {
-            var itemCodes = _FFM_VESSELRepo.GetContainer(CmpyCode)
-                                           .Select(m => new SelectListItem { Value = m.FFM_CNTR_CODE, Text = string.Concat(m.FFM_CNTR_CODE, " - ", m.NAME) })
+            var itemCodes = _FFM_VESSELRepo.GetContainer(CmpyCode, Prefix)
+                                           .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code})
                                            .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
+            return itemCodes;
         }
 
         public List<FFM_VESSEL_VM> GetFFM_VESSEL(string CmpyCode)
@@ -69,30 +69,30 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             };
         }
 
-        public List<SelectListItem> GetNationList(string CmpyCode)
+        public List<SelectListItem> GetNationList(string CmpyCode,string Prefix)
         {
-            var itemCodes = _FFM_VESSELRepo.GetNationList(CmpyCode)
-                                         .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
+            var itemCodes = _FFM_VESSELRepo.GetNationList(CmpyCode, Prefix)
+                                         .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
                                          .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
+            return itemCodes;
         }
-        public List<SelectListItem> GetNationListEdit(string CmpyCode,string code)
-        {
-            var itemCodes = _FFM_VESSELRepo.GetNationList(CmpyCode).Where(m => m.Code.ToString() == code).ToList()
-                                         .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
-                                         .ToList();
+        //public List<SelectListItem> GetNationListEdit(string CmpyCode,string code)
+        //{
+        //    var itemCodes = _FFM_VESSELRepo.GetNationList(CmpyCode).Where(m => m.Code.ToString() == code).ToList()
+        //                                 .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
+        //                                 .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
-        }
-        public List<SelectListItem> GetContainerEdit(string CmpyCode,string Code)
-        {
-            var itemCodes = _FFM_VESSELRepo.GetContainer(CmpyCode).Where(m => m.FFM_CNTR_CODE.ToString() == Code).ToList()
-                                           .Select(m => new SelectListItem { Value = m.FFM_CNTR_CODE, Text = string.Concat(m.FFM_CNTR_CODE, " - ", m.NAME) })
-                                           .ToList();
+        //    return InsertFirstElementDDL(itemCodes);
+        //}
+        //public List<SelectListItem> GetContainerEdit(string CmpyCode,string Code)
+        //{
+        //    var itemCodes = _FFM_VESSELRepo.GetContainer(CmpyCode).Where(m => m.FFM_CNTR_CODE.ToString() == Code).ToList()
+        //                                   .Select(m => new SelectListItem { Value = m.FFM_CNTR_CODE, Text = string.Concat(m.FFM_CNTR_CODE, " - ", m.NAME) })
+        //                                   .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
-        }
+        //    return InsertFirstElementDDL(itemCodes);
+        //}
 
         public FFM_VESSEL_VM SaveFFM_VESSEL(FFM_VESSEL_VM ac)
         {

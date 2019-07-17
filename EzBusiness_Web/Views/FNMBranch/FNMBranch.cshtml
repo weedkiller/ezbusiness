@@ -51,7 +51,9 @@
 
 
         /*Code Tab Event*/
-        EztableTabEve("#tblUnits1", "[name*='txtFNMBRANCH_CODE']", "[name *= 'txtDESCRIPTION']", "Please Enter FNMHEAD_CODE", 'T', "");
+        EztableTabEve("#tblUnits1", "[name*='txtFNMBRANCH_CODE']", "[name *= 'ddlDIVISION']", "Please Enter FNMHEAD_CODE", 'T', "");
+
+        EztableTabEve("#tblUnits1", "[name*='ddlDIVISION']", "[name *= 'txtDESCRIPTION']", "Please Enter DIVISION", 'T', "");
 
         EztableTabEve("#tblUnits1", "[name*='txtDESCRIPTION']", "[name *= 'txtPRINTNAME']", "Please Enter DESCRIPTION", 'T', "");
 
@@ -133,6 +135,12 @@
                     trLast.find("[name *= 'txtSNO']").attr({
                         "name": ("txtSNO" + counter)
                     });
+
+
+                    trLast.find("[name *= 'txtDIVISION']").attr({
+                        "name": ("txtDIVISION" + counter)
+                    });
+
                     trLast.find("[name *= 'txtSNO']").val(counter);
                     trLast.find(":first").text(counter);
                 }
@@ -192,7 +200,9 @@
 
         EzAutotxtEventTbl12("#tblUnits1", "focus", "[name*='ddlCURRENCY']", "[name*='ddl1CURRENCY']", "GetCurrencyCodes", false, "");
         EzAutotxtEventTbl12("#tblUnits1", "focus", "[name*='ddlCOUNTRY']", "[name*='ddl1COUNTRY']", "GetCountryCodes", false, "");
+        EzAutotxtEventTbl12("#tblUnits1", "focus", "[name*='ddlDIVISION']", "[name*='ddl1DIVISION']", "/FNMBranch/GetDivisionList", false, "");
 
+        EzAutotxtEventTbl12("#tblUnits", "focus", "[name*='txtDIVISION']", "[name*='txt1DIVISION']", "/FNMBranch/GetDivisionList", false, "");
         EzAutotxtEventTbl12("#tblUnits", "focus", "[name*='txtCURRENCY']", "[name*='txt1CURRENCY']", "GetCurrencyCodes", false, "");
         EzAutotxtEventTbl12("#tblUnits", "focus", "[name*='txtCOUNTRY']", "[name*='txt1COUNTRY']", "GetCountryCodes", false, "");
 
@@ -236,8 +246,9 @@
                 var CURRENCY = $(this).find("[name*='txtCURRENCY']").val();
                 var COUNTRY = $(this).find("[name*='txtCOUNTRY']").val();
                 var STATE = $(this).find("[name*='txtSTATE']").val();
+                var DIVISION= $(this).find("[name*='ddl1DIVISION']").val();
 
-                if ((FNMBRANCH_CODE != "") && (DESCRIPTION != "")) {
+                if ((FNMBRANCH_CODE != "") && (DESCRIPTION != "" && DIVISION!="-1")) {
                     var FNMBranchDetails = {
                         FNMBRANCH_CODE:FNMBRANCH_CODE,
                     DESCRIPTION:DESCRIPTION,
@@ -249,7 +260,8 @@
                     MOBILE:MOBILE,
                     CURRENCY:CURRENCY,
                     COUNTRY:COUNTRY,
-                    STATE:STATE
+                    STATE:STATE,
+                    DIVISION:DIVISION
                     };
                     brnch.FNMBranchDetailsnew.push(FNMBranchDetails);
                 }
@@ -281,6 +293,7 @@
                         var CURRENCYAdd = $(tr).find("[name*='txtCURRENCY']").val().trim();
                         var COUNTRYAdd = $(tr).find("[name*='txtCOUNTRY']").val().trim();
                         var STATEAdd = $(tr).find("[name*='txtSTATE']").val().trim();
+                        var DIVISIONAdd = $(tr).find("[name*='txtDIVISION']").val().trim();
 
                         if (response.Drecord.length > 0) {
                             var ary1 = [];
@@ -290,7 +303,7 @@
                                 var counter = $("#Counter").val();
                                 var firstRow = $('#tblUnits tbody tr:first');
 
-                                var newRow = "<tr><td>" + SNOAdd + "</td><td>" + FNMBRANCH_CODEAdd + "</td><td>" + DESCRIPTIONAdd + "</td><td>" + PRINTNAMEAdd + "</td><td>" + ADDRESSAdd + "</td><td>" + EMAILAdd + "</td><td>" + WEBSITEAdd + "</td><td>" + MOBILEAdd + "</td><td>" + CURRENCYAdd + "</td><td>" + COUNTRYAdd + "</td><td>" + STATEAdd +
+                                var newRow = "<tr><td>" + SNOAdd + "</td><td>" + FNMBRANCH_CODEAdd + "</td><td>" +DIVISIONAdd + "</td><td>" + DESCRIPTIONAdd + "</td><td>" + PRINTNAMEAdd + "</td><td>" + ADDRESSAdd + "</td><td>" + EMAILAdd + "</td><td>" + WEBSITEAdd + "</td><td>" + MOBILEAdd + "</td><td>" + CURRENCYAdd + "</td><td>" + COUNTRYAdd + "</td><td>" + STATEAdd +
                                     "</td> ";
                                 //newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
                                 //    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
@@ -344,6 +357,7 @@
         });
 
         function ValidateForm(brnch) {
+            debugger;
             var response = {
                 ErrorMessage: "",
                 formValid: false
@@ -352,14 +366,35 @@
             if (brnch.FNMBranchDetailsnew.length == 0) {
                 response.ErrorMessage += "Please Enter atleast One Branch code Details";
             }
+            
             if (response.ErrorMessage.length == 0) {
                 response.formValid = true;
             }
 
             return response;
         }
-        $("#tblUnits1").on("click", "[name*='btnDelete']", function () { 
+
+        function ValidateFormE(brnch) {
             debugger;
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+
+          
+            if(brnch.DIVISION==''){
+                response.ErrorMessage += "Please Select Division code";
+            }
+            
+
+            if (response.ErrorMessage.length == 0) {
+                response.formValid = true;
+            }
+
+            return response;
+        }
+        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
+            
             $(this).closest("tr").remove();
         });
 
@@ -381,15 +416,18 @@
                 var tr = $(this).closest("tr");
                 var hdnDocCode = $(tr).find("td:eq(1)").text().trim();
                 var index = $(this).attr("name").substring(4);
-                var DESCRIPTIONTd = $(tr).find("td:eq(2)");
-                var PRINTNAMETd = $(tr).find("td:eq(3)");
-                var ADDRESSTd = $(tr).find("td:eq(4)");
-                var EMAILTd = $(tr).find("td:eq(5)");
-                var WEBSITETd = $(tr).find("td:eq(6)");
-                var MOBILETd = $(tr).find("td:eq(7)");
-                var  COUNTRYTd = $(tr).find("td:eq(8)");
-                var  CURRENCYTd= $(tr).find("td:eq(9)");
-                var STATETd = $(tr).find("td:eq(10)");
+
+                var DIVISIONTd = $(tr).find("td:eq(2)");
+
+                var DESCRIPTIONTd = $(tr).find("td:eq(3)");
+                var PRINTNAMETd = $(tr).find("td:eq(4)");
+                var ADDRESSTd = $(tr).find("td:eq(5)");
+                var EMAILTd = $(tr).find("td:eq(6)");
+                var WEBSITETd = $(tr).find("td:eq(7)");
+                var MOBILETd = $(tr).find("td:eq(8)");
+                var  COUNTRYTd = $(tr).find("td:eq(9)");
+                var  CURRENCYTd= $(tr).find("td:eq(10)");
+                var STATETd = $(tr).find("td:eq(11)");
 
                 var editButton = $(this);
 
@@ -404,6 +442,7 @@
                     var CURRENCYEdit = $(tr).find("[name*='txtCURRENCY']").val().trim();
                     var COUNTRYEdit = $(tr).find("[name*='txtCOUNTRY']").val().trim();
                     var STATEEdit = $(tr).find("[name*='txtSTATE']").val().trim();
+                    var DIVISIONEdit = $(tr).find("[name*='txtDIVISION']").val().trim();
 
                     var brnch = {
                         CmpyCode: hdnCmpyCode,
@@ -418,43 +457,51 @@
                         CURRENCY: CURRENCYEdit,
                         COUNTRY: COUNTRYEdit,
                         STATE: STATEEdit,
+                        DIVISION:DIVISIONEdit,
                         EditFlag: true
                     };
 
-                    $.post("/FNMBranch/SaveFNMBranch", brnch).done(function (response) {
-                        DESCRIPTIONTd.text(response.DESCRIPTION);
-                        PRINTNAMETd.text(response.PRINTNAME);
-                        ADDRESSTd.text(response.ADDRESS);
-                        EMAILTd.text(response.EMAIL);
-                        WEBSITETd.text(response.WEBSITE);
-                        MOBILETd.text(response.MOBILE);
-                        CURRENCYTd.text(response.CURRENCY);
-                        COUNTRYTd.text(response.COUNTRY);
-                        STATETd.text(response.STATE);
+                    var validationResult = ValidateFormE(brnch);
+                    if (validationResult.formValid) {
+                        $.post("/FNMBranch/SaveFNMBranch", brnch).done(function (response) {
+                            DESCRIPTIONTd.text(response.DESCRIPTION);
+                            PRINTNAMETd.text(response.PRINTNAME);
+                            ADDRESSTd.text(response.ADDRESS);
+                            EMAILTd.text(response.EMAIL);
+                            WEBSITETd.text(response.WEBSITE);
+                            MOBILETd.text(response.MOBILE);
+                            CURRENCYTd.text(response.CURRENCY);
+                            COUNTRYTd.text(response.COUNTRY);
+                            STATETd.text(response.STATE);
+                            DIVISIONTd.text(response.DIVISION);
+                            hdnEditMode.val("false");
+                            editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
+                            editButton.attr('title', 'Edit');
+                            tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
+                            tr.find("[name^='Delete']").attr('title', 'Delete');
 
-                        hdnEditMode.val("false");
-                        editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
-                        editButton.attr('title', 'Edit');
-                        tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
-                        tr.find("[name^='Delete']").attr('title', 'Delete');
-
-                        tableDis("F");
-                        EzAlertUpd(hdnDocCode);
-                    });
-                    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-                        console.log(thrownError);
-                    });
+                            tableDis("F");
+                            EzAlertUpd(hdnDocCode);
+                        });
+                        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+                            console.log(thrownError);
+                        });
+                    }
+                    else {
+                        EzAlerterrtxt(validationResult.ErrorMessage);
+                    }
                 } else {
                     debugger;
-                     DESCRIPTION = $(tr).find("td:eq(2)").text();
-                     PRINTNAME = $(tr).find("td:eq(3)").text();
-                     ADDRESS = $(tr).find("td:eq(4)").text();
-                     EMAIL = $(tr).find("td:eq(5)").text();
-                     WEBSITE = $(tr).find("td:eq(6)").text();
-                     MOBILE = $(tr).find("td:eq(7)").text();
-                     COUNTRY = $(tr).find("td:eq(8)").text().trim();
-                     CURRENCY = $(tr).find("td:eq(9)").text();
-                     STATE = $(tr).find("td:eq(10)").text();
+                    DIVISION = $(tr).find("td:eq(2)").text();
+                     DESCRIPTION = $(tr).find("td:eq(3)").text();
+                     PRINTNAME = $(tr).find("td:eq(4)").text();
+                     ADDRESS = $(tr).find("td:eq(5)").text();
+                     EMAIL = $(tr).find("td:eq(6)").text();
+                     WEBSITE = $(tr).find("td:eq(7)").text();
+                     MOBILE = $(tr).find("td:eq(8)").text();
+                     COUNTRY = $(tr).find("td:eq(9)").text().trim();
+                     CURRENCY = $(tr).find("td:eq(10)").text();
+                     STATE = $(tr).find("td:eq(11)").text();
 
                     $('#inpdocname').val(DESCRIPTION.trim());
 
@@ -470,6 +517,10 @@
 
                     CURRENCYTd.html("<input type='text' name='txtCURRENCY" + index + "' value='" + CURRENCY.trim() + "' /><input type='hidden' name='txt1CURRENCY" + index + "' value='" + CURRENCY.trim() + "' />");
                     COUNTRYTd.html("<input type='text' name='txtCOUNTRY" + index + "' value='" + COUNTRY.trim() + "' /><input type='hidden' name='txt1COUNTRY" + index + "' value='" + COUNTRY.trim() + "' />");
+
+                    DIVISIONTd.html("<input type='text' name='txtDIVISION" + index + "' value='" + DIVISION.trim() + "' /><input type='hidden' name='txt1DIVISION" + index + "' value='" + DIVISION.trim() + "' />");
+
+                   
 
                     //$("[name*='hdnCURRENCY']").val(CURRENCY.trim());
                     //if(CURRENCY.trim()==''){
@@ -584,15 +635,16 @@
                 else {
                     debugger;
                     var nameTd = $(tr).find("td:eq(1)");
-                    var DESCRIPTIONTd = $(tr).find("td:eq(2)");
-                    var PRINTNAMETd = $(tr).find("td:eq(3)");
-                    var ADDRESSTd = $(tr).find("td:eq(4)");
-                    var EMAILTd = $(tr).find("td:eq(5)");
-                    var WEBSITETd = $(tr).find("td:eq(6)");
-                    var MOBILETd = $(tr).find("td:eq(7)");
-                    var  COUNTRYTd = $(tr).find("td:eq(8)");
-                    var  CURRENCYTd= $(tr).find("td:eq(9)");
-                    var STATETd = $(tr).find("td:eq(10)");
+                    var DIVISIONTd = $(tr).find("td:eq(2)");
+                    var DESCRIPTIONTd = $(tr).find("td:eq(3)");
+                    var PRINTNAMETd = $(tr).find("td:eq(4)");
+                    var ADDRESSTd = $(tr).find("td:eq(5)");
+                    var EMAILTd = $(tr).find("td:eq(6)");
+                    var WEBSITETd = $(tr).find("td:eq(7)");
+                    var MOBILETd = $(tr).find("td:eq(8)");
+                    var  COUNTRYTd = $(tr).find("td:eq(9)");
+                    var  CURRENCYTd= $(tr).find("td:eq(10)");
+                    var STATETd = $(tr).find("td:eq(11)");
 
                     //var DESCRIPTIONEdit = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
                  
@@ -618,6 +670,7 @@
                     COUNTRYTd.html(COUNTRY);
                     CURRENCYTd.html(CURRENCY);
                     STATETd.html(STATE);
+                    DIVISIONTd.html(DIVISION);
 
                     tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
                     tr.find("[name^='Edit']").attr('title', 'Edit');
@@ -693,8 +746,12 @@ $(document).ready(function(){
                                 @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
                             </th>
                             <th>
+                                @Html.DisplayNameFor(model => model.DIVISION)
+                            </th>
+                            <th>
                                 @Html.DisplayNameFor(model => model.DESCRIPTION)
                             </th>
+
                             <th>
                                 @Html.DisplayNameFor(model => model.PRINTNAME)
                             </th>
@@ -735,6 +792,12 @@ $(document).ready(function(){
                             <td>
                                 <div class="grid-group">
                                     @Html.TextBox(string.Concat("txtFNMBRANCH_CODE", counter), null, new { @class = "grid-control" })
+                                </div>
+                            </td>
+                            <td>
+                                <div class="grid-group">
+                                    @Html.TextBox(string.Concat("ddlDIVISION", counter), null, new { @class = "grid-control" })
+                                    @Html.Hidden(string.Concat("ddl1DIVISION", counter), null, new { @class = "grid-control" })
                                 </div>
                             </td>
                             <td>
@@ -803,7 +866,9 @@ $(document).ready(function(){
                             <th>
                                 @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
                             </th>
-
+                            <th>
+                                @Html.DisplayNameFor(model => model.DIVISION)
+                            </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.DESCRIPTION)
                             </th>
@@ -845,7 +910,9 @@ $(document).ready(function(){
                             <td>
                                 @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
                             </td>
-
+                            <td>
+                                @Html.DisplayNameFor(model => model.DIVISION)
+                            </td>
                             <td>
                                 @Html.DisplayNameFor(model => model.DESCRIPTION)
                             </td>
@@ -887,6 +954,9 @@ $(document).ready(function(){
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.FNMBRANCH_CODE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DIVISION)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.DESCRIPTION)

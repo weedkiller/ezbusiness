@@ -16,7 +16,7 @@ namespace EzBusiness_BL_Interface
         SalaryProcessDetailsVM SaveSalaryProcessD(SalaryProcessDetailsVM Sft);
         List<SelectListItem> GetDivCodeList(string CmpyCode);
 
-        List<SelectListItem> GetVisLocList(string CmpyCode);
+        List<SelectListItem> GetVisLocList(string CmpyCode,string prefix);
 
         SalaryProcessDetailsVM GetSalaryProcessEdit(string CmpyCode, string PRSFT001_code);
         List<SalaryProcessDetailsListItem> GetSalaryProcessGridEdit(int year, int month, string CmpyCode);

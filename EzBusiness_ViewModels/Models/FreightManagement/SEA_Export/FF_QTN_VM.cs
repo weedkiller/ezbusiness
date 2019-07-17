@@ -95,7 +95,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public FF_QTN005New FF_QTN005 { get; set; }
         public List<FF_QTN005New> FF_QTN005Detail { get; set; }
 
-
+        public string FNMBRANCH_CODE { get; set; }
 
     }
 

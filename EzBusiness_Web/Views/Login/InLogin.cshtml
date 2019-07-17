@@ -79,23 +79,24 @@
                                     @Html.DropDownList("CmpyCode", new SelectList(Enumerable.Empty<SelectListItem>(), "CmpyCode", "Name"), "Select Company Code", htmlAttributes: new { @class = "selct", id = "CmpyCode", @placeholder = "Company Code" })
                                 </div>
                             </div>
-                            <div class="col-md-4 col-md-offset-3" id="DivisionCode1">
-                                <div class="id3">
-                                    @Html.DropDownList("DivisionCode", new SelectList(Enumerable.Empty<SelectListItem>(), "DivisionCode", "DivisionName"), "Select Division Code", htmlAttributes: new { @class = "selct", id = "DivisionCode", @placeholder = "Division Code" })
-                                </div>
-                            </div>
                             <div class="col-md-4 col-md-offset-3" id="BranchCode1">
                                 <div class="id3">
                                     @Html.DropDownList("BranchCode", new SelectList(Enumerable.Empty<SelectListItem>(), "Code", "Name"), "Select Branch Code", htmlAttributes: new { @class = "selct", id = "BranchCode", @placeholder = "Branch Code" })
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-md-offset-3" id="DivisionCode1">
+                                <div class="id3">
+                                    @Html.TextBoxFor(model => model.DivCode, new { @class = "inpt anStyle", @type = "text", @data_animation = "up", @data_label = "Division", @autocomplete = "off",@readonly= "readonly" })
+                                    @*@Html.DropDownList("DivisionCode", new SelectList(Enumerable.Empty<SelectListItem>(), "Code", "Name"), "Select Branch Code", htmlAttributes: new { @class = "selct", id = "BranchCode", @placeholder = "Branch Code" })*@
 
                                 </div>
                             </div>
-                            <div class="col-md-4 col-md-offset-3" id="DepartmentCode1">
+                            @*<div class="col-md-4 col-md-offset-3" id="DepartmentCode1">
 
                                 <div class="id3">
                                     @Html.DropDownList("DepartmentCode", new SelectList(Enumerable.Empty<SelectListItem>(), "DepartmentCode", "DepartmentName"), "Select Department Code", htmlAttributes: new { @class = "selct", id = "DepartmentCode", @placeholder = "Department Code" })
                                 </div>
-                            </div>
+                            </div>*@
 
                             <div class="col-md-4 col-md-offset-3">
                                 @*<button type="submit" ID="Login" class="sb-frap">
@@ -194,10 +195,9 @@
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#DivisionCode1').hide();
+        $(document).ready(function () {            
             $('#BranchCode1').hide();
-            $('#DepartmentCode1').hide();
+            $('#DivisionCode1').hide();
             $.ajax({
                     url:'@Url.Action("CompanyCode")',
                     type: "POST",
@@ -216,50 +216,29 @@
                 });
         $("#CmpyCode").change(function () {
             if ($('#CmpyCode option:selected').val() == "0") {
-                $('#DivisionCode1').hide();
                 $('#BranchCode1').hide();
-                $('#DepartmentCode1').hide();
+                $('#DivisionCode1').hide();
+                //$('#DepartmentCode1').hide();
                 $('#BranchCode').empty();
-                $('#DepartmentCode').empty();
+                $('#DivCode').empty();
             }
             else
             {
-
                 $('#BranchCode1').hide();
-                $('#DepartmentCode1').hide();
+                $('#DivCode1').hide();
+                //$('#DepartmentCode1').hide();
                 $('#BranchCode').empty();
-                $('#DepartmentCode').empty();
-                $.get("/DivisionCode", { CmpyCode: $("#CmpyCode").val() }).done(function (response) {
-                    $('#DivisionCode').empty();
-                    $("[name*='DivisionCode']").append('<option value="0" selected="">Select Division Code</option>');
-                    var ary = [];
-                   
-                    ary = response;
-                    if (ary.length >= 1) {
-                        $('#DivisionCode1').show();
-                    }
-                    for (var i = 0; i < ary.length; i++) {
-                        $("[name*='DivisionCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                    }
-                    $("[name*='DivisionCode']").val(0);
-                });
-            }
-        });
+                $('#DivCode').empty();
 
-        $("#DivisionCode").change(function () {
-                if ($('#DivisionCode option:selected').val() == "0") {
-                    $('#BranchCode1').hide();
-                    $('#DepartmentCode1').hide();
-                }
-                else
-                {
-
-                    $('#DepartmentCode1').hide();
-                    $('#DepartmentCode').empty();
-                    $.get("/BranchCode", { CmpyCode: $("#CmpyCode").val(), DivCode: $("#DivisionCode").val() }).done(function (response) {
-                        $('#BranchCode').empty();
+                //$('#BranchCode1').hide();
+                //$('#DepartmentCode1').hide();
+                //$('#BranchCode').empty();
+                //$('#DepartmentCode').empty();
+                $.get("/BranchCodeN", { CmpyCode: $("#CmpyCode").val() }).done(function (response) {
+                    $('#BranchCode').empty();
                     $("[name*='BranchCode']").append('<option value="0" selected="">Select Branch Code</option>');
                     var ary = [];
+                   
                     ary = response;
                     if (ary.length >= 1) {
                         $('#BranchCode1').show();
@@ -268,33 +247,61 @@
                         $("[name*='BranchCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
                     }
                     $("[name*='BranchCode']").val(0);
-                    });
-                }
+                });
+            }
         });
+
+        //$("#DivisionCode").change(function () {
+        //        if ($('#DivisionCode option:selected').val() == "0") {
+        //            $('#BranchCode1').hide();
+        //            $('#DepartmentCode1').hide();
+        //        }
+        //        else
+        //        {
+
+        //            $('#DepartmentCode1').hide();
+        //            $('#DepartmentCode').empty();
+        //            $.get("/BranchCode", { CmpyCode: $("#CmpyCode").val(), DivCode: $("#DivisionCode").val() }).done(function (response) {
+        //                $('#BranchCode').empty();
+        //            $("[name*='BranchCode']").append('<option value="0" selected="">Select Branch Code</option>');
+        //            var ary = [];
+        //            ary = response;
+        //            if (ary.length >= 1) {
+        //                $('#BranchCode1').show();
+        //            }
+        //            for (var i = 0; i < ary.length; i++) {
+        //                $("[name*='BranchCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+        //            }
+        //            $("[name*='BranchCode']").val(0);
+        //            });
+        //        }
+        //});
         $("#BranchCode").change(function () {
            
 
             if ($('#BranchCode option:selected').val() == "0") {
-                $('#DepartmentCode1').hide();
+                $('#DivisionCode1').hide();
             }
             else
             {
 
 
-                $.get("/DepartmentCode", { CmpyCode: $("#CmpyCode").val(), DivCode: $("#DivisionCode").val(), Branchcode: $("#BranchCode").val() }).done(function (response) {
-                    $('#DepartmentCode').empty();
-                    $("[name*='DepartmentCode']").append('<option value="0" selected="">Select Department Code</option>');
+                $.get("/DivisioncodeN", { CmpyCode: $("#CmpyCode").val(), BranchCode: $("#BranchCode").val() }).done(function (response) {
+                    $('#DivCode').empty();
+                    debugger;
+                   // $("[name*='DepartmentCode']").append('<option value="0" selected="">Select Department Code</option>');
                     var ary = [];
                    
                     ary = response;
-                    if (ary.length >= 1)
+                    if (ary.length >=1)
                     {
-                        $('#DepartmentCode1').show();
+                        $('#DivisionCode1').show();
+                        $("[name*='DivCode']").val(response);
                     }
-                    for (var i = 0; i < ary.length; i++) {
-                        $("[name*='DepartmentCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                    }
-                    $("[name*='DepartmentCode']").val(0);
+                    //for (var i = 0; i < ary.length; i++) {
+                    //    $("[name*='DepartmentCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                    //}
+                   
                 });
             }
         });
@@ -304,9 +311,9 @@
         var user_name = $("[name*='user_name']");
         var PassW = $("[name*='PassW']");
         var CmpyCode = $("[name*='CmpyCode']  option:selected");
-        var DivCode = $("[name*='DivisionCode'] option:selected");
+        var DivCode = $("[name*='DivCode']");
         var BraCode = $("[name*='BranchCode'] option:selected");
-        var DepCode = $("[name*='DepartmentCode']  option:selected");
+        //var DepCode = $("[name*='DepartmentCode']  option:selected");
 
         $("#Login").click(function () {
            
@@ -314,9 +321,9 @@
             user_name: $("[name*='user_name']").val(),
             PassW: $("[name*='PassW']").val(),
             CmpyCode: $("[name*='CmpyCode']  option:selected").val(),
-            DivCode: $("[name*='DivisionCode'] option:selected").val(),
+            DivCode: $("[name*='DivCode']").val(),
             BraCode: $("[name*='BranchCode'] option:selected").val(),
-            DepCode: $("[name*='DepartmentCode']  option:selected").val(),
+            //DepCode: $("[name*='DepartmentCode']  option:selected").val(),
 
         };
         
