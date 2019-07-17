@@ -70,7 +70,7 @@ namespace EzBusiness_DL_Repository
         public List<ComDropTbl> GetDivisionList(string CmpyCode, string Prefix)
         {
             // return drop.GetDivCode(CmpyCode);
-            return drop.GetCommonDrop("DivisionCode as [Code],DivisionName as [CodeName]", "Mdiv08", "CmpyCode='" + CmpyCode + "' and  (DivisionCode like '" + Prefix + "%' or DivisionName like '" + Prefix + "%')");
+            return drop.GetCommonDrop("DivisionCode as [Code],DivisionName as [CodeName]", "MDIV011", "CmpyCode='" + CmpyCode + "' and  (DivisionCode like '" + Prefix + "%' or DivisionName like '" + Prefix + "%')");
             //ds = _EzBusinessHelper.ExecuteDataSet("Select DivisionCode,DivisionName from Mdiv08 where CmpyCode='" + CmpyCode + "' ");
             //dt = ds.Tables[0];
             //DataRowCollection drc = dt.Rows;
@@ -162,7 +162,7 @@ namespace EzBusiness_DL_Repository
         {
             // return drop.GetEmpList1(CmpyCode, empcode);
 
-            return drop.GetCommonDrop("'01' AS EmpCode as [Code], 'SELF' AS EmpName as [CodeName] UNION ALL SELECT EmpCode as [Code],EmpName as [CodeName]", "MEM001", "CmpyCode='" + CmpyCode + "' and Flag=0 and (EmpCode like '" + Prefix + "%' or EmpName like '" + Prefix + "%')");
+            return drop.GetCommonDrop("'01'  as [Code], 'SELF'  as [CodeName] UNION ALL SELECT EmpCode as [Code],EmpName as [CodeName]", "MEM001", "CmpyCode='" + CmpyCode + "' and Flag=0 and (EmpCode like '" + Prefix + "%' or EmpName like '" + Prefix + "%')");
 
         }
         public List<ComDropTbl> GetProjects(string CmpyCode, string Prefix)
