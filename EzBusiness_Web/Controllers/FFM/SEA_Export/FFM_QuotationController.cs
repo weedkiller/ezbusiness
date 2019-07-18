@@ -60,7 +60,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return PartialView(_QTNService.GetFF_QTNDetailsEdit(list[0].CmpyCode, FF_QTN001_CODE));
+                return PartialView(_QTNService.GetFF_QTNDetailsEdit(list[0].CmpyCode, FF_QTN001_CODE,list[0].BraCode));
             }
         }
 
@@ -88,7 +88,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             else
             {
 
-                return PartialView(_QTNService.GetFF_QTN(list[0].CmpyCode));
+                return PartialView(_QTNService.GetFF_QTN(list[0].CmpyCode,list[0].BraCode));
             }
         }
         [Route("SaveFFM_Quotation")]

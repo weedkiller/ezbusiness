@@ -1,4 +1,5 @@
 ﻿using EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export;
+using EzBusiness_DL_Interface;
 using EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export;
 using EzBusiness_DL_Repository;
 using EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export;
@@ -17,9 +18,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
     {
 
         IFF_BLRepository _FF_BLRepo;
+        ICodeGenRepository _CodeRep;
         public FF_BLService()
         {
             _FF_BLRepo = new FF_BLRepository();
+            _CodeRep = new CodeGenRepository();
 
         }
         DropListFillFun drop = new DropListFillFun();
@@ -265,25 +268,26 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         {
             return new FF_BL_VM
             {
-           //     CustList = GetCust(Cmpycode),
-           //     CurList = GetCurcode(Cmpycode),
-           //     UnitcodeList = GetUnitcode(Cmpycode),
-           //     VendorList = GetVendor(Cmpycode),
-           //     VOYAGEList = GetVOYAGEList(Cmpycode, "NA"),
-           //     JobTypList=GETJobTypList(Cmpycode),
-           //     SLList = GetVendor(Cmpycode),
-           //     CLAUSEList = GetCLAUSE(Cmpycode),
-           //     CRG_002List = GetCRG_002(Cmpycode),
-           //     DEPARTMENTList = GetDepart(Cmpycode),
-           //     MoveCodeList = GetMoveCode(Cmpycode),
-           //     VESSELList = GetVESSELList(Cmpycode),
-           //     Commodityist=GetCommodityistList(Cmpycode),
-           //     PortList = GetPortList(Cmpycode),               
-           // BILL_TOList = GetSL(Cmpycode, "FM"),
-           // SHIPPERList = GetSL(Cmpycode, "OP"),
-           //CONSIGNEEList = GetSL(Cmpycode, "OP"),
-           // FORWARDERList = GetSL(Cmpycode, "OP"),
-           // ConTypList=GetContTyp(Cmpycode),
+                //     CustList = GetCust(Cmpycode),
+                //     CurList = GetCurcode(Cmpycode),
+                //     UnitcodeList = GetUnitcode(Cmpycode),
+                //     VendorList = GetVendor(Cmpycode),
+                //     VOYAGEList = GetVOYAGEList(Cmpycode, "NA"),
+                //     JobTypList=GETJobTypList(Cmpycode),
+                //     SLList = GetVendor(Cmpycode),
+                //     CLAUSEList = GetCLAUSE(Cmpycode),
+                //     CRG_002List = GetCRG_002(Cmpycode),
+                //     DEPARTMENTList = GetDepart(Cmpycode),
+                //     MoveCodeList = GetMoveCode(Cmpycode),
+                //     VESSELList = GetVESSELList(Cmpycode),
+                //     Commodityist=GetCommodityistList(Cmpycode),
+                //     PortList = GetPortList(Cmpycode),               
+                // BILL_TOList = GetSL(Cmpycode, "FM"),
+                // SHIPPERList = GetSL(Cmpycode, "OP"),
+                //CONSIGNEEList = GetSL(Cmpycode, "OP"),
+                // FORWARDERList = GetSL(Cmpycode, "OP"),
+                // ConTypList=GetContTyp(Cmpycode),
+                FF_BL001_CODE = _CodeRep.GetCode(Cmpycode, "BillOfMaterial"),
            GetBOKCODEList=GetBOKCODE(Cmpycode,System.DateTime.Now),
             EditFlag = false
             };

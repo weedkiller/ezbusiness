@@ -42,7 +42,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<FF_BL_VM> GetFF_BL(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select Commodity_code,DG,FNMBRANCH_CODE,FORWARDER,SHIPPER,PLACE_OF_RCPT,FF_QTN001_CODE,FF_BL001_DATE,DELIVERY_AT,CARRIER,BILL_TO,DEPARTMENT,FF_BL001_CODE,ETD,ETA,FND,MOVE_TYPE,PICKUP_PLACE,POD,POL,REF_NO,Total_Billed,Total_Cost,Total_Profit,VESSEL,VOYAGE,CONSIGNEE,FF_BOK001_CODE from FF_BL001 where Flag=0 and CMPYCODE='" + CmpyCode + "' ");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Commodity_code,FNMBRANCH_CODE,FORWARDER,SHIPPER,PLACE_OF_RCPT,FF_QTN001_CODE,FF_BL001_DATE,DELIVERY_AT,CARRIER,BILL_TO,DEPARTMENT,FF_BL001_CODE,ETD,ETA,FND,MOVE_TYPE,PICKUP_PLACE,POD,POL,REF_NO,Total_Billed,Total_Cost,Total_Profit,VESSEL,VOYAGE,CONSIGNEE,FF_BOK001_CODE from FF_BL001 where Flag=0 and CMPYCODE='" + CmpyCode + "' ");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FF_BL_VM> ObjList = new List<FF_BL_VM>();
@@ -76,7 +76,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     CONSIGNEE=dr["CONSIGNEE"].ToString(),
                     FF_BOK001_CODE=dr["FF_BOK001_CODE"].ToString(),
                     Commodity_code=dr["Commodity_code"].ToString(),
-                    DG=dr["DG"].ToString(),
+                 //   DG=dr["DG"].ToString(),
                     FNMBRANCH_CODE=dr["FNMBRANCH_CODE"].ToString()
 
 

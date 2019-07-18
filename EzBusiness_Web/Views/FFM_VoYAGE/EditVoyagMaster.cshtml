@@ -10,6 +10,8 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 
 <script>
   
@@ -28,10 +30,14 @@
             });
         });
         $('.selectpicker').selectpicker('refresh');
-    
+        EzAutoCompTxt1("#FFM_VESSEL_CODE","#FFM_VESSEL_CODE","/GetVessalCode");
+      
+        //EzAutoCompTxtE("#FFM_VESSEL_CODE", "#hdnFFM_VESSEL_CODE", "/GetVessalCode", false, "");
         //EzdtePkEdit('#ETA1', "#ETA", "DD/MM/YYYY");
         //EzdtePkEdit('#ETB1', "#ETB", "DD/MM/YYYY");
         //EzdtePkEdit('#ETD1', "#ETD", "DD/MM/YYYY");
+        EzAutoCompTxtE("#FFM_VESSEL_CODE", "#FFM_VESSEL_CODE", "/GetVessalCode", false, "");
+        EzAutotxtEventTbl12("#tablePODetails", "focus", "[name*='txtport1']", "[name*='hdnPORT1']", "/FFM_Quotation/GetPortList", false, "");
         var tblcntr1 = $("#tablePODetails tbody tr");
         var index3 = 1;
         tblcntr1.each(function (index3, item) {            
@@ -154,10 +160,10 @@
 
         });
 
-        EzDropFillEvent("FFM_VESSEL_CODE", "click", "FFM_VESSEL_CODE", "GetVessalCode");
+       // EzDropFillEvent("FFM_VESSEL_CODE", "click", "FFM_VESSEL_CODE", "GetVessalCode");
 
 
-        EzDropFillEventTbl1("#tablePODetails", "[name*='txtport']", "click", "[name*='txtport']", "/FFM_Quotation/GetPortList", "hdnPORT", true);
+        //EzDropFillEventTbl1("#tablePODetails", "[name*='txtport']", "click", "[name*='txtport']", "/FFM_Quotation/GetPortList", "hdnPORT", true);
 
   });
 
@@ -181,7 +187,8 @@
                                     <label class="control-label col-md-3">Vessal Code</label>
                                     <div class="col-md-8 input-field">
                                         @*<select class="form-control" id="ddlvessalcode" name="ddlvessalcode"></select>*@
-                                        @Html.DropDownListFor(m => m.FFM_VESSEL_CODE, Model.VessalCodeList, new { @class = "form-control", @data_live_search = "true" })
+                                        @Html.TextBoxFor(m => m.FFM_VESSEL_CODE, new { @class = "form-control" })
+                                        @*@Html.DropDownListFor(m => m.FFM_VESSEL_CODE, Model.VessalCodeList, new { @class = "form-control", @data_live_search = "true" })*@
                                         @Html.HiddenFor(m=>m.FFM_VESSEL_CODE)
                                     </div>
                                 </div>
@@ -287,9 +294,13 @@
                 </td>
                 <td>
                     <div class="grid-group">
-                        @Html.DropDownList(string.Concat("txtport", counter), item.PortList1, new { @class = "grid-control", @data_live_search = "true" })
+                        @*@Html.DropDownList(string.Concat("txtport", counter), item.PortList1, new { @class = "grid-control", @data_live_search = "true" })*@
                         @*@Html.TextBox(string.Concat("PORT", counter), null, new { @class = "grid-control" })*@
-                        @Html.Hidden(string.Concat("hdnPORT", counter), item.PORT)
+                        @*@Html.Hidden(string.Concat("hdnPORT", counter), item.PORT)*@
+                        @Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control" })
+                        @Html.Hidden(string.Concat("hdnPORT", counter), null, new { @class = "grid-control" })
+
+
                     </div>
                 </td>
                 <td>
@@ -344,7 +355,10 @@
                             <td>
                                 <div class="grid-group">
                                     @*@Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control " })*@
-                                    @Html.DropDownList(string.Concat("txtport", counter),TypeListdata1, new { @class = "selectpicker grid-control", @data_live_search = "true" })
+                                 
+                                    @Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control" })
+                                    @Html.Hidden(string.Concat("hdnPORT", counter), null, new { @class = "grid-control" })
+                                    @*@Html.DropDownList(string.Concat("txtport", counter),TypeListdata1, new { @class = "selectpicker grid-control", @data_live_search = "true" })*@
                                     @*@Html.DropDownListFor(m => m.PORT, Model.PortList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
                                 </div>
                             </td>

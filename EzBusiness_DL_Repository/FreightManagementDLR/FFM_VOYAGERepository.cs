@@ -246,13 +246,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
             return FCur;
         }
-        public List<FFM_VESSEL> GetVessalCode(string CmpyCode)
+        public List<ComDropTbl> GetVessalCode(string CmpyCode,string Prefix)
         {
-            return drop.GetVessalCode(CmpyCode);
+            // return drop.GetVessalCode(CmpyCode, Prefix);
+            return drop.GetCommonDrop("FFM_VESSEL_CODE as [Code],NAME as [CodeName]", "FFM_VESSEL", "CMPYCODE='" + CmpyCode + "' and Flag1=0 and (FFM_VESSEL_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
-        public List<FFM_PORT> GetPortList(string CmpyCode)
+        public List<ComDropTbl> GetPortList(string CmpyCode,string Prefix)
         {
-            return drop.GetPortList(CmpyCode);
+            //return drop.GetPortList(CmpyCode, Prefix);
+            return drop.GetCommonDrop("FFM_PORT_CODE as [Code],NAME as [CodeName]", "FFM_PORT", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FFM_PORT_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
         public FFM_VOYAGE_VM EditVoyagMaster(string CmpyCode, string vyogcode)
         {
