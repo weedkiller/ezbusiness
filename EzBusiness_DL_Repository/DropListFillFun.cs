@@ -659,9 +659,9 @@ namespace EzBusiness_DL_Repository
             }
             return ObjList;
         }
-        public List<Nation> GetNationList(string CmpyCode,string Prefix)
+        public List<Nation> GetNationList(string CmpyCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select Code,Name from MNAT019 where CmpyCode='" + CmpyCode + "' and (Code like '" + Prefix + "%' or Name like '" + Prefix + "%') ");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Code,Name from MNAT019 where CmpyCode='" + CmpyCode + "' ");
             List<Nation> ObjList = null;
             if (ds.Tables.Count > 0)
             {

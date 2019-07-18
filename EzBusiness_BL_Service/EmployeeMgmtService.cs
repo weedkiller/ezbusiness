@@ -134,7 +134,7 @@ namespace EzBusiness_BL_Service
         public List<SelectListItem> GetDegreeList(string Cmpycode,string Prefix)
         {
             var itemCodes = _EmployeeMgmtRepo.GetDegreeList(Cmpycode, Prefix)
-                                   .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
+                                    .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code + "-" + m.CodeName) })
                                    .ToList();
 
             return itemCodes;
@@ -417,7 +417,7 @@ namespace EzBusiness_BL_Service
         {
 
             var itemCodes = _EmployeeMgmtRepo.GetDocList(CmpyCode, Prefix)
-                                        .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
+                                        .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code + "-" + m.CodeName) })
                                          .ToList();
 
             return itemCodes;

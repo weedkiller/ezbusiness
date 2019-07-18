@@ -466,6 +466,32 @@ namespace EzBusiness_Web.Controllers
                 return Json(_employeeService.GetEmpList1(list[0].CmpyCode, PVal1, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
+        //GetDocList
+
+        public ActionResult GetDocList(string Prefix)
+        {           //"ATTTYPE"
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_employeeService.GetDocList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetDegreeList(string Prefix)
+        {           //"ATTTYPE"
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_employeeService.GetDegreeList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
 
         //public ActionResult GetCommList1(string Prefix)
         //{

@@ -2006,6 +2006,69 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
                      });                                
          }
 
+         function EzAutoCompTxtV2(inpid, inphid, urls, inparrv) {
+             debugger;
+             $.ajax({
+                 async: false,
+                 cache: false,
+                 url: urls,
+                 type: "POST",
+                 dataType: "json",
+                 data: { Prefix: $(inpid).val(), PVal1:inparrV },
+                 success: function (data) {
+                     if (data.length > 0) {
+                         $(inpid).val(data[0].Value);
+                         $(inphid).val(data[0].Text);
+                     } else {
+                         $(inpid).val('');
+                         $(inphid).val(-1);
+                     }
+                 }
+             });
+         }
+
+         function EzAutoCompTxt2(inpid, inphid, urls, inparrv) {
+             debugger;
+             $.ajax({
+                 async: false,
+                 cache: false,
+                 url: urls,
+                 type: "POST",
+                 dataType: "json",
+                 data: { Prefix: $(inpid).val(), PVal1: $(inparrV).val() },
+                 success: function (data) {
+                     if (data.length > 0) {
+                         $(inpid).val(data[0].Value);
+                         $(inphid).val(data[0].Text);
+                     } else {
+                         $(inpid).val('');
+                         $(inphid).val(-1);
+                     }
+                 }
+             });
+         }
+
+         function EzAutoCompTxt3(inpid, inphid, urls, inparrv,inparrv1) {
+             debugger;
+             $.ajax({
+                 async: false,
+                 cache: false,
+                 url: urls,
+                 type: "POST",
+                 dataType: "json",
+                 data: { Prefix: $(inpid).val(), PVal1: $(inparrV).val(), PVal2: $(inparrv1).val() },
+                 success: function (data) {
+                     if (data.length > 0) {
+                         $(inpid).val(data[0].Value);
+                         $(inphid).val(data[0].Text);
+                     } else {
+                         $(inpid).val('');
+                         $(inphid).val(-1);
+                     }
+                 }
+             });
+         }
+
          function EzAutoCompTxtpar1(inpid, inphid, urls,inppar,inpname) {
              debugger;
              $.ajax({
