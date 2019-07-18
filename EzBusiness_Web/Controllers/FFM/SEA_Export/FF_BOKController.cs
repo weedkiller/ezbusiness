@@ -212,5 +212,33 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return Json(_BOKService.GETJobTypList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult GetSLNew(string PVal1, string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_BOKService.GetSLNew(list[0].CmpyCode, PVal1, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetSalesman(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_BOKService.GetSalesman(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
     }
 }

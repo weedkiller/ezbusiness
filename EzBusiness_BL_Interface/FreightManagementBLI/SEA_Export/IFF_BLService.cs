@@ -49,6 +49,9 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         decimal GetCurRate(string CmpyCode, string CurCode);
         
         List<SelectListItem> GetBOKCODE(string CmpyCode, DateTime dte);
+
+
+        
     }
 
 
