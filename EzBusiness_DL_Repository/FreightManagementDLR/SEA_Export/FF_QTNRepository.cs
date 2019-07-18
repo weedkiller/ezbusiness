@@ -592,8 +592,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             FQT1.FDZIP = FQV.FDZIP;
                             FQT1.Commodity_code = FQV.Commodity_code;
                             FQT1.FNMBRANCH_CODE = FQV.FNMBRANCH_CODE;
-                            FQT1.IMCO = FQV.IMCO;
-                            FQT1.salesman = FQV.salesman;
+                           
+                            FQT1.Salesman = FQV.Salesman;
                             FQT1.DG = FQV.DG;
                             FQT1.notifypart1 = FQV.notifypart1;
                             FQT1.notifypart2 = FQV.notifypart2;
