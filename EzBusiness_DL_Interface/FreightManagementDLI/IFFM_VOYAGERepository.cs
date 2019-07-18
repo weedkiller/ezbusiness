@@ -1,4 +1,5 @@
-﻿using EzBusiness_EF_Entity.FreightManagementEF;
+﻿using EzBusiness_EF_Entity;
+using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
     {
         List<FFM_VOYAGE_VM> GetFFM_VoYAGEAList(string CMPYCODE);
         FFM_VOYAGE_VM SaveFFM_Voyage(FFM_VOYAGE_VM FCur);
-        List<FFM_VESSEL> GetVessalCode(string CmpyCode);
-        List<FFM_PORT> GetPortList(string CmpyCode);
+        List<ComDropTbl> GetVessalCode(string CmpyCode,string Prefix);
+        List<ComDropTbl> GetPortList(string CmpyCode,string Prefix);
         FFM_VOYAGE_VM EditVoyagMaster(string CmpyCode, string vyogcode);
         List<FFM_VOYAGEA> GetVayogeDetailList(string CmpyCode, string VyogCode);
         bool DeleteVoyagMaster(string CmpyCode, string Voyage, string UserName);

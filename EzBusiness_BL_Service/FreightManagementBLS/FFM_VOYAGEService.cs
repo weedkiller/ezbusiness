@@ -42,36 +42,46 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         }
 
       
-        public List<SelectListItem> GetVessalCode(string CmpyCode)
+        public List<SelectListItem> GetVessalCode(string CmpyCode,string Prefix)
         {
-            var CurrencyList = _FFM_VOYEGERepo.GetVessalCode(CmpyCode)
-                                        .Select(m => new SelectListItem { Value = m.FFM_VESSEL_CODE, Text = string.Concat(m.FFM_VESSEL_CODE, " - ", m.NAME) })
-                                        .ToList();
-            return InsertFirstElementDDL(CurrencyList);
+            //var CurrencyList = _FFM_VOYEGERepo.GetVessalCode(CmpyCode,Prefix)
+            //                            .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.code, " - ", m.NAME) })
+            //                            .ToList(); 
+            //return CurrencyList;
+            var CurrencyList = _FFM_VOYEGERepo.GetVessalCode(CmpyCode, Prefix)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                          .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
+                                          .ToList();
+            return CurrencyList;
         }
-        public List<SelectListItem> GetPortList(string CmpyCode)
+        public List<SelectListItem> GetPortList(string CmpyCode,string Prefix)
         {
-            var CurrencyList = _FFM_VOYEGERepo.GetPortList(CmpyCode)
-                                        .Select(m => new SelectListItem { Value = m.FFM_PORT_CODE, Text = string.Concat(m.FFM_PORT_CODE, " - ", m.NAME) })
-                                        .ToList();
-            return InsertFirstElementDDL(CurrencyList);
+            //var CurrencyList = _FFM_VOYEGERepo.GetPortList(CmpyCode,Prefix)
+            //                            .Select(m => new SelectListItem { Value = m.FFM_PORT_CODE, Text = string.Concat(m.FFM_PORT_CODE, " - ", m.NAME) })
+            //                            .ToList();
+            //return InsertFirstElementDDL(CurrencyList);
+            var CurrencyList = _FFM_VOYEGERepo.GetPortList(CmpyCode, Prefix)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                       .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                       .ToList();
+            return CurrencyList;
+
         }
 
-        public List<SelectListItem> GetVessalCodeEdit(string CmpyCode, string code)
-        {
-            var CurrencyList = _FFM_VOYEGERepo.GetVessalCode(CmpyCode).Where(m => m.FFM_VESSEL_CODE.ToString() == code).ToList()
-                                        .Select(m => new SelectListItem { Value = m.FFM_VESSEL_CODE, Text = string.Concat(m.FFM_VESSEL_CODE, " - ", m.NAME) })
-                                        .ToList();
-            return InsertFirstElementDDL(CurrencyList);
-        }
+        //public List<SelectListItem> GetVessalCodeEdit(string CmpyCode, string code)
+        //{
+        //    var CurrencyList = _FFM_VOYEGERepo.GetVessalCode(CmpyCode,Prefix)//.Where(m => m.Code.ToString() == code).ToList()
+        //                                .Select(m => new SelectListItem { Value = m.CodeName, Text = string.Concat(m.Code, " - ", m.CodeName) })
+        //                                .ToList();
+        //    return InsertFirstElementDDL(CurrencyList);
 
-        public List<SelectListItem> GetPortListEdit(string CmpyCode,string code)
-        {
-            var CurrencyList = _FFM_VOYEGERepo.GetPortList(CmpyCode).Where(m => m.FFM_PORT_CODE.ToString() == code).ToList()
-                                        .Select(m => new SelectListItem { Value = m.FFM_PORT_CODE, Text = string.Concat(m.FFM_PORT_CODE, " - ", m.NAME) })
-                                        .ToList();
-            return InsertFirstElementDDL(CurrencyList);
-        }
+        //}
+
+        //public List<SelectListItem> GetPortListEdit(string CmpyCode,string code,string Prefix)
+        //{
+        //    var CurrencyList = _FFM_VOYEGERepo.GetPortList(CmpyCode, Prefix)//.Where(m => m.FFM_PORT_CODE.ToString() == code).ToList()
+        //                                .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+        //                                .ToList();
+        //    return InsertFirstElementDDL(CurrencyList);
+        //}
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
         {
             items.Insert(0, new SelectListItem
@@ -86,7 +96,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         {
           
             var poEdit = _FFM_VOYEGERepo.EditVoyagMaster(CmpyCode,VyogCode);
-            poEdit.VessalCodeList = GetVessalCodeEdit(CmpyCode, poEdit.FFM_VESSEL_CODE);//GetVessalCode(CmpyCode);
+          //  poEdit.VessalCodeList = GetVessalCodeEdit(CmpyCode, poEdit.FFM_VESSEL_CODE);//GetVessalCode(CmpyCode);
           //  poEdit.PortList = GetPortList(CmpyCode);
             poEdit.newdetails = GetVayogeDetailList(CmpyCode, VyogCode);   
             return poEdit;    
@@ -112,7 +122,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 ETD = m.ETD,
                 PortStayHours = m.PortStayHours,
                 SailingHrs=m.SailingHrs,
-               PortList1= GetPortListEdit(CmpyCode,m.PORT)
+              // PortList1= GetPortListEdit(CmpyCode,m.PORT)
             }).ToList();
         }
         public FFM_VOYAGE_VM AddVoyageMaster(string CmpyCode)

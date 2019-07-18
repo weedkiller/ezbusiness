@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export;
 using EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export;
 using EzBusiness_ViewModels;
+using EzBusiness_DL_Interface;
 
 namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 { 
@@ -18,9 +19,12 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
     {
 
         IFF_QTNRepository _FF_QTNRepo;
+        ICodeGenRepository _CodeRep;
+
         public FF_QTNService()
         {
             _FF_QTNRepo = new FF_QTNRepository();
+            _CodeRep = new CodeGenRepository();
 
         }
         DropListFillFun drop = new DropListFillFun();
@@ -29,9 +33,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_QTNRepo.DeleteFF_QTN(CmpyCode, FF_QTN001_CODE, UserName);
         }
 
-        public List<FF_QTN_VM> GetFF_QTN(string CmpyCode)
+        public List<FF_QTN_VM> GetFF_QTN(string CmpyCode,string Branchcode)
         {
-            return _FF_QTNRepo.GetFF_QTN(CmpyCode);
+            return _FF_QTNRepo.GetFF_QTN(CmpyCode, Branchcode);
         }
 
         public List<FF_QTN002New> GetFF_QTN002DetailList(string CmpyCode, string FF_QTN001_CODE)
@@ -126,9 +130,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             }).ToList();
         }
 
-        public FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE)
+        public FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE,string BranchCode)
         {
-            var poEdit = _FF_QTNRepo.GetFF_QTNDetailsEdit(CmpyCode, FF_QTN001_CODE);
+            var poEdit = _FF_QTNRepo.GetFF_QTNDetailsEdit(CmpyCode, FF_QTN001_CODE, BranchCode);
             poEdit.FF_QTN002Detail = GetFF_QTN002DetailList(CmpyCode, FF_QTN001_CODE);
             poEdit.FF_QTN003Detail = GetFF_QTN003DetailList(CmpyCode, FF_QTN001_CODE);
             poEdit.FF_QTN004Detail = GetFF_QTN004DetailList(CmpyCode, FF_QTN001_CODE);
@@ -182,6 +186,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
        
         public FF_QTN_VM GetFF_QTN_AddNew(string Cmpycode)
         {
+            //var FF_QTN001_CODE = _CodeRep.GetCode(Cmpycode, "SupplierQuotation");
             return new FF_QTN_VM
             {
                 //CustList=GetCust(Cmpycode),
@@ -198,6 +203,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 //PortList=GetPortList(Cmpycode),
                 ////ConTypList=GetContTyp(Cmpycode),
                 ////Commodityist= GetCommodityistList(Cmpycode),
+                FF_QTN001_CODE = _CodeRep.GetCode(Cmpycode,"SupplierQuotation"),
                 EditFlag = false
             };
         }

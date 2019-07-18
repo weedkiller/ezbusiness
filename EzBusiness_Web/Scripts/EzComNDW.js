@@ -1995,6 +1995,7 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
                          dataType: "json",
                          data: { Prefix: $(inpid).val() },
                          success: function (data) {
+                             debugger;
                              if (data.length >0) {
                                  $(inpid).val(data[0].Value);
                                  $(inphid).val(data[0].Text);

@@ -123,13 +123,13 @@
 
 
         $("#btnSave").click(function () {
-            
+            debugger;
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
             var n = EzAuthenticationBtn("/VoyaGEDataMaster", "EditIt");
             if (opMode == "Add") {
                 var Fcur = {
-                    FFM_VESSEL_CODE: $("[name='FFM_VESSEL_CODE'] option:selected").val(),
+                    FFM_VESSEL_CODE: $("[name='hdnFFM_VESSEL_CODE']").val(),
                     NAME: $("[name='NAME']").val(),
                     FFM_VOYAGE01_CODE: $("[name='FFM_VOYAGE01_CODE']").val(),
                     DISPLAY_STATUS: $("[name='txtdisplaystatus1'] option:selected").val(),
@@ -167,10 +167,11 @@
                 if (validationResult.formValid) {
                     $.post("/FFM_VoYAGE/SaveFFM_Voyage", Fcur).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            EzbtnsaveAcVis("#POContainer");
+                           
                             EzAlertSave();
                             $("#POContainer").html(poHtml);
                             GetPurchaseOrderList();
+                            EzbtnsaveAcVis("#POContainer");
                         } else {
                             //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);

@@ -53,8 +53,8 @@ namespace EzBusiness_Web.Controllers.FMHEAD
 
         }
         [Route("GetVessalCode")]
-        public ActionResult GetVessalCode()
-        {
+        public ActionResult GetVessalCode(string Prefix)
+       {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {
@@ -62,7 +62,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(_FFMVoyagServices.GetVessalCode(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_FFMVoyagServices.GetVessalCode(list[0].CmpyCode,Prefix), JsonRequestBehavior.AllowGet);
             }
         }
         [Route("EditVoyagMaster")]

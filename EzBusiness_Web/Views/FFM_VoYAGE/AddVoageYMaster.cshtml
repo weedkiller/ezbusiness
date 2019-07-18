@@ -9,15 +9,18 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
+
 <script>
     $(function () {
-       // EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
+        // EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
+        debugger;
+        EzAutoCompTxtE("#FFM_VESSEL_CODE","#hdnFFM_VESSEL_CODE","/GetVessalCode", false, "");
+        //EzDropFillEvent("FFM_VESSEL_CODE", "click", "FFM_VESSEL_CODE", "GetVessalCode");
+        EzAutotxtEventTbl12("#tablePODetails", "focus", "[name*='txtport']", "[name*='txt1port']", "/FFM_Quotation/GetPortList", false, "");
 
-
-        EzDropFillEvent("FFM_VESSEL_CODE", "click", "FFM_VESSEL_CODE", "GetVessalCode");
-
-
-        EzDropFillEventTbl1("#tablePODetails", "[name*='txtport']", "click", "[name*='txtport']", "/FFM_Quotation/GetPortList", "", false);
+      //  EzDropFillEventTbl1("#tablePODetails", "[name*='txtport']", "click", "[name*='txtport']", "/FFM_Quotation/GetPortList", "", false);
 
 
         var counter = parseInt($("#hdnCounter").val());
@@ -35,13 +38,13 @@
 
 
         $('.selectpicker').selectpicker('refresh');
-      //  EzdtePk('#txtETA,#txtETAB,#txtETAD');
+        //  EzdtePk('#txtETA,#txtETAB,#txtETAD');
         //Ezsetzerotxt();
         //Ezdteformtcurtime();
-        
+
         $("#tablePODetails").on("change", "[name*='txtRotation']", function () {
-            
-            
+
+
             if (EzHeadTxtvalid("[name *= 'FFM_VESSEL_CODE'] option:selected", "#tablePODetails tbody tr:last", "[name *= 'txtRotation']", "Please Enter VESSEL CODE", '0', '0') == true) {
                 return;
             }
@@ -70,8 +73,6 @@
                 tr.find("[name *= 'txtRotation']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
                 tr.find("[name *= 'txtRotation']").val('');
-
-
             }
             else {
                 tr.css("background", "");
@@ -80,7 +81,7 @@
                     var trLast = $("#tablePODetails tbody tr:last")
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
-                   // trLast.find("[name*='txtsrno']").val(tcunt);
+                    // trLast.find("[name*='txtsrno']").val(tcunt);
                     trLast.find("[name*='txtRotation']").val('');
                     trLast.find("[name*='txtport'] option:selected").val('');
                     trLast.find("[name*='txtETA']").val('');
@@ -137,26 +138,27 @@
             });
 
         });
-      
 
-            $("#FFM_VESSEL_CODE").change(function () {
-                
-                var VessalCode = $("#FFM_VESSEL_CODE option:selected").val();
-                $.get("GetNameByVessalCode", { VessalCode: VessalCode }).done(function (response) {
-                    $("#NAME").val(response.Vessalname);
-                });
-            });
-            $('.selectpicker').selectpicker({
-                style: 'btn-info',
-                size: 4,
 
-            });
+        $("#FFM_VESSEL_CODE").change(function () {
 
-            $('body').on('focus', ':input', function () {
-                $(this).attr('autocomplete', 'off');
+            var VessalCode = $("#FFM_VESSEL_CODE option:selected").val();
+            $.get("GetNameByVessalCode", { VessalCode: VessalCode }).done(function (response) {
+                $("#NAME").val(response.Vessalname);
             });
+        });
+        $('.selectpicker').selectpicker({
+            style: 'btn-info',
+            size: 4,
 
         });
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
+        // EzAutotxtEventTbl12("#tablePODetails", "focus", "[name*='ddlCURRENCY']", "[name*='ddl1CURRENCY']", "GetCurrencyCodes", false, "");
+
+    });
 
 </script>
 
@@ -182,7 +184,9 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Vessal Code<i class="star">*</i></label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.DropDownListFor(m => m.FFM_VESSEL_CODE, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
+                                                    @*@Html.DropDownListFor(m => m.FFM_VESSEL_CODE, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+                                                    @Html.TextBoxFor(m => m.FFM_VESSEL_CODE, new { @class = "form-control", @placeholder = "Select VESSEL" })
+                                                    <input id="hdnFFM_VESSEL_CODE" type="hidden" class="form-control" name="hdnFFM_VESSEL_CODE" value="-1" />
                                                 </div>
                                             </div>
                                         </div>
@@ -221,100 +225,105 @@
 
 
                                 </div>
-                            </div><br />
+                            </div>
+                            <br />
                             <!-- END FORM-->
 
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
+                                <li class="active">
+                                    <a data-toggle="tab" href="#home">Detail</a>
+                                </li>
                             </ul>
                             <div class="tab-content">
                                 @*<div id="home" class="tab-pane fade in active">*@
-                                    <br /><br />
-                                    <div class="row">
+                                <br />
+                                <br />
+                                <div class="row">
                                     <div class="col-md-12">
-                                        
-                                            <table class="table table-bordered stripe display hover" id="tablePODetails">
-                                                <thead>
-                                                    <tr class="tr">
-                                                        <th> Sr.No </th>
-                                                        <th>Rotation</th>
-                                                        <th>Port</th>
-                                                        <th>ETA</th>
-                                                        <th>ETB</th>
-                                                        <th>ETD</th>
-                                                        <th>Port Stay Hrs</th>
-                                                        <th> sailing Hrs</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @{int RowNo = 1;}
-                                                    <tr>
 
-                                                        <td>
-                                                            <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control",@readonly= "readonly" })
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("txtRotation", counter), null, new { @class = "grid-control" })
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="grid-group">
-                                                                @Html.DropDownList(string.Concat("txtport", counter), TypeListdata1, new { @class = "grid-control", @data_live_search = "true" })
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("txtETA", counter), null, new { @class = "grid-control datepicker" })
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("txtETB", counter), null, new { @class = "grid-control datepicker" })
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("txtETD", counter), null, new { @class = "grid-control datepicker" })
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("txtPortStayhrs", counter), null, new { @class = "grid-control", @Type = "Number" })
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="grid-group">
-                                                                @Html.TextBox(string.Concat("txtSailinghrs", counter), null, new { @class = "grid-control", @Type = "Number" })
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                        <table class="table table-bordered stripe display hover" id="tablePODetails">
+                                            <thead>
+                                                <tr class="tr">
+                                                    <th> Sr.No </th>
+                                                    <th>Rotation</th>
+                                                    <th>Port</th>
+                                                    <th>ETA</th>
+                                                    <th>ETB</th>
+                                                    <th>ETD</th>
+                                                    <th>Port Stay Hrs</th>
+                                                    <th> sailing Hrs</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{int RowNo = 1;}
+                                                <tr>
 
-                                                </tbody>
-                                            </table>
-                                            @Html.Hidden("hdnCounter", (++counter))
-                                       
+                                                    <td>
+                                                        <div class="grid-group">
+                                                            @Html.TextBox(string.Concat("txtsrno", counter), @RowNo, new { @class = "grid-control", @readonly = "readonly" })
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="grid-group">
+                                                            @Html.TextBox(string.Concat("txtRotation", counter), null, new { @class = "grid-control" })
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="grid-group">
+                                                            @*@Html.DropDownList(string.Concat("txtport", counter), TypeListdata1, new { @class = "grid-control", @data_live_search = "true" })*@
+                                                            @Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control" })
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="grid-group">
+                                                            @Html.TextBox(string.Concat("txtETA", counter), null, new { @class = "grid-control datepicker" })
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="grid-group">
+                                                            @Html.TextBox(string.Concat("txtETB", counter), null, new { @class = "grid-control datepicker" })
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="grid-group">
+                                                            @Html.TextBox(string.Concat("txtETD", counter), null, new { @class = "grid-control datepicker" })
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="grid-group">
+                                                            @Html.TextBox(string.Concat("txtPortStayhrs", counter), null, new { @class = "grid-control", @Type = "Number" })
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="grid-group">
+                                                            @Html.TextBox(string.Concat("txtSailinghrs", counter), null, new { @class = "grid-control", @Type = "Number" })
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                        @Html.Hidden("hdnCounter", (++counter))
+
                                     </div>
-                                    </div>
+                                </div>
                                 @*</div>*@
 
                             </div>
 
-                                <!-- <button>Hey, click me!</button> -->
-                            </div>
+                            <!-- <button>Hey, click me!</button> -->
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 
-
+</div>
 
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $(".alert-close").click(function () {
             $("#editshow").hide();
         });

@@ -11,8 +11,8 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 {
     public interface IFF_QTNService
     {
-        List<FF_QTN_VM> GetFF_QTN(string CmpyCode);
-        FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE);
+        List<FF_QTN_VM> GetFF_QTN(string CmpyCode,string branchcode);
+        FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE,string BranchCode);
         FF_QTN_VM SaveFF_QTN_VM(FF_QTN_VM FQV);
 
         FF_QTN_VM GetFF_QTN_AddNew(string Cmpycode);

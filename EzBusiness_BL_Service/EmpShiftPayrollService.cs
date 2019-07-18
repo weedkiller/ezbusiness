@@ -95,7 +95,7 @@ namespace EzBusiness_BL_Service
 
             return new EmpShiftVM
             {
-                PRSFT003_code=_CodeRep.GetCode(CmpyCode, "EMPShiftMaster"),
+                PRSFT003_code=_CodeRep.GetCode(CmpyCode,"EMPShiftMaster"),
                 EmpCodeList = GetEmpCodes(CmpyCode),
                 ShiftCode = GetShiftCodes(CmpyCode),
                 ShiftCodeAlloc = GetShiftAllocCode(CmpyCode, "0"),
