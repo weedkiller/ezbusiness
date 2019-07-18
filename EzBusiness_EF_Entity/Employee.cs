@@ -59,6 +59,7 @@ namespace EzBusiness_EF_Entity
         public string ReportingEmp { get; set; }
         public string MaritalStatus { get; set; }
         public string BloodGroup { get; set; }
+        public string GBloodGroup { get; set; }
         public string PhysicallyDisabledYN { get; set; }
         public string PhysicallyDisabled { get; set; }
        

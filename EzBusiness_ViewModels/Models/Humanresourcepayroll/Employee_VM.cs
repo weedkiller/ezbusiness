@@ -63,6 +63,7 @@ namespace EzBusiness_ViewModels.Models.Humanresourcepayroll
         public List<SelectListItem> ReportingEmpList { get; set; }
         public string MaritalStatus { get; set; }
         public string BloodGroup { get; set; }
+        public string GBloodGroup { get; set; }
         public List<SelectListItem> BloodGroupList { get; set; }
         public string PhysicallyDisabledYN { get; set; }
         public string PhysicallyDisabled { get; set; }       

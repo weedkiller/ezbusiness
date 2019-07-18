@@ -50,7 +50,7 @@
         });
        // ezValidateNumbers("#tablePODetails1", "[name*='ObtainedYear']");
 
-        EztableTabEve("#tablePODetails1", "[name*='ObtainedYear']", "[name *= 'Specification']", "Please Enter ObtainedYear", 'N', "0");
+        EztableTabEve("#tablePODetails1", "[name*='txtObtainedYear']", "[name *= 'Specification']", "Please Enter ObtainedYear", 'N', "0");
 
         $("#tablePODetails2").on("change", "[name*='SourceFile']", function () {
             
@@ -163,7 +163,7 @@
         EzAutoCompTxtE("#Week_off2", "#hdnWeek_off2", "EmployeeMaster/GetWeekdaysList", false, "");
         EzAutoCompTxtE("#DivisionCode", "#hdnDivisionCode", "EmployeeMaster/GetDivisionList", false, "");
         
-        EzAutoCompTxtEParV1("#ReportingEmp", "#hdnReportingEmp", "EmployeeMaster/GetCommList", false, "", "SELF");
+        EzAutoCompTxtEParV1("#ReportingEmp", "#hdnReportingEmp", "EmployeeMaster/GetEmpList1", false, "", "SELF");
         EzAutoCompTxtEPar1("#BranchCode", "#hdnBranchCode", "EmployeeMaster/GetBranchCodeList1", false,"",  "#hdnDivisionCode");
         EzAutoCompTxtEPar2("#DepartmentCode", "#hdnDepartmentCode", "EmployeeMaster/GetDepartmentList", false,"",  "#hdnDivisionCode",  "#hdnBranchCode");
         EzAutoCompTxtE("#ProjectCode", "#hdnProjectCode", "EmployeeMaster/GetProjectList", false, "");
@@ -171,9 +171,48 @@
         EzAutoCompTxtE("#ProfCode", "#hdnProfCode", "EmployeeMaster/GetProfList", false, "");
         EzAutoCompTxtE("#VisaLocation", "#hdnVisaLocation", "EmployeeMaster/GetVisaLocationList", false, "");
         
-        EzAutoCompTxtpar1("#BankBranchCode", "#hdnBankBranchCode", "EmployeeMaster/GetBankBranchList", false, "", "BankCode", "#hdnBankCode");
+        EzAutoCompTxtEPar1("#BankBranchCode", "#hdnBankBranchCode", "EmployeeMaster/GetBankBranchList", false, "", "#hdnBankCode");
+        EzAutoCompTxtEParV1("#GBloodGroup", "#hdnGBloodGroup", "EmployeeMaster/GetCommList", false, "", "BLOODGROUP");
         
-        
+        EzAutotxtEventTbl12("#tablePODetails2", "focus", "[name*='txtDocCode']", "[name*='txt1DocCode']", "/EmployeeMaster/GetDocList", true, "[name*='txtinpDocCode']");
+        EzAutotxtEventTbl12("#tablePODetails1", "focus", "[name*='txtDegree']", "[name*='txt1Degree']", "/EmployeeMaster/GetDegreeList", true, "[name*='txtinpDegree']");
+
+        $("#tablePODetails1").on("focusout", "[name*='txtDegree']", function () {
+            
+            var tr = $(this).closest('tr');            
+            drec = [];
+            $('#tablePODetails1 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).closest("tr").find("[name *= 'txtDegree']").val();
+                drec.push(ab);
+            });
+            drec.splice($.inArray(tr.find("[name *= 'txtDegree']").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'txtDegree']").val(), drec) >= 0) {
+                tr.css("background", "red");
+                //tr.find("[name *= 'txtCrg_code']").focus();
+                EzAlerterrtxt("Already Exist Code '" + tr.find("[name *= 'txtDegree']").val() + "'");
+                tr.find("[name *= 'txtDegree']").val('');
+                tr.find("[name*='txt1Degree']").val('');
+                tr.find("[name*='txtinpDegree']").val('');
+            } else {
+                var JobCode = tr.find("[name*='txtinpDegree']").val();
+                var array = JobCode.split("-");
+                if (array.length > 1) {
+                    tr.find("[name*='txtNDegreeName']").val(array[1].trim());
+                    tr.find("[name*='txt1Degree']").val(array[0].trim());
+                }
+                else {
+                    tr.find("[name*='txt1Degree']").val('');
+                }
+            }
+
+        });
+
+        //EzAutotxtEventTbl12("#tablePODetails5", "focus", "[name*='txtALERT_BEFORE']", "[name*='txt1ALERT_BEFORE']", "/FFM_Quotation/GetUnitcode", false, "");
+
+        //var projects = [{ value: "1", label: "Yes-1", val1: "1" }, { value: "0", label: "No-0", val1: "0" }, ];
+        //EzAutotxtEventTblStatic("#tablePODetails2", "focus", "[name*='txtALERT_BEFORE']", "[name*='txt1ALERT_BEFORE']", projects, false, "");
+
         //ReportingEmp
         Eary = [];
         Eary.push('input[name="AbscondingDate1"]');
@@ -208,15 +247,27 @@
         //var counter = parseInt($("#hdnCounter").val());
         //var counter1 = parseInt($("#hdnCounter1").val());
         //var counter2 = parseInt($("#hdnCounter2").val());
-        $("#tablePODetails1").on("change", "[name*='Degree']", function () {
-           
+        //$("#tablePODetails1").on("change", "[name*='Degree']", function () {
+        //    var tr = $(this).closest("tr");
+        //    drec = [];
+        //    $('#tablePODetails2 tbody tr td:nth-child(1)').each(function () {
+        //        //add item to array
+        //        var ab = $(this).closest("tr").find("[name *= 'txtDocCode']").val();
+        //        drec.push(ab);
+        //    });
+        //    drec.splice($.inArray(tr.find("[name *= 'txtDocCode']").val(), drec), 1);
+        //    if ($.inArray(tr.find("[name *= 'txtDocCode']").val(), drec) >= 0) {
+        //        tr.css("background", "red");
+        //        //tr.find("[name *= 'txtCrg_code']").focus();
+        //        EzAlerterrtxt("Already Exist Code '" + dr + "'");
+        //        tr.find("[name *= 'txtDocCode']").val('');
+        //    }else{
+        //        var docode = tr.find("[name*='Degree']").val();
+        //        var doName = tr.find("[name*='Degree'] option:selected").text();
+        //        tr.find("[name*='DegreeName']").val(docode);
+        //    }
 
-            var tr = $(this).closest("tr");
-            var docode = tr.find("[name*='Degree']").val();
-            var doName = tr.find("[name*='Degree'] option:selected").text();
-            tr.find("[name*='DegreeName']").val(docode);
-
-        });
+        //});
 
         EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
         EzTableRowDel("#tablePODetails1", "[name*='btnDelete']");
@@ -224,7 +275,7 @@
 
         //counter2 = 1;
 
-        var counter2 = $("#counter2").val();
+        var counter2 = parseInt($("#counter2").val())+1;
         $("#tablePODetails1").on("change", "[name*='Institution']", function () {
             tbldtpickerYY();
            // if (counter2 > 2) {
@@ -233,41 +284,63 @@
             var tr = $(this).closest("tr");
            // tr.find("[name *= 'ObtainedYear']").val(EzdtePkyyyy("[name *= 'ObtainedYear']"));
             if (tr.is(":last-child")) {
-                tr.clone(true, true).insertAfter(tr);
+
+                $('#tablePODetails1 tr:last').clone().insertAfter('#tablePODetails1 tr:last');
+
+                var trLast = $("#tablePODetails1 tr:last");
                 $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tablePODetails1 tbody tr:nth-last-child(2)");
+                           .appendTo("#tablePODetails1 tbody tr:nth-last-child(2)");
+                debugger;
+                droparry = [];
+                txtarry = [];
 
-             //   $('.selectpicker').selectpicker('refresh');
+                txtarry.push('txtInstitution', 'txtLocation', 'txt1Degree',  'txtNDegreeName', 'txtObtainedYear', 'txtSpecification');
+                droparry.push('txtDegree');
 
-                var trLast = $("#tableMetaSettings tr:last");
-
-                var trLast1 = $("#tablePODetails1 tbody tr:last");
-                trLast1.find("[name*='Institution']").val('');
-                trLast1.find("[name*='Location']").val('');
-                trLast1.find("[name*='Degree']").val(0);
-                trLast1.find("[name*='DegreeName']").val('');
-                trLast1.find("[name*='ObtainedYear']").val('');
-                trLast1.find("[name*='Specification']").val('');
+                EzTbltxtdrpidchanged(droparry, counter2, "drp", trLast);
+                EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
 
 
+                //trLast.find(":first").text(counter);
+
+                trLast.find("[name*='txtInstitution']").val('');
+                
+                counter2++;
+             //   tr.clone(true, true).insertAfter(tr);
+             //   $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+             //                  .appendTo("#tablePODetails1 tbody tr:nth-last-child(2)");
+
+             ////   $('.selectpicker').selectpicker('refresh');
+
+             //   var trLast = $("#tableMetaSettings tr:last");
+
+             //   var trLast1 = $("#tablePODetails1 tbody tr:last");
+             //   trLast1.find("[name*='Institution']").val('');
+             //   trLast1.find("[name*='Location']").val('');
+             //   trLast1.find("[name*='Degree']").val(0);
+             //   trLast1.find("[name*='DegreeName']").val('');
+             //   trLast1.find("[name*='ObtainedYear']").val('');
+             //   trLast1.find("[name*='Specification']").val('');
 
 
-                trLast.find("[name *= 'Institution']").attr({
-                    "name": ("Institution" + counter2)
-                });
-                trLast.find("[name *= 'Location']").attr({
-                    "name": ("Location" + counter2)
-                });
-                trLast.find("[name *= 'Degree']").attr({
-                    "name": ("Degree" + counter2)
-                });
-                trLast.find("[name *= 'ObtainedYear']").attr({
-                    "name": ("ObtainedYear" + counter2)
-                });
-                trLast.find("[name *= 'Specification']").attr({
-                    "name": ("Specification" + counter2)
-                });
-                counter2++;               
+
+
+             //   trLast.find("[name *= 'Institution']").attr({
+             //       "name": ("Institution" + counter2)
+             //   });
+             //   trLast.find("[name *= 'Location']").attr({
+             //       "name": ("Location" + counter2)
+             //   });
+             //   trLast.find("[name *= 'Degree']").attr({
+             //       "name": ("Degree" + counter2)
+             //   });
+             //   trLast.find("[name *= 'ObtainedYear']").attr({
+             //       "name": ("ObtainedYear" + counter2)
+             //   });
+             //   trLast.find("[name *= 'Specification']").attr({
+             //       "name": ("Specification" + counter2)
+             //   });
+             //   counter2++;               
             }
         });
 
@@ -305,8 +378,8 @@
     });
 
         //counter = 1;
-        var counter = $("#counter").val();
-        $("#tablePODetails2").on("change", "[name*='DocCode']", function () {
+        var counter = parseInt($("#counter").val())+1;
+        $("#tablePODetails2").on("focusout", "[name*='txtDocCode']", function () {
            
             tbldtpicker();
             //  $(".datepicker").datetimepicker("destroy");
@@ -314,48 +387,68 @@
                 $(".datepicker").datetimepicker("destroy");
             //}
           //  counter = counter+1;
-            var tr = $(this).closest("tr");
-            var docode = tr.find("[name*='DocCode']").val();
-            var doName = tr.find("[name*='DocCode'] option:selected").text();
-            var sdate = tr.find("[name*='StartDate']").val();
-            var edate = tr.find("[name*='EndDate']").val();
-            if (tr.is(":last-child")) {
-                tr.clone(true, true).insertAfter(tr);
-                tr.find("[name*='DocCode']").val(docode);
-                tr.find("[name*='DocName']").val(doName);
-                //tr.find("[name *= 'StartDate']").val(sdate);
-                //tr.find("[name *= 'EndDate']").val(edate);
-                $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                    .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
-                var trLast = $("#tableMetaSettings tr:last")
+                var tr = $(this).closest("tr");
+                var JobCode = tr.find("[name*='txtinpDocCode']").val();
 
-                trLast.find("[name *= 'DocCode']").attr({
-                    "name": ("DocCode" + counter)
-                });
-                trLast.find("[name *= 'DocName']").attr({
-                    "name": ("DocName" + counter)
-                });
-                trLast.find("[name *= 'DocNo']").attr({
-                    "name": ("DocNo" + counter)
-                });
-                trLast.find("[name *= 'IssuePlace']").attr({
-                    "name": ("IssuePlace" + counter)
-                });
-                trLast.find("[name *= 'DocStatus']").attr({
-                    "name": ("DocStatus" + counter)
-                });
-                trLast.find("[name *= 'StartDate']").attr({
-                    "name": ("StartDate" + counter)
-                });
-                trLast.find("[name *= 'EndDate']").attr({
-                    "name": ("EndDate" + counter)
-                });
-                trLast.find("[name *= 'Description']").attr({
-                    "name": ("Description" + counter)
-                });
-                trLast.find(":first").text(counter);
-            }
-            counter++;
+                if (JobCode != "" && JobCode != "0") {
+                    drec = [];
+                    $('#tablePODetails2 tbody tr td:nth-child(1)').each(function () {
+                        //add item to array
+                        var ab = $(this).closest("tr").find("[name *= 'txtDocCode']").val();
+                        drec.push(ab);
+                    });
+
+                    drec.splice($.inArray(tr.find("[name *= 'txtDocCode']").val(), drec), 1);
+                    if ($.inArray(tr.find("[name *= 'txtDocCode']").val(), drec) >= 0) {
+                        var dr = tr.find("[name *= 'txtDocCode']").val();
+                        tr.css("background", "red");
+                        //tr.find("[name *= 'txtCrg_code']").focus();
+                        EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                        tr.find("[name *= 'txtDocCode']").val('');
+                        tr.find("[name*='txt1DocCode']").val('');
+                        tr.find("[name*='txtinpDocCode']").val('')
+                        return;
+                    }
+                    else {
+                        debugger;
+                        var array = JobCode.split("-");
+                        if (array.length > 1) {
+                            tr.find("[name*='txtDocName']").val(array[1].trim());
+                           
+                            tr.find("[name*='txt1DocCode']").val(array[0].trim());
+                        }
+
+                        tr.css("background", "");
+                        if (tr.is(":last-child")) {
+                            $('#tablePODetails2 tr:last').clone().insertAfter('#tablePODetails2 tr:last');
+
+                            var trLast = $("#tablePODetails2 tr:last");
+                            $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                                       .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
+                            debugger;
+                            droparry = [];
+                            txtarry = [];
+
+                            txtarry.push('txtDocCode', 'txtDocName', 'txtStartDate', 'txtEndDate', 'txtDescription');
+                            droparry.push('txtALERT_BEFORE');
+
+                            EzTbltxtdrpidchanged(droparry, counter, "drp", trLast);
+                            EzTbltxtdrpidchanged(txtarry, counter, "txt", trLast);
+
+
+                            //trLast.find(":first").text(counter);
+                           
+                            trLast.find("[name*='txtDocCode']").val('');
+                            trLast.find("[name*='txtDocName']").val('');
+                           
+
+                            counter++;
+                        }
+
+                    }
+                }
+           
+           
            
         });
 
@@ -390,13 +483,13 @@
         //EztableDateCondion("#tablePODetails2", "[name*='StartDate']", "[name*='EndDate']", "E");
         //EztableDateCondion("#tablePODetails2", "[name*='EndDate']", "[name*='StartDate']", "N");
 
-        $("#tablePODetails2").on('dp.change', "[name*='StartDate']", function (e) {
+        $("#tablePODetails2").on('dp.change', "[name*='txtStartDate']", function (e) {
            
             var fstyp = "";
             if (e.oldDate !== null) {
                 var tr = $(this).closest("tr");               
-                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())) > new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())))) {//compare end <=, not >=
-                    tr.find("[name*='StartDate']").val(tr.find("[name*='EndDate']").val());
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='txtStartDate']").val())) > new Date(Ezsetdtpkdate(tr.find("[name*='txtEndDate']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='txtStartDate']").val(tr.find("[name*='txtEndDate']").val());
                     t = true;
                     EzAlerterrDt();
                 }
@@ -405,13 +498,13 @@
                 }
             }
         });
-        $("#tablePODetails2").on('dp.change', "[name*='EndDate']", function (e) {
+        $("#tablePODetails2").on('dp.change', "[name*='txtEndDate']", function (e) {
            
             var fstyp = "";
             if (e.oldDate !== null) {
                 var tr = $(this).closest("tr");
-                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())) < new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())))) {//compare end <=, not >=
-                    tr.find("[name*='EndDate']").val(tr.find("[name*='StartDate']").val());
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='txtEndDate']").val())) < new Date(Ezsetdtpkdate(tr.find("[name*='txtStartDate']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='txtEndDate']").val(tr.find("[name*='txtStartDate']").val());
                     t = true;
                     EzAlerterrDt();
                 }
@@ -426,7 +519,7 @@
             $(e.target).data("DateTimePicker").viewMode("years");
         });
 
-        EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
+        EzdtePk('#txtStartDate1,#txtEndDate1,#NomineeDOB1');
         EzdtePkyyyy('#ObtainedYear1');
         // $(".datepicker").datetimepicker("destroy");
 
@@ -623,9 +716,9 @@
                             Out
                         </label>
                         &nbsp;
-                        <label>
+                        @*<label>
                             <input type="text" class="form-control txtbox" />
-                        </label>
+                        </label>*@
                     </div>
                 </div>
               
@@ -994,8 +1087,8 @@
                                         <label class="control-label col-xs-3 col-md-3">Blood Group</label>
                                         <div class="col-xs-7 col-md-8 input-field">
                                             @*@Html.DropDownListFor(m => m.BloodGroup, Model.BloodGroupList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
-                                            @Html.TextBoxFor(m => m.BloodGroup, new { @class = "form-control", @placeholder = "Select Blood Group" })
-                                            <input id="hdnBloodGroup" type="hidden" class="form-control" name="hdnBloodGroup" value="-1" />
+                                            @Html.TextBoxFor(m => m.GBloodGroup, new { @class = "form-control", @placeholder = "Select Blood Group" })
+                                            <input id="hdnGBloodGroup" type="hidden" class="form-control" name="hdnGBloodGroup" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1191,41 +1284,43 @@
                                             <td>
                                                 <div class="grid-group">
                                                     @*@Html.DropDownList(string.Concat("DocCode", counter), Model.DocList, new { @class = "grid-control" })*@
-                                                    @Html.Hidden(string.Concat("txt1DocCode", counter2), null, new { @class = "grid-control" })
-
-                                                    @Html.TextBox(string.Concat("txtDocCode", counter2), null, new { @class = "grid-control" })
+                                                   @Html.Hidden(string.Concat("txt1DocCode", counter), null, new { @class = "grid-control" })
+                                                @Html.Hidden(string.Concat("txtinpDocCode", counter), null, new { @class = "grid-control" })
+                                                @Html.TextBox(string.Concat("txtDocCode", counter), null, new { @class = "grid-control" })
 
 
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="grid-group">
-                                                    @Html.TextBox(string.Concat("DocName", counter), null, new { @class = "grid-control", @disabled = "disabled" })
+                                                    @Html.TextBox(string.Concat("txtDocName", counter), null, new { @class = "grid-control", @disabled = "disabled" })
                                                 </div>
                                             </td>
 
 
                                             <td>
                                                 <div class="grid-group">
-                                                    @Html.TextBox(string.Concat("StartDate", counter), null, new { @class = "grid-control datepicker" })
+                                                    @Html.TextBox(string.Concat("txtStartDate", counter), null, new { @class = "grid-control datepicker" })
 
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="grid-group">
 
-                                                    @Html.TextBox(string.Concat("EndDate", counter), null, new { @class = "grid-control datepicker" })
+                                                    @Html.TextBox(string.Concat("txtEndDate", counter), null, new { @class = "grid-control datepicker" })
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="grid-group">
-                                                    @Html.TextBox(string.Concat("Description", counter), null, new { @class = "grid-control" })
+                                                    @Html.TextBox(string.Concat("txtDescription", counter), null, new { @class = "grid-control" })
                                                 </div>
                                             </td>
 
                                             <td>
                                                 <div class="grid-group">
-                                                    @Html.DropDownList(string.Concat("ALERT_BEFORE", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
+                                                    @Html.DropDownList(string.Concat("txtALERT_BEFORE", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
+                                                    @*@Html.Hidden(string.Concat("txt1ALERT_BEFORE", counter), null, new { @class = "grid-control" })                                                   
+                                                    @Html.TextBox(string.Concat("txtALERT_BEFORE", counter), null, new { @class = "grid-control" })*@
                                                 </div>
                                             </td>
 
@@ -1295,7 +1390,7 @@
                     <thead>
                         <tr>
                             @*<th style="width:10%">Sr. No.</th>*@
-                            <th style="width:10%"></th>
+                            @*<th style="width:10%"></th>*@
                             <th>Institution Attended</th>
                             <th>Location</th>
                             <th>Education</th>
@@ -1311,18 +1406,18 @@
                             @Html.Label(counter2.ToString())
                         </div>
                     </td>*@
+                            @*<td>
+                                <div class="grid-group">
+                                </div>
+                            </td>*@
                             <td>
                                 <div class="grid-group">
+                                    @Html.TextBox(string.Concat("txtInstitution", counter2), null, new { @class = "grid-control" })
                                 </div>
                             </td>
                             <td>
                                 <div class="grid-group">
-                                    @Html.TextBox(string.Concat("Institution", counter2), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-                                    @Html.TextBox(string.Concat("Location", counter2), null, new { @class = "grid-control" })
+                                    @Html.TextBox(string.Concat("txtLocation", counter2), null, new { @class = "grid-control" })
                                 </div>
                             </td>
                             <td>
@@ -1331,24 +1426,27 @@
                                     @Html.Hidden(string.Concat("txt1Degree", counter2), null, new { @class = "grid-control" })
 
                                     @Html.TextBox(string.Concat("txtDegree", counter2), null, new { @class = "grid-control" })
+                                    @Html.Hidden(string.Concat("txtinpDegree", counter2), null, new { @class = "grid-control" })
                                 </div>
                             </td>
 
                             <td>
                                 <div class="grid-group">
-                                    @Html.TextBox(string.Concat("DegreeName", counter2), null, new { @class = "grid-control" })
+                                    @Html.TextBox(string.Concat("txtNDegreeName", counter2), null, new { @class = "grid-control",@readonly="readonly" })
                                 </div>
                             </td>
                             <td>
                                 <div class="grid-group">
-                                    @*<input id="ObtainedYear1" class="grid-control datepicker" name="ObtainedYear1" />*@<input id="ObtainedYear1" class="grid-control datepicker" name="ObtainedYear1" />
+                                    @*<input id="ObtainedYear1" class="grid-control datepicker" name="ObtainedYear1" />*@
+                                    
+                                    @*<input id="ObtainedYear1" class="grid-control datepicker" name="ObtainedYear1" />*@
 
-                                    @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control dt3" })
+                                    @Html.TextBox(string.Concat("txtObtainedYear", counter2), null, new { @class = "grid-control dt3" })
                                 </div>
                             </td>
                             <td>
                                 <div class="grid-group">
-                                    @Html.TextBox(string.Concat("Specification", counter2), null, new { @class = "grid-control" })
+                                    @Html.TextBox(string.Concat("txtSpecification", counter2), null, new { @class = "grid-control" })
                                 </div>
                             </td>
 

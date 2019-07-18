@@ -13,6 +13,8 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -52,38 +54,38 @@
         EzcheckedFnES('input[name="PhysicallyDisabledYN"]', "[name*='PhysicallyDisabledYN']", "input[name='PhysicallyDisabled']");
         EzcheckedFnED('input[name="AbscondingYN"]', "[name*='AbscondingYN']", "input[name='AbscondingDate']");
       
-        $('#DivisionCode').change(function () {
+        //$('#DivisionCode').change(function () {
            
-            var divcode = $('#DivisionCode option:selected').val();
-            $.get("EmployeeMaster/GetBranchCodeList1", { divcode: divcode }).done(function (response) {
-                $('#BranchCode').empty();
-                $('#DepartmentCode').empty();
-                var ary = [];
-                ary = response;
-                for (var i = 0; i < ary.length; i++) {
-                    $('#BranchCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                }
-                $('#DepartmentCode').append('<option value="0" selected="">-Select-</option>');
-                $('#BranchCode').val(0);
-                $('#DepartmentCode').val(0);
-                $('.selectpicker').selectpicker('refresh');
-            });
-        });
-        $('#BranchCode').change(function () {
+        //    var divcode = $('#DivisionCode option:selected').val();
+        //    $.get("EmployeeMaster/GetBranchCodeList1", { divcode: divcode }).done(function (response) {
+        //        $('#BranchCode').empty();
+        //        $('#DepartmentCode').empty();
+        //        var ary = [];
+        //        ary = response;
+        //        for (var i = 0; i < ary.length; i++) {
+        //            $('#BranchCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+        //        }
+        //        $('#DepartmentCode').append('<option value="0" selected="">-Select-</option>');
+        //        $('#BranchCode').val(0);
+        //        $('#DepartmentCode').val(0);
+        //        $('.selectpicker').selectpicker('refresh');
+        //    });
+        //});
+        //$('#BranchCode').change(function () {
            
-            var divcode = $('#DivisionCode option:selected').val();
-            var Brancode = $('#BranchCode option:selected').val();
-            $.get("EmployeeMaster/GetDepartmentList", { divcode: divcode, Brancode: Brancode }).done(function (response) {
-                $('#DepartmentCode').empty();
-                var ary = [];
-                ary = response;
-                for (var i = 0; i < ary.length; i++) {
-                    $('#DepartmentCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                }
-                $('#DepartmentCode').val(0);
-                $('.selectpicker').selectpicker('refresh');
-            });
-        });
+        //    var divcode = $('#DivisionCode option:selected').val();
+        //    var Brancode = $('#BranchCode option:selected').val();
+        //    $.get("EmployeeMaster/GetDepartmentList", { divcode: divcode, Brancode: Brancode }).done(function (response) {
+        //        $('#DepartmentCode').empty();
+        //        var ary = [];
+        //        ary = response;
+        //        for (var i = 0; i < ary.length; i++) {
+        //            $('#DepartmentCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+        //        }
+        //        $('#DepartmentCode').val(0);
+        //        $('.selectpicker').selectpicker('refresh');
+        //    });
+        //});
         $("#sourcephoto").change(function () {
             
             readURL(this);
@@ -139,22 +141,206 @@
                 });
             }
         });
-        $('#BankCode').change(function () {
+        //$('#BankCode').change(function () {
            
-            var BanCode = $('#BankCode option:selected').val();
+        //    var BanCode = $('#BankCode option:selected').val();
 
-            $.get("EmployeeMaster/GetBankBranchList", { BankCode: BanCode }).done(function (response) {
-                $('#BankBranchCode').empty();
-                var ary = [];
-                ary = response;
-                for (var i = 0; i < ary.length; i++) {
-                    $('#BankBranchCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+        //    $.get("EmployeeMaster/GetBankBranchList", { BankCode: BanCode }).done(function (response) {
+        //        $('#BankBranchCode').empty();
+        //        var ary = [];
+        //        ary = response;
+        //        for (var i = 0; i < ary.length; i++) {
+        //            $('#BankBranchCode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+        //        }
+        //        $('#BankBranchCode').val(0);
+        //        $('.selectpicker').selectpicker('refresh');
+        //    });
+        //});
+
+
+       // EzAutoCompTxtV2("#BloodGroup", "#hdnBloodGroup", "EmployeeMaster/GetCommList", "BLOODGROUP");
+        EzAutoCompTxt1("#Nationality", "#hdnNationality", "EmployeeMaster/GetNationList");
+        //EzAutoCompTxtV2("#Religion", "#hdnReligion", "EmployeeMaster/GetCommList", "REGION");
+        EzAutoCompTxt1("#WorkingStatus", "#hdnWorkingStatus", "EmployeeMaster/GetStatusMasterList");
+        EzAutoCompTxt1("#LocCode", "#hdnLocCode", "EmployeeMaster/GetLocationList");
+        EzAutoCompTxt1("#Week_off1", "#hdnWeek_off1", "EmployeeMaster/GetWeekdaysList");
+        EzAutoCompTxt1("#Week_off2", "#hdnWeek_off2", "EmployeeMaster/GetWeekdaysList");
+        EzAutoCompTxt1("#DivisionCode", "#hdnDivisionCode", "EmployeeMaster/GetDivisionList");
+       // EzAutoCompTxtV2("#ReportingEmp", "#hdnReportingEmp", "EmployeeMaster/GetEmpList1", "SELF");
+       // EzAutoCompTxt2("#BranchCode", "#hdnBranchCode", "EmployeeMaster/GetBranchCodeList1",  "#hdnDivisionCode");
+       // EzAutoCompTxt2("#DepartmentCode", "#hdnDepartmentCode", "EmployeeMaster/GetDepartmentList", "#hdnDivisionCode", "#hdnBranchCode");
+
+
+        EzAutoCompTxt1("#ProjectCode", "#hdnProjectCode", "EmployeeMaster/GetProjectList");
+        EzAutoCompTxt1("#BankCode", "#hdnBankCode", "EmployeeMaster/GetBankList");
+        EzAutoCompTxt1("#ProfCode", "#hdnProfCode", "EmployeeMaster/GetProfList");
+        EzAutoCompTxt1("#VisaLocation", "#hdnVisaLocation", "EmployeeMaster/GetVisaLocationList");
+
+        //EzAutoCompTxt2("#BankBranchCode", "#hdnBankBranchCode", "EmployeeMaster/GetBankBranchList", "#hdnBankCode");
+       // EzAutoCompTxtV2("#GBloodGroup", "#hdnGBloodGroup", "EmployeeMaster/GetCommList", "BLOODGROUP");
+
+        $.ajax({
+            async: false,
+            cache: false,
+            url: "/EmployeeMaster/GetCommList",
+            type: "POST",
+            dataType: "json",
+            data: { Prefix: $("#GBloodGroup").val(), PVal1: "BLOODGROUP" },
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#GBloodGroup").val(data[0].Text);
+                    $("#hdnGBloodGroup").val(data[0].Value);
+                } else {
+                    $("#GBloodGroup").val('');
+                    $("#hdnGBloodGroup").val(-1);
                 }
-                $('#BankBranchCode').val(0);
-                $('.selectpicker').selectpicker('refresh');
-            });
+            }
         });
 
+        $.ajax({
+            async: false,
+            cache: false,
+            url: "/EmployeeMaster/GetCommList",
+            type: "POST",
+            dataType: "json",
+            data: { Prefix: $("#BloodGroup").val(), PVal1: "BLOODGROUP" },
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#BloodGroup").val(data[0].Text);
+                    $("#hdnBloodGroup").val(data[0].Value);
+                } else {
+                    $("#BloodGroup").val('');
+                    $("#hdnBloodGroup").val(-1);
+                }
+            }
+        });
+
+        $.ajax({
+            async: false,
+            cache: false,
+            url: "/EmployeeMaster/GetCommList",
+            type: "POST",
+            dataType: "json",
+            data: { Prefix: $("#Religion").val(), PVal1: "REGION" },
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#Religion").val(data[0].Text);
+                    $("#hdnReligion").val(data[0].Value);
+                } else {
+                    $("#Religion").val('');
+                    $("#hdnReligion").val(-1);
+                }
+            }
+        });
+
+        $.ajax({
+            async: false,
+            cache: false,
+            url: "/EmployeeMaster/GetEmpList1",
+            type: "POST",
+            dataType: "json",
+            data: { Prefix: $("#ReportingEmp").val(), PVal1: "SELF" },
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#ReportingEmp").val(data[0].Text);
+                    $("#hdnReportingEmp").val(data[0].Value);
+                } else {
+                    $("#ReportingEmp").val('');
+                    $("#hdnReportingEmp").val(-1);
+                }
+            }
+        });
+
+        $.ajax({
+            async: false,
+            cache: false,
+            url: "/EmployeeMaster/GetBranchCodeList1",
+            type: "POST",
+            dataType: "json",
+            data: { Prefix: $("#BranchCode").val(), PVal1: $("#hdnBranchCode").val() },
+            success: function (data) {
+                debugger;
+                if (data.length > 0) {
+                    $("#BranchCode").val(data[0].Text);
+                    $("#hdnBranchCode").val(data[0].Value);
+                } else {
+                    $("#BranchCode").val('');
+                    $("#hdnBranchCode").val(-1);
+                }
+            }
+        });
+
+        $.ajax({
+            async: false,
+            cache: false,
+            url: "/EmployeeMaster/GetBranchCodeList1",
+            type: "POST",
+            dataType: "json",
+            data: { Prefix: $("#DepartmentCode").val(), PVal1: $("#hdnDivisionCode").val(), PVal2: $("#hdnBranchCode").val() },
+            success: function (data) {
+                if (data.length > 0) {
+                    $("#DepartmentCode").val(data[0].Text);
+                    $("#hdnDepartmentCode").val(data[0].Value);
+                } else {
+                    $("#DepartmentCode").val('');
+                    $("#hdnDepartmentCode").val(-1);
+                }
+            }
+        });
+
+        EzAutoCompTxtEParV1("#BloodGroup", "#hdnBloodGroup", "EmployeeMaster/GetCommList", false, "", "BLOODGROUP");
+        EzAutoCompTxtE("#Nationality","#hdnNationality", "EmployeeMaster/GetNationList", false, "");
+        EzAutoCompTxtEParV1("#Religion", "#hdnReligion", "EmployeeMaster/GetCommList", false, "", "REGION");
+        EzAutoCompTxtE("#WorkingStatus", "#hdnWorkingStatus", "EmployeeMaster/GetStatusMasterList", false, "");
+        EzAutoCompTxtE("#LocCode", "#hdnLocCode", "EmployeeMaster/GetLocationList", false, "");
+        EzAutoCompTxtE("#Week_off1", "#hdnWeek_off1", "EmployeeMaster/GetWeekdaysList", false, "");
+        EzAutoCompTxtE("#Week_off2", "#hdnWeek_off2", "EmployeeMaster/GetWeekdaysList", false, "");
+        EzAutoCompTxtE("#DivisionCode", "#hdnDivisionCode", "EmployeeMaster/GetDivisionList", false, "");
+
+        EzAutoCompTxtEParV1("#ReportingEmp", "#hdnReportingEmp", "EmployeeMaster/GetEmpList1", false, "", "SELF");
+        EzAutoCompTxtEPar1("#BranchCode", "#hdnBranchCode", "EmployeeMaster/GetBranchCodeList1", false, "", "#hdnDivisionCode");
+        EzAutoCompTxtEPar2("#DepartmentCode", "#hdnDepartmentCode", "EmployeeMaster/GetDepartmentList", false, "", "#hdnDivisionCode", "#hdnBranchCode");
+        EzAutoCompTxtE("#ProjectCode", "#hdnProjectCode", "EmployeeMaster/GetProjectList", false, "");
+        EzAutoCompTxtE("#BankCode", "#hdnBankCode", "EmployeeMaster/GetBankList", false, "");
+        EzAutoCompTxtE("#ProfCode", "#hdnProfCode", "EmployeeMaster/GetProfList", false, "");
+        EzAutoCompTxtE("#VisaLocation", "#hdnVisaLocation", "EmployeeMaster/GetVisaLocationList", false, "");
+
+        EzAutoCompTxtEPar1("#BankBranchCode", "#hdnBankBranchCode", "EmployeeMaster/GetBankBranchList", false, "", "#hdnBankCode");
+        EzAutoCompTxtEParV1("#GBloodGroup", "#hdnGBloodGroup", "EmployeeMaster/GetCommList", false, "", "BLOODGROUP");
+
+        EzAutotxtEventTbl12("#tablePODetails2", "focus", "[name*='txtDocCode']", "[name*='txt1DocCode']", "/EmployeeMaster/GetDocList", true, "[name*='txtinpDocCode']");
+        EzAutotxtEventTbl12("#tablePODetails1", "focus", "[name*='txtDegree']", "[name*='txt1Degree']", "/EmployeeMaster/GetDegreeList", true, "[name*='txtinpDegree']");
+
+        $("#tablePODetails1").on("focusout", "[name*='txtDegree']", function () {
+
+            var tr = $(this).closest('tr');
+            drec = [];
+            $('#tablePODetails1 tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).closest("tr").find("[name *= 'txtDegree']").val();
+                drec.push(ab);
+            });
+            drec.splice($.inArray(tr.find("[name *= 'txtDegree']").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'txtDegree']").val(), drec) >= 0) {
+                tr.css("background", "red");
+                //tr.find("[name *= 'txtCrg_code']").focus();
+                EzAlerterrtxt("Already Exist Code '" + tr.find("[name *= 'txtDegree']").val() + "'");
+                tr.find("[name *= 'txtDegree']").val('');
+                tr.find("[name*='txt1Degree']").val('');
+                tr.find("[name*='txtinpDegree']").val('');
+            } else {
+                var JobCode = tr.find("[name*='txtinpDegree']").val();
+                var array = JobCode.split("-");
+                if (array.length > 1) {
+                    tr.find("[name*='txtNDegreeName']").val(array[1].trim());
+                    tr.find("[name*='txt1Degree']").val(array[0].trim());
+                }
+                else {
+                    tr.find("[name*='txt1Degree']").val('');
+                }
+            }
+
+        });
       
          var Eary = [];
         Eary.push('input[name="AbscondingDate"]');
@@ -212,7 +398,7 @@
             }
         });
         
-        var counter2 = $("#counter2").val();
+        var counter2 = parseInt($("#counter2").val()) + 1;
         $("#tablePODetails1").on("change", "[name*='Institution']", function () {
             tbldtpickerYY();
             // if (counter2 > 2) {
@@ -221,42 +407,63 @@
             var tr = $(this).closest("tr");
             // tr.find("[name *= 'ObtainedYear']").val(EzdtePkyyyy("[name *= 'ObtainedYear']"));
             if (tr.is(":last-child")) {
-                tr.clone(true, true).insertAfter(tr);
+
+                $('#tablePODetails1 tr:last').clone().insertAfter('#tablePODetails1 tr:last');
+
+                var trLast = $("#tablePODetails1 tr:last");
                 $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tablePODetails1 tbody tr:nth-last-child(2)");
+                           .appendTo("#tablePODetails1 tbody tr:nth-last-child(2)");
+                debugger;
+                droparry = [];
+                txtarry = [];
 
-                //   $('.selectpicker').selectpicker('refresh');
+                txtarry.push('txtInstitution', 'txtLocation', 'txt1Degree', 'txtNDegreeName', 'txtObtainedYear', 'txtSpecification');
+                droparry.push('txtDegree');
 
-                var trLast = $("#tableMetaSettings tr:last");
-
-                var trLast1 = $("#tablePODetails1 tbody tr:last");
-                trLast1.find("[name*='Institution']").val('');
-                trLast1.find("[name*='Location']").val('');
-                trLast1.find("[name*='Degree']").val(0);
-                trLast1.find("[name*='DegreeName']").val('');
-                trLast1.find("[name*='ObtainedYear']").val('');
-                trLast1.find("[name*='Specification']").val('');
+                EzTbltxtdrpidchanged(droparry, counter2, "drp", trLast);
+                EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
 
 
+                //trLast.find(":first").text(counter);
 
+                trLast.find("[name*='txtInstitution']").val('');
 
-                trLast.find("[name *= 'Institution']").attr({
-                    "name": ("Institution" + counter2)
-                });
-                trLast.find("[name *= 'Location']").attr({
-                    "name": ("Location" + counter2)
-                });
-                trLast.find("[name *= 'Degree']").attr({
-                    "name": ("Degree" + counter2)
-                });
-                trLast.find("[name *= 'ObtainedYear']").attr({
-                    "name": ("ObtainedYear" + counter2)
-                });
-                trLast.find("[name *= 'Specification']").attr({
-                    "name": ("Specification" + counter2)
-                });
                 counter2++;
+                //   tr.clone(true, true).insertAfter(tr);
+                //   $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                //                  .appendTo("#tablePODetails1 tbody tr:nth-last-child(2)");
 
+                ////   $('.selectpicker').selectpicker('refresh');
+
+                //   var trLast = $("#tableMetaSettings tr:last");
+
+                //   var trLast1 = $("#tablePODetails1 tbody tr:last");
+                //   trLast1.find("[name*='Institution']").val('');
+                //   trLast1.find("[name*='Location']").val('');
+                //   trLast1.find("[name*='Degree']").val(0);
+                //   trLast1.find("[name*='DegreeName']").val('');
+                //   trLast1.find("[name*='ObtainedYear']").val('');
+                //   trLast1.find("[name*='Specification']").val('');
+
+
+
+
+                //   trLast.find("[name *= 'Institution']").attr({
+                //       "name": ("Institution" + counter2)
+                //   });
+                //   trLast.find("[name *= 'Location']").attr({
+                //       "name": ("Location" + counter2)
+                //   });
+                //   trLast.find("[name *= 'Degree']").attr({
+                //       "name": ("Degree" + counter2)
+                //   });
+                //   trLast.find("[name *= 'ObtainedYear']").attr({
+                //       "name": ("ObtainedYear" + counter2)
+                //   });
+                //   trLast.find("[name *= 'Specification']").attr({
+                //       "name": ("Specification" + counter2)
+                //   });
+                //   counter2++;               
             }
         });
 
@@ -295,9 +502,9 @@
         });
 
         //counter = 1;
-        var counter = $("#counter").val();
-        $("#tablePODetails2").on("change", "[name*='DocCode']", function () {
-            
+        var counter = parseInt($("#counter").val()) + 1;
+        $("#tablePODetails2").on("focusout", "[name*='txtDocCode']", function () {
+
             tbldtpicker();
             //  $(".datepicker").datetimepicker("destroy");
             //if (counter > 2) {
@@ -305,53 +512,67 @@
             //}
             //  counter = counter+1;
             var tr = $(this).closest("tr");
-            var docode = tr.find("[name*='DocCode']").val();
-            var doName = tr.find("[name*='DocCode'] option:selected").text();
-            var sdate = tr.find("[name*='StartDate']").val();
-            var edate = tr.find("[name*='EndDate']").val();
-           
-            if (tr.is(":last-child")) {
-                tr.clone(true, true).insertAfter(tr);
-                tr.find("[name*='DocCode']").val(docode);
-                tr.find("[name*='DocName']").val(doName);
-                //tr.find("[name *= 'StartDate']").val(sdate);
-                //tr.find("[name *= 'EndDate']").val(edate);
-                $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                    .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
-                var trLast = $("#tableMetaSettings tr:last")
+            var JobCode = tr.find("[name*='txtinpDocCode']").val();
 
-                trLast.find("[name *= 'DocCode']").attr({
-                    "name": ("DocCode" + counter)
+            if (JobCode != "" && JobCode != "0") {
+                drec = [];
+                $('#tablePODetails2 tbody tr td:nth-child(1)').each(function () {
+                    //add item to array
+                    var ab = $(this).closest("tr").find("[name *= 'txtDocCode']").val();
+                    drec.push(ab);
                 });
-                trLast.find("[name *= 'DocName']").attr({
-                    "name": ("DocName" + counter)
-                });
-                trLast.find("[name *= 'DocNo']").attr({
-                    "name": ("DocNo" + counter)
-                });
-                trLast.find("[name *= 'IssuePlace']").attr({
-                    "name": ("IssuePlace" + counter)
-                });
-                trLast.find("[name *= 'DocStatus']").attr({
-                    "name": ("DocStatus" + counter)
-                });
-                trLast.find("[name *= 'StartDate']").attr({
-                    "name": ("StartDate" + counter)
-                });
-                trLast.find("[name *= 'EndDate']").attr({
-                    "name": ("EndDate" + counter)
-                });
-                trLast.find("[name *= 'Description']").attr({
-                    "name": ("Description" + counter)
-                });
-                trLast.find(":first").text(counter);
 
+                drec.splice($.inArray(tr.find("[name *= 'txtDocCode']").val(), drec), 1);
+                if ($.inArray(tr.find("[name *= 'txtDocCode']").val(), drec) >= 0) {
+                    var dr = tr.find("[name *= 'txtDocCode']").val();
+                    tr.css("background", "red");
+                    //tr.find("[name *= 'txtCrg_code']").focus();
+                    EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                    tr.find("[name *= 'txtDocCode']").val('');
+                    tr.find("[name*='txt1DocCode']").val('');
+                    tr.find("[name*='txtinpDocCode']").val('')
+                    return;
+                }
+                else {
+                    debugger;
+                    var array = JobCode.split("-");
+                    if (array.length > 1) {
+                        tr.find("[name*='txtDocName']").val(array[1].trim());
+
+                        tr.find("[name*='txt1DocCode']").val(array[0].trim());
+                    }
+
+                    tr.css("background", "");
+                    if (tr.is(":last-child")) {
+                        $('#tablePODetails2 tr:last').clone().insertAfter('#tablePODetails2 tr:last');
+
+                        var trLast = $("#tablePODetails2 tr:last");
+                        $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                                   .appendTo("#tablePODetails2 tbody tr:nth-last-child(2)");
+                        debugger;
+                        droparry = [];
+                        txtarry = [];
+
+                        txtarry.push('txtDocCode', 'txtDocName', 'txtStartDate', 'txtEndDate', 'txtDescription');
+                        droparry.push('txtALERT_BEFORE');
+
+                        EzTbltxtdrpidchanged(droparry, counter, "drp", trLast);
+                        EzTbltxtdrpidchanged(txtarry, counter, "txt", trLast);
+
+
+                        //trLast.find(":first").text(counter);
+
+                        trLast.find("[name*='txtDocCode']").val('');
+                        trLast.find("[name*='txtDocName']").val('');
+
+
+                        counter++;
+                    }
+
+                }
             }
-            else
-            {
-                tr.find("[name*='DocName']").val(doName);
-            }
-            counter++;
+
+
 
         });
 
@@ -362,22 +583,23 @@
             //Date.prototype.getToday1 = Ezsetdtpkdate($("[name*='hdnStartDate" + (index + 1) + "']").val());
             //Date.prototype.getToday2 = Ezsetdtpkdate($("[name*='hdnEndDate" + (index + 1) + "']").val());
 
-            $("[name*='DocCode" + (index3 + 1) + "']").val($("[name*='hdnDocCode" + (index3 + 1) + "']").val());
-            $("[name*='DocName" + (index3 + 1) + "']").val($("[name*='hdnDocName" + (index3 + 1) + "']").val());
+            $("[name*='txtDocCode" + (index3 + 1) + "']").val($("[name*='hdntxtDocCode" + (index3 + 1) + "']").val());
+            $("[name*='txt1DocCode" + (index3 + 1) + "']").val($("[name*='hdntxtDocCode" + (index3 + 1) + "']").val());
+            $("[name*='txtDocName" + (index3 + 1) + "']").val($("[name*='hdntxtDocName" + (index3 + 1) + "']").val());
            // $("[name*='DocNo" + (index3 + 1) + "']").val($("[name*='hdnDocNo" + (index3 + 1) + "']").val());
             // $("[name*='DocStatus" + (index3 + 1) + "']").val($("[name*='hdnDocStatus" + (index3 + 1) + "']").val());
-            if ($("[name*='hdnStartDate" + (index3 + 1) + "']").val() == undefined)            
-                EzdtePk("[name*='StartDate" + (index3 + 1) + "']");
+            if ($("[name*='hdntxtStartDate" + (index3 + 1) + "']").val() == undefined)            
+                EzdtePk("[name*='txtStartDate" + (index3 + 1) + "']");
             else
-                $("[name*='StartDate" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnStartDate" + (index3 + 1) + "']").val()));
-            if ($("[name*='hdnEndDate" + (index3 + 1) + "']").val() == undefined)
-                EzdtePk("[name*='EndDate" + (index3 + 1) + "']");
+                $("[name*='txtStartDate" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdntxtStartDate" + (index3 + 1) + "']").val()));
+            if ($("[name*='hdntxtEndDate" + (index3 + 1) + "']").val() == undefined)
+                EzdtePk("[name*='txtEndDate" + (index3 + 1) + "']");
             else
-            $("[name*='EndDate" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnEndDate" + (index3 + 1) + "']").val()));
-            $("[name*='Description" + (index3 + 1) + "']").val($("[name*='hdnDescription" + (index3 + 1) + "']").val());
+                $("[name*='txtEndDate" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdntxtEndDate" + (index3 + 1) + "']").val()));
+            $("[name*='txtDescription" + (index3 + 1) + "']").val($("[name*='hdntxtDescription" + (index3 + 1) + "']").val());
            // $("[name*='IssuePlace" + (index3 + 1) + "']").val($("[name*='hdnIssuePlace" + (index3 + 1) + "']").val());
             // $("[name*='DocumentPath" + (index3 + 1) + "']").val($("[name*='SourceFile" + (index3 + 1) + "']").prop('defaultValue'));
-            $("[name*='ALERT_BEFORE" + (index3 + 1) + "']").val($("[name*='hdnAlertBefore" + (index3 + 1) + "']").val());
+            $("[name*='txtALERT_BEFORE" + (index3 + 1) + "']").val($("[name*='hdntxtAlertBefore" + (index3 + 1) + "']").val());
 
             index3 = index3 + 1;
         });
@@ -391,12 +613,13 @@
         var index2 = 1;
         tablePODetails1.each(function (index2, item) {
            
-            $("[name*='Institution" + (index2 + 1) + "']").val($("[name*='hdnInstitution" + (index2 + 1) + "']").val());
-            $("[name*='Location" + (index2 + 1) + "']").val($("[name*='hdnLocation" + (index2 + 1) + "']").val());
-            $("[name*='Degree" + (index2 + 1) + "']").val($("[name*='hdnDegree" + (index2 + 1) + "']").val());
-            $("[name*='DegreeName" + (index2 + 1) + "']").val($("[name*='hdnDegreeName" + (index2 + 1) + "']").val());
-            $("[name*='ObtainedYear" + (index2 + 1) + "']").val($("[name*='hdnObtainedYear" + (index2 + 1) + "']").val());
-            $("[name*='Specification" + (index2 + 1) + "']").val($("[name*='hdnSpecification" + (index2 + 1) + "']").val());
+            $("[name*='txtInstitution" + (index2 + 1) + "']").val($("[name*='hdntxtInstitution" + (index2 + 1) + "']").val());
+            $("[name*='txtLocation" + (index2 + 1) + "']").val($("[name*='hdntxtLocation" + (index2 + 1) + "']").val());
+            $("[name*='txtDegree" + (index2 + 1) + "']").val($("[name*='hdntxtDegree" + (index2 + 1) + "']").val());
+            $("[name*='txt1Degree" + (index2 + 1) + "']").val($("[name*='hdntxtDegree" + (index2 + 1) + "']").val());
+            $("[name*='txtNDegreeName" + (index2 + 1) + "']").val($("[name*='hdntxtNDegreeName" + (index2 + 1) + "']").val());
+            $("[name*='txtObtainedYear" + (index2 + 1) + "']").val($("[name*='hdntxtObtainedYear" + (index2 + 1) + "']").val());
+            $("[name*='txtSpecification" + (index2 + 1) + "']").val($("[name*='hdntxtSpecification" + (index2 + 1) + "']").val());
             index2 = index2 + 1;
         });
         EzdtePkyyyy("#ObtainedYear" + (index2) + "");
@@ -447,13 +670,13 @@
 
         //EztableDateCondion("#tablePODetails2", "[name*='StartDate']", "[name*='EndDate']", "E");
         //EztableDateCondion("#tablePODetails2", "[name*='EndDate']", "[name*='StartDate']", "N");
-        $("#tablePODetails2").on('dp.change', "[name*='StartDate']", function (e) {
-           
+        $("#tablePODetails2").on('dp.change', "[name*='txtStartDate']", function (e) {
+
             var fstyp = "";
             if (e.oldDate !== null) {
                 var tr = $(this).closest("tr");
-                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())) >= new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())))) {//compare end <=, not >=
-                    tr.find("[name*='StartDate']").val(tr.find("[name*='EndDate']").val());
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='txtStartDate']").val())) > new Date(Ezsetdtpkdate(tr.find("[name*='txtEndDate']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='txtStartDate']").val(tr.find("[name*='txtEndDate']").val());
                     t = true;
                     EzAlerterrDt();
                 }
@@ -462,13 +685,13 @@
                 }
             }
         });
-        $("#tablePODetails2").on('dp.change', "[name*='EndDate']", function (e) {
-           
+        $("#tablePODetails2").on('dp.change', "[name*='txtEndDate']", function (e) {
+
             var fstyp = "";
             if (e.oldDate !== null) {
                 var tr = $(this).closest("tr");
-                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='EndDate']").val())) <= new Date(Ezsetdtpkdate(tr.find("[name*='StartDate']").val())))) {//compare end <=, not >=
-                    tr.find("[name*='EndDate']").val(tr.find("[name*='StartDate']").val());
+                if ((t == false) && (new Date(Ezsetdtpkdate(tr.find("[name*='txtEndDate']").val())) < new Date(Ezsetdtpkdate(tr.find("[name*='txtStartDate']").val())))) {//compare end <=, not >=
+                    tr.find("[name*='txtEndDate']").val(tr.find("[name*='txtStartDate']").val());
                     t = true;
                     EzAlerterrDt();
                 }
@@ -561,7 +784,9 @@
                 <div class="col-md-12 form-group formheight">
                     <label class="control-label emptxt col-xs-5 col-md-5">Blood Group</label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.BloodGroup, Model.BloodGroupList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.BloodGroup, Model.BloodGroupList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.BloodGroup, new { @class = "form-control", @placeholder = "Select Blood Group" })
+                        <input id="hdnBloodGroup" type="hidden" class="form-control" name="hdnBloodGroup" value="-1" />
                     </div>
                 </div>
                 <div class="col-md-12 form-group formheight">
@@ -588,7 +813,10 @@
                 <div class="col-md-12 form-group formheight">
                     <label class="control-label emptxt col-xs-5 col-md-5">Nationality <i style="color:red;">*</i></label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.Nationality, Model.NationalityList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.Nationality, Model.NationalityList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.Nationality, new { @class = "form-control", @placeholder = "Select Nationality" })
+                        <input id="hdnNationality" type="hidden" class="form-control" name="hdnNationality" value="-1" />
+
                     </div>
                 </div>
                 <div class="col-md-12 form-group formheight">
@@ -600,7 +828,9 @@
                 <div class="col-md-12 form-group formheight">
                     <label class="control-label emptxt col-xs-5 col-md-5">Religion <i class="star">*</i></label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.Religion, Model.ReligionList, new { @class = "form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.Religion, Model.ReligionList, new { @class = "form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.Religion, new { @class = "form-control", @placeholder = "Select Religion" })
+                        <input id="hdnReligion" type="hidden" class="form-control" name="hdnReligion" value="-1" />
                     </div>
                 </div>
 
@@ -638,13 +868,17 @@
                 <div class="col-md-12 form-group formheightwork">
                     <label class="control-label emptxt col-xs-4 col-md-4">Status</label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.WorkingStatus, Model.WorkingStatusList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.WorkingStatus, Model.WorkingStatusList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.WorkingStatus, new { @class = "form-control", @placeholder = "Select WorkingStatus" })
+                        <input id="hdnWorkingStatus" type="hidden" class="form-control" name="hdnWorkingStatus" value="-1" />
                     </div>
                 </div>
                 <div class="col-md-12 form-group formheightwork">
                     <label class="control-label emptxt col-xs-4 col-md-4">Location</label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.LocCode, Model.LocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.LocCode, Model.LocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.LocCode, new { @class = "form-control", @placeholder = "Select Loc Code" })
+                        <input id="hdnLocCode" type="hidden" class="form-control" name="hdnLocCode" value="-1" />
                     </div>
                 </div>
                 @*<div class="col-md-12 form-group">
@@ -811,13 +1045,17 @@
                 <div class="col-md-12 form-group formheight">
                     <label class="control-label emptxt col-xs-5 col-md-5">Weekly Off 1</label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.Week_off1, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.Week_off1, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.Week_off1, new { @class = "form-control", @placeholder = "Select Week off 1" })
+                        <input id="hdnWeek_off1" type="hidden" class="form-control" name="hdnWeek_off1" value="-1" />
                     </div>
                 </div>
                 <div class="col-md-12 form-group formheight">
                     <label class="control-label emptxt col-xs-5 col-md-5">Weekly Off 2</label>
                     <div class="col-xs-7 col-md-8 input-field">
-                        @Html.DropDownListFor(m => m.Week_off2, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.Week_off2, Model.Week_offList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.Week_off2, new { @class = "form-control", @placeholder = "Select Week off 2" })
+                        <input id="hdnWeek_off2" type="hidden" class="form-control" name="hdnWeek_off2" value="-1" />
                     </div>
                 </div>
                 <div class="col-md-12 form-group formheight">
@@ -984,7 +1222,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Group<i style="color:red;">*</i></label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.DivisionCode, new { @class = "form-control", @placeholder = "Select Division Code" })
+                                            <input id="hdnDivisionCode" type="hidden" class="form-control" name="hdnDivisionCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -993,7 +1233,8 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Bank</label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.TextBoxFor(m => m.BankAccNo, new { @class = "form-control" })
+                                            @Html.TextBoxFor(m => m.BankCode, new { @class = "form-control" })
+                                            <input id="hdnBankCode" type="hidden" class="form-control" name="hdnBankCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1003,7 +1244,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Branch Code</label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.BranchCode, Model.BranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.BranchCode, Model.BranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.BranchCode, new { @class = "form-control", @placeholder = "Select Branch Code" })
+                                            <input id="hdnBranchCode" type="hidden" class="form-control" name="hdnBranchCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1011,7 +1254,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Bank Branch</label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.BankBranchCode, Model.BankBranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.BankBranchCode, Model.BankBranchCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.BankBranchCode, new { @class = "form-control", @placeholder = "Select Bank Branch Code" })
+                                            <input id="hdnBankBranchCode" type="hidden" class="form-control" name="hdnBankBranchCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1022,7 +1267,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Department</label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.DepartmentCode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.DepartmentCode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.DepartmentCode, new { @class = "form-control", @placeholder = "Select Department Code" })
+                                            <input id="hdnDepartmentCode" type="hidden" class="form-control" name="hdnDepartmentCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1043,7 +1290,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Project</label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.ProjectCode, Model.ProjectList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.ProjectCode, new { @class = "form-control", @placeholder = "Select Project Code" })
+                                            <input id="hdnProjectCode" type="hidden" class="form-control" name="hdnProjectCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1070,7 +1319,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Reporting To<i class="star">*</i></label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.ReportingEmp, Model.ReportingEmpList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.ReportingEmp, Model.ReportingEmpList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                           @Html.TextBoxFor(m => m.ReportingEmp, new { @class = "form-control", @placeholder = "Select Reporting Emp" })
+                                        <input id="hdnReportingEmp" type="hidden" class="form-control" name="hdnReportingEmp" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1079,7 +1330,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Profession<i style="color:red;">*</i></label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.ProfCode, Model.ProfList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.ProfCode, Model.ProfList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.ProfCode, new { @class = "form-control", @placeholder = "Select ProfCode" })
+                                            <input id="hdnProfCode" type="hidden" class="form-control" name="hdnProfCode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1279,7 +1532,9 @@
                                     <div class="form-group">
                                         <label class="control-label col-xs-3 col-md-3">Visa Location<i style="color:red;">*</i></label>
                                         <div class="col-xs-7 col-md-8 input-field">
-                                            @Html.DropDownListFor(m => m.VisaLocation, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.VisaLocation, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.VisaLocation, new { @class = "form-control", @placeholder = "Select VisaLocation" })
+                                            <input id="hdnVisaLocation" type="hidden" class="form-control" name="hdnVisaLocation" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -1317,14 +1572,19 @@
                                 <tr>
                                     <td>
                                         <div class="grid-group">
-                                            @Html.DropDownList(string.Concat("DocCode", counter), Model.DocList, new { @class = "grid-control" })
-                                            @Html.Hidden(string.Concat("hdnDocCode", counter), item.DocCode)
+                                            @*@Html.DropDownList(string.Concat("txtDocCode", counter), Model.DocList, new { @class = "grid-control" })*@
+                                            @Html.Hidden(string.Concat("hdntxtDocCode", counter), item.DocCode)
+                                            @Html.Hidden(string.Concat("txt1DocCode", counter), null, new { @class = "grid-control" })
+                                            @Html.Hidden(string.Concat("txtinpDocCode", counter), null, new { @class = "grid-control" })
+                                            @Html.TextBox(string.Concat("txtDocCode", counter), null, new { @class = "grid-control" })
+
+
                                         </div>
                                     </td>
                                     <td>
                                         <div class="grid-group">
-                                            @Html.TextBox(string.Concat("DocName", counter), null, new { @class = "grid-control", @disabled = "disabled" })
-                                            @Html.Hidden(string.Concat("hdnDocName", counter), item.DocName)
+                                            @Html.TextBox(string.Concat("txtDocName", counter), null, new { @class = "grid-control", @disabled = "disabled" })
+                                            @Html.Hidden(string.Concat("hdntxtDocName", counter), item.DocName)
                                         </div>
                                     </td>
                                     @*<td>
@@ -1347,20 +1607,20 @@
                                     </td>*@
                                     <td>
                                         <div class="grid-group">
-                                            @Html.TextBox(string.Concat("StartDate", counter), null, new { @class = "grid-control datepicker" })
-                                            @Html.Hidden(string.Concat("hdnStartDate", counter), item.StartDate)
+                                            @Html.TextBox(string.Concat("txtStartDate", counter), null, new { @class = "grid-control datepicker" })
+                                            @Html.Hidden(string.Concat("hdntxtStartDate", counter), item.StartDate)
                                         </div>
                                     </td>
                                     <td>
                                         <div class="grid-group">
-                                            @Html.TextBox(string.Concat("EndDate", counter), null, new { @class = "grid-control datepicker" })
-                                            @Html.Hidden(string.Concat("hdnEndDate", counter), item.EndDate)
+                                            @Html.TextBox(string.Concat("txtEndDate", counter), null, new { @class = "grid-control datepicker" })
+                                            @Html.Hidden(string.Concat("hdntxtEndDate", counter), item.EndDate)
                                         </div>
                                     </td>
                                     <td>
                                         <div class="grid-group">
-                                            @Html.TextBox(string.Concat("Description", counter), null, new { @class = "grid-control" })
-                                            @Html.Hidden(string.Concat("hdnDescription", counter), item.Description)
+                                            @Html.TextBox(string.Concat("txtDescription", counter), null, new { @class = "grid-control" })
+                                            @Html.Hidden(string.Concat("hdntxtDescription", counter), item.Description)
                                         </div>
                                     </td>
                                     @*<td>
@@ -1372,8 +1632,8 @@
                                     </td>*@
                                     <td>
                                         <div class="grid-group">
-                                            @Html.DropDownList(string.Concat("ALERT_BEFORE", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
-                                            @Html.Hidden(string.Concat("hdnAlertBefore", counter), item.AlertBefore)
+                                            @Html.DropDownList(string.Concat("txtALERT_BEFORE", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
+                                            @Html.Hidden(string.Concat("hdntxtAlertBefore", counter), item.AlertBefore)
                                         </div>
                                     </td>
                                     <td>
@@ -1385,12 +1645,15 @@
                             <tr>
                                 <td>
                                     <div class="grid-group">
-                                        @Html.DropDownList(string.Concat("DocCode", counter), Model.DocList, new { @class = "grid-control" })
+                                        @*@Html.DropDownList(string.Concat("DocCode", counter), Model.DocList, new { @class = "grid-control" })*@
+                                        @Html.Hidden(string.Concat("txt1DocCode", counter), null, new { @class = "grid-control" })
+                                        @Html.Hidden(string.Concat("txtinpDocCode", counter), null, new { @class = "grid-control" })
+                                        @Html.TextBox(string.Concat("txtDocCode", counter), null, new { @class = "grid-control" })
                                     </div>
                                 </td>
                                 <td>
                                     <div class="grid-group">
-                                        @Html.TextBox(string.Concat("DocName", counter), null, new { @class = "grid-control", @disabled = "disabled" })
+                                        @Html.TextBox(string.Concat("txtDocName", counter), null, new { @class = "grid-control", @disabled = "disabled" })
                                     </div>
                                 </td>
                                 @*<td>
@@ -1411,19 +1674,19 @@
 
                                 <td>
                                     <div class="grid-group">
-                                        @Html.TextBox(string.Concat("StartDate", counter), null, new { @class = "grid-control datepicker" })
+                                        @Html.TextBox(string.Concat("txtStartDate", counter), null, new { @class = "grid-control datepicker" })
 
 
                                     </div>
                                 </td>
                                 <td>
                                     <div class="grid-group">
-                                        @Html.TextBox(string.Concat("EndDate", counter), null, new { @class = "grid-control datepicker" })
+                                        @Html.TextBox(string.Concat("txtEndDate", counter), null, new { @class = "grid-control datepicker" })
                                     </div>
                                 </td>
                                 <td>
                                     <div class="grid-group">
-                                        @Html.TextBox(string.Concat("Description", counter), null, new { @class = "grid-control" })
+                                        @Html.TextBox(string.Concat("txtDescription", counter), null, new { @class = "grid-control" })
                                     </div>
                                 </td>
                                 @*<td>
@@ -1434,7 +1697,7 @@
                                     </div>
                                 </td>*@
                                 <td>
-                                    @Html.DropDownList(string.Concat("ALERT_BEFORE", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
+                                    @Html.DropDownList(string.Concat("txtALERT_BEFORE", counter), new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "grid-control" })
                                 </td>
                                 <td></td>
                             </tr>
@@ -1548,43 +1811,92 @@
                             </tr>
                         </thead>
                         <tbody>
+@foreach (var item in Model.EducationDetailnews)
+{
                             <tr>
-                                @*<td>
-                                        <div class="grid-group">
-                                            @Html.Label(counter2.ToString())
-                                        </div>
-                                    </td>*@
+
                                 <td>
                                     <div class="grid-group">
-                                        @Html.TextBox(string.Concat("Institution", counter2), null, new { @class = "grid-control" })
+                                        @Html.TextBox(string.Concat("txtInstitution", counter2), null, new { @class = "grid-control" })
+                                        @Html.Hidden(string.Concat("hdntxtInstitution", counter), item.Institution)
                                     </div>
                                 </td>
                                 <td>
                                     <div class="grid-group">
-                                        @Html.TextBox(string.Concat("Location", counter2), null, new { @class = "grid-control" })
+                                        @Html.TextBox(string.Concat("txtLocation", counter2), null, new { @class = "grid-control" })
+                                        @Html.Hidden(string.Concat("hdntxtLocation", counter), item.Location)
                                     </div>
                                 </td>
                                 <td>
                                     <div class="grid-group">
-                                        @Html.DropDownList(string.Concat("Degree", counter2), Model.DegreeList, new { @class = "grid-control" })
+                                        @*@Html.DropDownList(string.Concat("Degree", counter2), Model.DegreeList, new { @class = "grid-control" })*@
+                                        @Html.Hidden(string.Concat("txt1Degree", counter), null, new { @class = "grid-control" })
+                                        @Html.Hidden(string.Concat("txtinpDegree", counter), null, new { @class = "grid-control" })
+                                        @Html.TextBox(string.Concat("txtDegree", counter), null, new { @class = "grid-control" })
+                                        @Html.Hidden(string.Concat("hdntxtDegree", counter), item.Degree)
                                     </div>
                                 </td>
 
                                 <td>
                                     <div class="grid-group">
-                                        @Html.TextBox(string.Concat("DegreeName", counter2), null, new { @class = "grid-control" })
+                                        @Html.TextBox(string.Concat("txtNDegreeName", counter2), null, new { @class = "grid-control" })
+                                        @Html.Hidden(string.Concat("hdntxtNDegreeName", counter), item.DegreeName)
                                     </div>
                                 </td>
                                 <td>
                                     <div class="grid-group">
                                         @*<input id="ObtainedYear1" class="grid-control datepicker" name="ObtainedYear1" />*@
 
-                                        @Html.TextBox(string.Concat("ObtainedYear", counter2), null, new { @class = "grid-control dt3" })
+                                        @Html.TextBox(string.Concat("txtObtainedYear", counter2), null, new { @class = "grid-control dt3" })
+                                        @Html.Hidden(string.Concat("hdntxtObtainedYear", counter), item.ObtainedYear)
                                     </div>
                                 </td>
                                 <td>
                                     <div class="grid-group">
-                                        @Html.TextBox(string.Concat("Specification", counter2), null, new { @class = "grid-control" })
+                                        @Html.TextBox(string.Concat("txtSpecification", counter2), null, new { @class = "grid-control" })
+                                        @Html.Hidden(string.Concat("hdntxtSpecification", counter), item.Specification)
+                                    </div>
+                                </td>
+
+                            </tr>
+    counter2++;
+}
+                            <tr>
+                               
+                                <td>
+                                    <div class="grid-group">
+                                        @Html.TextBox(string.Concat("txtInstitution", counter2), null, new { @class = "grid-control" })
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="grid-group">
+                                        @Html.TextBox(string.Concat("txtLocation", counter2), null, new { @class = "grid-control" })
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="grid-group">
+                                        @*@Html.DropDownList(string.Concat("Degree", counter2), Model.DegreeList, new { @class = "grid-control" })*@
+                                        @Html.Hidden(string.Concat("txt1Degree", counter), null, new { @class = "grid-control" })
+                                        @Html.Hidden(string.Concat("txtinpDegree", counter), null, new { @class = "grid-control" })
+                                        @Html.TextBox(string.Concat("txtDegree", counter), null, new { @class = "grid-control" })
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="grid-group">
+                                        @Html.TextBox(string.Concat("txtNDegreeName", counter2), null, new { @class = "grid-control" })
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="grid-group">
+                                        @*<input id="ObtainedYear1" class="grid-control datepicker" name="ObtainedYear1" />*@
+
+                                        @Html.TextBox(string.Concat("txtObtainedYear", counter2), null, new { @class = "grid-control dt3" })
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="grid-group">
+                                        @Html.TextBox(string.Concat("txtSpecification", counter2), null, new { @class = "grid-control" })
                                     </div>
                                 </td>
 
