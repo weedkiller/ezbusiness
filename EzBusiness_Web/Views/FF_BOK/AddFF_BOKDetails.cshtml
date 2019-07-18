@@ -48,14 +48,30 @@
         EzAutoCompTxtE("#MOVE_TYPE", "#hdnMOVE_TYPE", "/FFM_Quotation/GetMoveCode", false, "");
         EzAutoCompTxtE("#VESSEL", "#hdnVESSEL", "/FFM_Quotation/GetVESSELList", false, "");
         EzAutoCompTxtE("#Commodity_code", "#hdnCommodity_code", "/FFM_Quotation/GetCommodityistList", false, "");
-        EzAutoCompTxtE("#CARRIER", "#hdnCARRIER", "/FFM_Quotation/GetSLList", false, "");
+        //EzAutoCompTxtE("#CARRIER", "#hdnCARRIER", "/FFM_Quotation/GetSLList", false, "");
         EzAutoCompTxtE("#DEPARTMENT", "#hdnDEPARTMENT", "/FFM_Quotation/GetDepart", false, "");
         EzAutoCompTxtE("#PICKUP_PLACE", "#hdnPICKUP_PLACE", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#PLACE_OF_RCPT", "#hdnPLACE_OF_RCPT", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#JOB_TYPE", "#hdnJOB_TYPE", "/FF_BOK/GETJobTypList", false, "");
-        EzAutoCompTxtE('#SHIPPER', '#hdnSHIPPER', "/FF_BOK/GetSLList2", false, "");
-        EzAutoCompTxtE('#CONSIGNEE', '#hdnCONSIGNEE', "/FF_BOK/GetSLList2", false, "");
-        EzAutoCompTxtE('#FORWARDER', '#hdnFORWARDER', "/FF_BOK/GetSLList2", false, "");
+
+        EzAutoCompTxtEParV1('#SHIPPER', '#hdnSHIPPER', "/FF_BOK/GetSLNew", false, "", "SHP");
+        EzAutoCompTxtEParV1('#CONSIGNEE', '#hdnCONSIGNEE', "/FF_BOK/GetSLNew", false, "", "CNG");
+        EzAutoCompTxtEParV1('#FORWARDER', '#hdnFORWARDER', "/FF_BOK/GetSLNew", false, "", "FRD");
+        EzAutoCompTxtEParV1('#CARRIER', '#hdnCARRIER', "/FF_BOK/GetSLNew", false, "", "CRR");
+
+        EzAutoCompTxtEParV1('#notifypart2', '#hdnnotifypart2', "/FF_BOK/GetSLNew", false, "", "NTY");
+        EzAutoCompTxtEParV1('#notifypart1', '#hdnnotifypart1', "/FF_BOK/GetSLNew", false, "", "NTY");
+        EzAutoCompTxtEParV1('#AGENT', '#hdnAGENT', "/FF_BOK/GetSLNew", false, "", "AGT");
+        EzAutoCompTxtE('#Salesman', '#hdnSalesman', "/FF_BOK/GetSalesman", false, "");
+
+        
+
+
+        var DG = [{ value: "Yes", label: "Yes-IMO", val1: "IMO" }, { value: "No", label: "No-Pack", val1: "Pack" }, ];
+        EzAutotxtAutosatic("#DG", "#hdnDG", DG, false, "");
+
+       // EzAutoCompTxtEParV1('#BILL_TO', '#hdnBILL_TO', "/FF_BOK/GetSLNew", false, "CRR");
+
         EzAutoCompTxtE('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList", false, "");
 
         EzAutotxtEventTbl12("#tablePODetails4", "focus", "[name*='txtCLAUSE_CODE']", "[name*='txt1CLAUSE_CODE']", "/FFM_Quotation/GetCLAUSE", true, "[name*='txtinpCLAUSE_CODE']");
@@ -935,7 +951,67 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">DG</label>
+                                                    <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                        @*@Html.DropDownListFor(m => m.DEPARTMENT, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+                                                        @Html.TextBoxFor(m => m.DG, new { @class = "form-control", @placeholder = "Select DG" })
+                                                        <input id="hdnDG" type="hidden" class="form-control" name="hdnDG" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">AGENT</label>
+                                                    <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                        @*@Html.DropDownListFor(m => m.DEPARTMENT, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+                                                        @Html.TextBoxFor(m => m.AGENT, new { @class = "form-control", @placeholder = "Select AGENT" })
+                                                        <input id="hdnAGENT" type="hidden" class="form-control" name="hdnAGENT" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">AGENT</label>
+                                                    <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                        @*@Html.DropDownListFor(m => m.DEPARTMENT, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+                                                        @Html.TextBoxFor(m => m.Salesman, new { @class = "form-control", @placeholder = "Select Salesman" })
+                                                        <input id="hdnSalesman" type="hidden" class="form-control" name="hdnSalesman" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">AGENT</label>
+                                                    <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                        @*@Html.DropDownListFor(m => m.DEPARTMENT, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+                                                        @Html.TextBoxFor(m => m.notifypart1, new { @class = "form-control", @placeholder = "Select notify part 1" })
+                                                        <input id="hdnnotifypart1" type="hidden" class="form-control" name="hdnnotifypart1" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">AGENT</label>
+                                                    <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                        @*@Html.DropDownListFor(m => m.DEPARTMENT, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+                                                        @Html.TextBoxFor(m => m.notifypart2, new { @class = "form-control", @placeholder = "Select notify part 2" })
+                                                        <input id="hdnnotifypart2" type="hidden" class="form-control" name="hdnnotifypart2" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <br /><br />

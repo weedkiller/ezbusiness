@@ -522,5 +522,21 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.EditFlag = true;
             return poEdit;
         }
+
+        public List<SelectListItem> GetSLNew(string CmpyCode, string Typ1, string Prefix)
+        {
+            var SLNewList = _FF_BOKRepo.GetSLNew(CmpyCode, Typ1,Prefix)
+                                                .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
+                                                .ToList();
+            return SLNewList;
+        }
+
+        public List<SelectListItem> GetSalesman(string cmpycode, string Prefix)
+        {
+            var SLList = _FF_BOKRepo.GetSalesman(cmpycode, Prefix)//.Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                                  .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
+                                                  .ToList();
+            return SLList;
+        }
     }
 }

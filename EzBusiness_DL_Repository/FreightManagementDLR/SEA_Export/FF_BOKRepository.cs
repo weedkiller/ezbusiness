@@ -962,10 +962,21 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return drop.GetCommonDrop("FFM_VOYAGE01_CODE as [Code],NAME as [CodeName]", "FFM_VOYAGE01", "CMPYCODE='" + CmpyCode + "' and Flag=0 and FFM_VESSEL_CODE='" + FFM_VESSEL_CODE + "'");
         }
 
+        //select a.FNM_SL1001_CODE,a.Name  from FNM_SL1001 a inner join FNM_SL1002 b
+        //on a.CMPYCODE=b.CMPYCODE and a.FNM_SL1001_CODE= b.FNM_SL1001_CODE where
+        //b.FNM_SL1002_CODE= 'AGT'
         public List<ComDropTbl> GetSL(string CmpyCode,string typ1, string Prefix)
         {
             return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "CMPYCODE='" + CmpyCode + "' and  SUBLEDGER_TYPE='" + typ1 + "' and Flag=0 and (FNM_SL1001_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
+
+        public List<ComDropTbl> GetSLNew(string CmpyCode, string typ1, string Prefix)
+        {
+            return drop.GetCommonDrop2("select a.FNM_SL1001_CODE as [Code],a.Name as [CodeName]  from FNM_SL1001 a inner join FNM_SL1002 b "
+                                        + " on a.CMPYCODE=b.CMPYCODE and a.FNM_SL1001_CODE= b.FNM_SL1001_CODE and a.flag=b.flag where "
+                                        +" b.FNM_SL1002_CODE= '"+ typ1 + "'  and a.CMPYCODE='"+ CmpyCode + "' and a.flag=0 and (a.FNM_SL1001_CODE like '" + Prefix + "%' or a.NAME like '" + Prefix + "%') order by a.FNM_SL1001_CODE");
+        }
+
 
         public List<ComDropTbl> GetDepart(string CmpyCode)
         {
@@ -1069,6 +1080,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
            string dtstr = vdate.ToString("yyyy-MM-dd");
 
             return drop.GetCommonDrop("FF_QTN001_CODE as [Code],CUST_CODE as [CodeName]", "FF_QTN001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and convert(varchar(25),EFFECT_UPTO,23)>='" + dtstr + "'");
+        }
+
+        public List<ComDropTbl> GetSalesman(string CmpyCode, string Prefix)
+        {
+            return drop.GetCommonDrop("EmpCode as [Code],Empname as [CodeName]", "MEM001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and WorkingStatus='Y' and (EmpCode like '" + Prefix + "%' or Empname like '" + Prefix + "%')");
         }
     }
 }

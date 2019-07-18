@@ -31,6 +31,9 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<ComDropTbl> GetPortList(string CmpyCode);
         List<ComDropTbl> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE);
         List<ComDropTbl> GetSL(string CmpyCode,string Typ1, string Prefix);
+
+        List<ComDropTbl> GetSLNew(string CmpyCode, string Typ1, string Prefix);
+
         List<ComDropTbl> GetDepart(string CmpyCode);
         List<ComDropTbl> GetCLAUSE(string CmpyCode);
 
@@ -40,6 +43,10 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
 
 
         List<ComDropTbl1> GetCust(string CmpyCode);
+
+        List<ComDropTbl> GetSalesman(string CmpyCode, string Prefix);
+
+        
 
         List<ComDropTbl1> GetVendor(string CmpyCode);
 

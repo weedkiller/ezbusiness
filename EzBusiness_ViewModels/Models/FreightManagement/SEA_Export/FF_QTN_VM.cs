@@ -95,12 +95,20 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public FF_QTN005New FF_QTN005 { get; set; }
         public List<FF_QTN005New> FF_QTN005Detail { get; set; }
         public string AGENT { get; set; }
-        public string IMCO { get; set; }
+       
         public string DG { get; set; }
         public string salesman { get; set; }
         public string notifypart1 { get; set; }
         public string notifypart2 { get; set; }
         public string FNMBRANCH_CODE { get; set; }
+
+
+      
+
+        public string Salesman { get; set; }
+       
+
+        public string JOB_TYPE { get; set; }
 
     }
 
