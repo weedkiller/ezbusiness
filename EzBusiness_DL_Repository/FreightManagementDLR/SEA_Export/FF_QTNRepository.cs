@@ -74,7 +74,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     FNMBRANCH_CODE=dr["FNMBRANCH_CODE"].ToString(),
                  //   IMCO = dr["IMCO"].ToString(),
                     AGENT = dr["AGENT"].ToString(),
-                    salesman    = dr["Salesman"].ToString(),
+                    Salesman    = dr["Salesman"].ToString(),
                     notifypart1 = dr["notifypart1"].ToString(),
                     notifypart2 = dr["notifypart2"].ToString(),
                     DG = dr["DG"].ToString(),
@@ -235,7 +235,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.Commodity_code = dr["Commodity_code"].ToString();
                 ObjList.DG = dr["DG"].ToString();
                 ObjList.AGENT = dr["AGENT"].ToString();
-                ObjList.salesman = dr["Salesman"].ToString();
+                ObjList.Salesman = dr["Salesman"].ToString();
                 ObjList.notifypart1 = dr["notifypart1"].ToString();
                 ObjList.notifypart2 = dr["notifypart2"].ToString();
                 ObjList.FNMBRANCH_CODE = dr["FNMBRANCH_CODE"].ToString();
@@ -528,7 +528,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb4.Append("'" + FQV.FNMBRANCH_CODE + "',");
                          //   sb4.Append("'" + FQV.IMCO + "',");
                             sb4.Append("'" + FQV.AGENT + "',");
-                            sb4.Append("'" + FQV.salesman + "',");
+                            sb4.Append("'" + FQV.Salesman + "',");
                             sb4.Append("'" + FQV.notifypart1 + "',");
                             sb4.Append("'" + FQV.notifypart2 + "',");
                             sb4.Append("'" + FQV.DG + "',");

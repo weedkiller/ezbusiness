@@ -1985,8 +1985,9 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
 
 
 
-         function EzAutoCompTxt1(inpid, inphid, urls) {
-             debugger;
+function EzAutoCompTxt1(inpid, inphid, urls) {
+    debugger;
+             if($(inpid).val() !=''){
              $.ajax({
                          async: false,
                          cache: false,
@@ -2004,7 +2005,8 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
                                  $(inphid).val(-1);                                 
                              }
                          }
-                     });                                
+             }); 
+             }
          }
 
          function EzAutoCompTxtV2(inpid, inphid, urls, inparrv) {
