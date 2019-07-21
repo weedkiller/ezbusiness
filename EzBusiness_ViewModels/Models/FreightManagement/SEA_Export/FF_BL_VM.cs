@@ -109,6 +109,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public List<SelectListItem> FORWARDERList { get; set; }
 
         public List<SelectListItem> GetBOKCODEList { get; set; }
+
+        public List<SelectListItem> GetEmpList { get; set; }
         public string tranferFrom { get; set; }
         public string FNMBRANCH_CODE { get; set; }
 

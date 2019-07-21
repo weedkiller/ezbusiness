@@ -13,8 +13,8 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
     public interface IFF_BLRepository
     {
 
-        List<FF_BL_VM> GetFF_BL(string CmpyCode);
-        FF_BL_VM GetFF_BLDetailsEdit(string CmpyCode, string FF_BL001_CODE);
+        List<FF_BL_VM> GetFF_BL(string CmpyCode,string Branchcode);
+        FF_BL_VM GetFF_BLDetailsEdit(string CmpyCode, string FF_BL001_CODE, string Branchcode);
 
         FF_BL_VM GetFF_BLDetailsBk(string CmpyCode, string FF_BOK001_CODE);
         FF_BL_VM SaveFF_BL_VM(FF_BL_VM FQV);

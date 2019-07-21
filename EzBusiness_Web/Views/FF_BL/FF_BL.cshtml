@@ -18,6 +18,7 @@
                 $("#DRListContainer").html(response);
             });
         }
+        EzAutoCompTxtE("#hdnBILL_TO", "#hdnhdnBILL_TO", "/GetCustomerList", false, "");
         $("#btnNew").click(function () {
             var n = EzAuthenticationBtn("/BILL", "NewIt");
             if (n == 1) {
@@ -745,11 +746,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label col-xs-3 col-md-3">Tranfer From</label>
                                 <div class="col-xs-7 col-md-8 input-field">
                                     @Html.DropDownListFor(m => m.tranferFrom, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" }, new SelectListItem { Text = "DIRECT", Value = "DIRECT" }, new SelectListItem { Text = "Quotation", Value = "QUOT" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-xs-3 col-md-3">Employee List</label>
+                                <div class="col-xs-7 col-md-8 input-field">
+                                    @Html.TextBoxFor(m => m.BILL_TO, new { @class = "form-control", @placeholder = "Select VESSEL" })
+                                    <input id="hdnBILL_TO" type="hidden" class="form-control" name="hdnBILL_TO" value="-1" /> 
                                 </div>
                             </div>
                         </div>
@@ -771,6 +782,10 @@
             </div>
         </div>
     </div>
+
+
+
+
     <div class="col-md-12 no-padding navbar-expand-lg">
         <div class="panel panel-primary panl">
             <div class="panel-heading clearfix">

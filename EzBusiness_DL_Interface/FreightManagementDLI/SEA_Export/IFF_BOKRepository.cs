@@ -13,10 +13,10 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
     public interface IFF_BOKRepository
     {
 
-        List<FF_BOK_VM> GetFF_BOK(string CmpyCode);
-        FF_BOK_VM GetFF_BOKDetailsEdit(string CmpyCode, string FF_BOK001_CODE);
+        List<FF_BOK_VM> GetFF_BOK(string CmpyCode,string BranchCode);
+        FF_BOK_VM GetFF_BOKDetailsEdit(string CmpyCode, string FF_BOK001_CODE, string BranchCode);
 
-        FF_BOK_VM GetFF_BOKDetailsQuot(string CmpyCode, string FF_BOK001_CODE);
+        FF_BOK_VM GetFF_BOKDetailsQuot(string CmpyCode, string FF_BOK001_CODE, string BranchCode);
 
         FF_BOK_VM SaveFF_BOK_VM(FF_BOK_VM FQV);
         List<FF_BOK002New> GetFF_BOK002DetailList(string CmpyCode, string FF_BOK001_CODE,string typ);

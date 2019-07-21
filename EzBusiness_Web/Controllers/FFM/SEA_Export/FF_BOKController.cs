@@ -59,7 +59,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return PartialView(_BOKService.GetFF_BOKDetailsEdit(list[0].CmpyCode, FF_BOK001_CODE));
+                return PartialView(_BOKService.GetFF_BOKDetailsEdit(list[0].CmpyCode, FF_BOK001_CODE,list[0].BraCode));
             }
         }
 
@@ -73,7 +73,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return PartialView(_BOKService.GetFF_BOKDetailsQuot(list[0].CmpyCode, FF_BOK001_CODE1));
+                return PartialView(_BOKService.GetFF_BOKDetailsQuot(list[0].CmpyCode, FF_BOK001_CODE1,list[0].BraCode));
             }
         }
 
@@ -114,7 +114,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             else
             {
 
-                return PartialView(_BOKService.GetFF_BOK(list[0].CmpyCode));
+                return PartialView(_BOKService.GetFF_BOK(list[0].CmpyCode,list[0].BraCode));
             }
         }
         [Route("SaveFFM_BOK")]

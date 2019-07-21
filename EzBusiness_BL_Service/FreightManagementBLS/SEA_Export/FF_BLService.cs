@@ -19,11 +19,12 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 
         IFF_BLRepository _FF_BLRepo;
         ICodeGenRepository _CodeRep;
+        IFF_BOKRepository _BlRepo;
         public FF_BLService()
         {
             _FF_BLRepo = new FF_BLRepository();
             _CodeRep = new CodeGenRepository();
-
+            _BlRepo = new FF_BOKRepository();
         }
         DropListFillFun drop = new DropListFillFun();
         public bool DeleteFF_BL(string CmpyCode, string FF_BL001_CODE, string UserName)
@@ -31,9 +32,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_BLRepo.DeleteFF_BL(CmpyCode, FF_BL001_CODE, UserName);
         }
 
-        public List<FF_BL_VM> GetFF_BL(string CmpyCode)
+        public List<FF_BL_VM> GetFF_BL(string CmpyCode,string branchcode)
         {
-            return _FF_BLRepo.GetFF_BL(CmpyCode);
+            return _FF_BLRepo.GetFF_BL(CmpyCode, branchcode);
         }
 
         public List<FF_BL002New> GetFF_BL002DetailList(string CmpyCode, string FF_BL001_CODE,string typ)
@@ -131,9 +132,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             }).ToList();
         }
 
-        public FF_BL_VM GetFF_BLDetailsEdit(string CmpyCode, string FF_BL001_CODE)
+        public FF_BL_VM GetFF_BLDetailsEdit(string CmpyCode, string FF_BL001_CODE,string branchcode)
         {
-            var poEdit = _FF_BLRepo.GetFF_BLDetailsEdit(CmpyCode, FF_BL001_CODE);
+            var poEdit = _FF_BLRepo.GetFF_BLDetailsEdit(CmpyCode, FF_BL001_CODE, branchcode);
             poEdit.FF_BL002Detail = GetFF_BL002DetailList(CmpyCode, FF_BL001_CODE,"BL");
             poEdit.FF_BL003Detail = GetFF_BL003DetailList(CmpyCode, FF_BL001_CODE, "BL");
             poEdit.FF_BL004Detail = GetFF_BL004DetailList(CmpyCode, FF_BL001_CODE, "BL");
@@ -286,13 +287,19 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 // SHIPPERList = GetSL(Cmpycode, "OP"),
                 //CONSIGNEEList = GetSL(Cmpycode, "OP"),
                 // FORWARDERList = GetSL(Cmpycode, "OP"),
-                // ConTypList=GetContTyp(Cmpycode),
+               // GetEmpList = GetSL(Cmpycode,typ1,Prefix),
                 FF_BL001_CODE = _CodeRep.GetCode(Cmpycode, "BillOfMaterial"),
            GetBOKCODEList=GetBOKCODE(Cmpycode,System.DateTime.Now),
             EditFlag = false
             };
         }
-
+        public List<SelectListItem> GetSL(string CmpyCode, string typ1, string Prefix)
+        {
+            var SLList = _BlRepo.GetSL(CmpyCode, typ1, Prefix)//.Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                                  .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
+                                                  .ToList();
+            return SLList;
+        }
         public List<SelectListItem> GetPortList(string CmpyCode)
         {
             var PortList = _FF_BLRepo.GetPortList(CmpyCode)
@@ -430,7 +437,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                                                   .ToList();
             return InsertFirstElementDDL(CommodityList);
         }
-
+      
         public List<SelectListItem> GetDepartEdit(string CmpyCode, string code)
         {
             var DepartList = _FF_BLRepo.GetDepart(CmpyCode).Where(m => m.Code.ToString() == code).ToList()
