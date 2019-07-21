@@ -22,6 +22,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
 
         public string FF_BOK001_CODE { get; set; }
         public DateTime FF_BOK001_DATE { get; set; }
+        public string BILL_TOEMP { get; set; }
         public string FF_QTN001_CODE { get; set; }
         public string BILL_TO { get; set; }
         public string SHIPPER { get; set; }
@@ -74,7 +75,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public List<SelectListItem> MoveCodeList { get; set; }
        
         public List<SelectListItem> VESSELList { get; set; }
-
+        public List<SelectListItem> GetCustomerList { get; set; }
         public List<SelectListItem> PortList1 { get; set; }
 
         public List<SelectListItem> PortList2 { get; set; }

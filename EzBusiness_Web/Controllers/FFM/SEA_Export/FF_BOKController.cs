@@ -159,7 +159,18 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return Json(_BOKService.GetCurRate(list[0].CmpyCode, CurCode), JsonRequestBehavior.AllowGet);
             }
         }
-
+        public ActionResult GetBookCustomerData(string Empcode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_BOKService.GetQTNCODEbycusto(list[0].CmpyCode, Empcode), JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult GetSLList1(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -238,7 +249,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return Json(_BOKService.GetSalesman(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
-
+       
 
     }
 }

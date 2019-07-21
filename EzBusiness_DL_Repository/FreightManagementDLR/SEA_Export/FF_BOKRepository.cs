@@ -1105,7 +1105,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
             return drop.GetCommonDrop("FF_QTN001_CODE as [Code],CUST_CODE as [CodeName]", "FF_QTN001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and convert(varchar(25),EFFECT_UPTO,23)>='" + dtstr + "'");
         }
-
+        public List<ComDropTbl> GetQTNCODEbucusto(string CmpyCode,string Empcode)
+        {
+           // string dtstr = vdate.ToString("yyyy-MM-dd");
+          return drop.GetCommonDrop("FF_QTN001_CODE as [Code],CUST_CODE as [CodeName]", "FF_QTN001", "CMPYCODE='" + CmpyCode + "' and CUST_CODE='"+Empcode+"'");
+        }
         public List<ComDropTbl> GetSalesman(string CmpyCode, string Prefix)
         {
             return drop.GetCommonDrop("EmpCode as [Code],Empname as [CodeName]", "MEM001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and WorkingStatus='Y' and (EmpCode like '" + Prefix + "%' or Empname like '" + Prefix + "%')");

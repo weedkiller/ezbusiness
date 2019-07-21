@@ -249,6 +249,8 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return InsertFirstElementDDL(SLList);
         }
 
+     
+
         public List<SelectListItem> GetCLAUSE(string CmpyCode)
         {
             var CLAUSEList = _FF_BLRepo.GetCLAUSE(CmpyCode)
@@ -289,8 +291,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 // FORWARDERList = GetSL(Cmpycode, "OP"),
                // GetEmpList = GetSL(Cmpycode,typ1,Prefix),
                 FF_BL001_CODE = _CodeRep.GetCode(Cmpycode, "BillOfMaterial"),
-           GetBOKCODEList=GetBOKCODE(Cmpycode,System.DateTime.Now),
-            EditFlag = false
+                GetBOKCODEList=GetBOKCODE(Cmpycode,System.DateTime.Now),
+                GetCustomerList = GetSL(Cmpycode,"FM"),
+                EditFlag = false
             };
         }
         public List<SelectListItem> GetSL(string CmpyCode, string typ1, string Prefix)

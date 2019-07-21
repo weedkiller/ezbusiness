@@ -636,12 +636,40 @@
             $('#tranferFrom').selectpicker('refresh');
             var trf = $("#tranferFrom option:selected").val();
             if (trf == 'DIRECT') {
-                $('#divqtn').hide();
-                $('#FF_QTN001_CODE').val('0').change();
+                $('#divcustom').hide();
+                $('#FF_BOK001_CODE').val('0').change();
             } else {
-                $('#divqtn').show();
+                $('#divcustom').show();
             }
         });
+
+        $('#BILL_TOEMP').change(function () {
+            debugger;
+            $('#BILL_TOEMP').selectpicker('refresh');
+            var customercode = $("#BILL_TOEMP option:selected").val();
+            $('#divqtn').show();
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "POST",
+                data: "{Empcode:'" + customercode + "'}",
+                url: "/FF_BOK/GetBookCustomerData",
+                dataType: 'Json',
+                contentType: "Application/json",
+                success: function (data) {
+                    $('#FF_BOK001_CODE').empty();
+                    var ary = [];
+                    ary = data;
+                    for (var i = 0; i < ary.length; i++) {
+                        $('#FF_BOK001_CODE').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                    }
+                    $('#FF_BOK001_CODE').val(0);
+                    $('.selectpicker').selectpicker('refresh');
+                }
+            });
+            // }
+        });
+
     });
 </script>
 
@@ -727,6 +755,16 @@
                                 <label class="control-label col-xs-3 col-md-3">Tranfer From</label>
                                 <div class="col-xs-7 col-md-8 input-field">
                                     @Html.DropDownListFor(m => m.tranferFrom, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" }, new SelectListItem { Text = "DIRECT", Value = "DIRECT" }, new SelectListItem { Text = "Quotation", Value = "QUOT" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="divcustom" style="display:none;">
+                            <div class="form-group">
+                                <label class="control-label col-xs-3 col-md-3">Customer List</label>
+                                <div class="col-xs-7 col-md-8 input-field">
+                                    @*@Html.TextBoxFor(m => m.BILL_TOEMP, new { @class = "form-control", @placeholder = "Select VESSEL" })
+                    <input id="hdnBILL_TOEMP" type="hidden" class="form-control" name="hdnBILL_TOEMP" value="-1" />*@
+                                    @Html.DropDownListFor(m => m.BILL_TOEMP, Model.GetCustomerList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                 </div>
                             </div>
                         </div>
