@@ -31,23 +31,28 @@
                 //$("#DRListContainer1").hide();
                 var trf = $("#tranferFrom option:selected").val();
                 var QTN001_CODE = $("#FF_BOK001_CODE option:selected").val();
-
+                var BILL_ToEmp = $("#BILL_TOEMP option:selected").val();
                 if (trf == '0') {
                     EzAlerterrtxt('Select Transfer');
                 } else if (trf == 'QUOT') {
-                    if (QTN001_CODE == '0') {
+                    if (BILL_ToEmp == '0') {
                         EzAlerterrtxt('Select Quotation Code');
-                    } else {
-                        $("#editshow").hide();
-                        $(this).css("visibility", "hidden");
-                        EzbtnNewAcVis();
-                        $("#btnEdit").prop("disabled", true);
-                        $("#btnTrigger").css("visibility", "hidden");
+                    }
+                    else {
+                        if (QTN001_CODE == '0') {
+                            EzAlerterrtxt('Select Quotation Code');
+                        } else {
+                            $("#editshow").hide();
+                            $(this).css("visibility", "hidden");
+                            EzbtnNewAcVis();
+                            $("#btnEdit").prop("disabled", true);
+                            $("#btnTrigger").css("visibility", "hidden");
 
-                        $("#DRListContainer1").hide();
-                        $.get("BLFF_BOKDetails", { FF_BOK001_CODE1: QTN001_CODE }).done(function (response) {
-                            $("#DRContainer").html(response);
-                        });
+                            $("#DRListContainer1").hide();
+                            $.get("BLFF_BOKDetails", { FF_BOK001_CODE1: QTN001_CODE }).done(function (response) {
+                                $("#DRContainer").html(response);
+                            });
+                        }
                     }
                 } else {
                     //$('#myModal').modal('show');
