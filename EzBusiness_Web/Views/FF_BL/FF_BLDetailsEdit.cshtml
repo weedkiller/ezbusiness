@@ -224,20 +224,20 @@
 
         });
 
-        $("#tablePODetails4").on("focusout", "[name*='txtCLAUSE_CODE']", function () {
-            ////.preventdefault();
-            var tr = $(this).closest('tr');
-            var JobCode = tr.find("[name*='txtinpCLAUSE_CODE']").val();
-            var array = JobCode.split("-");
-            if (array.length > 1) {
-                tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim());
-                tr.find("[name*='txt1CLAUSE_CODE']").val(array[0].trim());
-            }
-            else {
-                tr.find("[name*='txt1CLAUSE_CODE']").val('');
-            }
+        //$("#tablePODetails4").on("focusout", "[name*='txtCLAUSE_CODE']", function () {
+        //    ////.preventdefault();
+        //    var tr = $(this).closest('tr');
+        //    var JobCode = tr.find("[name*='txtinpCLAUSE_CODE']").val();
+        //    var array = JobCode.split("-");
+        //    if (array.length > 1) {
+        //        tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim());
+        //        tr.find("[name*='txt1CLAUSE_CODE']").val(array[0].trim());
+        //    }
+        //    else {
+        //        tr.find("[name*='txt1CLAUSE_CODE']").val('');
+        //    }
 
-        });
+        //});
 
         $("#tablePODetails5").on("focusout", "[name*='txtVend_code']", function () {
             debugger;
@@ -538,8 +538,9 @@
                     EzTbltxtdrpidchanged(txtarry1, counter4, "txt", trLast);
 
                     trLast.find(":first").text(counter4);
+                    counter4++;
                 }
-                counter4++;
+               
             }
 
         });
@@ -1808,7 +1809,7 @@
                                                                             @Html.TextBox(string.Concat("txtCLAUSE_CODE", counter4), null, new { @class = "grid-control" })
 
 
-                                                                            @Html.Hidden(string.Concat("hdnCLAUSE_NAME", counter4), item.CLUASE_CODE)
+                                                                            @Html.Hidden(string.Concat("hdnCLAUSE_CODE", counter4), item.CLUASE_CODE)
 
                                                                         </td>
 
@@ -1847,6 +1848,7 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
+                                                        @Html.Hidden("hdnCounter4", (counter4))
                                                     </div>
                                                 </div>
                                             </div>

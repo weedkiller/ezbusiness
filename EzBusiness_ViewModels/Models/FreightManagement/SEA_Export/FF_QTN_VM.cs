@@ -42,6 +42,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
 
         public string PSTATE { get; set; }
         public string FDZIP { get; set; }
+        public string ContTyp { get; set; }
 
         public string FDSTATE { get; set; }
         public string CARRIER { get; set; }
