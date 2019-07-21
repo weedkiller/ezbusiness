@@ -38,7 +38,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<ComDropTbl> GetCLAUSE(string CmpyCode);
 
         List<ComDropTbl> GetQTNCODE(string CmpyCode,DateTime vdate);
-
+        List<ComDropTbl> GetQTNCODEbucusto(string CmpyCode, string custocode);
         List<FFM_CRG> GetCRG_002(string CmpyCode);
 
 

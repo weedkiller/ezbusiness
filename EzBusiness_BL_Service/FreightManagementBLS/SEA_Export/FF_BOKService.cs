@@ -19,10 +19,12 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 
         IFF_BOKRepository _FF_BOKRepo;
         ICodeGenRepository _CodeRep;
+        IFF_BLRepository __FF_BLRepo;
         public FF_BOKService()
         {
             _FF_BOKRepo = new FF_BOKRepository();
             _CodeRep = new CodeGenRepository();
+            __FF_BLRepo = new FF_BLRepository();
         }
         DropListFillFun drop = new DropListFillFun();
         public bool DeleteFF_BOK(string CmpyCode, string FF_BOK001_CODE, string UserName)
@@ -297,8 +299,16 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 // ConTypList=GetContTyp(Cmpycode),
                 FF_BOK001_CODE = _CodeRep.GetCode(Cmpycode, "SupplierBooking"),
                 GetBOKCODEList = GetQTNCODE(Cmpycode,System.DateTime.Now),
+                  GetCustomerList = GetSL1(Cmpycode,"FM"),
             EditFlag = false
             };
+        }
+        public List<SelectListItem> GetSL1(string CmpyCode, string typ1)
+        {
+            var SLList = __FF_BLRepo.GetSL(CmpyCode, typ1)
+                                                  .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                                  .ToList();
+            return InsertFirstElementDDL(SLList);
         }
 
         public List<SelectListItem> GetPortList(string CmpyCode)
@@ -459,10 +469,17 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         //                                  .ToList();
         //    return InsertFirstElementDDL(CRG_002List);
         //}
-
-        public List<SelectListItem> GetQTNCODE(string CmpyCode, DateTime dte)
+        public List<SelectListItem> GetQTNCODE(string CmpyCode, DateTime dt)
         {
-            var CRG_002List = _FF_BOKRepo.GetQTNCODE(CmpyCode, dte)
+            var CRG_002List = _FF_BOKRepo.GetQTNCODE(CmpyCode,dt)
+                                         .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                         .ToList();
+            return InsertFirstElementDDL(CRG_002List);
+        }
+
+        public List<SelectListItem> GetQTNCODEbycusto(string CmpyCode,string custocode)
+        {
+            var CRG_002List = _FF_BOKRepo.GetQTNCODEbucusto(CmpyCode, custocode)
                                          .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                          .ToList();
             return InsertFirstElementDDL(CRG_002List);

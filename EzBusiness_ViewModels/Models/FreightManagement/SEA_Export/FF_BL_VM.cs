@@ -26,6 +26,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public string FF_BOK001_CODE { get; set; }
 
         public string BILL_TO { get; set; }
+        public string BILL_TOEMP { get; set; }
         public string SHIPPER { get; set; }
         public string CONSIGNEE { get; set; }
         public string FORWARDER { get; set; }
@@ -109,6 +110,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public List<SelectListItem> FORWARDERList { get; set; }
 
         public List<SelectListItem> GetBOKCODEList { get; set; }
+        public List<SelectListItem> GetCustomerList { get; set; }
 
         public List<SelectListItem> GetEmpList { get; set; }
         public string tranferFrom { get; set; }

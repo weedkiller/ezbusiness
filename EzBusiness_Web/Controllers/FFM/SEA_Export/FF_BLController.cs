@@ -14,7 +14,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
         // GET: FFM_BL
 
         FF_BLService _BLService;
-
+        FF_BOKService _bkservice;
         public FF_BLController()
         {
             _BLService = new FF_BLService();
@@ -87,6 +87,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return Json(_BLService.GetSL(list[0].CmpyCode,Prefix), JsonRequestBehavior.AllowGet);
             }
         }
+      
         public ActionResult GetFF_BLDetailList()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -127,7 +128,6 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             {
                 return Json(_BLService.GetVOYAGEList(list[0].CmpyCode, VESSEL), JsonRequestBehavior.AllowGet);
             }
-
         }
 
         public ActionResult GetCurRate(string CurCode)
