@@ -21,6 +21,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public DateTime UPDATED_ON { get; set; }
         public string CMPYCODE { get; set; }    
         public string FF_QTN001_CODE { get; set; }
+
+        public string FF_QTN001_CODEN { get; set; }
         public string CUST_CODE { get; set; }
         public string CONTACT { get; set; }
         public string TELEPHONE { get; set; }
@@ -97,7 +99,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public string AGENT { get; set; }
        
         public string DG { get; set; }
-        public string salesman { get; set; }
+        public string Salesman { get; set; }
         public string notifypart1 { get; set; }
         public string notifypart2 { get; set; }
         public string FNMBRANCH_CODE { get; set; }
@@ -105,7 +107,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
 
       
 
-        public string Salesman { get; set; }
+       
        
 
         public string JOB_TYPE { get; set; }

@@ -30,7 +30,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return View(_BLService.GetFF_BL_AddNew(list[0].CmpyCode));
+                return View(_BLService.GetFF_BL_AddNew(list[0].CmpyCode, list[0].BraCode));
             }
         }
 
@@ -71,7 +71,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return PartialView(_BLService.GetFF_BL_AddNew(list[0].CmpyCode));
+                return PartialView(_BLService.GetFF_BL_AddNew(list[0].CmpyCode, list[0].BraCode));
             }
         }
         [Route("GetCustomerList")]

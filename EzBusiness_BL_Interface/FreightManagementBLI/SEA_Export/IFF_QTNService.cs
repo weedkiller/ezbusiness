@@ -15,7 +15,10 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE,string BranchCode);
         FF_QTN_VM SaveFF_QTN_VM(FF_QTN_VM FQV);
 
-        FF_QTN_VM GetFF_QTN_AddNew(string Cmpycode);
+        FF_QTN_VM GetFF_QTN_AddNew(string Cmpycode, string branchcode);
+
+        FF_QTN_VM GetFF_QuotCopy(string CmpyCode, string FF_QTN001_CODE, string BranchCode);
+
         List<FF_QTN002New> GetFF_QTN002DetailList(string CmpyCode, string FF_QTN001_CODE);
         List<FF_QTN003New> GetFF_QTN003DetailList(string CmpyCode, string FF_QTN001_CODE);
         List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE);
@@ -50,5 +53,8 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 
 
         List<SelectListItem> GetBranchListN(string CmpyCode, string Prefix);
+
+
+        List<SelectListItem> GetCurCodebranch(string CmpyCode, string BranchCode);
     }
 }

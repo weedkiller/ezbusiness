@@ -30,7 +30,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return View(_BOKService.GetFF_BOK_AddNew(list[0].CmpyCode));
+                return View(_BOKService.GetFF_BOK_AddNew(list[0].CmpyCode, list[0].BraCode));
             }
         }
 
@@ -87,7 +87,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return PartialView(_BOKService.GetFF_BOK_AddNew(list[0].CmpyCode));
+                return PartialView(_BOKService.GetFF_BOK_AddNew(list[0].CmpyCode, list[0].BraCode));
             }
         }
 

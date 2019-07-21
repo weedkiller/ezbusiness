@@ -991,7 +991,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
         //b.FNM_SL1002_CODE= 'AGT'
         public List<ComDropTbl> GetSL(string CmpyCode,string typ1, string Prefix)
         {
-            return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "CMPYCODE='" + CmpyCode + "' and  SUBLEDGER_TYPE='" + typ1 + "' and Flag=0 and (FNM_SL1001_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
+            return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "CMPYCODE='" + CmpyCode + "' and  SUBLEDGER_TYPE='" + typ1 + "' and SUBLEDGER_TYPE !='' and Flag=0 and (FNM_SL1001_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
 
         public List<ComDropTbl> GetSLNew(string CmpyCode, string typ1, string Prefix)

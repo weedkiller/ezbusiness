@@ -475,6 +475,8 @@ function EzbtnNewAcVis() {
     $("#btnSave").css("visibility", "");
     $("#btnCancel").css("visibility", "");
     $("#btnPrint").css("visibility", "hidden");
+    $("#btnCopy").css("visibility", "hidden");
+
     //$("#POListContainer1").hide();
 }
 //Edit  Button
@@ -492,6 +494,7 @@ function EzbtnEditAcVis() {
     $("#btnDelete").css("visibility", "");
     $("#btnNew").css("visibility", "hidden");
     $("#btnPrint").css("visibility", "");
+    $("#btnCopy").css("visibility", "");
     // $("#POListContainer1").show();
 }
 //Cancel  Button
@@ -513,6 +516,7 @@ function EzbtnCancelAcVis() {
     $("#btnCancel").css("visibility", "hidden");
     $("#ErrorMessage").text('');
     $("#btnPrint").css("visibility", "hidden");
+    $("#btnCopy").css("visibility", "hidden");
     //$("#POListContainer1").hide();
 }
 //Save & Modify  Button
@@ -533,6 +537,7 @@ function EzbtnsaveAcVis(Idsucc) {
     $("#hdnOperationMode").val("");
     $("#btnSave").css("visibility", "hidden");
     $("#btnCancel").css("visibility", "hidden");
+    $("#btnCopy").css("visibility", "hidden");
     $("#hdnOperationMode").val("");
    
 }
@@ -1985,8 +1990,9 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
 
 
 
-         function EzAutoCompTxt1(inpid, inphid, urls) {
-             debugger;
+function EzAutoCompTxt1(inpid, inphid, urls) {
+    debugger;
+             if($(inpid).val() !=''){
              $.ajax({
                          async: false,
                          cache: false,
@@ -2004,7 +2010,8 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
                                  $(inphid).val(-1);                                 
                              }
                          }
-                     });                                
+             }); 
+             }
          }
 
          function EzAutoCompTxtV2(inpid, inphid, urls, inparrv) {

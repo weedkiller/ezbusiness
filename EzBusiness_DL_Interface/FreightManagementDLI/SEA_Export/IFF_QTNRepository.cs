@@ -53,5 +53,8 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
 
         List<ComDropTbl> GetBranchListN(string CmpyCode, string Prefix);
 
+
+        List<ComDropTbl> GetCurCodebranch(string CmpyCode, string BranchCode);
+
     }
 }

@@ -185,6 +185,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             //poEdit.FORWARDERList= GetSL(CmpyCode, "OP");
 
             //poEdit.VESSELList = GetVESSELList(CmpyCode);
+            poEdit.FNMBRANCH_CODE = BranchCode;
             poEdit.VOYAGEList = GetVOYAGEList(CmpyCode, poEdit.VESSEL);
             poEdit.EditFlag = true;
             return poEdit;
@@ -273,10 +274,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return InsertFirstElementDDL(CRG_002List);
         }
 
-        public FF_BOK_VM GetFF_BOK_AddNew(string Cmpycode)
+        public FF_BOK_VM GetFF_BOK_AddNew(string Cmpycode, string branchcode)
         {
             return new FF_BOK_VM
             {
+                FNMBRANCH_CODE=branchcode,
                 //     CustList = GetCust(Cmpycode),
                 //     CurList = GetCurcode(Cmpycode),
                 //     UnitcodeList = GetUnitcode(Cmpycode),
@@ -490,7 +492,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.FF_BOK003Detail = GetFF_BOK003DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
             poEdit.FF_BOK004Detail = GetFF_BOK004DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
             poEdit.FF_BOK005Detail = GetFF_BOK005DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
-
+            poEdit.FF_BOK001_CODE = _CodeRep.GetCode(CmpyCode, "SupplierBooking");
             //poEdit.PortList1 = GetPortListEdit(CmpyCode, poEdit.POL);
             //poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
             //poEdit.PortList3 = GetPortListEdit(CmpyCode, poEdit.FND);
@@ -538,7 +540,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 
             //poEdit.VESSELList = GetVESSELList(CmpyCode);
             poEdit.VOYAGEList = GetVOYAGEList(CmpyCode, poEdit.VESSEL);
-            poEdit.EditFlag = true;
+            poEdit.EditFlag = false;
             return poEdit;
         }
 
