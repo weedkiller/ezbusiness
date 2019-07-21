@@ -200,7 +200,8 @@
        EzAutoCompTxt1("#Commodity_code", "#hdnCommodity_code", "/FFM_Quotation/GetCommodityistList");
        //EzAutoCompTxt1("#CARRIER", "#hdnCARRIER", "/FFM_Quotation/GetSLList");
        EzAutoCompTxt1("#DEPARTMENT", "#hdnDEPARTMENT", "/FFM_Quotation/GetDepart");
-      // EzAutoCompTxt1('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList");
+        // EzAutoCompTxt1('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList");
+       EzAutoCompTxt1("#JOB_TYPE", "#hdnJOB_TYPE", "/FF_BOK/GETJobTypList");
        $.ajax({
            async: false,
            cache: false,
@@ -238,7 +239,7 @@
                }
            });
        }
-
+       EzAutoCompTxtE("#JOB_TYPE", "#hdnJOB_TYPE", "/FF_BOK/GETJobTypList", false, "");
      //  EzAutoCompTxtE('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList", false, "");
        EzAutoCompTxtE('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust", true, "#hdnCustName");
        EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
@@ -439,18 +440,6 @@
             }
 
         });
-
-
-
-      
-
-       
-
-
-
-       
-
-
 
         $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
             var tr = $(this).closest('tr');
@@ -1224,7 +1213,16 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3 gridtext">Job Type</label>
+                                                    <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                        @*@Html.DropDownListFor(m => m.JOB_TYPE, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+                                                        @Html.TextBoxFor(m => m.JOB_TYPE, new { @class = "form-control", @placeholder = "Select JOB TYPE" })
+                                                        <input id="hdnJOB_TYPE" type="hidden" class="form-control" name="hdnJOB_TYPE" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="row">
 

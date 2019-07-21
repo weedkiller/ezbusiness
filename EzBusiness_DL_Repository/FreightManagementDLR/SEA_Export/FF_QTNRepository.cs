@@ -439,7 +439,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 sb2.Append("'" + ObjList2[n - 1].CLUASE_CODE + "',");
                                 sb2.Append("'" + ObjList2[n - 1].CLUASE_NAME + "',");
                                 sb2.Append("'" + FQV.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN004(FF_QTN001_CODE,CLUASE_CODE,CLUASE_NAME,cmpycode) values(" + sb2.ToString() + "");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN004(FF_QTN001_CODE,CLAUSE_CODE,CLAUSE_NAME,cmpycode) values(" + sb2.ToString() + "");
                             }
 
                             n = n - 1;
@@ -532,8 +532,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb4.Append("'" + FQV.notifypart1 + "',");
                             sb4.Append("'" + FQV.notifypart2 + "',");
                             sb4.Append("'" + FQV.DG + "',");
+                            sb4.Append("'" + FQV.JOB_TYPE + "',");
                             sb4.Append("'" + FQV.Total_Profit + "')");
-                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,PZIP,PSTATE,FDSTATE,FDZIP,Commodity_code,FNMBRANCH_CODE,AGENT,Salesman,notifypart1,notifypart2,DG,Total_Profit) values(" + sb4.ToString() + "");
+                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,PZIP,PSTATE,FDSTATE,FDZIP,Commodity_code,FNMBRANCH_CODE,AGENT,Salesman,notifypart1,notifypart2,DG,JOB_TYPE,Total_Profit) values(" + sb4.ToString() + "");
 
                         int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FQV.CMPYCODE + "' and Code='QUOS' ");
 
@@ -594,6 +595,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             FQT1.PSTATE = FQV.PSTATE;
                             FQT1.FDSTATE = FQV.FDSTATE;
                             FQT1.FDZIP = FQV.FDZIP;
+                            FQT1.JOB_TYPE = FQV.JOB_TYPE;
                             FQT1.Commodity_code = FQV.Commodity_code;
                             FQT1.FNMBRANCH_CODE = FQV.FNMBRANCH_CODE;
                            
@@ -774,7 +776,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb7.Append("'" + ObjList2[n - 1].CLUASE_CODE + "',");
                                     sb7.Append("'" + ObjList2[n - 1].CLUASE_NAME + "',");
                                     sb7.Append("'" + FQV.CMPYCODE + "')");
-                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN004(FF_QTN001_CODE,CLUASE_CODE,CLUASE_NAME,cmpycode) values(" + sb7.ToString() + "");
+                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN004(FF_QTN001_CODE,CLAUSE_CODE,CLAUSE_NAME,cmpycode) values(" + sb7.ToString() + "");
                                 }
 
                                 n = n - 1;
