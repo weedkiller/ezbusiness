@@ -597,6 +597,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BL001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_BL001_CODE,FF_BL001_DATE,FF_QTN001_CODE,BILL_TO,SHIPPER,CONSIGNEE,FORWARDER,PICKUP_PLACE,POL,POD,FND,PLACE_OF_RCPT,MOVE_TYPE,DELIVERY_AT,REF_NO,VESSEL,VOYAGE,ETD,ETA,CARRIER,DEPARTMENT,Total_Cost,Total_Billed,FF_BOK001_CODE,JOB_TYPE,TRANS_TYPE,Commodity_code,DG,AGENT,Salesman,notifypart1,notifypart2,FNMBRANCH_CODE,Total_Profit) values(" + sb4.ToString() + "");
 
                         #endregion
+
+
+                        int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FQV.CMPYCODE + "' and Code='BOM' ");
+
+                        _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + FQV.CMPYCODE + "' and Code='BOM'");
+
                         _EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Update FF BL", FQV.FF_BL001_CODE, Environment.MachineName);
                         FQV.SaveFlag = true;
                         FQV.ErrorMessage = string.Empty;
