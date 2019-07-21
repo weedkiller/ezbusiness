@@ -265,10 +265,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return InsertFirstElementDDL(CRG_002List);
         }
 
-        public FF_BL_VM GetFF_BL_AddNew(string Cmpycode)
+        public FF_BL_VM GetFF_BL_AddNew(string Cmpycode, string branchcode)
         {
             return new FF_BL_VM
             {
+                FNMBRANCH_CODE = branchcode,
                 //     CustList = GetCust(Cmpycode),
                 //     CurList = GetCurcode(Cmpycode),
                 //     UnitcodeList = GetUnitcode(Cmpycode),

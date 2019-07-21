@@ -183,6 +183,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             //poEdit.FORWARDERList= GetSL(CmpyCode, "OP");
 
             //poEdit.VESSELList = GetVESSELList(CmpyCode);
+            poEdit.FNMBRANCH_CODE = BranchCode;
             poEdit.VOYAGEList = GetVOYAGEList(CmpyCode, poEdit.VESSEL);
             poEdit.EditFlag = true;
             return poEdit;
@@ -271,10 +272,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return InsertFirstElementDDL(CRG_002List);
         }
 
-        public FF_BOK_VM GetFF_BOK_AddNew(string Cmpycode)
+        public FF_BOK_VM GetFF_BOK_AddNew(string Cmpycode, string branchcode)
         {
             return new FF_BOK_VM
             {
+                FNMBRANCH_CODE=branchcode,
                 //     CustList = GetCust(Cmpycode),
                 //     CurList = GetCurcode(Cmpycode),
                 //     UnitcodeList = GetUnitcode(Cmpycode),

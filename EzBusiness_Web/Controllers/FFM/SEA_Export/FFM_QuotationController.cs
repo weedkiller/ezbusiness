@@ -74,7 +74,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return PartialView(_QTNService.GetFF_QTN_AddNew(list[0].CmpyCode));
+                return PartialView(_QTNService.GetFF_QTN_AddNew(list[0].CmpyCode, list[0].BraCode));
             }
         }
 
@@ -332,6 +332,20 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             else
             {
                 return Json(_QTNService.GetBranchListN(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult GetCurCodebranch()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetCurCodebranch(list[0].CmpyCode, list[0].BraCode), JsonRequestBehavior.AllowGet);
             }
         }
 

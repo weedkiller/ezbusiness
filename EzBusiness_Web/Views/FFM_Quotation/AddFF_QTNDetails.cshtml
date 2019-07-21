@@ -45,7 +45,7 @@
         EzAutoCompTxtE("#Commodity_code", "#hdnCommodity_code", "/FFM_Quotation/GetCommodityistList", false, "");
        // EzAutoCompTxtE("#CARRIER", "#hdnCARRIER", "/FFM_Quotation/GetSLList", false, "");
         EzAutoCompTxtE("#DEPARTMENT", "#hdnDEPARTMENT", "/FFM_Quotation/GetDepart", false, "");
-        EzAutoCompTxtE('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList", false, "");
+        //EzAutoCompTxtE('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList", false, "");
 
         EzAutoCompTxtEParV1('#CARRIER', '#hdnCARRIER', "/FF_BOK/GetSLNew", false, "", "CRR");
 
@@ -149,10 +149,12 @@
             if (array.length > 2) {
                 tr.find("[name*='txtCust_name']").val(array[1].trim());
                 tr.find("[name*='txtCust_Ctrl_Act']").val(array[2].trim());
-                tr.find("[name*='txt1Cust_code']").val(array[0].trim());                  
+                tr.find("[name*='txt1Cust_code']").val(array[0].trim());              
             } else {
                 tr.find("[name*='txt1Cust_code']").val('');
             }
+
+           
              
 
         });
@@ -332,6 +334,28 @@
                         tr.find("[name*='txtIncome_GL_Code']").val(array[2].trim());
                         tr.find("[name*='txtExpense_GL_Code']").val(array[3].trim());
                         tr.find("[name*='txt1Crg_code']").val(array[0].trim());
+
+                        $.ajax({
+                            async: false,
+                            cache: false,
+                            url: "/FFM_Quotation/GetCurCodebranch",
+                            type: "POST",
+                            dataType: "json",
+                            success: function (data) {
+                                debugger;
+                                if (data.length > 0) {
+                                    tr.find("[name *= 'txtCust_Curr_Code']").val(data[0].Text);
+                                    tr.find("[name *= 'txtCust_Curr_Rate']").val(data[0].Value);
+                                    tr.find("[name *= 'txtVend_Curr_Code']").val(data[0].Text);
+                                    tr.find("[name *= 'txtVend_Curr_Rate']").val(data[0].Value);
+                                } else {
+                                    tr.find("#txtCust_Curr_Code").val('');
+                                    tr.find("#txtCust_Curr_Rate").val('');
+                                    tr.find("#txtVend_Curr_Code").val('');
+                                    tr.find("#txtVend_Curr_Rate").val('');
+                                }
+                            }
+                        });
                     }
 
                     tr.css("background", "");

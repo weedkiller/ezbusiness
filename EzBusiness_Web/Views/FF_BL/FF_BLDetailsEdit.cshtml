@@ -400,6 +400,28 @@
                         tr.find("[name*='txtIncome_GL_Code']").val(array[2].trim());
                         tr.find("[name*='txtExpense_GL_Code']").val(array[3].trim());
                         tr.find("[name*='txt1Crg_code']").val(array[0].trim());
+
+                        $.ajax({
+                            async: false,
+                            cache: false,
+                            url: "/FFM_Quotation/GetCurCodebranch",
+                            type: "POST",
+                            dataType: "json",
+                            success: function (data) {
+                                debugger;
+                                if (data.length > 0) {
+                                    tr.find("[name *= 'txtCust_Curr_Code']").val(data[0].Text);
+                                    tr.find("[name *= 'txtCust_Curr_Rate']").val(data[0].Value);
+                                    tr.find("[name *= 'txtVend_Curr_Code']").val(data[0].Text);
+                                    tr.find("[name *= 'txtVend_Curr_Rate']").val(data[0].Value);
+                                } else {
+                                    tr.find("#txtCust_Curr_Code").val('');
+                                    tr.find("#txtCust_Curr_Rate").val('');
+                                    tr.find("#txtVend_Curr_Code").val('');
+                                    tr.find("#txtVend_Curr_Rate").val('');
+                                }
+                            }
+                        });
                     }
 
                     tr.css("background", "");
@@ -679,7 +701,7 @@
         // EzAutoCompTxt1('#SHIPPER', '#hdnSHIPPER', "/FF_BOK/GetSLList2");
         //EzAutoCompTxt1('#CONSIGNEE', '#hdnCONSIGNEE', "/FF_BOK/GetSLList2");
         //EzAutoCompTxt1('#FORWARDER', '#hdnFORWARDER', "/FF_BOK/GetSLList2");
-        EzAutoCompTxt1('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList");
+        //EzAutoCompTxt1('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList");
 
         EzAutoCompTxt1('#Salesman', '#hdnSalesman', "/FF_BOK/GetSalesman");
         $.ajax({
@@ -842,7 +864,7 @@
             });
         }
 
-        EzAutoCompTxtE('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList", false, "");
+       // EzAutoCompTxtE('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList", false, "");
         EzAutoCompTxtE('#BILL_TO', '#hdnBILL_TO', "/FF_BOK/GetSLList1", true, "#CustName");
         EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#FND", "#hdnFND", "/FFM_Quotation/GetPortList", false, "");

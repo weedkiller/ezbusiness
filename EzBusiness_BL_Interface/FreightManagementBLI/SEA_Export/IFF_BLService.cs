@@ -16,7 +16,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         FF_BL_VM GetFF_BLDetailsBk(string CmpyCode, string FF_BOK001_CODE);
         FF_BL_VM SaveFF_BL_VM(FF_BL_VM FQV);
 
-        FF_BL_VM GetFF_BL_AddNew(string Cmpycode);
+        FF_BL_VM GetFF_BL_AddNew(string Cmpycode, string branchcode);
         List<FF_BL002New> GetFF_BL002DetailList(string CmpyCode, string FF_BL001_CODE,string typ);
         List<FF_BL003New> GetFF_BL003DetailList(string CmpyCode, string FF_BL001_CODE, string typ);
         List<FF_BL004New> GetFF_BL004DetailList(string CmpyCode, string FF_BL001_CODE, string typ);
