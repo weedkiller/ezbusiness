@@ -475,7 +475,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.FF_BOK003Detail = GetFF_BOK003DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
             poEdit.FF_BOK004Detail = GetFF_BOK004DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
             poEdit.FF_BOK005Detail = GetFF_BOK005DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
-
+            poEdit.FF_BOK001_CODE = _CodeRep.GetCode(CmpyCode, "SupplierBooking");
             //poEdit.PortList1 = GetPortListEdit(CmpyCode, poEdit.POL);
             //poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
             //poEdit.PortList3 = GetPortListEdit(CmpyCode, poEdit.FND);
@@ -523,7 +523,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 
             //poEdit.VESSELList = GetVESSELList(CmpyCode);
             poEdit.VOYAGEList = GetVOYAGEList(CmpyCode, poEdit.VESSEL);
-            poEdit.EditFlag = true;
+            poEdit.EditFlag = false;
             return poEdit;
         }
 

@@ -1,4 +1,5 @@
 ﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_QTN_VM
+
 @{
 
     var counter5 = 1;
@@ -9,7 +10,7 @@
 <script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Scripts/moment.min.js"></script>
 @*<script src="~/Scripts/bootstrap-select.min.js"></script>
-<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />*@
+    <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />*@
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
 <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
@@ -37,22 +38,6 @@
 <script>
     $(document).ready(function () {
         arr1 = [];
-        
-
-        $("#btnCopy").click(function () {
-            var n = EzAuthenticationBtn("/Quotation", "ViewIt");
-            if (n == 1) {
-                var FF_QTN001_CODE = $("[name*='FF_QTN001_CODE']").val();
-                debugger;
-                $.get("FF_QuotCopy", { FF_QTN001_CODE: FF_QTN001_CODE }).done(function (response) {
-                    $("#DRContainer").html(response);
-                    $(this).css("visibility", "hidden");
-                    EzbtnNewAcVis();
-                    $("#btnEdit").prop("disabled", true);
-                    $("#DRListContainer1").hide();
-                });
-            }
-        });
 
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
         EzdtePkEdit('#EFFECT_FROM1', "#EFFECT_FROM", 'DD/MM/YYYY');
@@ -134,19 +119,19 @@
            //});
        });
 
-       
+
        var index4 = 1;
        $("#tablePODetails4 tbody tr").each(function (index4, item) {
            $("[name*='txt1CLAUSE_CODE" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_CODE" + (index4 + 1) + "']").val());
            $("[name*='txtCLAUSE_CODE" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_CODE" + (index4 + 1) + "']").val());
-           $("[name*='txtCLAUSE_NAME" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_NAME" + (index4 + 1) + "']").val());                   
+           $("[name*='txtCLAUSE_NAME" + (index4 + 1) + "']").val($("[name*='hdnCLAUSE_NAME" + (index4 + 1) + "']").val());
            index4 = index4 + 1;
        });
 
        var index3 = 1;
        var counter3 = $('#hdnCounter3').val();
        $("#tablePODetails3 tbody tr").each(function (index3, item) {
-           
+
            $("[name*='txtsno" + (index3 + 1) + "']").val($("[name*='hdnsno" + (index3 + 1) + "']").val());
            $("[name*='txtPkg_No" + (index3 + 1) + "']").val($("[name*='hdnPkg_No" + (index3 + 1) + "']").val());
            $("[name*='txtNo_of_qty" + (index3 + 1) + "']").val($("[name*='hdnNo_of_qty" + (index3 + 1) + "']").val());
@@ -260,7 +245,7 @@
 
        var DG = [{ value: "Yes", label: "Yes-IMO", val1: "IMO" }, { value: "No", label: "No-Pack", val1: "Pack" }, ];
        EzAutotxtAutosatic("#DG", "#hdnDG", DG, false, "");
-       
+
        EzAutotxtEventTbl1("#tablePODetails2", "focus", "txtCont_Type", "[name*='txt1Cont_Type']", "/FFM_Quotation/GetContTyp", false, "", "[name*='txtContainer']", "Enter Container", true, "[name*='txtsno']");
        EzAutotxtEventTbl1("#tablePODetails2", "focus", "txtCommodity_code", "[name*='txt1Commodity_code']", "/FFM_Quotation/GetCommodityistListT", false, "", "[name*='txtContainer']", "Enter Container", true, "[name*='txtsno']");
 
@@ -314,7 +299,7 @@
        });
 
        var counter5 = parseInt($("#hdnCounter5").val());
-        
+
 
 
         $('#tablePODetails5').on('focusout', "[name*='txtCust_code']", function () {
@@ -440,13 +425,13 @@
 
 
 
-      
-
-       
 
 
 
-       
+
+
+
+
 
 
 
@@ -754,7 +739,7 @@
                     // EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
                     EzTbltxtdrpidchanged(txtarry1, counter2, "txt", trLast);
 
-                   
+
                     //trLast.find(":first").text(counter3);
                     trLast.find("[name*='txtsno']").val(counter3);
                 }
@@ -888,7 +873,7 @@
                             }
                         });
                     },
-                
+
                     select: function (e, u) {
                         debugger
                         //If the No match found" item is selected, clear the TextBox.
@@ -900,7 +885,7 @@
                         } else {
                             $("#hdnVOYAGE").val(u.item.val1);
                         }
-                    
+
                     }
                 ,
                     minLength: 0
@@ -923,7 +908,7 @@
         //$('#VESSEL').change(function () {
         //    var VESSEL = $('#VESSEL option:selected').val();
         //    $.get("FFM_Quotation/GetVESSELCodeList", { VESSEL: VESSEL }).done(function (response) {
-                
+
         //        $('#VOYAGE').empty();
         //        var ary = [];
         //        ary = response;
@@ -939,13 +924,25 @@
         $("#tablePODetails2 tbody tr:last").find("[name*='txtsno']").val(counter2 - 1);
         $("#tablePODetails3 tbody tr:last").find("[name*='txtsno']").val(counter3 - 1);
         $("#tablePODetails5 tbody tr:last").find("[name*='txtsno']").val(counter5 - 1);
+
+        $("#FF_QTN001_CODE").val($("#FF_QTN001_CODEN").val());
+        $('.form-control').attr('readonly', 'readonly');
+        $('.grid-control').attr('readonly', 'readonly');
+
+
+        $('#EFFECT_FROM1').removeAttr('readonly');
+        $('#EFFECT_UPTO1').removeAttr('readonly');
+
+
+
     });
 </script>
 
 
-<div class="row">       
-    @Html.HiddenFor(m=>m.EFFECT_FROM)
+<div class="row">
+    @Html.HiddenFor(m => m.EFFECT_FROM)
     @Html.HiddenFor(m => m.EFFECT_UPTO)
+    @Html.HiddenFor(m => m.FF_QTN001_CODEN)
 
     @{
         var TypeListdata1 = new SelectList(new[]
@@ -1248,15 +1245,15 @@
 
 
                                         @*<div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label col-xs-3 col-md-3">Commodity</label>
-                        <div class="col-xs-7 col-md-8 input-field radiobtn1">
-                            @Html.DropDownListFor(m => m.Commodity_code, Model.Commodityist, new { @class = "form-control selectpicker", @data_live_search = "true" })
-                        </div>
-                    </div>
-                </div>
-            </div>*@
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-xs-3 col-md-3">Commodity</label>
+                                                        <div class="col-xs-7 col-md-8 input-field radiobtn1">
+                                                            @Html.DropDownListFor(m => m.Commodity_code, Model.Commodityist, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>*@
 
                                         <div class="row">
                                             <div class="col-md-6">
@@ -1359,99 +1356,99 @@
                                                                 </thead>
                                                                 <tbody>
                                                                     @foreach (var item in Model.FF_QTN002Detail)
-                                                                {
-                                                                <tr>
+                                                                    {
+                                                                        <tr>
 
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @disabled="disabled" })
-                                                                            @Html.Hidden(string.Concat("hdnsno", counter2), item.sno)
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtContainer", counter2), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnContainer", counter2), item.Container)
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
+                                                                            <td>
 
-                                                                            @*@Html.TextBox(string.Concat("txt1Cont_Type", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
-    @Html.DropDownList(string.Concat("txtCont_Type", counter2), item.ConTypList1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
-                                                                            @Html.Hidden(string.Concat("hdnCont_Type", counter2), item.Cont_Type)
-                                                                        
-                                                                        @Html.Hidden(string.Concat("txtinpCont_Type", counter2), null, new { @class = "grid-control" })
+                                                                                @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @disabled = "disabled" })
+                                                                                @Html.Hidden(string.Concat("hdnsno", counter2), item.sno)
 
-                                                                        @Html.Hidden(string.Concat("txt1Cont_Type", counter2), null, new { @class = "grid-control" })
+                                                                            </td>
+                                                                            <td>
 
-                                                                        @Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })
+                                                                                @Html.TextBox(string.Concat("txtContainer", counter2), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnContainer", counter2), item.Container)
 
+                                                                            </td>
+                                                                            <td>
 
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
-                                                                            @*@Html.TextBox(string.Concat("txt1Commodity_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
-                                                                            @Html.DropDownList(string.Concat("txtCommodity_code", counter2), item.Commodityist1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
-                                                                            @Html.Hidden(string.Concat("hdnCommodity_code", counter2), item.Commodity_code)
-                                                                        @Html.Hidden(string.Concat("txt1Commodity_code", counter2), null, new { @class = "grid-control" })
+                                                                                @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
 
-                                                                        @Html.TextBox(string.Concat("txtCommodity_code", counter2), null, new { @class = "grid-control" })
+                                                                                @*@Html.TextBox(string.Concat("txt1Cont_Type", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                    @Html.DropDownList(string.Concat("txtCont_Type", counter2), item.ConTypList1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.Hidden(string.Concat("hdnCont_Type", counter2), item.Cont_Type)
+
+                                                                                @Html.Hidden(string.Concat("txtinpCont_Type", counter2), null, new { @class = "grid-control" })
+
+                                                                                @Html.Hidden(string.Concat("txt1Cont_Type", counter2), null, new { @class = "grid-control" })
+
+                                                                                @Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })
 
 
+                                                                            </td>
+                                                                            <td>
 
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtSeal1", counter2), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnSeal1", counter2), item.Seal1)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter2), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnNo_of_qty", counter2), item.No_of_qty)
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtContents", counter2), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnContents", counter2), item.Contents)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtLBS", counter2), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnLBS", counter2), item.LBS)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtKG", counter2), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnKG", counter2), item.KG)
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtCFT", counter2), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnCFT", counter2), item.CFT)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtCBM", counter2), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnCBM", counter2), item.CBM)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
-                                                                    </td>
-                                                                </tr>
-                                                                    counter2++;
-                                                                }
+                                                                                @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
+                                                                                @*@Html.TextBox(string.Concat("txt1Commodity_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                    @Html.DropDownList(string.Concat("txtCommodity_code", counter2), item.Commodityist1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.Hidden(string.Concat("hdnCommodity_code", counter2), item.Commodity_code)
+                                                                                @Html.Hidden(string.Concat("txt1Commodity_code", counter2), null, new { @class = "grid-control" })
+
+                                                                                @Html.TextBox(string.Concat("txtCommodity_code", counter2), null, new { @class = "grid-control" })
+
+
+
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtSeal1", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnSeal1", counter2), item.Seal1)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnNo_of_qty", counter2), item.No_of_qty)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtContents", counter2), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnContents", counter2), item.Contents)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtLBS", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnLBS", counter2), item.LBS)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtKG", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnKG", counter2), item.KG)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtCFT", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnCFT", counter2), item.CFT)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtCBM", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnCBM", counter2), item.CBM)
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        counter2++;
+                                                                    }
                                                                     <tr>
                                                                         <td>
                                                                             @Html.TextBox(string.Concat("txtsno", counter2), counter2, new { @class = "grid-control", @Readonly = "Readonly" })
@@ -1465,9 +1462,9 @@
 
                                                                             @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
                                                                             @*@Html.TextBox(string.Concat("txt1Cont_Type", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
-                @Html.DropDownList(string.Concat("txtCont_Type", counter2), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.DropDownList(string.Concat("txtCont_Type", counter2), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
 
-                                                                           
+
 
                                                                             @Html.Hidden(string.Concat("txt1Cont_Type", counter2), null, new { @class = "grid-control" })
 
@@ -1482,7 +1479,7 @@
 
                                                                             @*@Html.TextBox(string.Concat("txtCont_Type", counter2), null, new { @class = "grid-control" })*@
                                                                             @*@Html.TextBox(string.Concat("txt1Commodity_code", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
-                @Html.DropDownList(string.Concat("txtCommodity_code", counter2), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.DropDownList(string.Concat("txtCommodity_code", counter2), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
 
                                                                             @Html.Hidden(string.Concat("txt1Commodity_code", counter2), null, new { @class = "grid-control" })
 
@@ -1557,133 +1554,133 @@
                                                                 <tbody>
 
                                                                     @foreach (var item in Model.FF_QTN003Detail)
-                                                                {
-                                                                <tr>
+                                                                    {
+                                                                        <tr>
 
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled="disabled" })
-                                                                            @Html.Hidden(string.Concat("hdnsno", counter3), item.Sno)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtPkg_No", counter3), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnPkg_No", counter3), item.Pkg_No)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnNo_of_qty", counter3), item.No_of_qty)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtunit_type", counter3), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnunit_type", counter3), item.unit_type)
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtHeight", counter3), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnHeight", counter3), item.Height)
-                                                                        
-                                                                    </td>
+                                                                            <td>
 
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtWidth", counter3), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnWidth", counter3), item.Width)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtAct_LBS", counter3), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnAct_LBS", counter3), item.Act_LBS)
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtinside_Unit", counter3), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdninside_Unit", counter3), item.inside_Unit)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtVolume", counter3), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnVolume", counter3), item.Volume)
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtDime_weight", counter3), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnDime_weight", counter3), item.Dime_weight)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
-                                                                    </td>
-                                                                </tr>
-                                                                    counter3++;
-                                                                }
+                                                                                @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled = "disabled" })
+                                                                                @Html.Hidden(string.Concat("hdnsno", counter3), item.Sno)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtPkg_No", counter3), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnPkg_No", counter3), item.Pkg_No)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnNo_of_qty", counter3), item.No_of_qty)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtunit_type", counter3), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnunit_type", counter3), item.unit_type)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtHeight", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnHeight", counter3), item.Height)
+
+                                                                            </td>
+
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtWidth", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnWidth", counter3), item.Width)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtAct_LBS", counter3), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnAct_LBS", counter3), item.Act_LBS)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtinside_Unit", counter3), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdninside_Unit", counter3), item.inside_Unit)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtVolume", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnVolume", counter3), item.Volume)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtDime_weight", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnDime_weight", counter3), item.Dime_weight)
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        counter3++;
+                                                                    }
                                                                     <tr>
 
                                                                         @*<td>
-                                                       
-                                                            @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled="disabled" })
-                                                        </div>
-                                                    </td>*@
+
+                                                                                    @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled="disabled" })
+                                                                                </div>
+                                                                            </td>*@
                                                                         <td>
-                                                                           
-                                                                                @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled="disabled" })
-                                                                            
+
+                                                                            @Html.TextBox(string.Concat("txtsno", counter3), counter3, new { @class = "grid-control", @disabled = "disabled" })
+
                                                                         </td>
                                                                         <td>
-                                                                            
-                                                                                @Html.TextBox(string.Concat("txtPkg_No", counter3), null, new { @class = "grid-control" })
-                                                                           
+
+                                                                            @Html.TextBox(string.Concat("txtPkg_No", counter3), null, new { @class = "grid-control" })
+
                                                                         </td>
                                                                         <td>
-                                                                           
-                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            
+
+                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
+
                                                                         </td>
                                                                         <td>
-                                                                            
-                                                                                @Html.TextBox(string.Concat("txtunit_type", counter3), null, new { @class = "grid-control" })
-                                                                            
+
+                                                                            @Html.TextBox(string.Concat("txtunit_type", counter3), null, new { @class = "grid-control" })
+
                                                                         </td>
                                                                         <td>
-                                                                           
-                                                                                @Html.TextBox(string.Concat("txtHeight", counter3), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            
+
+                                                                            @Html.TextBox(string.Concat("txtHeight", counter3), null, new { @class = "grid-control", @Type = "Number" })
+
                                                                         </td>
 
                                                                         <td>
-                                                                            
-                                                                                @Html.TextBox(string.Concat("txtWidth", counter3), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            
+
+                                                                            @Html.TextBox(string.Concat("txtWidth", counter3), null, new { @class = "grid-control", @Type = "Number" })
+
                                                                         </td>
                                                                         <td>
-                                                                           
-                                                                                @Html.TextBox(string.Concat("txtAct_LBS", counter3), null, new { @class = "grid-control" })
-                                                                           
+
+                                                                            @Html.TextBox(string.Concat("txtAct_LBS", counter3), null, new { @class = "grid-control" })
+
                                                                         </td>
                                                                         <td>
-                                                                            
-                                                                                @Html.TextBox(string.Concat("txtinside_Unit", counter3), null, new { @class = "grid-control" })
-                                                                           
+
+                                                                            @Html.TextBox(string.Concat("txtinside_Unit", counter3), null, new { @class = "grid-control" })
+
                                                                         </td>
                                                                         <td>
-                                                                            
-                                                                                @Html.TextBox(string.Concat("txtVolume", counter3), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            
+
+                                                                            @Html.TextBox(string.Concat("txtVolume", counter3), null, new { @class = "grid-control", @Type = "Number" })
+
                                                                         </td>
                                                                         <td>
-                                                                           
-                                                                                @Html.TextBox(string.Concat("txtDime_weight", counter3), null, new { @class = "grid-control", @Type = "Number" })
-                                                                           
+
+                                                                            @Html.TextBox(string.Concat("txtDime_weight", counter3), null, new { @class = "grid-control", @Type = "Number" })
+
                                                                         </td>
                                                                     </tr>
 
@@ -1709,38 +1706,38 @@
                                                                 <tbody>
                                                                     @foreach (var item in Model.FF_QTN004Detail)
 
-                                                                {
-                                                                <tr>
-                                                                    <td>
-                                                                       
-                                                                            @*@Html.TextBox(string.Concat("txt1CLAUSE_CODE", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
-                                                                            @Html.DropDownList(string.Concat("txtCLAUSE_CODE", counter4), item.CLAUSEList4, new { @class = "grid-control2", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
-                                                                        @Html.Hidden(string.Concat("txt1CLAUSE_CODE", counter4), null, new { @class = "grid-control" })
-                                                                        @Html.Hidden(string.Concat("txtinpCLAUSE_CODE", counter4), null, new { @class = "grid-control" })
+                                                                    {
+                                                                        <tr>
+                                                                            <td>
 
-                                                                        @Html.TextBox(string.Concat("txtCLAUSE_CODE", counter4), null, new { @class = "grid-control" })
+                                                                                @*@Html.TextBox(string.Concat("txt1CLAUSE_CODE", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                    @Html.DropDownList(string.Concat("txtCLAUSE_CODE", counter4), item.CLAUSEList4, new { @class = "grid-control2", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.Hidden(string.Concat("txt1CLAUSE_CODE", counter4), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("txtinpCLAUSE_CODE", counter4), null, new { @class = "grid-control" })
+
+                                                                                @Html.TextBox(string.Concat("txtCLAUSE_CODE", counter4), null, new { @class = "grid-control" })
 
 
-                                                                            @Html.Hidden(string.Concat("hdnCLAUSE_NAME", counter4), item.CLUASE_CODE)
-                                                                       
-                                                                    </td>
+                                                                                @Html.Hidden(string.Concat("hdnCLAUSE_NAME", counter4), item.CLUASE_CODE)
 
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @disabled="disabled" })
-                                                                            @Html.Hidden(string.Concat("hdnCLAUSE_NAME", counter4), item.CLUASE_NAME)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
-                                                                    </td>
-                                                                </tr>
-                                                                    counter4++;
-                                                                }
+                                                                            </td>
+
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @disabled = "disabled" })
+                                                                                @Html.Hidden(string.Concat("hdnCLAUSE_NAME", counter4), item.CLUASE_NAME)
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        counter4++;
+                                                                    }
                                                                     <tr>
                                                                         <td>
-                                                                           
-                                                                                @*@Html.TextBox(string.Concat("txt1CLAUSE_CODE", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+
+                                                                            @*@Html.TextBox(string.Concat("txt1CLAUSE_CODE", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
                                                                                 @Html.DropDownList(string.Concat("txtCLAUSE_CODE", counter4), TypeListdata1, new { @class = "grid-control2", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
                                                                             @Html.Hidden(string.Concat("txt1CLAUSE_CODE", counter4), null, new { @class = "grid-control" })
                                                                             @Html.Hidden(string.Concat("txtinpCLAUSE_CODE", counter4), null, new { @class = "grid-control" })
@@ -1749,13 +1746,13 @@
 
 
 
-                                                                            
+
                                                                         </td>
 
                                                                         <td>
-                                                                            
-                                                                                @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @disabled="disabled" })
-                                                                           
+
+                                                                            @Html.TextBox(string.Concat("txtCLAUSE_NAME", counter4), null, new { @class = "grid-control", @disabled = "disabled" })
+
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -1799,181 +1796,181 @@
                                                                 <tbody>
 
                                                                     @foreach (var item in Model.FF_QTN005Detail)
-                                                                {
+                                                                    {
 
-                                                                <tr>
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @disabled="disabled" })
-                                                                            @Html.Hidden(string.Concat("hdnsno", counter5), item.Sno)
-                                                                       
+                                                                        <tr>
+                                                                            <td>
 
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.Hidden(string.Concat("txt1Crg_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
-                                                                            @*@Html.DropDownList(string.Concat("txtCrg_code", counter5), item.CRG_002List5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
-                                                                        @Html.Hidden(string.Concat("txtinpCrg_code", counter5), null, new { @class = "grid-control" })
-                                                                        @Html.TextBox(string.Concat("txtCrg_code", counter5), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnCrg_code", counter5), item.Crg_code)
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
-                                                                            @Html.Hidden(string.Concat("hdnCrg_name", counter5), item.Crg_name)
-                                                                            @Html.Hidden(string.Concat("txtIncome_GL_Code", counter5), item.Income_GL_Code)
-                                                                            @Html.Hidden(string.Concat("txtExpense_GL_Code", counter5), item.Expense_GL_Code)
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.Hidden(string.Concat("txt1PAY_MODE", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
-                                                                            @*@Html.DropDownList(string.Concat("txtPAY_MODE", counter5), new List<SelectListItem> { new SelectListItem { Text = "PREPAID", Value = "PP" }, new SelectListItem { Text = "COLLECTION", Value = "COL" } }, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
-                                                                        @Html.TextBox(string.Concat("txtPAY_MODE", counter5), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnPAY_MODE", counter5), item.PAY_MODE)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @*@Html.TextBox(string.Concat("txt1Unit_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
-                                                                            @Html.DropDownList(string.Concat("txtUnit_code", counter5), item.UnitcodeList5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
-                                                                        @Html.Hidden(string.Concat("txt1Unit_code", counter5), null, new { @class = "grid-control" })
-
-                                                                        @Html.TextBox(string.Concat("txtUnit_code", counter5), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnUnit_code", counter5), item.Unit_Code)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnNo_of_qty", counter5), item.No_of_qty)
-                                                                       
-                                                                    </td>
-
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtCust_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnCust_Rate", counter5), item.Cust_Rate)
-                                                                        
-                                                                    </td>
-
-                                                                    <td>
-                                                                       
-                                                                            @*@Html.TextBox(string.Concat("txt1Cust_Curr_Code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
-                                                                            @Html.DropDownList(string.Concat("txtCust_Curr_Code", counter4), item.CCurList5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
-                                                                        @Html.Hidden(string.Concat("txt1Cust_Curr_Code", counter5), null, new { @class = "grid-control" })
-
-                                                                        @Html.TextBox(string.Concat("txtCust_Curr_Code", counter5), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnCust_Curr_Code", counter5), item.Cust_Curr_Code)
-                                                                       
-                                                                    </td>
+                                                                                @Html.TextBox(string.Concat("txtsno", counter5), counter5, new { @class = "grid-control", @disabled = "disabled" })
+                                                                                @Html.Hidden(string.Concat("hdnsno", counter5), item.Sno)
 
 
+                                                                            </td>
+                                                                            <td>
 
+                                                                                @Html.Hidden(string.Concat("txt1Crg_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                @*@Html.DropDownList(string.Concat("txtCrg_code", counter5), item.CRG_002List5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.Hidden(string.Concat("txtinpCrg_code", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.TextBox(string.Concat("txtCrg_code", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnCrg_code", counter5), item.Crg_code)
 
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtCust_Curr_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnCust_Curr_Rate", counter5), item.Cust_Curr_Rate)
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @*@Html.TextBox(string.Concat("txt1Cust_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
-                                                                            @Html.DropDownList(string.Concat("txtCust_code", counter4), item.CVendorList5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
-                                                                        @Html.Hidden(string.Concat("txt1Cust_code", counter5), null, new { @class = "grid-control" })
-                                                                        @Html.Hidden(string.Concat("txtinpCust_code", counter5), null, new { @class = "grid-control" })
-                                                                        @Html.TextBox(string.Concat("txtCust_code", counter5), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnCust_code", counter5), item.Cust_code)
-                                                                       
-                                                                    </td>
+                                                                            </td>
+                                                                            <td>
 
+                                                                                @Html.TextBox(string.Concat("txtCrg_name", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
+                                                                                @Html.Hidden(string.Concat("hdnCrg_name", counter5), item.Crg_name)
+                                                                                @Html.Hidden(string.Concat("txtIncome_GL_Code", counter5), item.Income_GL_Code)
+                                                                                @Html.Hidden(string.Concat("txtExpense_GL_Code", counter5), item.Expense_GL_Code)
 
+                                                                            </td>
+                                                                            <td>
 
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
-                                                                            @Html.Hidden(string.Concat("hdnCust_name", counter5), item.Cust_name)
-                                                                            @Html.Hidden(string.Concat("txtCust_Ctrl_Act", counter5), item.Cust_Ctrl_Act)
-                                                                       
-                                                                    </td>
+                                                                                @Html.Hidden(string.Concat("txt1PAY_MODE", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                @*@Html.DropDownList(string.Concat("txtPAY_MODE", counter5), new List<SelectListItem> { new SelectListItem { Text = "PREPAID", Value = "PP" }, new SelectListItem { Text = "COLLECTION", Value = "COL" } }, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.TextBox(string.Concat("txtPAY_MODE", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnPAY_MODE", counter5), item.PAY_MODE)
 
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
-                                                                            @Html.Hidden(string.Concat("hdnCust_Total_amt", counter5), item.Cust_Total_amt)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
-                                                                            @Html.Hidden(string.Concat("hdnCust_Net_Amt", counter5), item.Cust_Net_Amt)
-                                                                       
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtVend_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnVend_Rate", counter5), item.Vend_Rate)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @*@Html.TextBox(string.Concat("txt1Vend_Curr_Code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
-                                                                            @Html.DropDownList(string.Concat("txtVend_Curr_Code", counter4), item.VCurList5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
-                                                                        @Html.Hidden(string.Concat("txt1Vend_Curr_Code", counter5), null, new { @class = "grid-control" })
+                                                                            </td>
+                                                                            <td>
 
-                                                                        @Html.TextBox(string.Concat("txtVend_Curr_Code", counter5), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnVend_Curr_Code", counter5), item.Vend_Curr_Code)
-                                                                       
-                                                                    </td>
+                                                                                @*@Html.TextBox(string.Concat("txt1Unit_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                    @Html.DropDownList(string.Concat("txtUnit_code", counter5), item.UnitcodeList5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.Hidden(string.Concat("txt1Unit_code", counter5), null, new { @class = "grid-control" })
 
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtVend_Curr_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
-                                                                            @Html.Hidden(string.Concat("hdnVend_Curr_Rate", counter5), item.Vend_Curr_Rate)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @*@Html.TextBox(string.Concat("txt1Vend_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
-                                                                            @Html.DropDownList(string.Concat("txtVend_code", counter4), item.VendorList5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
-                                                                        @Html.Hidden(string.Concat("txt1Vend_code", counter5), null, new { @class = "grid-control" })
-                                                                        @Html.Hidden(string.Concat("txtinpVend_code", counter5), null, new { @class = "grid-control" })
-                                                                        @Html.TextBox(string.Concat("txtVend_code", counter5), null, new { @class = "grid-control" })
-                                                                            @Html.Hidden(string.Concat("hdnVend_code", counter5), item.Vend_code)
-                                                                        
-                                                                    </td>
+                                                                                @Html.TextBox(string.Concat("txtUnit_code", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnUnit_code", counter5), item.Unit_Code)
 
-                                                                    <td>
-                                                                       
-                                                                            @Html.Hidden(string.Concat("txtVend_Ctrl_Act", counter5), item.Vend_Ctrl_Act)
-                                                                            @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @disabled="disabled" })
-                                                                            @Html.Hidden(string.Concat("hdnVend_name", counter5), item.Vend_name)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                        
-                                                                            @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled="disabled" })
-                                                                            @Html.Hidden(string.Concat("hdnVend_Total_amt", counter5), item.Vend_Total_amt)
-                                                                        
-                                                                    </td>
-                                                                    <td>
-                                                                       
-                                                                            @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @disabled="disabled" })
-                                                                            @Html.Hidden(string.Concat("hdnVend_Net_Amt", counter5), item.Vend_Net_Amt)
-                                                                        
-                                                                    </td>
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnNo_of_qty", counter5), item.No_of_qty)
+
+                                                                            </td>
+
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtCust_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_Rate", counter5), item.Cust_Rate)
+
+                                                                            </td>
+
+                                                                            <td>
+
+                                                                                @*@Html.TextBox(string.Concat("txt1Cust_Curr_Code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                    @Html.DropDownList(string.Concat("txtCust_Curr_Code", counter4), item.CCurList5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.Hidden(string.Concat("txt1Cust_Curr_Code", counter5), null, new { @class = "grid-control" })
+
+                                                                                @Html.TextBox(string.Concat("txtCust_Curr_Code", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_Curr_Code", counter5), item.Cust_Curr_Code)
+
+                                                                            </td>
 
 
 
 
-                                                                    <td>
-                                                                        <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
-                                                                    </td>
-                                                                </tr>
-                                                                    counter5++;
-                                                                }
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtCust_Curr_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_Curr_Rate", counter5), item.Cust_Curr_Rate)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @*@Html.TextBox(string.Concat("txt1Cust_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                    @Html.DropDownList(string.Concat("txtCust_code", counter4), item.CVendorList5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.Hidden(string.Concat("txt1Cust_code", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("txtinpCust_code", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.TextBox(string.Concat("txtCust_code", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_code", counter5), item.Cust_code)
+
+                                                                            </td>
+
+
+
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtCust_name", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_name", counter5), item.Cust_name)
+                                                                                @Html.Hidden(string.Concat("txtCust_Ctrl_Act", counter5), item.Cust_Ctrl_Act)
+
+                                                                            </td>
+
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtCust_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_Total_amt", counter5), item.Cust_Total_amt)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtCust_Net_Amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                                @Html.Hidden(string.Concat("hdnCust_Net_Amt", counter5), item.Cust_Net_Amt)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtVend_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_Rate", counter5), item.Vend_Rate)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @*@Html.TextBox(string.Concat("txt1Vend_Curr_Code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                    @Html.DropDownList(string.Concat("txtVend_Curr_Code", counter4), item.VCurList5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.Hidden(string.Concat("txt1Vend_Curr_Code", counter5), null, new { @class = "grid-control" })
+
+                                                                                @Html.TextBox(string.Concat("txtVend_Curr_Code", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_Curr_Code", counter5), item.Vend_Curr_Code)
+
+                                                                            </td>
+
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtVend_Curr_Rate", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_Curr_Rate", counter5), item.Vend_Curr_Rate)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @*@Html.TextBox(string.Concat("txt1Vend_code", counter5), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:70%" })
+                                                                                    @Html.DropDownList(string.Concat("txtVend_code", counter4), item.VendorList5, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.Hidden(string.Concat("txt1Vend_code", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("txtinpVend_code", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.TextBox(string.Concat("txtVend_code", counter5), null, new { @class = "grid-control" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_code", counter5), item.Vend_code)
+
+                                                                            </td>
+
+                                                                            <td>
+
+                                                                                @Html.Hidden(string.Concat("txtVend_Ctrl_Act", counter5), item.Vend_Ctrl_Act)
+                                                                                @Html.TextBox(string.Concat("txtVend_name", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_name", counter5), item.Vend_name)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtVend_Total_amt", counter5), null, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_Total_amt", counter5), item.Vend_Total_amt)
+
+                                                                            </td>
+                                                                            <td>
+
+                                                                                @Html.TextBox(string.Concat("txtVend_Net_Amt", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
+                                                                                @Html.Hidden(string.Concat("hdnVend_Net_Amt", counter5), item.Vend_Net_Amt)
+
+                                                                            </td>
+
+
+
+
+                                                                            <td>
+                                                                                <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter5)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                        counter5++;
+                                                                    }
 
                                                                     <tr>
                                                                         <td>
@@ -1985,7 +1982,7 @@
                                                                         <td>
                                                                             <div class="grid-group">
                                                                                 @*@Html.TextBox(string.Concat("txt1Crg_code", counter5), null, new { @class = "grid-control", @disabled = "disabled",@style="width:70%" })
-                    @Html.DropDownList(string.Concat("txtCrg_code", counter5), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                    @Html.DropDownList(string.Concat("txtCrg_code", counter5), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
                                                                                 @Html.Hidden(string.Concat("txt1Crg_code", counter5), null, new { @class = "grid-control" })
                                                                                 @Html.Hidden(string.Concat("txtinpCrg_code", counter5), null, new { @class = "grid-control" })
                                                                                 @Html.TextBox(string.Concat("txtCrg_code", counter5), null, new { @class = "grid-control" })
@@ -2004,7 +2001,7 @@
                                                                         <td>
                                                                             <div class="grid-group">
                                                                                 @*@Html.TextBox(string.Concat("txt1PAY_MODE", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
-                    @Html.DropDownList(string.Concat("txtPAY_MODE", counter5), new List<SelectListItem> { new SelectListItem { Text = "PREPAID", Value = "PP" }, new SelectListItem { Text = "COLLECTION", Value = "COL" } }, new { @class = "grid-control selectpicker", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                    @Html.DropDownList(string.Concat("txtPAY_MODE", counter5), new List<SelectListItem> { new SelectListItem { Text = "PREPAID", Value = "PP" }, new SelectListItem { Text = "COLLECTION", Value = "COL" } }, new { @class = "grid-control selectpicker", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
                                                                                 @Html.Hidden(string.Concat("txt1PAY_MODE", counter5), null, new { @class = "grid-control" })
 
                                                                                 @Html.TextBox(string.Concat("txtPAY_MODE", counter5), null, new { @class = "grid-control" })
@@ -2014,7 +2011,7 @@
 
                                                                             @*@Html.TextBox(string.Concat("txt1Unit_code", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
 
-                @Html.DropDownList(string.Concat("txtUnit_code", counter5), TypeListdata1, new { @class = "grid-control1",@data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.DropDownList(string.Concat("txtUnit_code", counter5), TypeListdata1, new { @class = "grid-control1",@data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
                                                                             @Html.Hidden(string.Concat("txt1Unit_code", counter5), null, new { @class = "grid-control" })
 
                                                                             @Html.TextBox(string.Concat("txtUnit_code", counter5), null, new { @class = "grid-control" })
@@ -2033,7 +2030,7 @@
                                                                         <td>
 
                                                                             @*@Html.TextBox(string.Concat("txt1Cust_Curr_Code", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
-                @Html.DropDownList(string.Concat("txtCust_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false",@data_size=4, @data_width = "3%" })*@
+                                                                                @Html.DropDownList(string.Concat("txtCust_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false",@data_size=4, @data_width = "3%" })*@
 
                                                                             @Html.Hidden(string.Concat("txt1Cust_Curr_Code", counter5), null, new { @class = "grid-control" })
 
@@ -2047,7 +2044,7 @@
                                                                         <td>
 
                                                                             @*@Html.TextBox(string.Concat("txt1Cust_code", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
-                @Html.DropDownList(string.Concat("txtCust_code", counter4), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.DropDownList(string.Concat("txtCust_code", counter4), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
                                                                             @Html.Hidden(string.Concat("txt1Cust_code", counter5), null, new { @class = "grid-control" })
                                                                             @Html.Hidden(string.Concat("txtinpCust_code", counter5), null, new { @class = "grid-control" })
                                                                             @Html.TextBox(string.Concat("txtCust_code", counter5), null, new { @class = "grid-control" })
@@ -2080,7 +2077,7 @@
                                                                         <td>
 
                                                                             @*@Html.TextBox(string.Concat("txt1Vend_Curr_Code", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
-                @Html.DropDownList(string.Concat("txtVend_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.DropDownList(string.Concat("txtVend_Curr_Code", counter4), TypeListdata1, new { @class = "grid-control1", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
                                                                             @Html.Hidden(string.Concat("txt1Vend_Curr_Code", counter5), null, new { @class = "grid-control" })
 
                                                                             @Html.TextBox(string.Concat("txtVend_Curr_Code", counter5), null, new { @class = "grid-control" })
@@ -2094,7 +2091,7 @@
                                                                         <td>
 
                                                                             @*@Html.TextBox(string.Concat("txt1Vend_code", counter5), null, new { @class = "grid-control", @disabled = "disabled" })
-                @Html.DropDownList(string.Concat("txtVend_code", counter4), TypeListdata1, new { @class = "grid-control1" , @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                                                                                @Html.DropDownList(string.Concat("txtVend_code", counter4), TypeListdata1, new { @class = "grid-control1" , @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
                                                                             @Html.Hidden(string.Concat("txt1Vend_code", counter5), null, new { @class = "grid-control" })
                                                                             @Html.Hidden(string.Concat("txtinpVend_code", counter5), null, new { @class = "grid-control" })
                                                                             @Html.TextBox(string.Concat("txtVend_code", counter5), null, new { @class = "grid-control" })
@@ -2139,7 +2136,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Income</label>
                                                     <div class="col-md-7">
-                                                        @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @disabled="disabled" })
+                                                        @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @disabled = "disabled" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -2147,7 +2144,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Cost</label>
                                                     <div class="col-md-7">
-                                                        @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @disabled="disabled" })
+                                                        @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @disabled = "disabled" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -2155,7 +2152,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Profit</label>
                                                     <div class="col-md-7">
-                                                        @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @disabled="disabled" })
+                                                        @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @disabled = "disabled" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -2171,4 +2168,3 @@
         </div>
     </div>
 </div>
-

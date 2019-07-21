@@ -349,5 +349,19 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
+        [Route("FF_QuotCopy")]
+        public ActionResult FF_QuotCopy(string FF_QTN001_CODE)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_QTNService.GetFF_QuotCopy(list[0].CmpyCode, FF_QTN001_CODE, list[0].BraCode));
+            }
+        }
+
     }
 }

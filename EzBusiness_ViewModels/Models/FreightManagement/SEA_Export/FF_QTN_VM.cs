@@ -21,6 +21,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public DateTime UPDATED_ON { get; set; }
         public string CMPYCODE { get; set; }    
         public string FF_QTN001_CODE { get; set; }
+
+        public string FF_QTN001_CODEN { get; set; }
         public string CUST_CODE { get; set; }
         public string CONTACT { get; set; }
         public string TELEPHONE { get; set; }
