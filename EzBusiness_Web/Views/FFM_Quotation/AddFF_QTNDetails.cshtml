@@ -159,20 +159,20 @@
 
         });
 
-        $("#tablePODetails4").on("focusout", "[name*='txtCLAUSE_CODE']", function () {
-            ////.preventdefault();
-            var tr = $(this).closest('tr');
-            var JobCode = tr.find("[name*='txtinpCLAUSE_CODE']").val();
-            var array = JobCode.split("-");
-            if (array.length > 1) {
-                tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim());
-                tr.find("[name*='txt1CLAUSE_CODE']").val(array[0].trim());
-            }
-            else {
-                tr.find("[name*='txt1CLAUSE_CODE']").val('');
-            }         
+        //$("#tablePODetails4").on("focusout", "[name*='txtCLAUSE_CODE']", function () {
+        //    ////.preventdefault();
+        //    var tr = $(this).closest('tr');
+        //    var JobCode = tr.find("[name*='txtinpCLAUSE_CODE']").val();
+        //    var array = JobCode.split("-");
+        //    if (array.length > 1) {
+        //        tr.find("[name*='txtCLAUSE_NAME']").val(array[1].trim());
+        //        tr.find("[name*='txt1CLAUSE_CODE']").val(array[0].trim());
+        //    }
+        //    else {
+        //        tr.find("[name*='txt1CLAUSE_CODE']").val('');
+        //    }         
            
-        });
+        //});
        
         $("#tablePODetails5").on("focusout", "[name*='txtVend_code']", function () {
             debugger;
@@ -430,7 +430,7 @@
             drec = [];
             $('#tablePODetails4 tbody tr td:nth-child(1)').each(function () {
                 //add item to array
-                var ab = $(this).closest("tr").find("[name *= 'txtCLAUSE_CODE'] option:selected").val();
+                var ab = $(this).closest("tr").find("[name *= 'txtCLAUSE_CODE']").val();
                 drec.push(ab);
             });
 
@@ -445,7 +445,9 @@
             else {
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
-                    tr.clone(true, true).insertAfter(tr);
+                    //tr.clone(true, true).insertAfter(tr);
+                    $('#tablePODetails4 tr:last').clone().insertAfter('#tablePODetails4 tr:last');
+
                     var trLast = $("#tablePODetails4 tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter4 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails4 tbody tr:nth-last-child(2)");
@@ -461,13 +463,13 @@
                     //});
 
                     var txtarry1 = [];
-                    txtarry1.push('txtCLAUSE_CODE', 'txtCLAUSE_NAME');
+                    txtarry1.push('txtsno', 'txtCLAUSE_CODE', 'txtCLAUSE_NAME', 'txtinpCLAUSE_CODE');
                     txtarry1.push('txt1CLAUSE_CODE');
 
                     // EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
-                    EzTbltxtdrpidchanged(txtarry1, counter2, "txt", trLast);
+                    EzTbltxtdrpidchanged(txtarry1, counter4, "txt", trLast);
 
-                    trLast.find(":first").text(counter4);
+                    //trLast.find(":first").text(counter4);
                 }
                 counter4++;
             }
@@ -709,7 +711,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Code<i class="star">*</i></label>
                                                     <div class="col-md-4 input-field">
-                                                        @Html.TextBoxFor(m => m.FF_QTN001_CODE, new { @class = "form-control" })
+                                                        @Html.TextBoxFor(m => m.FF_QTN001_CODE, new { @class = "form-control",@readonly= "readonly" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -1268,16 +1270,24 @@
                                                             <table class="table table-bordered stripe display hover" id="tablePODetails4">
                                                                 <thead>
                                                                     <tr class="tr">
+                                                                        @*<th>Sr No</th>*@
                                                                         <th>Code</th>
                                                                         <th>Name</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     <tr>
+                                                                       
+                                                                        @*<td>
+
+                                                                            @Html.TextBox(string.Concat("txtsno", counter4), counter4, new { @class = "grid-control", @disabled = "disabled" })
+
+
+                                                                        </td>*@
                                                                         <td>
                                                                             <div class="grid-group">
                                                                                 @*@Html.TextBox(string.Concat("txt1CLAUSE_CODE", counter4), null, new { @class = "grid-control", @disabled = "disabled", @style = "width:95%" })
-                                                                                @Html.DropDownList(string.Concat("txtCLAUSE_CODE", counter4), TypeListdata1, new { @class = "grid-control2", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
+                @Html.DropDownList(string.Concat("txtCLAUSE_CODE", counter4), TypeListdata1, new { @class = "grid-control2", @data_live_search = "true", @data_dropup_auto = "false", @data_size = 4, @data_width = "3%" })*@
 
                                                                                 @Html.Hidden(string.Concat("txt1CLAUSE_CODE", counter4), null, new { @class = "grid-control" })
                                                                                 @Html.Hidden(string.Concat("txtinpCLAUSE_CODE", counter4), null, new { @class = "grid-control" })
@@ -1488,7 +1498,40 @@
 
 
                                         </div>
+
+
+                                        <div class="col-md-8">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Income</label>
+                                                    <div class="col-md-7">
+                                                        @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @disabled = "disabled" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Cost</label>
+                                                    <div class="col-md-7">
+                                                        @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @disabled = "disabled" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Profit</label>
+                                                    <div class="col-md-7">
+                                                        @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @disabled = "disabled" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
+
+
                                 </div>
                            </div>
                         </div>

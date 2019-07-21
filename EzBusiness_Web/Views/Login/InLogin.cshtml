@@ -317,32 +317,35 @@
 
         $("#Login").click(function () {
            
-        var ILogin = {
-            user_name: $("[name*='user_name']").val(),
-            PassW: $("[name*='PassW']").val(),
-            CmpyCode: $("[name*='CmpyCode']  option:selected").val(),
-            DivCode: $("[name*='DivCode']").val(),
-            BraCode: $("[name*='BranchCode'] option:selected").val(),
-            //DepCode: $("[name*='DepartmentCode']  option:selected").val(),
+            var ILogin = {
+                user_name: $("[name*='user_name']").val(),
+                PassW: $("[name*='PassW']").val(),
+                CmpyCode: $("[name*='CmpyCode']  option:selected").val(),
+                DivCode: $("[name*='DivCode']").val(),
+                BraCode: $("[name*='BranchCode'] option:selected").val(),
+                //DepCode: $("[name*='DepartmentCode']  option:selected").val(),
 
-        };
-        
-            $.get("/InLogin1", ILogin).done(function (response) {
-                
-                if (response.CmpyCode != '0') {
-                    if (response.IsLogInFlag == true) {
-                        window.location.href = "/Index";
+            };
+           
+                $.get("/InLogin1", ILogin).done(function (response) {
+                    debugger;
+                    if (response.CmpyCode == '0') {
+                        EzAlerterrtxt("Company Code should be mandatory");
+                    } else if (response.BraCode == '0') {
+                        EzAlerterrtxt("Branch Code should be mandatory");
                     }
-                    else {
-                        EzAlerterrtxt(response.ErrorMessage);
-                       
+                    else
+                    {
+                        if (response.IsLogInFlag == true) {
+                            window.location.href = "/Index";
+                        }
+                        else {
+                            EzAlerterrtxt(response.ErrorMessage);
+                        }                        
                     }
-                }else
-                {
-                    EzAlerterrtxt("Company Code should be mandatory");
-                }
 
-            });                 
+                });
+               
         });
         });
 
