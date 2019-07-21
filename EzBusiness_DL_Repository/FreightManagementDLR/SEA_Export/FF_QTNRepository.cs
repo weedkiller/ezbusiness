@@ -905,7 +905,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<ComDropTbl> GetCLAUSE(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("FFM_CLAUSE_CODE as [Code],NAME as [CodeName]", "FFM_CLAUSE", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FFM_CLAUSE_CODE like "+Prefix+"% or NAME like "+Prefix+"%)");
+            return drop.GetCommonDrop("FFM_CLAUSE_CODE as [Code],NAME as [CodeName]", "FFM_CLAUSE", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FFM_CLAUSE_CODE like '"+Prefix+"%' or NAME like '"+Prefix+"%')");
         }
 
         public List<FFM_CRG> GetCRG_002(string CmpyCode, string Prefix)

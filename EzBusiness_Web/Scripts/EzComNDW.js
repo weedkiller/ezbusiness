@@ -2335,7 +2335,7 @@ function EzAutoCompTxt1(inpid, inphid, urls) {
                              dataType: "json",
                              data: { Prefix: request.term },
                              success: function (data) {
-                                 if (data.length > 1) {
+                                 if (data.length > 0) {
                                      response($.map(data, function (item) {
                                          return {
                                              label: item.Text,//item.Value + ' - ' + item.Text,
@@ -2407,7 +2407,7 @@ function EzAutoCompTxt1(inpid, inphid, urls) {
                              dataType: "json",
                              data: { Prefix: request.term },
                              success: function (data) {
-                                 if (data.length > 1) {
+                                 if (data.length > 0) {
                                      response($.map(data, function (item) {
                                          return {
                                              label: item.Text,//item.Value + ' - ' + item.Text,
