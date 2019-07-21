@@ -57,7 +57,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return PartialView(_BLService.GetFF_BLDetailsEdit(list[0].CmpyCode, FF_BL001_CODE));
+                return PartialView(_BLService.GetFF_BLDetailsEdit(list[0].CmpyCode, FF_BL001_CODE,list[0].BraCode));
             }
         }
 
@@ -74,7 +74,19 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return PartialView(_BLService.GetFF_BL_AddNew(list[0].CmpyCode));
             }
         }
-
+        [Route("GetCustomerList")]
+        public ActionResult GetCustomerList(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_BLService.GetSL(list[0].CmpyCode,Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult GetFF_BLDetailList()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -85,7 +97,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             else
             {
 
-                return PartialView(_BLService.GetFF_BL(list[0].CmpyCode));
+                return PartialView(_BLService.GetFF_BL(list[0].CmpyCode,list[0].BraCode));
             }
         }
         [Route("SaveFFM_BL")]

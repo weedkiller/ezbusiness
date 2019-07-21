@@ -1,4 +1,5 @@
 ﻿using EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export;
+using EzBusiness_DL_Interface;
 using EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export;
 using EzBusiness_DL_Repository;
 using EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export;
@@ -17,10 +18,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
     {
 
         IFF_BOKRepository _FF_BOKRepo;
+        ICodeGenRepository _CodeRep;
         public FF_BOKService()
         {
             _FF_BOKRepo = new FF_BOKRepository();
-
+            _CodeRep = new CodeGenRepository();
         }
         DropListFillFun drop = new DropListFillFun();
         public bool DeleteFF_BOK(string CmpyCode, string FF_BOK001_CODE, string UserName)
@@ -28,9 +30,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_BOKRepo.DeleteFF_BOK(CmpyCode, FF_BOK001_CODE, UserName);
         }
 
-        public List<FF_BOK_VM> GetFF_BOK(string CmpyCode)
+        public List<FF_BOK_VM> GetFF_BOK(string CmpyCode,string BranchCode)
         {
-            return _FF_BOKRepo.GetFF_BOK(CmpyCode);
+            return _FF_BOKRepo.GetFF_BOK(CmpyCode,BranchCode);
         }
 
         public List<FF_BOK002New> GetFF_BOK002DetailList(string CmpyCode, string FF_BOK001_CODE,string typ)
@@ -127,9 +129,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             }).ToList();
         }
 
-        public FF_BOK_VM GetFF_BOKDetailsEdit(string CmpyCode, string FF_BOK001_CODE)
+        public FF_BOK_VM GetFF_BOKDetailsEdit(string CmpyCode, string FF_BOK001_CODE,string BranchCode)
         {
-            var poEdit = _FF_BOKRepo.GetFF_BOKDetailsEdit(CmpyCode, FF_BOK001_CODE);
+            var poEdit = _FF_BOKRepo.GetFF_BOKDetailsEdit(CmpyCode, FF_BOK001_CODE, BranchCode);
             poEdit.FF_BOK002Detail = GetFF_BOK002DetailList(CmpyCode, FF_BOK001_CODE,"B");
             poEdit.FF_BOK003Detail = GetFF_BOK003DetailList(CmpyCode, FF_BOK001_CODE, "B");
             poEdit.FF_BOK004Detail = GetFF_BOK004DetailList(CmpyCode, FF_BOK001_CODE, "B");
@@ -291,7 +293,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 //CONSIGNEEList = GetSL(Cmpycode, "OP"),
                 // FORWARDERList = GetSL(Cmpycode, "OP"),
                 // ConTypList=GetContTyp(Cmpycode),
-                // Commodityist=GetCommodityistList(Cmpycode),
+                FF_BOK001_CODE = _CodeRep.GetCode(Cmpycode, "SupplierBooking"),
                 GetBOKCODEList = GetQTNCODE(Cmpycode,System.DateTime.Now),
             EditFlag = false
             };
@@ -464,9 +466,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return InsertFirstElementDDL(CRG_002List);
         }
 
-        public FF_BOK_VM GetFF_BOKDetailsQuot(string CmpyCode, string FF_BOK001_CODE1)
+        public FF_BOK_VM GetFF_BOKDetailsQuot(string CmpyCode, string FF_BOK001_CODE1,string BranchCode)
         {
-            var poEdit = _FF_BOKRepo.GetFF_BOKDetailsQuot(CmpyCode, FF_BOK001_CODE1);
+            var poEdit = _FF_BOKRepo.GetFF_BOKDetailsQuot(CmpyCode, FF_BOK001_CODE1, BranchCode);
             poEdit.FF_BOK002Detail = GetFF_BOK002DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
             poEdit.FF_BOK003Detail = GetFF_BOK003DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
             poEdit.FF_BOK004Detail = GetFF_BOK004DetailList(CmpyCode, FF_BOK001_CODE1, "Q");
