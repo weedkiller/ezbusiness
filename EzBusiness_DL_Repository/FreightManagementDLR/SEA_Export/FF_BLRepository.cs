@@ -498,7 +498,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 sb2.Append("'" + ObjList2[n - 1].CLAUSE_CODE + "',");
                                 sb2.Append("'" + ObjList2[n - 1].CLAUSE_NAME + "',");
                                 sb2.Append("'" + FQV.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BL004(FF_BL001_CODE,CLUASE_CODE,CLUASE_NAME,cmpycode) values(" + sb2.ToString() + "");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BL004(FF_BL001_CODE,CLAUSE_CODE,CLAUSE_NAME,cmpycode) values(" + sb2.ToString() + "");
                             }
 
                             n = n - 1;
