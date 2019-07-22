@@ -94,11 +94,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             string qur = "";
             if (typ == "BL")
             {
-                qur = "Select Commodity_code,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_BL002 where Flag=0 and FF_BL001_CODE='" + FF_BL001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select Temp_Range_min,Temp_Range_max,Dimension,Volume,GrossWeight,Commodity_code,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_BL002 where Flag=0 and FF_BL001_CODE='" + FF_BL001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
             }
             else
             {
-                qur = "Select Commodity_code,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_BOK002 where Flag=0 and FF_BOK001_CODE='" + FF_BL001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select '0' as Temp_Range_min,'0' as Temp_Range_max,'0' as Dimension,'0' as Volume,'0' as GrossWeight,Commodity_code, CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_BOK002 where Flag=0 and FF_BOK001_CODE='" + FF_BL001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
             }
             ds = _EzBusinessHelper.ExecuteDataSet(qur);// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
@@ -118,7 +118,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     No_of_qty = Convert.ToInt32(dr["No_of_qty"].ToString()),
                     Seal1 = Convert.ToInt32(dr["Seal1"].ToString()),
                     sno = Convert.ToInt32(dr["sno"].ToString()),
-                    Commodity_code=dr["Commodity_code"].ToString()
+                    Commodity_code=dr["Commodity_code"].ToString(),
+                    Temp_Range_min = Convert.ToDecimal(dr["Temp_Range_min"].ToString()),
+                    Temp_Range_max = Convert.ToDecimal(dr["Temp_Range_max"].ToString()),
+                    Dimension = Convert.ToDecimal(dr["Dimension"].ToString()),
+                    Volume = Convert.ToDecimal(dr["Volume"].ToString()),
+                    GrossWeight = Convert.ToDecimal(dr["GrossWeight"].ToString())
 
 
                 });
@@ -934,6 +939,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb9.Append("Total_Profit='" + FQV.Total_Profit + "',");
                             sb9.Append("JOB_TYPE='" + FQV.JOB_TYPE + "',");
                             sb9.Append("TRANS_TYPE='" + FQV.TRANS_TYPE + "',");
+                            sb9.Append("AGENT='" + FQV.AGENT + "',");
+                            sb9.Append("Salesman='" + FQV.Salesman + "',");
+                            sb9.Append("notifypart1='" + FQV.notifypart1 + "',");
+                            sb9.Append("notifypart2='" + FQV.notifypart2 + "',");
                             sb9.Append("DG='" + FQV.DG + "',");
                             sb9.Append("FNMBRANCH_CODE='" + FQV.FNMBRANCH_CODE + "',");
                             sb9.Append("Commodity_code='" + FQV.Commodity_code + "'");
@@ -1082,7 +1091,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public FF_BL_VM GetFF_BLDetailsBk(string CmpyCode, string FF_BOK001_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMBRANCH_CODE,Commodity_code,TRANS_TYPE,JOB_TYPE,FORWARDER,SHIPPER,PLACE_OF_RCPT,FF_QTN001_CODE,FF_BOK001_DATE,DELIVERY_AT,CARRIER,BILL_TO,DEPARTMENT,FF_BOK001_CODE,ETD,ETA,FND,MOVE_TYPE,PICKUP_PLACE,POD,POL,REF_NO,Total_Billed,Total_Cost,Total_Profit,VESSEL,VOYAGE,CONSIGNEE from FF_BOK001 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select notifypart1,notifypart2,Salesman,AGENT,DG,FNMBRANCH_CODE,Commodity_code,TRANS_TYPE,JOB_TYPE,FORWARDER,SHIPPER,PLACE_OF_RCPT,FF_QTN001_CODE,FF_BOK001_DATE,DELIVERY_AT,CARRIER,BILL_TO,DEPARTMENT,FF_BOK001_CODE,ETD,ETA,FND,MOVE_TYPE,PICKUP_PLACE,POD,POL,REF_NO,Total_Billed,Total_Cost,Total_Profit,VESSEL,VOYAGE,CONSIGNEE from FF_BOK001 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FF_BL_VM ObjList = new FF_BL_VM();
@@ -1118,7 +1127,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.PLACE_OF_RCPT = dr["PLACE_OF_RCPT"].ToString();
                 ObjList.Commodity_code = dr["Commodity_code"].ToString();
                 ObjList.FNMBRANCH_CODE = dr["FNMBRANCH_CODE"].ToString();
-
+                
+                ObjList.DG = dr["DG"].ToString();
+                ObjList.AGENT = dr["AGENT"].ToString();
+                ObjList.Salesman = dr["Salesman"].ToString();
+                ObjList.notifypart1 = dr["notifypart1"].ToString();
+                ObjList.notifypart2 = dr["notifypart2"].ToString();
+               
 
 
             }
