@@ -12,7 +12,7 @@
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
         function GetDrs() {
-            $.get("/FFM_BILL/GetFF_BLDetailList", function (response) {
+            $.get("/FF_BL/GetFF_BLDetailList", function (response) {
                 $("#DRListContainer").html(response);
             });
         }
@@ -347,13 +347,11 @@
 
                     $.post("/SaveFFM_BL", FBV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-
-
-                            EzbtnsaveAcVis("#DRContainer");
+                           
                             EzAlertSave();
                             $("#DRContainer").html(drHtml);
                             GetDrs();
-
+                            EzbtnsaveAcVis("#DRContainer");
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
