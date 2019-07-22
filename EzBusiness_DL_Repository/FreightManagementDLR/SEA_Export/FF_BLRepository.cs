@@ -279,11 +279,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.PLACE_OF_RCPT = dr["PLACE_OF_RCPT"].ToString();
                 ObjList.FF_BOK001_CODE = dr["FF_BOK001_CODE"].ToString();
                 ObjList.Commodity_code = dr["Commodity_code"].ToString();
-                ObjList.Commodity_code = dr["DG"].ToString();
-                ObjList.Commodity_code = dr["AGENT"].ToString();
-                ObjList.Commodity_code = dr["Salesman"].ToString();
-                ObjList.Commodity_code = dr["notifypart1"].ToString();
-                ObjList.Commodity_code = dr["notifypart2"].ToString();
+                ObjList.DG = dr["DG"].ToString();
+                ObjList.AGENT = dr["AGENT"].ToString();
+                ObjList.Salesman = dr["Salesman"].ToString();
+                ObjList.notifypart1 = dr["notifypart1"].ToString();
+                ObjList.notifypart2 = dr["notifypart2"].ToString();
                 ObjList.FNMBRANCH_CODE = dr["FNMBRANCH_CODE"].ToString();
             }
             return ObjList;
