@@ -1007,5 +1007,31 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             " right join  (select max(ENTRY_DATE) as [ENTRY_DATE], FROM_CURRENCY_CODE, CMPYCODE from FNM_CURR_RATE group by FROM_CURRENCY_CODE, CMPYCODE) as [FRMCUR]  on FRMCUR.FROM_CURRENCY_CODE = a.FROM_CURRENCY_CODE and FRMCUR.CMPYCODE = a.CMPYCODE and FRMCUR.ENTRY_DATE = a.ENTRY_DATE "+
              " where a.CMPYCODE = '"+ CmpyCode + "' and a.flag = 0 and a.FROM_CURRENCY_CODE = (select CURRENCY from FNMBRANCH where CMPYCODE = '"+ CmpyCode +"' and FNMBRANCH_CODE = '"+BranchCode+"' )");
         }
+
+        public bool Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode)
+        {
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FF_QTN001 where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and FNMBRANCH_CODE = '" + BranchCode + "'");// CMPYCODE='" + CmpyCode + "' and
+            if (Grs != 0)
+            {
+                if (Typ == "Approve")
+                {
+                    _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Approve FF_QTN_CODE", FF_QTN001_CODE, Environment.MachineName);
+                    return _EzBusinessHelper.ExecuteNonQuery1("update FF_QTN001 set ApprovalYN='Y' where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and FNMBRANCH_CODE = '" + BranchCode + "'");//CMPYCODE='" + CmpyCode + "' and
+
+                }else
+                {
+                    _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Reject FF_QTN_CODE", FF_QTN001_CODE, Environment.MachineName);
+                    return _EzBusinessHelper.ExecuteNonQuery1("update FF_QTN001 set RejetedYN='Y' where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and FNMBRANCH_CODE = '" + BranchCode + "'");//CMPYCODE='" + CmpyCode + "' and
+
+                }
+
+            }
+            return false;
+        }
+
+        public List<ComDropTbl> GetApproveRej(string CmpyCode, string BranchCode, string FF_QTN001_CODE)
+        {
+            return drop.GetCommonDrop("ApprovalYN as [Code],RejetedYN as [CodeName]", "FF_QTN001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and FF_QTN001_CODE='"+ FF_QTN001_CODE+ "' ");
+        }
     }
 }

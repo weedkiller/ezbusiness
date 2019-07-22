@@ -156,5 +156,18 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return PartialView(_BLService.GetFF_BLDetailsBk(list[0].CmpyCode, FF_BOK001_CODE1));
             }
         }
+
+        public ActionResult GetBillCustomerData(string Empcode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_BLService.GetBOOKCODEbycusto(list[0].CmpyCode, Empcode, System.DateTime.Now, list[0].BraCode), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

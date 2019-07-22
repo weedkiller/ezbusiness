@@ -1146,5 +1146,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
             return drop.GetCommonDrop("FF_BOK001_CODE as [Code],SHIPPER as [CodeName]", "FF_BOK001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and convert(varchar(25),ETA,23)>='" + dtstr + "'");
         }
+
+        public List<ComDropTbl> GetBOOKCODEbycusto(string CmpyCode, string Empcode, DateTime vdate, string BranchCode)
+        {
+            string dtstr = vdate.ToString("yyyy-MM-dd");
+
+            return drop.GetCommonDrop2("select a.FF_BOK001_CODE as [Code],a.SHIPPER as [CodeName] from FF_BOK001 a left outer join FF_Bl001 b on a.CMPYCODE=b.CMPYCODE and a.FNMBRANCH_CODE=b.FNMBRANCH_CODE and a.FF_BOK001_CODE != b.FF_BOK001_CODE  and b.FF_BOK001_CODE!='0' where a.CMPYCODE='" + CmpyCode + "' and a.BILL_TO='" + Empcode + "' and convert(varchar(25),a.ETA,23)>='" + dtstr + "' and a.FNMBRANCH_CODE='" + BranchCode + "'");
+            //return drop.GetCommonDrop("FF_BOK001_CODE as [Code],SHIPPER as [CodeName]", "FF_BOK001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and convert(varchar(25),ETA,23)>='" + dtstr + "'");
+        }
     }
 }

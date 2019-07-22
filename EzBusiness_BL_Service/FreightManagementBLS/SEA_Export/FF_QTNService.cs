@@ -12,6 +12,7 @@ using EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export;
 using EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export;
 using EzBusiness_ViewModels;
 using EzBusiness_DL_Interface;
+using EzBusiness_EF_Entity;
 
 namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 { 
@@ -374,6 +375,16 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             // poEdit.Commodityist = GetCommodityistListEdit(CmpyCode,poEdit.Commodity_code);
             poEdit.EditFlag = false;
             return poEdit;
+        }
+
+        public bool Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode)
+        {
+            return _FF_QTNRepo.Aprrove_QTN(CmpyCode, FF_QTN001_CODE, UserName,Typ, BranchCode);
+        }
+
+        public List<ComDropTbl> GetApproveRej(string CmpyCode, string BranchCode, string FF_QTN001_CODE)
+        {
+            return _FF_QTNRepo.GetApproveRej(CmpyCode, BranchCode, FF_QTN001_CODE);
         }
 
 

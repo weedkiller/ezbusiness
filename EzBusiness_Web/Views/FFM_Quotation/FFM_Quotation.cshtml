@@ -101,6 +101,108 @@
                 $("#editshow").hide();
             }
         });
+
+
+        $("#btnApprove").click(function () {
+            var n = EzAuthenticationBtn("/Quotation", "DeleteIt");
+            if (n == 1) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Approve it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+
+                        var FF_QTN001_CODE = $("[name*='FF_QTN001_CODE']").val();
+
+                        $.getJSON("/Aprrove_QTN", { FF_QTN001_CODE: FF_QTN001_CODE, Typ: 'Approve' }).done(function (data) {
+                            debugger
+                            if (data.DeleteFlag) {
+                                window.location = '/Quotation'
+                            } else {
+                                EzAlertdele(FF_QTN001_CODE);
+                            }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Aprroved!',
+                          'Your Code has been Aprroved.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                $("#editshow").hide();
+            }
+        });
+
+        $("#btnReject").click(function () {
+            var n = EzAuthenticationBtn("/Quotation", "DeleteIt");
+            if (n == 1) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Reject it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+
+                        var FF_QTN001_CODE = $("[name*='FF_QTN001_CODE']").val();
+
+                        $.getJSON("/Aprrove_QTN", { FF_QTN001_CODE: FF_QTN001_CODE, Typ: 'Reject' }).done(function (data) {
+                            debugger
+                            if (data.DeleteFlag) {
+                                window.location = '/Quotation'
+                            } else {
+                                EzAlertdele(FF_QTN001_CODE);
+                            }
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Rejected!',
+                          'Your Code has been Rejected.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                $("#editshow").hide();
+            }
+        });
+
         $("#btnSave").click(function () {
             debugger
             var n = EzAuthenticationBtn("/Quotation", "EditIt");
@@ -155,7 +257,7 @@
                     var sno = $(this).find("[name*='txtsno']").val();
                     var Container = $(this).find("[name*='txtContainer']").val();
                     var Cont_Type = $(this).find("[name*='txtCont_Type']").val();
-                    var Commodity_code= $(this).find("[name*='Commodity_code']").val();
+                    var Commodity_code = $(this).find("[name*='txtCommodity_code']").val();
                     var Seal1 = $(this).find("[name*='txtSeal1']").val();
                     var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
                     var Contents = $(this).find("[name*='txtContents']").val();
@@ -663,9 +765,9 @@
             <button class="btn btn-info btn1" id="btnPrint" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
             <button class="btn btn-info btn1" id="btnCopy" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Copy</button>
 
-            <button class="btn btn-info btn1" id="btnApprove" style="visibility: hidden"><span class="glyphicon glyphicon-check"></span>&nbsp; Approve</button>
+            <button class="btn btn-info btn1" id="btnApprove" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Approve</button>
 
-            <button class="btn btn-info btn1" id="btnReject" style="visibility: hidden"><span class="glyphicon glyphicon-unchecked"></span>&nbsp; Reject</button>
+            <button class="btn btn-info btn1" id="btnReject" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Reject</button>
 
             <input type="hidden" id="hdnOperationMode" value="" />
 

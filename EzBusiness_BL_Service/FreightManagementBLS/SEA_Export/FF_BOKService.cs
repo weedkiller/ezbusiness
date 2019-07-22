@@ -477,9 +477,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return InsertFirstElementDDL(CRG_002List);
         }
 
-        public List<SelectListItem> GetQTNCODEbycusto(string CmpyCode,string custocode)
+        public List<SelectListItem> GetQTNCODEbycusto(string CmpyCode,string custocode, DateTime vdate, string BranchCode)
         {
-            var CRG_002List = _FF_BOKRepo.GetQTNCODEbucusto(CmpyCode, custocode)
+            var CRG_002List = _FF_BOKRepo.GetQTNCODEbucusto(CmpyCode, custocode, vdate, BranchCode)
                                          .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                          .ToList();
             return InsertFirstElementDDL(CRG_002List);
