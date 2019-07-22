@@ -30,7 +30,7 @@
                 //$("#btnEdit").prop("disabled", true);
                 //$("#DRListContainer1").hide();
                 var trf = $("#tranferFrom option:selected").val();
-                var QTN001_CODE = $("#FF_BOK001_CODE option:selected").val();
+                var QTN001_CODE = $("#NFF_BOK001_CODE option:selected").val();
                 var BILL_ToEmp = $("#BILL_TOEMP option:selected").val();
                 if (trf == '0') {
                     EzAlerterrtxt('Select Transfer');
@@ -701,13 +701,13 @@
                 dataType: 'Json',
                 contentType:"Application/json",
                 success: function (data) {
-                    $('#FF_BOK001_CODE').empty();
+                    $('#NFF_BOK001_CODE').empty();
                        var ary = [];
                        ary = data;
                         for (var i = 0; i < ary.length; i++) {
-                        $('#FF_BOK001_CODE').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                        $('#NFF_BOK001_CODE').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
                         }
-                        $('#FF_BOK001_CODE').val(0);
+                        $('#NFF_BOK001_CODE').val(0);
                         $('.selectpicker').selectpicker('refresh');
                }
           });
@@ -810,7 +810,7 @@
                             <div class="form-group">
                                 <label class="control-label col-xs-3 col-md-3">Booking<i class="star">*</i></label>
                                 <div class="col-xs-7 col-md-8 input-field">
-                                    @Html.DropDownListFor(m => m.FF_BOK001_CODE, Model.GetBOKCODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                    @Html.DropDownListFor(m => m.NFF_BOK001_CODE, Model.GetBOKCODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                 </div>
                             </div>
                         </div>

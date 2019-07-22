@@ -21,6 +21,9 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public string CMPYCODE { get; set; }
 
         public string FF_BOK001_CODE { get; set; }
+
+        public string NFF_BOK001_CODE { get; set; }
+
         public DateTime FF_BOK001_DATE { get; set; }
         public string BILL_TOEMP { get; set; }
         public string FF_QTN001_CODE { get; set; }

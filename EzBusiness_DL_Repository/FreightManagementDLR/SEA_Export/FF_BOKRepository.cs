@@ -281,6 +281,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.notifypart1 = dr["notifypart1"].ToString();
                 ObjList.notifypart2 = dr["notifypart2"].ToString();
                 ObjList.Salesman = dr["Salesman"].ToString();
+                
 
             }
             return ObjList;
