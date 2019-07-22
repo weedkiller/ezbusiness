@@ -53,6 +53,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 Seal1 = m.Seal1,
                 sno = m.sno,
                 Commodity_code=m.Commodity_code,
+                Temp_Range_min= m.Temp_Range_min,
+                Temp_Range_max=m.Temp_Range_max,
+                Dimension=m.Dimension,
+                Volume=m.Volume,
+                GrossWeight=m.GrossWeight
                 //ConTypList1 = GetContTypEdit(CmpyCode, m.Cont_Type),
                 //Commodityist1 = GetCommodityistListEdit(CmpyCode, m.Commodity_code)
 

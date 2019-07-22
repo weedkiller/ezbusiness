@@ -955,6 +955,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb9.Append("Commodity_code='" + FQV.Commodity_code + "',");
                             sb9.Append("tranferFrom='" + FQV.tranferFrom + "',");
                             sb9.Append("FNMBRANCH_CODE='" + FQV.FNMBRANCH_CODE + "',");
+                            sb9.Append("AGENT='" + FQV.AGENT + "',");
+                            sb9.Append("Salesman='" + FQV.Salesman + "',");
+                            sb9.Append("notifypart1='" + FQV.notifypart1 + "',");
+                            sb9.Append("notifypart2='" + FQV.notifypart2 + "',");
+                            sb9.Append("DG='" + FQV.DG + "',");
                             sb9.Append("Total_Profit='" + FQV.Total_Profit + "'");
 
 
