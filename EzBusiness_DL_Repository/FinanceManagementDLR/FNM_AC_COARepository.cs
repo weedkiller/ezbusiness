@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EzBusiness_EF_Entity.FreightManagement;
+using EzBusiness_EF_Entity;
 
 namespace EzBusiness_DL_Repository.FreightManagementDLR
 {
@@ -16,7 +17,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
     {
         DataSet ds = null;
         DataTable dt = null;
-
+        DropListFillFun drop = new DropListFillFun();
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
         public bool DeleteFNM_Ac_COA(string CmpyCode, string FNM_AC_CODE,  string UserName)
         {
@@ -49,10 +50,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     Head_code = dr["Head_code"].ToString(),
                     group_code = dr["group_code"].ToString(),
                     SUBGROUP_code = dr["SUBGROUP_code"].ToString(),
+                    SUBLEDGER_CAT= dr["SUBLEDGER_CAT"].ToString(),
                     COA_TYPE = dr["COA_TYPE"].ToString(),
                     SUBLEDGER_TYPE = dr["SUBLEDGER_TYPE"].ToString(),
                     MASTER_STATUS = dr["MASTER_STATUS"].ToString(),
                     NOTE = dr["NOTE"].ToString(),
+                    FNMBRANCH_CODE = dr["branchcode"].ToString(),
                     NATURE = dr["NATURE"].ToString(),
                     PL_BS = dr["PL_BS"].ToString()
                 });
@@ -115,9 +118,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb.Append("'" + ac.NOTE + "',");
                         sb.Append("'" + ac.NATURE + "',");
                         sb.Append("'" + ac.Name_Arabic + "',");
+                        sb.Append("'" + ac.FNMBRANCH_CODE + "',");
                         sb.Append("'" + ac.PL_BS + "')");
-                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(CMPYCODE,FNM_AC_COA_CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_TYPE,SUBLEDGER_TYPE,SUBLEDGER_CAT,MASTER_STATUS,NOTE,NATURE,Name_Arabic,PL_BS) values(" + sb.ToString() + "");
+                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_AC_COA(CMPYCODE,FNM_AC_COA_CODE,NAME,Head_Code,group_code,SUBGROUP_code,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_TYPE,SUBLEDGER_TYPE,SUBLEDGER_CAT,MASTER_STATUS,NOTE,NATURE,Name_Arabic,branchcode,PL_BS) values(" + sb.ToString() + "");
+                        int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + ac.COMPANY_UID + "' and Code='COA' ");
+
                         _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Add FNM_AC_COA", ac.CODE, Environment.MachineName);
+                        _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + ac.COMPANY_UID + "' and Code='COA'");
+
                         ac.SaveFlag = true;
                         ac.ErrorMessage = string.Empty;
                     }
@@ -149,8 +157,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     sb.Append("NOTE='" + ac.NOTE + "',");
                     sb.Append("NATURE='" + ac.NATURE + "',");
                     sb.Append("Name_Arabic='" + ac.Name_Arabic + "',");
+                    sb.Append("branchcode='" + ac.FNMBRANCH_CODE + "',");
                     sb.Append("PL_BS='" + ac.PL_BS + "'");
                     _EzBusinessHelper.ExecuteNonQuery("update FNM_AC_COA set  " + sb + " where CMPYCODE='" + ac.COMPANY_UID + "' and  FNM_AC_COA_CODE='" + ac.CODE + "' and Flag=0");
+
                     _EzBusinessHelper.ActivityLog(ac.COMPANY_UID, ac.UserName, "Update FNM_AC_COA", ac.CODE, Environment.MachineName);
                     ac.SaveFlag = true;
                     ac.ErrorMessage = string.Empty;
@@ -172,7 +182,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public FNM_AC_COA_VM EditFNM_AC_COA(string CmpyCode, string Code)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select CMPYCODE,FNM_AC_COA_CODE,NAME,Head_code,group_code,SUBGROUP_code,COA_TYPE,SUBLEDGER_TYPE,SUBLEDGER_CAT,MASTER_STATUS,NOTE,NATURE,Name_Arabic,PL_BS from FNM_AC_COA where CMPYCODE='" + CmpyCode + "' and FNM_AC_COA_CODE='" + Code + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select CMPYCODE,branchcode,FNM_AC_COA_CODE,NAME,Head_code,group_code,SUBGROUP_code,COA_TYPE,SUBLEDGER_TYPE,SUBLEDGER_CAT,MASTER_STATUS,NOTE,NATURE,Name_Arabic,PL_BS from FNM_AC_COA where CMPYCODE='" + CmpyCode + "' and FNM_AC_COA_CODE='" + Code + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FNM_AC_COA_VM ObjList = new FNM_AC_COA_VM();
@@ -192,12 +202,19 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 ObjList.NOTE = dr["NOTE"].ToString();
                 ObjList.NATURE = dr["NATURE"].ToString();
                 ObjList.Name_Arabic = dr["Name_Arabic"].ToString();
+                ObjList.FNMBRANCH_CODE = dr["branchcode"].ToString();
                 ObjList.PL_BS = dr["PL_BS"].ToString();
             }
             return ObjList;
         }
 
-        public List<FMHEAD> GetFMHEAD(string Cmpycode)
+        public List<ComDropTbl> GetFMHEAD(string Cmpycode,string prefix)
+        {
+           
+            return drop.GetCommonDrop("FNMHEAD_CODE as [Code],DESCRIPTION as [CodeName]", "FNMHEAD", "CMPYCODE='" + Cmpycode + "' and Flag=0 and (FNMHEAD_CODE like '" + prefix + "%' or DESCRIPTION like '" + prefix + "%')");
+  
+        }
+        public List<FMHEAD> GetFMHEAD1(string Cmpycode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select FNMHEAD_CODE,DESCRIPTION from FNMHEAD where CmpyCode='" + Cmpycode + "' and Flag=0");// 
             dt = ds.Tables[0];
@@ -213,90 +230,86 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             }
             return ObjList;
         }
-
-        public List<FNMGROUP> Getgroup_code(string Cmpycode)
+        public List<ComDropTbl> Getgroup_code(string Cmpycode,string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMGROUP_CODE,DESCRIPTION from FNMGROUP where CmpyCode='" + Cmpycode + "' and Flag=0");// 
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<FNMGROUP> ObjList = new List<FNMGROUP>();
-            foreach (DataRow dr in drc)
-            {
-                ObjList.Add(new FNMGROUP()
-                {                   
-                    FNMGROUP_CODE = dr["FNMGROUP_CODE"].ToString(),
-                    DESCRIPTION = dr["DESCRIPTION"].ToString()
-                });
-            }
-            return ObjList;
+            return drop.GetCommonDrop("FNMGROUP_CODE as [Code],DESCRIPTION as [CodeName]", "FNMGROUP ", "CMPYCODE='" + Cmpycode + "' and Flag=0 and (FNMGROUP_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')");
+
         }
 
-        public List<FNMSUBGROUP> GetSUBGROUP(string Cmpycode)
+        public List<ComDropTbl> GetSUBGROUP(string Cmpycode, string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMSUBGROUP_CODE,DESCRIPTION from FNMSUBGROUP where CmpyCode='" + Cmpycode + "' and Flag=0");// 
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<FNMSUBGROUP> ObjList = new List<FNMSUBGROUP>();
-            foreach (DataRow dr in drc)
-            {
-                ObjList.Add(new FNMSUBGROUP()
-                {
-                    FNMSUBGROUP_CODE = dr["FNMSUBGROUP_CODE"].ToString(),
-                    DESCRIPTION = dr["DESCRIPTION"].ToString()
-                });
-            }
-            return ObjList;
+            //ds = _EzBusinessHelper.ExecuteDataSet("Select FNMSUBGROUP_CODE,DESCRIPTION from FNMSUBGROUP where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            //dt = ds.Tables[0];
+            //DataRowCollection drc = dt.Rows;
+            //List<FNMSUBGROUP> ObjList = new List<FNMSUBGROUP>();
+            //foreach (DataRow dr in drc)
+            //{
+            //    ObjList.Add(new FNMSUBGROUP()
+            //    {
+            //        FNMSUBGROUP_CODE = dr["FNMSUBGROUP_CODE"].ToString(),
+            //        DESCRIPTION = dr["DESCRIPTION"].ToString()
+            //    });
+            //}
+            //return ObjList;
+            return drop.GetCommonDrop("FNMSUBGROUP_CODE as [Code],DESCRIPTION as [CodeName]", "FNMSUBGROUP ", "CMPYCODE='" + Cmpycode + "' and Flag=0 and (FNMSUBGROUP_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')");
+
         }
 
-        public List<FNMTYPE> GetCOA_TYPEList(string Cmpycode)
+        public List<ComDropTbl> GetCOA_TYPEList(string Cmpycode, string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMTYPE_CODE,DESCRIPTION from FNMTYPE where CmpyCode='" + Cmpycode + "' and Flag=0");// 
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<FNMTYPE> ObjList = new List<FNMTYPE>();
-            foreach (DataRow dr in drc)
-            {
-                ObjList.Add(new FNMTYPE()
-                {
-                    FNMTYPE_CODE = dr["FNMTYPE_CODE"].ToString(),
-                    DESCRIPTION = dr["DESCRIPTION"].ToString()
-                });
-            }
-            return ObjList;
+            //ds = _EzBusinessHelper.ExecuteDataSet("Select FNMTYPE_CODE,DESCRIPTION from FNMTYPE where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            //dt = ds.Tables[0];
+            //DataRowCollection drc = dt.Rows;
+            //List<FNMTYPE> ObjList = new List<FNMTYPE>();
+            //foreach (DataRow dr in drc)
+            //{
+            //    ObjList.Add(new FNMTYPE()
+            //    {
+            //        FNMTYPE_CODE = dr["FNMTYPE_CODE"].ToString(),
+            //        DESCRIPTION = dr["DESCRIPTION"].ToString()
+            //    });
+            //}
+            //return ObjList;
+            return drop.GetCommonDrop("FNMTYPE_CODE as [Code],DESCRIPTION as [CodeName]", "FNMTYPE ", "CMPYCODE='" + Cmpycode + "' and Flag=0 and (FNMTYPE_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')");
+
         }
 
-        public List<FNMSUBGROUP> GetFNMSUBGROUP(string Cmpycode)
+        public List<ComDropTbl> GetFNMSUBGROUP(string Cmpycode,string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMSUBGROUP_CODE,DESCRIPTION from FNMSUBGROUP where CmpyCode='" + Cmpycode + "' and Flag=0");// 
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<FNMSUBGROUP> ObjList = new List<FNMSUBGROUP>();
-            foreach (DataRow dr in drc)
-            {
-                ObjList.Add(new FNMSUBGROUP()
-                {
-                    FNMSUBGROUP_CODE = dr["FNMSUBGROUP_CODE"].ToString(),
-                    DESCRIPTION = dr["DESCRIPTION"].ToString()
-                });
-            }
-            return ObjList;
+            //ds = _EzBusinessHelper.ExecuteDataSet("Select FNMSUBGROUP_CODE,DESCRIPTION from FNMSUBGROUP where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            //dt = ds.Tables[0];
+            //DataRowCollection drc = dt.Rows;
+            //List<FNMSUBGROUP> ObjList = new List<FNMSUBGROUP>();
+            //foreach (DataRow dr in drc)
+            //{
+            //    ObjList.Add(new FNMSUBGROUP()
+            //    {
+            //        FNMSUBGROUP_CODE = dr["FNMSUBGROUP_CODE"].ToString(),
+            //        DESCRIPTION = dr["DESCRIPTION"].ToString()
+            //    });
+            //}
+            //return ObjList;
+            return drop.GetCommonDrop("FNMSUBGROUP_CODE as [Code],DESCRIPTION as [CodeName]", "FNMSUBGROUP ", "CMPYCODE='" + Cmpycode + "' and Flag=0 and (FNMSUBGROUP_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')");
+
         }
 
-        public List<FNMCAT> GetSUBLEDGER_CAT(string Cmpycode)
+        public List<ComDropTbl> GetSUBLEDGER_CAT(string Cmpycode, string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMSLCAT_CODE,DESCRIPTION from FNMSLCAT where CmpyCode='" + Cmpycode + "' and Flag=0");// 
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<FNMCAT> ObjList = new List<FNMCAT>();
-            foreach (DataRow dr in drc)
-            {
-                ObjList.Add(new FNMCAT()
-                {
-                    FNMSLCAT_CODE = dr["FNMSLCAT_CODE"].ToString(),
-                    DESCRIPTION = dr["DESCRIPTION"].ToString()
-                });
-            }
-            return ObjList;
+            //ds = _EzBusinessHelper.ExecuteDataSet("Select FNMSLCAT_CODE,DESCRIPTION from FNMSLCAT where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            //dt = ds.Tables[0];
+            //DataRowCollection drc = dt.Rows;
+            //List<FNMCAT> ObjList = new List<FNMCAT>();
+            //foreach (DataRow dr in drc)
+            //{
+            //    ObjList.Add(new FNMCAT()
+            //    {
+            //        FNMSLCAT_CODE = dr["FNMSLCAT_CODE"].ToString(),
+            //        DESCRIPTION = dr["DESCRIPTION"].ToString()
+            //    });
+            //}
+            //return ObjList;
+            return drop.GetCommonDrop("FNMSLCAT_CODE as [Code],DESCRIPTION as [CodeName]", "FNMSLCAT ", "CMPYCODE='" + Cmpycode + "' and Flag=0 and (FNMSLCAT_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')");
+
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EzBusiness_EF_Entity;
 
 namespace EzBusiness_DL_Interface.FreightManagementDLI
 {
@@ -16,17 +17,17 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
         FNM_AC_COA_VM SaveFNM_AC_COA(FNM_AC_COA_VM ac);
         FNM_AC_COA_VM EditFNM_AC_COA(string CmpyCode, string BranchCode);
 
-        List<FMHEAD> GetFMHEAD(string Cmpycode);
+        List<ComDropTbl> GetFMHEAD(string Cmpycode, string prefix);
+        List<FMHEAD> GetFMHEAD1(string Cmpycode);
+        List<ComDropTbl> Getgroup_code(string Cmpycode,string Prefix);
 
-        List<FNMGROUP> Getgroup_code(string Cmpycode);
+        List<ComDropTbl> GetSUBGROUP(string Cmpycode, string Prefix);
 
-        List<FNMSUBGROUP> GetSUBGROUP(string Cmpycode);
+        List<ComDropTbl> GetCOA_TYPEList(string Cmpycode, string Prefix);
 
-        List<FNMTYPE> GetCOA_TYPEList(string Cmpycode);
+        List<ComDropTbl> GetFNMSUBGROUP(string Cmpycode, string Prefix);
 
-        List<FNMSUBGROUP> GetFNMSUBGROUP(string Cmpycode);
-
-        List<FNMCAT> GetSUBLEDGER_CAT(string Cmpycode);
+        List<ComDropTbl> GetSUBLEDGER_CAT(string Cmpycode, string Prefix);
 
 
     }

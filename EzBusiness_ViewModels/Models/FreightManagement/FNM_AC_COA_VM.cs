@@ -24,6 +24,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public string CREATED_BY { get; set; }
         public DateTime CREATED_ON { get; set; }
         public string UPDATED_BY { get; set; }
+        public string FNMBRANCH_CODE { get; set; }
         public DateTime UPDATED_ON { get; set; }
         public string COA_TYPE { get; set; }
         public List<SelectListItem> COA_TYPEList { get; set; }

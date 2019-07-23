@@ -6,7 +6,8 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
-
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     //var Drs = [];
     $(function () {
@@ -57,11 +58,26 @@
             $(this).attr('autocomplete', 'off');
         });
 
-        EzDropFillEvent("Head_code", "click", "Head_code", "/FNM_AC_COA/GetFMHead");
-        EzDropFillEvent("group_code", "click", "group_code", "/FNM_AC_COA/GetGroupCode");
-        EzDropFillEvent("SUBGROUP_code", "click", "SUBGROUP_code", "/FNM_AC_COA/GetSubGroup");
-        EzDropFillEvent("COA_TYPE", "click", "COA_TYPE", "/FNM_AC_COA/GetCOAType");
-        EzDropFillEvent("SUBLEDGER_CAT", "click", "SUBLEDGER_CAT", "/FNM_AC_COA/GetSubledgerCat");
+        //EzDropFillEvent("Head_code", "click", "Head_code", "/FNM_AC_COA/GetFMHead");
+        //EzDropFillEvent("group_code", "click", "group_code", "/FNM_AC_COA/GetGroupCode");
+        //EzDropFillEvent("SUBGROUP_code", "click", "SUBGROUP_code", "/FNM_AC_COA/GetSubGroup");
+        //EzDropFillEvent("COA_TYPE", "click", "COA_TYPE", "/FNM_AC_COA/GetCOAType");
+        //EzDropFillEvent("SUBLEDGER_CAT", "click", "SUBLEDGER_CAT", "/FNM_AC_COA/GetSubledgerCat");
+        EzAutoCompTxt1('#Head_code', '#hdnHead_code', "/FNM_AC_COA/GetFMHead");
+        EzAutoCompTxt1('#group_code', '#hdngroup_code', "/FNM_AC_COA/GetGroupCode");
+        EzAutoCompTxt1('#SUBGROUP_code', '#hdnSUBGROUP_code', "/FNM_AC_COA/GetSubGroup");
+        EzAutoCompTxt1('#COA_TYPE', '#hdnCOA_TYPE', "/FNM_AC_COA/GetCOAType");
+        EzAutoCompTxt1('#SUBLEDGER_CAT', '#hdnSUBLEDGER_CAT', "/FNM_AC_COA/GetSubledgerCat");
+        EzAutoCompTxt1('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList");
+
+        EzAutoCompTxtE("#Head_code", "#hdnHead_code", "/FNM_AC_COA/GetFMHead", false, "");
+        EzAutoCompTxtE("#group_code", "#hdngroup_code", "/FNM_AC_COA/GetGroupCode", false, "");
+        EzAutoCompTxtE("#SUBGROUP_code", "#hdnSUBGROUP_code", "/FNM_AC_COA/GetSubGroup", false, "");
+        EzAutoCompTxtE("#COA_TYPE", "#hdnCOA_TYPE", "/FNM_AC_COA/GetCOAType", false, "");
+        EzAutoCompTxtE("#SUBLEDGER_CAT", "#hdnSUBLEDGER_CAT", "/FNM_AC_COA/GetSubledgerCat", false, "");
+        EzAutoCompTxtE("#FNMBRANCH_CODE", "#hdnFNMBRANCH_CODE", "/FFM_Quotation/GetBranchList", false, "");
+
+
     });
 
 
@@ -120,8 +136,10 @@
 
                                                     <label class="control-label col-md-3">Head Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.Head_code, Model.Head_codeList, new { @class = "form-control", @data_live_search = "true" })
-                                                        @Html.HiddenFor(m => m.Head_code)
+                                                        @*@Html.DropDownListFor(m => m.Head_code, Model.Head_codeList, new { @class = "form-control", @data_live_search = "true" })
+                                                        @Html.HiddenFor(m => m.Head_code)*@
+                                                        @Html.TextBoxFor(m => m.Head_code, new { @class = "form-control", @placeholder = "Select Head code" })
+                                                        <input id="hdnHead_code" type="hidden" class="form-control" name="hdnHead_code" value="-1" />
                                                         @*@Html.DropDownListFor(m => m.Head_code, Model.Head_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
                                                     </div>
 
@@ -136,15 +154,33 @@
                                                     <label class="control-label col-md-3">Group Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
                                                         @*@Html.DropDownListFor(m => m.group_code, Model.group_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
-                                                        @Html.DropDownListFor(m => m.group_code, Model.group_codeList, new { @class = "form-control", @data_live_search = "true" })
-                                                        @Html.HiddenFor(m => m.group_code)
-
+                                                        @*@Html.DropDownListFor(m => m.group_code, Model.group_codeList, new { @class = "form-control", @data_live_search = "true" })
+                                                        @Html.HiddenFor(m => m.group_code)*@
+                                                        @Html.TextBoxFor(m => m.group_code, new { @class = "form-control", @placeholder = "Select group code" })
+                                                        <input id="hdngroup_code" type="hidden" class="form-control" name="hdngroup_code" value="-1" />
                                                     </div>
 
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
 
+                                                    <label class="control-label col-md-3">Branch Code<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @*@Html.DropDownListFor(m => m.Head_code, Model.Head_codeList, new { @class = "form-control", @data_live_search = "true" })
+                                                         @Html.HiddenFor(m => m.Head_code)*@
+                                                        @Html.TextBoxFor(m => m.FNMBRANCH_CODE, new { @class = "form-control", @placeholder = "Select Branch code" })
+                                                        <input id="hdnFNMBRANCH_CODE" type="hidden" class="form-control" name="hdnFNMBRANCH_CODE" value="-1" />
+                                                        @*@Html.DropDownListFor(m => m.Head_code, Model.Head_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
                                         <div class="row">
 
 
@@ -152,8 +188,10 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3"> Sub Group  Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.SUBGROUP_code, Model.SUBGROUP_codeList, new { @class = "form-control", @data_live_search = "true" })
-                                                        @Html.HiddenFor(m => m.SUBGROUP_code)
+                                                        @*@Html.DropDownListFor(m => m.SUBGROUP_code, Model.SUBGROUP_codeList, new { @class = "form-control", @data_live_search = "true" })
+                                                        @Html.HiddenFor(m => m.SUBGROUP_code)*@
+                                                        @Html.TextBoxFor(m => m.SUBGROUP_code, new { @class = "form-control", @placeholder = "Select SUBGROUP Code" })
+                                                        <input id="hdnSUBGROUP_code" type="hidden" class="form-control" name="hdnSUBGROUP_code" value="-1" />
                                                         @*@Html.DropDownListFor(m => m.SUBGROUP_code, Model.SUBGROUP_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
                                                     </div>
                                                 </div>
@@ -166,8 +204,10 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">Coa Type<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.COA_TYPE, Model.COA_TYPEList, new { @class = "form-control", @data_live_search = "true" })
-                                                        @Html.HiddenFor(m => m.COA_TYPE)
+                                                        @*@Html.DropDownListFor(m => m.COA_TYPE, Model.COA_TYPEList, new { @class = "form-control", @data_live_search = "true" })
+                                                        @Html.HiddenFor(m => m.COA_TYPE)*@
+                                                        @Html.TextBoxFor(m => m.COA_TYPE, new { @class = "form-control", @placeholder = "Select COA TYPE" })
+                                                        <input id="hdnCOA_TYPE" type="hidden" class="form-control" name="hdnCOA_TYPE" value="-1" />
                                                         @*@Html.DropDownListFor(m => m.COA_TYPE, Model.COA_TYPEList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
                                                     </div>
                                                 </div>
@@ -192,9 +232,10 @@
                                                     <label class="control-label col-md-3">Sub Ledger Category<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
                                                         @*@Html.DropDownListFor(m => m.SUBLEDGER_CAT, Model.SUBLEDGER_CATList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
-                                                        @Html.DropDownListFor(m => m.SUBLEDGER_CAT, Model.SUBLEDGER_CATList, new { @class = "form-control", @data_live_search = "true" })
-                                                        @Html.HiddenFor(m => m.SUBLEDGER_CAT)
-
+                                                        @*@Html.DropDownListFor(m => m.SUBLEDGER_CAT, Model.SUBLEDGER_CATList, new { @class = "form-control", @data_live_search = "true" })
+                                                        @Html.HiddenFor(m => m.SUBLEDGER_CAT)*@
+                                                        @Html.TextBoxFor(m => m.SUBLEDGER_CAT, new { @class = "form-control", @placeholder = "Select SUBLEDGER CATEGORY" })
+                                                        <input id="hdnSUBLEDGER_CAT" type="hidden" class="form-control" name="hdnSUBLEDGER_CAT" value="-1" />
                                                     </div>
                                                 </div>
                                             </div>
