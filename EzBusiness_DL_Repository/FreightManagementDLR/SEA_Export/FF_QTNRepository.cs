@@ -1000,7 +1000,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<ComDropTbl> GetBranchListN(string CmpyCode, string Prefix)
         {
-            return drop.GetCommonDrop("Branchcode as [Code],DESCRIPTION as [CodeName]", "FNMBRANCH", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (Branchcode like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')");
+            return drop.GetCommonDrop("FNMBRANCH_CODE as [Code],DESCRIPTION as [CodeName]", "FNMBRANCH", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FNMBRANCH_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')");
         }
 
         public List<ComDropTbl> GetCurCodebranch(string CmpyCode, string BranchCode)
