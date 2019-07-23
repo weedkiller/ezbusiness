@@ -125,7 +125,18 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
         }
     
-
+        public ActionResult GetMasterCode()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_branchService.GetMasterCode(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 
 }

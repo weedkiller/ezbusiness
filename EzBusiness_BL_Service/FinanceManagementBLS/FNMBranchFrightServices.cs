@@ -1,5 +1,7 @@
 ﻿using EzBusiness_BL_Interface.FreightManagementBLI;
+using EzBusiness_DL_Interface;
 using EzBusiness_DL_Interface.FreightManagementDLI;
+using EzBusiness_DL_Repository;
 using EzBusiness_DL_Repository.FreightManagementDLR;
 using EzBusiness_EF_Entity;
 using EzBusiness_EF_Entity.FreightManagementEF;
@@ -17,10 +19,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
    public class FNMBranchFrightServices: IFNMBranchFrightService 
     {
         IFNMBranchRepository _FNMBranchRepo;
-
+        ICodeGenRepository _CodeRep;
         public FNMBranchFrightServices()
         {
             _FNMBranchRepo = new FNMBranchRepository();
+            _CodeRep=new CodeGenRepository();
         }
       
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
@@ -42,7 +45,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             return _FNMBranchRepo.GetFNMBranch(CmpyCode).Select(m => new FNMBranch_VM
             {
                 CMPYCODE = m.CMPYCODE,
-                FNMBRANCH_CODE = m.FNMBRANCH_CODE,
+                FNMBRANCH_CODE =m.FNMBRANCH_CODE, //
                 DESCRIPTION = m.DESCRIPTION,
                 PRINTNAME = m.PRINTNAME,
                 SNO = m.SNO,
@@ -86,6 +89,12 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                                        .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                        .ToList();
             return CurrencyList;
+        }
+
+        public string GetMasterCode(string CmpyCode)
+        {
+           string code=_CodeRep.GetCode(CmpyCode,"FrightBranch");
+            return code;
         }
     }
 }

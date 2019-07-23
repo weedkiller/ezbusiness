@@ -294,7 +294,8 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                 sb.Append("'" + ObjList[n - 1].COA_NAME + "',");
                                 sb.Append("'" + ObjList[n - 1].COA_CODE + "')");
                                 _EzBusinessHelper.ExecuteNonQuery("insert into FNM_SL1002" + sb + " ");
-
+                                int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FNMSL.CMPYCODE + "' and Code='CUST' ");
+                                _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + FNMSL.CMPYCODE + "' and Code='CUST'");
                                 _EzBusinessHelper.ActivityLog(FNMSL.CMPYCODE, FNMSL.UPDATED_BY, "Update FNM_SL1001", FNMSL.FNM_SL1001_CODE, Environment.MachineName);
                                 n = n - 1;
                             }
