@@ -110,7 +110,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
         }
 
-        public ActionResult GetFMHead()
+        public ActionResult GetFMHead(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -121,11 +121,11 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             {
                 //FNM.COMPANY_UID = list[0].CmpyCode;
                 //FNM.UserName = list[0].user_name;
-                return Json(_FNM_AC_COAService.GetFMHEAD(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_FNM_AC_COAService.GetFMHEAD(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 
-        public ActionResult GetGroupCode()
+        public ActionResult GetGroupCode(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -136,11 +136,11 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             {
                 //FNM.COMPANY_UID = list[0].CmpyCode;
                 //FNM.UserName = list[0].user_name;
-                return Json(_FNM_AC_COAService.Getgroup_code(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_FNM_AC_COAService.Getgroup_code(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 
-        public ActionResult GetSubGroup()
+        public ActionResult GetSubGroup(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -151,11 +151,11 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             {
                 //FNM.COMPANY_UID = list[0].CmpyCode;
                 //FNM.UserName = list[0].user_name;
-                return Json(_FNM_AC_COAService.GetFNMSUBGROUP(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_FNM_AC_COAService.GetFNMSUBGROUP(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 
-        public ActionResult GetCOAType()
+        public ActionResult GetCOAType(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -166,11 +166,11 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             {
                 //FNM.COMPANY_UID = list[0].CmpyCode;
                 //FNM.UserName = list[0].user_name;
-                return Json(_FNM_AC_COAService.GetCOA_TYPEList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_FNM_AC_COAService.GetCOA_TYPEList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 
-        public ActionResult GetSubledgerCat()
+        public ActionResult GetSubledgerCat(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -181,7 +181,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             {
                 //FNM.COMPANY_UID = list[0].CmpyCode;
                 //FNM.UserName = list[0].user_name;
-                return Json(_FNM_AC_COAService.GetSUBLEDGER_CAT(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_FNM_AC_COAService.GetSUBLEDGER_CAT(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
         #endregion

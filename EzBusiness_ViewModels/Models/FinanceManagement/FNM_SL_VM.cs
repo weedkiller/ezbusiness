@@ -35,7 +35,7 @@ namespace EzBusiness_ViewModels.Models.FinaceMgmt
 
         [DisplayName("Currency code")]
         public string Currency_code { get; set; }
-
+        public string Branch_code { get; set; }
 
         public List<SelectListItem> Currency_codeList { get; set; }
 

@@ -10,14 +10,17 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     $(function () {
         arr1 = [];
 
 
-        EzDropFillEvent("Currency_code", "click", "Currency_code", "/FFM_Quotation/GetCurcode ");
+     //   EzDropFillEvent("Currency_code", "click", "Currency_code", "/FFM_Quotation/GetCurcode ");
 
-
+        EzAutoCompTxtE("#Currency_code", "#hdnCurrency_code", "/FFM_Quotation/GetCurcode ", false, "");
+        EzAutoCompTxtE('#Branch_code', '#hdnBranch_code', "/FFM_Quotation/GetBranchList", false, "");
         var SUBLEDGER_TYPE = '';
         var path = $("#hdnpath").val();
         if (path == "<li>Finance Management</li><li>Operational Customers</li><li>SubLedger</li>") {
@@ -356,7 +359,22 @@
                                         <label class="control-label col-md-3">Currency code<i class="star">*</i></label>
                                         <div class="col-md-9 input-field">
                                             @*@Html.DropDownListFor(m => m.Currency_code, Model.Currency_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
-                                            @Html.DropDownListFor(m => m.Currency_code, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.Currency_code, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.Currency_code, new { @class = "form-control", @placeholder = "Select Currency code" })
+                                            <input id="hdnCurrency_code" type="hidden" class="form-control" name="hdnCurrency_code" value="-1" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">BranchCode code<i class="star">*</i></label>
+                                        <div class="col-md-9 input-field">
+                                            @*@Html.DropDownListFor(m => m.Currency_code, Model.Currency_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                            @*@Html.DropDownListFor(m => m.Branch_code, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+                                            @Html.TextBoxFor(m => m.Branch_code, new { @class = "form-control", @placeholder = "Select Branch code" })
+                                            <input id="hdnBranch_code" type="hidden" class="form-control" name="hdnBranch_code" value="-1" />
                                         </div>
                                     </div>
                                 </div>

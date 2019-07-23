@@ -18,12 +18,12 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
 
         FNM_AC_COA_VM GetFNM_AC_COAAddNew(string Cmpycode);
 
-        List<SelectListItem> GetFMHEAD(string Cmpycode);
-        List<SelectListItem> Getgroup_code(string Cmpycode);
-        List<SelectListItem> GetSUBGROUP(string Cmpycode);
-        List<SelectListItem> GetCOA_TYPEList(string Cmpycode);
-        List<SelectListItem> GetFNMSUBGROUP(string Cmpycode);
+        IQueryable<SelectListItem> GetFMHEAD(string Cmpycode,string Prefix);
+        IQueryable<SelectListItem> Getgroup_code(string Cmpycode, string Prefix);
+        IQueryable<SelectListItem> GetSUBGROUP(string Cmpycode, string Prefix);
+        IQueryable<SelectListItem> GetCOA_TYPEList(string Cmpycode, string Prefix);
+        IQueryable<SelectListItem> GetFNMSUBGROUP(string Cmpycode, string Prefix);
 
-        List<SelectListItem> GetSUBLEDGER_CAT(string Cmpycode);
+        IQueryable<SelectListItem> GetSUBLEDGER_CAT(string Cmpycode, string Prefix);
     }
 }
