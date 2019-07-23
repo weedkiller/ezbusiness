@@ -56,6 +56,9 @@ namespace EzBusiness_ViewModels.Models.FinaceMgmt
         public string ErrorMessage { get; set; }
         public string UserName { get; set; }
         public string Name_Arabic { get; set; }
+
+        public string Branchcode { get; set; }
+        
         public FNM_SL1002DetailNew FNM_SL1002Detail { get; set; }
 
         public List<FNM_SL1002DetailNew> FNM_SL1002Details { get; set; }

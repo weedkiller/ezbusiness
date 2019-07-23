@@ -10,23 +10,35 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     $(function () {
         arr1 = [];
 
 
-        EzDropFillEvent("Currency_code", "click", "Currency_code", "/FFM_Quotation/GetCurcode ");
+        //EzDropFillEvent("Currency_code", "click", "Currency_code", "/FFM_Quotation/GetCurcode ");
 
+        
+        EzAutoCompTxtE("#Currency_code", "#hdnCurrency_code", "/FNM_SL/GetCurrency", false, "");
+        EzAutoCompTxtE("#Branchcode", "#hdnBranchcode", "/FFM_Quotation/GetBranchList", false, "");
+
+        
 
         var SUBLEDGER_TYPE = '';
         var path = $("#hdnpath").val();
         if (path == "<li>Finance Management</li><li>Operational Customers</li><li>SubLedger</li>") {
-            SUBLEDGER_TYPE = "/FNM_SL/SUBLEDGER_TYPEList1";            
+            SUBLEDGER_TYPE = "/FNM_SL/SUBLEDGER_TYPEList1";
+
+            EzAutotxtEventTbl12("#tblFNMCURRATE", "focus", "[name*='txtFNM_SL1002_CODE']", "[name*='txt1FNM_SL1002_CODE']", "/FNM_SL/SUBLEDGER_TYPEList1", true, "[name*='txtinpFNM_SL1002_CODE']");
+
         } else
         {
+            EzAutotxtEventTbl12("#tblFNMCURRATE", "focus", "[name*='txtFNM_SL1002_CODE']", "[name*='txt1FNM_SL1002_CODE']", "/FNM_SL/SUBLEDGER_TYPEList2", true, "[name*='txtinpFNM_SL1002_CODE']");
+
             SUBLEDGER_TYPE = "/FNM_SL/SUBLEDGER_TYPEList2";
         }
-        EzDropFillEventTbl1("#tblFNMCURRATE", "[name*='FNM_SL1002_CODE']", "click", "[name*='FNM_SL1002_CODE']", SUBLEDGER_TYPE, "", false);
+        //EzDropFillEventTbl1("#tblFNMCURRATE", "[name*='FNM_SL1002_CODE']", "click", "[name*='FNM_SL1002_CODE']", SUBLEDGER_TYPE, "", false);
 
       
 
@@ -55,43 +67,43 @@
         if ($(this).is(':checked'))
             
             var SUBLEDGER_TYPE = $("input:radio[name=SUBLEDGER_TYPE]:checked").val();
-        $.get("FNM_SL/GetCatDropDetailListFilter", { SUBLEDGER_TYPE: SUBLEDGER_TYPE }).done(function (response) {
-            $('#tblFNMCURRATE tr').each(function (data) {
-                $("[name*='FNM_SL1002_CODE']").empty();
-                var ary = [];
-                ary = response;
-                for (var i = 0; i < ary.length; i++) {                    
-                    $("[name*='FNM_SL1002_CODE']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                }
+        //$.get("FNM_SL/GetCatDropDetailListFilter", { SUBLEDGER_TYPE: SUBLEDGER_TYPE }).done(function (response) {
+        //    $('#tblFNMCURRATE tr').each(function (data) {
+        //        $("[name*='FNM_SL1002_CODE']").empty();
+        //        var ary = [];
+        //        ary = response;
+        //        for (var i = 0; i < ary.length; i++) {                    
+        //            $("[name*='FNM_SL1002_CODE']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+        //        }
 
-                $("[name*='FNM_SL1002_CODE']").val(0);
+        //        $("[name*='FNM_SL1002_CODE']").val(0);
              
-            });
-        });
+        //    });
+        //});
         });
 
 
        
 
         var counter = parseInt($("#hdnCounter").val());
-        $("#tblFNMCURRATE").on("change", "[name*='FNM_SL1002_CODE']", function () {
+        $("#tblFNMCURRATE").on("focusout", "[name*='txtFNM_SL1002_CODE']", function () {
             
             var tr = $(this).closest("tr");
             var drec = [];
             $('#tblFNMCURRATE tbody tr td:nth-child(1)').each(function (e) {
                 //add item to array
                 var tr1 = $(this).closest("tr");
-                var ab = tr1.find("[name*='FNM_SL1002_CODE']").val();
+                var ab = tr1.find("[name*='txtFNM_SL1002_CODE']").val();
                 drec.push(ab);
             });
-            drec.splice($.inArray(tr.find("[name*='FNM_SL1002_CODE']").val(), drec), 1);
+            drec.splice($.inArray(tr.find("[name*='txtFNM_SL1002_CODE']").val(), drec), 1);
 
-            if ($.inArray(tr.find("[name*='FNM_SL1002_CODE']").val(), drec) >= 0) {
-                var dr = tr.find("[name*='FNM_SL1002_CODE']").val();
+            if ($.inArray(tr.find("[name*='txtFNM_SL1002_CODE']").val(), drec) >= 0) {
+                var dr = tr.find("[name*='txtFNM_SL1002_CODE']").val();
                 tr.css("background", "red");
-                tr.find("[name*='FNM_SL1002_CODE']").focus();
+                tr.find("[name*='txtFNM_SL1002_CODE']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
-                tr.find("[name*='FNM_SL1002_CODE']").val('0');
+                tr.find("[name*='txtFNM_SL1002_CODE']").val('0');
 
             }
             else {
@@ -105,45 +117,65 @@
                 $.get("FNM_SL/GetCatDropDetailList", { SUBLEDGER_TYPE: SUBLEDGER_TYPE }).done(function (response) {
                     //var ary = [];
                     //ary = response;
+                    debugger
                     counter = 1;
-                    tr.find("[name*='FNM_SL1002_CODE']").val(response[0].FNM_SL1002_CODE);
-                    tr.find("[name*='NAME']").val(response[0].NAME);
-                    tr.find("[name*='COA_CODE']").val(response[0].COA_CODE);
-                    tr.find("[name*='COA_NAME']").val(response[0].COA_NAME);
+                    if (response.length > 0) {
+                        tr.find("[name*='txtFNM_SL1002_CODE']").val(response[0].FNM_SL1002_CODE);
+                        tr.find("[name*='txtNAME']").val(response[0].NAME);
+                        tr.find("[name*='txtCOA_CODE']").val(response[0].COA_CODE);
+                        tr.find("[name*='txtCOA_NAME']").val(response[0].COA_NAME);
+                    }
+                    
                 });
 
                 if (tr.is(":last-child")) {
 
-                    tr.clone(true, true).insertAfter(tr);
+                    //tr.clone(true, true).insertAfter(tr);
+                    //$("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                    //    .appendTo("#tblFNMCURRATE tbody tr:nth-last-child(2)");
+
+
+                    $('#tblFNMCURRATE tr:last').clone().insertAfter('#tblFNMCURRATE tr:last');
+
+                    var trLast = $("#tblFNMCURRATE tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                        .appendTo("#tblFNMCURRATE tbody tr:nth-last-child(2)");
-                    var trLast = $("#tableMetaSettings tr:last");
-                    var cloned = $("#tblFNMCURRATE tbody tr:last").clone(true); // clone last row
-                    // looping over last row's inputs
-                    $("#tblFNMCURRATE tbody tr:last").find('select').each(function () {
-                        cloned.find('select[name^=' + this.name.replace('[]', '') + ']').val(0);
-                    });
-                    $("#tblFNMCURRATE > tbody").append(cloned);
-                    $("#tblFNMCURRATE > tbody tr:last").prev().remove();
+                               .appendTo("#tblFNMCURRATE tbody tr:nth-last-child(2)");
 
-                    trLast.find("[name *= 'FNM_SL1002_CODE']").attr({
-                        "name": ("FNM_SL1002_CODE" + counter)
-                    });
-                    trLast.find("[name *= 'NAME']").attr({
-                        "name": ("NAME" + counter)
-                    });
-                    trLast.find("[name *= 'COA_CODE']").attr({
-                        "name": ("COA_CODE" + counter)
-                    });
-                    trLast.find("[name *= 'COA_NAME']").attr({
-                        "name": ("COA_NAME" + counter)
-                    });                
-                    trLast.find('select[name^=FNM_SL1002_CODE' + counter + ']').val(0);
 
-                    trLast.find(":first").text(counter);
+                    var txtarry1 = [];
+                    txtarry1.push('txtFNM_SL1002_CODE', 'txtNAME', 'txtCOA_NAME', 'txtCOA_CODE','txtinpFNM_SL1002_CODE');
+                    txtarry1.push('txt1FNM_SL1002_CODE');
 
-                    trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
-                    trLast.find("[name *= 'FNM_SL1002_CODE']").selectpicker('refresh');
+                    // EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
+                    EzTbltxtdrpidchanged(txtarry1, counter, "txt", trLast);
+                    trLast.find("[name *= 'txtFNM_SL1002_CODE']").val('');
+                    //var trLast = $("#tableMetaSettings tr:last");
+                    //var cloned = $("#tblFNMCURRATE tbody tr:last").clone(true); // clone last row
+                    //// looping over last row's inputs
+                    //$("#tblFNMCURRATE tbody tr:last").find('select').each(function () {
+                    //    cloned.find('select[name^=' + this.name.replace('[]', '') + ']').val(0);
+                    //});
+                    //$("#tblFNMCURRATE > tbody").append(cloned);
+                    //$("#tblFNMCURRATE > tbody tr:last").prev().remove();
+
+                    //trLast.find("[name *= 'FNM_SL1002_CODE']").attr({
+                    //    "name": ("FNM_SL1002_CODE" + counter)
+                    //});
+                    //trLast.find("[name *= 'NAME']").attr({
+                    //    "name": ("NAME" + counter)
+                    //});
+                    //trLast.find("[name *= 'COA_CODE']").attr({
+                    //    "name": ("COA_CODE" + counter)
+                    //});
+                    //trLast.find("[name *= 'COA_NAME']").attr({
+                    //    "name": ("COA_NAME" + counter)
+                    //});                
+                    //trLast.find('select[name^=FNM_SL1002_CODE' + counter + ']').val(0);
+
+                    //trLast.find(":first").text(counter);
+
+                    //trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+                    //trLast.find("[name *= 'FNM_SL1002_CODE']").selectpicker('refresh');
                 }
                 counter++;
             }
@@ -226,7 +258,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">Code<i class="star">*</i></label>
                                         <div class="col-md-9 input-field">
-                                            @Html.TextBoxFor(m => m.FNM_SL1001_CODE, null, new { @class = "form-control" })
+                                            @Html.TextBoxFor(m => m.FNM_SL1001_CODE, null, new { @class = "form-control",@readonly="readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -356,7 +388,24 @@
                                         <label class="control-label col-md-3">Currency code<i class="star">*</i></label>
                                         <div class="col-md-9 input-field">
                                             @*@Html.DropDownListFor(m => m.Currency_code, Model.Currency_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
-                                            @Html.DropDownListFor(m => m.Currency_code, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
+                                            @*@Html.DropDownListFor(m => m.Currency_code, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+
+                                            @Html.TextBoxFor(m => m.Currency_code, new { @class = "form-control", @placeholder = "Select Currency code" })
+                                            <input id="hdnCurrency_code" type="hidden" class="form-control" name="hdnCurrency_code" value="-1" />  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Branch code<i class="star">*</i></label>
+                                        <div class="col-md-9 input-field">
+                                            @*@Html.DropDownListFor(m => m.Currency_code, Model.Currency_codeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                            @*@Html.DropDownListFor(m => m.Currency_code, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+
+                                            @Html.TextBoxFor(m => m.Branchcode, new { @class = "form-control", @placeholder = "Select Branchc code" })
+                                            <input id="hdnBranchcode" type="hidden" class="form-control" name="hdnBranchcode" value="-1" />
                                         </div>
                                     </div>
                                 </div>
@@ -421,19 +470,24 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        @Html.DropDownList(string.Concat("FNM_SL1002_CODE", counter), TypeListdata1, new { @class = "form-control", @data_live_search = "true" })
+                                                                        @Html.Hidden(string.Concat("txt1FNM_SL1002_CODE", counter), null, new { @class = "grid-control" })
+                                                                        @Html.Hidden(string.Concat("txtinpFNM_SL1002_CODE", counter), null, new { @class = "grid-control" })
+
+                                                                        @Html.TextBox(string.Concat("txtFNM_SL1002_CODE", counter), null, new { @class = "grid-control" })
+
+                                                                        @*@Html.DropDownList(string.Concat("FNM_SL1002_CODE", counter), TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
                                                                         @*@Html.DropDownList(string.Concat("FNM_SL1002_CODE", counter), Model.SUBLEDGER_TYPEList, new { @class = "selectpicker grid-control subledg", @data_live_search = "true" })*@
                                                                     </div>
                                                                 </td>
                                                                 <td>
-                                                                    @Html.TextBox(string.Concat("NAME", counter), null, new { @class = "grid-control" })
+                                                                    @Html.TextBox(string.Concat("txtNAME", counter), null, new { @class = "grid-control" })
                                                                 </td>
                                                                 
                                                                 <td>
-                                                                    @Html.TextBox(string.Concat("COA_CODE", counter), null, new { @class = "grid-control" })
+                                                                    @Html.TextBox(string.Concat("txtCOA_CODE", counter), null, new { @class = "grid-control" })
                                                                 </td>
                                                                 <td>
-                                                                    @Html.TextBox(string.Concat("COA_NAME", counter), null, new { @class = "grid-control" })
+                                                                    @Html.TextBox(string.Concat("txtCOA_NAME", counter), null, new { @class = "grid-control" })
                                                                 </td>
 
                                                             </tr>

@@ -35,6 +35,20 @@ namespace EzBusiness_Web.Controllers.FNM
                return View();
             }
         }
+
+        public ActionResult GetCurrency(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_FNM_SLService.GetFNMCURRENCY(Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [Route("OprationalCustomer")]
         public ActionResult FNMOprationalCustomer()
         {
@@ -136,7 +150,7 @@ namespace EzBusiness_Web.Controllers.FNM
             }
         }
 
-        public ActionResult GetCatDropDetailListFilter(string SUBLEDGER_TYPE)
+        public ActionResult GetCatDropDetailListFilter(string SUBLEDGER_TYPE,string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -145,11 +159,11 @@ namespace EzBusiness_Web.Controllers.FNM
             }
             else
             {
-                return Json(_FNM_SLService.GetFNMCAT(list[0].CmpyCode, SUBLEDGER_TYPE), JsonRequestBehavior.AllowGet);
+                return Json(_FNM_SLService.GetFNMCAT(list[0].CmpyCode, SUBLEDGER_TYPE,Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 
-        public ActionResult SUBLEDGER_TYPEList1()
+        public ActionResult SUBLEDGER_TYPEList1(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -158,10 +172,10 @@ namespace EzBusiness_Web.Controllers.FNM
             }
             else
             {
-                return Json(_FNM_SLService.GetFNMCAT(list[0].CmpyCode,"FM"), JsonRequestBehavior.AllowGet);
+                return Json(_FNM_SLService.GetFNMCAT(list[0].CmpyCode,"FM",Prefix), JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult SUBLEDGER_TYPEList2()
+        public ActionResult SUBLEDGER_TYPEList2(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -170,7 +184,7 @@ namespace EzBusiness_Web.Controllers.FNM
             }
             else
             {
-                return Json(_FNM_SLService.GetFNMCAT(list[0].CmpyCode, "OP"), JsonRequestBehavior.AllowGet);
+                return Json(_FNM_SLService.GetFNMCAT(list[0].CmpyCode, "OP",Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 

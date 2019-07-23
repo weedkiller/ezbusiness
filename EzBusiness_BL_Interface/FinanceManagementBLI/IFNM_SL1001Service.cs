@@ -18,9 +18,9 @@ namespace EzBusiness_BL_Interface.FinanceManagementBLI
         List<FNM_SL1002DetailNew> GetFNMSL002DetailList(string CmpyCode, string FNM_SL1001_CODE,string Type1);
         
        
-        List<SelectListItem> GetFNMCURRENCY();
+        List<SelectListItem> GetFNMCURRENCY(string prefix);
 
-        List<SelectListItem> GetFNMCAT(string CmpyCode,string type1);
+        List<SelectListItem> GetFNMCAT(string CmpyCode,string type1,string Prefix);
 
      
 
