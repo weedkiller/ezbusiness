@@ -258,7 +258,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         }
         public FFM_VOYAGE_VM EditVoyagMaster(string CmpyCode, string vyogcode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("select * from FFM_VOYAGE01 yg1  where yg1.cmpycode='" + CmpyCode + "' and yg1.FFM_VOYAGE01_CODE='" + vyogcode + "' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("select * from FFM_VOYAGE01 yg1 inner join FFM_VOYAGE02 yg2 on yg1.CMPYCODE=yg2.CmpyCode and yg1.FFM_VOYAGE01_CODE=yg2.FFM_VOYAGE01_CODE  where yg1.cmpycode='" + CmpyCode + "' and yg1.FFM_VOYAGE01_CODE='" + vyogcode + "' and yg1.Flag=0");
 
             dt = ds.Tables[0];
             FFM_VOYAGE_VM data = new FFM_VOYAGE_VM();
@@ -269,7 +269,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 data.FFM_VOYAGE01_CODE = dr["FFM_VOYAGE01_CODE"].ToString();
                 data.NAME = dr["NAME"].ToString();
                 data.DISPLAY_STATUS = dr["DISPLAY_STATUS"].ToString();
-
+                data.PORT = dr["PORT"].ToString();
+                data.ROTATION =Convert.ToInt32(dr["ROTATION"].ToString());
+                data.PORT = dr["PORT"].ToString();
+                data.ETA =Convert.ToDateTime(dr["ETA"].ToString());
+                data.ETB = Convert.ToDateTime(dr["ETB"].ToString());
+                data.ETD = Convert.ToDateTime(dr["ETD"].ToString());
+                data.Sailinghrs = Convert.ToInt64(dr["SAILING_HRS"].ToString());
+                data.PortStayhrs = Convert.ToInt64(dr["PORT_STAY_HRS"].ToString());
             }
             return data;
         }
