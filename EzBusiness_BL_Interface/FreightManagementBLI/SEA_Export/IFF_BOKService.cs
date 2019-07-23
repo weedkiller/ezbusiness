@@ -28,6 +28,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<SelectListItem> GetContTyp(string CmpyCode);
         List<SelectListItem> GetDepart(string CmpyCode);
 
+        List<SelectListItem> GetQTNCODEbycusto(string CmpyCode, string custocode, DateTime vdate,string BranchCode);
         List<SelectListItem> GetPortList(string CmpyCode);
         List<SelectListItem> GetVESSELList(string CmpyCode);
         List<SelectListItem> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE);

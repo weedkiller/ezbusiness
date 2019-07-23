@@ -1119,10 +1119,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
             return drop.GetCommonDrop("FF_QTN001_CODE as [Code],CUST_CODE as [CodeName]", "FF_QTN001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and convert(varchar(25),EFFECT_UPTO,23)>='" + dtstr + "'");
         }
-        public List<ComDropTbl> GetQTNCODEbucusto(string CmpyCode,string Empcode)
+        public List<ComDropTbl> GetQTNCODEbucusto(string CmpyCode,string Empcode, DateTime vdate, string BranchCode)
         {
-           // string dtstr = vdate.ToString("yyyy-MM-dd");
-          return drop.GetCommonDrop("FF_QTN001_CODE as [Code],CUST_CODE as [CodeName]", "FF_QTN001", "CMPYCODE='" + CmpyCode + "' and CUST_CODE='"+Empcode+"'");
+            string dtstr = vdate.ToString("yyyy-MM-dd");
+            //return drop.GetCommonDrop("FF_QTN001_CODE as [Code],CUST_CODE as [CodeName]", "FF_QTN001", "CMPYCODE='" + CmpyCode + "' and CUST_CODE='"+Empcode+ "' and convert(varchar(25),EFFECT_UPTO,23)>='" + dtstr + "'");
+            return drop.GetCommonDrop2("select a.FF_QTN001_CODE as [Code],a.CUST_CODE as [CodeName] from FF_QTN001 a left outer join FF_BOK001 b on a.CMPYCODE=b.CMPYCODE and a.FNMBRANCH_CODE=b.FNMBRANCH_CODE and a.FF_QTN001_CODE != b.FF_QTN001_CODE and a.ApprovalYN='Y' and a.RejetedYN='N' and b.FF_QTN001_CODE!='0' where a.CMPYCODE='" + CmpyCode + "' and a.CUST_CODE='" + Empcode + "' and convert(varchar(25),a.EFFECT_UPTO,23)>='" + dtstr + "' and a.FNMBRANCH_CODE='" + BranchCode + "'");
         }
         public List<ComDropTbl> GetSalesman(string CmpyCode, string Prefix)
         {

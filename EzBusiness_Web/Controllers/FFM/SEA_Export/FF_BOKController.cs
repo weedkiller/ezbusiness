@@ -168,7 +168,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_BOKService.GetQTNCODEbycusto(list[0].CmpyCode, Empcode), JsonRequestBehavior.AllowGet);
+                return Json(_BOKService.GetQTNCODEbycusto(list[0].CmpyCode, Empcode,System.DateTime.Now, list[0].BraCode), JsonRequestBehavior.AllowGet);
             }
         }
         public ActionResult GetSLList1(string Prefix)

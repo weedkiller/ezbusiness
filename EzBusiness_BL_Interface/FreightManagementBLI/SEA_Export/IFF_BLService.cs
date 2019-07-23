@@ -50,8 +50,9 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         
         List<SelectListItem> GetBOKCODE(string CmpyCode, DateTime dte);
 
+        List<SelectListItem> GetBOOKCODEbycusto(string CmpyCode, string Empcode, DateTime vdate, string BranchCode);
 
-        
+
     }
 
 

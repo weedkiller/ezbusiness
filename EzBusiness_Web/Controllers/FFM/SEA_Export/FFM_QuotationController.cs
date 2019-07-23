@@ -50,6 +50,20 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return Json(new { DeleteFlag = _QTNService.DeleteFF_QTN(FF_QTN001_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [Route("Aprrove_QTN")]
+        public ActionResult Aprrove_QTN(string FF_QTN001_CODE,string Typ)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(new { DeleteFlag = _QTNService.Aprrove_QTN(list[0].CmpyCode,FF_QTN001_CODE, list[0].user_name, Typ, list[0].BraCode) }, JsonRequestBehavior.AllowGet);
+            }
+        }
         [Route("EditFF_QTNDetails")]
         public ActionResult FF_QTNDetailsEdit(string FF_QTN001_CODE)
         {
@@ -134,7 +148,20 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
+        public ActionResult GetApproveRej(string FF_QTN001_CODE)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetApproveRej(list[0].CmpyCode, list[0].BraCode,FF_QTN001_CODE), JsonRequestBehavior.AllowGet);
+            }
+        }
 
+        //
         public ActionResult GetCust(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;

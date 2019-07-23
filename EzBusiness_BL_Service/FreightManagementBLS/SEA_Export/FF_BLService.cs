@@ -542,6 +542,12 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return poEdit;
         }
 
-    
+        public List<SelectListItem> GetBOOKCODEbycusto(string CmpyCode, string Empcode, DateTime vdate, string BranchCode)
+        {
+            var CRG_002List = _FF_BLRepo.GetBOOKCODEbycusto(CmpyCode, Empcode, vdate, BranchCode)
+                                           .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
+                                           .ToList();
+            return InsertFirstElementDDL(CRG_002List);
+        }
     }
 }

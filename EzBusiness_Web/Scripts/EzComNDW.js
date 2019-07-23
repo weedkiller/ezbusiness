@@ -476,6 +476,9 @@ function EzbtnNewAcVis() {
     $("#btnCancel").css("visibility", "");
     $("#btnPrint").css("visibility", "hidden");
     $("#btnCopy").css("visibility", "hidden");
+    $("#btnApprove").css("visibility", "hidden");
+    $("#btnReject").css("visibility", "hidden");
+
 
     //$("#POListContainer1").hide();
 }
@@ -495,6 +498,8 @@ function EzbtnEditAcVis() {
     $("#btnNew").css("visibility", "hidden");
     $("#btnPrint").css("visibility", "");
     $("#btnCopy").css("visibility", "");
+    $("#btnApprove").css("visibility", "");
+    $("#btnReject").css("visibility", "");
     // $("#POListContainer1").show();
 }
 //Cancel  Button
@@ -517,6 +522,8 @@ function EzbtnCancelAcVis() {
     $("#ErrorMessage").text('');
     $("#btnPrint").css("visibility", "hidden");
     $("#btnCopy").css("visibility", "hidden");
+    $("#btnApprove").css("visibility", "hidden");
+    $("#btnReject").css("visibility", "hidden");
     //$("#POListContainer1").hide();
 }
 //Save & Modify  Button
@@ -1803,7 +1810,7 @@ function EzAutoCompTxtold(inpid, inphid, urls, boolval, inpname) {
                 dataType: "json",
                 data: { Prefix: request.term },
                 success: function (data) {
-                    if (data.length > 1) {
+                    if (data.length > 0) {
                         response($.map(data, function (item) {
                             return {
                                 label: item.Text,//item.Value + ' - ' + item.Text,
@@ -1863,7 +1870,7 @@ function EzAutoCompTxt(inpid, inphid, urls, boolval, inpname) {
                          dataType: "json",
                          data: { Prefix: request.term },
                          success: function (data) {
-                             if (data.length > 1) {
+                             if (data.length > 0) {
                                  response($.map(data, function (item) {
                                      return {
                                          label: item.Text,//item.Value + ' - ' + item.Text,

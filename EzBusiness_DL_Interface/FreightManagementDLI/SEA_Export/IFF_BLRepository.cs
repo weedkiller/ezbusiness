@@ -54,5 +54,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         decimal GetCurRate(string CmpyCode, string CurCode);
 
         List<ComDropTbl> GetBOKCODE(string CmpyCode, DateTime vdate);
+
+        List<ComDropTbl> GetBOOKCODEbycusto(string CmpyCode, string Empcode, DateTime vdate, string BranchCode);
     }
 }
