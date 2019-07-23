@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using EzBusiness_DL_Interface.FinanceManagementDLI;
 using EzBusiness_DL_Repository.FinanceManagementDLR;
 using EzBusiness_ViewModels;
+using EzBusiness_DL_Interface;
+using EzBusiness_DL_Repository;
 
 namespace EzBusiness_BL_Service.FinanceManagementBLS
 {
@@ -16,10 +18,11 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
     {
 
         IFNM_SL1001Repository _FNM_SL1001Rep;
-
+        ICodeGenRepository _CodeRep;
         public FNM_SL1001Service()
         {
             _FNM_SL1001Rep = new FNM_SL1001Repository();
+            _CodeRep = new CodeGenRepository();
         }
 
         public bool DeleteFNM_SL1001(string CmpyCode, string FNM_SL1001_CODE, string UserName)
@@ -128,7 +131,7 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
             {
                 //Currency_codeList = GetFNMCURRENCY(),
                 //SUBLEDGER_TYPEList= GetFNMCAT(Cmpycode, type1),
-
+                FNM_SL1001_CODE=_CodeRep.GetCode(Cmpycode, "FFCUST"),
                 EditFlag = false
             };
         }

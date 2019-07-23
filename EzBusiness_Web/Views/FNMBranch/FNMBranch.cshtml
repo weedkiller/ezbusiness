@@ -31,6 +31,7 @@
             var n = EzAuthenticationBtn("/Branch_Master", "NewIt");
             if (n == 1) {
                 $("#tbldiv").hide();
+               // GetMasterCode();
                 var abk = [];
                 abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
                 Ezprop(abk, "disabled", true);
@@ -40,16 +41,22 @@
                 $("#tblUnits1 tbody tr").css("background", "");
                 $("#tblUnits1").show();
                 $("#dcm").show();
-
                 var empdata=@Html.Raw(Json.Encode(HttpContext.Current.Session["SesDet"]));
-
                 $('#txtcmpycode').val(empdata[0].CmpyCode);
             }
         });
+        function GetMasterCode()
+        {
+            debugger;
+            $.get("/FNMBranch/GetMasterCode").done(function (response)
+            {
+                var str= $("#tblUnits1 tbody tr").find("[name*='txtFNMBRANCH_CODE1']").val(response);
+                var str2 = parseInt(str)+1;
+            });
+        }
+        var counter2 = parseInt($("#Counter").val());
 
-        var counter = $("#Counter").val();
-
-
+     
         /*Code Tab Event*/
         EztableTabEve("#tblUnits1", "[name*='txtFNMBRANCH_CODE']", "[name *= 'ddlDIVISION']", "Please Enter FNMHEAD_CODE", 'T', "");
 
@@ -67,7 +74,9 @@
         //GetCountryCodes();
         //GetCurrencyCodes();
         /*Add Table Change Event*/
-        $("#tblUnits1").on("change", "[name*='txtFNMBRANCH_CODE']", function () {            
+        $("#tblUnits1").on("focus", "[name*='ddlDIVISION']", function () {  
+            debugger;
+         //   var getcode= $("#tblUnits1 tbody tr").find("[name*='txtFNMBRANCH_CODE"+counter+"']").val();
             var tr = $(this).closest('tr');
             var tcunt=$("#tblUnits1").find("tr").length;
             drec = [];
@@ -91,64 +100,25 @@
                 
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
-                    tr.clone(true, true).insertAfter(tr);
-                    var trLast = $("#tableMetaSettings tr:last");
-                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                    $('#tblUnits1 tr:last').clone().insertAfter('#tblUnits1 tr:last');
+                    var trLast = $("#tblUnits1 tr:last");
+                   
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                    $(this).closest('tr').next('tr').find("[name*='txtFNMBRANCH_CODE']").val('');
-                    $(this).closest('tr').next('tr').find("[name*='txtSNO']").val(tcunt);
-                    trLast.find("[name *= 'txtFNMBRANCH_CODE']").attr({
-                        "name": ("txtFNMBRANCH_CODE" + counter)
-                    });
-                    trLast.find("[name *= 'txtDESCRIPTION']").attr({
-                        "name": ("Name" + counter)
-                    });
-                    trLast.find("[name *= 'txtPRINTNAME']").attr({
-                        "name": ("txtPRINTNAME" + counter)
-                    });
-                    trLast.find("[name *= 'txtADDRESS']").attr({
-                        "name": ("txtADDRESS" + counter)
-                    });
-                    trLast.find("[name *= 'txtEMAIL']").attr({
-                        "name": ("txtEMAIL" + counter)
-                    });
+                    txtarry = [];
 
-                    trLast.find("[name *= 'txtMOBILE']").attr({
-                        "name": ("txtMOBILE" + counter)
-                    });
-
-                    trLast.find("[name *= 'txtWEBSITE']").attr({
-                        "name": ("txtWEBSITE" + counter)
-                    });
-                    trLast.find("[name *= 'txtCURRENCY']").attr({
-                        "name": ("txtCURRENCY" + counter)
-                    });
-
-                    trLast.find("[name *= 'txtCOUNTRY']").attr({
-                        "name": ("txtCOUNTRY" + counter)
-                    });
-
-                    trLast.find("[name *= 'txtSTATE']").attr({
-                        "name": ("txtSTATE" + counter)
-                    });
-
-                    trLast.find("[name *= 'txtSNO']").attr({
-                        "name": ("txtSNO" + counter)
-                    });
-
-
-                    trLast.find("[name *= 'txtDIVISION']").attr({
-                        "name": ("txtDIVISION" + counter)
-                    });
-
-                    trLast.find("[name *= 'txtSNO']").val(counter);
-                    trLast.find(":first").text(counter);
-                }
+                    txtarry.push('txtFNMBRANCH_CODE', 'txtDESCRIPTION', 'txtPRINTNAME', 'txtADDRESS', 'txtEMAIL', 'txtMOBILE', 'txtMOBILE');
+                    txtarry.push('txtSNO', 'txtWEBSITE', 'txtCOUNTRY', 'txtCURRENCY', 'txtSTATE', 'txtDIVISION');
+                    EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
+                    trLast.find(":first").text(counter2);
+                    counter2++;
+              }
             }
-            counter++;
+            //counter2++;
         });
-        function GetCountryCodes() {
-            
+     
+      
+        function GetCountryCodes() {            
             var index = 1;
             $.ajax({
                 url: "GetCountryCodes",
@@ -736,7 +706,7 @@ $(document).ready(function(){
         <br />
         
             <div class="table-responsive">
-                <table class="table table-bordered portal-drivers" id="tblUnits1">
+                <table class="table table-bordered" id="tblUnits1">
                     <thead>
                         <tr class="tr">
                             <th>
@@ -998,12 +968,13 @@ $(document).ready(function(){
                                     @Html.HiddenFor(m => item.CMPYCODE)
                                 </td>                               
                             </tr>
-                            counter++;
+                           
                         }
                     </tbody>
                 </table>
+                @Html.Hidden("Counter", (++counter))
             </div>      
-        @Html.Hidden("Counter", counter)
+     
     </div>
 </div>
 
