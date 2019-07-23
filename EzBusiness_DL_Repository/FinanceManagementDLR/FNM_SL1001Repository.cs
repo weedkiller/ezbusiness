@@ -8,6 +8,7 @@ using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FinaceMgmt;
 using System.Data;
 using System.Transactions;
+using EzBusiness_EF_Entity;
 
 namespace EzBusiness_DL_Repository.FinanceManagementDLR
 {
@@ -19,6 +20,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
         DataTable dt = null;
       
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
+        DropListFillFun drop = new DropListFillFun();
         public bool DeleteFNM_SL1001(string CmpyCode,string FNM_SL1001_CODE,  string UserName)
         {
             int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNM_SL1001 where CMPYCODE='" + CmpyCode + "' and FNM_SL1001_CODE='" + FNM_SL1001_CODE + "'  and Flag=0");
@@ -99,30 +101,32 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
             return ObjList;
         }
 
-        public List<FNMCAT> GetFNMCAT(string CmpyCode, string type1)
+        public List<ComDropTbl> GetFNMCAT(string CmpyCode, string type1, string Prefix)
         {
             string qur = "";
             if(type1 == "FM")
             {
-                qur = "Select FNMSLCAT_CODE,DESCRIPTION from FNMSLCAT where FNMSLCAT_CODE  in('APP','ARP') and  CmpyCode='" + CmpyCode + "' and Flag=0";
+                qur = "Select FNMSLCAT_CODE as [Code],DESCRIPTION as [CodeName] from FNMSLCAT where FNMSLCAT_CODE  in('APP','ARP') and  CmpyCode='" + CmpyCode + "' and Flag=0 and (FNMSLCAT_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')";
             }
             else
             {
-                qur = "Select FNMSLCAT_CODE,DESCRIPTION from FNMSLCAT where FNMSLCAT_CODE not in('APP','ARP') and CmpyCode='" + CmpyCode + "' and Flag=0";
+                qur = "Select FNMSLCAT_CODE as [Code],DESCRIPTION as [CodeName] from FNMSLCAT where FNMSLCAT_CODE not in('APP','ARP') and CmpyCode='" + CmpyCode + "' and Flag=0 and (FNMSLCAT_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')";
             }
-            ds = _EzBusinessHelper.ExecuteDataSet(qur);// 
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<FNMCAT> ObjList = new List<FNMCAT>();
-            foreach (DataRow dr in drc)
-            {
-                ObjList.Add(new FNMCAT()
-                {
-                    FNMSLCAT_CODE = dr["FNMSLCAT_CODE"].ToString(),
-                    DESCRIPTION = dr["DESCRIPTION"].ToString()
-                });
-            }
-            return ObjList;
+
+            return drop.GetCommonDrop2(qur);
+            //ds = _EzBusinessHelper.ExecuteDataSet(qur);// 
+            //dt = ds.Tables[0];
+            //DataRowCollection drc = dt.Rows;
+            //List<FNMCAT> ObjList = new List<FNMCAT>();
+            //foreach (DataRow dr in drc)
+            //{
+            //    ObjList.Add(new FNMCAT()
+            //    {
+            //        FNMSLCAT_CODE = dr["FNMSLCAT_CODE"].ToString(),
+            //        DESCRIPTION = dr["DESCRIPTION"].ToString()
+            //    });
+            //}
+            //return ObjList;
         }
           
 
@@ -146,21 +150,24 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
             return ObjList;
         }
 
-        public List<FNM_CURRENCY> GetCURRENCYList()
+        public List<ComDropTbl> GetFNMCURRENCY(string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select CURRENCY_CODE,CURRENCY_NAME from FNM_CURRENCY where Flag=0");// 
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<FNM_CURRENCY> ObjList = new List<FNM_CURRENCY>();
-            foreach (DataRow dr in drc)
-            {
-                ObjList.Add(new FNM_CURRENCY()
-                {
-                    CURRENCY_CODE = dr["CURRENCY_CODE"].ToString(),
-                    CURRENCY_NAME = dr["CURRENCY_NAME"].ToString()
-                });
-            }
-            return ObjList;
+
+
+            return drop.GetCommonDrop("CURRENCY_CODE as [Code],CURRENCY_NAME as [CodeName]", "FNM_CURRENCY", "Flag=0 and (CURRENCY_CODE like '" + Prefix + "%' or CURRENCY_NAME like '" + Prefix + "%')");
+            //ds = _EzBusinessHelper.ExecuteDataSet("Select CURRENCY_CODE,CURRENCY_NAME from FNM_CURRENCY where Flag=0");// 
+            //dt = ds.Tables[0];
+            //DataRowCollection drc = dt.Rows;
+            //List<ComDropTbl> ObjList = new List<ComDropTbl>();
+            //foreach (DataRow dr in drc)
+            //{
+            //    ObjList.Add(new ComDropTbl()
+            //    {
+            //        Code = dr["CURRENCY_CODE"].ToString(),
+            //        CodeName = dr["CURRENCY_NAME"].ToString()
+            //    });
+            //}
+            //return ObjList;
         }
 
         public FNM_SL_VM SaveFNM_SL(FNM_SL_VM FNSL)
@@ -237,6 +244,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                         sb.Append("UPDATED_ON,");
                         sb.Append("DIVISION,");
                         sb.Append("Name_Arabic,");
+                        sb.Append("Branchcode,");
                         sb.Append("CREATED_ON)");
                        
 
@@ -263,6 +271,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                         sb.Append("'" + dtstr7 + "',");
                         sb.Append("'"+ FNMSL.DIVISION + "',");
                         sb.Append("'" + FNMSL.Name_Arabic + "',");
+                        sb.Append("'" + FNMSL.Branchcode + "',");
                         sb.Append("'" + dtstr7 + "')");
                         
 
@@ -345,6 +354,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                             FNMSL.Tel = FNSL.Tel;
                             FNMSL.UPDATED_BY = FNSL.UserName;
                             FNMSL.Web_site = FNSL.Web_site;
+                            FNMSL.Branchcode = FNSL.Branchcode;
                             #endregion
 
                             _EzBusinessHelper.ExecuteNonQuery("delete from FNM_SL1002 where CmpyCode='" + FNSL.CMPYCODE + "' and FNM_SL1001_CODE='" + FNSL.FNM_SL1001_CODE + "'");
@@ -385,6 +395,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                             sb.Append("UPDATED_BY='" + FNSL.UserName + "',");
                             sb.Append("Web_site='" + FNSL.Web_site + "',");
                             sb.Append("UPDATED_ON='" + dtstr7 + "',");
+                            sb.Append("Branchcode='" + FNSL.Branchcode + "',");                            
                             sb.Append("Name_Arabic='" + FNSL.Name_Arabic + "',");
                             sb.Append("CREATED_ON='" + dtstr7 + "'");
                         _EzBusinessHelper.ExecuteNonQuery("update FNM_SL1001 set " + sb + " where Cmpycode='" + FNSL.CMPYCODE + "' and FNM_SL1001_CODE='" + FNSL.FNM_SL1001_CODE + "'");

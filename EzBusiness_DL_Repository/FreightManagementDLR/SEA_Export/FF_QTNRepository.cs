@@ -42,7 +42,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
      
         public List<FF_QTN_VM> GetFF_QTN(string CmpyCode,string BranchCode)
         {                                       
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMBRANCH_CODE,Commodity_code,DG,PZIP,PSTATE,FDZIP,FDSTATE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,Total_Profit,Salesman,AGENT,notifypart1,notifypart2,FNMBRANCH_CODE from FF_QTN001 where Flag=0 and  CMPYCODE='" + CmpyCode + "' and FNMBRANCH_CODE='" + BranchCode + "' ");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select JOB_TYPE,Branchcode,Commodity_code,DG,PZIP,PSTATE,FDZIP,FDSTATE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,Total_Profit,Salesman,AGENT,notifypart1,notifypart2,Branchcode from FF_QTN001 where Flag=0 and  CMPYCODE='" + CmpyCode + "' and Branchcode='" + BranchCode + "' ");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FF_QTN_VM> ObjList = new List<FF_QTN_VM>();
@@ -71,14 +71,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     Total_Profit= Convert.ToDecimal(dr["Total_Profit"].ToString()),
                     VESSEL=dr["VESSEL"].ToString(),
                     VOYAGE=dr["VOYAGE"].ToString(),
-                    FNMBRANCH_CODE=dr["FNMBRANCH_CODE"].ToString(),
+                    FNMBRANCH_CODE=dr["Branchcode"].ToString(),
                  //   IMCO = dr["IMCO"].ToString(),
                     AGENT = dr["AGENT"].ToString(),
                     Salesman    = dr["Salesman"].ToString(),
                     notifypart1 = dr["notifypart1"].ToString(),
                     notifypart2 = dr["notifypart2"].ToString(),
                     DG = dr["DG"].ToString(),
-                    Commodity_code =dr["Commodity_code"].ToString()
+                    Commodity_code =dr["Commodity_code"].ToString(),
+                    JOB_TYPE=dr["JOB_TYPE"].ToString()
                 });
             }
             return ObjList;
@@ -200,7 +201,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE,string BranchCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FNMBRANCH_CODE,Commodity_code,PZIP,PSTATE,FDZIP,FDSTATE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,Total_Profit,Salesman,AGENT,notifypart1,notifypart2,FNMBRANCH_CODE,DG from FF_QTN001 where Flag=0 and FF_QTN001_CODE='" + FF_QTN001_CODE + "' and CMPYCODE='" + CmpyCode + "' and FNMBRANCH_CODE='" + BranchCode + "'");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select JOB_TYPE,Branchcode,Commodity_code,PZIP,PSTATE,FDZIP,FDSTATE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,Total_Profit,Salesman,AGENT,notifypart1,notifypart2,Branchcode,DG from FF_QTN001 where Flag=0 and FF_QTN001_CODE='" + FF_QTN001_CODE + "' and CMPYCODE='" + CmpyCode + "' and Branchcode='" + BranchCode + "'");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FF_QTN_VM ObjList = new FF_QTN_VM();
@@ -238,7 +239,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.Salesman = dr["Salesman"].ToString();
                 ObjList.notifypart1 = dr["notifypart1"].ToString();
                 ObjList.notifypart2 = dr["notifypart2"].ToString();
-                ObjList.FNMBRANCH_CODE = dr["FNMBRANCH_CODE"].ToString();
+                ObjList.FNMBRANCH_CODE = dr["Branchcode"].ToString();
+                ObjList.JOB_TYPE = dr["JOB_TYPE"].ToString();
             }
             return ObjList;
         }
@@ -534,7 +536,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb4.Append("'" + FQV.DG + "',");
                             sb4.Append("'" + FQV.JOB_TYPE + "',");
                             sb4.Append("'" + FQV.Total_Profit + "')");
-                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,PZIP,PSTATE,FDSTATE,FDZIP,Commodity_code,FNMBRANCH_CODE,AGENT,Salesman,notifypart1,notifypart2,DG,JOB_TYPE,Total_Profit) values(" + sb4.ToString() + "");
+                            i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,PZIP,PSTATE,FDSTATE,FDZIP,Commodity_code,Branchcode,AGENT,Salesman,notifypart1,notifypart2,DG,JOB_TYPE,Total_Profit) values(" + sb4.ToString() + "");
 
                         int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FQV.CMPYCODE + "' and Code='QUOS' ");
 
@@ -860,7 +862,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb9.Append("FDSTATE='" + FQV.FDSTATE + "',");
                             sb9.Append("JOB_TYPE='" + FQV.JOB_TYPE + "',");
                             sb9.Append("Commodity_code='" + FQV.Commodity_code + "',");
-                            sb9.Append("FNMBRANCH_CODE='" + FQV.FNMBRANCH_CODE + "',");
+                            sb9.Append("Branchcode='" + FQV.FNMBRANCH_CODE + "',");
                             sb9.Append("Total_Profit='" + FQV.Total_Profit + "'");
                           
 
@@ -1005,23 +1007,23 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
         {
             return drop.GetCommonDrop2("Select a.SELL_RATE as [CodeName], a.FROM_CURRENCY_CODE as [Code] from FNM_CURR_RATE a " +
             " right join  (select max(ENTRY_DATE) as [ENTRY_DATE], FROM_CURRENCY_CODE, CMPYCODE from FNM_CURR_RATE group by FROM_CURRENCY_CODE, CMPYCODE) as [FRMCUR]  on FRMCUR.FROM_CURRENCY_CODE = a.FROM_CURRENCY_CODE and FRMCUR.CMPYCODE = a.CMPYCODE and FRMCUR.ENTRY_DATE = a.ENTRY_DATE "+
-             " where a.CMPYCODE = '"+ CmpyCode + "' and a.flag = 0 and a.FROM_CURRENCY_CODE = (select CURRENCY from FNMBRANCH where CMPYCODE = '"+ CmpyCode +"' and FNMBRANCH_CODE = '"+BranchCode+"' )");
+             " where a.CMPYCODE = '"+ CmpyCode + "' and a.flag = 0 and a.FROM_CURRENCY_CODE = (select CURRENCY from FNMBRANCH where CMPYCODE = '"+ CmpyCode +"' and Branchcode = '"+BranchCode+"' )");
         }
 
         public bool Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode)
         {
-            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FF_QTN001 where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and FNMBRANCH_CODE = '" + BranchCode + "'");// CMPYCODE='" + CmpyCode + "' and
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FF_QTN001 where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and Branchcode = '" + BranchCode + "'");// CMPYCODE='" + CmpyCode + "' and
             if (Grs != 0)
             {
                 if (Typ == "Approve")
                 {
                     _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Approve FF_QTN_CODE", FF_QTN001_CODE, Environment.MachineName);
-                    return _EzBusinessHelper.ExecuteNonQuery1("update FF_QTN001 set ApprovalYN='Y' where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and FNMBRANCH_CODE = '" + BranchCode + "'");//CMPYCODE='" + CmpyCode + "' and
+                    return _EzBusinessHelper.ExecuteNonQuery1("update FF_QTN001 set ApprovalYN='Y' where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and Branchcode = '" + BranchCode + "'");//CMPYCODE='" + CmpyCode + "' and
 
                 }else
                 {
                     _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Reject FF_QTN_CODE", FF_QTN001_CODE, Environment.MachineName);
-                    return _EzBusinessHelper.ExecuteNonQuery1("update FF_QTN001 set RejetedYN='Y' where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and FNMBRANCH_CODE = '" + BranchCode + "'");//CMPYCODE='" + CmpyCode + "' and
+                    return _EzBusinessHelper.ExecuteNonQuery1("update FF_QTN001 set RejetedYN='Y' where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and Branchcode = '" + BranchCode + "'");//CMPYCODE='" + CmpyCode + "' and
 
                 }
 

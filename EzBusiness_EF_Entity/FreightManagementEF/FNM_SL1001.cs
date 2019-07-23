@@ -31,5 +31,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF
         public string SUBLEDGER_TYPE { get; set; }
 
         public string Name_Arabic { get; set; }
+
+        public string Branchcode { get; set; }
     }
 }

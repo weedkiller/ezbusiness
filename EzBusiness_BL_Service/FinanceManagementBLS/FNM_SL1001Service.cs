@@ -33,49 +33,49 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
         public FNM_SL_VM EditFNM_SL(string CmpyCode, string FNM_SL1001_CODE)
         {
             var FNM_SLEdit = _FNM_SL1001Rep.EditFNM_SL(CmpyCode, FNM_SL1001_CODE);
-            FNM_SLEdit.Currency_codeList = GetFNMCURRENCYEdit(FNM_SLEdit.Currency_code);
+          //  FNM_SLEdit.Currency_codeList = GetFNMCURRENCYEdit(FNM_SLEdit.Currency_code);
             //FNM_SLEdit.SUBLEDGER_TYPE = FNM_SLEdit.SUBLEDGER_TYPE;
             //FNM_SLEdit.SUBLEDGER_TYPEList = GetFNMCAT(CmpyCode, FNM_SLEdit.SUBLEDGER_TYPE);
             FNM_SLEdit.FNM_SL1002Details = GetFNMSL002DetailList(CmpyCode, FNM_SL1001_CODE,FNM_SLEdit.SUBLEDGER_TYPE);
             return FNM_SLEdit;
         }
 
-        public List<SelectListItem> GetFNMCAT(string CmpyCode, string type1)
+        public List<SelectListItem> GetFNMCAT(string CmpyCode, string type1,string Prefix)
         {
-            var itemCodes = _FNM_SL1001Rep.GetFNMCAT(CmpyCode, type1)
-                                         .Select(m => new SelectListItem { Value = m.FNMSLCAT_CODE, Text = string.Concat(m.FNMSLCAT_CODE, " - ", m.DESCRIPTION) })
+            var itemCodes = _FNM_SL1001Rep.GetFNMCAT(CmpyCode, type1, Prefix)
+                                         .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code + "-" + m.CodeName) })
                                          .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
+            return itemCodes;
         }
 
       
 
-        public List<SelectListItem> GetFNMCATEdit(string CmpyCode, string type1,string code)
-        {
-            var itemCodes = _FNM_SL1001Rep.GetFNMCAT(CmpyCode, type1).Where(m => m.FNMSLCAT_CODE.ToString() == code).ToList()
-                                         .Select(m => new SelectListItem { Value = m.FNMSLCAT_CODE, Text = string.Concat(m.FNMSLCAT_CODE, " - ", m.DESCRIPTION) })
-                                         .ToList();
+        //public List<SelectListItem> GetFNMCATEdit(string CmpyCode, string type1,string code)
+        //{
+        //    var itemCodes = _FNM_SL1001Rep.GetFNMCAT(CmpyCode, type1,Prefix).Where(m => m.FNMSLCAT_CODE.ToString() == code).ToList()
+        //                                 .Select(m => new SelectListItem { Value = m.FNMSLCAT_CODE, Text = string.Concat(m.FNMSLCAT_CODE, " - ", m.DESCRIPTION) })
+        //                                 .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
-        }
-        public List<SelectListItem> GetFNMCURRENCY()
+        //    return InsertFirstElementDDL(itemCodes);
+        //}
+        public List<SelectListItem> GetFNMCURRENCY(string Prefix)
         {
-            var itemCodes = _FNM_SL1001Rep.GetCURRENCYList()
-                                          .Select(m => new SelectListItem { Value = m.CURRENCY_CODE, Text = string.Concat(m.CURRENCY_CODE, " - ", m.CURRENCY_NAME) })
+            var itemCodes = _FNM_SL1001Rep.GetFNMCURRENCY(Prefix)
+                                          .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
                                           .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
+            return itemCodes;
         }
 
-        public List<SelectListItem> GetFNMCURRENCYEdit(string Code)
-        {
-            var itemCodes = _FNM_SL1001Rep.GetCURRENCYList().Where(m => m.CURRENCY_CODE.ToString() == Code).ToList()
-                                         .Select(m => new SelectListItem { Value = m.CURRENCY_CODE, Text = string.Concat(m.CURRENCY_CODE, " - ", m.CURRENCY_NAME) })
-                                         .ToList();
+        //public List<SelectListItem> GetFNMCURRENCYEdit(string Code,string Prefix)
+        //{
+        //    var itemCodes = _FNM_SL1001Rep.GetCURRENCYList(Prefix).Where(m => m.CURRENCY_CODE.ToString() == Code).ToList()
+        //                                 .Select(m => new SelectListItem { Value = m.CURRENCY_CODE, Text = string.Concat(m.CURRENCY_CODE, " - ", m.CURRENCY_NAME) })
+        //                                 .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
-        }
+        //    return InsertFirstElementDDL(itemCodes);
+        //}
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
         {
             items.Insert(0, new SelectListItem
@@ -97,7 +97,7 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
                FNM_SL1001_CODE=m.FNM_SL1001_CODE,
                DIVISION=m.DIVISION,
                COA_NAME=m.COA_NAME,
-                SUBLEDGER_TYPEList1= GetFNMCATEdit(CmpyCode, Type1,m.FNM_SL1002_CODE)
+               // SUBLEDGER_TYPEList1= GetFNMCATEdit(CmpyCode, Type1,m.FNM_SL1002_CODE)
 
         }).ToList();
         }
