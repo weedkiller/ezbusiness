@@ -17,7 +17,7 @@
   
     $(function () {
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
-
+        debugger;
         var counter = parseInt($("#hdnCounter").val());
         $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
 
@@ -29,14 +29,17 @@
                 counter++;
             });
         });
+        EzAutoCompTxt1("#FFM_VESSEL_CODE", "#hdnFFM_VESSEL_CODE", "/GetVessalCode");
+        EzAutoCompTxt1("#FFM_VESSEL_CODE", "#hdnFFM_VESSEL_CODE", "/GetVessalCode");
+        EzAutoCompTxtE("#FFM_VESSEL_CODE", "#hdnFFM_VESSEL_CODE", "/GetVessalCode", false, "");
         $('.selectpicker').selectpicker('refresh');
-        EzAutoCompTxt1("#FFM_VESSEL_CODE","#FFM_VESSEL_CODE","/GetVessalCode");
+       
       
         //EzAutoCompTxtE("#FFM_VESSEL_CODE", "#hdnFFM_VESSEL_CODE", "/GetVessalCode", false, "");
         //EzdtePkEdit('#ETA1', "#ETA", "DD/MM/YYYY");
         //EzdtePkEdit('#ETB1', "#ETB", "DD/MM/YYYY");
         //EzdtePkEdit('#ETD1', "#ETD", "DD/MM/YYYY");
-        EzAutoCompTxtE("#FFM_VESSEL_CODE", "#FFM_VESSEL_CODE", "/GetVessalCode", false, "");
+      
         EzAutotxtEventTbl12("#tablePODetails", "focus", "[name*='txtport1']", "[name*='hdnPORT1']", "/FFM_Quotation/GetPortList", false, "");
         var tblcntr1 = $("#tablePODetails tbody tr");
         var index3 = 1;
@@ -187,9 +190,11 @@
                                     <label class="control-label col-md-3">Vessal Code</label>
                                     <div class="col-md-8 input-field">
                                         @*<select class="form-control" id="ddlvessalcode" name="ddlvessalcode"></select>*@
-                                        @Html.TextBoxFor(m => m.FFM_VESSEL_CODE, new { @class = "form-control" })
+                                        @*@Html.TextBoxFor(m => m.FFM_VESSEL_CODE, new { @class = "form-control" })*@
                                         @*@Html.DropDownListFor(m => m.FFM_VESSEL_CODE, Model.VessalCodeList, new { @class = "form-control", @data_live_search = "true" })*@
-                                        @Html.HiddenFor(m=>m.FFM_VESSEL_CODE)
+                                        @*@Html.HiddenFor(m=>m.FFM_VESSEL_CODE)*@
+                                        @Html.TextBoxFor(m => m.FFM_VESSEL_CODE, new { @class = "form-control", @placeholder = "Select Vessal code" })
+                                        <input id="hdnFFM_VESSEL_CODE" type="hidden" class="form-control" name="hdnFFM_VESSEL_CODE" value="-1" />
                                     </div>
                                 </div>
                             </div>

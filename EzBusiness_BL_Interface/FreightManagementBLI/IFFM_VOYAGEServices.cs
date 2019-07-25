@@ -13,7 +13,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
     {
         List<FFM_VOYAGE_VM> GetFFM_VoYAGEAList(string CMPYCODE);
         FFM_VOYAGE_VM SaveFFM_Voyage(FFM_VOYAGE_VM FCur);
-        List<SelectListItem> GetVessalCode(string CmpyCode,string Prefix);
+        IQueryable<SelectListItem> GetVessalCode(string CmpyCode,string Prefix);
 
         
         FFM_VOYAGE_VM EditVoyagMaster(string CmpyCode, string VyogCode);

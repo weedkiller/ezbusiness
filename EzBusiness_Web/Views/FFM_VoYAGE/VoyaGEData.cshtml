@@ -136,10 +136,10 @@
                     newdetails: []
                 };
                 $("#tablePODetails tbody tr").each(function (index, item) {
-                    
+                    debugger;
                     var SNO = $(this).find("[name*='txtsrno']").val();
                     var ROTATION = $(this).find("[name*='txtRotation']").val();
-                    var PORT = $(this).find("[name*='txtport'] option:selected").val();
+                    var PORT = $(this).find("[name*='txtport']").val();
                     var ETA = Ezsetdtpkdate($(this).find("[name*='txtETA']").val());
                     var ETB = Ezsetdtpkdate($(this).find("[name*='txtETB']").val());
                     var ETD = Ezsetdtpkdate($(this).find("[name*='txtETD']").val());
@@ -167,11 +167,11 @@
                 if (validationResult.formValid) {
                     $.post("/FFM_VoYAGE/SaveFFM_Voyage", Fcur).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                           
+                            EzbtnsaveAcVis("#POContainer");
                             EzAlertSave();
                             $("#POContainer").html(poHtml);
                             GetPurchaseOrderList();
-                            EzbtnsaveAcVis("#POContainer");
+                         
                         } else {
                             //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -185,7 +185,7 @@
             } else if (opMode == "Edit" && n==1) {
                 // Code for Adding Purchase order
                 var Fcur = {
-                    FFM_VESSEL_CODE: $("[name='FFM_VESSEL_CODE'] option:selected").val(),
+                    FFM_VESSEL_CODE: $("[name='hdnFFM_VESSEL_CODE']").val(),
                     NAME: $("[name='NAME']").val(),
                     FFM_VOYAGE01_CODE: $("[name='FFM_VOYAGE01_CODE']").val(),
                     DISPLAY_STATUS: $("[name='txtdisplaystatus1'] option:selected").val(),

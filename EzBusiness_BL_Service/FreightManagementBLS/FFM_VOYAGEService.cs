@@ -42,7 +42,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         }
 
       
-        public List<SelectListItem> GetVessalCode(string CmpyCode,string Prefix)
+        public IQueryable<SelectListItem> GetVessalCode(string CmpyCode,string Prefix)
         {
             //var CurrencyList = _FFM_VOYEGERepo.GetVessalCode(CmpyCode,Prefix)
             //                            .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.code, " - ", m.NAME) })
@@ -50,7 +50,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             //return CurrencyList;
             var CurrencyList = _FFM_VOYEGERepo.GetVessalCode(CmpyCode, Prefix)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                           .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
-                                          .ToList();
+                                          .AsQueryable();
             return CurrencyList;
         }
         public List<SelectListItem> GetPortList(string CmpyCode,string Prefix)
