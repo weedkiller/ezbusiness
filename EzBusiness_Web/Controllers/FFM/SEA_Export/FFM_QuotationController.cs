@@ -61,7 +61,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(new { DeleteFlag = _QTNService.Aprrove_QTN(list[0].CmpyCode,FF_QTN001_CODE, list[0].user_name, Typ, list[0].BraCode) }, JsonRequestBehavior.AllowGet);
+                return Json(new { StatusFlag = _QTNService.Aprrove_QTN(list[0].CmpyCode,FF_QTN001_CODE, list[0].user_name, Typ, list[0].BraCode, "FF_QTN001") }, JsonRequestBehavior.AllowGet);
             }
         }
         [Route("EditFF_QTNDetails")]
@@ -148,18 +148,18 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
-        public ActionResult GetApproveRej(string FF_QTN001_CODE)
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(_QTNService.GetApproveRej(list[0].CmpyCode, list[0].BraCode,FF_QTN001_CODE), JsonRequestBehavior.AllowGet);
-            }
-        }
+        //public ActionResult GetApproveRej(string FF_QTN001_CODE)
+        //{
+        //    List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+        //    if (list == null)
+        //    {
+        //        return Redirect("Login/InLogin");
+        //    }
+        //    else
+        //    {
+        //        return Json(_QTNService.GetApproveRej(list[0].CmpyCode, list[0].BraCode,FF_QTN001_CODE), JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         //
         public ActionResult GetCust(string Prefix)

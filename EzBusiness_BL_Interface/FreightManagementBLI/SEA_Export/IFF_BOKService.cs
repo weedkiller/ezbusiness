@@ -53,5 +53,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         decimal GetCurRate(string CmpyCode, string CurCode);
 
         List<SelectListItem> GetSLNew(string CmpyCode, string Typ1, string Prefix);
+
+        string Aprrove_QTN(string CmpyCode, string FF_BOK001_CODE, string UserName, string Typ, string BranchCode, string Tablename);
     }
 }

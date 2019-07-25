@@ -2470,6 +2470,7 @@ function EzAutoCompTxt1(inpid, inphid, urls) {
                      }
                  }
              })
+             
          }
 
          function EzAutotxtAutosatic(inpid, inphid, data1, boolval, inpname) {
@@ -2549,3 +2550,16 @@ function EzAutoCompTxt1(inpid, inphid, urls) {
                  }
              })
          }
+
+
+
+         function EzTblCheckBoxEvent(tblid,txtid,eventname){
+             $(tblid).on(eventname, txtid, function () {
+             var tr = $(this).closest("tr");
+
+             if (this.checked) {
+                 tr.find(txtid).val('Y');
+             } else {
+                 tr.find(txtid).val('N');
+             }
+         });}

@@ -19,5 +19,9 @@ namespace EzBusiness_DL_Interface
 
         string GetCountryP(string Cmpycode, DateTime dt1);
 
+
+        string Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode, string tblname);
+
+
     }
 }

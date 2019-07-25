@@ -18,6 +18,24 @@
         }
         debugger;
         EzAutoCompTxtE("#BILL_TOEMP", "#hdnBILL_TOEMP", "/FF_BOK/GetSLList1", false, "");
+
+
+
+        $("#btnApprove").click(function () {
+            debugger;
+            $.getJSON("/Aprrove_BLL", { FF_BL001_CODE: $("[name*='FF_BL001_CODE']").val(), Typ: 'A' }).done(function (data) {
+                debugger
+                EzAlerterrtxt(data.StatusFlag);
+            });
+        });
+
+        $("#btnReject").click(function () {
+            $.getJSON("/Aprrove_BLL", { FF_BL001_CODE: $("[name*='FF_BL001_CODE']").val(), Typ: 'R' }).done(function (data) {
+                debugger
+                EzAlerterrtxt(data.StatusFlag);
+            });
+        });
+
         $("#btnNew").click(function () {
             var n = EzAuthenticationBtn("/BILL", "NewIt");
             if (n == 1) {
@@ -766,6 +784,10 @@
             <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
             <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <button class="btn btn-info btn1" id="btnPrint" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
+            <button class="btn btn-info btn1" id="btnApprove" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Approve</button>
+
+            <button class="btn btn-danger btn1" id="btnReject" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Reject</button>
+
             <input type="hidden" id="hdnOperationMode" value="" />
 
         </div>

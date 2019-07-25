@@ -1,0 +1,323 @@
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.UTM0001_VM
+
+@{
+    var counter = 1;
+
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<link href="~/Scripts/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
+
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(function () {
+
+
+        counter = 1;
+        drec = [];
+
+        EzAutoCompTxt("#Tablename", "#hdnTablename", "/GetTableList", false, "");
+
+
+        var counter = parseInt($("#hdnCounter").val());
+        $("#tablePODetails").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+            counter = 1;
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function (e) {
+                var tr1 = $(this).closest("tr");
+                tr1.find("[name*='txtsno']").val(counter);
+                var txtarry1 = [];
+                txtarry1.push('txtAPPROVER_ID', 'txtAPPROVER_NAME', 'txtREJECTED_ALLOW');
+                txtarry1.push('txtsno', 'txtAPPROVE_ALLOW');
+
+                // EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
+                EzTbltxtdrpidchanged(txtarry1, counter, "txt", tr1);
+                counter++;
+            });
+          
+        });
+
+        EzAutotxtEventTbl12("#tablePODetails", "focus", "[name*='txtAPPROVER_ID']", "[name*='txt1APPROVER_ID']", "/GetUsernameList", true, "[name*='txtinpAPPROVER_ID']");
+
+
+      
+
+        /* Add new row & find duplicate data in table  */
+        var counter = $("#counter").val();
+        $("#tablePODetails").on("focusout", "[name*='txtAPPROVER_ID']", function () {
+           
+            if (EzHeadTxtvalid("[name *= 'UTI0001_CODE']", "#tablePODetails tbody tr:last", "[name *= 'txtAPPROVER_ID']", "Please Enter Code", '', '') == true) {
+                return;
+            }
+
+            if (EzHeadTxtvalid("[name *= 'Tablename']", "#tablePODetails tbody tr:last", "[name *= 'txtAPPROVER_ID']", "Please Enter Tablename", '', '') == true)
+            {
+                return;
+            }
+
+          
+          
+
+            debugger
+
+            var tr = $(this).closest("tr");
+            var kname = $(this).closest("tr").find("[name *= 'txtAPPROVER_ID']").val();
+            if (kname != '') {
+                drec = [];
+            $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
+                //add item to array
+                var ab = $(this).closest("tr").find("[name *= 'txtAPPROVER_ID']").val();
+                drec.push(ab);
+            });
+            drec.splice($.inArray(tr.find("[name *= 'txtAPPROVER_ID']").val(), drec), 1);
+
+            if ($.inArray(tr.find("[name *= 'txtAPPROVER_ID']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'txtAPPROVER_ID']").val();
+                tr.css("background", "red");
+                tr.find("[name *= 'txtAPPROVER_ID']").focus();
+                EzAlerterrtxt("Already Exist Code '" + dr + "'");
+                tr.find("[name *= 'txtAPPROVER_ID']").val('');
+                return;
+            }
+            else {
+                tr.css("background", "");
+                if (tr.is(":last-child")) {
+                    
+                    var JobCode = tr.find("[name*='txtinpAPPROVER_ID']").val();
+                    var array = JobCode.split("-");
+                    if (array.length > 1) {
+                        tr.find("[name*='txtAPPROVER_NAME']").val(array[1].trim());
+
+                    } else {
+                        tr.find("[name*='txt1APPROVER_ID']").val('');
+                        tr.find("[name*='txtAPPROVER_NAME']").val('');
+                    }
+
+                   
+                    $('#tablePODetails tr:last').clone().insertAfter('#tablePODetails tr:last');
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                               .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
+                    //trLast.find("[name*='txtsno']").val(tcunt);
+
+                    var trLast = $("#tablePODetails tr:last");
+
+                    trLast.find("[name*='txtAPPROVER_ID']").val('');
+                    trLast.find("[name*='txtAPPROVER_NAME']").val('');
+                    trLast.find("[name*='txtsno']").val(counter);
+
+                    var txtarry1 = [];
+                    txtarry1.push('txtAPPROVER_ID', 'txtAPPROVER_NAME', 'txtREJECTED_ALLOW');
+                    txtarry1.push('txtsno', 'txtAPPROVE_ALLOW');
+
+                    // EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
+                    EzTbltxtdrpidchanged(txtarry1, counter, "txt", trLast);
+
+                  
+
+                   
+
+                }
+                counter++;
+            }
+            }
+        });
+       
+        
+        EzTblCheckBoxEvent("#tablePODetails", "[name*='txtAPPROVE_ALLOW']", "change");
+        EzTblCheckBoxEvent("#tablePODetails", "[name*='txtREJECTED_ALLOW']", "change");
+        EzTblCheckBoxEvent("#tablePODetails", "[name*='txtUNAPPROVE_ALLOW']", "change");
+        
+
+
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
+    });
+
+</script>
+<!-- Row start -->
+<div class="form-horizontal">
+    <div class="form-body">
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-3">CODE</label>
+                    <div class="col-md-9 input-field">
+                        @Html.TextBoxFor(m => m.UTI0001_CODE, new { @class = "form-control", @placeholder = "Code" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-3">TABLE NAME</label>
+                    <div class="col-md-9 input-field">
+                        @Html.TextBoxFor(m => m.Tablename, new { @class = "form-control", @placeholder = "Select Table Name" })
+                        <input id="hdnTablename" type="hidden" class="form-control" name="hdnTablename" value="-1" />  
+                    </div>
+                </div>
+            </div>
+
+        </div>       
+       
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-3">PAGE NAME</label>
+                    <div class="col-md-9 input-field">
+                        @Html.TextBoxFor(m => m.Page_Name, new { @class = "form-control", @placeholder = "PAGE NAME" })
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-3">LENGTH</label>
+                    <div class="col-md-9 input-field">
+                        @Html.TextBoxFor(m => m.Total_length, new { @class = "form-control", @Type = "Number" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-3">PREFIX</label>
+                    <div class="col-md-9 input-field">
+                        @Html.TextBoxFor(m => m.PREFIX_CODE, new { @class = "form-control", @placeholder = "PREFIX" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-3">START FROM</label>
+                    <div class="col-md-9 input-field">
+                        @Html.TextBoxFor(m => m.Starting_No, new { @class = "form-control", @Type = "Number" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-3">AUTO</label>
+                    <div class="col-md-9 input-field">
+                        @*@Html.TextBoxFor(m => m.Auto_increment, new { @class = "form-control", @Type = "Number" })*@
+                        @Html.DropDownListFor(m => m.Auto_increment, new List<SelectListItem> { new SelectListItem { Text = "YES", Value = "1" }, new SelectListItem { Text = "NO", Value = "0" }, }, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-3">LAST NO</label>
+                    <div class="col-md-9 input-field">
+                        @Html.TextBoxFor(m => m.Last_No, new { @class = "form-control", @Type = "Number" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+    <!--/row-->
+    <!--/row-->
+
+    <div class="">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Details</a></li>
+
+        </ul>
+        <div class="tab-content">
+            @*<div id="home" class="tab-pane fade in active">*@
+            <br /><br />
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm" id="tablePODetails">
+                                <thead>
+                                    <tr class="tr">
+                                        <th>Sr No</th>
+                                        <th>APPROVER ID</th>
+                                        <th>APPROVE NAME</th>
+                                        <th>APPROVE</th>
+                                        <th>REJECT</th>
+                                        <th>UNAPPROVE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                           
+                                                @Html.TextBox(string.Concat("txtsno", counter), counter, new { @class = "grid-control", @placeholder = "Code",@Readonly="Readonly" })
+                                          
+
+                                        </td>
+                                        <td>
+
+                                            @Html.Hidden(string.Concat("txt1APPROVER_ID", counter), null, new { @class = "grid-control" })
+                                            @Html.Hidden(string.Concat("txtinpAPPROVER_ID", counter), null, new { @class = "grid-control" })
+
+
+                                                @Html.TextBox(string.Concat("txtAPPROVER_ID", counter), "", "", new { @class = "grid-control" })
+                                           
+
+                                        </td>
+                                        <td>
+
+                                          
+                                                
+                                                @Html.TextBox(string.Concat("txtAPPROVER_NAME", counter), "", "", new { @class = "grid-control",@disabled= "disabled" })
+                                           
+
+                                        </td>
+                                        
+
+                                        <td>
+                                            @Html.CheckBox(string.Concat("txtAPPROVE_ALLOW", counter), new { @checked = "checked", @value = "Y" })
+                                        </td>
+                                        <td>
+                                            @Html.CheckBox(string.Concat("txtREJECTED_ALLOW", counter), new { @checked = "checked", @value = "Y" })                                           
+                                        </td>
+
+                                        <td>
+
+                                           
+                                                @Html.CheckBox(string.Concat("txtUNAPPROVE_ALLOW", counter),new { @checked = "checked", @value = "Y" })
+                                            
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+
+                            @Html.Hidden("counter", (++counter))
+                        </div>
+                    </div><br />
+
+                    <!-- END FORM-->
+                    <!-- <button>Hey, click me!</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

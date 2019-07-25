@@ -16,6 +16,25 @@ namespace EzBusiness_DL_Repository
     {
 
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
+
+
+        public string Aprrove_QTN(string CmpyCode, string CODE, string UserName, string Typ, string BranchCode, string tblname)
+        {
+                          
+                SqlParameter[] param1 = {
+                        new SqlParameter("@Cmpycode",CmpyCode),
+                        new SqlParameter("@branchcode",BranchCode),
+                         new SqlParameter("@Tablename",tblname),
+                          new SqlParameter("@VoucherNo",CODE),
+                        new SqlParameter("@ApproverID",UserName),
+                         new SqlParameter("@Approve_type",Typ),
+                       };
+                string GetCode = _EzBusinessHelper.ExecuteScalarS("Sp_ApproverUpdate", param1);
+                return GetCode;
+
+            
+        }
+
         public string GetCode(string CmpyCode, string LocCode)
         {
             SqlParameter[] param1 = {

@@ -559,5 +559,10 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                                                   .ToList();
             return SLList;
         }
+
+        public string Aprrove_QTN(string CmpyCode, string FF_BOK001_CODE, string UserName, string Typ, string BranchCode, string Tablename)
+        {
+            return _CodeRep.Aprrove_QTN(CmpyCode, FF_BOK001_CODE, UserName, Typ, BranchCode, Tablename);
+        }
     }
 }

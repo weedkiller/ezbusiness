@@ -549,5 +549,10 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                                            .ToList();
             return InsertFirstElementDDL(CRG_002List);
         }
+
+        public string Aprrove_QTN(string CmpyCode, string FF_BL001_CODE, string UserName, string Typ, string BranchCode, string Tablename)
+        {
+            return _CodeRep.Aprrove_QTN(CmpyCode, FF_BL001_CODE, UserName, Typ, BranchCode, Tablename);
+        }
     }
 }

@@ -104,103 +104,18 @@
 
 
         $("#btnApprove").click(function () {
-            var n = EzAuthenticationBtn("/Quotation", "DeleteIt");
-            if (n == 1) {
-                const swalWithBootstrapButtons = Swal.mixin({
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    buttonsStyling: false,
-                })
-                swalWithBootstrapButtons.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, Approve it!',
-                    cancelButtonText: 'No, cancel!',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-
-                        var FF_QTN001_CODE = $("[name*='FF_QTN001_CODE']").val();
-
-                        $.getJSON("/Aprrove_QTN", { FF_QTN001_CODE: FF_QTN001_CODE, Typ: 'Approve' }).done(function (data) {
-                            debugger
-                            if (data.DeleteFlag) {
-                                window.location = '/Quotation'
-                            } else {
-                                EzAlertdele(FF_QTN001_CODE);
-                            }
-                        });
-                        swalWithBootstrapButtons.fire(
-                          'Aprroved!',
-                          'Your Code has been Aprroved.',
-                          'success'
-                        )
-
-                    } else if (
-                        // Read more about handling dismissals
-                      result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                          'Cancelled',
-                          'Your Code is safe :)',
-                          'error'
-                        )
-                    }
-                })
-                $("#editshow").hide();
-            }
+            debugger;
+            $.getJSON("/Aprrove_QTN", { FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(), Typ: 'A' }).done(function (data) {
+                debugger
+                EzAlerterrtxt(data.StatusFlag);
+                            });           
         });
 
         $("#btnReject").click(function () {
-            var n = EzAuthenticationBtn("/Quotation", "DeleteIt");
-            if (n == 1) {
-                const swalWithBootstrapButtons = Swal.mixin({
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
-                    buttonsStyling: false,
-                })
-                swalWithBootstrapButtons.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, Reject it!',
-                    cancelButtonText: 'No, cancel!',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-
-                        var FF_QTN001_CODE = $("[name*='FF_QTN001_CODE']").val();
-
-                        $.getJSON("/Aprrove_QTN", { FF_QTN001_CODE: FF_QTN001_CODE, Typ: 'Reject' }).done(function (data) {
-                            debugger
-                            if (data.DeleteFlag) {
-                                window.location = '/Quotation'
-                            } else {
-                                EzAlertdele(FF_QTN001_CODE);
-                            }
-                        });
-                        swalWithBootstrapButtons.fire(
-                          'Rejected!',
-                          'Your Code has been Rejected.',
-                          'success'
-                        )
-
-                    } else if (
-                        // Read more about handling dismissals
-                      result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                          'Cancelled',
-                          'Your Code is safe :)',
-                          'error'
-                        )
-                    }
-                })
-                $("#editshow").hide();
-            }
+            $.getJSON("/Aprrove_QTN", { FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(), Typ: 'R' }).done(function (data) {
+                debugger
+                EzAlerterrtxt(data.StatusFlag);
+            });           
         });
 
         $("#btnSave").click(function () {
@@ -767,7 +682,7 @@
 
             <button class="btn btn-info btn1" id="btnApprove" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Approve</button>
 
-            <button class="btn btn-info btn1" id="btnReject" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Reject</button>
+            <button class="btn btn-danger btn1" id="btnReject" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Reject</button>
 
             <input type="hidden" id="hdnOperationMode" value="" />
 
