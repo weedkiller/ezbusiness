@@ -20,6 +20,21 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             _BLService = new FF_BLService();
         }
 
+
+        [Route("Aprrove_BLL")]
+        public ActionResult Aprrove_QTN(string FF_BL001_CODE, string Typ)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(new { StatusFlag = _BLService.Aprrove_QTN(list[0].CmpyCode, FF_BL001_CODE, list[0].user_name, Typ, list[0].BraCode, "FF_BL001") }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [Route("BILL")]
         public ActionResult FF_BL()
         {

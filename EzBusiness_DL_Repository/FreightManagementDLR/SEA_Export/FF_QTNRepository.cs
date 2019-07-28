@@ -10,6 +10,7 @@ using EzBusiness_ViewModels.Models.FreightManagement.SEA_Export;
 using System.Data;
 using EzBusiness_EF_Entity.FreightManagementEF;
 using System.Transactions;
+using System.Data.SqlClient;
 
 namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 {
@@ -1010,30 +1011,32 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
              " where a.CMPYCODE = '"+ CmpyCode + "' and a.flag = 0 and a.FROM_CURRENCY_CODE = (select CURRENCY from FNMBRANCH where CMPYCODE = '"+ CmpyCode +"' and Branchcode = '"+BranchCode+"' )");
         }
 
-        public bool Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode)
+        public string Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode, string tblname)
         {
             int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FF_QTN001 where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and Branchcode = '" + BranchCode + "'");// CMPYCODE='" + CmpyCode + "' and
             if (Grs != 0)
             {
-                if (Typ == "Approve")
-                {
-                    _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Approve FF_QTN_CODE", FF_QTN001_CODE, Environment.MachineName);
-                    return _EzBusinessHelper.ExecuteNonQuery1("update FF_QTN001 set ApprovalYN='Y' where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and Branchcode = '" + BranchCode + "'");//CMPYCODE='" + CmpyCode + "' and
-
-                }else
-                {
-                    _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Reject FF_QTN_CODE", FF_QTN001_CODE, Environment.MachineName);
-                    return _EzBusinessHelper.ExecuteNonQuery1("update FF_QTN001 set RejetedYN='Y' where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and Branchcode = '" + BranchCode + "'");//CMPYCODE='" + CmpyCode + "' and
-
-                }
-
+               
+                    //_EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Approve FF_QTN_CODE", FF_QTN001_CODE, Environment.MachineName);
+                    //  return _EzBusinessHelper.ExecuteNonQuery1("update FF_QTN001 set ApprovalYN='Y' where  FF_QTN001_CODE='" + FF_QTN001_CODE + "'  and Flag=0 and Branchcode = '" + BranchCode + "'");//CMPYCODE='" + CmpyCode + "' and
+                    SqlParameter[] param1 = {
+                        new SqlParameter("@Cmpycode",CmpyCode),
+                        new SqlParameter("@branchcode",BranchCode),
+                         new SqlParameter("@Tablename",tblname),
+                          new SqlParameter("@VoucherNo",FF_QTN001_CODE),
+                        new SqlParameter("@ApproverID",UserName),
+                         new SqlParameter("@Approve_type",Typ),
+                       };
+                    string GetCode = _EzBusinessHelper.ExecuteScalarS("Sp_ApproverUpdate", param1);
+                    return GetCode; 
+               
             }
-            return false;
+            return "NO RECORD";
         }
 
-        public List<ComDropTbl> GetApproveRej(string CmpyCode, string BranchCode, string FF_QTN001_CODE)
-        {
-            return drop.GetCommonDrop("ApprovalYN as [Code],RejetedYN as [CodeName]", "FF_QTN001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and FF_QTN001_CODE='"+ FF_QTN001_CODE+ "' ");
-        }
+        //public List<ComDropTbl> GetApproveRej(string CmpyCode, string BranchCode, string FF_QTN001_CODE)
+        //{
+        //    return drop.GetCommonDrop("ApprovalYN as [Code],RejetedYN as [CodeName]", "FF_QTN001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and FF_QTN001_CODE='"+ FF_QTN001_CODE+ "' ");
+        //}
     }
 }

@@ -377,15 +377,15 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return poEdit;
         }
 
-        public bool Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode)
+        public string Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode,string Tablename)
         {
-            return _FF_QTNRepo.Aprrove_QTN(CmpyCode, FF_QTN001_CODE, UserName,Typ, BranchCode);
+            return _CodeRep.Aprrove_QTN(CmpyCode, FF_QTN001_CODE, UserName,Typ, BranchCode, Tablename);
         }
 
-        public List<ComDropTbl> GetApproveRej(string CmpyCode, string BranchCode, string FF_QTN001_CODE)
-        {
-            return _FF_QTNRepo.GetApproveRej(CmpyCode, BranchCode, FF_QTN001_CODE);
-        }
+        //public List<ComDropTbl> GetApproveRej(string CmpyCode, string BranchCode, string FF_QTN001_CODE)
+        //{
+        //    return _FF_QTNRepo.GetApproveRej(CmpyCode, BranchCode, FF_QTN001_CODE);
+        //}
 
 
 

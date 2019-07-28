@@ -15,5 +15,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
         FFM_CLAUSE_VM SaveFFM_CLAUSE(FFM_CLAUSE_VM FCur);
         FFM_CLAUSE_VM EditFFM_CLAUSE(string CmpyCode, string FFM_CLAUSE_VM);
         bool DeleteFFM_CLAUSE(string FFM_CLAUSE_VM_CODE, string CmpyCode, string UserName);
+
+        
     }
 }

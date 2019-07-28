@@ -52,6 +52,8 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 
         List<SelectListItem> GetBOOKCODEbycusto(string CmpyCode, string Empcode, DateTime vdate, string BranchCode);
 
+        string Aprrove_QTN(string CmpyCode, string FF_BL001_CODE, string UserName, string Typ, string BranchCode, string Tablename);
+
 
     }
 

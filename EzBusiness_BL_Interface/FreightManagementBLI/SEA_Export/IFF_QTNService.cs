@@ -49,10 +49,10 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 
         List<SelectListItem> GetUnitcode(string CmpyCode, string Prefix);
         bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName);
-        bool Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode);
+        string Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode,string Tablename);
         decimal GetCurRate(string CmpyCode, string CurCode);
 
-        List<ComDropTbl> GetApproveRej(string CmpyCode, string BranchCode, string FF_QTN001_CODE);
+      //  List<ComDropTbl> GetApproveRej(string CmpyCode, string BranchCode, string FF_QTN001_CODE);
         List<SelectListItem> GetBranchListN(string CmpyCode, string Prefix);
 
 

@@ -54,9 +54,9 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<ComDropTbl> GetBranchListN(string CmpyCode, string Prefix);
 
 
-        bool Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName,string Typ, string BranchCode);
+        string Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName,string Typ, string BranchCode,string tblname);
 
-        List<ComDropTbl> GetApproveRej(string CmpyCode, string BranchCode, string FF_QTN001_CODE);
+       // List<ComDropTbl> GetApproveRej(string CmpyCode, string BranchCode, string FF_QTN001_CODE);
 
        List<ComDropTbl> GetCurCodebranch(string CmpyCode, string BranchCode);
 

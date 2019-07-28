@@ -20,6 +20,21 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             _BOKService = new FF_BOKService();
         }
 
+
+        [Route("Aprrove_BOK")]
+        public ActionResult Aprrove_QTN(string FF_BOK001_CODE, string Typ)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(new { StatusFlag = _BOKService.Aprrove_QTN(list[0].CmpyCode, FF_BOK001_CODE, list[0].user_name, Typ, list[0].BraCode, "FF_BOK001") }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [Route("BOOKING")]
         public ActionResult FF_BOK()
         {

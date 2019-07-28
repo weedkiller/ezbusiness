@@ -98,7 +98,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             }
             else
             {
-                qur = "Select '0' as Temp_Range_min,'0' as Temp_Range_max,'0' as Dimension,'0' as Volume,'0' as GrossWeight,Commodity_code, CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_BOK002 where Flag=0 and FF_BOK001_CODE='" + FF_BL001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select 0 as Temp_Range_min,0 as Temp_Range_max,0 as Dimension,0 as Volume,0 as GrossWeight,Commodity_code, CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_BOK002 where Flag=0 and FF_BOK001_CODE='" + FF_BL001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
             }
             ds = _EzBusinessHelper.ExecuteDataSet(qur);// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];

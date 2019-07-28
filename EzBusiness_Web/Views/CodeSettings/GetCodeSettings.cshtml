@@ -1,0 +1,56 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.UTM0001_VM>
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    Ezsidetblnew("#POList", "#POList tfoot td", false, "#POList thead");
+</script>
+
+
+<table id="POList" class="table table-bordered stripe display hover portal-drivers">
+
+    <thead>
+        <tr class="tr">                      
+            <th>TABLE NAME</th>
+            <th>CODE</th>
+            <th>PREFIX</th>
+            <th>PAGE NAME</th>
+            <th>STARTING NO</th>
+            <th>TOTAL LENGTH</th>
+            <th> LAST NO</th>
+            <th>AUTo</th>
+</tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td>Tablename</td>
+            <td>UTI0001_CODE</td>
+            <td>PREFIX_CODE</td>
+            <td>Page_Name</td>
+            <td>Starting_No</td>
+            <td>Total_length</td>
+            <td> Last_No</td>
+            <td>Auto_increment</td>
+        </tr>
+    </tfoot>
+    <tbody>
+        @foreach (var po in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Hidden("hdnTablename", po.Tablename)
+                    @po.Tablename
+                </td>               
+                <td>@po.UTI0001_CODE</td>
+                <td>@po.PREFIX_CODE</td>
+                <td>@po.Page_Name</td>
+                <td>@po.Starting_No</td>
+                <td>@po.Total_length</td>
+                <td> @po.Last_No</td>
+                <td>@po.Auto_increment</td>
+            </tr>
+        }
+    </tbody>
+</table>
