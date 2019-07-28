@@ -129,7 +129,7 @@
             var n = EzAuthenticationBtn("/VoyaGEDataMaster", "EditIt");
             if (opMode == "Add") {
                 var Fcur = {
-                    FFM_VESSEL_CODE: $("[name='hdnFFM_VESSEL_CODE']").val(),
+                    FFM_VESSEL_CODE: $("[name='hdnFFM_VESSEL_CODE']").val().trim(),
                     NAME: $("[name='NAME']").val(),
                     FFM_VOYAGE01_CODE: $("[name='FFM_VOYAGE01_CODE']").val(),
                     DISPLAY_STATUS: $("[name='txtdisplaystatus1'] option:selected").val(),
@@ -149,7 +149,6 @@
                     // var NOTE = $(this).find("[name*='txtNOTE']").val();
                     if ((ROTATION != "")) {
                         var FNM_unitDetail = {
-
                             SNO: SNO,
                             ROTATION: ROTATION,
                             PORT: PORT,
@@ -184,19 +183,20 @@
                 }
             } else if (opMode == "Edit" && n==1) {
                 // Code for Adding Purchase order
+                debugger;
                 var Fcur = {
                     FFM_VESSEL_CODE: $("[name='hdnFFM_VESSEL_CODE']").val(),
                     NAME: $("[name='NAME']").val(),
                     FFM_VOYAGE01_CODE: $("[name='FFM_VOYAGE01_CODE']").val(),
-                    DISPLAY_STATUS: $("[name='txtdisplaystatus1'] option:selected").val(),
+                    DISPLAY_STATUS: $("[name='ddlstatus']option:selected").val(),
                     EditFlag: true,
                     newdetails: []
                 };
                 $("#tablePODetails tbody tr").each(function (index, item) {
                     
-                    var SNO = $(this).find("[name*='txtsrno']").val();
+                    var SNO = $(this).find("[name*='hdnsrno']").val();
                     var ROTATION = $(this).find("[name*='txtRotation']").val();
-                    var PORT = $(this).find("[name*='txtport'] option:selected").val();
+                    var PORT = $(this).find("[name*='hdntxtport']").val();
                     var ETA = Ezsetdtpkdate($(this).find("[name*='txtETA']").val());
                     var ETB = Ezsetdtpkdate($(this).find("[name*='txtETB']").val());
                     var ETD = Ezsetdtpkdate($(this).find("[name*='txtETD']").val());

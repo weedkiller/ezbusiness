@@ -16,7 +16,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI
         List<FFM_CRG> GetFFM_CRG_001(string CmpyCode);
         FFM_CRG_VM SaveFM_CRG_001(FFM_CRG_VM CR);
 
-        List<FFM_CRG_Group> GetCRG_Group(string Cmpycode);
+        List<ComDropTbl> GetCRG_Group(string Cmpycode,string Prefix);
         List<FNM_AC_COA> GetIncomeAct(string Cmpycode);
         List<FFM_JOB> GetJobCode(string Cmpycode);
         List<FFM_CRG_Details> GetCRGDetailList(string CmpyCode, string CRGCode);

@@ -8,6 +8,8 @@ using EzBusiness_EF_Entity.FreightManagementEF;
 using EzBusiness_ViewModels.Models.FreightManagement;
 using EzBusiness_DL_Interface.FreightManagementDLI;
 using EzBusiness_DL_Repository.FreightManagementDLR;
+using EzBusiness_DL_Interface;
+using EzBusiness_DL_Repository;
 
 namespace EzBusiness_BL_Service.FreightManagementBLS
 {
@@ -15,10 +17,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
     {
 
         IFFM_CRG_GroupRepository _FFM_CRGRepo;
-
+        ICodeGenRepository _CodeRep; 
         public FFM_CRG_GroupService()
         {
             _FFM_CRGRepo = new FFM_CRG_GroupRepository();
+            _CodeRep = new CodeGenRepository();
         }
 
         public bool DeleteFFM_CRG_Group(string FFM_CRG_GROUP_CODE, string CmpyCode, string UserName)
@@ -50,7 +53,8 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         public FFM_CRG_Group_VM GetFFM_CRG_GroupAddNew(string Cmpycode)
         {
             return new FFM_CRG_Group_VM
-            {             
+            {
+                FFM_CRG_GROUP_CODE = _CodeRep.GetCode(Cmpycode,"CRG_Group"),       
                 EditFlag = false
             };
         }

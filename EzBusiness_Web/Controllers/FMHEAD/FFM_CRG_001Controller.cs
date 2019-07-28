@@ -107,7 +107,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         }
 
 
-        public ActionResult GetCRG_GroupList()
+        public ActionResult GetCRG_GroupList(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -116,7 +116,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(_FFMCRGService.GetCRG_Group(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+                return Json(_FFMCRGService.GetCRG_Group(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 

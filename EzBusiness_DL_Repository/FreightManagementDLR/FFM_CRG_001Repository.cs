@@ -21,6 +21,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         DataSet ds = null;
         DataTable dt = null;
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
+        DropListFillFun drop = new DropListFillFun();
         public bool DeleteFFM_CRG_001(string CmpyCode, string FFM_CRG_001_CODE,  string UserName)
         {
             int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FFM_CRG_001 where CmpyCode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + FFM_CRG_001_CODE + "'  and Flag=0");
@@ -55,21 +56,23 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return ObjList;
         }
 
-        public List<FFM_CRG_Group> GetCRG_Group(string Cmpycode)
+        public List<ComDropTbl> GetCRG_Group(string Cmpycode,string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CRG_GROUP_CODE,NAME from  FFM_CRG_GROUP where CmpyCode='" + Cmpycode + "' and Flag=0");// 
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<FFM_CRG_Group> ObjList = new List<FFM_CRG_Group>();
-            foreach (DataRow dr in drc)
-            {
-                ObjList.Add(new FFM_CRG_Group()
-                {
-                    FFM_CRG_GROUP_CODE = dr["FFM_CRG_GROUP_CODE"].ToString(),
-                    NAME = dr["NAME"].ToString()
-                });
-            }
-            return ObjList;
+            //ds = _EzBusinessHelper.ExecuteDataSet("Select FFM_CRG_GROUP_CODE,NAME from  FFM_CRG_GROUP where CmpyCode='" + Cmpycode + "' and Flag=0");// 
+            //dt = ds.Tables[0];
+            //DataRowCollection drc = dt.Rows;
+            //List<FFM_CRG_Group> ObjList = new List<FFM_CRG_Group>();
+            //foreach (DataRow dr in drc)
+            //{
+            //    ObjList.Add(new FFM_CRG_Group()
+            //    {
+            //        FFM_CRG_GROUP_CODE = dr["FFM_CRG_GROUP_CODE"].ToString(),
+            //        NAME = dr["NAME"].ToString()
+            //    });
+            //}
+            //return ObjList;
+            return drop.GetCommonDrop("FFM_CRG_GROUP_CODE as [Code],NAME as [CodeName]", "FFM_CRG_GROUP", "CMPYCODE='" + Cmpycode + "' and Flag=0 and (FFM_CRG_GROUP_CODE like '" + Prefix + "%' or Name like '" + Prefix + "%')");
+
         }
 
         public List<FFM_CRG> GetFFM_CRG_001(string CmpyCode)
@@ -309,7 +312,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         public List<FFM_CRG_Details> GetCRGDetailList(string CmpyCode, string CRGCode)
         {
             List<FFM_CRG_Details> ObjList = null;
-            ds = _EzBusinessHelper.ExecuteDataSet("select SNO,FFM_CRG_JOB_CODE,FFM_CRG_001_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,name_arabic from FFM_CRG_002 where cmpycode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + CRGCode + "' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("select SNO,FFM_CRG_JOB_CODE,FFM_CRG_001_CODE,FFM_CRG_JOB_NAME,OPERATION_TYPE,INCOME_ACT,EXPENSE_ACT,name_arabic from FFM_CRG_002 where cmpycode='" + CmpyCode + "' and FFM_CRG_001_CODE='" + CRGCode + "' and Flag=0 order by SNO");
             if (ds.Tables.Count > 0)
             {
                 dt = ds.Tables[0];

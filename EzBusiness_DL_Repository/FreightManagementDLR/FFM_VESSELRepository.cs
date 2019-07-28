@@ -27,7 +27,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                 _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FFM_VESSEL", FFM_VESSEL_CODE, Environment.MachineName);
 
-                return _EzBusinessHelper.ExecuteNonQuery1("update FNM_AC_COA set Flag=1 where CMPYCODE='" + CmpyCode + "' and FFM_VESSEL_CODE='" + FFM_VESSEL_CODE + "'  and Flag1=0");
+                return _EzBusinessHelper.ExecuteNonQuery1("update FFM_VESSEL set Flag1=1 where CMPYCODE='" + CmpyCode + "' and FFM_VESSEL_CODE='" + FFM_VESSEL_CODE + "'  and Flag1=0");
 
             }
             return false;

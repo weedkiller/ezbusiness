@@ -2006,7 +2006,7 @@ function EzAutoCompTxt1(inpid, inphid, urls) {
                          url: urls,
                          type: "POST",
                          dataType: "json",
-                         data: { Prefix: $(inpid).val().trim() },
+                         data: { Prefix: $(inpid).val()},
                          success: function (data) {
                              debugger;
                              if (data.length >0) {

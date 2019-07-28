@@ -240,6 +240,8 @@
         });
 
         $("#tblUnits").on("click", "[name^='Edit']", function () {
+            debugger;
+         
             var n = EzAuthenticationBtn("/FFM_HAZ_Master", "EditIt");
             if (n == 1) {
                 var counter = $("#Counter").val();
@@ -251,12 +253,8 @@
                 var MASTER_STATUSTd = $(tr).find("td:eq(2)");
                 //var NOTETd = $(tr).find("td:eq(3)");
 
-
-
                 var editButton = $(this);
-
-                if (hdnEditMode.val() == "true") {
-                    
+                if (hdnEditMode.val() == "true") {                    
                     var CURRENCY_NAMEEdit = $(tr).find("[name*='txtNAME']").val().trim();
                     var MASTER_STATUSEdit = $(tr).find("[name*='txtdisplaystatus'] option:selected").val();
                     //$(tr).find("[name*='txtLEAVE_TYPECODE'] option:selected").val();
@@ -276,13 +274,14 @@
                         CURRENCY_NAMETd.text(response.NAME);
                         //MASTER_STATUSTd.text(response.MASTER_STATUS);
                         //NOTETd.text(response.Note);
-                        hdnEditMode.val("true");
+                        hdnEditMode.val("false");
                         editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
                         editButton.attr('title', 'Edit');
                         tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
                         tr.find("[name^='Delete']").attr('title', 'Delete');
                         tableDis("F");
                         EzAlertUpd(CURRENCY_CODEEdit);
+
                     });
                     $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
                         console.log(thrownError);
@@ -293,7 +292,6 @@
                     var cntr_NAME = $(tr).find("td:eq(1)").text();
                     var MASTER_STATUS = $(tr).find("td:eq(2)");
                     //var NOTE = $(tr).find("td:eq(3)").text();
-
                     $('#inpdocname').val(cntr_NAME.trim());
                     //$('#hdnMstatus').val(MASTER_STATUS.trim());
                     //$('#hdnNote').val(NOTE.trim());
