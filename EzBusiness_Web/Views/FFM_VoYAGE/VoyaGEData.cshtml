@@ -61,7 +61,8 @@
             EzbtnCancelAcVis();
            // EzdtePk('#JoiningDate1,#DOB1,#ContactDate,#AbscondingDate');//#LastRetDate1,
            // EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
-           // EzdtePkyyyy('#ObtainedYear1');
+            // EzdtePkyyyy('#ObtainedYear1');
+            GetPurchaseOrderList();
             $("#POListContainer1").hide();
 
         });
@@ -135,9 +136,10 @@
                     DISPLAY_STATUS: $("[name='txtdisplaystatus1'] option:selected").val(),
                     newdetails: []
                 };
+                var SNO = 0;
                 $("#tablePODetails tbody tr").each(function (index, item) {
                     debugger;
-                    var SNO = $(this).find("[name*='txtsrno']").val();
+                   // var SNO = $(this).find("[name*='txtsrno']").val();
                     var ROTATION = $(this).find("[name*='txtRotation']").val();
                     var PORT = $(this).find("[name*='txtport']").val();
                     var ETA = Ezsetdtpkdate($(this).find("[name*='txtETA']").val());
@@ -148,8 +150,9 @@
                     // var MASTER_STATUS = $(this).find("[name*='txtMASTER_STATUS']").val();
                     // var NOTE = $(this).find("[name*='txtNOTE']").val();
                     if ((ROTATION != "")) {
+                        SNO = SNO + 1;
                         var FNM_unitDetail = {
-                            SNO: SNO,
+                            SNO:SNO,
                             ROTATION: ROTATION,
                             PORT: PORT,
                             ETA: ETA,

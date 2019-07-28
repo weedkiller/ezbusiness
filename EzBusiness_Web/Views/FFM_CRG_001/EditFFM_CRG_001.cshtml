@@ -146,7 +146,7 @@
             debugger         
             var tr = $(this).closest('tr');
             $("#tablePODetails").css("height", "auto");
-            var JobCode = tr.find("[name*='FFM_CRG_JOB_CODE'] option:selected").text();
+            var JobCode = tr.find("[name*='FFM_CRG_JOB_CODE']").text();
             var array = JobCode.split("-");          
             var trLast = $("#tablePODetails tr:last");
             drec = [];
@@ -156,13 +156,13 @@
           
             $('#tablePODetails tbody tr td:nth-child(1)').each(function () {
                 //add item to array
-                var ab = $(this).closest("tr").find("[name *= 'FFM_CRG_JOB_CODE'] option:selected").val();
+                var ab = $(this).closest("tr").find("[name *= 'FFM_CRG_JOB_CODE']").val();
                 drec.push(ab);
             });
 
-            drec.splice($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE'] option:selected").val(), drec), 1);
-            if ($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE'] option:selected").val(), drec) >= 0) {
-                var dr = tr.find("[name *= 'FFM_CRG_JOB_CODE'] option:selected").val();
+            drec.splice($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE']").val(), drec), 1);
+            if ($.inArray(tr.find("[name *= 'FFM_CRG_JOB_CODE']").val(), drec) >= 0) {
+                var dr = tr.find("[name *= 'FFM_CRG_JOB_CODE']").val();
                 tr.css("background", "red");
                 tr.find("[name *= 'FFM_CRG_JOB_CODE']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
@@ -194,10 +194,8 @@
                     trLast.find('select[name^=FFM_CRG_JOB_CODE' + counter1 + ']').val(0);
                     trLast.find('select[name^=OPERATION_TYPE' + counter1 + ']').val(0);
                     trLast.find('select[name^=INCOME_ACT' + counter1 + ']').val(0);
-                    trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
-                    trLast.find("[name *= 'FFM_CRG_JOB_CODE']").selectpicker('refresh');
-                    trLast.find("[name *= 'OPERATION_TYPE']").selectpicker('refresh');
-                    trLast.find("[name *= 'INCOME_ACT']").selectpicker('refresh');
+                   // trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
+                   
                 }
                 else
                 {

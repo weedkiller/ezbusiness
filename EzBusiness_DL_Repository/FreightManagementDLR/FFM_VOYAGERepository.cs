@@ -283,7 +283,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public List<FFM_VOYAGEA> GetVayogeDetailList(string CmpyCode, string VyogCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("select * from FFM_VOYAGE02 where cmpycode='" + CmpyCode + "' and FFM_VOYAGE01_CODE='" + VyogCode + "' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("select * from FFM_VOYAGE02 where cmpycode='" + CmpyCode + "' and FFM_VOYAGE01_CODE='" + VyogCode + "' and Flag=0 order by sno");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FFM_VOYAGEA> ObjList = new List<FFM_VOYAGEA>();
