@@ -19,7 +19,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
         bool DeleteFFM_CRG_001( string CmpyCode, string FFM_CRG_001_CODE, string UserName);
       
         List<FFM_CRG_Details> GetCRGDetailList(string CmpyCode, string VyogCode);
-        List<SelectListItem> GetCRG_Group(string Cmpycode);
+        IQueryable<SelectListItem> GetCRG_Group(string Cmpycode,string Prefix);
         List<SelectListItem> GetJobCode(string Cmpycode);
         List<SelectListItem> GetIncomeAct(string Cmpycode);
 

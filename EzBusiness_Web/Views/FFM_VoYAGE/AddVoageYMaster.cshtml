@@ -77,47 +77,57 @@
             else {
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
-                    tr.clone(true, true).insertAfter(tr);
+                    $('#tablePODetails tr:last').clone().insertAfter('#tablePODetails tr:last');
                     var trLast = $("#tablePODetails tbody tr:last")
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
                     // trLast.find("[name*='txtsrno']").val(tcunt);
-                    trLast.find("[name*='txtRotation']").val('');
-                    trLast.find("[name*='txtport'] option:selected").val('');
-                    trLast.find("[name*='txtETA']").val('');
-                    trLast.find("[name*='txtETAB']").val('');
-                    trLast.find("[name*='txtETD']").val('');
-                    trLast.find("[name*='txtPortStayhrs']").val('');
-                    trLast.find("[name*='txtSailinghrs']").val('');
-                    trLast.find("[name *= 'txtsrno']").attr({
-                        "name": ("txtsrno" + counter)
-                    });
-                    trLast.find("[name *= 'txtRotation']").attr({
-                        "name": ("txtRotation" + counter)
-                    });
-                    trLast.find("[name *= 'txtport'] option:selected").attr({
-                        "name": ("txtport" + counter)
-                    });
-                    trLast.find("[name *= 'txtETA']").attr({
-                        "name": ("txtETA" + counter)
-                    });
-                    trLast.find("[name *= 'txtETAB']").attr({
-                        "name": ("txtETAB" + counter)
-                    });
-                    trLast.find("[name *= 'txtETD']").attr({
-                        "name": ("txtETD" + counter)
-                    });
-                    trLast.find("[name *= 'txtPortStayhrs']").attr({
-                        "name": ("txtPortStayhrs" + counter)
-                    });
-                    trLast.find("[name *= 'txtSailinghrs']").attr({
-                        "name": ("txtSailinghrs" + counter)
-                    });
+                    debugger;
+                    var txtarry1 = [];
+                    var droparry = [];
+                    txtarry1.push('txtsrno', 'txtRotation', 'txtETA', 'txtETAB', 'txtETD', 'txtPortStayhrs', 'txtSailinghrs');
+                    droparry.push('txtport');
+                    EzTbltxtdrpidchanged(txtarry1, counter, "txt", trLast);
+                    EzTbltxtdrpidchanged(droparry, counter, "drp", trLast);
+                    trLast.find("[name *= 'txtRotation']").val('');
+            //        trLast.find("[name*='txtRotation']").val('');
+            //        trLast.find("[name*='txtport'] option:selected").val('');
+            //        trLast.find("[name*='txtETA']").val('');
+            //        trLast.find("[name*='txtETAB']").val('');
+            //        trLast.find("[name*='txtETD']").val('');
+            //        trLast.find("[name*='txtPortStayhrs']").val('');
+            //        trLast.find("[name*='txtSailinghrs']").val('');
+            //        trLast.find("[name *= 'txtsrno']").attr({
+            //            "name": ("txtsrno" + counter)
+            //        });
+            //        trLast.find("[name *= 'txtRotation']").attr({
+            //            "name": ("txtRotation" + counter)
+            //        });
+            //        trLast.find("[name *= 'txtport'] option:selected").attr({
+            //            "name": ("txtport" + counter)
+            //        });
+            //        trLast.find("[name *= 'txtETA']").attr({
+            //            "name": ("txtETA" + counter)
+            //        });
+            //        trLast.find("[name *= 'txtETAB']").attr({
+            //            "name": ("txtETAB" + counter)
+            //        });
+            //        trLast.find("[name *= 'txtETD']").attr({
+            //            "name": ("txtETD" + counter)
+            //        });
+            //        trLast.find("[name *= 'txtPortStayhrs']").attr({
+            //            "name": ("txtPortStayhrs" + counter)
+            //        });
+            //        trLast.find("[name *= 'txtSailinghrs']").attr({
+            //            "name": ("txtSailinghrs" + counter)
+            //        });
 
+                    //        trLast.find(":first").text(counter);
                     trLast.find(":first").text(counter);
-                }
+                    counter++;
+              }
             }
-            counter++;
+           
         });
         $('body').on('focusin', '.datepicker', function () {
             $('.datepicker').datetimepicker({
@@ -222,13 +232,10 @@
                                         </div>
                                         <!--/span-->
                                     </div>
-
-
                                 </div>
                             </div>
                             <br />
                             <!-- END FORM-->
-
                             <ul class="nav nav-tabs">
                                 <li class="active">
                                     <a data-toggle="tab" href="#home">Detail</a>

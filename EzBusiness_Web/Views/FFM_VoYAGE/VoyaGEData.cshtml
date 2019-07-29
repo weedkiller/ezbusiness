@@ -61,7 +61,8 @@
             EzbtnCancelAcVis();
            // EzdtePk('#JoiningDate1,#DOB1,#ContactDate,#AbscondingDate');//#LastRetDate1,
            // EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
-           // EzdtePkyyyy('#ObtainedYear1');
+            // EzdtePkyyyy('#ObtainedYear1');
+            GetPurchaseOrderList();
             $("#POListContainer1").hide();
 
         });
@@ -129,15 +130,16 @@
             var n = EzAuthenticationBtn("/VoyaGEDataMaster", "EditIt");
             if (opMode == "Add") {
                 var Fcur = {
-                    FFM_VESSEL_CODE: $("[name='hdnFFM_VESSEL_CODE']").val(),
+                    FFM_VESSEL_CODE: $("[name='hdnFFM_VESSEL_CODE']").val().trim(),
                     NAME: $("[name='NAME']").val(),
                     FFM_VOYAGE01_CODE: $("[name='FFM_VOYAGE01_CODE']").val(),
                     DISPLAY_STATUS: $("[name='txtdisplaystatus1'] option:selected").val(),
                     newdetails: []
                 };
+                var SNO = 0;
                 $("#tablePODetails tbody tr").each(function (index, item) {
                     debugger;
-                    var SNO = $(this).find("[name*='txtsrno']").val();
+                   // var SNO = $(this).find("[name*='txtsrno']").val();
                     var ROTATION = $(this).find("[name*='txtRotation']").val();
                     var PORT = $(this).find("[name*='txtport']").val();
                     var ETA = Ezsetdtpkdate($(this).find("[name*='txtETA']").val());
@@ -148,9 +150,9 @@
                     // var MASTER_STATUS = $(this).find("[name*='txtMASTER_STATUS']").val();
                     // var NOTE = $(this).find("[name*='txtNOTE']").val();
                     if ((ROTATION != "")) {
+                        SNO = SNO + 1;
                         var FNM_unitDetail = {
-
-                            SNO: SNO,
+                            SNO:SNO,
                             ROTATION: ROTATION,
                             PORT: PORT,
                             ETA: ETA,
@@ -184,19 +186,20 @@
                 }
             } else if (opMode == "Edit" && n==1) {
                 // Code for Adding Purchase order
+                debugger;
                 var Fcur = {
                     FFM_VESSEL_CODE: $("[name='hdnFFM_VESSEL_CODE']").val(),
                     NAME: $("[name='NAME']").val(),
                     FFM_VOYAGE01_CODE: $("[name='FFM_VOYAGE01_CODE']").val(),
-                    DISPLAY_STATUS: $("[name='txtdisplaystatus1'] option:selected").val(),
+                    DISPLAY_STATUS: $("[name='ddlstatus']option:selected").val(),
                     EditFlag: true,
                     newdetails: []
                 };
                 $("#tablePODetails tbody tr").each(function (index, item) {
                     
-                    var SNO = $(this).find("[name*='txtsrno']").val();
+                    var SNO = $(this).find("[name*='hdnsrno']").val();
                     var ROTATION = $(this).find("[name*='txtRotation']").val();
-                    var PORT = $(this).find("[name*='txtport'] option:selected").val();
+                    var PORT = $(this).find("[name*='hdntxtport']").val();
                     var ETA = Ezsetdtpkdate($(this).find("[name*='txtETA']").val());
                     var ETB = Ezsetdtpkdate($(this).find("[name*='txtETB']").val());
                     var ETD = Ezsetdtpkdate($(this).find("[name*='txtETD']").val());

@@ -29,24 +29,18 @@
                 counter++;
             });
         });
-        EzAutoCompTxt1("#FFM_VESSEL_CODE", "#hdnFFM_VESSEL_CODE", "/GetVessalCode");
+      //  EzAutoCompTxt1("#txtport", "#hdntxtport", "/FFM_Quotation/GetPortList");
         EzAutoCompTxt1("#FFM_VESSEL_CODE", "#hdnFFM_VESSEL_CODE", "/GetVessalCode");
         EzAutoCompTxtE("#FFM_VESSEL_CODE", "#hdnFFM_VESSEL_CODE", "/GetVessalCode", false, "");
-        $('.selectpicker').selectpicker('refresh');
        
-      
-        //EzAutoCompTxtE("#FFM_VESSEL_CODE", "#hdnFFM_VESSEL_CODE", "/GetVessalCode", false, "");
-        //EzdtePkEdit('#ETA1', "#ETA", "DD/MM/YYYY");
-        //EzdtePkEdit('#ETB1', "#ETB", "DD/MM/YYYY");
-        //EzdtePkEdit('#ETD1', "#ETD", "DD/MM/YYYY");
-      
-        EzAutotxtEventTbl12("#tablePODetails", "focus", "[name*='txtport1']", "[name*='hdnPORT1']", "/FFM_Quotation/GetPortList", false, "");
+        $('.selectpicker').selectpicker('refresh');
+        EzAutotxtEventTbl12("#tablePODetails", "focus", "[name*='txtport']", "[name*='hdntxtport']", "/FFM_Quotation/GetPortList", false, "");
         var tblcntr1 = $("#tablePODetails tbody tr");
         var index3 = 1;
         tblcntr1.each(function (index3, item) {            
             $("[name*='txtsrno" + (index3 + 1) + "']").val($("[name*='hdnsrno" + (index3 + 1) + "']").val());
             $("[name*='txtRotation" + (index3 + 1) + "']").val($("[name*='hdnROTATION" + (index3 + 1) + "']").val());
-            $("[name*='txtport" + (index3 + 1) + "']").val($("[name*='hdnPORT" + (index3 + 1) + "']").val());
+            $("[name*='txtport" + (index3 + 1) + "']").val($("[name*='hdntxtport" + (index3 + 1) + "']").val());
             //$("[name*='ETA" + (index3 + 1) + "']").val($("[name*='hdnDocStatus" + (index3 + 1) + "']").val());
             if ($("[name*='hdnETA" + (index3 + 1) + "']").val() == undefined)
                 EzdtePk("[name*='ETA" + (index3 + 1) + "']");
@@ -60,15 +54,14 @@
                 EzdtePk("[name*='ETD" + (index3 + 1) + "']");
             else
                 $("[name*='txtETD" + (index3 + 1) + "']").val(EzdteTblPkEdit($("[name*='hdnETD" + (index3 + 1) + "']").val()));
-            $("[name*='txtPortStayHours" + (index3 + 1) + "']").val($("[name*='hdnPortStayHourse" + (index3 + 1) + "']").val());
+            $("[name*='txtPortStayhrs" + (index3 + 1) + "']").val($("[name*='hdnPortStayHourse" + (index3 + 1) + "']").val());
             // $("[name*='IssuePlace" + (index3 + 1) + "']").val($("[name*='hdnIssuePlace" + (index3 + 1) + "']").val());
             // $("[name*='DocumentPath" + (index3 + 1) + "']").val($("[name*='SourceFile" + (index3 + 1) + "']").prop('defaultValue'));
-            $("[name*='txtSailingHrs" + (index3 + 1) + "']").val($("[name*='hdnSailingHrs" + (index3 + 1) + "']").val());
-
+            $("[name*='txtSailinghrs" + (index3 + 1) + "']").val($("[name*='hdnSailingHrs" + (index3 + 1) + "']").val());
             index3 = index3 + 1;
         });
 
-        $("#tablePODetails tbody tr:last").find("[name*='txtsrnoss']").val(counter);
+        $("#tablePODetails tbody tr:last").find("[name*='txtsrno']").val(counter);
         var counter =  parseInt($("#hdnCounter").val())+1;
        
         $("#tablePODetails").on("change", "[name*='txtRotation']", function () {
@@ -92,7 +85,7 @@
                 var ab = $(this).find("[name *= 'txtRotation']").val();
                 drec.push(ab);
             });
-
+           
             drec.splice($.inArray(tr.find("[name *= 'txtRotation']").val(), drec), 1);
             if ($.inArray(tr.find("[name *= 'txtRotation']").val(), drec) >= 0) {
                 var dr = tr.find("[name *= 'txtRotation']").val();
@@ -104,46 +97,23 @@
             else {
                 tr.css("background", "");
                 if (tr.is(":last-child")) {
-                    tr.clone(true, true).insertAfter(tr);
+                    $('#tablePODetails tr:last').clone().insertAfter('#tablePODetails tr:last');
                     var trLast = $("#tablePODetails tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
                     trLast.find("[name*='txtsrno']").val(tcunt);
-                    trLast.find("[name*='txtRotation']").val('');
-                    trLast.find("[name*='txtport'] option:selected").val('');
-                    trLast.find("[name*='txtETA']").val('');
-                    trLast.find("[name*='txtETAB']").val('');
-                    trLast.find("[name*='txtETD']").val('');
-                    trLast.find("[name*='txtPortStayhrs']").val('');
-                    trLast.find("[name*='txtSailinghrs']").val('');
-                    trLast.find("[name *= 'txtsrno']").attr({
-                        "name": ("txtsrno" + counter)
-                    });
-                    trLast.find("[name *= 'txtRotation']").attr({
-                        "name": ("txtRotation" + counter)
-                    });
-                    trLast.find("[name *= 'txtport'] option:selected").attr({
-                        "name": ("txtport" + counter)
-                    });
-                    trLast.find("[name *= 'txtETA']").attr({
-                        "name": ("txtETA" + counter)
-                    });
-                    trLast.find("[name *= 'txtETAB']").attr({
-                        "name": ("txtETAB" + counter)
-                    });
-                    trLast.find("[name *= 'txtETD']").attr({
-                        "name": ("txtETD" + counter)
-                    });
-                    trLast.find("[name *= 'txtPortStayhrs']").attr({
-                        "name": ("txtPortStayhrs" + counter)
-                    });
-                    trLast.find("[name *= 'txtSailinghrs']").attr({
-                        "name": ("txtSailinghrs" + counter)
-                    });
+                    var txtarry1 = [];
+                    var droparry = [];
+                    txtarry1.push('txtsrno', 'txtRotation', 'txtETA', 'txtETAB', 'txtETD', 'txtPortStayhrs', 'txtSailinghrs');
+                    droparry.push('txtport');
+                    EzTbltxtdrpidchanged(txtarry1, counter, "txt", trLast);
+                    EzTbltxtdrpidchanged(droparry, counter, "drp", trLast);
+                    trLast.find("[name *= 'txtRotation']").val('');
                     trLast.find(":first").text(counter);
+                    counter++;
                 }
             }
-            counter++;
+            
         });
         $('body').on('focusin', '.datepicker', function () {
             $('.datepicker').datetimepicker({
@@ -164,10 +134,7 @@
         });
 
        // EzDropFillEvent("FFM_VESSEL_CODE", "click", "FFM_VESSEL_CODE", "GetVessalCode");
-
-
         //EzDropFillEventTbl1("#tablePODetails", "[name*='txtport']", "click", "[name*='txtport']", "/FFM_Quotation/GetPortList", "hdnPORT", true);
-
   });
 
 </script>
@@ -299,13 +266,8 @@
                 </td>
                 <td>
                     <div class="grid-group">
-                        @*@Html.DropDownList(string.Concat("txtport", counter), item.PortList1, new { @class = "grid-control", @data_live_search = "true" })*@
-                        @*@Html.TextBox(string.Concat("PORT", counter), null, new { @class = "grid-control" })*@
-                        @*@Html.Hidden(string.Concat("hdnPORT", counter), item.PORT)*@
                         @Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control" })
-                        @Html.Hidden(string.Concat("hdnPORT", counter), null, new { @class = "grid-control" })
-
-
+                        @Html.Hidden(string.Concat("hdntxtport", counter), item.PORT)
                     </div>
                 </td>
                 <td>
@@ -359,12 +321,8 @@
                             </td>
                             <td>
                                 <div class="grid-group">
-                                    @*@Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control " })*@
                                  
                                     @Html.TextBox(string.Concat("txtport", counter), null, new { @class = "grid-control" })
-                                    @Html.Hidden(string.Concat("hdnPORT", counter), null, new { @class = "grid-control" })
-                                    @*@Html.DropDownList(string.Concat("txtport", counter),TypeListdata1, new { @class = "selectpicker grid-control", @data_live_search = "true" })*@
-                                    @*@Html.DropDownListFor(m => m.PORT, Model.PortList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
                                 </div>
                             </td>
                             <td>
@@ -401,5 +359,5 @@
             </div>
             </div>
         </div>
- </div>
+
     

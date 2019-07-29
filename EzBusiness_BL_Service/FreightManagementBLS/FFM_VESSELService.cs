@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using EzBusiness_DL_Interface.FreightManagementDLI;
 using EzBusiness_DL_Repository.FreightManagementDLR;
 using EzBusiness_ViewModels;
+using EzBusiness_DL_Interface;
+using EzBusiness_DL_Repository;
 
 namespace EzBusiness_BL_Service.FreightManagementBLS
 {
@@ -16,10 +18,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
     {
 
         IFFM_VESSELRepository _FFM_VESSELRepo;
-
+        ICodeGenRepository _CodeRep;
         public FFM_VESSELService()
         {
             _FFM_VESSELRepo = new FFM_VESSELRepository();
+            _CodeRep=new CodeGenRepository();
         }
 
         public bool DeleteFFM_VESSEL(string FFM_VESSEL_CODE, string CmpyCode, string UserName)
@@ -65,6 +68,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             {
                 //COUNTRYList=GetNationList(Cmpycode),
                 //ContainerList=GetContainer(Cmpycode),
+                FFM_VESSEL_CODE =_CodeRep.GetCode(Cmpycode,"FFMVessalCode"),
                EditFlag = false
             };
         }

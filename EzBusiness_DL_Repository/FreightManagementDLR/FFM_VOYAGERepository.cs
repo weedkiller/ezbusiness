@@ -126,15 +126,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
                         sb.Append("'" + FCur.UserName + "',");
 
-                        sb.Append("'" + dtstr1 + "',");
-                        sb.Append("'" + FCur.UserName + "',");
+                        sb.Append("'"+dtstr1 +"',");
+                        sb.Append("'"+FCur.UserName+"',");
 
-                        sb.Append("'" + dtstr1 + "',");
-                        sb.Append("'" + FCur.FFM_VESSEL_CODE + "',");
-                        sb.Append("'" + FCur.CMPYCODE + "',");
-                        sb.Append("'" + FCur.FFM_VOYAGE01_CODE + "',");
-                        sb.Append("'" + FCur.NAME + "',");
-                        sb.Append("'" + FCur.DISPLAY_STATUS + "')");
+                        sb.Append("'"+dtstr1 +"',");
+                        sb.Append("'"+FCur.FFM_VESSEL_CODE+"',");
+                        sb.Append("'"+FCur.CMPYCODE+"',");
+                        sb.Append("'"+FCur.FFM_VOYAGE01_CODE+"',");
+                        sb.Append("'"+FCur.NAME+"',");
+                        sb.Append("'"+FCur.DISPLAY_STATUS+"')");
                         i = _EzBusinessHelper.ExecuteNonQuery("insert into FFM_VOYAGE01(created_by,created_On,UPdated_By,Updated_ON,FFM_VESSEL_CODE,CMPYCODE,FFM_VOYAGE01_CODE,NAME,Display_Status) values(" + sb.ToString() + "");
                         FCur.SaveFlag = true;
                         FCur.ErrorMessage = string.Empty;
@@ -265,7 +265,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             foreach (DataRow dr in dt.Rows)
             {
                 data.CMPYCODE = dr["Cmpycode"].ToString();
-                data.FFM_VESSEL_CODE = dr["FFM_VESSEL_CODE"].ToString();
+                data.FFM_VESSEL_CODE = dr["FFM_VESSEL_CODE"].ToString().Trim();
                 data.FFM_VOYAGE01_CODE = dr["FFM_VOYAGE01_CODE"].ToString();
                 data.NAME = dr["NAME"].ToString();
                 data.DISPLAY_STATUS = dr["DISPLAY_STATUS"].ToString();
@@ -283,7 +283,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
 
         public List<FFM_VOYAGEA> GetVayogeDetailList(string CmpyCode, string VyogCode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("select * from FFM_VOYAGE02 where cmpycode='" + CmpyCode + "' and FFM_VOYAGE01_CODE='" + VyogCode + "' and Flag=0");
+            ds = _EzBusinessHelper.ExecuteDataSet("select * from FFM_VOYAGE02 where cmpycode='" + CmpyCode + "' and FFM_VOYAGE01_CODE='" + VyogCode + "' and Flag=0 order by sno");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FFM_VOYAGEA> ObjList = new List<FFM_VOYAGEA>();
