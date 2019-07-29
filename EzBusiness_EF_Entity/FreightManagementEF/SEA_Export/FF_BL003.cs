@@ -24,6 +24,8 @@ public string unit_type { get; set; }
 public string inside_Unit { get; set; }
         public Decimal Volume { get; set; }
         public Decimal Dime_weight { get; set; }
-       
+
+        public string BRANCH_CODE { get; set; }
+
     }
 }

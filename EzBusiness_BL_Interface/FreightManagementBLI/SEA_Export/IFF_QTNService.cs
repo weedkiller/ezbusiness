@@ -20,10 +20,10 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 
         FF_QTN_VM GetFF_QuotCopy(string CmpyCode, string FF_QTN001_CODE, string BranchCode);
 
-        List<FF_QTN002New> GetFF_QTN002DetailList(string CmpyCode, string FF_QTN001_CODE);
-        List<FF_QTN003New> GetFF_QTN003DetailList(string CmpyCode, string FF_QTN001_CODE);
-        List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE);
-        List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE);
+        List<FF_QTN002New> GetFF_QTN002DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE);
+        List<FF_QTN003New> GetFF_QTN003DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE);
+        List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE);
+        List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE);
         List<SelectListItem> GetMoveCode(string CmpyCode, string Prefix);
 
         List<SelectListItem> GetCommodityistList(string CmpyCode, string Prefix);
@@ -48,7 +48,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 
 
         List<SelectListItem> GetUnitcode(string CmpyCode, string Prefix);
-        bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName);
+        bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string BRANCH_CODE);
         string Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode,string Tablename);
         decimal GetCurRate(string CmpyCode, string CurCode);
 

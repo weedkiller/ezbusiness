@@ -131,7 +131,7 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
             {
                 //Currency_codeList = GetFNMCURRENCY(),
                 //SUBLEDGER_TYPEList= GetFNMCAT(Cmpycode, type1),
-                FNM_SL1001_CODE=_CodeRep.GetCode(Cmpycode, "FFCUST"),
+               // FNM_SL1001_CODE=_CodeRep.GetCode(Cmpycode, "FFCUST"),
                 EditFlag = false
             };
         }

@@ -1,89 +1,42 @@
-﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FF_BOK_VM
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FNINV001_VM
 
 @{
-    ViewBag.Title = "Booking";
+    ViewBag.Title = "INVOICE";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <script src="~/Scripts/EzComNDW.js"></script>
 
 <script>
-    $(function () {                  
-        EzAuthentication("/BOOKING");
+    $(function () {
+        EzAuthentication("/INVOICE");
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
         function GetDrs() {
-            $.get("/FF_BOK/GetFF_BOK002DetailList", function (response) {
+            $.get("/FNINV001/GetINVOICEDetailList", function (response) {
                 $("#DRListContainer").html(response);
             });
         }
-
-        $("#btnApprove").click(function () {
-            debugger;
-            $.getJSON("/Aprrove_BOK", { FF_BOK001_CODE: $("[name*='FF_BOK001_CODE']").val(), Typ: 'A' }).done(function (data) {
-                debugger
-                EzAlerterrtxt(data.StatusFlag);
-            });
-        });
-
-        $("#btnReject").click(function () {
-            $.getJSON("/Aprrove_BOK", { FF_BOK001_CODE: $("[name*='FF_BOK001_CODE']").val(), Typ: 'R' }).done(function (data) {
-                debugger
-                EzAlerterrtxt(data.StatusFlag);
-            });
-        });
-
         $("#btnNew").click(function () {
-            var n = EzAuthenticationBtn("/BOOKING", "NewIt");
-            debugger
+            var n = EzAuthenticationBtn("/INVOICE", "NewIt");
             if (n == 1) {
-                var trf=$("#tranferFrom option:selected").val();
-                var QTN001_CODE = $("#NFF_BOK001_CODE option:selected").val();
-                var BILL_ToEmp = $("#BILL_TOEMP option:selected").val();
-                if (trf == '0') {
-                    EzAlerterrtxt('Select Transfer');
-                } else if (trf == 'QUOT') {
-                    if (BILL_ToEmp == '0') {
-                        EzAlerterrtxt('Select Customer Code');
-                    }
-                    else {
-                        if (QTN001_CODE == '0') {
-                            EzAlerterrtxt('Select Quotation Code');
-                        } else {
-                            $("#editshow").hide();
-                            $(this).css("visibility", "hidden");
-                            EzbtnNewAcVis();
-                            $("#btnEdit").prop("disabled", true);
-                            $("#btnTrigger").css("visibility", "hidden");
-
-                            $("#DRListContainer1").hide();
-                            $.get("QuotFF_BOKDetails", { FF_BOK001_CODE1: QTN001_CODE }).done(function (response) {
-                                $("#DRContainer").html(response);
-                            });
-                        }
-                    }
-                } else {
-                    //$('#myModal').modal('show');
-                    $("#editshow").hide();
-                    $.get("AddFF_BOKDetails", function (response) {
-                        $("#DRContainer").html(response);
-                    });
-                    $(this).css("visibility", "hidden");
-                    $("#btnTrigger").css("visibility", "hidden");
-                    EzbtnNewAcVis();
-                    $("#btnEdit").prop("disabled", true);
-                    $("#DRListContainer1").hide();
-                }
+                $("#editshow").hide();
+                $.get("AddINVOICEDetails", function (response) {
+                    $("#DRContainer").html(response);
+                });
+                $(this).css("visibility", "hidden");
+                EzbtnNewAcVis();
+                $("#btnEdit").prop("disabled", true);
+                $("#DRListContainer1").hide();
             }
         });
         $(".alert-close").click(function () {
             $("#editshow").hide();
         });
         $("#btnEdit").click(function () {
-            var n = EzAuthenticationBtn("/BOOKING", "ViewIt");
+            var n = EzAuthenticationBtn("/INVOICE", "ViewIt");
             if (n == 1) {
-                debugger;
                 $(this).css("visibility", "hidden");
-                $("#btnTrigger").css("visibility", "hidden");
                 EzbtnEditAcVis();
                 $("#DRListContainer1").show();
                 GetDrs();
@@ -92,16 +45,14 @@
         });
 
         $("#btnCancel").click(function () {
-            //$('.selectpicker').selectpicker('refresh');
-            //$("#DRContainer").html(drHtml);
-            //EzbtnCancelAcVis();
-            //$("#DRListContainer1").hide();
-            //$("#editshow").hide();
-            window.location = '/BOOKING';
+            $("#DRContainer").html(drHtml);
+            EzbtnCancelAcVis();
+            $("#DRListContainer1").hide();
+            $("#editshow").hide();
         });
 
         $("#btnDelete").click(function () {
-            var n = EzAuthenticationBtn("/BOOKING", "DeleteIt");
+            var n = EzAuthenticationBtn("/INVOICE", "DeleteIt");
             if (n == 1) {
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
@@ -119,14 +70,14 @@
                 }).then((result) => {
                     if (result.value) {
 
-                        var FF_BOK001_CODE = $("[name='FF_BOK001_CODE']").val();
+                        var FNINV001_CODE = $("[name*='FNINV001_CODE']").val();
 
-                        $.getJSON("/DeleteBOK", { FF_BOK001_CODE: FF_BOK001_CODE }).done(function (data) {
+                        $.getJSON("/DeleteINVOICE", { FNINV001_CODE: FNINV001_CODE }).done(function (data) {
                             debugger
                             if (data.DeleteFlag) {
-                                window.location = '/BOOKING'
+                                window.location = '/INVOICE'
                             } else {
-                                EzAlertdele(FF_BOK001_CODE);
+                                EzAlertdele(FF_QTN001_CODE);
                             }
                         });
                         swalWithBootstrapButtons.fire(
@@ -149,62 +100,78 @@
                 $("#editshow").hide();
             }
         });
+
+
+        //$("#btnApprove").click(function () {
+        //    debugger;
+        //    $.getJSON("/Aprrove_QTN", { FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(), Typ: 'A' }).done(function (data) {
+        //        debugger
+        //        EzAlerterrtxt(data.StatusFlag);
+        //                    });
+        //});
+
+        //$("#btnReject").click(function () {
+        //    $.getJSON("/Aprrove_QTN", { FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(), Typ: 'R' }).done(function (data) {
+        //        debugger
+        //        EzAlerterrtxt(data.StatusFlag);
+        //    });
+        //});
+
         $("#btnSave").click(function () {
             debugger
-            var n = EzAuthenticationBtn("/BOOKING", "EditIt");
+            var n = EzAuthenticationBtn("/INVOICE", "EditIt");
             var k = 0;
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
 
             if (opMode == "Add") {
                 // Code for Adding MainTable
-                var FBV = {
+                var FQV = {
                     EditFlag: false,
-                    FF_BOK001_CODE: $("[name='FF_BOK001_CODE']").val(),
-                    FF_BOK001_DATE: Ezsetdtpkdate($("[name*='FF_BOK001_DATE']").val()),
                     FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
-                    BILL_TO: $("[name*='hdnBILL_TO']").val(),
-                    SHIPPER: $("[name*='SHIPPER']").val(),
-                    CONSIGNEE: $("[name*='hdnCONSIGNEE']").val(),
-                    FORWARDER: $("[name*='hdnFORWARDER']").val(),
+                    CUST_CODE: $("[name*='hdnCUST_CODE']").val(),
+                    CONTACT: $("[name*='CONTACT']").val(),
+                    TELEPHONE: $("[name*='TELEPHONE']").val(),
+                    EMAIL: $("[name*='EMAIL']").val(),
+                    CUSTOMER_REF: $("[name*='CUSTOMER_REF']").val(),
                     PICKUP_PLACE: $("[name*='PICKUP_PLACE']").val(),
                     POL: $("[name*='hdnPOL']").val(),
                     POD: $("[name*='hdnPOD']").val(),
                     FND: $("[name*='hdnFND']").val(),
-                    PLACE_OF_RCPT: $("[name*='hdnPLACE_OF_RCPT']").val(),
                     MOVE_TYPE: $("[name*='hdnMOVE_TYPE']").val(),
-                    DELIVERY_AT: $("[name*='DELIVERY_AT']").val(),
                     REF_NO: $("[name*='REF_NO']").val(),
                     VESSEL: $("[name*='hdnVESSEL']").val(),
                     VOYAGE: $("[name*='hdnVOYAGE']").val(),
-                    JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
-                    ETD: Ezsetdtpkdate($("[name*='ETD']").val()),
-                    ETA: Ezsetdtpkdate($("[name*='ETA']").val()),
+                    //JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
                     CARRIER: $("[name*='hdnCARRIER']").val(),
+                    EFFECT_FROM: Ezsetdtpkdate($("[name*='EFFECT_FROM1']").val()),
+                    EFFECT_UPTO: Ezsetdtpkdate($("[name*='EFFECT_UPTO1']").val()),
                     DEPARTMENT: $("[name*='hdnDEPARTMENT']").val(),
                     Total_Cost: $("[name*='Total_Cost']").val(),
                     Total_Billed: $("[name*='Total_Billed']").val(),
                     Total_Profit: $("[name*='Total_Profit']").val(),
+                    PZIP: $("[name*='PZIP']").val(),
+                    PSTATE: $("[name*='PSTATE']").val(),
+                    FDZIP: $("[name*='FDZIP']").val(),
+                    FDSTATE: $("[name*='FDSTATE']").val(),
                     Commodity_code: $("[name*='hdnCommodity_code']").val(),
                     FNMBRANCH_CODE: $("[name*='FNMBRANCH_CODE']").val(),
-                    TRANS_TYPE: 'EXP',
-                    tranferFrom: $("[name*='tranferFrom']").val(),
                     AGENT: $("[name*='hdnAGENT']").val(),
                     DG: $("[name*='hdnDG']").val(),
                     Salesman: $("[name*='hdnSalesman']").val(),
                     notifypart1: $("[name*='hdnnotifypart1']").val(),
                     notifypart2: $("[name*='hdnnotifypart2']").val(),
                     JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
-                    FF_BOK002Detail: [],
-                    FF_BOK003Detail: [],
-                    FF_BOK004Detail: [],
-                    FF_BOK005Detail: [],
+                    FF_QTN002Detail: [],
+                    FF_QTN003Detail: [],
+                    FF_QTN004Detail: [],
+                    FF_QTN005Detail: [],
                 };
                 $("#tablePODetails2 tbody tr").each(function (index, item) {
                     var sno = $(this).find("[name*='txtsno']").val();
                     var Container = $(this).find("[name*='txtContainer']").val();
                     var Cont_Type = $(this).find("[name*='txtCont_Type']").val();
-                    var Commodity_code = $(this).find("[name*='txtCommodity_code']").val();                    
+                    var Commodity_code = $(this).find("[name*='txtCommodity_code']").val();
                     var Seal1 = $(this).find("[name*='txtSeal1']").val();
                     var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
                     var Contents = $(this).find("[name*='txtContents']").val();
@@ -215,7 +182,7 @@
 
                     if (Container != "" && Cont_Type!='') {
 
-                        var FF_BOK002Details = {
+                        var FF_QTN002Details = {
                             sno:sno,
                             Container:Container,
                             Cont_Type:Cont_Type,
@@ -228,7 +195,7 @@
                             CBM: CBM,
                             Commodity_code: Commodity_code
                         };
-                        FBV.FF_BOK002Detail.push(FF_BOK002Details);
+                        FQV.FF_QTN002Detail.push(FF_QTN002Details);
                     }
                 });
 
@@ -245,7 +212,7 @@
                     var Dime_weight = $(this).find("[name*='txtDime_weight']").val();
 
                     if (Pkg_No != "" && No_of_qty != '') {
-                        var FF_BOK003Details = {
+                        var FF_QTN003Details = {
                             Sno: sno,
                             Pkg_No:Pkg_No,
                         No_of_qty:No_of_qty,
@@ -257,7 +224,7 @@
                         Volume:Volume,
                         Dime_weight:Dime_weight,
                         };
-                        FBV.FF_BOK003Detail.push(FF_BOK003Details);
+                        FQV.FF_QTN003Detail.push(FF_QTN003Details);
                     }
                 });
 
@@ -266,11 +233,11 @@
                     var CLAUSE_CODE = $(this).find("[name*='txtCLAUSE_CODE']").val();
                     var CLAUSE_NAME = $(this).find("[name*='txtCLAUSE_NAME']").val();
                     if (CLAUSE_CODE != "" && CLAUSE_NAME != '') {
-                        var FF_BOK004Details = {
-                            CLUASE_CODE: CLAUSE_CODE,
-                            CLUASE_NAME: CLAUSE_NAME
+                        var FF_QTN004Details = {
+                            CLAUSE_CODE:CLAUSE_CODE,
+                            CLAUSE_NAME:CLAUSE_NAME
                         };
-                        FBV.FF_BOK004Detail.push(FF_BOK004Details);
+                        FQV.FF_QTN004Detail.push(FF_QTN004Details);
                     }
                 });
 
@@ -294,8 +261,8 @@
                     //var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
                     var Cust_Net_Amt = $(this).find("[name*='txtCust_Net_Amt']").val();
                     var Cust_Local_amt = $(this).find("[name*='txtCust_Local_amt']").val();
-                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE'] ").val();
-                    var Vend_code = $(this).find("[name*='txtVend_code'] ").val();
+                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']").val();
+                    var Vend_code = $(this).find("[name*='txtVend_code']").val();
                     var Vend_name = $(this).find("[name*='txtVend_name']").val();
                     var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
                     var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']").val();
@@ -307,13 +274,12 @@
                     var Vend_Local_amt = $(this).find("[name*='txtVend_Local_amt']").val();
 
                     if (Crg_code != "" && Crg_name != '') {
-                        var FF_BOK005Details = {
+                        var FF_QTN005Details = {
                             Sno:Sno,
                             Crg_code:Crg_code,
                             Crg_name:Crg_name,
                             Income_GL_Code:Income_GL_Code,
-                            Expense_GL_Code: Expense_GL_Code,
-                            No_of_Qty: No_of_qty,
+                            Expense_GL_Code:Expense_GL_Code,
                             Unit_Code:Unit_Code,
                             Cust_code:Cust_code,
                             Cust_name:Cust_name,
@@ -323,8 +289,8 @@
                             Cust_Rate:Cust_Rate,
                             Cust_Total_amt:Cust_Total_amt,
                            // Cust_Var_Amt:Cust_Var_Amt,
-                            Cust_Net_Amt: parseInt(Cust_Total_amt) + 0,
-                            Cust_Local_amt: parseInt(Cust_Local_amt) * parseInt(Cust_Curr_Rate),
+                            Cust_Net_Amt:Cust_Net_Amt,
+                            Cust_Local_amt:Cust_Local_amt,
                             PAY_MODE:PAY_MODE,
                             Vend_code:Vend_code,
                             Vend_name:Vend_name,
@@ -334,24 +300,23 @@
                             Vend_Rate:Vend_Rate,
                             Vend_Total_amt:Vend_Total_amt,
                          //   VendVar_Amt:VendVar_Amt,
-                            Vend_Net_Amt:parseInt(Vend_Total_amt)+0,
-                            Vend_Local_amt: parseInt(Vend_Net_Amt) * parseInt(Vend_Curr_Rate)
+                            Vend_Net_Amt:Vend_Net_Amt,
+                            Vend_Local_amt:Vend_Local_amt
                         };
-                        FBV.FF_BOK005Detail.push(FF_BOK005Details);
+                        FQV.FF_QTN005Detail.push(FF_QTN005Details);
                     }
                 });
 
-                var validationResult = ValidateForm(FBV);
+                var validationResult = ValidateForm(FQV);
                 if (validationResult.formValid) {
 
-                    $.post("/SaveFFM_BOK", FBV).done(function (response) {
+                    $.post("/SaveFFM_Quotation", FQV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
 
-
-                            EzbtnsaveAcVis("#DRContainer");
                             EzAlertSave();
                             $("#DRContainer").html(drHtml);
                             GetDrs();
+                            EzbtnsaveAcVis("#DRContainer");
 
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
@@ -365,36 +330,34 @@
                 }
             } else if (opMode == "Edit" && n == 1) {
                 // Code for Adding Purchase order
-                var FBV = {
+                var FQV = {
                     EditFlag: true,
-                    FF_BOK001_CODE: $("[name='FF_BOK001_CODE']").val(),
-                    FF_BOK001_DATE: Ezsetdtpkdate($("[name*='FF_BOK001_DATE1']").val()),
                     FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
-                    BILL_TO: $("[name*='hdnBILL_TO']").val(),
-                    SHIPPER: $("[name*='SHIPPER']").val(),
-                    CONSIGNEE: $("[name*='hdnCONSIGNEE']").val(),
-                    FORWARDER: $("[name*='hdnFORWARDER']").val(),
+                    CUST_CODE: $("[name*='hdnCUST_CODE']").val(),
+                    CONTACT: $("[name*='CONTACT']").val(),
+                    TELEPHONE: $("[name*='TELEPHONE']").val(),
+                    EMAIL: $("[name*='EMAIL']").val(),
+                    CUSTOMER_REF: $("[name*='CUSTOMER_REF']").val(),
                     PICKUP_PLACE: $("[name*='PICKUP_PLACE']").val(),
                     POL: $("[name*='hdnPOL']").val(),
                     POD: $("[name*='hdnPOD']").val(),
                     FND: $("[name*='hdnFND']").val(),
-                    PLACE_OF_RCPT: $("[name*='hdnPLACE_OF_RCPT']").val(),
                     MOVE_TYPE: $("[name*='hdnMOVE_TYPE']").val(),
-                    DELIVERY_AT: $("[name*='DELIVERY_AT']").val(),
                     REF_NO: $("[name*='REF_NO']").val(),
                     VESSEL: $("[name*='hdnVESSEL']").val(),
                     VOYAGE: $("[name*='hdnVOYAGE']").val(),
-                    JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
-                    ETD: Ezsetdtpkdate($("[name*='ETD']").val()),
-                    ETA: Ezsetdtpkdate($("[name*='ETA']").val()),
                     CARRIER: $("[name*='hdnCARRIER']").val(),
+                    EFFECT_FROM: Ezsetdtpkdate($("[name*='EFFECT_FROM1']").val()),
+                    EFFECT_UPTO: Ezsetdtpkdate($("[name*='EFFECT_UPTO1']").val()),
                     DEPARTMENT: $("[name*='hdnDEPARTMENT']").val(),
                     Total_Cost: $("[name*='Total_Cost']").val(),
                     Total_Billed: $("[name*='Total_Billed']").val(),
                     Total_Profit: $("[name*='Total_Profit']").val(),
+                    PZIP: $("[name*='PZIP']").val(),
+                    PSTATE: $("[name*='PSTATE']").val(),
+                    FDZIP: $("[name*='FDZIP']").val(),
+                    FDSTATE: $("[name*='FDSTATE']").val(),
                     Commodity_code: $("[name*='hdnCommodity_code']").val(),
-                    TRANS_TYPE: 'EXP',
-                    tranferFrom: $("[name*='tranferFrom']").val(),
                     FNMBRANCH_CODE: $("[name*='FNMBRANCH_CODE']").val(),
                     AGENT: $("[name*='hdnAGENT']").val(),
                     DG: $("[name*='hdnDG']").val(),
@@ -402,15 +365,15 @@
                     notifypart1: $("[name*='hdnnotifypart1']").val(),
                     notifypart2: $("[name*='hdnnotifypart2']").val(),
                     JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
-                    FF_BOK002Detail: [],
-                    FF_BOK003Detail: [],
-                    FF_BOK004Detail: [],
-                    FF_BOK005Detail: [],
+                    FF_QTN002Detail: [],
+                    FF_QTN003Detail: [],
+                    FF_QTN004Detail: [],
+                    FF_QTN005Detail: [],
                 };
                 $("#tablePODetails2 tbody tr").each(function (index, item) {
                     var sno = $(this).find("[name*='txtsno']").val();
                     var Container = $(this).find("[name*='txtContainer']").val();
-                    var Cont_Type = $(this).find("[name*='txtCont_Type'] ").val();
+                    var Cont_Type = $(this).find("[name*='txtCont_Type']").val();
                     var Commodity_code = $(this).find("[name*='txtCommodity_code']").val();
                     var Seal1 = $(this).find("[name*='txtSeal1']").val();
                     var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
@@ -422,7 +385,7 @@
 
                     if (Container != "" && Cont_Type != '') {
 
-                        var FF_BOK002Details = {
+                        var FF_QTN002Details = {
                             sno: sno,
                             Container: Container,
                             Cont_Type: Cont_Type,
@@ -435,7 +398,7 @@
                             CBM: CBM,
                             Commodity_code: Commodity_code
                         };
-                        FBV.FF_BOK002Detail.push(FF_BOK002Details);
+                        FQV.FF_QTN002Detail.push(FF_QTN002Details);
                     }
                 });
                 $("#tablePODetails3 tbody tr").each(function (index, item) {
@@ -451,7 +414,7 @@
                     var Dime_weight = $(this).find("[name*='txtDime_weight']").val();
 
                     if (Pkg_No != "" && No_of_qty != '') {
-                        var FF_BOK003Details = {
+                        var FF_QTN003Details = {
                             Sno: sno,
                             Pkg_No: Pkg_No,
                             No_of_qty: No_of_qty,
@@ -463,32 +426,33 @@
                             Volume: Volume,
                             Dime_weight: Dime_weight,
                         };
-                        FBV.FF_BOK003Detail.push(FF_BOK003Details);
+                        FQV.FF_QTN003Detail.push(FF_QTN003Details);
                     }
                 });
                 $("#tablePODetails4 tbody tr").each(function (index, item) {
+                    debugger
                     var CLAUSE_CODE = $(this).find("[name*='txtCLAUSE_CODE']").val();
                     var CLAUSE_NAME = $(this).find("[name*='txtCLAUSE_NAME']").val();
                     if (CLAUSE_CODE != "" && CLAUSE_NAME != '') {
-                        var FF_BOK004Details = {
-                            CLAUSE_CODE: CLAUSE_CODE,
-                            CLAUSE_NAME: CLAUSE_NAME
+                        var FF_QTN004Details = {
+                            CLUASE_CODE: CLAUSE_CODE,
+                            CLUASE_NAME: CLAUSE_NAME
                         };
-                        FBV.FF_BOK004Detail.push(FF_BOK004Details);
+                        FQV.FF_QTN004Detail.push(FF_QTN004Details);
                     }
                 });
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
                     var Sno = $(this).find("[name*='txtsno']").val();
                     var Crg_code = $(this).find("[name*='txtCrg_code']").val();
                     var Crg_name = $(this).find("[name*='txtCrg_name']").val();
-                    var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
-                    var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
+                    //var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
+                    //var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
                     var Unit_Code = $(this).find("[name*='txtUnit_code']").val();
                     var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
 
                     var Cust_code = $(this).find("[name*='txtCust_code']").val();
                     var Cust_name = $(this).find("[name*='txtCust_name']").val();
-                     var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
+                    // var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
                     var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']").val();
                     var Cust_Curr_Rate = $(this).find("[name*='txtCust_Curr_Rate']").val();
                     var Cust_Rate = $(this).find("[name*='txtCust_Rate']").val();
@@ -496,10 +460,10 @@
                     //var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
                     var Cust_Net_Amt = $(this).find("[name*='txtCust_Net_Amt']").val();
                     var Cust_Local_amt = $(this).find("[name*='txtCust_Local_amt']").val();
-                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE'] ").val();
+                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']").val();
                     var Vend_code = $(this).find("[name*='txtVend_code']").val();
                     var Vend_name = $(this).find("[name*='txtVend_name']").val();
-                    var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
+                    ///var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
                     var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']").val();
                     var Vend_Curr_Rate = $(this).find("[name*='txtVend_Curr_Rate']").val();
                     var Vend_Rate = $(this).find("[name*='txtVend_Rate']").val();
@@ -509,43 +473,43 @@
                     var Vend_Local_amt = $(this).find("[name*='txtVend_Local_amt']").val();
 
                     if (Crg_code != "" && Crg_name != '') {
-                        var FF_BOK005Details = {
+                        var FF_QTN005Details = {
                             Sno: Sno,
                             Crg_code: Crg_code,
                             Crg_name: Crg_name,
-                            Income_GL_Code: Income_GL_Code,
-                            Expense_GL_Code: Expense_GL_Code,
-                            No_of_Qty: No_of_qty,
+                            //Income_GL_Code: Income_GL_Code,
+                            //Expense_GL_Code: Expense_GL_Code,
                             Unit_Code: Unit_Code,
                             Cust_code: Cust_code,
                             Cust_name: Cust_name,
-                            Cust_Ctrl_Act: Cust_Ctrl_Act,
+                            //Cust_Ctrl_Act: Cust_Ctrl_Act,
                             Cust_Curr_Code: Cust_Curr_Code,
                             Cust_Curr_Rate: Cust_Curr_Rate,
                             Cust_Rate: Cust_Rate,
                             Cust_Total_amt: Cust_Total_amt,
                           //  Cust_Var_Amt: Cust_Var_Amt,
-                            Cust_Net_Amt: parseInt(Cust_Total_amt) + 0,
-                            Cust_Local_amt: parseInt(Cust_Local_amt) * parseInt(Cust_Curr_Rate),
+                            Cust_Net_Amt: Cust_Net_Amt,
+                            Cust_Local_amt: Cust_Local_amt,
                             PAY_MODE: PAY_MODE,
                             Vend_code: Vend_code,
                             Vend_name: Vend_name,
-                            Vend_Ctrl_Act: Vend_Ctrl_Act,
+                          //  Vend_Ctrl_Act: Vend_Ctrl_Act,
                             Vend_Curr_Code: Vend_Curr_Code,
                             Vend_Curr_Rate: Vend_Curr_Rate,
                             Vend_Rate: Vend_Rate,
                             Vend_Total_amt: Vend_Total_amt,
                            // VendVar_Amt: VendVar_Amt,
-                            Vend_Net_Amt: parseInt(Vend_Total_amt)+0,
-                            Vend_Local_amt: parseInt(Vend_Net_Amt) * parseInt(Vend_Curr_Rate)
+                            Vend_Net_Amt: Vend_Net_Amt,
+                            Vend_Local_amt: Vend_Local_amt
                         };
-                        FBV.FF_BOK005Detail.push(FF_BOK005Details);
+                        FQV.FF_QTN005Detail.push(FF_QTN005Details);
                     }
                 });
 
-                var validationResult = ValidateForm(FBV);
+                var validationResult = ValidateForm(FQV);
                 if (validationResult.formValid) {
-                    $.post("/SaveFFM_BOK", FBV).done(function (response) {
+                    debugger;
+                    $.post("/SaveFFM_Quotation", FQV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
                             EzAlertSave();
                             EzbtnsaveAcVis("#DRContainer");
@@ -563,51 +527,51 @@
 
         });
 
-        function ValidateForm(FBV) {
+        function ValidateForm(FQV) {
 
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
 
-            if (FBV.EditFlag == false) {
-                if (FBV.FF_BOK001_CODE == '') {
+            if (FQV.EditFlag == false) {
+                if (FQV.FF_QTN001_CODE == '') {
                     response.ErrorMessage += " CODE ,";
                 }
-            } else if (FBV.EditFlag == true) {
-                if (FBV.FF_BOK001_CODE == '') {
+            } else if (FQV.EditFlag == true) {
+                if (FQV.FF_QTN001_CODE == '') {
                     response.ErrorMessage += "Code ,";
                 }
             }
-            if (FBV.BILL_TO == "0") {
+            if (FQV.CUST_CODE == "0") {
                 response.ErrorMessage += "Customer Code  ,";
             }
-            if (FBV.POL == "0") {
+            if (FQV.POL == "0") {
                 response.ErrorMessage += "Port Of Load  ,";
             }
 
-            if (FBV.POD == "0") {
+            if (FQV.POD == "0") {
                 response.ErrorMessage += "Port Of Dsch  ,";
             }
 
-            if (FBV.FND == "0") {
+            if (FQV.FND == "0") {
                 response.ErrorMessage += "Final Destination  ,";
             }
-            if (FBV.MOVE_TYPE == "0") {
+            if (FQV.MOVE_TYPE == "0") {
                 response.ErrorMessage += "Move Type  ,";
             }
-            if (FBV.VESSEL == "0") {
+            if (FQV.VESSEL == "0") {
                 response.ErrorMessage += "VESSEL  ,";
             }
-            if (FBV.VOYAGE == "0") {
+            if (FQV.VOYAGE == "0") {
                 response.ErrorMessage += "VOYAGE  ,";
             }
 
-            if (FBV.ETD == "") {
-                response.ErrorMessage += "Estimated Time of Departure  ,";
+            if (FQV.EFFECT_UPTO1 == "") {
+                response.ErrorMessage += "EFFECT UPTO  ,";
             }
-            if (FBV.ETA == "") {
-                response.ErrorMessage += "Expected Time of arraivel  ,";
+            if (FQV.EFFECT_FROM1 == "") {
+                response.ErrorMessage += "EFFECT FROM  ,";
             }
 
 
@@ -639,17 +603,16 @@
                 $("#POList > tbody").children().removeClass("active");
                 $(this).addClass("active");
 
-                var FF_BOK001_CODE = $(this).find("[name*='hdnFF_BOK001_CODE']").val();
+                var FF_QTN001_CODE = $(this).find("[name*='hdnFF_QTN001_CODE']").val();
 
 
-                $.get("EditFF_BOKDetails", { FF_BOK001_CODE: FF_BOK001_CODE }).done(function (response) {
+                $.get("EditFF_QTNDetails", { FF_QTN001_CODE: FF_QTN001_CODE }).done(function (response) {
                     $("#DRContainer").html(response);
 
                     //$("#btnDelete").prop("disabled", false);
                     $("#btnDelete").css("visibility", "");
 
                     $("#btnPrint").css("visibility", "hidden");
-                    $("#btnTrigger").css("visibility", "hidden");
                 });
             }
         });
@@ -664,47 +627,6 @@
                 window.open("/AccountTypeReportForm/?code=" + code1 + "", '_blank');
             }
         });
-
-       
-        $('#tranferFrom').change(function () {
-            $('#tranferFrom').selectpicker('refresh');
-            var trf = $("#tranferFrom option:selected").val();
-            if (trf == 'DIRECT') {
-                $('#divcustom').hide();
-                $('#divqtn').hide();
-                $('#FF_BOK001_CODE').val('0').change();
-            } else {
-                $('#divcustom').show();
-            }
-        });
-
-        $('#BILL_TOEMP').change(function () {
-            debugger;
-            $('#BILL_TOEMP').selectpicker('refresh');
-            var customercode = $("#BILL_TOEMP option:selected").val();
-            $('#divqtn').show();
-            $.ajax({
-                async: false,
-                cache: false,
-                type: "POST",
-                data: "{Empcode:'" + customercode + "'}",
-                url: "/FF_BOK/GetBookCustomerData",
-                dataType: 'Json',
-                contentType: "Application/json",
-                success: function (data) {
-                    $('#NFF_BOK001_CODE').empty();
-                    var ary = [];
-                    ary = data;
-                    for (var i = 0; i < ary.length; i++) {
-                        $('#NFF_BOK001_CODE').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                    }
-                    $('#NFF_BOK001_CODE').val(0);
-                    $('.selectpicker').selectpicker('refresh');
-                }
-            });
-            // }
-        });
-
     });
 </script>
 
@@ -721,7 +643,7 @@
 
     .fluid.row-fluid {
         margin-right: 100px;
-        -weBOKit-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
     }
@@ -748,18 +670,15 @@
     <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
 
         <div class="title-action">
-            <button type="button" class="btn btn-primary btn-lg" id="btnTrigger" data-toggle="modal" data-target="#myModal">
-                New
-            </button>
-
-
-            @*<button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>*@
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
 
             <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
             <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
             <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
             <button class="btn btn-info btn1" id="btnPrint" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
+            <button class="btn btn-info btn1" id="btnCopy" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Copy</button>
+
             <button class="btn btn-info btn1" id="btnApprove" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Approve</button>
 
             <button class="btn btn-danger btn1" id="btnReject" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Reject</button>
@@ -773,58 +692,7 @@
 <!-- Row end -->
 <!-- Row start -->
 <div class="row">
-    @{
-        var TypeListdata1 = new SelectList(new[]
-        {
-            new SelectListItem { Text = "-Select-", Value = "-1" },
-            }, "Value", "Text");
-    }
     <!--updated code-->
-    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Tranfer From</h4>
-                </div>
-                <div class="modal-body">                   
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-xs-3 col-md-3">Tranfer From</label>
-                                <div class="col-xs-7 col-md-8 input-field">
-                                    @Html.DropDownListFor(m => m.tranferFrom, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" }, new SelectListItem { Text = "DIRECT", Value = "DIRECT" }, new SelectListItem { Text = "Quotation", Value = "QUOT" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6" id="divcustom" style="display:none;">
-                            <div class="form-group">
-                                <label class="control-label col-xs-3 col-md-3">Customer List</label>
-                                <div class="col-xs-7 col-md-8 input-field">
-                                    @*@Html.TextBoxFor(m => m.BILL_TOEMP, new { @class = "form-control", @placeholder = "Select VESSEL" })
-                    <input id="hdnBILL_TOEMP" type="hidden" class="form-control" name="hdnBILL_TOEMP" value="-1" />*@
-                                    @Html.DropDownListFor(m => m.BILL_TOEMP, Model.GetCustomerList, new { @class = "form-control selectpicker", @data_live_search = "true" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6" id="divqtn" style="display:none;">
-                            <div class="form-group">
-                                <label class="control-label col-xs-3 col-md-3">QTN Code<i class="star">*</i></label>
-                                <div class="col-xs-7 col-md-8 input-field">
-                                   @Html.DropDownListFor(m => m.NFF_BOK001_CODE, Model.GetBOKCODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <div class="modal-footer">
-                    
-                    <button class="btn btn-primary btn1 newbtn" id="btnNew" data-dismiss="modal"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Next</button>
-                   
-                </div>
-                    </div>
-            </div>
-        </div>
-    </div>
 
     <div class="col-md-12 no-padding navbar-expand-lg">
         <div class="panel panel-primary panl">
@@ -843,7 +711,7 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @Html.Action("GetFF_BOK002DetailList", "FF_BOK")
+                                                @*@Html.Action("GetFF_QTN002DetailList", "FFM_Quotation")*@
                                             </div>
 
                                         </div>
@@ -867,4 +735,32 @@
 
 
 </div>
+
+
+
+<div class="modal" id="NewModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">New Modal Heading</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                This is Dummy Text.This is Dummy Text.This is Dummy Text.This is Dummy Text.This is Dummy Text
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 

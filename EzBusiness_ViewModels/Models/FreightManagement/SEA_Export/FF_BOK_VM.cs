@@ -132,6 +132,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal CBM { get; set; }
         public string Commodity_code { get; set; }
 
+        public string BRANCH_CODE { get; set; }
+
         public List<SelectListItem> ConTypList1 { get; set; }
         public List<SelectListItem> Commodityist1 { get; set; }
     }
@@ -147,12 +149,18 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public string inside_Unit { get; set; }
         public Decimal Volume { get; set; }
         public Decimal Dime_weight { get; set; }
+
+        public string BRANCH_CODE { get; set; }
     }
     public class FF_BOK004New
     {
         public string CLUASE_CODE { get; set; }
         public string CLUASE_NAME { get; set; }
         public List<SelectListItem> CLAUSEList4 { get; set; }
+
+        public string BRANCH_CODE { get; set; }
+
+        public int sno { get; set; }
     }
     public class FF_BOK005New
     {
@@ -184,6 +192,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal Vend_Net_Amt { get; set; }
         public Decimal Vend_Local_amt { get; set; }
         public Decimal No_of_qty { get; set; }
+
+        public string BRANCH_CODE { get; set; }
 
         public List<SelectListItem> VendorList5 { get; set; }
         public List<SelectListItem> CVendorList5 { get; set; }

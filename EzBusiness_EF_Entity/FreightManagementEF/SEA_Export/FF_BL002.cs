@@ -29,5 +29,7 @@ public string FF_BL001_CODE { get; set; }
         public Decimal Volume { get; set; }
         public Decimal GrossWeight { get; set; }
 
+        public string BRANCH_CODE { get; set; }
+
     }
 }
