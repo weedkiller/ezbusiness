@@ -809,12 +809,17 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-
+                        @{
+                            var TypeListdata1 = new SelectList(new[]
+                            {
+            new SelectListItem { Text = "-Select-", Value = "-1" },
+            }, "Value", "Text");
+                        }
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label col-xs-3 col-md-3">Tranfer From</label>
                                 <div class="col-xs-7 col-md-8 input-field">
-                                    @Html.DropDownListFor(m => m.tranferFrom, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" }, new SelectListItem { Text = "DIRECT", Value = "DIRECT" }, new SelectListItem { Text = "Quotation", Value = "QUOT" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                    @Html.DropDownListFor(m => m.tranferFrom, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" }, new SelectListItem { Text = "DIRECT", Value = "DIRECT" }, new SelectListItem { Text = "BOOKING", Value = "QUOT" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                 </div>
                             </div>
                         </div>
@@ -832,7 +837,7 @@
                             <div class="form-group">
                                 <label class="control-label col-xs-3 col-md-3">Booking<i class="star">*</i></label>
                                 <div class="col-xs-7 col-md-8 input-field">
-                                    @Html.DropDownListFor(m => m.NFF_BOK001_CODE, Model.GetBOKCODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                    @Html.DropDownListFor(m => m.NFF_BOK001_CODE, TypeListdata1, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                 </div>
                             </div>
                         </div>

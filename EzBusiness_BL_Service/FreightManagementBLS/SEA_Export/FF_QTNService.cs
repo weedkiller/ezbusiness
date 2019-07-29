@@ -204,7 +204,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 //PortList=GetPortList(Cmpycode),
                 ////ConTypList=GetContTyp(Cmpycode),
                 ////Commodityist= GetCommodityistList(Cmpycode),
-                FF_QTN001_CODE = _CodeRep.GetCode(Cmpycode, "SupplierQuotation"),
+                //FF_QTN001_CODE = _CodeRep.GetCode(Cmpycode, "SupplierQuotation"),
+
+                FF_QTN001_CODE = _CodeRep.GetCodeNew(Cmpycode, branchcode, "FF_QTN001"),
                 FNMBRANCH_CODE = branchcode,
                 EditFlag = false
             };
@@ -355,8 +357,10 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.FF_QTN005Detail = GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE, BranchCode);
 
             poEdit.FNMBRANCH_CODE = BranchCode;
-            
-            poEdit.FF_QTN001_CODEN =  _CodeRep.GetCode(CmpyCode, "SupplierQuotation");
+
+            //poEdit.FF_QTN001_CODEN =  _CodeRep.GetCode(CmpyCode, "SupplierQuotation");
+
+            poEdit.FF_QTN001_CODEN =  _CodeRep.GetCodeNew(CmpyCode, BranchCode, "FF_QTN001");
             // poEdit.PortList1 = GetPortListEdit(CmpyCode,poEdit.POL);
             // poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
             // poEdit.PortList3 = GetPortListEdit(CmpyCode,poEdit.FND);

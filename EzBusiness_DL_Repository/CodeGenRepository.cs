@@ -45,6 +45,20 @@ namespace EzBusiness_DL_Repository
             return GetCode;
         }
 
+
+
+        public string GetCodeNew(string Cmpycode, string BranchCode,string tableName)
+        {
+            SqlParameter[] param1 = {
+                        new SqlParameter("@Cmpycode",Cmpycode),
+                        new SqlParameter("@BranchCode",BranchCode),
+                         new SqlParameter("@tableName",tableName)
+                       };
+            string GetCode = _EzBusinessHelper.ExecuteScalarS("Generate_Code", param1);
+            return GetCode;
+        }
+
+
         public string GetCountry(string Cmpycode, string Empcode)
         {
             return _EzBusinessHelper.ExecuteScalarS("select Nationality from MEM001 where EmpCode='"+ Empcode +"' and Flag =0 and Cmpycode='" + Cmpycode + "' ");

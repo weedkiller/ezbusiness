@@ -544,9 +544,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb4.Append("'" + FQV.Total_Profit + "')");
                             i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_QTN001_CODE,CUST_CODE,CONTACT,TELEPHONE,EMAIL,CUSTOMER_REF,PICKUP_PLACE,POL,POD,FND,MOVE_TYPE,REF_NO,VESSEL,VOYAGE,CARRIER,EFFECT_FROM,EFFECT_UPTO,DEPARTMENT,Total_Cost,Total_Billed,PZIP,PSTATE,FDSTATE,FDZIP,Commodity_code,Branchcode,AGENT,Salesman,notifypart1,notifypart2,DG,JOB_TYPE,Total_Profit) values(" + sb4.ToString() + "");
 
-                        int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FQV.CMPYCODE + "' and Code='QUOS' ");
+                        //int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FQV.CMPYCODE + "' and Code='QUOS' ");
 
-                        _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + FQV.CMPYCODE + "' and Code='QUOS'");
+                        //_EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + FQV.CMPYCODE + "' and Code='QUOS'");
 
                         #endregion
                         _EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Update FF QTN", FQV.FF_QTN001_CODE, Environment.MachineName);

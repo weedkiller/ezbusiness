@@ -9,7 +9,9 @@ namespace EzBusiness_DL_Interface
     public interface ICodeGenRepository
     {
         string GetCode(string CmpyCode, string LocCode);
-       bool GetSalaryProcess(string CmpyCode, string Empcode,DateTime dtmonthyy);
+
+        string GetCodeNew(string Cmpycode, string BranchCode, string tableName);
+        bool GetSalaryProcess(string CmpyCode, string Empcode,DateTime dtmonthyy);
 
         bool GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy,string InpAmt);
 
