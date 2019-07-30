@@ -170,14 +170,10 @@
                     }
                 });
 
-
                 var validationResult = ValidateForm(FNM);
                 if (validationResult.formValid) {
-
                     $.post("/SaveSupplier", FNM).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-
-
                             EzbtnsaveAcVis("#DRContainer");
                             EzAlertSave();
                             $("#DRContainer").html(drHtml);
@@ -240,6 +236,7 @@
                                     EzAlertSave();
                                     EzbtnsaveAcVis("#DRContainer");
                                     $("#DRContainer").html(drHtml);
+                                    GetDrs();
                                 } else {
                                     EzAlerterrtxt(response.ErrorMessage);
                                 }

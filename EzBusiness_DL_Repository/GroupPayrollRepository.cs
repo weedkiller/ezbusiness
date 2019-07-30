@@ -91,7 +91,6 @@ namespace EzBusiness_DL_Repository
                         {
 
                             Drecord.Add(ObjList[n - 1].DivisionCode.ToString());
-
                             Grs.Drecord = Drecord;
                             Grs.SaveFlag = false;
                             Grs.ErrorMessage = "Duplicate Record";
