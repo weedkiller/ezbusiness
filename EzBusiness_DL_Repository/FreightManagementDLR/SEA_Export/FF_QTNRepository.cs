@@ -731,7 +731,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb5.Append("'" + ObjList[n - 1].LBS + "',");
                                     sb5.Append("'" + ObjList[n - 1].No_of_qty + "',");
                                     sb5.Append("'" + ObjList[n - 1].Seal1 + "',");
-                                    sb5.Append("'" + ObjList[n - 1].sno + "',");
+                                    sb5.Append("'" + n + "',");
                                     sb5.Append("'" + ObjList[n - 1].Commodity_code + "',");
                                     sb5.Append("'" + FQV.FNMBRANCH_CODE + "',");
                                     sb5.Append("'" + FQV.CMPYCODE + "')");
@@ -760,7 +760,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb6.Append("'" + ObjList1[n - 1].inside_Unit + "',");
                                     sb6.Append("'" + ObjList1[n - 1].No_of_qty + "',");
                                     sb6.Append("'" + ObjList1[n - 1].Pkg_No + "',");
-                                    sb6.Append("'" + ObjList1[n - 1].Sno + "',");
+                                    sb6.Append("'" + n + "',");
                                     sb6.Append("'" + ObjList1[n - 1].unit_type + "',");
                                     sb6.Append("'" + ObjList1[n - 1].Volume + "',");
                                     sb6.Append("'" + ObjList1[n - 1].Width + "',");
@@ -789,6 +789,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb7.Append("'" + FQV.FNMBRANCH_CODE + "',");
                                     sb7.Append("'" + FQV.CMPYCODE + "')");
                                     i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_QTN004(FF_QTN001_CODE,CLAUSE_CODE,CLAUSE_NAME,sno,BRANCH_CODE,cmpycode) values(" + sb7.ToString() + "");
+                                    
                                 }
 
                                 n = n - 1;

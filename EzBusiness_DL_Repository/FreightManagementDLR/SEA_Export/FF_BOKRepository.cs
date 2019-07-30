@@ -633,9 +633,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_BOK001_CODE,FF_BOK001_DATE,FF_QTN001_CODE,BILL_TO,SHIPPER,CONSIGNEE,FORWARDER,PICKUP_PLACE,POL,POD,FND,PLACE_OF_RCPT,MOVE_TYPE,DELIVERY_AT,REF_NO,VESSEL,VOYAGE,ETD,ETA,CARRIER,DEPARTMENT,Total_Cost,Total_Billed,JOB_TYPE,TRANS_TYPE,Commodity_code,tranferFrom,Branchcode,DG,Salesman,AGENT,notifypart1,notifypart2,Total_Profit) values(" + sb4.ToString() + "");
 
 
-                        int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FQV.CMPYCODE + "' and Code='Book' ");
+                        //int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FQV.CMPYCODE + "' and Code='Book' ");
 
-                        _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + FQV.CMPYCODE + "' and Code='Book'");
+                        //_EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + FQV.CMPYCODE + "' and Code='Book'");
 
                         #endregion
                         _EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Update FF BOK", FQV.FF_BOK001_CODE, Environment.MachineName);
@@ -655,7 +655,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             {
                 try
                 {
-                    ds = _EzBusinessHelper.ExecuteDataSet("Select * from FF_BOK001 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' Branchcode='" + FQV.FNMBRANCH_CODE + "'");
+                    ds = _EzBusinessHelper.ExecuteDataSet("Select * from FF_BOK001 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and Branchcode='" + FQV.FNMBRANCH_CODE + "'");
                     using (TransactionScope scope1 = new TransactionScope())
                     {
                         FF_BOK001 FQT1 = new FF_BOK001();
@@ -877,7 +877,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb7.Append("'" + n + "',");
                                     sb7.Append("'" + FQV.FNMBRANCH_CODE + "',");
                                     sb7.Append("'" + FQV.CMPYCODE + "')");
-                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK004(FF_BOK001_CODE,CLUASE_CODE,CLUASE_NAME,sno,BRANCH_CODE,cmpycode) values(" + sb7.ToString() + "");
+                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK004(FF_BOK001_CODE,CLAUSE_CODE,CLAUSE_NAME,sno,BRANCH_CODE,cmpycode) values(" + sb7.ToString() + "");
                                 }
 
                                 n = n - 1;
