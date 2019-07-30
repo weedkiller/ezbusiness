@@ -29,9 +29,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 
         }
         DropListFillFun drop = new DropListFillFun();
-        public bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName)
+        public bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName,string BRANCH_CODE)
         {
-            return _FF_QTNRepo.DeleteFF_QTN(CmpyCode, FF_QTN001_CODE, UserName);
+            return _FF_QTNRepo.DeleteFF_QTN(CmpyCode, FF_QTN001_CODE, UserName, BRANCH_CODE);
         }
 
         public List<FF_QTN_VM> GetFF_QTN(string CmpyCode,string Branchcode)
@@ -39,9 +39,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_QTNRepo.GetFF_QTN(CmpyCode, Branchcode);
         }
 
-        public List<FF_QTN002New> GetFF_QTN002DetailList(string CmpyCode, string FF_QTN001_CODE)
+        public List<FF_QTN002New> GetFF_QTN002DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE)
         {
-            var FF_QTN002DetailList = _FF_QTNRepo.GetFF_QTN002DetailList(CmpyCode, FF_QTN001_CODE);
+            var FF_QTN002DetailList = _FF_QTNRepo.GetFF_QTN002DetailList(CmpyCode, FF_QTN001_CODE,BRANCH_CODE);
             return FF_QTN002DetailList.Select(m => new FF_QTN002New
             {
                 CBM = m.CBM,
@@ -60,9 +60,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             }).ToList();
         }
 
-        public List<FF_QTN003New> GetFF_QTN003DetailList(string CmpyCode, string FF_QTN001_CODE)
+        public List<FF_QTN003New> GetFF_QTN003DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE)
         {
-            var FF_QTN003DetailList = _FF_QTNRepo.GetFF_QTN003DetailList(CmpyCode, FF_QTN001_CODE);
+            var FF_QTN003DetailList = _FF_QTNRepo.GetFF_QTN003DetailList(CmpyCode, FF_QTN001_CODE,BRANCH_CODE);
             return FF_QTN003DetailList.Select(m => new FF_QTN003New
             {
                Act_LBS=m.Act_LBS,
@@ -79,9 +79,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             }).ToList();
         }
 
-        public List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE)
+        public List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE)
         {
-            var FF_QTN004DetailList = _FF_QTNRepo.GetFF_QTN004DetailList(CmpyCode, FF_QTN001_CODE);
+            var FF_QTN004DetailList = _FF_QTNRepo.GetFF_QTN004DetailList(CmpyCode, FF_QTN001_CODE,BRANCH_CODE);
             return FF_QTN004DetailList.Select(m => new FF_QTN004New
             {
             CLUASE_CODE=m.CLUASE_CODE,
@@ -90,9 +90,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             }).ToList();
         }
 
-        public List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE)
+        public List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE)
         {
-            var FF_QTN005DetailList = _FF_QTNRepo.GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE);
+            var FF_QTN005DetailList = _FF_QTNRepo.GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE,BRANCH_CODE);
             return FF_QTN005DetailList.Select(m => new FF_QTN005New
             {
                 Crg_code = m.Crg_code,
@@ -134,10 +134,10 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         public FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE,string BranchCode)
         {
             var poEdit = _FF_QTNRepo.GetFF_QTNDetailsEdit(CmpyCode, FF_QTN001_CODE, BranchCode);
-            poEdit.FF_QTN002Detail = GetFF_QTN002DetailList(CmpyCode, FF_QTN001_CODE);
-            poEdit.FF_QTN003Detail = GetFF_QTN003DetailList(CmpyCode, FF_QTN001_CODE);
-            poEdit.FF_QTN004Detail = GetFF_QTN004DetailList(CmpyCode, FF_QTN001_CODE);
-            poEdit.FF_QTN005Detail = GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE);
+            poEdit.FF_QTN002Detail = GetFF_QTN002DetailList(CmpyCode, FF_QTN001_CODE, BranchCode);
+            poEdit.FF_QTN003Detail = GetFF_QTN003DetailList(CmpyCode, FF_QTN001_CODE,BranchCode);
+            poEdit.FF_QTN004Detail = GetFF_QTN004DetailList(CmpyCode, FF_QTN001_CODE,BranchCode);
+            poEdit.FF_QTN005Detail = GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE, BranchCode);
 
             poEdit.FNMBRANCH_CODE = BranchCode;
            // poEdit.PortList1 = GetPortListEdit(CmpyCode,poEdit.POL);
@@ -204,7 +204,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 //PortList=GetPortList(Cmpycode),
                 ////ConTypList=GetContTyp(Cmpycode),
                 ////Commodityist= GetCommodityistList(Cmpycode),
-                FF_QTN001_CODE = _CodeRep.GetCode(Cmpycode, "SupplierQuotation"),
+                //FF_QTN001_CODE = _CodeRep.GetCode(Cmpycode, "SupplierQuotation"),
+
+                FF_QTN001_CODE = _CodeRep.GetCodeNew(Cmpycode, branchcode, "FF_QTN001"),
                 FNMBRANCH_CODE = branchcode,
                 EditFlag = false
             };
@@ -349,14 +351,16 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         public FF_QTN_VM GetFF_QuotCopy(string CmpyCode, string FF_QTN001_CODE, string BranchCode)
         {
             var poEdit = _FF_QTNRepo.GetFF_QTNDetailsEdit(CmpyCode, FF_QTN001_CODE, BranchCode);
-            poEdit.FF_QTN002Detail = GetFF_QTN002DetailList(CmpyCode, FF_QTN001_CODE);
-            poEdit.FF_QTN003Detail = GetFF_QTN003DetailList(CmpyCode, FF_QTN001_CODE);
-            poEdit.FF_QTN004Detail = GetFF_QTN004DetailList(CmpyCode, FF_QTN001_CODE);
-            poEdit.FF_QTN005Detail = GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE);
+            poEdit.FF_QTN002Detail = GetFF_QTN002DetailList(CmpyCode, FF_QTN001_CODE, BranchCode);
+            poEdit.FF_QTN003Detail = GetFF_QTN003DetailList(CmpyCode, FF_QTN001_CODE, BranchCode);
+            poEdit.FF_QTN004Detail = GetFF_QTN004DetailList(CmpyCode, FF_QTN001_CODE, BranchCode);
+            poEdit.FF_QTN005Detail = GetFF_QTN005DetailList(CmpyCode, FF_QTN001_CODE, BranchCode);
 
             poEdit.FNMBRANCH_CODE = BranchCode;
-            
-            poEdit.FF_QTN001_CODEN =  _CodeRep.GetCode(CmpyCode, "SupplierQuotation");
+
+            //poEdit.FF_QTN001_CODEN =  _CodeRep.GetCode(CmpyCode, "SupplierQuotation");
+
+            poEdit.FF_QTN001_CODEN =  _CodeRep.GetCodeNew(CmpyCode, BranchCode, "FF_QTN001");
             // poEdit.PortList1 = GetPortListEdit(CmpyCode,poEdit.POL);
             // poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
             // poEdit.PortList3 = GetPortListEdit(CmpyCode,poEdit.FND);

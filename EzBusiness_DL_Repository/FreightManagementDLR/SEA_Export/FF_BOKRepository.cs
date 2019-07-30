@@ -21,20 +21,20 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
 
         DropListFillFun drop = new DropListFillFun();
-        public bool DeleteFF_BOK(string CmpyCode, string FF_BOK001_CODE, string UserName)
+        public bool DeleteFF_BOK(string CmpyCode, string FF_BOK001_CODE, string UserName, string BRANCH_CODE)
         {
-            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FF_BOK001 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0");// CMPYCODE='" + CmpyCode + "' and
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FF_BOK001 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Branchcode='" + BRANCH_CODE + "' and Flag=0");// CMPYCODE='" + CmpyCode + "' and
             if (Grs != 0)
             {
 
                 _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FF_BOK_CODE", FF_BOK001_CODE, Environment.MachineName);
 
-                _EzBusinessHelper.ExecuteNonQuery1("update FF_BOK002 set Flag=1 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0");
-                _EzBusinessHelper.ExecuteNonQuery1("update FF_BOK003 set Flag=1 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0");
-                _EzBusinessHelper.ExecuteNonQuery1("update FF_BOK004 set Flag=1 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0");
-                _EzBusinessHelper.ExecuteNonQuery1("update FF_BOK005 set Flag=1 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0");
+                _EzBusinessHelper.ExecuteNonQuery1("update FF_BOK002 set Flag=1 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0 and BRANCH_CODE='" + BRANCH_CODE + "'");
+                _EzBusinessHelper.ExecuteNonQuery1("update FF_BOK003 set Flag=1 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0 and BRANCH_CODE='" + BRANCH_CODE + "'");
+                _EzBusinessHelper.ExecuteNonQuery1("update FF_BOK004 set Flag=1 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0 and BRANCH_CODE='" + BRANCH_CODE + "'");
+                _EzBusinessHelper.ExecuteNonQuery1("update FF_BOK005 set Flag=1 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0 and BRANCH_CODE='" + BRANCH_CODE + "'");
 
-                return _EzBusinessHelper.ExecuteNonQuery1("update FF_BOK001 set Flag=1 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0");//CMPYCODE='" + CmpyCode + "' and
+                return _EzBusinessHelper.ExecuteNonQuery1("update FF_BOK001 set Flag=1 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0 and Branchcode='" + BRANCH_CODE + "'");//CMPYCODE='" + CmpyCode + "' and
 
             }
             return false;
@@ -88,15 +88,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return ObjList;
         }
 
-        public List<FF_BOK002New> GetFF_BOK002DetailList(string CmpyCode, string FF_BOK001_CODE,string typ)
+        public List<FF_BOK002New> GetFF_BOK002DetailList(string CmpyCode, string FF_BOK001_CODE,string typ, string BRANCH_CODE)
         {
             string qur = "";
             if(typ == "Q")
             {
-                qur = "Select Commodity_code,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_QTN002 where Flag=0 and FF_QTN001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select Commodity_code,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_QTN002 where Flag=0 and FF_QTN001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCH_CODE='"+ BRANCH_CODE + "'";
             }else
             {
-                qur = "Select Commodity_code,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_BOK002 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select Commodity_code,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno from FF_BOK002 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCH_CODE='" + BRANCH_CODE + "'";
             }
             ds = _EzBusinessHelper.ExecuteDataSet(qur);// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
@@ -124,16 +124,16 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return ObjList;
         }
 
-        public List<FF_BOK003New> GetFF_BOK003DetailList(string CmpyCode, string FF_BOK001_CODE,string typ)
+        public List<FF_BOK003New> GetFF_BOK003DetailList(string CmpyCode, string FF_BOK001_CODE,string typ, string BRANCH_CODE)
         {
             string qur = "";
             if (typ == "Q")
             {
-                qur = "Select No_of_qty,Act_LBS,Dime_weight,Height,inside_Unit,Pkg_No,Sno,unit_type,Volume,Width from FF_QTN003 where Flag=0 and FF_QTN001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select No_of_qty,Act_LBS,Dime_weight,Height,inside_Unit,Pkg_No,Sno,unit_type,Volume,Width from FF_QTN003 where Flag=0 and FF_QTN001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCH_CODE='" + BRANCH_CODE + "'";
             }
             else
             {
-                qur = "Select No_of_qty,Act_LBS,Dime_weight,Height,inside_Unit,Pkg_No,Sno,unit_type,Volume,Width from FF_BOK003 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select No_of_qty,Act_LBS,Dime_weight,Height,inside_Unit,Pkg_No,Sno,unit_type,Volume,Width from FF_BOK003 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCH_CODE='" + BRANCH_CODE + "'";
             }
                 ds = _EzBusinessHelper.ExecuteDataSet(qur);// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
@@ -158,16 +158,16 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return ObjList;
         }
 
-        public List<FF_BOK004New> GetFF_BOK004DetailList(string CmpyCode, string FF_BOK001_CODE,string typ)
+        public List<FF_BOK004New> GetFF_BOK004DetailList(string CmpyCode, string FF_BOK001_CODE,string typ,string BRANCH_CODE)
         {
             string qur = "";
             if (typ == "Q")
             {
-                qur = "Select CLAUSE_CODE,CLAUSE_NAME from FF_QTN004 where Flag=0 and FF_QTN001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select CLAUSE_CODE,CLAUSE_NAME,sno from FF_QTN004 where Flag=0 and FF_QTN001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCH_CODE='" + BRANCH_CODE + "'";
             }
             else
             {
-                qur = "Select CLAUSE_CODE,CLAUSE_NAME from FF_BOK004 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select CLAUSE_CODE,CLAUSE_NAME,sno from FF_BOK004 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCH_CODE='" + BRANCH_CODE + "'";
             }
             ds = _EzBusinessHelper.ExecuteDataSet(qur);// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
@@ -179,21 +179,22 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 {
                     CLUASE_CODE = dr["CLAUSE_CODE"].ToString(),
                     CLUASE_NAME = dr["CLAUSE_NAME"].ToString(),
+                    sno = Convert.ToInt32(dr["sno"].ToString()),
                 });
             }
             return ObjList;
         }
 
-        public List<FF_BOK005New> GetFF_BOK005DetailList(string CmpyCode, string FF_BOK001_CODE,string typ)
+        public List<FF_BOK005New> GetFF_BOK005DetailList(string CmpyCode, string FF_BOK001_CODE,string typ, string BRANCH_CODE)
         {
             string qur = "";
             if (typ == "Q")
             {
-                qur = "Select * from FF_QTN005 where Flag=0 and FF_QTN001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select * from FF_QTN005 where Flag=0 and FF_QTN001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCH_CODE='" + BRANCH_CODE + "'";
             }
             else
             {
-                qur = "Select * from FF_BOK005 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select * from FF_BOK005 where Flag=0 and FF_BOK001_CODE='" + FF_BOK001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCH_CODE='" + BRANCH_CODE + "'";
             }
                 ds = _EzBusinessHelper.ExecuteDataSet(qur);// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
@@ -457,7 +458,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         while (n > 0)
                         {
 
-                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK002 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK002 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0 and sno="+ n +"");// CmpyCode='" + FQV.CMPYCODE + "' and
                             if (Stats1 == 0)
                             {
                                 StringBuilder sb = new StringBuilder();
@@ -472,10 +473,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 sb.Append("'" + ObjList[n - 1].LBS + "',");
                                 sb.Append("'" + ObjList[n - 1].No_of_qty + "',");
                                 sb.Append("'" + ObjList[n - 1].Seal1 + "',");
-                                sb.Append("'" + ObjList[n - 1].sno + "',");
+                                sb.Append("'" + n + "',");
                                 sb.Append("'" + ObjList[n - 1].Commodity_code + "',");
+                                sb.Append("'" + FQV.FNMBRANCH_CODE + "',");
                                 sb.Append("'" + FQV.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK002(FF_BOK001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,Commodity_code,cmpycode) values(" + sb.ToString() + "");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK002(FF_BOK001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,Commodity_code,BRANCH_CODE,cmpycode) values(" + sb.ToString() + "");
                                 //_EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Add FFM Charge", ObjList[n - 1].FF_BOK001_CODE, Environment.MachineName);
 
                             }
@@ -490,7 +492,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         while (n > 0)
                         {
 
-                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK003 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK003 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and  BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "' and flag=0 and sno=" + n + "");// CmpyCode='" + FQV.CMPYCODE + "' and
                             if (Stats1 == 0)
                             {
                                 StringBuilder sb1 = new StringBuilder();
@@ -501,13 +503,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 sb1.Append("'" + ObjList1[n - 1].inside_Unit + "',");
                                 sb1.Append("'" + ObjList1[n - 1].No_of_qty + "',");
                                 sb1.Append("'" + ObjList1[n - 1].Pkg_No + "',");
-                                sb1.Append("'" + ObjList1[n - 1].sno + "',");
+                                sb1.Append("'" + n + "',");
                                 sb1.Append("'" + ObjList1[n - 1].unit_type + "',");
                                 sb1.Append("'" + ObjList1[n - 1].Width + "',");
                                 sb1.Append("'" + ObjList1[n - 1].Volume + "',");
-
+                                sb1.Append("'" + FQV.FNMBRANCH_CODE + "',");
                                 sb1.Append("'" + FQV.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK003(FF_BOK001_CODE,Act_LBS,Dime_weight,Height,inside_Unit,No_of_qty,Pkg_No,Sno,unit_type,Width,Volume,cmpycode) values(" + sb1.ToString() + "");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK003(FF_BOK001_CODE,Act_LBS,Dime_weight,Height,inside_Unit,No_of_qty,Pkg_No,Sno,unit_type,Width,Volume,BRANCH_CODE,cmpycode) values(" + sb1.ToString() + "");
 
                             }
 
@@ -519,15 +521,17 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         n = ObjList2.Count;
                         while (n > 0)
                         {
-                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK004 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK004 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0 and sno=" + n + "");// CmpyCode='" + FQV.CMPYCODE + "' and
                             if (Stats1 == 0)
                             {
                                 StringBuilder sb2 = new StringBuilder();
                                 sb2.Append("'" + FQV.FF_BOK001_CODE + "',");
                                 sb2.Append("'" + ObjList2[n - 1].CLAUSE_CODE + "',");
                                 sb2.Append("'" + ObjList2[n - 1].CLAUSE_NAME + "',");
+                                sb2.Append("'" + n + "',");
+                                sb2.Append("'" + FQV.FNMBRANCH_CODE + "',");
                                 sb2.Append("'" + FQV.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK004(FF_BOK001_CODE,CLAUSE_CODE,CLAUSE_NAME,cmpycode) values(" + sb2.ToString() + "");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK004(FF_BOK001_CODE,CLAUSE_CODE,CLAUSE_NAME,sno,BRANCH_CODE,cmpycode) values(" + sb2.ToString() + "");
                             }
 
                             n = n - 1;
@@ -538,7 +542,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         n = ObjList3.Count;
                         while (n > 0)
                         {
-                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK005 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK005 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "' and flag=0 and sno=" + n + "");// CmpyCode='" + FQV.CMPYCODE + "' and
                             if (Stats1 == 0)
                             {
                                 StringBuilder sb3 = new StringBuilder();
@@ -558,7 +562,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 sb3.Append("'" + ObjList3[n - 1].Expense_GL_Code + "',");
                                 sb3.Append("'" + ObjList3[n - 1].Income_GL_Code + "',");
                                 sb3.Append("'" + ObjList3[n - 1].PAY_MODE + "',");
-                                sb3.Append("'" + ObjList3[n - 1].Sno + "',");
+                                sb3.Append("'" + n + "',");
                                 sb3.Append("'" + ObjList3[n - 1].Unit_Code + "',");
                                 sb3.Append("'" + ObjList3[n - 1].VendVar_Amt + "',");
                                 sb3.Append("'" + ObjList3[n - 1].Vend_code + "',");
@@ -571,8 +575,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 sb3.Append("'" + ObjList3[n - 1].Vend_Rate + "',");
                                 sb3.Append("'" + ObjList3[n - 1].Vend_Total_amt + "',");
                                 sb3.Append("'" + ObjList3[n - 1].No_of_Qty + "',");
+                                sb3.Append("'" + FQV.FNMBRANCH_CODE + "',");
                                 sb3.Append("'" + FQV.CMPYCODE + "')");
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK005(FF_BOK001_CODE,Crg_code,Crg_name,Cust_code,Cust_Ctrl_Act,Cust_Curr_Code,Cust_Curr_Rate,Cust_Local_amt,Cust_name,Cust_Net_Amt,Cust_Rate,Cust_Total_amt,Cust_Var_Amt,Expense_GL_Code,Income_GL_Code,PAY_MODE,Sno,Unit_Code,VendVar_Amt,Vend_code,Vend_Ctrl_Act,Vend_Curr_Code,Vend_Curr_Rate,Vend_Local_amt,Vend_name,Vend_Net_Amt,Vend_Rate,Vend_Total_amt,No_of_qty,CMPYCODE) values(" + sb3.ToString() + "");
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK005(FF_BOK001_CODE,Crg_code,Crg_name,Cust_code,Cust_Ctrl_Act,Cust_Curr_Code,Cust_Curr_Rate,Cust_Local_amt,Cust_name,Cust_Net_Amt,Cust_Rate,Cust_Total_amt,Cust_Var_Amt,Expense_GL_Code,Income_GL_Code,PAY_MODE,Sno,Unit_Code,VendVar_Amt,Vend_code,Vend_Ctrl_Act,Vend_Curr_Code,Vend_Curr_Rate,Vend_Local_amt,Vend_name,Vend_Net_Amt,Vend_Rate,Vend_Total_amt,No_of_qty,BRANCH_CODE,CMPYCODE) values(" + sb3.ToString() + "");
                             }
 
                             n = n - 1;
@@ -628,9 +633,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK001(CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,CMPYCODE,FF_BOK001_CODE,FF_BOK001_DATE,FF_QTN001_CODE,BILL_TO,SHIPPER,CONSIGNEE,FORWARDER,PICKUP_PLACE,POL,POD,FND,PLACE_OF_RCPT,MOVE_TYPE,DELIVERY_AT,REF_NO,VESSEL,VOYAGE,ETD,ETA,CARRIER,DEPARTMENT,Total_Cost,Total_Billed,JOB_TYPE,TRANS_TYPE,Commodity_code,tranferFrom,Branchcode,DG,Salesman,AGENT,notifypart1,notifypart2,Total_Profit) values(" + sb4.ToString() + "");
 
 
-                        int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FQV.CMPYCODE + "' and Code='Book' ");
+                        //int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FQV.CMPYCODE + "' and Code='Book' ");
 
-                        _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + FQV.CMPYCODE + "' and Code='Book'");
+                        //_EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + FQV.CMPYCODE + "' and Code='Book'");
 
                         #endregion
                         _EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Update FF BOK", FQV.FF_BOK001_CODE, Environment.MachineName);
@@ -650,7 +655,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             {
                 try
                 {
-                    ds = _EzBusinessHelper.ExecuteDataSet("Select * from FF_BOK001 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "'");
+                    ds = _EzBusinessHelper.ExecuteDataSet("Select * from FF_BOK001 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and Branchcode='" + FQV.FNMBRANCH_CODE + "'");
                     using (TransactionScope scope1 = new TransactionScope())
                     {
                         FF_BOK001 FQT1 = new FF_BOK001();
@@ -695,10 +700,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             FQT1.Salesman = FQV.Salesman;
                             FQT1.notifypart1 = FQV.notifypart1;
                             FQT1.notifypart2 = FQV.notifypart2;
-                            _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK002 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "'");
-                            _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK003 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "'");
-                            _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK004 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "'");
-                            _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK005 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "'");
+                            _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK002 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "'");
+                            _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK003 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "'");
+                            _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK004 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "'");
+                            _EzBusinessHelper.ExecuteNonQuery("delete from FF_BOK005 where CmpyCode='" + FQV.CMPYCODE + "' and FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "'");
                             // #region ObjectList
                             #region FF_BOK002
                             List<FF_BOK002> ObjList = new List<FF_BOK002>();
@@ -800,7 +805,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             while (n > 0)
                             {
 
-                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK002 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK002 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0 and sno=" + n + "");// CmpyCode='" + FQV.CMPYCODE + "' and
                                 if (Stats1 == 0)
                                 {
                                     StringBuilder sb5 = new StringBuilder();
@@ -815,10 +820,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb5.Append("'" + ObjList[n - 1].LBS + "',");
                                     sb5.Append("'" + ObjList[n - 1].No_of_qty + "',");
                                     sb5.Append("'" + ObjList[n - 1].Seal1 + "',");
-                                    sb5.Append("'" + ObjList[n - 1].sno + "',");
+                                    sb5.Append("'" + n + "',");
                                     sb5.Append("'" + ObjList[n - 1].Commodity_code + "',");
+                                    sb5.Append("'" + FQV.FNMBRANCH_CODE + "',");
                                     sb5.Append("'" + FQV.CMPYCODE + "')");
-                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK002(FF_BOK001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,Commodity_code,cmpycode) values(" + sb5.ToString() + "");
+                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK002(FF_BOK001_CODE,CBM,CFT,Container,Contents,Cont_Type,KG,LBS,No_of_qty,Seal1,sno,Commodity_code,BRANCH_CODE,cmpycode) values(" + sb5.ToString() + "");
                                     //_EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Add FFM Charge", ObjList[n - 1].FF_BOK001_CODE, Environment.MachineName);
 
                                 }
@@ -832,7 +838,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             while (n > 0)
                             {
 
-                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK003 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK003 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0 and sno=" + n + "");// CmpyCode='" + FQV.CMPYCODE + "' and
                                 if (Stats1 == 0)
                                 {
                                     StringBuilder sb6 = new StringBuilder();
@@ -843,12 +849,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb6.Append("'" + ObjList1[n - 1].inside_Unit + "',");
                                     sb6.Append("'" + ObjList1[n - 1].No_of_qty + "',");
                                     sb6.Append("'" + ObjList1[n - 1].Pkg_No + "',");
-                                    sb6.Append("'" + ObjList1[n - 1].sno + "',");
+                                    sb6.Append("'" + n+ "',");
                                     sb6.Append("'" + ObjList1[n - 1].unit_type + "',");
                                     sb6.Append("'" + ObjList1[n - 1].Volume + "',");
                                     sb6.Append("'" + ObjList1[n - 1].Width + "',");
+                                    sb6.Append("'" + FQV.FNMBRANCH_CODE + "',");
                                     sb6.Append("'" + FQV.CMPYCODE + "')");
-                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK003(FF_BOK001_CODE,Act_LBS,Dime_weight,Height,inside_Unit,No_of_qty,Pkg_No,Sno,unit_type,Volume,Width,cmpycode) values(" + sb6.ToString() + "");
+                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK003(FF_BOK001_CODE,Act_LBS,Dime_weight,Height,inside_Unit,No_of_qty,Pkg_No,Sno,unit_type,Volume,Width,BRANCH_CODE,cmpycode) values(" + sb6.ToString() + "");
 
                                 }
 
@@ -860,15 +867,17 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             n = ObjList2.Count;
                             while (n > 0)
                             {
-                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK004 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK004 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and  BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "' and flag=0 and sno=" + n + "");// CmpyCode='" + FQV.CMPYCODE + "' and
                                 if (Stats1 == 0)
                                 {
                                     StringBuilder sb7 = new StringBuilder();
                                     sb7.Append("'" + FQV.FF_BOK001_CODE + "',");
                                     sb7.Append("'" + ObjList2[n - 1].CLAUSE_CODE + "',");
                                     sb7.Append("'" + ObjList2[n - 1].CLAUSE_NAME + "',");
+                                    sb7.Append("'" + n + "',");
+                                    sb7.Append("'" + FQV.FNMBRANCH_CODE + "',");
                                     sb7.Append("'" + FQV.CMPYCODE + "')");
-                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK004(FF_BOK001_CODE,CLUASE_CODE,CLUASE_NAME,cmpycode) values(" + sb7.ToString() + "");
+                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK004(FF_BOK001_CODE,CLAUSE_CODE,CLAUSE_NAME,sno,BRANCH_CODE,cmpycode) values(" + sb7.ToString() + "");
                                 }
 
                                 n = n - 1;
@@ -879,7 +888,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             n = ObjList3.Count;
                             while (n > 0)
                             {
-                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK005 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  CmpyCode='" + FQV.CMPYCODE + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FF_BOK005 where FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  BRANCH_CODE='" + FQV.FNMBRANCH_CODE + "' and CmpyCode='" + FQV.CMPYCODE + "' and flag=0 and sno=" + n + "");// CmpyCode='" + FQV.CMPYCODE + "' and
                                 if (Stats1 == 0)
                                 {
                                     StringBuilder sb8 = new StringBuilder();
@@ -899,7 +908,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb8.Append("'" + ObjList3[n - 1].Expense_GL_Code + "',");
                                     sb8.Append("'" + ObjList3[n - 1].Income_GL_Code + "',");
                                     sb8.Append("'" + ObjList3[n - 1].PAY_MODE + "',");
-                                    sb8.Append("'" + ObjList3[n - 1].Sno + "',");
+                                    sb8.Append("'" + n + "',");
                                     sb8.Append("'" + ObjList3[n - 1].Unit_Code + "',");
                                     sb8.Append("'" + ObjList3[n - 1].VendVar_Amt + "',");
                                     sb8.Append("'" + ObjList3[n - 1].Vend_code + "',");
@@ -912,8 +921,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb8.Append("'" + ObjList3[n - 1].Vend_Rate + "',");
                                     sb8.Append("'" + ObjList3[n - 1].Vend_Total_amt + "',");
                                     sb8.Append("'" + ObjList3[n - 1].No_of_Qty + "',");
+                                    sb8.Append("'" + FQV.FNMBRANCH_CODE + "',");
                                     sb8.Append("'" + FQV.CMPYCODE + "')");
-                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK005(FF_BOK001_CODE,Crg_code,Crg_name,Cust_code,Cust_Ctrl_Act,Cust_Curr_Code,Cust_Curr_Rate,Cust_Local_amt,Cust_name,Cust_Net_Amt,Cust_Rate,Cust_Total_amt,Cust_Var_Amt,Expense_GL_Code,Income_GL_Code,PAY_MODE,Sno,Unit_Code,VendVar_Amt,Vend_code,Vend_Ctrl_Act,Vend_Curr_Code,Vend_Curr_Rate,Vend_Local_amt,Vend_name,Vend_Net_Amt,Vend_Rate,Vend_Total_amt,No_of_qty,CMPYCODE) values(" + sb8.ToString() + "");
+                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FF_BOK005(FF_BOK001_CODE,Crg_code,Crg_name,Cust_code,Cust_Ctrl_Act,Cust_Curr_Code,Cust_Curr_Rate,Cust_Local_amt,Cust_name,Cust_Net_Amt,Cust_Rate,Cust_Total_amt,Cust_Var_Amt,Expense_GL_Code,Income_GL_Code,PAY_MODE,Sno,Unit_Code,VendVar_Amt,Vend_code,Vend_Ctrl_Act,Vend_Curr_Code,Vend_Curr_Rate,Vend_Local_amt,Vend_name,Vend_Net_Amt,Vend_Rate,Vend_Total_amt,No_of_qty,BRANCH_CODE,CMPYCODE) values(" + sb8.ToString() + "");
                                 }
 
                                 n = n - 1;
@@ -964,7 +974,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
 
 
-                            _EzBusinessHelper.ExecuteNonQuery("update FF_BOK001 set  " + sb9 + " where  FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  cmpycode='" + FQV.CMPYCODE + "' and Flag=0");//CmpyCode='" + FQV.CMPYCODE + "' and                         
+                            _EzBusinessHelper.ExecuteNonQuery("update FF_BOK001 set  " + sb9 + " where  FF_BOK001_CODE='" + FQV.FF_BOK001_CODE + "' and  cmpycode='" + FQV.CMPYCODE + "' and Flag=0 and Branchcode='" + FQV.FNMBRANCH_CODE + "'");//CmpyCode='" + FQV.CMPYCODE + "' and                         
                                                                                                                                                                                                       // _EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Add FFM Voyage", ObjList[n - 1].FFM_VOYAGE01_CODE, Environment.MachineName);
                             #endregion
 
@@ -1123,7 +1133,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
         {
             string dtstr = vdate.ToString("yyyy-MM-dd");
             //return drop.GetCommonDrop("FF_QTN001_CODE as [Code],CUST_CODE as [CodeName]", "FF_QTN001", "CMPYCODE='" + CmpyCode + "' and CUST_CODE='"+Empcode+ "' and convert(varchar(25),EFFECT_UPTO,23)>='" + dtstr + "'");
-            return drop.GetCommonDrop2("select a.FF_QTN001_CODE as [Code],a.CUST_CODE as [CodeName] from FF_QTN001 a left outer join FF_BOK001 b on a.CMPYCODE=b.CMPYCODE and a.Branchcode=b.Branchcode and a.FF_QTN001_CODE != b.FF_QTN001_CODE and a.ApprovalYN='Y' and a.RejetedYN='N' and b.FF_QTN001_CODE!='0' where a.CMPYCODE='" + CmpyCode + "' and a.CUST_CODE='" + Empcode + "' and convert(varchar(25),a.EFFECT_UPTO,23)>='" + dtstr + "' and a.Branchcode='" + BranchCode + "'");
+            return drop.GetCommonDrop2("select a.FF_QTN001_CODE as [Code],a.CUST_CODE as [CodeName] from FF_QTN001 a left outer join FF_BOK001 b on a.CMPYCODE=b.CMPYCODE and a.Branchcode=b.Branchcode and a.FF_QTN001_CODE != b.FF_QTN001_CODE  and b.FF_QTN001_CODE!='0' where a.CMPYCODE='" + CmpyCode + "' and a.CUST_CODE='" + Empcode + "' and convert(varchar(25),a.EFFECT_UPTO,23)>='" + dtstr + "' and a.Branchcode='" + BranchCode + "'");
+
+            //return drop.GetCommonDrop("select A.FNM_SL1001_CODE as [Code],A.Name as [CodeName]", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='ARP' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0");
         }
         public List<ComDropTbl> GetSalesman(string CmpyCode, string Prefix)
         {

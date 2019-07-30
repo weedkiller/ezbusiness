@@ -13,14 +13,14 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<FF_BL_VM> GetFF_BL(string CmpyCode,string branchcode);
         FF_BL_VM GetFF_BLDetailsEdit(string CmpyCode, string FF_BL001_CODE,string branchcode);
 
-        FF_BL_VM GetFF_BLDetailsBk(string CmpyCode, string FF_BOK001_CODE);
+        FF_BL_VM GetFF_BLDetailsBk(string CmpyCode, string FF_BOK001_CODE,string Branchcode);
         FF_BL_VM SaveFF_BL_VM(FF_BL_VM FQV);
 
         FF_BL_VM GetFF_BL_AddNew(string Cmpycode, string branchcode);
-        List<FF_BL002New> GetFF_BL002DetailList(string CmpyCode, string FF_BL001_CODE,string typ);
-        List<FF_BL003New> GetFF_BL003DetailList(string CmpyCode, string FF_BL001_CODE, string typ);
-        List<FF_BL004New> GetFF_BL004DetailList(string CmpyCode, string FF_BL001_CODE, string typ);
-        List<FF_BL005New> GetFF_BL005DetailList(string CmpyCode, string FF_BL001_CODE, string typ);
+        List<FF_BL002New> GetFF_BL002DetailList(string CmpyCode, string FF_BL001_CODE,string typ, string Branchcode);
+        List<FF_BL003New> GetFF_BL003DetailList(string CmpyCode, string FF_BL001_CODE, string typ, string Branchcode);
+        List<FF_BL004New> GetFF_BL004DetailList(string CmpyCode, string FF_BL001_CODE, string typ, string Branchcode);
+        List<FF_BL005New> GetFF_BL005DetailList(string CmpyCode, string FF_BL001_CODE, string typ, string Branchcode);
         List<SelectListItem> GetMoveCode(string CmpyCode);
 
         List<SelectListItem> GetDepart(string CmpyCode);
@@ -44,7 +44,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<SelectListItem> GETJobTypList(string CmpyCode);
 
         List<SelectListItem> GetUnitcode(string CmpyCode);
-        bool DeleteFF_BL(string CmpyCode, string FF_BL001_CODE, string UserName);
+        bool DeleteFF_BL(string CmpyCode, string FF_BL001_CODE, string UserName, string Branchcode);
 
         decimal GetCurRate(string CmpyCode, string CurCode);
         

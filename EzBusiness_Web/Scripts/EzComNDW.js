@@ -524,6 +524,7 @@ function EzbtnCancelAcVis() {
     $("#btnCopy").css("visibility", "hidden");
     $("#btnApprove").css("visibility", "hidden");
     $("#btnReject").css("visibility", "hidden");
+    $("#btnTrigger").css("visibility", "");
     //$("#POListContainer1").hide();
 }
 //Save & Modify  Button
@@ -537,7 +538,7 @@ function EzbtnsaveAc(Idsucc) {
 }
 //Save & Modify  Button
 function EzbtnsaveAcVis(Idsucc) {    
-    $("#btnNew").css("visibility", "");
+    $("#btnNew").css("visibility", "");    
     $("#btnEdit").css("visibility", "hidden");
     $("#btnPrint").css("visibility", "hidden");
     $("#btnDelete").css("visibility", "hidden");
@@ -546,7 +547,9 @@ function EzbtnsaveAcVis(Idsucc) {
     $("#btnCancel").css("visibility", "hidden");
     $("#btnCopy").css("visibility", "hidden");
     $("#hdnOperationMode").val("");
-   
+    $("#btnTrigger").css("visibility", "");
+    $("#btnApprove").css("visibility", "hidden");
+    $("#btnReject").css("visibility", "hidden");
 }
 //error msg
 function Ezerrormsg(idl, msg) {

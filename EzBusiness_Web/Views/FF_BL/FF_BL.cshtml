@@ -339,7 +339,8 @@
                             Cust_Ctrl_Act:Cust_Ctrl_Act,
                             Cust_Curr_Code:Cust_Curr_Code,
                             Cust_Curr_Rate:Cust_Curr_Rate,
-                            Cust_Rate:Cust_Rate,
+                            Cust_Rate: Cust_Rate,
+                            No_of_Qty: No_of_qty,
                             Cust_Total_amt:Cust_Total_amt,
                            // Cust_Var_Amt:Cust_Var_Amt,
                             Cust_Net_Amt: parseInt(Cust_Total_amt) + 0,
@@ -499,8 +500,8 @@
                     var CLAUSE_NAME = $(this).find("[name*='txtCLAUSE_NAME']").val();
                     if (CLAUSE_CODE != "" && CLAUSE_NAME != '') {
                         var FF_BL004Details = {
-                            CLAUSE_CODE: CLAUSE_CODE,
-                            CLAUSE_NAME: CLAUSE_NAME
+                            CLUASE_CODE: CLAUSE_CODE,
+                            CLUASE_NAME: CLAUSE_NAME
                         };
                         FBV.FF_BL004Detail.push(FF_BL004Details);
                     }
@@ -551,6 +552,7 @@
                             Cust_Curr_Rate: Cust_Curr_Rate,
                             Cust_Rate: Cust_Rate,
                             Cust_Total_amt: Cust_Total_amt,
+                            No_of_Qty: No_of_qty,
                           //  Cust_Var_Amt: Cust_Var_Amt,
                             Cust_Net_Amt: parseInt(Cust_Total_amt) + 0,
                             Cust_Local_amt: parseInt(Cust_Net_Amt) * parseInt(Cust_Curr_Rate),
@@ -807,12 +809,17 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-
+                        @{
+                            var TypeListdata1 = new SelectList(new[]
+                            {
+            new SelectListItem { Text = "-Select-", Value = "-1" },
+            }, "Value", "Text");
+                        }
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label col-xs-3 col-md-3">Tranfer From</label>
                                 <div class="col-xs-7 col-md-8 input-field">
-                                    @Html.DropDownListFor(m => m.tranferFrom, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" }, new SelectListItem { Text = "DIRECT", Value = "DIRECT" }, new SelectListItem { Text = "Quotation", Value = "QUOT" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                    @Html.DropDownListFor(m => m.tranferFrom, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" }, new SelectListItem { Text = "DIRECT", Value = "DIRECT" }, new SelectListItem { Text = "BOOKING", Value = "QUOT" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                 </div>
                             </div>
                         </div>
@@ -830,7 +837,7 @@
                             <div class="form-group">
                                 <label class="control-label col-xs-3 col-md-3">Booking<i class="star">*</i></label>
                                 <div class="col-xs-7 col-md-8 input-field">
-                                    @Html.DropDownListFor(m => m.NFF_BOK001_CODE, Model.GetBOKCODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                    @Html.DropDownListFor(m => m.NFF_BOK001_CODE, TypeListdata1, new { @class = "form-control selectpicker", @data_live_search = "true" })
                                 </div>
                             </div>
                         </div>

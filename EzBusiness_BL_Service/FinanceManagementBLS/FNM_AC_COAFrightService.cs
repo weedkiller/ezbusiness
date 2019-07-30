@@ -179,7 +179,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 //group_codeList = Getgroup_code(Cmpycode),
                 //SUBLEDGER_TYPEList=GetSUBGROUP(Cmpycode),
                 //SUBLEDGER_CATList=GetSUBLEDGER_CAT(Cmpycode),
-                CODE = _CodeRep.GetCode(Cmpycode,"ChartAcccount"),
+               // CODE = _CodeRep.GetCode(Cmpycode,"ChartAcccount"),
                 EditFlag = false
             };
         }

@@ -66,6 +66,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                 ObjList.SUBLEDGER_TYPE = dr["SUBLEDGER_TYPE"].ToString();
                 ObjList.Web_site = dr["Web_site"].ToString();
                 ObjList.Name_Arabic = dr["Name_Arabic"].ToString();
+                ObjList.Branchcode = dr["Branchcode"].ToString();
 
             }
             return ObjList;
@@ -182,26 +183,26 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
             {
                 try
                 {
-                    FNM_SL1001 FNMSL = new FNM_SL1001();
+                    //FNM_SL1001 FNMSL = new FNM_SL1001();
                     #region FNM_SL1001_VM1
-                    FNMSL.Address = FNSL.Address;
-                    FNMSL.CMPYCODE = FNSL.CMPYCODE;
-                    FNMSL.Contact1 = FNSL.Contact1;
-                    FNMSL.Contact2 = FNSL.Contact2;
-                    FNMSL.Contact3 = FNSL.Contact3;
-                    FNMSL.CREATED_BY = FNSL.UserName;
-                    FNMSL.credit_limit = FNSL.credit_limit;
-                    FNMSL.Currency_code = FNSL.Currency_code;
-                    FNMSL.Email = FNSL.Email;
-                    FNMSL.Fax = FNSL.Fax;
-                    FNMSL.FNM_SL1001_CODE = FNSL.FNM_SL1001_CODE;
-                    FNMSL.Name = FNSL.Name;
-                    FNMSL.Name_Arabic = FNSL.Name_Arabic;
-                    FNMSL.Print_Name = FNSL.Print_Name;
-                    FNMSL.SUBLEDGER_TYPE = FNSL.SUBLEDGER_TYPE;
-                    FNMSL.Tel = FNSL.Tel;
-                    FNMSL.UPDATED_BY = FNSL.UserName;
-                    FNMSL.Web_site = FNSL.Web_site;                                          
+                    //FNMSL.Address = FNSL.Address;
+                    //FNMSL.CMPYCODE = FNSL.CMPYCODE;
+                    //FNMSL.Contact1 = FNSL.Contact1;
+                    //FNMSL.Contact2 = FNSL.Contact2;
+                    //FNMSL.Contact3 = FNSL.Contact3;
+                    //FNMSL.CREATED_BY = FNSL.UserName;
+                    //FNMSL.credit_limit = FNSL.credit_limit;
+                    //FNMSL.Currency_code = FNSL.Currency_code;
+                    //FNMSL.Email = FNSL.Email;
+                    //FNMSL.Fax = FNSL.Fax;
+                    //FNMSL.FNM_SL1001_CODE = FNSL.FNM_SL1001_CODE;
+                    //FNMSL.Name = FNSL.Name;
+                    //FNMSL.Name_Arabic = FNSL.Name_Arabic;
+                    //FNMSL.Print_Name = FNSL.Print_Name;
+                    //FNMSL.SUBLEDGER_TYPE = FNSL.SUBLEDGER_TYPE;
+                    //FNMSL.Tel = FNSL.Tel;
+                    //FNMSL.UPDATED_BY = FNSL.UserName;
+                    //FNMSL.Web_site = FNSL.Web_site;                                          
                     #endregion                   
                     #region ObjectList
                     List<FNM_SL1002DetailNew> ObjList = new List<FNM_SL1002DetailNew>();
@@ -250,35 +251,35 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
 
                         sb.Append(" values(");
                         //'---
-                        sb.Append("'" + FNMSL.Address + "',");
-                        sb.Append("'" + FNMSL.CMPYCODE + "',");
-                        sb.Append("'" + FNMSL.Contact1 + "',");
-                        sb.Append("'" + FNMSL.Contact2 + "',");
-                        sb.Append("'" + FNMSL.Contact3 + "',");
-                        sb.Append("'" + FNMSL.CREATED_BY + "',");
-                        sb.Append("'" + FNMSL.credit_limit + "',");
-                        sb.Append("'" + FNMSL.Currency_code + "',");
-                        sb.Append("'" + FNMSL.Email + "',");
-                        sb.Append("'" + FNMSL.Fax + "',");
-                        sb.Append("'" + FNMSL.FNM_SL1001_CODE + "',");
+                        sb.Append("'" + FNSL.Address + "',");
+                        sb.Append("'" + FNSL.CMPYCODE + "',");
+                        sb.Append("'" + FNSL.Contact1 + "',");
+                        sb.Append("'" + FNSL.Contact2 + "',");
+                        sb.Append("'" + FNSL.Contact3 + "',");
+                        sb.Append("'" + FNSL.UserName + "',");
+                        sb.Append("'" + FNSL.credit_limit + "',");
+                        sb.Append("'" + FNSL.Currency_code + "',");
+                        sb.Append("'" + FNSL.Email + "',");
+                        sb.Append("'" + FNSL.Fax + "',");
+                        sb.Append("'" + FNSL.FNM_SL1001_CODE + "',");
                         //sb.Append("'" + dtstr3 + "',");
-                        sb.Append("'" + FNMSL.Name + "',");
-                        sb.Append("'" + FNMSL.Print_Name + "',");
-                        sb.Append("'" + FNMSL.SUBLEDGER_TYPE + "',");
-                        sb.Append("'" + FNMSL.Tel + "',");
-                        sb.Append("'" + FNMSL.UPDATED_BY + "',");
-                        sb.Append("'" + FNMSL.Web_site + "',");
+                        sb.Append("'" + FNSL.Name + "',");
+                        sb.Append("'" + FNSL.Print_Name + "',");
+                        sb.Append("'" + FNSL.SUBLEDGER_TYPE + "',");
+                        sb.Append("'" + FNSL.Tel + "',");
+                        sb.Append("'" + FNSL.UPDATED_BY + "',");
+                        sb.Append("'" + FNSL.Web_site + "',");
                         sb.Append("'" + dtstr7 + "',");
-                        sb.Append("'"+ FNMSL.DIVISION + "',");
-                        sb.Append("'" + FNMSL.Name_Arabic + "',");
-                        sb.Append("'" + FNMSL.Branchcode + "',");
+                        sb.Append("'"+ FNSL.DIVISION + "',");
+                        sb.Append("'" + FNSL.Name_Arabic + "',");
+                        sb.Append("'" + FNSL.Branchcode + "',");
                         sb.Append("'" + dtstr7 + "')");
                         
 
                         bool resul = _EzBusinessHelper.ExecuteNonQuery1("insert into FNM_SL1001" + sb + "");
 
 
-                        _EzBusinessHelper.ActivityLog(FNMSL.CMPYCODE, FNMSL.UPDATED_BY, "Add FNM_SL1001", FNMSL.FNM_SL1001_CODE, Environment.MachineName);
+                        _EzBusinessHelper.ActivityLog(FNSL.CMPYCODE, FNSL.UserName, "Add FNM_SL1001", FNSL.FNM_SL1001_CODE, Environment.MachineName);
                         #endregion
                         if (resul == true)
                         {                           
@@ -295,17 +296,17 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                 sb.Append("COA_NAME,");
                                 sb.Append("COA_CODE)");
                                 sb.Append(" values(");
-                                sb.Append("'" + FNMSL.CMPYCODE + "',");
+                                sb.Append("'" + FNSL.CMPYCODE + "',");
                                 sb.Append("'0',");
-                                sb.Append("'" +FNMSL.FNM_SL1001_CODE + "',");
+                                sb.Append("'" + FNSL.FNM_SL1001_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].FNM_SL1002_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].NAME + "',");
                                 sb.Append("'" + ObjList[n - 1].COA_NAME + "',");
                                 sb.Append("'" + ObjList[n - 1].COA_CODE + "')");
                                 _EzBusinessHelper.ExecuteNonQuery("insert into FNM_SL1002" + sb + " ");
-                                int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FNMSL.CMPYCODE + "' and Code='CUST' ");
-                                _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + FNMSL.CMPYCODE + "' and Code='CUST'");
-                                _EzBusinessHelper.ActivityLog(FNMSL.CMPYCODE, FNMSL.UPDATED_BY, "Update FNM_SL1001", FNMSL.FNM_SL1001_CODE, Environment.MachineName);
+                                int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + FNSL.CMPYCODE + "' and Code='CUST' ");
+                                _EzBusinessHelper.ExecuteNonQuery(" UPDATE PARTTBL001 SET Nos = " + (pno + 1) + " where CmpyCode='" + FNSL.CMPYCODE + "' and Code='CUST'");
+                                _EzBusinessHelper.ActivityLog(FNSL.CMPYCODE, FNSL.UserName, "Update FNM_SL1001", FNSL.FNM_SL1001_CODE, Environment.MachineName);
                                 n = n - 1;
                             }
                             #endregion

@@ -22,5 +22,9 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public Decimal CBM { get; set; }
 
         public string Commodity_code { get; set; }
+
+
+        public string BRANCH_CODE { get; set; }
     }
+
 }

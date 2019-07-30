@@ -23,5 +23,7 @@ public string FF_BOK001_CODE { get; set; }
         public Decimal CBM { get; set; }
         public string Commodity_code { get; set; }
 
+        public string BRANCH_CODE { get; set; }
+
     }
 }

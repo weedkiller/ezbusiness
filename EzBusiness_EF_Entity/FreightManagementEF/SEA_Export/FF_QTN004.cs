@@ -12,5 +12,9 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public string CMPYCODE { get; set; }
         public string CLUASE_CODE { get; set; }
         public string CLUASE_NAME { get; set; }
+
+        public string BRANCH_CODE { get; set; }
+
+        public int sno { get; set; }
     }
 }

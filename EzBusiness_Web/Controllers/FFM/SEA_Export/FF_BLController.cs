@@ -59,7 +59,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(new { DeleteFlag = _BLService.DeleteFF_BL(FF_BL001_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _BLService.DeleteFF_BL(FF_BL001_CODE, list[0].CmpyCode, list[0].user_name, list[0].BraCode) }, JsonRequestBehavior.AllowGet);
             }
         }
         [Route("EditFF_BLDetails")]
@@ -168,7 +168,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return PartialView(_BLService.GetFF_BLDetailsBk(list[0].CmpyCode, FF_BOK001_CODE1));
+                return PartialView(_BLService.GetFF_BLDetailsBk(list[0].CmpyCode, FF_BOK001_CODE1, list[0].BraCode));
             }
         }
 

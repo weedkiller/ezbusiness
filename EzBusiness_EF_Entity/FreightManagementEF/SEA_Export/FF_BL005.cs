@@ -39,6 +39,8 @@ public string FF_BL001_CODE { get; set; }
         public Decimal VendVar_Amt { get; set; }
         public Decimal Vend_Net_Amt { get; set; }
         public Decimal Vend_Local_amt { get; set; }
-        
+
+        public string BRANCH_CODE { get; set; }
+
     }
 }

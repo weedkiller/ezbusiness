@@ -15,10 +15,10 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<FF_QTN_VM> GetFF_QTN(string CmpyCode,string BranchCode);
         FF_QTN_VM GetFF_QTNDetailsEdit(string CmpyCode, string FF_QTN001_CODE,string branchCode);
         FF_QTN_VM SaveFF_QTN_VM(FF_QTN_VM FQV);       
-        List<FF_QTN002New> GetFF_QTN002DetailList(string CmpyCode, string FF_QTN001_CODE);
-        List<FF_QTN003New> GetFF_QTN003DetailList(string CmpyCode, string FF_QTN001_CODE);
-        List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE);     
-        List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE);
+        List<FF_QTN002New> GetFF_QTN002DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE);
+        List<FF_QTN003New> GetFF_QTN003DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE);
+        List<FF_QTN004New> GetFF_QTN004DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE);     
+        List<FF_QTN005New> GetFF_QTN005DetailList(string CmpyCode, string FF_QTN001_CODE, string BRANCH_CODE);
 
         List<ComDropTbl> GetMOVEList(string CmpyCode, string Prefix);
         List<ComDropTbl> GetCommodityistList(string CmpyCode, string Prefix);
@@ -47,7 +47,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<ComDropTbl> GetContTyp(string CmpyCode, string Prefix);
 
         List<FFM_CRG> GetCRGINCEXP(string CmpyCode,string FFM_CRG_001_CODE, string Prefix);
-        bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName);
+        bool DeleteFF_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string BRANCH_CODE);
 
         decimal GetCurRate(string CmpyCode, string CurCode);
 
