@@ -47,12 +47,13 @@ namespace EzBusiness_DL_Repository
 
 
 
-        public string GetCodeNew(string Cmpycode, string BranchCode,string tableName)
+        public string GetCodeNew(string Cmpycode, string BranchCode,string tableName,string typ)
         {
             SqlParameter[] param1 = {
                         new SqlParameter("@Cmpycode",Cmpycode),
                         new SqlParameter("@BranchCode",BranchCode),
-                         new SqlParameter("@tableName",tableName)
+                         new SqlParameter("@tableName",tableName),
+                          new SqlParameter("@typ",typ)
                        };
             string GetCode = _EzBusinessHelper.ExecuteScalarS("Generate_Code", param1);
             return GetCode;

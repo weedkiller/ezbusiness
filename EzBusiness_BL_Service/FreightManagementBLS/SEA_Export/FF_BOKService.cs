@@ -218,6 +218,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 
         public FF_BOK_VM SaveFF_BOK_VM(FF_BOK_VM FQV)
         {
+            if (!FQV.EditFlag)
+            {
+                FQV.FF_BOK001_CODE = _CodeRep.GetCodeNew(FQV.CMPYCODE, FQV.FNMBRANCH_CODE, "FF_BOK001", "I");
+            }
+
             return _FF_BOKRepo.SaveFF_BOK_VM(FQV);
         }
 
@@ -300,7 +305,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 // ConTypList=GetContTyp(Cmpycode),
                 //FF_BOK001_CODE = _CodeRep.GetCode(Cmpycode, "SupplierBooking"),
 
-                FF_BOK001_CODE = _CodeRep.GetCodeNew(Cmpycode, branchcode, "FF_BOK001"),
+                FF_BOK001_CODE = _CodeRep.GetCodeNew(Cmpycode, branchcode, "FF_BOK001","V"),
 
            // GetBOKCODEList = GetQTNCODE(Cmpycode,System.DateTime.Now),
                 GetCustomerList = GetSL1(Cmpycode,"FM"),
@@ -498,7 +503,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             poEdit.FF_BOK005Detail = GetFF_BOK005DetailList(CmpyCode, FF_BOK001_CODE1, "Q", BranchCode);
             //poEdit.FF_BOK001_CODE = _CodeRep.GetCode(CmpyCode, "SupplierBooking");
 
-            poEdit.FF_BOK001_CODE = _CodeRep.GetCodeNew(CmpyCode, BranchCode, "FF_BOK001");
+            poEdit.FF_BOK001_CODE = _CodeRep.GetCodeNew(CmpyCode, BranchCode, "FF_BOK001","V");
             //poEdit.PortList1 = GetPortListEdit(CmpyCode, poEdit.POL);
             //poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
             //poEdit.PortList3 = GetPortListEdit(CmpyCode, poEdit.FND);
