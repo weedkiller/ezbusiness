@@ -102,20 +102,7 @@
         });
 
 
-        //$("#btnApprove").click(function () {
-        //    debugger;
-        //    $.getJSON("/Aprrove_QTN", { FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(), Typ: 'A' }).done(function (data) {
-        //        debugger
-        //        EzAlerterrtxt(data.StatusFlag);
-        //                    });
-        //});
-
-        //$("#btnReject").click(function () {
-        //    $.getJSON("/Aprrove_QTN", { FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(), Typ: 'R' }).done(function (data) {
-        //        debugger
-        //        EzAlerterrtxt(data.StatusFlag);
-        //    });
-        //});
+        
 
         $("#btnSave").click(function () {
             debugger
@@ -128,189 +115,91 @@
                 // Code for Adding MainTable
                 var FQV = {
                     EditFlag: false,
-                    FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
-                    CUST_CODE: $("[name*='hdnCUST_CODE']").val(),
-                    CONTACT: $("[name*='CONTACT']").val(),
-                    TELEPHONE: $("[name*='TELEPHONE']").val(),
-                    EMAIL: $("[name*='EMAIL']").val(),
-                    CUSTOMER_REF: $("[name*='CUSTOMER_REF']").val(),
-                    PICKUP_PLACE: $("[name*='PICKUP_PLACE']").val(),
+                    FNINV001_CODE: $("[name*='FNINV001_CODE']").val(),                                    
+                    INV_DATE:  Ezsetdtpkdate($("[name*='INV_DATE1']").val()),
+                    Post_Date:  Ezsetdtpkdate($("[name*='Post_Date1']").val()),
+                    NOTES: $("[name*='NOTES']").val(),
+                    NARRATION: $("[name*='NARRATION']").val(),                  
+                    COA_CODE: $("[name*='hdnCOA_CODE']").val(),
+                    SUBLEDGER_CODE: $("[name*='hdnSUBLEDGER_CODE']").val(),
+                    CURRENCY_CODE: $("[name*='hdnCURRENCY_CODE']").val(),
+                    CURRENCY_RATE: $("[name*='CURRENCY_RATE']").val(),
+                    VAT_CURRENCY_AMT: $("[name*='VAT_CURRENCY_AMT']").val(),
+                    VAT_LOCAL_AMT: $("[name*='VAT_LOCAL_AMT']").val(),
+                    CURRENCY_AMT: $("[name*='CURRENCY_AMT']").val(),
+                    LOCAL_AMT: $("[name*='LOCAL_AMT']").val(),
+                    NET_CURRENCY_AMT: $("[name*='NET_CURRENCY_AMT']").val(),
+                    NET_LOCAL_AMT: $("[name*='NET_LOCAL_AMT']").val(),
+                    BILLING_ADDRESS: $("[name*='BILLING_ADDRESS']").val(),
+                    SUPPLIER_JV_NO: $("[name*='SUPPLIER_JV_NO']").val(),
+                    SUPPLIER_JV_DATE:  Ezsetdtpkdate($("[name*='SUPPLIER_JV_DATE1']").val()),
+                    SUPPLIER_GRN_NO: $("[name*='SUPPLIER_GRN_NO']").val(),
+                    RECEIVED_PAID_NAME: $("[name*='RECEIVED_PAID_NAME']").val(),
+                    UNPOSTED_NOTE: $("[name*='UNPOSTED_NOTE']").val(),
+                    Received_By: $("[name*='Received_By']").val(),
+                    SalesMan: $("[name*='hdnSalesMan']").val(),
+                    LOCATION_CODE: $("[name*='hdnLOCATION_CODE']").val(),
+                    vessel_code: $("[name*='hdnvessel_code']").val(),
+                    BL_CODE: $("[name*='BL_CODE']").val(),
+                    BL_REF_NO: $("[name*='BL_REF_NO']").val(),
                     POL: $("[name*='hdnPOL']").val(),
                     POD: $("[name*='hdnPOD']").val(),
-                    FND: $("[name*='hdnFND']").val(),
-                    MOVE_TYPE: $("[name*='hdnMOVE_TYPE']").val(),
-                    REF_NO: $("[name*='REF_NO']").val(),
-                    VESSEL: $("[name*='hdnVESSEL']").val(),
-                    VOYAGE: $("[name*='hdnVOYAGE']").val(),
-                    //JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
-                    CARRIER: $("[name*='hdnCARRIER']").val(),
-                    EFFECT_FROM: Ezsetdtpkdate($("[name*='EFFECT_FROM1']").val()),
-                    EFFECT_UPTO: Ezsetdtpkdate($("[name*='EFFECT_UPTO1']").val()),
-                    DEPARTMENT: $("[name*='hdnDEPARTMENT']").val(),
-                    Total_Cost: $("[name*='Total_Cost']").val(),
-                    Total_Billed: $("[name*='Total_Billed']").val(),
-                    Total_Profit: $("[name*='Total_Profit']").val(),
-                    PZIP: $("[name*='PZIP']").val(),
-                    PSTATE: $("[name*='PSTATE']").val(),
-                    FDZIP: $("[name*='FDZIP']").val(),
-                    FDSTATE: $("[name*='FDSTATE']").val(),
-                    Commodity_code: $("[name*='hdnCommodity_code']").val(),
-                    FNMBRANCH_CODE: $("[name*='FNMBRANCH_CODE']").val(),
-                    AGENT: $("[name*='hdnAGENT']").val(),
-                    DG: $("[name*='hdnDG']").val(),
-                    Salesman: $("[name*='hdnSalesman']").val(),
-                    notifypart1: $("[name*='hdnnotifypart1']").val(),
-                    notifypart2: $("[name*='hdnnotifypart2']").val(),
-                    JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
-                    FF_QTN002Detail: [],
-                    FF_QTN003Detail: [],
-                    FF_QTN004Detail: [],
-                    FF_QTN005Detail: [],
-                };
-                $("#tablePODetails2 tbody tr").each(function (index, item) {
-                    var sno = $(this).find("[name*='txtsno']").val();
-                    var Container = $(this).find("[name*='txtContainer']").val();
-                    var Cont_Type = $(this).find("[name*='txtCont_Type']").val();
-                    var Commodity_code = $(this).find("[name*='txtCommodity_code']").val();
-                    var Seal1 = $(this).find("[name*='txtSeal1']").val();
-                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
-                    var Contents = $(this).find("[name*='txtContents']").val();
-                    var LBS = $(this).find("[name*='txtLBS']").val();
-                    var KG = $(this).find("[name*='txtKG']").val();
-                    var CFT = $(this).find("[name*='txtCFT']").val();
-                    var CBM = $(this).find("[name*='txtCBM']").val();
-
-                    if (Container != "" && Cont_Type!='') {
-
-                        var FF_QTN002Details = {
-                            sno:sno,
-                            Container:Container,
-                            Cont_Type:Cont_Type,
-                            Seal1:Seal1,
-                            No_of_qty:No_of_qty,
-                            Contents:Contents,
-                            LBS:LBS,
-                            KG:KG,
-                            CFT:CFT,
-                            CBM: CBM,
-                            Commodity_code: Commodity_code
-                        };
-                        FQV.FF_QTN002Detail.push(FF_QTN002Details);
-                    }
-                });
-
-                $("#tablePODetails3 tbody tr").each(function (index, item) {
-                    var sno = $(this).find("[name*='txtsno']").val();
-                    var Pkg_No = $(this).find("[name*='txtPkg_No']").val();
-                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
-                    var unit_type = $(this).find("[name*='txtunit_type']").val();
-                    var Height = $(this).find("[name*='txtHeight']").val();
-                    var Width = $(this).find("[name*='txtWidth']").val();
-                    var Act_LBS = $(this).find("[name*='txtAct_LBS']").val();
-                    var inside_Unit = $(this).find("[name*='txtinside_Unit']").val();
-                    var Volume = $(this).find("[name*='txtVolume']").val();
-                    var Dime_weight = $(this).find("[name*='txtDime_weight']").val();
-
-                    if (Pkg_No != "" && No_of_qty != '') {
-                        var FF_QTN003Details = {
-                            Sno: sno,
-                            Pkg_No:Pkg_No,
-                        No_of_qty:No_of_qty,
-                        unit_type:unit_type,
-                        Height:Height,
-                        Width:Width,
-                        Act_LBS:Act_LBS,
-                        inside_Unit:inside_Unit,
-                        Volume:Volume,
-                        Dime_weight:Dime_weight,
-                        };
-                        FQV.FF_QTN003Detail.push(FF_QTN003Details);
-                    }
-                });
-
-
-                $("#tablePODetails4 tbody tr").each(function (index, item) {
-                    var CLAUSE_CODE = $(this).find("[name*='txtCLAUSE_CODE']").val();
-                    var CLAUSE_NAME = $(this).find("[name*='txtCLAUSE_NAME']").val();
-                    if (CLAUSE_CODE != "" && CLAUSE_NAME != '') {
-                        var FF_QTN004Details = {
-                            CLAUSE_CODE:CLAUSE_CODE,
-                            CLAUSE_NAME:CLAUSE_NAME
-                        };
-                        FQV.FF_QTN004Detail.push(FF_QTN004Details);
-                    }
-                });
-
-
+                    FNINV002Detail: [],                                     
+                };               
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
-                    var Sno = $(this).find("[name*='txtsno']").val();
                     var Crg_code = $(this).find("[name*='txtCrg_code']").val();
+                    var VAT_CODE = $(this).find("[name*='txtVAT_CODE']").val();
+                    var VAT_PER = $(this).find("[name*='txtVAT_PER']").val();
+                    var VAT_GL_CODE = $(this).find("[name*='txtVAT_GL_CODE']").val();
+                    var COA_CODE = $(this).find("[name*='txtCOA_CODE']").val();
                     var Crg_name = $(this).find("[name*='txtCrg_name']").val();
-                    var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
-                    var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
-                    var Unit_Code = $(this).find("[name*='txtUnit_code']").val();
+                    var Unit_code = $(this).find("[name*='txtUnit_code']").val();
                     var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
-
-                    var Cust_code = $(this).find("[name*='txtCust_code']").val();
-                    var Cust_name = $(this).find("[name*='txtCust_name']").val();
-                    var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
-                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']").val();
-                    var Cust_Curr_Rate = $(this).find("[name*='txtCust_Curr_Rate']").val();
-                    var Cust_Rate = $(this).find("[name*='txtCust_Rate']").val();
-                    var Cust_Total_amt = $(this).find("[name*='txtCust_Total_amt']").val();
-                    //var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
-                    var Cust_Net_Amt = $(this).find("[name*='txtCust_Net_Amt']").val();
-                    var Cust_Local_amt = $(this).find("[name*='txtCust_Local_amt']").val();
-                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']").val();
-                    var Vend_code = $(this).find("[name*='txtVend_code']").val();
-                    var Vend_name = $(this).find("[name*='txtVend_name']").val();
-                    var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
-                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']").val();
-                    var Vend_Curr_Rate = $(this).find("[name*='txtVend_Curr_Rate']").val();
-                    var Vend_Rate = $(this).find("[name*='txtVend_Rate']").val();
-                    var Vend_Total_amt = $(this).find("[name*='txtVend_Total_amt']").val();
-                   // var VendVar_Amt = $(this).find("[name*='txtVendVar_Amt']").val();
-                    var Vend_Net_Amt = $(this).find("[name*='txtVend_Net_Amt']").val();
-                    var Vend_Local_amt = $(this).find("[name*='txtVend_Local_amt']").val();
-
+                    var Ex_Curr_Code = $(this).find("[name*='txtEx_Curr_Code']").val();
+                    var Ex_Curr_Rate = $(this).find("[name*='txtEx_Curr_Rate']").val();
+                    var Rate = $(this).find("[name*='txtRate']").val();
+                    var AmountFC = $(this).find("[name*='txtAmountFC']").val();
+                    var AmountBC = $(this).find("[name*='txtAmountBC']").val();
+                    var Vat_PER = $(this).find("[name*='txtVat_PER']").val();
+                    var VatAmountBC = $(this).find("[name*='txtVatAmountBC']").val();
+                    var VouchVATAmountFC = $(this).find("[name*='txtVouchVATAmountFC']").val();
+                    var VochAmountFC = $(this).find("[name*='txtVochAmountFC']").val();
+                    var VochAmountBC = $(this).find("[name*='txtVochAmountBC']").val();
+                    var VouchVATAmountBC = $(this).find("[name*='txtVouchVATAmountBC']").val();
+                    var VochAmountBC = $(this).find("[name*='txtVochAmountBC']").val();
+                    var VochNetsumVatAmountFC = $(this).find("[name*='txtVochNetsumVatAmountFC']").val();                              
                     if (Crg_code != "" && Crg_name != '') {
-                        var FF_QTN005Details = {
-                            Sno:Sno,
-                            Crg_code:Crg_code,
-                            Crg_name:Crg_name,
-                            Income_GL_Code:Income_GL_Code,
-                            Expense_GL_Code:Expense_GL_Code,
-                            Unit_Code:Unit_Code,
-                            Cust_code:Cust_code,
-                            Cust_name:Cust_name,
-                            Cust_Ctrl_Act:Cust_Ctrl_Act,
-                            Cust_Curr_Code:Cust_Curr_Code,
-                            Cust_Curr_Rate:Cust_Curr_Rate,
-                            Cust_Rate:Cust_Rate,
-                            Cust_Total_amt:Cust_Total_amt,
-                           // Cust_Var_Amt:Cust_Var_Amt,
-                            Cust_Net_Amt:Cust_Net_Amt,
-                            Cust_Local_amt:Cust_Local_amt,
-                            PAY_MODE:PAY_MODE,
-                            Vend_code:Vend_code,
-                            Vend_name:Vend_name,
-                            Vend_Ctrl_Act:Vend_Ctrl_Act,
-                            Vend_Curr_Code:Vend_Curr_Code,
-                            Vend_Curr_Rate:Vend_Curr_Rate,
-                            Vend_Rate:Vend_Rate,
-                            Vend_Total_amt:Vend_Total_amt,
-                         //   VendVar_Amt:VendVar_Amt,
-                            Vend_Net_Amt:Vend_Net_Amt,
-                            Vend_Local_amt:Vend_Local_amt
+                        var FNINV002Details = {
+                            ITEMCODE:Crg_code,
+                            Item_Description:Crg_name,
+                            UNIT_TYPE:Unit_code,
+                            NO_OF_QTY:No_of_qty,
+                            RATE_PER_QTY:No_of_qty,
+                            COA_CODE:COA_CODE,
+                            O_CURR_CODE:Ex_Curr_Code,
+                            O_CURR_RATE:Ex_Curr_Rate,
+                            O_CURR_AMT:AmountFC,
+                            O_LOCAL_AMT:VochAmountFC,
+                            O_VAT_LOCAL_AMT:VochAmountFC,
+                            O_VAT_CURR_AMT:VochAmountFC,
+                            VAT_CODE:VAT_CODE,
+                            VAT_PER:Vat_PER,
+                            VAT_GL_CODE:VochAmountFC,
+                            V_CURR_AMT:VochAmountFC,
+                            V_LOCAL_AMT:VochAmountFC,
+                            V_VAT_CURR_AMT:VouchVATAmountFC,
+                            V_VAT_LOCAL_AMT:VochAmountBC,
+                            V_NET_CURR_AMT:VochAmountBC,
+                            V_NET_LOCAL_AMT:VochNetsumVatAmountFC
                         };
-                        FQV.FF_QTN005Detail.push(FF_QTN005Details);
+                        FQV.FNINV002Detail.push(FNINV002Details);
                     }
                 });
-
+              
                 var validationResult = ValidateForm(FQV);
                 if (validationResult.formValid) {
 
-                    $.post("/SaveFFM_Quotation", FQV).done(function (response) {
+                    $.post("/SaveINVOICE", FQV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
 
                             EzAlertSave();
@@ -332,184 +221,91 @@
                 // Code for Adding Purchase order
                 var FQV = {
                     EditFlag: true,
-                    FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
-                    CUST_CODE: $("[name*='hdnCUST_CODE']").val(),
-                    CONTACT: $("[name*='CONTACT']").val(),
-                    TELEPHONE: $("[name*='TELEPHONE']").val(),
-                    EMAIL: $("[name*='EMAIL']").val(),
-                    CUSTOMER_REF: $("[name*='CUSTOMER_REF']").val(),
-                    PICKUP_PLACE: $("[name*='PICKUP_PLACE']").val(),
+                    FNINV001_CODE: $("[name*='FNINV001_CODE']").val(),
+                    INV_DATE: Ezsetdtpkdate($("[name*='INV_DATE1']").val()),
+                    Post_Date: Ezsetdtpkdate($("[name*='Post_Date1']").val()),
+                    NOTES: $("[name*='NOTES']").val(),
+                    NARRATION: $("[name*='NARRATION']").val(),
+                    COA_CODE: $("[name*='hdnCOA_CODE']").val(),
+                    SUBLEDGER_CODE: $("[name*='hdnSUBLEDGER_CODE']").val(),
+                    CURRENCY_CODE: $("[name*='hdnCURRENCY_CODE']").val(),
+                    CURRENCY_RATE: $("[name*='CURRENCY_RATE']").val(),
+                    VAT_CURRENCY_AMT: $("[name*='VAT_CURRENCY_AMT']").val(),
+                    VAT_LOCAL_AMT: $("[name*='VAT_LOCAL_AMT']").val(),
+                    CURRENCY_AMT: $("[name*='CURRENCY_AMT']").val(),
+                    LOCAL_AMT: $("[name*='LOCAL_AMT']").val(),
+                    NET_CURRENCY_AMT: $("[name*='NET_CURRENCY_AMT']").val(),
+                    NET_LOCAL_AMT: $("[name*='NET_LOCAL_AMT']").val(),
+                    BILLING_ADDRESS: $("[name*='BILLING_ADDRESS']").val(),
+                    SUPPLIER_JV_NO: $("[name*='SUPPLIER_JV_NO']").val(),
+                    SUPPLIER_JV_DATE: Ezsetdtpkdate($("[name*='SUPPLIER_JV_DATE1']").val()),
+                    SUPPLIER_GRN_NO: $("[name*='SUPPLIER_GRN_NO']").val(),
+                    RECEIVED_PAID_NAME: $("[name*='RECEIVED_PAID_NAME']").val(),
+                    UNPOSTED_NOTE: $("[name*='UNPOSTED_NOTE']").val(),
+                    Received_By: $("[name*='Received_By']").val(),
+                    SalesMan: $("[name*='hdnSalesMan']").val(),
+                    LOCATION_CODE: $("[name*='hdnLOCATION_CODE']").val(),
+                    vessel_code: $("[name*='hdnvessel_code']").val(),
+                    BL_CODE: $("[name*='BL_CODE']").val(),
+                    BL_REF_NO: $("[name*='BL_REF_NO']").val(),
                     POL: $("[name*='hdnPOL']").val(),
                     POD: $("[name*='hdnPOD']").val(),
-                    FND: $("[name*='hdnFND']").val(),
-                    MOVE_TYPE: $("[name*='hdnMOVE_TYPE']").val(),
-                    REF_NO: $("[name*='REF_NO']").val(),
-                    VESSEL: $("[name*='hdnVESSEL']").val(),
-                    VOYAGE: $("[name*='hdnVOYAGE']").val(),
-                    CARRIER: $("[name*='hdnCARRIER']").val(),
-                    EFFECT_FROM: Ezsetdtpkdate($("[name*='EFFECT_FROM1']").val()),
-                    EFFECT_UPTO: Ezsetdtpkdate($("[name*='EFFECT_UPTO1']").val()),
-                    DEPARTMENT: $("[name*='hdnDEPARTMENT']").val(),
-                    Total_Cost: $("[name*='Total_Cost']").val(),
-                    Total_Billed: $("[name*='Total_Billed']").val(),
-                    Total_Profit: $("[name*='Total_Profit']").val(),
-                    PZIP: $("[name*='PZIP']").val(),
-                    PSTATE: $("[name*='PSTATE']").val(),
-                    FDZIP: $("[name*='FDZIP']").val(),
-                    FDSTATE: $("[name*='FDSTATE']").val(),
-                    Commodity_code: $("[name*='hdnCommodity_code']").val(),
-                    FNMBRANCH_CODE: $("[name*='FNMBRANCH_CODE']").val(),
-                    AGENT: $("[name*='hdnAGENT']").val(),
-                    DG: $("[name*='hdnDG']").val(),
-                    Salesman: $("[name*='hdnSalesman']").val(),
-                    notifypart1: $("[name*='hdnnotifypart1']").val(),
-                    notifypart2: $("[name*='hdnnotifypart2']").val(),
-                    JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
-                    FF_QTN002Detail: [],
-                    FF_QTN003Detail: [],
-                    FF_QTN004Detail: [],
-                    FF_QTN005Detail: [],
+                    FNINV002Detail: [],
                 };
-                $("#tablePODetails2 tbody tr").each(function (index, item) {
-                    var sno = $(this).find("[name*='txtsno']").val();
-                    var Container = $(this).find("[name*='txtContainer']").val();
-                    var Cont_Type = $(this).find("[name*='txtCont_Type']").val();
-                    var Commodity_code = $(this).find("[name*='txtCommodity_code']").val();
-                    var Seal1 = $(this).find("[name*='txtSeal1']").val();
-                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
-                    var Contents = $(this).find("[name*='txtContents']").val();
-                    var LBS = $(this).find("[name*='txtLBS']").val();
-                    var KG = $(this).find("[name*='txtKG']").val();
-                    var CFT = $(this).find("[name*='txtCFT']").val();
-                    var CBM = $(this).find("[name*='txtCBM']").val();
-
-                    if (Container != "" && Cont_Type != '') {
-
-                        var FF_QTN002Details = {
-                            sno: sno,
-                            Container: Container,
-                            Cont_Type: Cont_Type,
-                            Seal1: Seal1,
-                            No_of_qty: No_of_qty,
-                            Contents: Contents,
-                            LBS: LBS,
-                            KG: KG,
-                            CFT: CFT,
-                            CBM: CBM,
-                            Commodity_code: Commodity_code
-                        };
-                        FQV.FF_QTN002Detail.push(FF_QTN002Details);
-                    }
-                });
-                $("#tablePODetails3 tbody tr").each(function (index, item) {
-                    var sno = $(this).find("[name*='txtsno']").val();
-                    var Pkg_No = $(this).find("[name*='txtPkg_No']").val();
-                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
-                    var unit_type = $(this).find("[name*='txtunit_type']").val();
-                    var Height = $(this).find("[name*='txtHeight']").val();
-                    var Width = $(this).find("[name*='txtWidth']").val();
-                    var Act_LBS = $(this).find("[name*='txtAct_LBS']").val();
-                    var inside_Unit = $(this).find("[name*='txtinside_Unit']").val();
-                    var Volume = $(this).find("[name*='txtVolume']").val();
-                    var Dime_weight = $(this).find("[name*='txtDime_weight']").val();
-
-                    if (Pkg_No != "" && No_of_qty != '') {
-                        var FF_QTN003Details = {
-                            Sno: sno,
-                            Pkg_No: Pkg_No,
-                            No_of_qty: No_of_qty,
-                            unit_type: unit_type,
-                            Height: Height,
-                            Width: Width,
-                            Act_LBS: Act_LBS,
-                            inside_Unit: inside_Unit,
-                            Volume: Volume,
-                            Dime_weight: Dime_weight,
-                        };
-                        FQV.FF_QTN003Detail.push(FF_QTN003Details);
-                    }
-                });
-                $("#tablePODetails4 tbody tr").each(function (index, item) {
-                    debugger
-                    var CLAUSE_CODE = $(this).find("[name*='txtCLAUSE_CODE']").val();
-                    var CLAUSE_NAME = $(this).find("[name*='txtCLAUSE_NAME']").val();
-                    if (CLAUSE_CODE != "" && CLAUSE_NAME != '') {
-                        var FF_QTN004Details = {
-                            CLUASE_CODE: CLAUSE_CODE,
-                            CLUASE_NAME: CLAUSE_NAME
-                        };
-                        FQV.FF_QTN004Detail.push(FF_QTN004Details);
-                    }
-                });
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
-                    var Sno = $(this).find("[name*='txtsno']").val();
                     var Crg_code = $(this).find("[name*='txtCrg_code']").val();
+                    var VAT_CODE = $(this).find("[name*='txtVAT_CODE']").val();
+                    var VAT_PER = $(this).find("[name*='txtVAT_PER']").val();
+                    var VAT_GL_CODE = $(this).find("[name*='txtVAT_GL_CODE']").val();
+                    var COA_CODE = $(this).find("[name*='txtCOA_CODE']").val();
                     var Crg_name = $(this).find("[name*='txtCrg_name']").val();
-                    //var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
-                    //var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
-                    var Unit_Code = $(this).find("[name*='txtUnit_code']").val();
+                    var Unit_code = $(this).find("[name*='txtUnit_code']").val();
                     var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
-
-                    var Cust_code = $(this).find("[name*='txtCust_code']").val();
-                    var Cust_name = $(this).find("[name*='txtCust_name']").val();
-                    // var Cust_Ctrl_Act = $(this).find("[name*='txtCust_Ctrl_Act']").val();
-                    var Cust_Curr_Code = $(this).find("[name*='txtCust_Curr_Code']").val();
-                    var Cust_Curr_Rate = $(this).find("[name*='txtCust_Curr_Rate']").val();
-                    var Cust_Rate = $(this).find("[name*='txtCust_Rate']").val();
-                    var Cust_Total_amt = $(this).find("[name*='txtCust_Total_amt']").val();
-                    //var Cust_Var_Amt = $(this).find("[name*='txtCust_Var_Amt']").val();
-                    var Cust_Net_Amt = $(this).find("[name*='txtCust_Net_Amt']").val();
-                    var Cust_Local_amt = $(this).find("[name*='txtCust_Local_amt']").val();
-                    var PAY_MODE = $(this).find("[name*='txtPAY_MODE']").val();
-                    var Vend_code = $(this).find("[name*='txtVend_code']").val();
-                    var Vend_name = $(this).find("[name*='txtVend_name']").val();
-                    ///var Vend_Ctrl_Act = $(this).find("[name*='txtVend_Ctrl_Act']").val();
-                    var Vend_Curr_Code = $(this).find("[name*='txtVend_Curr_Code']").val();
-                    var Vend_Curr_Rate = $(this).find("[name*='txtVend_Curr_Rate']").val();
-                    var Vend_Rate = $(this).find("[name*='txtVend_Rate']").val();
-                    var Vend_Total_amt = $(this).find("[name*='txtVend_Total_amt']").val();
-                    // var VendVar_Amt = $(this).find("[name*='txtVendVar_Amt']").val();
-                    var Vend_Net_Amt = $(this).find("[name*='txtVend_Net_Amt']").val();
-                    var Vend_Local_amt = $(this).find("[name*='txtVend_Local_amt']").val();
-
+                    var Ex_Curr_Code = $(this).find("[name*='txtEx_Curr_Code']").val();
+                    var Ex_Curr_Rate = $(this).find("[name*='txtEx_Curr_Rate']").val();
+                    var Rate = $(this).find("[name*='txtRate']").val();
+                    var AmountFC = $(this).find("[name*='txtAmountFC']").val();
+                    var AmountBC = $(this).find("[name*='txtAmountBC']").val();
+                    var Vat_PER = $(this).find("[name*='txtVat_PER']").val();
+                    var VatAmountBC = $(this).find("[name*='txtVatAmountBC']").val();
+                    var VouchVATAmountFC = $(this).find("[name*='txtVouchVATAmountFC']").val();
+                    var VochAmountFC = $(this).find("[name*='txtVochAmountFC']").val();
+                    var VochAmountBC = $(this).find("[name*='txtVochAmountBC']").val();
+                    var VouchVATAmountBC = $(this).find("[name*='txtVouchVATAmountBC']").val();
+                    var VochAmountBC = $(this).find("[name*='txtVochAmountBC']").val();
+                    var VochNetsumVatAmountFC = $(this).find("[name*='txtVochNetsumVatAmountFC']").val();
                     if (Crg_code != "" && Crg_name != '') {
-                        var FF_QTN005Details = {
-                            Sno: Sno,
-                            Crg_code: Crg_code,
-                            Crg_name: Crg_name,
-                            //Income_GL_Code: Income_GL_Code,
-                            //Expense_GL_Code: Expense_GL_Code,
-                            Unit_Code: Unit_Code,
-                            Cust_code: Cust_code,
-                            Cust_name: Cust_name,
-                            //Cust_Ctrl_Act: Cust_Ctrl_Act,
-                            Cust_Curr_Code: Cust_Curr_Code,
-                            Cust_Curr_Rate: Cust_Curr_Rate,
-                            Cust_Rate: Cust_Rate,
-                            Cust_Total_amt: Cust_Total_amt,
-                          //  Cust_Var_Amt: Cust_Var_Amt,
-                            Cust_Net_Amt: Cust_Net_Amt,
-                            Cust_Local_amt: Cust_Local_amt,
-                            PAY_MODE: PAY_MODE,
-                            Vend_code: Vend_code,
-                            Vend_name: Vend_name,
-                          //  Vend_Ctrl_Act: Vend_Ctrl_Act,
-                            Vend_Curr_Code: Vend_Curr_Code,
-                            Vend_Curr_Rate: Vend_Curr_Rate,
-                            Vend_Rate: Vend_Rate,
-                            Vend_Total_amt: Vend_Total_amt,
-                           // VendVar_Amt: VendVar_Amt,
-                            Vend_Net_Amt: Vend_Net_Amt,
-                            Vend_Local_amt: Vend_Local_amt
+                        var FNINV002Details = {
+                            ITEMCODE: Crg_code,
+                            Item_Description: Crg_name,
+                            UNIT_TYPE: Unit_code,
+                            NO_OF_QTY: No_of_qty,
+                            RATE_PER_QTY: No_of_qty,
+                            COA_CODE: COA_CODE,
+                            O_CURR_CODE: Ex_Curr_Code,
+                            O_CURR_RATE: Ex_Curr_Rate,
+                            O_CURR_AMT: AmountFC,
+                            O_LOCAL_AMT: VochAmountFC,
+                            O_VAT_LOCAL_AMT: VochAmountFC,
+                            O_VAT_CURR_AMT: VochAmountFC,
+                            VAT_CODE: VAT_CODE,
+                            VAT_PER: Vat_PER,
+                            VAT_GL_CODE: VochAmountFC,
+                            V_CURR_AMT: VochAmountFC,
+                            V_LOCAL_AMT: VochAmountFC,
+                            V_VAT_CURR_AMT: VouchVATAmountFC,
+                            V_VAT_LOCAL_AMT: VochAmountBC,
+                            V_NET_CURR_AMT: VochAmountBC,
+                            V_NET_LOCAL_AMT: VochNetsumVatAmountFC
                         };
-                        FQV.FF_QTN005Detail.push(FF_QTN005Details);
+                        FQV.FNINV002Detail.push(FNINV002Details);
                     }
                 });
 
                 var validationResult = ValidateForm(FQV);
                 if (validationResult.formValid) {
                     debugger;
-                    $.post("/SaveFFM_Quotation", FQV).done(function (response) {
+                    $.post("/SaveINVOICE", FQV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
                             EzAlertSave();
                             EzbtnsaveAcVis("#DRContainer");
@@ -535,11 +331,11 @@
             };
 
             if (FQV.EditFlag == false) {
-                if (FQV.FF_QTN001_CODE == '') {
+                if (FQV.FNINV001_CODE == '') {
                     response.ErrorMessage += " CODE ,";
                 }
             } else if (FQV.EditFlag == true) {
-                if (FQV.FF_QTN001_CODE == '') {
+                if (FQV.FNINV001_CODE == '') {
                     response.ErrorMessage += "Code ,";
                 }
             }
@@ -550,30 +346,7 @@
                 response.ErrorMessage += "Port Of Load  ,";
             }
 
-            if (FQV.POD == "0") {
-                response.ErrorMessage += "Port Of Dsch  ,";
-            }
-
-            if (FQV.FND == "0") {
-                response.ErrorMessage += "Final Destination  ,";
-            }
-            if (FQV.MOVE_TYPE == "0") {
-                response.ErrorMessage += "Move Type  ,";
-            }
-            if (FQV.VESSEL == "0") {
-                response.ErrorMessage += "VESSEL  ,";
-            }
-            if (FQV.VOYAGE == "0") {
-                response.ErrorMessage += "VOYAGE  ,";
-            }
-
-            if (FQV.EFFECT_UPTO1 == "") {
-                response.ErrorMessage += "EFFECT UPTO  ,";
-            }
-            if (FQV.EFFECT_FROM1 == "") {
-                response.ErrorMessage += "EFFECT FROM  ,";
-            }
-
+            
 
 
 
@@ -603,10 +376,10 @@
                 $("#POList > tbody").children().removeClass("active");
                 $(this).addClass("active");
 
-                var FF_QTN001_CODE = $(this).find("[name*='hdnFF_QTN001_CODE']").val();
+                var FNINV001_CODE = $(this).find("[name*='hdnFNINV001_CODE']").val();
 
 
-                $.get("EditFF_QTNDetails", { FF_QTN001_CODE: FF_QTN001_CODE }).done(function (response) {
+                $.get("EditINVOICEDetails", { FNINV001_CODE: FNINV001_CODE }).done(function (response) {
                     $("#DRContainer").html(response);
 
                     //$("#btnDelete").prop("disabled", false);

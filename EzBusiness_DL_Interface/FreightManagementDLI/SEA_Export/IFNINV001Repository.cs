@@ -17,9 +17,11 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
 
         FNINV001_VM GetFNINVDetailsBL(string CmpyCode, string FF_BL001_CODE, string Branchcode);
         FNINV001_VM SaveFNINV_VM(FNINV001_VM FNINV);
-        List<FNINV002New> GetFNINV002DetailList(string CmpyCode, string FNINV001_CODE, string typ);
+        List<FNINV002New> GetFNINV002DetailList(string CmpyCode, string FNINV001_CODE, string typ,string BRANCHCODE);
       
+        List<CRGCodeDropTbl> GetCRG_002(string CmpyCode, string Prefix);
 
-        bool DeleteFNINV(string CmpyCode, string FNINV001_CODE, string UserName);
+        bool DeleteFNINV(string CmpyCode, string FNINV001_CODE, string UserName,string BRANCHCODE);
     }
+
 }

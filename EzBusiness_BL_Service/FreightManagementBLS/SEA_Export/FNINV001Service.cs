@@ -30,9 +30,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         }
         DropListFillFun drop = new DropListFillFun();
 
-        public bool DeleteFNINV(string CmpyCode, string FNINV001_CODE, string UserName)
+        public bool DeleteFNINV(string CmpyCode, string FNINV001_CODE, string UserName, string BRANCHCODE)
         {
-            return _FNINVRepo.DeleteFNINV(CmpyCode, FNINV001_CODE, UserName);
+            return _FNINVRepo.DeleteFNINV(CmpyCode, FNINV001_CODE, UserName, BRANCHCODE);
         }
 
         public List<FNINV001_VM> GetFNINV(string CmpyCode, string Branchcode)
@@ -54,7 +54,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return poEdit;
         }
 
-        public FNINV001_VM GetFNINV_AddNew(string Cmpycode, string branchcode)
+        public FNINV001_VM GetFNINV_AddNew(string Cmpycode, string BRANCHCODE)
         {
             return new FNINV001_VM
             {
@@ -66,6 +66,14 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         public FNINV001_VM SaveFNINV_VM(FNINV001_VM FNINV)
         {
             return _FNINVRepo.SaveFNINV_VM(FNINV);
+        }
+
+        public List<SelectListItem> GetCRG_002(string CmpyCode, string Prefix)
+        {
+            var CRG_002List = _FNINVRepo.GetCRG_002(CmpyCode, Prefix)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                           .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName, " - ", m.VAT_CODE, " - ", m.VAT_PER, " - ", m.VAT_GL_CODE," - ", m.COA_CODE) })
+                                           .ToList();
+            return CRG_002List;
         }
     }
 }

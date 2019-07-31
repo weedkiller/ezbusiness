@@ -22,17 +22,17 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         DropListFillFun drop = new DropListFillFun();
 
-        public bool DeleteFNINV(string CmpyCode, string FNINV001_CODE, string UserName)
+        public bool DeleteFNINV(string CmpyCode, string FNINV001_CODE, string UserName,string BRANCHCODE)
         {
-            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNINV001 where  FNINV001_CODE='" + FNINV001_CODE + "'  and Flag=0");// CMPYCODE='" + CmpyCode + "' and
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNINV001 where BRANCHCODE='"+ BRANCHCODE + "' and  FNINV001_CODE='" + FNINV001_CODE + "'  and Flag=0");// CMPYCODE='" + CmpyCode + "' and
             if (Grs != 0)
             {
 
                 _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FNINV001_CODE", FNINV001_CODE, Environment.MachineName);
 
-                _EzBusinessHelper.ExecuteNonQuery1("update FNINV002 set Flag=1 where  FNINV001_CODE='" + FNINV001_CODE + "'  and Flag=0");
+                _EzBusinessHelper.ExecuteNonQuery1("update FNINV002 set Flag=1 where BRANCHCODE='"+ BRANCHCODE + "' and FNINV001_CODE='" + FNINV001_CODE + "'  and Flag=0");
                 
-                return _EzBusinessHelper.ExecuteNonQuery1("update FNINV001 set Flag=1 where  FNINV001_CODE='" + FNINV001_CODE + "'  and Flag=0");//CMPYCODE='" + CmpyCode + "' and
+                return _EzBusinessHelper.ExecuteNonQuery1("update FNINV001 set Flag=1 where BRANCHCODE='"+ BRANCHCODE + "' and FNINV001_CODE='" + FNINV001_CODE + "'  and Flag=0");//CMPYCODE='" + CmpyCode + "' and
 
             }
             return false;
@@ -40,7 +40,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<FNINV001_VM> GetFNINV(string CmpyCode, string Branchcode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNINV001 where Flag=0  and CMPYCODE='" + CmpyCode + "' and Branchcode='" + Branchcode + "'");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNINV001 where Flag=0  and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='" + Branchcode + "'");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List <FNINV001_VM> ObjList = new List<FNINV001_VM>();
@@ -48,61 +48,63 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             {
                 ObjList.Add(new FNINV001_VM()
                 {
-                   FNINV001_CODE = dr["FNINV001_CODE"].ToString(),
-               cmpycode = dr["cmpycode"].ToString(),
-               BRANCHCODE = dr["BRANCHCODE"].ToString(),
-               JV_NO = dr["JV_NO"].ToString(),
-               JV_TYPE = dr["JV_TYPE"].ToString(),
-               JV_STATUS = dr["JV_STATUS"].ToString(),
-               invtype = dr["invtype"].ToString(),
-               JV_DATE = Convert.ToDateTime(dr["JV_DATE"].ToString()),
-               Post_Date = Convert.ToDateTime(dr["Post_Date"].ToString()),
-               NOTES = dr["NOTES"].ToString(),
-               NARRATION = dr["NARRATION"].ToString(),
-               CREATED_BY = dr["CREATED_BY"].ToString(),
-               CREATED_ON = Convert.ToDateTime(dr["CREATED_ON"].ToString()),
-               UPDATED_BY = dr["UPDATED_BY"].ToString(),
-               UPDATED_ON = Convert.ToDateTime(dr["UPDATED_ON"].ToString()),
-               COA_CODE = dr["COA_CODE"].ToString(),
-               SUBLEDGER_CODE = dr["SUBLEDGER_CODE"].ToString(),
-               CURRENCY_CODE = dr["CURRENCY_CODE"].ToString(),
-               CURRENCY_RATE = Convert.ToDecimal(dr["CURRENCY_RATE"].ToString()),
-               CURRENCY_AMOUNT = Convert.ToDecimal(dr["CURRENCY_AMOUNT"].ToString()),
-               VAT_AMOUNT = Convert.ToDecimal(dr["VAT_AMOUNT"].ToString()),
-               LOCAL_AMOUNT = Convert.ToDecimal(dr["LOCAL_AMOUNT"].ToString()),
-               BILLING_ADDRESS = dr["BILLING_ADDRESS"].ToString(),
-               SUPPLIER_JV_NO = dr["SUPPLIER_JV_NO"].ToString(),
-               SUPPLIER_JV_DATE = Convert.ToDateTime(dr["SUPPLIER_JV_DATE"].ToString()),
-               SUPPLIER_GRN_NO = dr["SUPPLIER_GRN_NO"].ToString(),
-               RECEIVED_PAID_NAME = dr["RECEIVED_PAID_NAME"].ToString(),
-               UNPOSTED_NOTE = dr["UNPOSTED_NOTE"].ToString(),
-               Customer_Code = dr["Customer_Code"].ToString(),
-               Customer_COA = dr["Customer_COA"].ToString(),
-               Received_By = dr["Received_By"].ToString(),
-               SalesMan = dr["SalesMan"].ToString(),
-               LOCATION_CODE = dr["LOCATION_CODE"].ToString(),
-               vessel_code = dr["vessel_code"].ToString(),
-               BL_CODE = dr["BL_CODE"].ToString(),
-               BL_REF_NO = dr["BL_REF_NO"].ToString(),
-               POL = dr["POL"].ToString(),
-               POD = dr["POD"].ToString(),
-            });
+                    FNINV001_CODE = dr["FNINV001_CODE"].ToString(),
+                    cmpycode = dr["cmpycode"].ToString(),
+                    BRANCHCODE = dr["BRANCHCODE"].ToString(),               
+                    Post_Date = Convert.ToDateTime(dr["Post_Date"].ToString()),
+                    NOTES = dr["NOTES"].ToString(),
+                    NARRATION = dr["NARRATION"].ToString(),
+                    CREATED_BY = dr["CREATED_BY"].ToString(),
+                    CREATED_ON = Convert.ToDateTime(dr["CREATED_ON"].ToString()),
+                    UPDATED_BY = dr["UPDATED_BY"].ToString(),
+                    UPDATED_ON = Convert.ToDateTime(dr["UPDATED_ON"].ToString()),
+                    COA_CODE = dr["COA_CODE"].ToString(),
+                    SUBLEDGER_CODE = dr["SUBLEDGER_CODE"].ToString(),
+                    CURRENCY_CODE = dr["CURRENCY_CODE"].ToString(),
+                    CURRENCY_RATE = Convert.ToDecimal(dr["CURRENCY_RATE"].ToString()),               
+                    BILLING_ADDRESS = dr["BILLING_ADDRESS"].ToString(),
+                    SUPPLIER_JV_NO = dr["SUPPLIER_JV_NO"].ToString(),
+                    SUPPLIER_JV_DATE = Convert.ToDateTime(dr["SUPPLIER_JV_DATE"].ToString()),
+                    SUPPLIER_GRN_NO = dr["SUPPLIER_GRN_NO"].ToString(),
+                    RECEIVED_PAID_NAME = dr["RECEIVED_PAID_NAME"].ToString(),
+                    UNPOSTED_NOTE = dr["UNPOSTED_NOTE"].ToString(),
+                    Customer_Code = dr["Customer_Code"].ToString(),
+                    Customer_COA = dr["Customer_COA"].ToString(),
+                    Received_By = dr["Received_By"].ToString(),
+                    SalesMan = dr["SalesMan"].ToString(),
+                    LOCATION_CODE = dr["LOCATION_CODE"].ToString(),
+                    vessel_code = dr["vessel_code"].ToString(),
+                    BL_CODE = dr["BL_CODE"].ToString(),
+                    BL_REF_NO = dr["BL_REF_NO"].ToString(),
+                    POL = dr["POL"].ToString(),
+                    POD = dr["POD"].ToString(),
+                    VAT_LOCAL_AMT=Convert.ToDecimal(dr["VAT_LOCAL_AMT"].ToString()),
+                    VAT_CURRENCY_AMT = Convert.ToDecimal(dr["VAT_CURRENCY_AMT"].ToString()),
+                    INV_DATE= Convert.ToDateTime(dr["INV_DATE"].ToString()),
+                    INV_STATUS= dr["INV_STATUS"].ToString(),
+                    INV_TYPE = dr["INV_TYPE"].ToString(),
+                    CURRENCY_AMT= Convert.ToDecimal(dr["CURRENCY_AMT"].ToString()),
+                    LOCAL_AMT = Convert.ToDecimal(dr["LOCAL_AMT"].ToString()),
+                    NET_CURRENCY_AMT= Convert.ToDecimal(dr["NET_CURRENCY_AMT"].ToString()),
+                    NET_LOCAL_AMT = Convert.ToDecimal(dr["NET_LOCAL_AMT"].ToString()),
+
+                });
 
             }
             return ObjList;
 
         }
 
-        public List<FNINV002New> GetFNINV002DetailList(string CmpyCode, string FNINV001_CODE, string typ)
+        public List<FNINV002New> GetFNINV002DetailList(string CmpyCode, string FNINV001_CODE, string typ,string BRANCHCODE)
         {
             string qur = "";
             if (typ == "BL")
             {
-                qur = "Select * from FF_BL005 where Flag=0 and FNINV002_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select * from FF_BL005 where Flag=0 and FNINV002_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='"+ BRANCHCODE + "'";
             }
             else
             {
-                qur = "Select * from FNINV002 where Flag=0 and FNINV002_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "'";
+                qur = "Select * from FNINV002 where Flag=0 and FNINV002_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='"+ BRANCHCODE + "'";
             }
 
             ds = _EzBusinessHelper.ExecuteDataSet(qur);// CMPYCODE='" + CmpyCode + "' and 
@@ -114,7 +116,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.Add(new FNINV002New()
                 {
 
-                    COMPANYCODE = dr["COMPANYCODE"].ToString(),
+                    cmpycode = dr["cmpycode"].ToString(),
                     BRANCHCODE = dr["BRANCHCODE"].ToString(),
                     INV001_CODE = dr["INV001_CODE"].ToString(),
                     LINE_NO = Convert.ToDecimal(dr["LINE_NO"].ToString()),
@@ -175,7 +177,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public FNINV001_VM GetFNINVDetailsEdit(string CmpyCode, string FNINV001_CODE, string Branchcode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNINV001 where Flag=0 and FNINV001_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "' and Branchcode='" + Branchcode + "'");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNINV001 where Flag=0 and FNINV001_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='" + Branchcode + "'");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FNINV001_VM ObjList = new FNINV001_VM();
@@ -184,11 +186,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.FNINV001_CODE = dr["FNINV001_CODE"].ToString();
                 ObjList.cmpycode = dr["cmpycode"].ToString();
                 ObjList.BRANCHCODE = dr["BRANCHCODE"].ToString();
-                ObjList.JV_NO = dr["JV_NO"].ToString();
-                ObjList.JV_TYPE = dr["JV_TYPE"].ToString();
-                ObjList.JV_STATUS = dr["JV_STATUS"].ToString();
-                ObjList.invtype = dr["invtype"].ToString();
-                ObjList.JV_DATE = Convert.ToDateTime(dr["JV_DATE"].ToString());
+               
                 ObjList.Post_Date = Convert.ToDateTime(dr["Post_Date"].ToString());
                 ObjList.NOTES = dr["NOTES"].ToString();
                 ObjList.NARRATION = dr["NARRATION"].ToString();
@@ -200,9 +198,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.SUBLEDGER_CODE = dr["SUBLEDGER_CODE"].ToString();
                 ObjList.CURRENCY_CODE = dr["CURRENCY_CODE"].ToString();
                 ObjList.CURRENCY_RATE = Convert.ToDecimal(dr["CURRENCY_RATE"].ToString());
-                ObjList.CURRENCY_AMOUNT = Convert.ToDecimal(dr["CURRENCY_AMOUNT"].ToString());
-                ObjList.VAT_AMOUNT = Convert.ToDecimal(dr["VAT_AMOUNT"].ToString());
-                ObjList.LOCAL_AMOUNT = Convert.ToDecimal(dr["LOCAL_AMOUNT"].ToString());
+               
                 ObjList.BILLING_ADDRESS = dr["BILLING_ADDRESS"].ToString();
                 ObjList.SUPPLIER_JV_NO = dr["SUPPLIER_JV_NO"].ToString();
                 ObjList.SUPPLIER_JV_DATE =Convert.ToDateTime(dr["SUPPLIER_JV_DATE"].ToString());
@@ -219,8 +215,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.BL_REF_NO = dr["BL_REF_NO"].ToString();
                 ObjList.POL = dr["POL"].ToString();
                 ObjList.POD = dr["POD"].ToString();
-
-
+                ObjList.VAT_LOCAL_AMT = Convert.ToDecimal(dr["VAT_LOCAL_AMT"].ToString());
+                ObjList.VAT_CURRENCY_AMT = Convert.ToDecimal(dr["VAT_CURRENCY_AMT"].ToString());
+                ObjList.INV_DATE = Convert.ToDateTime(dr["INV_DATE"].ToString());
+                ObjList.INV_STATUS = dr["INV_STATUS"].ToString();
+                ObjList.INV_TYPE = dr["INV_TYPE"].ToString();
+                ObjList.CURRENCY_AMT = Convert.ToDecimal(dr["CURRENCY_AMT"].ToString());
+                ObjList.LOCAL_AMT = Convert.ToDecimal(dr["LOCAL_AMT"].ToString());
+                ObjList.NET_CURRENCY_AMT = Convert.ToDecimal(dr["NET_CURRENCY_AMT"].ToString());
+                ObjList.NET_LOCAL_AMT = Convert.ToDecimal(dr["NET_LOCAL_AMT"].ToString());
 
 
             }
@@ -237,7 +240,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             dtstr2 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
             dte = Convert.ToDateTime(FNINV.Post_Date);
             dtstr3 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
-            dte = Convert.ToDateTime(FNINV.JV_DATE);
+            dte = Convert.ToDateTime(FNINV.INV_DATE);
             dtstr4 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
 
             if (!FNINV.EditFlag)
@@ -254,11 +257,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             {
                                 BRANCHCODE = m.BRANCHCODE,
                                 COA_CODE = m.COA_CODE,
-                                COMPANYCODE = m.COMPANYCODE,
+                                cmpycode = m.cmpycode,
                                 Cost_per_qty = m.Cost_per_qty,
                                 INV001_CODE = m.INV001_CODE,
                                 ITEMCODE = m.ITEMCODE,
-                                JV_NO = m.JV_NO,
+                                Item_Description=m.Item_Description,
+                                O_VAT_CURR_AMT=m.O_VAT_CURR_AMT,
+                                VAT_GL_CODE=m.VAT_GL_CODE,
                                 LINE_NO = m.LINE_NO,
                                 Location_Code = m.Location_Code,
                                 Narration = m.Narration,
@@ -282,6 +287,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 V_NET_LOCAL_AMT = m.V_NET_LOCAL_AMT,
                                 V_VAT_CURR_AMT = m.V_VAT_CURR_AMT,
                                 V_VAT_LOCAL_AMT = m.V_VAT_LOCAL_AMT
+                                
                             }).ToList());
                         }
 
@@ -299,12 +305,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             {
                                 StringBuilder sb5 = new StringBuilder();
 
-                                sb5.Append("'" + ObjList[n - 1].COMPANYCODE + "',");
-                                sb5.Append("'" + ObjList[n - 1].BRANCHCODE + "',");
-                                sb5.Append("'" + ObjList[n - 1].INV001_CODE + "',");
-                                sb5.Append("'" + ObjList[n - 1].LINE_NO + "',");
-                                sb5.Append("'" + ObjList[n - 1].ITEMCODE + "',");
+                                sb5.Append("'" + FNINV.cmpycode + "',");
+                                sb5.Append("'" + FNINV.BRANCHCODE + "',");
+                                sb5.Append("'" + FNINV.FNINV001_CODE + "',");
+                                sb5.Append("'" + n + "',");
                                 sb5.Append("'" + ObjList[n - 1].O_CHARGE_UID + "',");
+                                sb5.Append("'" + ObjList[n - 1].ITEMCODE + "',");
+                                sb5.Append("'" + ObjList[n - 1].Item_Description + "',");
                                 sb5.Append("'" + ObjList[n - 1].UNIT_TYPE + "',");
                                 sb5.Append("'" + ObjList[n - 1].NO_OF_QTY + "',");
                                 sb5.Append("'" + ObjList[n - 1].RATE_PER_QTY + "',");
@@ -316,8 +323,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 sb5.Append("'" + ObjList[n - 1].O_CURR_AMT + "',");
                                 sb5.Append("'" + ObjList[n - 1].O_LOCAL_AMT + "',");
                                 sb5.Append("'" + ObjList[n - 1].O_VAT_LOCAL_AMT + "',");
+                                sb5.Append("'" + ObjList[n - 1].O_VAT_CURR_AMT + "',");
                                 sb5.Append("'" + ObjList[n - 1].VAT_CODE + "',");
                                 sb5.Append("'" + ObjList[n - 1].VAT_PER + "',");
+                                sb5.Append("'" + ObjList[n - 1].VAT_GL_CODE + "',");
                                 sb5.Append("'" + ObjList[n - 1].V_CURR_AMT + "',");
                                 sb5.Append("'" + ObjList[n - 1].V_LOCAL_AMT + "',");
                                 sb5.Append("'" + ObjList[n - 1].V_VAT_CURR_AMT + "',");
@@ -329,7 +338,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 sb5.Append("'" + ObjList[n - 1].Ret_Qty + "',");
                                 sb5.Append("'" + ObjList[n - 1].Cost_per_qty + "')");
 
-                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FNINV002(COMPANYCODE,BRANCHCODE,INV001_CODE,LINE_NO,ITEMCODE,O_CHARGE_UID,UNIT_TYPE,NO_OF_QTY,RATE_PER_QTY,COA_CODE,SUBLEDGER_CODE,Location_Code,O_CURR_CODE,O_CURR_RATE,O_CURR_AMT,O_LOCAL_AMT,O_VAT_LOCAL_AMT,VAT_CODE,VAT_PER,V_CURR_AMT,V_LOCAL_AMT,V_VAT_CURR_AMT,V_VAT_LOCAL_AMT,V_NET_CURR_AMT,V_NET_LOCAL_AMT,Narration,NOTE,Ret_Qty,Cost_per_qty) values(" + sb5.ToString() + "");
+
+                                i = _EzBusinessHelper.ExecuteNonQuery("insert into FNINV002(cmpycode,BRANCHCODE,INV001_CODE,LINE_NO,O_CHARGE_UID,ITEMCODE,Item_Description,UNIT_TYPE,NO_OF_QTY,RATE_PER_QTY,COA_CODE,SUBLEDGER_CODE,Location_Code,O_CURR_CODE,O_CURR_RATE,O_CURR_AMT,O_LOCAL_AMT,O_VAT_LOCAL_AMT,O_VAT_CURR_AMT,VAT_CODE,VAT_PER,VAT_GL_CODE,V_CURR_AMT,V_LOCAL_AMT,V_VAT_CURR_AMT,V_VAT_LOCAL_AMT,V_NET_CURR_AMT,V_NET_LOCAL_AMT,Narration,NOTE,Ret_Qty,Cost_per_qty) values(" + sb5.ToString() + "");
                                 //_EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Add FFM Charge", ObjList[n - 1].FF_BL001_CODE, Environment.MachineName);
 
                             }
@@ -342,45 +352,45 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         //if (i > 0)
                         //{
                         StringBuilder sb4 = new StringBuilder();
-                        sb4.Append("'" + FNINV.JV_NO + "',");
-                        sb4.Append("'" + FNINV.JV_TYPE + "',");
-                        sb4.Append("'" + FNINV.JV_STATUS + "',");
-                        sb4.Append("'" + FNINV.invtype + "',");
-                        sb4.Append("'" + FNINV.JV_DATE + "',");
-                        sb4.Append("'" + FNINV.Post_Date + "',");
-                        sb4.Append("'" + FNINV.NOTES + "',");
-                        sb4.Append("'" + FNINV.NARRATION + "',");
-                        sb4.Append("'" + FNINV.CREATED_BY + "',");
-                        sb4.Append("'" + FNINV.CREATED_ON + "',");
-                        sb4.Append("'" + FNINV.UPDATED_BY + "',");
-                        sb4.Append("'" + FNINV.UPDATED_ON + "',");
-                        sb4.Append("'" + FNINV.COA_CODE + "',");
-                        sb4.Append("'" + FNINV.SUBLEDGER_CODE + "',");
-                        sb4.Append("'" + FNINV.CURRENCY_CODE + "',");
-                        sb4.Append("'" + FNINV.CURRENCY_RATE + "',");
-                        sb4.Append("'" + FNINV.CURRENCY_AMOUNT + "',");
-                        sb4.Append("'" + FNINV.VAT_AMOUNT + "',");
-                        sb4.Append("'" + FNINV.LOCAL_AMOUNT + "',");
-                        sb4.Append("'" + FNINV.BILLING_ADDRESS + "',");
-                        sb4.Append("'" + FNINV.SUPPLIER_JV_NO + "',");
-                        sb4.Append("'" + FNINV.SUPPLIER_JV_DATE + "',");
-                        sb4.Append("'" + FNINV.SUPPLIER_GRN_NO + "',");
-                        sb4.Append("'" + FNINV.RECEIVED_PAID_NAME + "',");
-                        sb4.Append("'" + FNINV.UNPOSTED_NOTE + "',");
-                        sb4.Append("'" + FNINV.Customer_Code + "',");
-                        sb4.Append("'" + FNINV.Customer_COA + "',");
-                        sb4.Append("'" + FNINV.Received_By + "',");
-                        sb4.Append("'" + FNINV.SalesMan + "',");
-                        sb4.Append("'" + FNINV.LOCATION_CODE + "',");
-                        sb4.Append("'" + FNINV.vessel_code + "',");
-                        sb4.Append("'" + FNINV.BL_CODE + "',");
-                        sb4.Append("'" + FNINV.BL_REF_NO + "',");
-                        sb4.Append("'" + FNINV.POL + "',");
-                        sb4.Append("'" + FNINV.POD + "')");
-                        
-
-
-                        i = _EzBusinessHelper.ExecuteNonQuery("insert into FNINV001(FNINV001_CODE,cmpycode,BRANCHCODE,JV_NO,JV_TYPE,JV_STATUS,invtype,JV_DATE,Post_Date,NOTES,NARRATION,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_CODE,SUBLEDGER_CODE,CURRENCY_CODE,CURRENCY_RATE,CURRENCY_AMOUNT,VAT_AMOUNT,LOCAL_AMOUNT,BILLING_ADDRESS,SUPPLIER_JV_NO,SUPPLIER_JV_DATE,SUPPLIER_GRN_NO,RECEIVED_PAID_NAME,UNPOSTED_NOTE,Customer_Code,Customer_COA,Received_By,SalesMan,LOCATION_CODE,vessel_code,BL_CODE,BL_REF_NO,POL,POD) values(" + sb4.ToString() + "");
+                       
+                        sb4.Append("'" + FNINV.FNINV001_CODE +"',");
+                        sb4.Append("'" + FNINV.cmpycode +"',");
+                        sb4.Append("'" + FNINV.BRANCHCODE +"',");
+                        sb4.Append("'" + FNINV.INV_TYPE +"',");
+                        sb4.Append("'" + FNINV.INV_STATUS +"',");
+                        sb4.Append("'" + dtstr4 + "',");
+                        sb4.Append("'" + dtstr3 + "',");
+                        sb4.Append("'" + FNINV.NOTES +"',");
+                        sb4.Append("'" + FNINV.NARRATION +"',");
+                        sb4.Append("'" + FNINV.CREATED_BY +"',");
+                        sb4.Append("'" + dtstr1 + "',");
+                        sb4.Append("'" + FNINV.UPDATED_BY +"',");
+                        sb4.Append("'" + dtstr1 + "',");
+                        sb4.Append("'" + FNINV.COA_CODE +"',");
+                        sb4.Append("'" + FNINV.SUBLEDGER_CODE +"',");
+                        sb4.Append("'" + FNINV.CURRENCY_CODE +"',");
+                        sb4.Append("'" + FNINV.CURRENCY_RATE +"',");
+                        sb4.Append("'" + FNINV.VAT_CURRENCY_AMT +"',");
+                        sb4.Append("'" + FNINV.VAT_LOCAL_AMT +"',");
+                        sb4.Append("'" + FNINV.CURRENCY_AMT +"',");
+                        sb4.Append("'" + FNINV.LOCAL_AMT +"',");
+                        sb4.Append("'" + FNINV.NET_CURRENCY_AMT +"',");
+                        sb4.Append("'" + FNINV.NET_LOCAL_AMT +"',");
+                        sb4.Append("'" + FNINV.BILLING_ADDRESS +"',");
+                        sb4.Append("'" + FNINV.SUPPLIER_JV_NO +"',");
+                        sb4.Append("'" + dtstr2 + "',");
+                        sb4.Append("'" + FNINV.SUPPLIER_GRN_NO +"',");
+                        sb4.Append("'" + FNINV.RECEIVED_PAID_NAME +"',");
+                        sb4.Append("'" + FNINV.UNPOSTED_NOTE +"',");
+                        sb4.Append("'" + FNINV.Received_By +"',");
+                        sb4.Append("'" + FNINV.SalesMan +"',");
+                        sb4.Append("'" + FNINV.LOCATION_CODE +"',");
+                        sb4.Append("'" + FNINV.vessel_code +"',");
+                        sb4.Append("'" + FNINV.BL_CODE +"',");
+                        sb4.Append("'" + FNINV.BL_REF_NO +"',");
+                        sb4.Append("'" + FNINV.POL +"',");
+                        sb4.Append("'" + FNINV.POD +"')");
+                        i = _EzBusinessHelper.ExecuteNonQuery("insert into FNINV001(FNINV001_CODE,cmpycode,BRANCHCODE,INV_TYPE,INV_STATUS,INV_DATE,Post_Date,NOTES,NARRATION,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_CODE,SUBLEDGER_CODE,CURRENCY_CODE,CURRENCY_RATE,VAT_CURRENCY_AMT,VAT_LOCAL_AMT,CURRENCY_AMT,LOCAL_AMT,NET_CURRENCY_AMT,NET_LOCAL_AMT,BILLING_ADDRESS,SUPPLIER_JV_NO,SUPPLIER_JV_DATE,SUPPLIER_GRN_NO,RECEIVED_PAID_NAME,UNPOSTED_NOTE,Received_By,SalesMan,LOCATION_CODE,vessel_code,BL_CODE,BL_REF_NO,POL,POD) values(" + sb4.ToString() + "");
 
                         #endregion
                                               
@@ -407,47 +417,36 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         FNINV001 FQT1 = new FNINV001();
                         dt = ds.Tables[0];
                         foreach (DataRow dr in dt.Rows)
-                        {                           
-                            FQT1.BILLING_ADDRESS = FNINV.BILLING_ADDRESS;
-                            FQT1.BL_CODE = FNINV.BL_CODE;
-                            FQT1.BL_REF_NO = FNINV.BL_REF_NO;
-                            FQT1.BRANCHCODE = FNINV.BRANCHCODE;
+                        {
+                            FQT1.FNINV001_CODE = FNINV.FNINV001_CODE;
                             FQT1.cmpycode = FNINV.cmpycode;
-                            FQT1.COA_CODE = FNINV.COA_CODE;
+                            FQT1.BRANCHCODE = FNINV.BRANCHCODE;
+                            FQT1.INV_TYPE = FNINV.INV_TYPE;
+                            FQT1.INV_STATUS = FNINV.INV_STATUS;
+                            FQT1.INV_DATE = FNINV.INV_DATE;
+                            FQT1.Post_Date = FNINV.Post_Date;
+                            FQT1.NOTES = FNINV.NOTES;
+                            FQT1.NARRATION = FNINV.NARRATION;
                             FQT1.CREATED_BY = FNINV.CREATED_BY;
                             FQT1.CREATED_ON = FNINV.CREATED_ON;
-                            FQT1.CURRENCY_AMOUNT = FNINV.CURRENCY_AMOUNT;
-                            FQT1.CURRENCY_CODE = FNINV.CURRENCY_CODE;
-                            FQT1.CURRENCY_RATE = FNINV.CURRENCY_RATE;
-                            FQT1.Customer_COA = FNINV.Customer_COA;
-                            FQT1.Customer_Code = FNINV.Customer_Code;
-                            FQT1.FNINV001_CODE = FNINV.FNINV001_CODE;
-                            FQT1.invtype = FNINV.invtype;
-                            FQT1.JV_DATE = FNINV.JV_DATE;
-                            FQT1.JV_NO = FNINV.JV_NO;
-                            FQT1.JV_STATUS = FNINV.JV_STATUS;
-                            FQT1.JV_TYPE = FNINV.JV_TYPE;
-                            FQT1.LOCAL_AMOUNT = FNINV.LOCAL_AMOUNT;
-                            FQT1.LOCATION_CODE = FNINV.LOCATION_CODE;
-                            FQT1.NARRATION = FNINV.NARRATION;
-                            FQT1.NOTES = FNINV.NOTES;
-                            FQT1.POD = FNINV.POD;
-                            FQT1.POL = FNINV.POL;
-                            FQT1.Post_Date = FNINV.Post_Date;
-                            FQT1.Received_By = FNINV.Received_By;
-                            FQT1.RECEIVED_PAID_NAME = FNINV.RECEIVED_PAID_NAME;
-                            FQT1.SalesMan = FNINV.SalesMan;
-                            FQT1.SUBLEDGER_CODE = FNINV.SUBLEDGER_CODE;
-                            FQT1.SUPPLIER_GRN_NO = FNINV.SUPPLIER_GRN_NO;
-                            FQT1.SUPPLIER_JV_DATE = FNINV.SUPPLIER_JV_DATE;
-                            FQT1.SUPPLIER_JV_NO = FNINV.SUPPLIER_JV_NO;
-                            FQT1.UNPOSTED_NOTE = FNINV.UNPOSTED_NOTE;
                             FQT1.UPDATED_BY = FNINV.UPDATED_BY;
                             FQT1.UPDATED_ON = FNINV.UPDATED_ON;
-                            FQT1.VAT_AMOUNT = FNINV.VAT_AMOUNT;
-                            FQT1.vessel_code = FNINV.vessel_code;  
+                            FQT1.COA_CODE = FNINV.COA_CODE;
+                            FQT1.SUBLEDGER_CODE = FNINV.SUBLEDGER_CODE;
+                            FQT1.CURRENCY_CODE = FNINV.CURRENCY_CODE;
+                            FQT1.CURRENCY_RATE = FNINV.CURRENCY_RATE;
+                            FQT1.VAT_CURRENCY_AMT = FNINV.VAT_CURRENCY_AMT;
+                            FQT1.VAT_LOCAL_AMT = FNINV.VAT_LOCAL_AMT;
+                            FQT1.CURRENCY_AMT = FNINV.CURRENCY_AMT;
+                            FQT1.LOCAL_AMT = FNINV.LOCAL_AMT;
+                            FQT1.NET_CURRENCY_AMT = FNINV.NET_CURRENCY_AMT;
+                            FQT1.NET_LOCAL_AMT = FNINV.NET_LOCAL_AMT;
+                            FQT1.BILLING_ADDRESS = FNINV.BILLING_ADDRESS;
+                            FQT1.SUPPLIER_JV_NO = FNINV.SUPPLIER_JV_NO;
+                            
 
-                            _EzBusinessHelper.ExecuteNonQuery("delete from FNINV002 where CmpyCode='" + FNINV.cmpycode + "' and FNINV001_CODE='" + FNINV.FNINV001_CODE + "'");
+
+                            _EzBusinessHelper.ExecuteNonQuery("delete from FNINV002 where CmpyCode='" + FNINV.cmpycode + "' and FNINV001_CODE='" + FNINV.FNINV001_CODE + "' AND BRANCHCODE ='"+ FNINV.BRANCHCODE +"'");
 
                             // #region ObjectList
                             #region FNINV002
@@ -456,43 +455,43 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             {
                                 ObjList.AddRange(FNINV.FNINV002Detail.Select(m => new FNINV002
                                 {
-                                    BRANCHCODE=m.BRANCHCODE,
-                                    COA_CODE=m.COA_CODE,
-                                    COMPANYCODE=m.COMPANYCODE,
-                                    Cost_per_qty=m.Cost_per_qty,
-                                    INV001_CODE=m.INV001_CODE,
-                                    ITEMCODE=m.ITEMCODE,
-                                    JV_NO=m.JV_NO,
-                                    LINE_NO=m.LINE_NO,
-                                    Location_Code=m.Location_Code,
-                                    Narration=m.Narration,
-                                    NOTE=m.NOTE,
-                                    NO_OF_QTY=m.NO_OF_QTY,
-                                    O_CHARGE_UID=m.O_CHARGE_UID,
-                                    O_CURR_AMT=m.O_CURR_AMT,
-                                    O_CURR_CODE=m.COA_CODE,
-                                    O_CURR_RATE=m.O_CURR_RATE,
-                                    O_LOCAL_AMT=m.O_LOCAL_AMT,
-                                    O_VAT_LOCAL_AMT=m.O_VAT_LOCAL_AMT,
-                                    RATE_PER_QTY=m.RATE_PER_QTY,
-                                    Ret_Qty=m.Ret_Qty,
-                                    SUBLEDGER_CODE=m.SUBLEDGER_CODE,
-                                    UNIT_TYPE=m.UNIT_TYPE,
-                                    VAT_CODE=m.VAT_CODE,
-                                    VAT_PER=m.VAT_PER,
-                                    V_CURR_AMT=m.V_CURR_AMT,
-                                    V_LOCAL_AMT=m.V_LOCAL_AMT,
-                                    V_NET_CURR_AMT=m.V_NET_CURR_AMT,
-                                    V_NET_LOCAL_AMT=m.V_NET_LOCAL_AMT,
-                                    V_VAT_CURR_AMT=m.V_VAT_CURR_AMT,
-                                    V_VAT_LOCAL_AMT=m.V_VAT_LOCAL_AMT
+                                    BRANCHCODE = m.BRANCHCODE,
+                                    COA_CODE = m.COA_CODE,
+                                    cmpycode = m.cmpycode,
+                                    Cost_per_qty = m.Cost_per_qty,
+                                    INV001_CODE = m.INV001_CODE,
+                                    ITEMCODE = m.ITEMCODE,
+                                    Item_Description = m.Item_Description,
+                                    O_VAT_CURR_AMT = m.O_VAT_CURR_AMT,
+                                    VAT_GL_CODE = m.VAT_GL_CODE,
+                                    LINE_NO = m.LINE_NO,
+                                    Location_Code = m.Location_Code,
+                                    Narration = m.Narration,
+                                    NOTE = m.NOTE,
+                                    NO_OF_QTY = m.NO_OF_QTY,
+                                    O_CHARGE_UID = m.O_CHARGE_UID,
+                                    O_CURR_AMT = m.O_CURR_AMT,
+                                    O_CURR_CODE = m.COA_CODE,
+                                    O_CURR_RATE = m.O_CURR_RATE,
+                                    O_LOCAL_AMT = m.O_LOCAL_AMT,
+                                    O_VAT_LOCAL_AMT = m.O_VAT_LOCAL_AMT,
+                                    RATE_PER_QTY = m.RATE_PER_QTY,
+                                    Ret_Qty = m.Ret_Qty,
+                                    SUBLEDGER_CODE = m.SUBLEDGER_CODE,
+                                    UNIT_TYPE = m.UNIT_TYPE,
+                                    VAT_CODE = m.VAT_CODE,
+                                    VAT_PER = m.VAT_PER,
+                                    V_CURR_AMT = m.V_CURR_AMT,
+                                    V_LOCAL_AMT = m.V_LOCAL_AMT,
+                                    V_NET_CURR_AMT = m.V_NET_CURR_AMT,
+                                    V_NET_LOCAL_AMT = m.V_NET_LOCAL_AMT,
+                                    V_VAT_CURR_AMT = m.V_VAT_CURR_AMT,
+                                    V_VAT_LOCAL_AMT = m.V_VAT_LOCAL_AMT
+
                                 }).ToList());
                             }
 
                             #endregion
-
-                           
-
                             //---
                             int n, i = 0;
 
@@ -501,17 +500,18 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             while (n > 0)
                             {
 
-                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FNINV002 where FNINV001_CODE='" + FNINV.FNINV001_CODE + "' and  CmpyCode='" + FNINV.cmpycode + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FNINV002 where FNINV001_CODE='" + FNINV.FNINV001_CODE + "' and  CmpyCode='" + FNINV.cmpycode + "' and flag=0 AND BRANCHCODE ='" + FNINV.BRANCHCODE + "'");// CmpyCode='" + FQV.CMPYCODE + "' and
                                 if (Stats1 == 0)
                                 {
                                     StringBuilder sb5 = new StringBuilder();
 
-                                    sb5.Append("'" + ObjList[n - 1].COMPANYCODE + "',");
-                                    sb5.Append("'" + ObjList[n - 1].BRANCHCODE + "',");
-                                    sb5.Append("'" + ObjList[n - 1].INV001_CODE + "',");
-                                    sb5.Append("'" + ObjList[n - 1].LINE_NO + "',");
-                                    sb5.Append("'" + ObjList[n - 1].ITEMCODE + "',");
+                                    sb5.Append("'" + FNINV.cmpycode + "',");
+                                    sb5.Append("'" + FNINV.BRANCHCODE + "',");
+                                    sb5.Append("'" + FNINV.FNINV001_CODE + "',");
+                                    sb5.Append("'" + n + "',");
                                     sb5.Append("'" + ObjList[n - 1].O_CHARGE_UID + "',");
+                                    sb5.Append("'" + ObjList[n - 1].ITEMCODE + "',");
+                                    sb5.Append("'" + ObjList[n - 1].Item_Description + "',");
                                     sb5.Append("'" + ObjList[n - 1].UNIT_TYPE + "',");
                                     sb5.Append("'" + ObjList[n - 1].NO_OF_QTY + "',");
                                     sb5.Append("'" + ObjList[n - 1].RATE_PER_QTY + "',");
@@ -523,8 +523,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb5.Append("'" + ObjList[n - 1].O_CURR_AMT + "',");
                                     sb5.Append("'" + ObjList[n - 1].O_LOCAL_AMT + "',");
                                     sb5.Append("'" + ObjList[n - 1].O_VAT_LOCAL_AMT + "',");
+                                    sb5.Append("'" + ObjList[n - 1].O_VAT_CURR_AMT + "',");
                                     sb5.Append("'" + ObjList[n - 1].VAT_CODE + "',");
                                     sb5.Append("'" + ObjList[n - 1].VAT_PER + "',");
+                                    sb5.Append("'" + ObjList[n - 1].VAT_GL_CODE + "',");
                                     sb5.Append("'" + ObjList[n - 1].V_CURR_AMT + "',");
                                     sb5.Append("'" + ObjList[n - 1].V_LOCAL_AMT + "',");
                                     sb5.Append("'" + ObjList[n - 1].V_VAT_CURR_AMT + "',");
@@ -536,7 +538,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb5.Append("'" + ObjList[n - 1].Ret_Qty + "',");
                                     sb5.Append("'" + ObjList[n - 1].Cost_per_qty + "')");
 
-                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FNINV002(COMPANYCODE,BRANCHCODE,INV001_CODE,LINE_NO,ITEMCODE,O_CHARGE_UID,UNIT_TYPE,NO_OF_QTY,RATE_PER_QTY,COA_CODE,SUBLEDGER_CODE,Location_Code,O_CURR_CODE,O_CURR_RATE,O_CURR_AMT,O_LOCAL_AMT,O_VAT_LOCAL_AMT,VAT_CODE,VAT_PER,V_CURR_AMT,V_LOCAL_AMT,V_VAT_CURR_AMT,V_VAT_LOCAL_AMT,V_NET_CURR_AMT,V_NET_LOCAL_AMT,Narration,NOTE,Ret_Qty,Cost_per_qty) values(" + sb5.ToString() + "");
+
+                                    i = _EzBusinessHelper.ExecuteNonQuery("insert into FNINV002(cmpycode,BRANCHCODE,INV001_CODE,LINE_NO,O_CHARGE_UID,ITEMCODE,Item_Description,UNIT_TYPE,NO_OF_QTY,RATE_PER_QTY,COA_CODE,SUBLEDGER_CODE,Location_Code,O_CURR_CODE,O_CURR_RATE,O_CURR_AMT,O_LOCAL_AMT,O_VAT_LOCAL_AMT,O_VAT_CURR_AMT,VAT_CODE,VAT_PER,VAT_GL_CODE,V_CURR_AMT,V_LOCAL_AMT,V_VAT_CURR_AMT,V_VAT_LOCAL_AMT,V_NET_CURR_AMT,V_NET_LOCAL_AMT,Narration,NOTE,Ret_Qty,Cost_per_qty) values(" + sb5.ToString() + "");
                                     //_EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Add FFM Charge", ObjList[n - 1].FF_BL001_CODE, Environment.MachineName);
 
                                 }
@@ -545,38 +548,40 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             }
                             #endregion
 
-                      
 
-                            #region FF_BL001 Update
+
+                            #region FF_INV001 Update
                             StringBuilder sb9 = new StringBuilder();
 
-                            sb9.Append("JV_NO='" + FNINV.JV_NO + "',");
-                            sb9.Append("JV_TYPE='" + FNINV.JV_TYPE + "',");
-                            sb9.Append("JV_STATUS='" + FNINV.JV_STATUS + "',");
-                            sb9.Append("invtype='" + FNINV.invtype + "',");
-                            sb9.Append("JV_DATE='" + FNINV.JV_DATE + "',");
-                            sb9.Append("Post_Date='" + FNINV.Post_Date + "',");
+                            sb9.Append("FNINV001_CODE='" + FNINV.FNINV001_CODE + "',");
+                            sb9.Append("cmpycode='" + FNINV.cmpycode + "',");
+                            sb9.Append("BRANCHCODE='" + FNINV.BRANCHCODE + "',");
+                            sb9.Append("INV_TYPE='" + FNINV.INV_TYPE + "',");
+                            sb9.Append("INV_STATUS='" + FNINV.INV_STATUS + "',");
+                            sb9.Append("INV_DATE='" + dtstr4 + "',");
+                            sb9.Append("Post_Date='" + dtstr3 + "',");
                             sb9.Append("NOTES='" + FNINV.NOTES + "',");
                             sb9.Append("NARRATION='" + FNINV.NARRATION + "',");
                             sb9.Append("CREATED_BY='" + FNINV.CREATED_BY + "',");
-                            sb9.Append("CREATED_ON='" + FNINV.CREATED_ON + "',");
+                            sb9.Append("CREATED_ON='" + dtstr1 + "',");
                             sb9.Append("UPDATED_BY='" + FNINV.UPDATED_BY + "',");
-                            sb9.Append("UPDATED_ON='" + FNINV.UPDATED_ON + "',");
+                            sb9.Append("UPDATED_ON='" + dtstr1 + "',");
                             sb9.Append("COA_CODE='" + FNINV.COA_CODE + "',");
                             sb9.Append("SUBLEDGER_CODE='" + FNINV.SUBLEDGER_CODE + "',");
                             sb9.Append("CURRENCY_CODE='" + FNINV.CURRENCY_CODE + "',");
                             sb9.Append("CURRENCY_RATE='" + FNINV.CURRENCY_RATE + "',");
-                            sb9.Append("CURRENCY_AMOUNT='" + FNINV.CURRENCY_AMOUNT + "',");
-                            sb9.Append("VAT_AMOUNT='" + FNINV.VAT_AMOUNT + "',");
-                            sb9.Append("LOCAL_AMOUNT='" + FNINV.LOCAL_AMOUNT + "',");
+                            sb9.Append("VAT_CURRENCY_AMT='" + FNINV.VAT_CURRENCY_AMT + "',");
+                            sb9.Append("VAT_LOCAL_AMT='" + FNINV.VAT_LOCAL_AMT + "',");
+                            sb9.Append("CURRENCY_AMT='" + FNINV.CURRENCY_AMT + "',");
+                            sb9.Append("LOCAL_AMT='" + FNINV.LOCAL_AMT + "',");
+                            sb9.Append("NET_CURRENCY_AMT='" + FNINV.NET_CURRENCY_AMT + "',");
+                            sb9.Append("NET_LOCAL_AMT='" + FNINV.NET_LOCAL_AMT + "',");
                             sb9.Append("BILLING_ADDRESS='" + FNINV.BILLING_ADDRESS + "',");
                             sb9.Append("SUPPLIER_JV_NO='" + FNINV.SUPPLIER_JV_NO + "',");
-                            sb9.Append("SUPPLIER_JV_DATE='" + FNINV.SUPPLIER_JV_DATE + "',");
+                            sb9.Append("SUPPLIER_JV_DATE='" + dtstr2 + "',");
                             sb9.Append("SUPPLIER_GRN_NO='" + FNINV.SUPPLIER_GRN_NO + "',");
                             sb9.Append("RECEIVED_PAID_NAME='" + FNINV.RECEIVED_PAID_NAME + "',");
                             sb9.Append("UNPOSTED_NOTE='" + FNINV.UNPOSTED_NOTE + "',");
-                            sb9.Append("Customer_Code='" + FNINV.Customer_Code + "',");
-                            sb9.Append("Customer_COA='" + FNINV.Customer_COA + "',");
                             sb9.Append("Received_By='" + FNINV.Received_By + "',");
                             sb9.Append("SalesMan='" + FNINV.SalesMan + "',");
                             sb9.Append("LOCATION_CODE='" + FNINV.LOCATION_CODE + "',");
@@ -585,12 +590,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             sb9.Append("BL_REF_NO='" + FNINV.BL_REF_NO + "',");
                             sb9.Append("POL='" + FNINV.POL + "',");
                             sb9.Append("POD='" + FNINV.POD + "'");
-                           
 
-
-
-
-                            _EzBusinessHelper.ExecuteNonQuery("update FNINV002 set  " + sb9 + " where  FNINV001_CODE='" + FNINV.FNINV001_CODE + "' and  cmpycode='" + FNINV.cmpycode + "' and Flag=0");//CmpyCode='" + FQV.CMPYCODE + "' and                         
+                            _EzBusinessHelper.ExecuteNonQuery("update FNINV001 set  " + sb9 + " where  FNINV001_CODE='" + FNINV.FNINV001_CODE + "' and  BRANCHCODE='" + FNINV.BRANCHCODE + "' and  cmpycode='" + FNINV.cmpycode + "' and Flag=0");//CmpyCode='" + FQV.CMPYCODE + "' and                         
                                                                                                                                                                                                    // _EzBusinessHelper.ActivityLog(FQV.CMPYCODE, FQV.UserName, "Add FFM Voyage", ObjList[n - 1].FFM_VOYAGE01_CODE, Environment.MachineName);
                             #endregion
 
@@ -612,6 +613,32 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             }
 
             return FNINV;
+        }
+
+        public List<CRGCodeDropTbl> GetCRG_002(string CmpyCode, string Prefix)
+        {
+            string qur = "select   H.FFM_CRG_001_CODE Code,H.NAME CodeName,G.VAT_CODE , G.VAT_PER ,   G.VAT_GL_CODE ,D.INCOME_ACT as [COA_CODE] from FFM_CRG_001 H " +
+                         " INNER JOIN  FFM_CRG_GROUP G ON H.FFM_CRG_GROUP_CODE = G.FFM_CRG_GROUP_CODE and h.CMPYCODE = G.CMPYCODE and H.flag=G.flag " +
+                         " inner join  FFM_CRG_002 D on D.FFM_CRG_001_CODE=h.FFM_CRG_001_CODE and h.CMPYCODE=D.CMPYCODE and h.flag=D.flag " +
+                        " where h.CMPYCODE='" + CmpyCode + "' and H.flag=0 and (H.FFM_CRG_001_CODE like '" + Prefix + "%' or H.NAME like '" + Prefix + "%')";
+            ds = _EzBusinessHelper.ExecuteDataSet(qur);
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<CRGCodeDropTbl> ObjList = new List<CRGCodeDropTbl>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new CRGCodeDropTbl()
+                {
+                    CodeName = dr["CodeName"].ToString(),
+                    VAT_CODE = dr["VAT_CODE"].ToString(),
+                    Code = dr["Code"].ToString(),
+                    VAT_GL_CODE = dr["VAT_GL_CODE"].ToString(),
+                    VAT_PER =Convert.ToDecimal(dr["VAT_PER"].ToString()),
+                    COA_CODE=dr["COA_CODE"].ToString()
+
+                });
+            }
+            return ObjList;
         }
     }
 }

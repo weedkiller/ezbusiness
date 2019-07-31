@@ -43,7 +43,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(new { DeleteFlag = _INVService.DeleteFNINV(FNINV001_CODE, list[0].CmpyCode, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _INVService.DeleteFNINV(FNINV001_CODE, list[0].CmpyCode, list[0].user_name, list[0].BraCode) }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -101,6 +101,19 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 FQV.cmpycode = list[0].CmpyCode;
                 FQV.UserName = list[0].user_name;
                 return Json(_INVService.SaveFNINV_VM(FQV), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetCRG_002(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_INVService.GetCRG_002(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
     }
