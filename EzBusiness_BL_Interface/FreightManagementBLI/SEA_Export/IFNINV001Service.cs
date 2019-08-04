@@ -20,7 +20,13 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 
         List<SelectListItem> GetCRG_002(string CmpyCode, string Prefix);
 
+        List<SelectListItem> GETBLNO(string CmpyCode, string Branchcode, string Customercode, string Prefix);
+
+        List<FNINV002New> GETBLNODetails(string CmpyCode, string Branchcode, string BLNO);
+
         bool DeleteFNINV(string CmpyCode, string FNINV001_CODE, string UserName,string BRANCHCODE);
+
+        List<FNINV002New> GetFNINV002DetailList(string CmpyCode, string FNINV001_CODE, string Branchcode);
     }
 
 }

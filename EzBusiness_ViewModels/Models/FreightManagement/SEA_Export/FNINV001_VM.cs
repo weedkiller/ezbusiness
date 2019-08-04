@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
 {
     public class FNINV001_VM
-    {                   
+    {
+        [Display(Name = "Code")]
         public string FNINV001_CODE { get; set; }
         public string cmpycode { get; set; }
         public string BRANCHCODE { get; set; }
         public string INV_TYPE { get; set; }
         public string INV_STATUS { get; set; }
+        [Display(Name = "Inv Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime INV_DATE { get; set; }
@@ -31,10 +33,13 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime UPDATED_ON { get; set; }
-
+        [Display(Name = "COA Code")]
         public string COA_CODE { get; set; }
+        [Display(Name = "Customer Code")]
         public string SUBLEDGER_CODE { get; set; }
+        [Display(Name = "Currency Code")]
         public string CURRENCY_CODE { get; set; }
+        [Display(Name = "Currency Rate")]
         public Decimal CURRENCY_RATE { get; set; }
         public Decimal VAT_CURRENCY_AMT { get; set; }
         public Decimal VAT_LOCAL_AMT { get; set; }
@@ -56,8 +61,11 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public string Received_By { get; set; }
         public string SalesMan { get; set; }
         public string LOCATION_CODE { get; set; }
+        [Display(Name = "Vessel Code")]
         public string vessel_code { get; set; }
+        [Display(Name = "BL Code")]
         public string BL_CODE { get; set; }
+        [Display(Name = "Bl Ref No")]
         public string BL_REF_NO { get; set; }
         public string POL { get; set; }
         public string POD { get; set; }

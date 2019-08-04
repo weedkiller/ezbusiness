@@ -119,31 +119,23 @@
                     INV_DATE:  Ezsetdtpkdate($("[name*='INV_DATE1']").val()),
                     Post_Date:  Ezsetdtpkdate($("[name*='Post_Date1']").val()),
                     NOTES: $("[name*='NOTES']").val(),
-                    NARRATION: $("[name*='NARRATION']").val(),                  
-                    COA_CODE: $("[name*='hdnCOA_CODE']").val(),
+                    NARRATION: $("[name*='NARRATION']").val(),                                     
                     SUBLEDGER_CODE: $("[name*='hdnSUBLEDGER_CODE']").val(),
                     CURRENCY_CODE: $("[name*='hdnCURRENCY_CODE']").val(),
-                    CURRENCY_RATE: $("[name*='CURRENCY_RATE']").val(),
+                    CURRENCY_RATE: $("[name*='CURRENCY_RATE']").val(),                                                     
+                    SalesMan: $("[name*='hdnSalesMan']").val(),                   
+                    vessel_code: $("[name*='hdnvessel_code']").val(),
+                    BL_CODE: $("[name*='BL_CODE']").val(),                    
+                    POL: $("[name*='hdnPOL']").val(),
+                    POD: $("[name*='hdnPOD']").val(),                  
                     VAT_CURRENCY_AMT: $("[name*='VAT_CURRENCY_AMT']").val(),
                     VAT_LOCAL_AMT: $("[name*='VAT_LOCAL_AMT']").val(),
                     CURRENCY_AMT: $("[name*='CURRENCY_AMT']").val(),
                     LOCAL_AMT: $("[name*='LOCAL_AMT']").val(),
                     NET_CURRENCY_AMT: $("[name*='NET_CURRENCY_AMT']").val(),
                     NET_LOCAL_AMT: $("[name*='NET_LOCAL_AMT']").val(),
-                    BILLING_ADDRESS: $("[name*='BILLING_ADDRESS']").val(),
-                    SUPPLIER_JV_NO: $("[name*='SUPPLIER_JV_NO']").val(),
-                    SUPPLIER_JV_DATE:  Ezsetdtpkdate($("[name*='SUPPLIER_JV_DATE1']").val()),
-                    SUPPLIER_GRN_NO: $("[name*='SUPPLIER_GRN_NO']").val(),
-                    RECEIVED_PAID_NAME: $("[name*='RECEIVED_PAID_NAME']").val(),
-                    UNPOSTED_NOTE: $("[name*='UNPOSTED_NOTE']").val(),
-                    Received_By: $("[name*='Received_By']").val(),
-                    SalesMan: $("[name*='hdnSalesMan']").val(),
-                    LOCATION_CODE: $("[name*='hdnLOCATION_CODE']").val(),
-                    vessel_code: $("[name*='hdnvessel_code']").val(),
-                    BL_CODE: $("[name*='BL_CODE']").val(),
-                    BL_REF_NO: $("[name*='BL_REF_NO']").val(),
-                    POL: $("[name*='hdnPOL']").val(),
-                    POD: $("[name*='hdnPOD']").val(),
+                    INV_STATUS: 'POSTED',
+                    INV_TYPE:'INVJ',
                     FNINV002Detail: [],                                     
                 };               
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
@@ -167,30 +159,32 @@
                     var VochAmountBC = $(this).find("[name*='txtVochAmountBC']").val();
                     var VouchVATAmountBC = $(this).find("[name*='txtVouchVATAmountBC']").val();
                     var VochAmountBC = $(this).find("[name*='txtVochAmountBC']").val();
-                    var VochNetsumVatAmountFC = $(this).find("[name*='txtVochNetsumVatAmountFC']").val();                              
+                    var VochNetsumVatAmountFC = $(this).find("[name*='txtVochNetsumVatAmountFC']").val();
+                    var O_CHARGE_UID = $(this).find("[name*='txtO_CHARGE_UID']").val();
                     if (Crg_code != "" && Crg_name != '') {
                         var FNINV002Details = {
-                            ITEMCODE:Crg_code,
-                            Item_Description:Crg_name,
-                            UNIT_TYPE:Unit_code,
-                            NO_OF_QTY:No_of_qty,
-                            RATE_PER_QTY:No_of_qty,
-                            COA_CODE:COA_CODE,
-                            O_CURR_CODE:Ex_Curr_Code,
-                            O_CURR_RATE:Ex_Curr_Rate,
-                            O_CURR_AMT:AmountFC,
-                            O_LOCAL_AMT:VochAmountFC,
-                            O_VAT_LOCAL_AMT:VochAmountFC,
-                            O_VAT_CURR_AMT:VochAmountFC,
-                            VAT_CODE:VAT_CODE,
-                            VAT_PER:Vat_PER,
-                            VAT_GL_CODE:VochAmountFC,
-                            V_CURR_AMT:VochAmountFC,
-                            V_LOCAL_AMT:VochAmountFC,
-                            V_VAT_CURR_AMT:VouchVATAmountFC,
-                            V_VAT_LOCAL_AMT:VochAmountBC,
-                            V_NET_CURR_AMT:VochAmountBC,
-                            V_NET_LOCAL_AMT:VochNetsumVatAmountFC
+                            O_CHARGE_UID: O_CHARGE_UID,
+                            ITEMCODE: Crg_code,
+                            Item_Description: Crg_name,
+                            UNIT_TYPE: Unit_code,
+                            NO_OF_QTY: No_of_qty,
+                            RATE_PER_QTY: Ex_Curr_Rate,
+                            COA_CODE: COA_CODE,
+                            O_CURR_CODE: Ex_Curr_Code,
+                            O_CURR_RATE: Rate,
+                            VAT_CODE: VAT_CODE,
+                            VAT_PER: Vat_PER,
+                            VAT_GL_CODE: VAT_GL_CODE,
+                            O_CURR_AMT: AmountFC,
+                            O_LOCAL_AMT: AmountBC,
+                            O_VAT_CURR_AMT: VouchVATAmountFC,
+                            O_VAT_LOCAL_AMT: VouchVATAmountBC,
+                            //V_VAT_CURR_AMT:VouchVATAmountFC,
+                            //V_VAT_LOCAL_AMT: VouchVATAmountBC,
+                            V_CURR_AMT: VochAmountFC,
+                            V_LOCAL_AMT: VochAmountBC,
+                            V_NET_CURR_AMT: VochNetsumVatAmountFC,
+                            V_NET_LOCAL_AMT: parseFloat(VatAmountBC) + parseFloat(VochAmountBC),
                         };
                         FQV.FNINV002Detail.push(FNINV002Details);
                     }
@@ -226,30 +220,22 @@
                     Post_Date: Ezsetdtpkdate($("[name*='Post_Date1']").val()),
                     NOTES: $("[name*='NOTES']").val(),
                     NARRATION: $("[name*='NARRATION']").val(),
-                    COA_CODE: $("[name*='hdnCOA_CODE']").val(),
                     SUBLEDGER_CODE: $("[name*='hdnSUBLEDGER_CODE']").val(),
                     CURRENCY_CODE: $("[name*='hdnCURRENCY_CODE']").val(),
-                    CURRENCY_RATE: $("[name*='CURRENCY_RATE']").val(),
+                    CURRENCY_RATE: $("[name*='CURRENCY_RATE']").val(),                   
+                    SalesMan: $("[name*='hdnSalesMan']").val(),
+                    vessel_code: $("[name*='hdnvessel_code']").val(),
+                    BL_CODE: $("[name*='BL_CODE']").val(),
+                    POL: $("[name*='hdnPOL']").val(),
+                    POD: $("[name*='hdnPOD']").val(),
                     VAT_CURRENCY_AMT: $("[name*='VAT_CURRENCY_AMT']").val(),
                     VAT_LOCAL_AMT: $("[name*='VAT_LOCAL_AMT']").val(),
                     CURRENCY_AMT: $("[name*='CURRENCY_AMT']").val(),
                     LOCAL_AMT: $("[name*='LOCAL_AMT']").val(),
                     NET_CURRENCY_AMT: $("[name*='NET_CURRENCY_AMT']").val(),
                     NET_LOCAL_AMT: $("[name*='NET_LOCAL_AMT']").val(),
-                    BILLING_ADDRESS: $("[name*='BILLING_ADDRESS']").val(),
-                    SUPPLIER_JV_NO: $("[name*='SUPPLIER_JV_NO']").val(),
-                    SUPPLIER_JV_DATE: Ezsetdtpkdate($("[name*='SUPPLIER_JV_DATE1']").val()),
-                    SUPPLIER_GRN_NO: $("[name*='SUPPLIER_GRN_NO']").val(),
-                    RECEIVED_PAID_NAME: $("[name*='RECEIVED_PAID_NAME']").val(),
-                    UNPOSTED_NOTE: $("[name*='UNPOSTED_NOTE']").val(),
-                    Received_By: $("[name*='Received_By']").val(),
-                    SalesMan: $("[name*='hdnSalesMan']").val(),
-                    LOCATION_CODE: $("[name*='hdnLOCATION_CODE']").val(),
-                    vessel_code: $("[name*='hdnvessel_code']").val(),
-                    BL_CODE: $("[name*='BL_CODE']").val(),
-                    BL_REF_NO: $("[name*='BL_REF_NO']").val(),
-                    POL: $("[name*='hdnPOL']").val(),
-                    POD: $("[name*='hdnPOD']").val(),
+                    INV_STATUS: 'POSTED',
+                    INV_TYPE: 'INVJ',
                     FNINV002Detail: [],
                 };
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
@@ -274,29 +260,31 @@
                     var VouchVATAmountBC = $(this).find("[name*='txtVouchVATAmountBC']").val();
                     var VochAmountBC = $(this).find("[name*='txtVochAmountBC']").val();
                     var VochNetsumVatAmountFC = $(this).find("[name*='txtVochNetsumVatAmountFC']").val();
+                    var O_CHARGE_UID = $(this).find("[name*='txtO_CHARGE_UID']").val();
                     if (Crg_code != "" && Crg_name != '') {
                         var FNINV002Details = {
+                            O_CHARGE_UID: O_CHARGE_UID,
                             ITEMCODE: Crg_code,
                             Item_Description: Crg_name,
                             UNIT_TYPE: Unit_code,
                             NO_OF_QTY: No_of_qty,
-                            RATE_PER_QTY: No_of_qty,
+                            RATE_PER_QTY: Ex_Curr_Rate,
                             COA_CODE: COA_CODE,
                             O_CURR_CODE: Ex_Curr_Code,
-                            O_CURR_RATE: Ex_Curr_Rate,
-                            O_CURR_AMT: AmountFC,
-                            O_LOCAL_AMT: VochAmountFC,
-                            O_VAT_LOCAL_AMT: VochAmountFC,
-                            O_VAT_CURR_AMT: VochAmountFC,
+                            O_CURR_RATE: Rate,
                             VAT_CODE: VAT_CODE,
                             VAT_PER: Vat_PER,
-                            VAT_GL_CODE: VochAmountFC,
+                            VAT_GL_CODE: VAT_GL_CODE,
+                            O_CURR_AMT: AmountFC,
+                            O_LOCAL_AMT: AmountBC,
+                            O_VAT_CURR_AMT: VouchVATAmountFC,
+                            O_VAT_LOCAL_AMT: VouchVATAmountBC,
+                            //V_VAT_CURR_AMT: VouchVATAmountFC,
+                            //V_VAT_LOCAL_AMT: VouchVATAmountBC,
                             V_CURR_AMT: VochAmountFC,
-                            V_LOCAL_AMT: VochAmountFC,
-                            V_VAT_CURR_AMT: VouchVATAmountFC,
-                            V_VAT_LOCAL_AMT: VochAmountBC,
-                            V_NET_CURR_AMT: VochAmountBC,
-                            V_NET_LOCAL_AMT: VochNetsumVatAmountFC
+                            V_LOCAL_AMT: VochAmountBC,
+                            V_NET_CURR_AMT: VochNetsumVatAmountFC,                                                     
+                            V_NET_LOCAL_AMT: parseFloat(VatAmountBC) + parseFloat(VochAmountBC),                                                       
                         };
                         FQV.FNINV002Detail.push(FNINV002Details);
                     }
@@ -484,7 +472,7 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @*@Html.Action("GetFF_QTN002DetailList", "FFM_Quotation")*@
+                                                @Html.Action("GetINVOICEDetailList", "FNINV001")
                                             </div>
 
                                         </div>
