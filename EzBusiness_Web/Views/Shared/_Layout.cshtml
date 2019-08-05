@@ -155,80 +155,26 @@
             $("#sidebarCollapse").click(function () {
                 
               $("#sidebar").toggle();
-              //  $(this).addClass("active1");  
-               // $(this).removeClass("active1");               
+                       
             });     
-            //$("#sidebarCollapsetemp1").click(function () {
-            //    debugger;
-            //    $("#sidebar").toggle();               
-            //});   
+            
             debugger;
             jQuery.expr[':'].casecontains = (a, b, c) => jQuery(a).text().toUpperCase().indexOf(c[3].toUpperCase()) >= 0;
             var pathname = document.location.pathname;       
     
-            //Or else you can go with below one too
-            //$("#nav li:first").find('a').trigger('click');
-
-      $(".treeview > li > a").on("click", function(e)  {
-          debugger;
-          if ($(this).parent().has("ul")) {
-             // e.preventDefault();
-      
-          }
-
-          if (!$(this).hasClass("open")) {
-              // hide any open menus and remove all other classes
-              $(".treeview li ul").slideUp(350);
-              $(".treeview li a").removeClass("open");
-
-              // open our new menu and add the open class
-              $(this).next("ul").slideDown(350);
-              $(this).addClass("open");
-          } else if ($(this).hasClass("open")) {
-              $(this).removeClass("open");
-              $(this).next("ul").slideUp(350);
-          }
-      
-      $(".treeview > li:first > a").trigger('click');
-     });
+           
     
           $('a[href*="' + pathname + '"]').each(function () {
               debugger;
               $(this).css("background-color", "#4ECDC4");
+              $(this).addClass('menu-open');
               $(this).css("color", "#f2f2f2");
               $(this).show(); 
               $('#search1').val($(this).text());                                       
               $(".treeview li>ul").first().show();
               
             
-              // first hide the div #link-content lists from view
-             // $('#link-content li').hide();
-             // // but secretly unhide the collapsed links
-             // // using .show, so the nested uls can be viewed
-             // $('#link-content li.nav-item ul').show();
-             // // then filter in the matching links only
-              //$('#link-content li:casecontains("' + $('#search1').val() + '")').show();  
-              var url = pathname;
-              var currentItem = $(".treeview").find("[href$='" + url + "']");
-              var path1 = "";
-              var i=0;
-              $(currentItem.parents("li").get().reverse()).each(function (e) {       
-                  debugger;           
-                  if(i!=0) {                       
-                      path1 += "<li>" + $(this).attr('value') +"</li>";
-                      //if (!$(this).hasClass("open")){
-                      //    $(this).parents('li').find('ul').stop(true, true).slideDown('fast');
-                      //    $(this).first().addClass('open');  
-                      //}
-                      $('#link-content li.nav-item ul').show();
-                  }
-                  //if (i == 0)
-                  //{
-                  //    $(".treeview li>ul").first().show();
-                  //}
-               
-                  i=i+1;                    
-              });  
+             
 
           });  
        
@@ -264,13 +210,8 @@
                     debugger;
                
                     if(i!=0){                       
-                        path1 += "<li>" + $(this).attr('value') +"</li>";
-                        $('#link-content li.nav-item ul').show();
-                       
-                        if(i==1){
-                            Fmenu=$(this).attr('value');
-                            $('#link-content li:casecontains("' + $(this).attr('value') + '")').show();
-                        }
+                        path1 += "<li>" + $(this).attr('value') +"</li>";                      
+                        $(this).closest('li').children('ul').slideToggle();
                      }
                    i=i+1;                    
                 });  
