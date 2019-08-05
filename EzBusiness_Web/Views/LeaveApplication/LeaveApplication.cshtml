@@ -93,7 +93,7 @@
                         var PRLR001_CODE = $("[name*='PRLR001_CODE']").val();
                         var oldLeavedays = $("[name*='oldLeavedays']").val();
                         var EmpCode = $("[name*='EmpCode']").val();
-                        var LeaveType = $("#LeaveType option:selected").val();
+                        var LeaveType = $("#LeaveType").val();
                         $.getJSON("/DeleteLeaveApp", { PRLR001_CODE: PRLR001_CODE, oldLeavedays: oldLeavedays, EmpCode: EmpCode, LeaveType: LeaveType }).done(function (data) {
                             if (data.DeleteFlag)
                             {
@@ -155,7 +155,7 @@
                 var LeaveApp = {
                     IsEditMode: false,
                     PRLR001_CODE: $("[name*='PRLR001_CODE']").val(),
-                    EmpCode: $("#EmpCode option:selected").val(),
+                    EmpCode: $("#EmpCode").val(),
                     Entry_Dates: Ezsetdtpkdate($("[name*='Entry_Dates1']").val()),
                     JoiningDate: Ezsetdtpkdate($("[name*='JoiningDate1']").val()),
                     StartDate: Ezsetdtpkdate($("[name*='StartDate1']").val()),
@@ -166,14 +166,14 @@
                     TotalSanctioned: $("[name*='TotalSanctioned']").val(),
                     TotalApplied: 0,
                     ApprovalYN: $("input:radio[name=ApprovalYN]:checked").val(),
-                    LeaveType: $("#LeaveType option:selected").val(),
+                    LeaveType: $("#LeaveType").val(),
                     Status: '0',
                     COUNTRY: '0',
                     DIVISION: '0',
                 };              
                 var validationResult = ValidateForm(LeaveApp);
                 if (validationResult.formValid) {
-                    k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                    k = EzSalrProcCondiont($("#EmpCode").val(), date1);
                     if (k == 1)
                         {
                     $.post("/SaveLeaveApp", LeaveApp).done(function (response) {
@@ -200,7 +200,7 @@
                 var LeaveApp = {
                     IsEditMode: true,
                     PRLR001_CODE: $("[name*='PRLR001_CODE']").val(),
-                    EmpCode: $("#EmpCode option:selected").val(),
+                    EmpCode: $("#EmpCode").val(),
                     Entry_Dates: Ezsetdtpkdate($("[name*='Entry_Dates1']").val()),
                     JoiningDate: Ezsetdtpkdate($("[name*='JoiningDate1']").val()),
                     StartDate: Ezsetdtpkdate($("[name*='StartDate1']").val()),
@@ -212,7 +212,7 @@
                     oldLeavedays: $("[name*='oldLeavedays']").val(),
                     TotalApplied: 0,
                     ApprovalYN: $("input:radio[name=ApprovalYN]:checked").val(),
-                    LeaveType: $("#LeaveType option:selected").val(),
+                    LeaveType: $("#LeaveType").val(),
                     Status: '0',
                     COUNTRY: '0',
                     DIVISION: '0',

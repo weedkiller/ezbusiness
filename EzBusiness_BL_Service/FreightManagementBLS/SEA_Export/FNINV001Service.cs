@@ -30,9 +30,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         }
         DropListFillFun drop = new DropListFillFun();
 
-        public bool DeleteFNINV(string CmpyCode, string FNINV001_CODE, string UserName)
+        public bool DeleteFNINV(string CmpyCode, string FNINV001_CODE, string UserName, string BRANCHCODE)
         {
-            return _FNINVRepo.DeleteFNINV(CmpyCode, FNINV001_CODE, UserName);
+            return _FNINVRepo.DeleteFNINV(CmpyCode, FNINV001_CODE, UserName, BRANCHCODE);
         }
 
         public List<FNINV001_VM> GetFNINV(string CmpyCode, string Branchcode)
@@ -54,7 +54,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return poEdit;
         }
 
-        public FNINV001_VM GetFNINV_AddNew(string Cmpycode, string branchcode)
+        public FNINV001_VM GetFNINV_AddNew(string Cmpycode, string BRANCHCODE)
         {
             return new FNINV001_VM
             {

@@ -6,6 +6,8 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 
 <script>
     //var Drs = [];
@@ -27,8 +29,15 @@
         EzDisabledT(Ideary);
 
         $('#oldLeavedays').val($('#Excess_Days_plus_minus').val());
+        EzAutoCompTxt1("#PRLR001_CODE", "#hdnPRLR001_CODE", "/DutyResume/GetLsNoEdit");
+        EzAutoCompTxt1("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList");
+        EzAutoCompTxt1("#Duty_Rm_type", "#hdnDuty_Rm_type", "/LeaveApplication/GetLeaveTypList");
+        EzAutoCompTxt1("#Actual_Leave_Type", "#hdnActual_Leave_Type", "/LeaveApplication/GetLeaveTypList");
 
-       
+        EzAutoCompTxtE("#PRLR001_CODE", "#hdnPRLR001_CODE", "/DutyResume/GetLsNoEdit", false, "");
+        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
+        EzAutoCompTxtE("#Duty_Rm_type", "#hdnDuty_Rm_type", "/LeaveApplication/GetLeaveTypList", false, "");
+        EzAutoCompTxtE("#Actual_Leave_Type", "#hdnActual_Leave_Type", "/LeaveApplication/GetLeaveTypList", false, "");
 
 
 
@@ -96,8 +105,10 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Sanction Code</label>
                                                         <div class="col-md-9 input-field">
-                                                            @Html.TextBoxFor(m => m.PRDR001_CODE, new { @disabled = "disabled", @class = "form-control" })
-                                                            @Html.HiddenFor(m => m.PRDR001_CODE)
+                                                              @*@Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @placeholder = "Select Emp Code",@disabled = "disabled" })
+                                                            <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />*@
+                                                            @Html.TextBoxFor(m => m.PRLR001_CODE, new { @class = "form-control", @placeholder = "Select PRLR001 CODE"})
+                                                            <input id="hdnPRLR001_CODE" type="hidden" class="form-control" name="hdnPRLR001_CODE" value="-1" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -106,7 +117,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Employee</label>
                                                         <div class="col-md-9 input-field">
-                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @placeholder = "Select Emp Code", @disabled = "disabled" })
+                                                            <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -143,7 +156,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Actual Leave Type</label>
                                                         <div class="col-md-9 input-field">
-                                                            @Html.DropDownListFor(m => m.Actual_Leave_Type, Model.Rm_TypeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.Actual_Leave_Type, Model.Rm_TypeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.Actual_Leave_Type, new { @class = "form-control", @placeholder = "Select Actual_Leave Type", @disabled = "disabled" })
+                                                            <input id="hdnActual_Leave_Type" type="hidden" class="form-control" name="hdnActual_Leave_Type" value="-1" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -152,7 +167,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Duty Resume Type</label>
                                                         <div class="col-md-9 input-field">
-                                                            @Html.DropDownListFor(m => m.Duty_Rm_type, Model.Rm_TypeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.Duty_Rm_type, Model.Rm_TypeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.Duty_Rm_type, new { @class = "form-control", @placeholder = "Select Duty_Rm type" })
+                                                            <input id="hdnDuty_Rm_type" type="hidden" class="form-control" name="hdnDuty_Rm_type" value="-1" />
                                                         </div>
                                                     </div>
                                                 </div>

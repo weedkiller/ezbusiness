@@ -1019,7 +1019,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
         {
             return drop.GetCommonDrop2("Select a.SELL_RATE as [CodeName], a.FROM_CURRENCY_CODE as [Code] from FNM_CURR_RATE a " +
             " right join  (select max(ENTRY_DATE) as [ENTRY_DATE], FROM_CURRENCY_CODE, CMPYCODE from FNM_CURR_RATE group by FROM_CURRENCY_CODE, CMPYCODE) as [FRMCUR]  on FRMCUR.FROM_CURRENCY_CODE = a.FROM_CURRENCY_CODE and FRMCUR.CMPYCODE = a.CMPYCODE and FRMCUR.ENTRY_DATE = a.ENTRY_DATE "+
-             " where a.CMPYCODE = '"+ CmpyCode + "' and a.flag = 0 and a.FROM_CURRENCY_CODE = (select CURRENCY from FNMBRANCH where CMPYCODE = '"+ CmpyCode +"' and Branchcode = '"+BranchCode+"' )");
+             " where a.CMPYCODE = '"+ CmpyCode + "' and a.flag = 0 and a.FROM_CURRENCY_CODE = (select CURRENCY from FNMBRANCH where CMPYCODE = '"+ CmpyCode + "' and FNMBRANCH_CODE = '" + BranchCode+"' )");
         }
 
         public string Aprrove_QTN(string CmpyCode, string FF_QTN001_CODE, string UserName, string Typ, string BranchCode, string tblname)

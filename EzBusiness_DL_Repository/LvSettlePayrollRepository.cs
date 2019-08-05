@@ -93,7 +93,6 @@ namespace EzBusiness_DL_Repository
                         new SqlParameter("@Net_Pay",Liv.Net_Pay)
                        };
 
-
                     cstatus = _EzBusinessHelper.ExecuteNonQuery("AddLeaveSett", param1);
                     if (cstatus == true)
                     {
@@ -210,30 +209,39 @@ namespace EzBusiness_DL_Repository
             return dropfill.GetEmpCodes(CmpyCode,"L1");
         }
 
-        public List<LeaveApplication> GetLeaveCodes(string CmpyCode,string typ)
+        //public List<LeaveApplication> GetLeaveCodes(string CmpyCode,string typ)
+        //{
+        //    if (typ != "Etyp")
+        //    {
+        //        ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRLR001 where cmpycode='" + CmpyCode + "' and LeaveType='AL' and ApprovalYN='Y' and PRLR001_CODE Not in (Select PRLR001_CODE from PRLS001 where cmpycode='" + CmpyCode + "') order by PRLR001_CODE");
+        //    }          
+        //    else
+        //    {
+        //        ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRLR001 where cmpycode='" + CmpyCode + "' and LeaveType='AL' and ApprovalYN='Y' order by PRLR001_CODE");
+        //    }
+
+        //    dt = ds.Tables[0];
+        //    DataRowCollection drc = dt.Rows;
+        //    List<LeaveApplication> ObjList = new List<LeaveApplication>();
+        //    foreach (DataRow dr in drc)
+        //    {
+        //        ObjList.Add(new LeaveApplication()
+        //        {                    
+        //            PRLR001_CODE = dr["PRLR001_CODE"].ToString(),
+        //            EmpCode=dr["EmpCode"].ToString()                   
+        //        });
+
+        //    }
+        //    return ObjList;
+        //}
+        public List<ComDropTbl> GetLeaveCodes(string CmpyCode, string Prefix)
         {
-            if (typ != "Etyp")
-            {
-                ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRLR001 where cmpycode='" + CmpyCode + "' and LeaveType='AL' and ApprovalYN='Y' and PRLR001_CODE Not in (Select PRLR001_CODE from PRLS001 where cmpycode='" + CmpyCode + "') order by PRLR001_CODE");
-            }          
-            else
-            {
-                ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRLR001 where cmpycode='" + CmpyCode + "' and LeaveType='AL' and ApprovalYN='Y' order by PRLR001_CODE");
-            }
+            //if (typ != "Etyp")
+            //{
+            // ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRLR001 where cmpycode='" + CmpyCode + "' and LeaveType='AL' and ApprovalYN='Y' and PRLR001_CODE Not in (Select PRLR001_CODE from PRLS001 where cmpycode='" + CmpyCode + "') order by PRLR001_CODE");
+            // }
 
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<LeaveApplication> ObjList = new List<LeaveApplication>();
-            foreach (DataRow dr in drc)
-            {
-                ObjList.Add(new LeaveApplication()
-                {                    
-                    PRLR001_CODE = dr["PRLR001_CODE"].ToString(),
-                    EmpCode=dr["EmpCode"].ToString()                   
-                });
-
-            }
-            return ObjList;
+            return dropfill.GetCommonDrop("PRLR001_CODE as [Code],EmpCode as [CodeName]", "PRLR001", "cmpycode='" + CmpyCode + "' and Status=0  and LeaveType='AL' and ApprovalYN='Y' and PRLR001_CODE Not in (Select PRLR001_CODE from PRLS001 where cmpycode='" + CmpyCode + "') and  (PRLR001_CODE like '" + Prefix + "%' or EmpCode like '" + Prefix + "%') order by PRLR001_CODE ");
         }
 
         public List<LeaveSettlementnew> GetLeaveDetails(string CmpyCode, string PRLR001_CODE,DateTime lvsdte)

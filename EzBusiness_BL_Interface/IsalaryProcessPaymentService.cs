@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace EzBusiness_BL_Interface
 {
@@ -14,7 +15,7 @@ namespace EzBusiness_BL_Interface
         SalaryProcessDVM GetNewbtnsalaryPrcesspaymentDetails(string CmpyCode);
         SalaryProcessDVM SaveSalryProcessPaymentDetails(SalaryProcessDVM sly);
         SalaryProcessDVM GetEditedsalryprocessPaymentdetails(string cmpycpode);
-
+        List<SelectListItem> GetDivCodeListLatest(string CmpyCode,string Prefix);
 
         SalaryProcessDVM GetsalryprocessPaymentEdit(string CmpyCode, string PRSPD001_COD);
 

@@ -58,10 +58,10 @@ namespace EzBusiness_BL_Service
             return new DutyResumeVM
             {
                 
-               EmpCodeList= GetEmpCodes(Cmpycode),
-               LsNoList = GetLsNo(Cmpycode, "Ntyp"),
+               //EmpCodeList= GetEmpCodes(Cmpycode),
+             //  LsNoList = GetLsNo(Cmpycode, "Ntyp"),
 
-                Rm_TypeList = GetLeaveTypList(Cmpycode),
+               // Rm_TypeList = GetLeaveTypList(Cmpycode),
                 EditFlag = false
             };
         }
@@ -109,10 +109,24 @@ namespace EzBusiness_BL_Service
             }).ToList();
         }
 
-        public List<SelectListItem> GetLsNo(string Cmpycode, string typ)
+        public List<SelectListItem> GetLsNo(string Cmpycode, string Prefix)
         {
-            var LsNo = _DrRepo.GetLsNo(Cmpycode,typ)
-                                        .Select(m => new SelectListItem { Value = m.PRLR001_CODE, Text =string.Concat(m.PRLR001_CODE , "-",m.Entry_Dates,"-", m.EmpCode) })
+            var LsNo = _DrRepo.GetLsNo(Cmpycode, Prefix)
+                                        .Select(m => new SelectListItem { Value = m.Code, Text =m.Code +"-"+m.CodeName})
+                                        .ToList();
+            return LsNo;
+        }
+        public List<SelectListItem> GetLsNoEdit(string Cmpycode, string Prefix)
+        {
+            var LsNo = _DrRepo.GetLsNoEdit(Cmpycode, Prefix)
+                                        .Select(m => new SelectListItem { Value = m.Code, Text = m.Code + "-" + m.CodeName })
+                                        .ToList();
+            return LsNo;
+        }
+        public List<SelectListItem> GetLsNo11(string Cmpycode, string typ)
+        {
+            var LsNo = _DrRepo.GetLsNo11(Cmpycode, typ)
+                                        .Select(m => new SelectListItem { Value = m.PRLR001_CODE, Text = string.Concat(m.PRLR001_CODE, "-", m.Entry_Dates, "-", m.EmpCode) })
                                         .ToList();
             return InsertFirstElementDDL(LsNo);
         }

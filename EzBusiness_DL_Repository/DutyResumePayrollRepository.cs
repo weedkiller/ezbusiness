@@ -137,7 +137,18 @@ namespace EzBusiness_DL_Repository
             return ObjList;
         }
 
-        public List<LeaveApplication> GetLsNo(string Cmpycode, string typ)
+        public List<ComDropTbl> GetLsNo(string Cmpycode, string Prefix)
+        {
+   
+          return drop.GetCommonDrop("PRLR001_CODE as [Code],EmpCode as [CodeName]", "PRLR001", "CMPYCODE='" + Cmpycode + "'  and Status!='D' and PRLR001_CODE  in (Select PRLR001_CODE from PRLS001 where cmpycode = cmpycode and flag=0) and Status=0 and (PRLR001_CODE like '" + Prefix + "%' or EmpCode like '" + Prefix + "%') order by PRLR001_CODE");
+
+        }
+
+        public List<ComDropTbl> GetLsNoEdit(string Cmpycode, string Prefix)
+        {
+            return drop.GetCommonDrop("PRLR001_CODE as [Code],EmpCode as [CodeName]", "PRLR001", "CMPYCODE='" + Cmpycode + "'  and Status!='D' and PRLR001_CODE Not in (Select PRLR001_CODE from PRDR001 where cmpycode=cmpycode and flag=0) and PRLR001_CODE not in (Select PRLR001_CODE from PRDR001 where cmpycode=cmpycode and flag=0) and (PRLR001_CODE like '" + Prefix + "%' or EmpCode like '" + Prefix + "%') order by PRLR001_CODE");
+        }
+        public List<LeaveApplication> GetLsNo11(string Cmpycode, string typ)
         {
             if (typ != "Etyp")
             {
@@ -163,10 +174,11 @@ namespace EzBusiness_DL_Repository
                     EndDate = Convert.ToDateTime(dr["EndDate"]),
                     EmpCode = dr["EmpCode"].ToString(),
                     LeaveType = dr["LeaveType"].ToString(),
-                    TotalBalance=dr["TotalBalance"].ToString()
+                    TotalBalance = dr["TotalBalance"].ToString()
                 });
             }
             return ObjList;
+  
         }
         public List<Attendence> GetLeaveTypList(string CmpyCode)
         {
@@ -200,10 +212,10 @@ namespace EzBusiness_DL_Repository
                         new SqlParameter("@Excess_Date",dtstr3),
                         new SqlParameter("@Actual_Leave_Type",Drs.Actual_Leave_Type),
                         new SqlParameter("@Duty_Rm_type",Drs.Duty_Rm_type),
-                        new SqlParameter("@Approve_Days",Drs.Approve_Days),
-                        new SqlParameter("@Excess_Days_plus_minus",Drs.Excess_Days_plus_minus),
-                        new SqlParameter("@Approve_Days_in_full",Drs.Approve_Days_in_full),
-                        new SqlParameter("@Approve_Days_in_Half",Drs.Approve_Days_in_Half)
+                        new SqlParameter("@Approve_Days",Drs.Approve_Days!=null?Drs.Approve_Days:""),
+                        new SqlParameter("@Excess_Days_plus_minus",Drs.Excess_Days_plus_minus!=null?Drs.Excess_Days_plus_minus:""),
+                        new SqlParameter("@Approve_Days_in_full",Drs.Approve_Days_in_full!=null?Drs.Approve_Days_in_full:""),
+                        new SqlParameter("@Approve_Days_in_Half",Drs.Approve_Days_in_Half!=null?Drs.Approve_Days_in_Half:"")
                        };
                     cstatus = _EzBusinessHelper.ExecuteNonQuery("AddDutyResume", param1);
                     if (cstatus == true)

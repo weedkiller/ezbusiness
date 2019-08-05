@@ -28,15 +28,13 @@
      * html .ui-autocomplete {
          height: 100px;
      }
+
+         
 </style>
 
 <script>
     $(document).ready(function () {
-
-
-
-       
-        EzAutoCompTxtE('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust", true, "#CustName");
+        EzAutoCompTxtE('#CUST_CODE', '#hdnCUST_CODE', "/FF_BOK/GetSLList1", true, "#CustName");
         EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#FND", "#hdnFND", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
@@ -48,14 +46,10 @@
         //EzAutoCompTxtE('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList", false, "");
         EzAutoCompTxtE("#JOB_TYPE", "#hdnJOB_TYPE", "/FF_BOK/GETJobTypList", false, "");
         EzAutoCompTxtEParV1('#CARRIER', '#hdnCARRIER', "/FF_BOK/GetSLNew", false, "", "CRR");
-
         EzAutoCompTxtEParV1('#notifypart2', '#hdnnotifypart2', "/FF_BOK/GetSLNew", false, "", "NTY");
         EzAutoCompTxtEParV1('#notifypart1', '#hdnnotifypart1', "/FF_BOK/GetSLNew", false, "", "NTY");
         EzAutoCompTxtEParV1('#AGENT', '#hdnAGENT', "/FF_BOK/GetSLNew", false, "", "AGT");
         EzAutoCompTxtE('#Salesman', '#hdnSalesman', "/FF_BOK/GetSalesman", false, "");
-
-
-
 
         var DG = [{ value: "Yes", label: "Yes-IMO", val1: "IMO" }, { value: "No", label: "No-Pack", val1: "Pack" }, ];
         EzAutotxtAutosatic("#DG", "#hdnDG", DG, false, "");
@@ -75,8 +69,7 @@
         arr1 = [];               
         EzdteformtDOB('#EFFECT_FROM1', 'DD/MM/YYYY');
         EzdteformtDOB('#EFFECT_UPTO1', 'DD/MM/YYYY');
-       
-        
+               
         var counter5 = parseInt($("#hdnCounter5").val());
         $("#tablePODetails5").on("click", "[name*='btnDelete']", function () {
             $(this).closest("tr").remove();
@@ -153,10 +146,6 @@
             } else {
                 tr.find("[name*='txt1Cust_code']").val('');
             }
-
-           
-             
-
         });
 
         //$("#tablePODetails4").on("focusout", "[name*='txtCLAUSE_CODE']", function () {
@@ -320,13 +309,8 @@
                     tr.find("[name*='txt1Crg_code']").val('');
                     tr.find("[name*='txtinpCrg_code']").val('')
                     return;
-
-
                 }
                 else {
-
-                   
-                  
                     debugger;
                     var array = JobCode.split("-");
                     if (array.length > 3) {
@@ -334,7 +318,6 @@
                         tr.find("[name*='txtIncome_GL_Code']").val(array[2].trim());
                         tr.find("[name*='txtExpense_GL_Code']").val(array[3].trim());
                         tr.find("[name*='txt1Crg_code']").val(array[0].trim());
-
                         $.ajax({
                             async: false,
                             cache: false,
@@ -375,8 +358,6 @@
 
                         //EzTbltxtdrpidchanged(droparry, counter5, "drp", trLast);
                         EzTbltxtdrpidchanged(txtarry, counter5, "txt", trLast);
-
-
                         trLast.find(":first").text(counter5);
                         //trLast.find('select[name^=txtCrg_code' + counter5 + ']').val(0);
                         //trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
@@ -396,16 +377,13 @@
                         trLast.find("[name*='txtIncome_GL_Code']").val('');
                         trLast.find("[name*='txtExpense_GL_Code']").val('');
                         trLast.find("[name*='txt1Crg_code']").val('');
-                        trLast.find("[name*='txtinpCrg_code']").val('')
-
+                        trLast.find("[name*='txtinpCrg_code']").val('');
                         counter5++;
-                    }
-                   
+                    }                   
                 }                                                                        
             }
-               
-            $("#tablePODetails5").css("height", "auto");
 
+           $("#tablePODetails5").css("height", "auto");
 
             //if (JobCode == "" || JobCode == "0") {
             //    $('#tablePODetails5 tr:last').remove();
@@ -872,7 +850,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Zip</label>
                                                     <div class="col-xs-7 col-md-8 input-field">
-                                                        <input type="text" class="form-control" name="" />
+                                                        @Html.TextBoxFor(m => m.FDZIP, new { @class = "form-control" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -1083,10 +1061,10 @@
                                     <div class="col-md-12">
                                         <div class="">
                                             <ul class="nav nav-tabs">
-                                                <li class="active btn-default"><a data-toggle="tab" href="#home">Container</a></li>
-                                                <li class="btn-default"><a data-toggle="tab" href="#menu1">Dimension</a></li>
-                                                <li class="btn-default"><a data-toggle="tab" href="#menu2">Clauses</a></li>
-                                                <li class="btn-default"><a data-toggle="tab" href="#menu3">Charges</a></li>
+                                                <li class="active b1"><a data-toggle="tab" href="#home">Container</a></li>
+                                                <li class="b1"><a data-toggle="tab" href="#menu1">Dimension</a></li>
+                                                <li class="b1"><a data-toggle="tab" href="#menu2">Clauses</a></li>
+                                                <li class="b1"><a data-toggle="tab" href="#menu3">Charges</a></li>
                                             </ul>
 
                                             <br />
@@ -1530,7 +1508,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Income</label>
                                                     <div class="col-md-7">
-                                                        @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @disabled = "disabled" })
+                                                        @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @disabled = "disabled",@Type="Number" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -1538,7 +1516,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Cost</label>
                                                     <div class="col-md-7">
-                                                        @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @disabled = "disabled" })
+                                                        @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @disabled = "disabled", @Type = "Number" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -1546,7 +1524,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Profit</label>
                                                     <div class="col-md-7">
-                                                        @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @disabled = "disabled" })
+                                                        @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @disabled = "disabled", @Type = "Number" })
                                                     </div>
                                                 </div>
                                             </div>

@@ -19,8 +19,9 @@ namespace EzBusiness_DL_Interface
         List<Employee> GetEmpCodes(string CmpyCode);
         List<ShiftMaster> GetShiftCodes(string CmpyCode);
 
-    
+        List<ComDropTbl> GetShiftCodes1(string CmpyCode, string Prefix);
         List<ShiftAlloc> GetShiftAllocCode(string CmpyCode, string PRSFT002_code);
+        List<ComDropTbl> GetShiftAllocCode1(string CmpyCode, string PRSFT002_code,string Prefix);
         bool DeleteEmpShift(string CmpyCode, string PRSFT003_code, string UserName);
 
         #endregion

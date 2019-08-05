@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,9 +22,9 @@ namespace EzBusiness_DL_Repository
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
         DropListFillFun drop = new DropListFillFun();
 
-        public List<Employee> GetEmpCodeList(string CmpyCode)
+        public List<ComDropTbl> GetEmpCodeList(string CmpyCode, string Prefix)
         {
-            return drop.GetEmpCodes(CmpyCode, "E");
+            return drop.GetCommonDrop("EmpCode as [Code],EmpName as [CodeName]", "MEM001", "CmpyCode='" + CmpyCode + "' And WorkingStatus = 'Y' and Flag=0 and (EmpCode like '" + Prefix + "%' or EmpName like '" + Prefix + "%')  Order By EmpName ");          
         }
 
         public List<MonthlyAdddeddet1> GetMonthlyADGrid(string CmpyCode, string PRADN001_CODE)
@@ -105,22 +106,15 @@ namespace EzBusiness_DL_Repository
             }
             else
             {
-
-
                 n = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRADN001 where CmpyCode='" + MonthlyAD.CmpyCode + "' and PRADN001_CODE='" + MonthlyAD.PRADN001_CODE + "' ");
-
                 if (n != 0)
                 {
-
-
                     MonthlyAdddedMst pt = new MonthlyAdddedMst();
                     //int pno = _EzBusinessHelper.ExecuteScalar("Select Nos from PARTTBL001 where CmpyCode='" + MonthlyAD.CmpyCode + "' and Code='PRBM' ");
-
                     //pt.PRBM001_code = string.Concat("PRBM", "-", (pno + 1).ToString().PadLeft(4, '0')).ToString();                                
                     List<MonthlyAdddeddet1> ObjList = new List<MonthlyAdddeddet1>();
                     ObjList.AddRange(MonthlyAD.MonthlyAddded.Select(m => new MonthlyAdddeddet1
                     {
-
                         ADN_Act_code = m.ADN_Act_code,
                         ADN_Amount = m.ADN_Amount,
                         EmpCode = m.EmpCode,
@@ -216,6 +210,10 @@ namespace EzBusiness_DL_Repository
                 });
             }
             return ObjList;
+        }
+
+        public class SelectListItem
+        {
         }
     }
 }

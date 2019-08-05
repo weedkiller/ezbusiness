@@ -1,4 +1,5 @@
-﻿using EzBusiness_ViewModels.Models.Humanresourcepayroll;
+﻿using EzBusiness_EF_Entity;
+using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace EzBusiness_DL_Interface
         SalaryProcessDVM SaveSalryProcessPaymentDetails(SalaryProcessDVM sly);
         SalaryProcessDVM GetEditedsalryprocessPaymentdetails(string cmpycpode);
         List<SalaryprocesspaymentDetails> GetSalaryPrcessDetailsList(SalaryProcessDVM slrypymnt);
-
+        List<ComDropTbl> GetDivCodeListLatest(string CmpyCode, string Prefix);
         List<SalaryProcessDetailsListItem> GetBankNotDetails(string CmpyCode, DateTime currDate, string divcode, string deptcode, string Visalocation1);
 
         SalaryProcessDVM GetsalryprocessPaymentEdit(string CmpyCode, string PRSPD001_COD);

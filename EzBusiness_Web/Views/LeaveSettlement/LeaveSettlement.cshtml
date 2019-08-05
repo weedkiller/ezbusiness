@@ -57,6 +57,7 @@
             //  EzsetDatetxt();
             EzdtePk('#Entry_Date1,#LLSdate1,#DR_Date1,#LStartDate1,#LendDate1,#salary_effect_date1,#JoiningDate1');
             $("#editshow").hide();
+            GetLeaveList();
         });
 
 
@@ -141,7 +142,7 @@
                     DIVISION: 0,
                     COUNTRY: 0,
                     PRLR001_CODE: $("[name*='PRLR001_CODE']").val(),
-                    Empcode: $("#Empcode option:selected").val(),
+                    Empcode: $("#Empcode").val(),
                     Entry_Date: Ezsetdtpkdate($("[name*='Entry_Date1']").val()),
                     LLSdate: Ezsetdtpkdate($("[name*='LLSdate1']").val()),
                     DR_Date: Ezsetdtpkdate($("[name*='DR_Date1']").val()),
@@ -166,9 +167,9 @@
                 };
                 var validationResult = ValidateForm(LeaveSett);
                 if (validationResult.formValid) {
-                    k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                    k = EzSalrProcCondiont($("#EmpCode").val(), date1);
                     if(k==1){
-                    $.post("/SaveLeaveSettal", LeaveSett).done(function (response) {
+                    $.post("/SaveLeaveSettal",LeaveSett).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {                            
                             EzbtnsaveAcVis("#LVContainer");
                             EzAlertSave();
@@ -193,7 +194,7 @@
                     COUNTRY: 0,
                     PRLS001_CODE: $("[name*='PRLS001_CODE']").val(),
                     PRLR001_CODE: $("[name*='PRLR001_CODE']").val(),
-                    Empcode: $("#Empcode option:selected").val(),
+                    Empcode: $("#Empcode").val(),
                     Entry_Date: Ezsetdtpkdate($("[name*='Entry_Date1']").val()),
                     LLSdate: Ezsetdtpkdate($("[name*='LLSdate1']").val()),
                     DR_Date: Ezsetdtpkdate($("[name*='DR_Date1']").val()),
@@ -220,7 +221,7 @@
 
                 var validationResult = ValidateForm(LeaveSett);
                 if (validationResult.formValid) {
-                    k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                    k = EzSalrProcCondiont($("#EmpCode").val(), date1);
                     if (k == 1) {
                         $.post("/SaveLeaveSettal", LeaveSett).done(function (response) {
                             if (response.SaveFlag && !response.ErrorMessage.length > 0) {

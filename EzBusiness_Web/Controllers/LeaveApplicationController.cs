@@ -97,7 +97,6 @@ namespace EzBusiness_Web.Controllers
         public ActionResult AddLeaveApplication()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-
             if (list == null)
             {
                 return Redirect("Login/InLogin");
@@ -105,6 +104,18 @@ namespace EzBusiness_Web.Controllers
             else
             {
                 return PartialView(_LeaveAppService.GetLeaveAppDetailsNew(list[0].CmpyCode));
+            }
+        }
+        public ActionResult GetLeaveTypList(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_LeaveAppService.GetLeaveTypList(list[0].CmpyCode,Prefix));
             }
         }
 

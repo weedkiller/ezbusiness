@@ -12,7 +12,7 @@ namespace EzBusiness_BL_Interface
     public interface IMonthlyAdddedPayrollService
     {
         #region MonthlyAddded
-        List<SelectListItem> GetEmpCodeList(string CmpyCode);
+        List<SelectListItem> GetEmpCodeList(string CmpyCode,string Prefix);
 
         List<MonthlyAdddedVM> GetMonthlyAdddedList(string CmpyCode);
         List<MonthlyAdddeddet1> GetMonthlyADGrid(string CmpyCode, string PRADN001_CODE);

@@ -48,9 +48,9 @@ namespace EzBusiness_BL_Service
         public EmpShiftVM GetEmpShiftEdit(string CmpyCode, string PRSFT003_code)
         {
             var SftEdit = _EmpShiftRepo.GetEmpShiftEdit(CmpyCode, PRSFT003_code);
-            SftEdit.EmpCodeList = GetEmpCodes(CmpyCode);
-            SftEdit.ShiftCode = GetShiftCodes(CmpyCode);
-            SftEdit.ShiftCodeAlloc = GetShiftAllocCode(CmpyCode, SftEdit.PRSFT001_code);
+           // SftEdit.EmpCodeList = GetEmpCodes(CmpyCode);
+          //  SftEdit.ShiftCode = GetShiftCodes(CmpyCode);
+           // SftEdit.ShiftCodeAlloc = GetShiftAllocCode(CmpyCode, SftEdit.PRSFT001_code);
            
             SftEdit.EditFlag = true;
             return SftEdit;
@@ -74,20 +74,20 @@ namespace EzBusiness_BL_Service
             }).ToList();
         }
 
-        public List<SelectListItem> GetShiftAllocCode(string CmpyCode, string PRSFT001_code)
+        public List<SelectListItem> GetShiftAllocCode(string CmpyCode, string PRSFT001_code,string Prefix)
         {
-            var Cd1 = _EmpShiftRepo.GetShiftAllocCode(CmpyCode, PRSFT001_code)
-                                      .Select(m => new SelectListItem { Value = m.PRSFT002_code, Text = m.PRSFT002_code  })
+            var Cd1 = _EmpShiftRepo.GetShiftAllocCode1(CmpyCode, PRSFT001_code, Prefix)
+                                      .Select(m => new SelectListItem { Value = m.Code, Text =m.Code+"-"+m.CodeName  })
                                       .ToList();
-            return InsertFirstElementDDL(Cd1);
+            return Cd1;
         }
 
-        public List<SelectListItem> GetShiftCodes(string CmpyCode)
+        public List<SelectListItem> GetShiftCodes(string CmpyCode,string Prefix)
         {
-            var Cd = _EmpShiftRepo.GetShiftCodes(CmpyCode)
-                                      .Select(m => new SelectListItem { Value = m.PRSFT001_code, Text = m.PRSFT001_code + "-" + m.ShiftName })
+            var Cd = _EmpShiftRepo.GetShiftCodes1(CmpyCode,Prefix)
+                                      .Select(m => new SelectListItem { Value = m.Code, Text =m.CodeName })
                                       .ToList();
-            return InsertFirstElementDDL(Cd);
+            return Cd;
         }
 
         public EmpShiftVM NewEmpShift(string CmpyCode)
@@ -96,10 +96,9 @@ namespace EzBusiness_BL_Service
             return new EmpShiftVM
             {
                 PRSFT003_code=_CodeRep.GetCode(CmpyCode,"EMPShiftMaster"),
-                EmpCodeList = GetEmpCodes(CmpyCode),
-                ShiftCode = GetShiftCodes(CmpyCode),
-                ShiftCodeAlloc = GetShiftAllocCode(CmpyCode, "0"),
-              
+              //  EmpCodeList = GetEmpCodes(CmpyCode),
+              //  ShiftCode = GetShiftCodes(CmpyCode),
+               // ShiftCodeAlloc = GetShiftAllocCode(CmpyCode, "0"),              
                 EditFlag = false
             };
         }

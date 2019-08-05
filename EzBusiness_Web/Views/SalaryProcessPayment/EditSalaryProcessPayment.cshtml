@@ -11,6 +11,8 @@
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
 
@@ -39,6 +41,8 @@
             }
         });
 
+        EzAutoCompTxtE("#DIVISION", "#hdnDIVISION", "/SalaryProcessPayment/GetDivCodeListLatest", false, "");
+        EzAutoCompTxtE("#DIVISION", "#hdnDIVISION", "/SalaryProcessPayment/GetDivCodeListLatest");
 
            function GetslryDetailsDatatable(responce)
          {
@@ -129,12 +133,6 @@
     //    }
     //});
 
-
-   
-   
-
-    
-
     $(".datepicker").on("dp.show", function (e) {
         $(e.target).data("DateTimePicker").viewMode("months");
     });
@@ -159,7 +157,9 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Division<i style="color:red;">*</i></label>
                             <div class="col-md-8 input-field">
-                                @Html.DropDownListFor(m => m.DIVISION, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                @*@Html.DropDownListFor(m => m.DIVISION, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                @Html.TextBoxFor(m => m.DIVISION, new { @class = "form-control", @placeholder = "Select DIVISION" })
+                                <input id="hdnDIVISION" type="hidden" class="form-control" name="hdnDIVISION" value="-1" />      
                             </div>
                         </div>
                     </div>

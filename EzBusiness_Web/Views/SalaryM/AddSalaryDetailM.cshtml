@@ -12,6 +12,8 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     $(function () {
         $('.selectpicker').selectpicker('refresh');
@@ -21,7 +23,8 @@
         Ezdatejoindate('#Entery_date1', '#joindate', '#Effect_From1','Entery Date shold be greater than equal to Joindate');
        
         EzdateCond('#Effect_From1', '#Entery_date1', 'Effect Date shold be greater than equal to Entry Date');
-       
+        EzAutoCompTxtE("#EMPCODE", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
+
         //var rowCount = $('#tablePODetails tr').length;
         //if (rowCount = 2) {
 
@@ -30,7 +33,7 @@
         $("#EMPCODE").change(function () {
             //$("#tablePODetails > tbody tr:last").empty();
             //$("#tablePODetails > tbody tr:last").remove();
-            var e1 = $("#EMPCODE option:selected").val();
+            var e1 = $("#EMPCODE").val();
             if (e1 != '0') {
                 Ezjoindate(e1, '#joindate');
 
@@ -151,7 +154,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Employee</label>
                                                         <div class="col-md-8">
-                                                            @Html.DropDownListFor(m => m.EMPCODE, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.EMPCODE, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.EMPCODE, new { @class = "form-control", @placeholder = "Select Emp Code" })
+                                                            <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />      
                                                         </div>
                                                     </div>
                                                 </div>

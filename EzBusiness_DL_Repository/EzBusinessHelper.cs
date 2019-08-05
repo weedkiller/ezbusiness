@@ -174,7 +174,7 @@ namespace EzBusiness_DL_Repository
             DateTime? numrows = null;
             using (SqlConnection cn = new SqlConnection(connStr))
             {
-                try
+               try
                 {
                     //if (cn.State != ConnectionState.Open)
                     cn.Open();

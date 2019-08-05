@@ -478,5 +478,10 @@ namespace EzBusiness_DL_Repository
         {
             return drop.GetDepCodebyDivision(CmpyCode, divcode);
         }
+        public List<ComDropTbl> GetDepartmentList1(string CmpyCode, string divcode,string Prefix)
+        {
+            return drop.GetCommonDrop("DepartmentCode as [Code],DepartmentName as [CodeName]", "MDEP009", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (DepartmentCode like '" + Prefix + "%' or DepartmentName like '" + Prefix + "%')");
+
+        }
     }
 }

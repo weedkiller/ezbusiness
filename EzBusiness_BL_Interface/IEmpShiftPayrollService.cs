@@ -15,8 +15,8 @@ namespace EzBusiness_BL_Interface
     {
 
         List<SelectListItem> GetEmpCodes(string CmpyCode);
-        List<SelectListItem> GetShiftCodes(string CmpyCode);
-        List<SelectListItem> GetShiftAllocCode(string CmpyCode, string PRSFT002_code);
+        List<SelectListItem> GetShiftCodes(string CmpyCode,string Prefix);
+        List<SelectListItem> GetShiftAllocCode(string CmpyCode, string PRSFT002_code,string Prefix);
         EmpShiftVM NewEmpShift(string CmpyCode);
         EmpShiftVM SaveEmpShift(EmpShiftVM Sft);
 

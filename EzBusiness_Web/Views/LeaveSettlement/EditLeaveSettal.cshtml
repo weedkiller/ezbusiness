@@ -1,13 +1,7 @@
 ﻿@model EzBusiness_ViewModels.Models.Humanresourcepayroll.LeaveSettlementVM
-
-
-
 @{
     var counter = 1;
-
-
 }
-
 <script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Scripts/moment.min.js"></script>
 <script src="~/Scripts/bootstrap-select.min.js"></script>
@@ -15,14 +9,13 @@
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
 
     $(function () {
         $('.selectpicker').selectpicker('refresh');
         var arr1 = [];
-
-      
-
         EzdtePkEdit('#Entry_Date1', "#Entry_Date", "DD/MM/YYYY");
         EzdtePkEdit('#LLSdate1', "#LLSdate", "DD/MM/YYYY");
         EzdtePkEdit('#DR_Date1', "#DR_Date", "DD/MM/YYYY");
@@ -30,18 +23,18 @@
         EzdtePkEdit('#LendDate1', "#LendDate", "DD/MM/YYYY");
         EzdtePkEdit('#salary_effect_date1', "#salary_effect_date", "DD/MM/YYYY");
         EzdtePkEdit('#JoiningDate1', "#JoiningDate", "DD/MM/YYYY");
-       
-
-             
         arr1 = [];
         arr1.push("#LeaveType");
         arr1.push('input[name="JoiningDate1"]');
         //arr1.push('input[name="Entry_Dates1"]');
         EzDisabledT(arr1);
-
-
         EzdateCond('#LLSdate1', '#LStartDate1', 'Entery Date shold be greater than equal to Last Settlement Date');
         EzdateCond('#DR_Date1', '#LStartDate1', 'Entery Date shold be greater than equal to Duty Resume Date');
+        EzAutoCompTxt1("#Empcode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList");
+        EzAutoCompTxtE("#Empcode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
+        EzAutoCompTxt1("#PRLR001_CODE", "#hdnPRLR001_CODE", "/LeaveSettlement/GetLeaveCodes");
+        EzAutoCompTxtE("#PRLR001_CODE", "#hdnPRLR001_CODE", "/LeaveSettlement/GetLeaveCodes", false, "");
+
 
         //$('.selectpicker').selectpicker({
         //    style: 'btn-info',
@@ -58,9 +51,6 @@
     
 </script>
 <div class="col-md-12 no-padding navbar-expand-lg">
-
-
-
     <div class="panel-body" style="margin-left:10px;">
         <div class="tabbable-line boxless tabbable-reversed" id="LVContainer">
             <div class="custom-form-wrapper">
@@ -106,7 +96,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">Leave Application<i style="color:red;">*</i></label>
                                                         <div class="col-md-8 input-field">
-                                                            @Html.DropDownListFor(m => m.PRLR001_CODE, Model.LeaveList, new { @class = "selectpicker form-control", @data_live_search = "true", @disabled = "disabled" })
+                                                            @*@Html.DropDownListFor(m => m.PRLR001_CODE, Model.LeaveList, new { @class = "selectpicker form-control", @data_live_search = "true", @disabled = "disabled" })*@
+                                                            @Html.TextBoxFor(m => m.PRLR001_CODE, new { @class = "form-control", @placeholder = "Select PRLR001 CODE"})
+                                                            <input id="hdnPRLR001_CODE" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -117,7 +109,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">Employee Code</label>
                                                         <div class="col-md-8 input-field">
-                                                            @Html.DropDownListFor(m => m.Empcode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true", @disabled = "disabled" })
+                                                            @*@Html.DropDownListFor(m => m.Empcode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true", @disabled = "disabled" })*@
+                                                            @Html.TextBoxFor(m => m.Empcode, new { @class = "form-control", @placeholder = "Select Emp Code"})
+                                                            <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />
                                                         </div>
                                                     </div>
                                                 </div>

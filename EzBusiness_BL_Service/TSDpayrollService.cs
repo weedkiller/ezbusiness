@@ -13,7 +13,7 @@ using EzBusiness_ViewModels;
 
 namespace EzBusiness_BL_Service
 {
-    public class TSDpayrollService : ITSDpayrollService
+   public class TSDpayrollService : ITSDpayrollService
     {
         ITSDpayrollRepository _TSDPayrollRepo;
         ICodeGenRepository _CodeRep;
@@ -28,8 +28,8 @@ namespace EzBusiness_BL_Service
         public List<SelectListItem> GetEmpCodes(string CmpyCode)
         {
             var EmpList = _TSDPayrollRepo.GetEmpCodes(CmpyCode)
-                                       .Select(m => new SelectListItem { Value = m.EmpCode, Text = string.Concat(m.EmpCode, " - ", m.Empname) })
-                                       .ToList();
+                                     .Select(m => new SelectListItem { Value = m.EmpCode, Text = string.Concat(m.EmpCode, " - ", m.Empname) })
+                                     .ToList();
             return InsertFirstElementDDL(EmpList);
         }
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
@@ -47,10 +47,9 @@ namespace EzBusiness_BL_Service
             
             return items;
         }
-
         public List<TimeSheetDetailVM> GetTSDList(string CmpyCode, string EmpCode, string Divcode, DateTime date)
         {
-            return _TSDPayrollRepo.GetTSDList(CmpyCode, EmpCode,Divcode, date).Select(m => new TimeSheetDetailVM
+           return _TSDPayrollRepo.GetTSDList(CmpyCode, EmpCode,Divcode, date).Select(m => new TimeSheetDetailVM
             {
                 //PRSM001UID = m.PRSM001UID,
                 Cmpycode = m.Cmpycode,
@@ -68,20 +67,17 @@ namespace EzBusiness_BL_Service
                 ReportingEmp=m.ReportingEmp,
                 Project_code=m.Project_code,
                 EmpName=m.EmpName
-
-
             }).ToList();
         }
 
         public TimeSheetDetailVM GetOTVMNew(string CmpyCode)
         {
-            return new TimeSheetDetailVM
+           return new TimeSheetDetailVM
             {
-
-                EmpCodeList = GetEmpCodes(CmpyCode),
-                DivCodeList = GetDivCodeList(CmpyCode),
+               EmpCodeList = GetEmpCodes(CmpyCode),
+               //DivCodeList = GetDivCodeList(CmpyCode),
                // PrjCodeList = GetPrjCodeList(CmpyCode),
-                EditFlag = false
+               EditFlag = false
             };
         }
         public List<SelectListItem> GetDivCodeList(string CmpyCode)
@@ -89,7 +85,6 @@ namespace EzBusiness_BL_Service
             var itemCodes = _OTPayrollRepository.GetDivCodeList(CmpyCode)
                                       .Select(m => new SelectListItem { Value = m.DivisionCode, Text = string.Concat(m.DivisionCode, " - ", m.DivisionName) })
                                       .ToList();
-
             return InsertFirstElementDDL(itemCodes);
         }
 
@@ -98,7 +93,6 @@ namespace EzBusiness_BL_Service
             var itemCodes = _OTPayrollRepository.GetPrjCodeList(Cmpycode)
                                        .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.Name) })
                                        .ToList();
-
             return InsertFirstElementDDL(itemCodes);
         }
 
@@ -106,6 +100,5 @@ namespace EzBusiness_BL_Service
         {
             return _CodeRep.GetCountryP(CmpyCode, dt);
         }
-    }
-    
+    }    
 }

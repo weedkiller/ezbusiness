@@ -88,7 +88,14 @@ namespace EzBusiness_DL_Repository
         {          
             return drop.GetEmpCodes(CmpyCode,typ);
         }
-        public List<BankMaster> GetPRBM001_code(string CmpyCode)
+        public List<ComDropTbl> GetPRBM001_code(string CmpyCode,string Prefix)
+        {
+            return drop.GetCommonDrop("prbm001_code as [Code],Bank_name as [CodeName]", "PRBM001", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (prbm001_code like '" + Prefix + "%' or Bank_name like '" + Prefix + "%')");
+
+        }
+
+
+        public List<BankMaster> GetPRBM001_code1(string CmpyCode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select prbm001_code,Bank_name from PRBM001 where CmpyCode= '" + CmpyCode + "'");
             dt = ds.Tables[0];
@@ -98,32 +105,35 @@ namespace EzBusiness_DL_Repository
             {
                 ObjList.Add(new BankMaster()
                 {
-                    PRBM001_code = dr["PRBM001_code"].ToString(),  
-                    Bank_name=dr["Bank_name"].ToString(),
+                    PRBM001_code = dr["PRBM001_code"].ToString(),
+                    Bank_name = dr["Bank_name"].ToString(),
                 });
 
             }
             return ObjList;
         }
+        //public List<BankBranchTbl> GetPRBM002_code(string CmpyCode,string PRBM001_code)
+        //{
+        //    ds = _EzBusinessHelper.ExecuteDataSet("Select PRBM002_code,Bank_branch_name from PRBM002 where CmpyCode= '" + CmpyCode + "' and PRBM001_code='" + PRBM001_code + "'");
+        //    dt = ds.Tables[0];
+        //    DataRowCollection drc = dt.Rows;
+        //    List<BankBranchTbl> ObjList = new List<BankBranchTbl>();
+        //    foreach (DataRow dr in drc)
+        //    {
+        //        ObjList.Add(new BankBranchTbl()
+        //        {
+        //            PRBM002_code = dr["PRBM002_code"].ToString(),
+        //            Bank_branch_name=dr["Bank_branch_name"].ToString(),
+        //        });
 
-        public List<BankBranchTbl> GetPRBM002_code(string CmpyCode,string PRBM001_code)
+        //    }
+        //    return ObjList;
+        //}
+        public List<ComDropTbl> GetPRBM002_code(string CmpyCode, string PRBM001_code,string Prefix)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select PRBM002_code,Bank_branch_name from PRBM002 where CmpyCode= '" + CmpyCode + "' and PRBM001_code='" + PRBM001_code + "'");
-            dt = ds.Tables[0];
-            DataRowCollection drc = dt.Rows;
-            List<BankBranchTbl> ObjList = new List<BankBranchTbl>();
-            foreach (DataRow dr in drc)
-            {
-                ObjList.Add(new BankBranchTbl()
-                {
-                    PRBM002_code = dr["PRBM002_code"].ToString(),
-                    Bank_branch_name=dr["Bank_branch_name"].ToString(),
-                });
+            return drop.GetCommonDrop("PRBM002_code as [Code],Bank_branch_name as [CodeName]", "PRBM002", "CMPYCODE='" + CmpyCode + "' and Flag=0 and PRBM001_code='" + PRBM001_code + "' and  (PRBM002_code like '" + Prefix + "%' or Bank_branch_name like '" + Prefix + "%')");
 
-            }
-            return ObjList;
         }
-
         public EmpBankVM SaveEmpBnk(EmpBankVM EmpBnk)
         {
             DateTime dt1;

@@ -56,7 +56,7 @@
             var date1 = Ezsetdtpkdate($('#Entery_date1').val());
             var k = 0;
             if (n == 1 ) {
-                k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                k = EzSalrProcCondiont($("#EmpCode").val(), date1);
                 if( k == 1){
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
@@ -132,7 +132,7 @@
                 var PrjAll = {
                     EditFlag: false,
                     PRPJXDTD001_UID: '1',
-                    empcode: $("[name='empcode'] option:selected").val(),
+                    empcode: $("[name='empcode']").val(),
                     TimeIn: $("[name='TimeIn']").val(),
                     TimeOut: $("[name='TimeOut']").val(),
                     Project_code: $("[name='Project_code'] option:selected").val(),                  
@@ -140,7 +140,7 @@
                 };
                 var validationResult = ValidateForm(PrjAll);
                 if (validationResult.formValid) {
-                    k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                    k = EzSalrProcCondiont($("#EmpCode").val(), date1);
                     if(k==1){
                         $.post("/SaveProjectAllotmentNew", PrjAll).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
@@ -165,12 +165,12 @@
                     empcode: $("[name='empcode'] option:selected").val(),
                     TimeIn: $("[name='TimeIn']").val(),
                     TimeOut: $("[name='TimeOut']").val(),
-                    Project_code: $("[name='Project_code'] option:selected").val(),
+                    Project_code: $("[name='Project_code']").val(),
                     Dates: Ezsetdtpkdate($("[name='Entery_date1']").val()),
                 };
                 var validationResult = ValidateForm(PrjAll);
                 if (validationResult.formValid) {
-                    k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                    k = EzSalrProcCondiont($("#EmpCode").val(), date1);
                     if (k == 1) {
                         $.post("/SaveProjectAllotmentNew", PrjAll).done(function (response) {
                             if (response.SaveFlag && !response.ErrorMessage.length > 0) {

@@ -8,23 +8,18 @@ using System.Threading.Tasks;
 namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
 {
     public class FNINV001_VM
-    {
+    {                   
         public string FNINV001_CODE { get; set; }
         public string cmpycode { get; set; }
         public string BRANCHCODE { get; set; }
-        public string JV_NO { get; set; }
-        public string JV_TYPE { get; set; }
-        public string JV_STATUS { get; set; }
-        public string invtype { get; set; }
-
+        public string INV_TYPE { get; set; }
+        public string INV_STATUS { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime JV_DATE { get; set; }
+        public DateTime INV_DATE { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Post_Date { get; set; }
-
-
         public string NOTES { get; set; }
         public string NARRATION { get; set; }
         public string CREATED_BY { get; set; }
@@ -41,9 +36,12 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public string SUBLEDGER_CODE { get; set; }
         public string CURRENCY_CODE { get; set; }
         public Decimal CURRENCY_RATE { get; set; }
-        public Decimal CURRENCY_AMOUNT { get; set; }
-        public Decimal VAT_AMOUNT { get; set; }
-        public Decimal LOCAL_AMOUNT { get; set; }
+        public Decimal VAT_CURRENCY_AMT { get; set; }
+        public Decimal VAT_LOCAL_AMT { get; set; }
+        public Decimal CURRENCY_AMT { get; set; }
+        public Decimal LOCAL_AMT { get; set; }
+        public Decimal NET_CURRENCY_AMT { get; set; }
+        public Decimal NET_LOCAL_AMT { get; set; }
         public string BILLING_ADDRESS { get; set; }
         public string SUPPLIER_JV_NO { get; set; }
         [DataType(DataType.Date)]
@@ -75,13 +73,13 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
     }
     public class FNINV002New
     {
-        public string COMPANYCODE { get; set; }
+        public string cmpycode { get; set; }
         public string BRANCHCODE { get; set; }
         public string INV001_CODE { get; set; }
-        public string JV_NO { get; set; }
         public Decimal LINE_NO { get; set; }
-        public string ITEMCODE { get; set; }
         public int O_CHARGE_UID { get; set; }
+        public string ITEMCODE { get; set; }
+        public string Item_Description { get; set; }
         public string UNIT_TYPE { get; set; }
         public Decimal NO_OF_QTY { get; set; }
         public Decimal RATE_PER_QTY { get; set; }
@@ -93,8 +91,10 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public Decimal O_CURR_AMT { get; set; }
         public Decimal O_LOCAL_AMT { get; set; }
         public Decimal O_VAT_LOCAL_AMT { get; set; }
+        public Decimal O_VAT_CURR_AMT { get; set; }
         public string VAT_CODE { get; set; }
         public Decimal VAT_PER { get; set; }
+        public string VAT_GL_CODE { get; set; }
         public Decimal V_CURR_AMT { get; set; }
         public Decimal V_LOCAL_AMT { get; set; }
         public Decimal V_VAT_CURR_AMT { get; set; }

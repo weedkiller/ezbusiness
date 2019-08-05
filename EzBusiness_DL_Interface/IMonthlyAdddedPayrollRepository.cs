@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace EzBusiness_DL_Interface
    public interface IMonthlyAdddedPayrollRepository
     {
         #region MonthlyAddded
-        List<Employee> GetEmpCodeList(string CmpyCode);
+        List<ComDropTbl> GetEmpCodeList(string CmpyCode,string Prefix);
 
         List<MonthlyAdddedVM> GetMonthlyAdddedList(string CmpyCode);
         List<MonthlyAdddeddet1> GetMonthlyADGrid(string CmpyCode, string PRADN001_CODE);

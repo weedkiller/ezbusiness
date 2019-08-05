@@ -12,6 +12,8 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 
 <script>        
     $(function () {
@@ -24,7 +26,9 @@
         //Eary.push('#DutyResume');
         //EzsetTodayDte(Eary);
         EzdtePk('#Dates1,#JoiningDate1,#DateofRelease1,#LLSDate1,#DutyResume1');
-       var arr1 = [];
+        var arr1 = [];
+        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
+
         $("#EmpCode").change(function () {           
            
             var EmpCode = $('#EmpCode option:selected').val();
@@ -209,7 +213,9 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Employee<i style="color:red;">*</i></label>
                                                     <div class="col-md-8 input-field">
-                                                        @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                        @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                        @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @placeholder = "Select Emp Code" })
+                                                        <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />      
                                                     </div>
                                                 </div>
                                             </div>

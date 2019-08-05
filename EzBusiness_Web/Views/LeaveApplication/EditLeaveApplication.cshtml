@@ -28,6 +28,10 @@
        // $('input[name="Entry_Dates1"]').attr("disabled", true);
 
         $('#oldLeavedays').val($('#LeaveDays').val());
+        EzAutoCompTxt1("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList");
+        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
+        EzAutoCompTxt1("#LeaveType", "#hdnLeaveType", "/LeaveApplication/GetLeaveTypList");
+        EzAutoCompTxtE("#LeaveType", "#hdnLeaveType", "/LeaveApplication/GetLeaveTypList", false, "");
 
         function halfday() {
            
@@ -133,7 +137,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Employee<i style="color:red;">*</i></label>
                                                         <div class="col-md-8 input-field">
-                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true", @disabled = "disabled" })
+                                                            @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true", @disabled = "disabled" })*@
+                                                            @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @placeholder = "Select Emp Code",@disabled = "disabled" })
+                                                            <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -177,7 +183,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Leave Type<i style="color:red;">*</i></label>
                                                         <div class="col-md-8 input-field">
-                                                            @Html.DropDownListFor(m => m.LeaveType, Model.LeaveTypeList, new { @class = "selectpicker form-control", @data_live_search = "true",@disabled="disabled" })
+                                                            @*@Html.DropDownListFor(m => m.LeaveType, Model.LeaveTypeList, new { @class = "selectpicker form-control", @data_live_search = "true",@disabled="disabled" })*@
+                                                            @Html.TextBoxFor(m => m.LeaveType, new { @class = "form-control", @placeholder = "Select Leave Type", @disabled = "disabled" })
+                                                            <input id="hdnLeaveType" type="hidden" class="form-control" name="hdnLeaveType" value="-1" />
                                                         </div>
                                                     </div>
                                                 </div>

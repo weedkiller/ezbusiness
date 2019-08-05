@@ -7,20 +7,12 @@
 <script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/datatables/js/datatables.responsive.js"></script>
-
 <script src="~/Scripts/moment.min.js"></script>
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
-
 <script src="~/Scripts/bootstrap-select.min.js"></script>
-
-
-@*<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />*@
-@*<link href="~/Scripts/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />*@
-
 <script src="~/Scripts/EzComNDW.js"></script>
-
-@*<script src="~/Scripts/datatables/dataTables.rowReorder.min.js"></script>*@
-
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
 
     $(function () {
@@ -29,7 +21,7 @@
             var dt = $('#DateINMonth').val();
             var currdat = $('#DateINMonth').val();
             $('.selectpicker').selectpicker('refresh');
-         
+          
             $('#DateINMonth').on('dp.change', function (event) {
                 
                 dt = $("#DateINMonth").val();
@@ -37,23 +29,75 @@
                 dt = dt + "-" + '01';
                 $('#CurrentDate').val(dt);
             });
-            $('#DivisionCode').change(function () {
+            //$('#DivisionCode').change(function () {
                 
-                var divcode = $('#DivisionCode option:selected').val();
-                $.get("SalaryProcess/GetDepartmentList", { divcode: divcode }).done(function (response) {
+            //    var divcode = $('#DivisionCode option:selected').val();
+            //    $.get("SalaryProcess/GetDepartmentList", { divcode: divcode }).done(function (response) {
                     
-                    $('#Deptcode').empty();
-                    var ary = [];
-                    ary = response;
-                    for (var i = 0; i < ary.length; i++) {
-                        $('#Deptcode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                    }
+            //        $('#Deptcode').empty();
+            //        var ary = [];
+            //        ary = response;
+            //        for (var i = 0; i < ary.length; i++) {
+            //            $('#Deptcode').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+            //        }
                     
-                    $('#Deptcode').val(0);
+            //        $('#Deptcode').val(0);
                  
-                    $('.selectpicker').selectpicker('refresh');
-                });
+            //        $('.selectpicker').selectpicker('refresh');
+            //    });
+            //});
+            $('#DivisionCode').on("focusout", function () {
+                debugger;
+                var divcode = $('#DivisionCode').val();
+                if (divcode != '-1') {
+                    $('#Deptcode').autocomplete({
+                        source: function (request, response) {
+                            $.ajax({
+                                url: "SalaryProcess/GetDepartmentList",
+                                type: "POST",
+                                dataType: "json",
+                                data: { Prefix: request.term, divcode: divcode },
+                                success: function (data) {
+                                    if (data.length > 0) {
+                                        response($.map(data, function (item) {
+                                            return {
+                                                label: item.Text,//item.Value + ' - ' + item.Text,
+                                                value: item.Value,
+                                                val1: item.Text
+                                            };
+                                        }))
+                                    } else {
+                                        $('#Deptcode').val('');
+                                        $("#hdnDeptcode").val(-1);
+                                        response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+                                    }
+                                }
+                            });
+                        },
+
+                        select: function (e, u) {
+                            debugger
+                            //If the No match found" item is selected, clear the TextBox.
+                            if (u.item.value == -1) {
+                                //Clear the AutoComplete TextBox.
+                                $(this).val("");
+                                $("#hdnDeptcode").val("-1");
+                                return false;
+                            } else {
+                                $("#hdnDeptcode").val(u.item.val1);
+                            }
+
+                        }
+                        ,
+                        minLength: 0
+                    }).focus(function () {
+                        $(this).autocomplete("search");
+                    });
+                }
             });
+            EzAutoCompTxtE("#DivisionCode", "#hdnDivisionCode", "/SalaryProcessPayment/GetDivCodeListLatest", false, "");
+            EzAutoCompTxtE("#VisaLocation1", "#hdnVisaLocation1", "/SalaryProcess/GetVisLocList", false, "");
+
             //calculate salary Process
             $.fn.dataTable.ext.errorMode = 'none';
             $("#btncalculate").click(function () {
@@ -225,19 +269,14 @@
             //{
                 
         //}
-            function ValidateForm(divcode) {
-                
+            function ValidateForm(divcode) {               
                 var response = {
-                    ErrorMessage: "",
-                   
+                    ErrorMessage: "",                   
                 };
                 //if (employeemaster.IsEditMode == false) {
                 if (divcode=="0") {
                     response.ErrorMessage += "Select Division";
-                }
-               
-               
-               
+                }               
                 return response;
             }
         });
@@ -279,7 +318,9 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Division<i style="color:red;">*</i></label>
                                 <div class="col-md-9 input-field">
-                                    @Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    @*@Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                    @Html.TextBoxFor(m => m.DivisionCode, new { @class = "form-control", @placeholder = "Select Division" })
+                                    <input id="hdnDivisionCode" type="hidden" class="form-control" name="hdnDivisionCode" value="-1" />  
                                 </div>
                             </div>
                         </div>
@@ -287,7 +328,9 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">Department</label>
                                 <div class="col-md-9 input-field">
-                                    @Html.DropDownListFor(m => m.Deptcode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    @*@Html.DropDownListFor(m => m.Deptcode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                    @Html.TextBoxFor(m => m.Deptcode, new { @class = "form-control", @placeholder = "Select Department" })
+                                    <input id="hdnDeptcode" type="hidden" class="form-control" name="hdnDeptcode" value="-1" />  
                                 </div>
                             </div>
                         </div>
@@ -295,7 +338,9 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">VisaLocation</label>
                                 <div class="col-md-9 input-field">
-                                    @Html.DropDownListFor(m => m.VisaLocation1, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                    @*@Html.DropDownListFor(m => m.VisaLocation1, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                    @Html.TextBoxFor(m => m.VisaLocation1, new { @class = "form-control", @placeholder = "Select Visalocation" })
+                                    <input id="hdnVisaLocation1" type="hidden" class="form-control" name="hdnVisaLocation1" value="-1" />  
                                 </div>
                             </div>
                         </div>

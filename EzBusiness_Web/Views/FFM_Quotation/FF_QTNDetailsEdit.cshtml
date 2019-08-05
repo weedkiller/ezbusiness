@@ -32,10 +32,13 @@
     * html .ui-autocomplete {
         height: 100px;
     }
+
 </style>
 
 <script>
     $(document).ready(function () {
+
+      
         arr1 = [];
         
 
@@ -191,7 +194,7 @@
 
         //------------
 
-       EzAutoCompTxt1('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust");
+       EzAutoCompTxt1('#CUST_CODE', '#hdnCUST_CODE', "/FF_BOK/GetSLList1");
        EzAutoCompTxt1("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList");
        EzAutoCompTxt1("#FND", "#hdnFND", "/FFM_Quotation/GetPortList");
        EzAutoCompTxt1("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList");
@@ -244,7 +247,7 @@
        }
        EzAutoCompTxtE("#JOB_TYPE", "#hdnJOB_TYPE", "/FF_BOK/GETJobTypList", false, "");
      //  EzAutoCompTxtE('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList", false, "");
-       EzAutoCompTxtE('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust", true, "#hdnCustName");
+       EzAutoCompTxtE('#CUST_CODE', '#hdnCUST_CODE', "/FF_BOK/GetSLList1", true, "#hdnCustName");
        EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
        EzAutoCompTxtE("#FND", "#hdnFND", "/FFM_Quotation/GetPortList", false, "");
        EzAutoCompTxtE("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
@@ -1172,7 +1175,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Zip</label>
                                                     <div class="col-xs-7 col-md-8 input-field">
-                                                        <input type="text" class="form-control" name="" />
+                                                       @Html.TextBoxFor(m => m.FDZIP, new { @class = "form-control" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -2193,7 +2196,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Income</label>
                                                     <div class="col-md-7">
-                                                        @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @disabled="disabled" })
+                                                        @Html.TextBoxFor(m => m.Total_Billed, new { @class = "form-control", @disabled="disabled", @Type = "Number" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -2201,7 +2204,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Cost</label>
                                                     <div class="col-md-7">
-                                                        @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @disabled="disabled" })
+                                                        @Html.TextBoxFor(m => m.Total_Cost, new { @class = "form-control", @disabled="disabled", @Type = "Number" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -2209,7 +2212,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Profit</label>
                                                     <div class="col-md-7">
-                                                        @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @disabled="disabled" })
+                                                        @Html.TextBoxFor(m => m.Total_Profit, new { @class = "form-control", @disabled="disabled", @Type = "Number" })
                                                     </div>
                                                 </div>
                                             </div>

@@ -17,7 +17,7 @@ namespace EzBusiness_BL_Interface
         List<Leave_App_VW> GetLeaveApp(string CmpyCode);
         List<SelectListItem> GetEmpCodeList(string CmpyCode,string typ);
 
-        List<SelectListItem> GetLeaveTypList(string CmpyCode);
+        List<SelectListItem> GetLeaveTypList(string CmpyCode,string Prefix);
         Leave_App_VW GetLeaveAppDetailsEdit(string CmpyCode, string code);
         List<LeaveApplicationDetail> GetLeaveAppDetailList(string CmpyCode, string EmpCode);
         Leave_App_VW SaveLeaveApp(Leave_App_VW LeaveApp);

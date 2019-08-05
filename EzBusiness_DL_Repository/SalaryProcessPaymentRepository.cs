@@ -1,4 +1,5 @@
 ﻿using EzBusiness_DL_Interface;
+using EzBusiness_EF_Entity;
 using EzBusiness_ViewModels.Models.Humanresourcepayroll;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,10 @@ namespace EzBusiness_DL_Repository
                     return false;
             }
             return false;
+        }
+        public List<ComDropTbl> GetDivCodeListLatest(string CmpyCode, string Prefix)
+        {
+            return drop.GetCommonDrop("DivisionCode as [Code],DivisionName as [CodeName]", "MDIV011", "CmpyCode='" + CmpyCode + "' and Flag=0 and (DivisionCode like '" + Prefix + "%' or DivisionName like '" + Prefix + "%')");
         }
         public List<SalaryProcessDVM> GetSalaryprocessPymntDetailList(string CmpyCode)
         {

@@ -58,7 +58,7 @@ namespace EzBusiness_BL_Service
         public SalarMpayrollVM GetSalaryEdit(string CMPYCODE, string PRSM001_CODE)
         {
             var SalaryEdit = _SalzPayrollRepo.GetSalaryEdit(CMPYCODE, PRSM001_CODE);
-            SalaryEdit.EmpCodeList = GetEmpCodes(CMPYCODE);
+          //  SalaryEdit.EmpCodeList = GetEmpCodes(CMPYCODE);
 
             SalaryEdit.SalaryMas = GetSalGrid(CMPYCODE);
 
