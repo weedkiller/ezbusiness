@@ -91,7 +91,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         {
             return new FNINV001_VM
             {
-               
+                
                 EditFlag = false
             };
         }

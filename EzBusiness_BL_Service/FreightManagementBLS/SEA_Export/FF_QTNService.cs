@@ -176,7 +176,11 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         {
             if (!FQV.EditFlag)
             {
-                FQV.FF_QTN001_CODE = _CodeRep.GetCodeNew(FQV.CMPYCODE, FQV.FNMBRANCH_CODE, "FF_QTN001", "I");
+                string b = _CodeRep.GetCodeNew(FQV.CMPYCODE, FQV.FNMBRANCH_CODE, "FF_QTN001", "I");
+                if (b != "N")
+                {
+                    FQV.FF_QTN001_CODE = b;
+                }                
             }
             return _FF_QTNRepo.SaveFF_QTN_VM(FQV);
         }
@@ -211,7 +215,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 ////Commodityist= GetCommodityistList(Cmpycode),
                 //FF_QTN001_CODE = _CodeRep.GetCode(Cmpycode, "SupplierQuotation"),
 
-                FF_QTN001_CODE = _CodeRep.GetCodeNew(Cmpycode, branchcode, "FF_QTN001","V"),
+                FF_QTN001_CODE = _CodeRep.GetCodeNew(Cmpycode, branchcode, "FF_QTN001","V"),                
                 FNMBRANCH_CODE = branchcode,
                 EditFlag = false
             };

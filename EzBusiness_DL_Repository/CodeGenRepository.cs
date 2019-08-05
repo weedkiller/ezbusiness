@@ -56,6 +56,7 @@ namespace EzBusiness_DL_Repository
                           new SqlParameter("@typ",typ)
                        };
             string GetCode = _EzBusinessHelper.ExecuteScalarS("Generate_Code", param1);
+            
             return GetCode;
         }
 
