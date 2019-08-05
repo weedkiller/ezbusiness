@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 {
@@ -17,7 +18,15 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         FNINV001_VM SaveFNINV_VM(FNINV001_VM FNINV);
         FNINV001_VM GetFNINV_AddNew(string Cmpycode, string BRANCHCODE);
 
+        List<SelectListItem> GetCRG_002(string CmpyCode, string Prefix);
+
+        List<SelectListItem> GETBLNO(string CmpyCode, string Branchcode, string Customercode, string Prefix);
+
+        List<FNINV002New> GETBLNODetails(string CmpyCode, string Branchcode, string BLNO);
+
         bool DeleteFNINV(string CmpyCode, string FNINV001_CODE, string UserName,string BRANCHCODE);
+
+        List<FNINV002New> GetFNINV002DetailList(string CmpyCode, string FNINV001_CODE, string Branchcode);
     }
 
 }

@@ -30,7 +30,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
                 _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FNINV001_CODE", FNINV001_CODE, Environment.MachineName);
 
-                _EzBusinessHelper.ExecuteNonQuery1("update FNINV002 set Flag=1 where BRANCHCODE='"+ BRANCHCODE + "' and FNINV001_CODE='" + FNINV001_CODE + "'  and Flag=0");
+                _EzBusinessHelper.ExecuteNonQuery1("update FNINV002 set Flag=1 where BRANCHCODE='"+ BRANCHCODE + "' and INV001_CODE='" + FNINV001_CODE + "'  and Flag=0");
                 
                 return _EzBusinessHelper.ExecuteNonQuery1("update FNINV001 set Flag=1 where BRANCHCODE='"+ BRANCHCODE + "' and FNINV001_CODE='" + FNINV001_CODE + "'  and Flag=0");//CMPYCODE='" + CmpyCode + "' and
 
@@ -68,8 +68,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     SUPPLIER_GRN_NO = dr["SUPPLIER_GRN_NO"].ToString(),
                     RECEIVED_PAID_NAME = dr["RECEIVED_PAID_NAME"].ToString(),
                     UNPOSTED_NOTE = dr["UNPOSTED_NOTE"].ToString(),
-                    Customer_Code = dr["Customer_Code"].ToString(),
-                    Customer_COA = dr["Customer_COA"].ToString(),
+                   
+                    Customer_COA = dr["COA_CODE"].ToString(),
                     Received_By = dr["Received_By"].ToString(),
                     SalesMan = dr["SalesMan"].ToString(),
                     LOCATION_CODE = dr["LOCATION_CODE"].ToString(),
@@ -95,17 +95,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         }
 
-        public List<FNINV002New> GetFNINV002DetailList(string CmpyCode, string FNINV001_CODE, string typ,string BRANCHCODE)
+        public List<FNINV002New> GetFNINV002DetailList(string CmpyCode, string FNINV001_CODE,string BRANCHCODE)
         {
             string qur = "";
-            if (typ == "BL")
-            {
-                qur = "Select * from FF_BL005 where Flag=0 and FNINV002_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='"+ BRANCHCODE + "'";
-            }
-            else
-            {
-                qur = "Select * from FNINV002 where Flag=0 and FNINV002_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='"+ BRANCHCODE + "'";
-            }
+            
+
+                qur = "Select * from FNINV002 where Flag=0 and INV001_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='"+ BRANCHCODE + "'";
+      
 
             ds = _EzBusinessHelper.ExecuteDataSet(qur);// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
@@ -123,7 +119,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     ITEMCODE = dr["ITEMCODE"].ToString(),
                     O_CHARGE_UID = Convert.ToInt16(dr["O_CHARGE_UID"].ToString()),
                     UNIT_TYPE = dr["UNIT_TYPE"].ToString(),
-
+                    Item_Description= dr["Item_Description"].ToString(),
+                    O_VAT_CURR_AMT = Convert.ToDecimal(dr["O_VAT_CURR_AMT"].ToString()),
+                    VAT_GL_CODE = dr["VAT_GL_CODE"].ToString(),
                     NO_OF_QTY = Convert.ToDecimal(dr["NO_OF_QTY"].ToString()),
                     RATE_PER_QTY = Convert.ToDecimal(dr["RATE_PER_QTY"].ToString()),
                     COA_CODE = dr["COA_CODE"].ToString(),
@@ -146,6 +144,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     NOTE = dr["NOTE"].ToString(),
                     Ret_Qty =Convert.ToDecimal(dr["Ret_Qty"].ToString()),
                     Cost_per_qty=Convert.ToDecimal(dr["Cost_per_qty"].ToString()),
+                     
 
                 });
             }
@@ -205,8 +204,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.SUPPLIER_GRN_NO = dr["SUPPLIER_GRN_NO"].ToString();
                 ObjList.RECEIVED_PAID_NAME = dr["RECEIVED_PAID_NAME"].ToString();
                 ObjList.UNPOSTED_NOTE = dr["UNPOSTED_NOTE"].ToString();
-                ObjList.Customer_Code = dr["Customer_Code"].ToString();
-                ObjList.Customer_COA = dr["Customer_COA"].ToString();
+               
+                ObjList.Customer_COA = dr["COA_CODE"].ToString();
                 ObjList.Received_By = dr["Received_By"].ToString();
                 ObjList.SalesMan = dr["SalesMan"].ToString();
                 ObjList.LOCATION_CODE = dr["LOCATION_CODE"].ToString();
@@ -230,6 +229,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return ObjList;
         }
 
+      
         public FNINV001_VM SaveFNINV_VM(FNINV001_VM FNINV)
         {
             DateTime dte;
@@ -271,7 +271,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 NO_OF_QTY = m.NO_OF_QTY,
                                 O_CHARGE_UID = m.O_CHARGE_UID,
                                 O_CURR_AMT = m.O_CURR_AMT,
-                                O_CURR_CODE = m.COA_CODE,
+                                O_CURR_CODE = m.O_CURR_CODE,
                                 O_CURR_RATE = m.O_CURR_RATE,
                                 O_LOCAL_AMT = m.O_LOCAL_AMT,
                                 O_VAT_LOCAL_AMT = m.O_VAT_LOCAL_AMT,
@@ -286,7 +286,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 V_NET_CURR_AMT = m.V_NET_CURR_AMT,
                                 V_NET_LOCAL_AMT = m.V_NET_LOCAL_AMT,
                                 V_VAT_CURR_AMT = m.V_VAT_CURR_AMT,
-                                V_VAT_LOCAL_AMT = m.V_VAT_LOCAL_AMT
+                                V_VAT_LOCAL_AMT = m.V_VAT_LOCAL_AMT,
+                                
                                 
                             }).ToList());
                         }
@@ -300,7 +301,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                         while (n > 0)
                         {
 
-                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FNINV002 where FNINV001_CODE='" + FNINV.FNINV001_CODE + "' and  CmpyCode='" + FNINV.cmpycode + "' and flag=0");// CmpyCode='" + FQV.CMPYCODE + "' and
+                            int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FNINV002 where INV001_CODE='" + FNINV.FNINV001_CODE + "' and  CmpyCode='" + FNINV.cmpycode + "' and flag=0 and O_CHARGE_UID='" + ObjList[n - 1].O_CHARGE_UID + "'");// CmpyCode='" + FQV.CMPYCODE + "' and
                             if (Stats1 == 0)
                             {
                                 StringBuilder sb5 = new StringBuilder();
@@ -316,7 +317,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                 sb5.Append("'" + ObjList[n - 1].NO_OF_QTY + "',");
                                 sb5.Append("'" + ObjList[n - 1].RATE_PER_QTY + "',");
                                 sb5.Append("'" + ObjList[n - 1].COA_CODE + "',");
-                                sb5.Append("'" + ObjList[n - 1].SUBLEDGER_CODE + "',");
+                                sb5.Append("'" + FNINV.SUBLEDGER_CODE + "',");
                                 sb5.Append("'" + ObjList[n - 1].Location_Code + "',");
                                 sb5.Append("'" + ObjList[n - 1].O_CURR_CODE + "',");
                                 sb5.Append("'" + ObjList[n - 1].O_CURR_RATE + "',");
@@ -446,7 +447,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             
 
 
-                            _EzBusinessHelper.ExecuteNonQuery("delete from FNINV002 where CmpyCode='" + FNINV.cmpycode + "' and FNINV001_CODE='" + FNINV.FNINV001_CODE + "' AND BRANCHCODE ='"+ FNINV.BRANCHCODE +"'");
+                            _EzBusinessHelper.ExecuteNonQuery("delete from FNINV002 where CmpyCode='" + FNINV.cmpycode + "' and INV001_CODE='" + FNINV.FNINV001_CODE + "' AND BRANCHCODE ='"+ FNINV.BRANCHCODE +"'");
 
                             // #region ObjectList
                             #region FNINV002
@@ -471,7 +472,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     NO_OF_QTY = m.NO_OF_QTY,
                                     O_CHARGE_UID = m.O_CHARGE_UID,
                                     O_CURR_AMT = m.O_CURR_AMT,
-                                    O_CURR_CODE = m.COA_CODE,
+                                    O_CURR_CODE = m.O_CURR_CODE,
                                     O_CURR_RATE = m.O_CURR_RATE,
                                     O_LOCAL_AMT = m.O_LOCAL_AMT,
                                     O_VAT_LOCAL_AMT = m.O_VAT_LOCAL_AMT,
@@ -500,7 +501,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                             while (n > 0)
                             {
 
-                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FNINV002 where FNINV001_CODE='" + FNINV.FNINV001_CODE + "' and  CmpyCode='" + FNINV.cmpycode + "' and flag=0 AND BRANCHCODE ='" + FNINV.BRANCHCODE + "'");// CmpyCode='" + FQV.CMPYCODE + "' and
+                                int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from  FNINV002 where INV001_CODE='" + FNINV.FNINV001_CODE + "' and  CmpyCode='" + FNINV.cmpycode + "' and flag=0 AND BRANCHCODE ='" + FNINV.BRANCHCODE + "' and O_CHARGE_UID='" + ObjList[n - 1].O_CHARGE_UID+"'");// CmpyCode='" + FQV.CMPYCODE + "' and
                                 if (Stats1 == 0)
                                 {
                                     StringBuilder sb5 = new StringBuilder();
@@ -516,7 +517,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                                     sb5.Append("'" + ObjList[n - 1].NO_OF_QTY + "',");
                                     sb5.Append("'" + ObjList[n - 1].RATE_PER_QTY + "',");
                                     sb5.Append("'" + ObjList[n - 1].COA_CODE + "',");
-                                    sb5.Append("'" + ObjList[n - 1].SUBLEDGER_CODE + "',");
+                                    sb5.Append("'" + FNINV.SUBLEDGER_CODE + "',");
                                     sb5.Append("'" + ObjList[n - 1].Location_Code + "',");
                                     sb5.Append("'" + ObjList[n - 1].O_CURR_CODE + "',");
                                     sb5.Append("'" + ObjList[n - 1].O_CURR_RATE + "',");
@@ -614,5 +615,95 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
             return FNINV;
         }
+
+        public List<CRGCodeDropTbl> GetCRG_002(string CmpyCode, string Prefix)
+        {
+            string qur = "select   H.FFM_CRG_001_CODE Code,H.NAME CodeName,G.VAT_CODE , G.VAT_PER ,   G.VAT_GL_CODE ,D.INCOME_ACT as [COA_CODE] from FFM_CRG_001 H " +
+                         " INNER JOIN  FFM_CRG_GROUP G ON H.FFM_CRG_GROUP_CODE = G.FFM_CRG_GROUP_CODE and h.CMPYCODE = G.CMPYCODE and H.flag=G.flag " +
+                         " inner join  FFM_CRG_002 D on D.FFM_CRG_001_CODE=h.FFM_CRG_001_CODE and h.CMPYCODE=D.CMPYCODE and h.flag=D.flag " +
+                        " where h.CMPYCODE='" + CmpyCode + "' and H.flag=0 and (H.FFM_CRG_001_CODE like '" + Prefix + "%' or H.NAME like '" + Prefix + "%')";
+            ds = _EzBusinessHelper.ExecuteDataSet(qur);
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<CRGCodeDropTbl> ObjList = new List<CRGCodeDropTbl>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new CRGCodeDropTbl()
+                {
+                    CodeName = dr["CodeName"].ToString(),
+                    VAT_CODE = dr["VAT_CODE"].ToString(),
+                    Code = dr["Code"].ToString(),
+                    VAT_GL_CODE = dr["VAT_GL_CODE"].ToString(),
+                    VAT_PER =Convert.ToDecimal(dr["VAT_PER"].ToString()),
+                    COA_CODE=dr["COA_CODE"].ToString()
+
+                });
+            }
+            return ObjList;
+        }
+
+        public List<ComDropTbl> GETBLNO(string CmpyCode, string Branchcode, string Customercode, string Prefix)
+        {
+            string qur = "select distinct H.FF_BL001_code as Code, H.REF_NO as CodeName from FF_BL001 H inner join  ff_bl005 D on h.ff_bl001_code = D.ff_bl001_code and h.CMPYCODE = D.CMPYCODE  AND H.Branchcode = D.BRANCH_CODE  " +
+                          "where d.Cust_code = '"+ Customercode + "' and h.CMPYCODE = '"+ CmpyCode + "' and h.Branchcode = '"+ Branchcode + "' "+
+                          "and d.FF_BL005_UID not in (select O_CHARGE_UID from FNINV002) "+
+                         "  and (H.FF_BL001_code like '" + Prefix + "%' or H.REF_NO like '" + Prefix + "%')";
+            ds = _EzBusinessHelper.ExecuteDataSet(qur);
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<ComDropTbl> ObjList = new List<ComDropTbl>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new ComDropTbl()
+                {
+                    CodeName = dr["CodeName"].ToString(),
+                   Code = dr["Code"].ToString(),
+
+                });
+            }
+            return ObjList;
+        }
+
+        public List<FNINV002> GETBLNODetails(string CmpyCode, string Branchcode, string BLNO)
+        {
+            string qur = "SELECT d.FF_BL005_UID, D.Crg_code ,D.Crg_name, d.Unit_Code, d.No_of_Qty , d.Cust_Curr_Code, "+
+           "d.Cust_Curr_Rate ,  D.Cust_Rate, d.Cust_Net_Amt, d.Cust_Local_amt,  d.Income_GL_Code,C.VAT_CODE,C.VAT_PER,C.VAT_GL_CODE "+
+           "FROM FF_BL001 H inner join FF_BL005 D "+
+           "on h.CMPYCODE = d.CMPYCODE and h.FF_BL001_CODE = d.FF_BL001_CODE "+
+           "INNER JOIN (select H.CMPYCODE, H.FFM_CRG_001_CODE, H.FFM_CRG_GROUP_CODE, G.VAT_CODE, G.VAT_PER, G.VAT_GL_CODE from FFM_CRG_001 H "+
+         " INNER JOIN  FFM_CRG_GROUP G ON H.FFM_CRG_GROUP_CODE = G.FFM_CRG_GROUP_CODE) C "+
+           "ON H.CMPYCODE = C.CMPYCODE AND D.Crg_code = C.FFM_CRG_001_CODE "+
+            "where H.CmpyCode = '"+ CmpyCode + "' and H.BranchCode = '"+ Branchcode + "' and D.FF_BL001_CODE = '"+ BLNO + "'";
+            ds = _EzBusinessHelper.ExecuteDataSet(qur);
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FNINV002> ObjList = new List<FNINV002>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FNINV002()
+                {                                     
+                    O_CHARGE_UID=Convert.ToInt32(dr["FF_BL005_UID"]),                
+                    ITEMCODE = dr["Crg_code"].ToString(),
+                    Item_Description = dr["Crg_name"].ToString(),
+                    UNIT_TYPE = dr["Unit_Code"].ToString(),
+                    NO_OF_QTY =Convert.ToDecimal(dr["No_of_Qty"].ToString()),
+                    O_CURR_CODE=dr["Cust_Curr_Code"].ToString(),
+                    RATE_PER_QTY = Convert.ToDecimal(dr["Cust_Curr_Rate"].ToString()),
+                    O_CURR_RATE = Convert.ToDecimal(dr["Cust_Rate"].ToString()),
+                    O_CURR_AMT= Convert.ToDecimal(dr["Cust_Net_Amt"].ToString()),
+                    O_LOCAL_AMT= Convert.ToDecimal(dr["Cust_Local_amt"].ToString()),
+                    COA_CODE = dr["Income_GL_Code"].ToString(),
+                    VAT_CODE=dr["VAT_CODE"].ToString(),
+                    VAT_PER = Convert.ToDecimal(dr["VAT_PER"].ToString()),
+                    VAT_GL_CODE=dr["VAT_GL_CODE"].ToString(),
+                    O_VAT_LOCAL_AMT = ((Convert.ToDecimal(dr["VAT_PER"].ToString()) / 100) * Convert.ToDecimal(dr["Cust_Local_amt"].ToString())),
+                    O_VAT_CURR_AMT = ((Convert.ToDecimal(dr["VAT_PER"].ToString()) / 100) * Convert.ToDecimal(dr["Cust_Net_Amt"].ToString())),
+                });
+            }
+            return ObjList;
+        }
+
+
+       
     }
 }

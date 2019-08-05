@@ -1,2 +1,795 @@
 ﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FNINV001_VM
 
+@{
+    var counter2 = 1;
+}
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<style>
+    .select-div, .input-div {
+        display: inline-block;
+    }
+</style>
+<style>
+    .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    * html .ui-autocomplete {
+        height: 100px;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+
+        //$("#Post_Date1").datepicker({ minDate: -1, maxDate: -2 }).attr('readonly', 'readonly');
+        $("#INV_DATE1").datepicker({ minDate: -1, maxDate: -2 }).attr('readonly', 'readonly');
+
+        $('.selectpicker').selectpicker('refresh');
+        EzdteformtDOB('#INV_DATE1', 'DD/MM/YYYY');
+        EzdteformtDOB('#Post_Date1', 'DD/MM/YYYY');
+
+
+        EzAutoCompTxt1("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FFM_Quotation/GetCust");
+        EzAutoCompTxt1("#CURRENCY_CODE", "#hdnCURRENCY_CODE", "/FNM_SL/GetCurrency")
+        EzAutoCompTxt1("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList");
+        EzAutoCompTxt1("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList")
+        EzAutoCompTxt1("#vessel_code", "#hdnvessel_code", "/FFM_Quotation/GetVESSELList");
+        EzAutoCompTxt1("#SalesMan", "#hdnSalesMan", "/FF_BOK/GetSalesman")
+
+        EzAutoCompTxtE("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FFM_Quotation/GetCust", false, "");
+        EzAutoCompTxtE("#CURRENCY_CODE", "#hdnCURRENCY_CODE", "/FNM_SL/GetCurrency", false, "");
+        EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
+        EzAutoCompTxtE("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
+        EzAutoCompTxtE("#vessel_code", "#hdnvessel_code", "/FFM_Quotation/GetVESSELList", false, "");
+        EzAutoCompTxtE("#SalesMan", "#hdnSalesMan", "/FF_BOK/GetSalesman", false, "");
+
+
+
+
+
+        //$.ajax({
+        //    async: false,
+        //    cache: false,
+        //    url: "/FFM_Quotation/GetCurCodebranch",
+        //    type: "POST",
+        //    dataType: "json",
+        //    success: function (data) {
+        //        debugger;
+        //        if (data.length > 0) {
+        //            $("#CURRENCY_CODE").val(data[0].Text);
+        //            $("#CURRENCY_RATE").val(data[0].Value);
+        //            EzAutoCompTxt1('#CURRENCY_CODE', '#hdnCURRENCY_CODE', "/FNM_SL/GetCurrency");
+        //        } else {
+        //            $("#hdnCURRENCY_CODE").val('-1');
+        //            $("#CURRENCY_CODE").val('');
+        //            $("#CURRENCY_RATE").val('');
+
+        //        }
+        //    }
+        //});
+
+        $('#CURRENCY_CODE').on("focusout", function () {
+            var CurCode = $("[name*='hdnCURRENCY_CODE']").val();
+            //var array = CurCode.split("-");
+            if (CurCode != '-1') {
+                $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
+                    var ary = [];
+                    ary = response;
+                    $("[name*='CURRENCY_RATE']").val(ary);
+                    debugger;
+                    if ($("#tablePODetails5 tbody tr").length > 0) {
+                        tblcla(ary);
+                        sumOfColumns();
+                    }
+                });
+
+            } else {
+                $("[name*='CURRENCY_RATE']").val(0);
+            }
+        });
+
+
+        $('#CURRENCY_RATE').on("change", function () {
+            debugger;
+            var CurRate = parseFloat($("#CURRENCY_RATE").val());
+            CurRate = isNaN(CurRate) ? 0 : CurRate;
+            if ($("#tablePODetails5 tbody tr").length > 0) {
+                tblcla(CurRate);
+                sumOfColumns();
+            }
+        });
+
+        function tblcla(HCurRate) {
+            debugger;
+        var index2 = 1;
+        $("#tablePODetails5 tbody tr").each(function (index2, item) {
+
+            var HExRate = HCurRate;
+            HExRate = isNaN(HExRate) ? 0 : HExRate;
+            var Vrate = parseFloat($("[name*='txtRate" + (index2 + 1) + "']").val());
+            var qty = parseFloat($("[name*='txtNo_of_qty" + (index2 + 1) + "']").val());
+            var CurRate = parseFloat($("[name*='txtEx_Curr_Rate" + (index2 + 1) + "']").val());
+            var VAT = parseFloat($("[name*='txtVat_PER" + (index2 + 1) + "']").val());
+            VAT = isNaN(VAT) ? 0 : VAT;
+            CurRate = isNaN(CurRate) ? 0 : CurRate;
+            qty = isNaN(qty) ? 0 : qty;
+            Vrate = isNaN(Vrate) ? 0 : Vrate;
+            $("[name*='txtAmountFC" + (index2 + 1) + "']").val(EzMult2(qty, Vrate));
+            $("[name*='txtAmountBC" + (index2 + 1) + "']").val(EzMult3(qty, Vrate, CurRate));
+            var AmountBC = parseFloat($("[name*='txtAmountBC" + (index2 + 1) + "']").val());
+            AmountBC = isNaN(AmountBC) ? 0 : AmountBC;
+            $("[name*='txtVatAmountBC" + (index2 + 1) + "']").val(EzMultDiv100(AmountBC, VAT));
+            var VatAmountBC = parseFloat($("[name*='txtVatAmountBC" + (index2 + 1) + "']").val());
+            VatAmountBC = isNaN(VatAmountBC) ? 0 : VatAmountBC;
+            $("[name*='txtVouchVATAmountFC" + (index2 + 1) + "']").val(EzDivide(VatAmountBC, HExRate));
+            var VouchVATAmtFC = parseFloat($("[name*='txtVouchVATAmountFC" + (index2 + 1) + "']").val());
+            VouchVATAmtFC = isNaN(VouchVATAmtFC) ? 0 : VouchVATAmtFC;
+            $("[name*='txtVouchVATAmountBC" + (index2 + 1) + "']").val(EzMult2(VouchVATAmtFC, HExRate));
+            $("[name*='txtVochAmountFC" + (index2 + 1) + "']").val(EzDivide(AmountBC, HExRate));
+            var VochAmountFC = parseFloat($("[name*='txtVochAmountFC" + (index2 + 1) + "']").val());
+            VochAmountFC = isNaN(VochAmountFC) ? 0 : VochAmountFC;
+            $("[name*='txtVochAmountBC" + (index2 + 1) + "']").val(EzMult2(VochAmountFC, HExRate));
+            $("[name*='txtVochNetsumVatAmountFC" + (index2 + 1) + "']").val(EzSum(VouchVATAmtFC, VochAmountFC));
+            var VouchVATAmtBC = parseFloat($("[name*='txtVouchVATAmountBC" + (index2 + 1) + "']").val());
+            VouchVATAmtBC = isNaN(VouchVATAmtBC) ? 0 : VouchVATAmtBC;
+
+            var VochAmountBC = parseFloat($("[name*='txtVochAmountBC" + (index2 + 1) + "']").val());
+            VochAmountBC = isNaN(VochAmountBC) ? 0 : VochAmountBC;
+
+            $("[name*='txtVochNetsumVatAmountBC" + (index2 + 1) + "']").val(EzSum(VouchVATAmtBC, VochAmountBC));
+
+
+        });
+        }
+
+
+
+        $("#btnInvoice").click(function () {
+            var BLNO = $('#BL_CODE').val();
+            var counter2 = parseInt($("#hdnCounter2").val()) + 1;
+
+            if (BLNO != '') {
+                $.get("/FNINV001/GETBLNODetails", {  BLNO: BLNO }).done(function (response) {
+                    var ary = [];
+                    debugger;
+                    ary = response;
+
+                    if (ary.length == 0) {
+                        Swal.queue([{
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'Bl Detail Not Exist  !',
+                            allowOutsideClick: false,
+                            showLoaderOnConfirm: true,
+                        }])
+                        return;
+                    }
+                    $("#tablePODetails5 tbody").find("tr:not(:first)").remove();
+
+                    var counter = 1;
+                    for (var i = 0; i < ary.length; i++) {
+                        $('#tablePODetails5 tbody tr:last').clone().insertAfter('#tablePODetails5 tbody tr:last');
+                        var trLast = $("#tablePODetails5 tbody tr:last");
+
+                        txtarry = [];
+                        txtarry.push('txtVochNetsumVatAmountBC','txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC');
+                        EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
+
+                        trLast.find("[name*='txtsno" + counter2 + "']").val(counter2);
+
+
+                        $("[name*='txtCrg_name" + counter + "']").val(ary[i].Item_Description.trim());
+                        $("[name*='txtCrg_code" + counter + "']").val(ary[i].ITEMCODE.trim());
+                        $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
+                        $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE.trim());
+                        $("[name*='txtVAT_GL_CODE" + counter + "']").val(ary[i].VAT_GL_CODE.trim());
+                        $("[name*='txtCOA_CODE" + counter + "']").val(ary[i].COA_CODE.trim());
+                        $("[name*='txtUnit_code" + counter + "']").val(ary[i].UNIT_TYPE.trim());
+                        $("[name*='txtNo_of_qty" + counter + "']").val(ary[i].NO_OF_QTY);
+                        $("[name*='txtEx_Curr_Rate" + counter + "']").val(ary[i].RATE_PER_QTY);
+                        $("[name*='txtEx_Curr_Code" + counter + "']").val(ary[i].O_CURR_CODE.trim());
+                        $("[name*='txtRate" + counter + "']").val(ary[i].O_CURR_RATE);
+                        $("[name*='txtAmountFC" + counter + "']").val(ary[i].O_CURR_AMT);
+                        $("[name*='txtAmountBC" + counter + "']").val(ary[i].O_LOCAL_AMT);
+                        $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
+                        $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE);
+                        $("[name*='txtVatAmountBC" + counter + "']").val(ary[i].O_VAT_LOCAL_AMT);
+                        $("[name*='txtO_CHARGE_UID" + counter + "']").val(ary[i].O_CHARGE_UID);
+
+                        var HExRate = parseFloat($("[name*='CURRENCY_RATE']").val());
+                        HExRate = isNaN(HExRate) ? 0 : HExRate;
+                        var AmountBC = parseFloat($("[name*='txtAmountBC" + counter + "']").val());
+                        AmountBC = isNaN(AmountBC) ? 0 : AmountBC;
+                        var VatAmountBC = parseFloat($("[name*='txtVatAmountBC" + counter + "']").val());
+                        VatAmountBC = isNaN(VatAmountBC) ? 0 : VatAmountBC;
+                        $("[name*='txtVouchVATAmountFC" + counter + "']").val(EzDivide(VatAmountBC, HExRate));
+                        var VouchVATAmtFC = parseFloat($("[name*='txtVouchVATAmountFC" + counter + "']").val());
+                        VouchVATAmtFC = isNaN(VouchVATAmtFC) ? 0 : VouchVATAmtFC;
+                        $("[name*='txtVouchVATAmountBC" + counter + "']").val(EzMult2(VouchVATAmtFC, HExRate));
+                        $("[name*='txtVochAmountFC" + counter + "']").val(EzDivide(AmountBC, HExRate));
+                        var VochAmountFC = parseFloat($("[name*='txtVochAmountFC" + counter + "']").val());
+                        VochAmountFC = isNaN(VochAmountFC) ? 0 : VochAmountFC;
+                        $("[name*='txtVochAmountBC" + counter + "']").val(EzMult2(VochAmountFC, HExRate));
+                        $("[name*='txtVochNetsumVatAmountFC" + counter + "']").val(EzSum(VouchVATAmtFC, VochAmountFC));
+
+                        var VouchVATAmtBC = parseFloat($("[name*='txtVouchVATAmountBC" + counter + "']").val());
+                        VouchVATAmtBC = isNaN(VouchVATAmtBC) ? 0 : VouchVATAmtBC;
+
+                        var VochAmountBC = parseFloat($("[name*='txtVochAmountBC" + counter + "']").val());
+                        VochAmountBC = isNaN(VochAmountBC) ? 0 : VochAmountBC;
+
+                        $("[name*='txtVochNetsumVatAmountBC" + counter + "']").val(EzSum(VouchVATAmtBC, VochAmountBC));
+                      
+                        counter++;
+                        counter2++;
+                    }
+
+                    $('#tablePODetails5 tbody tr:last').remove();
+                    sumOfColumns();
+
+
+
+
+                });
+            }
+        });
+
+
+
+
+        function sumOfColumns() {
+            debugger;
+            var sum = 0.0;
+            var sum1 = 0.0;
+            var sum2 = 0.0;
+            var sum3 = 0.0;
+            var sum4 = 0.0;
+            var sum5 = 0.0;
+            $("#tablePODetails5 > tbody  > tr").each(function () {
+                var VochAmountFC1 = parseFloat($(this).find("[name*='txtVochAmountFC']").val());
+                var VochAmountBC1 = parseFloat($(this).find("[name*='txtVochAmountBC']").val());
+                var VouchVATAmountBC1 = parseFloat($(this).find("[name*='txtVouchVATAmountBC']").val());
+                var VouchVATAmountFC1 = parseFloat($(this).find("[name*='txtVouchVATAmountFC']").val());
+                var VochNetsumVatAmountFC1 = parseFloat($(this).find("[name*='txtVochNetsumVatAmountFC']").val());
+                var VochNetsumVatAmountBC1 = parseFloat($(this).find("[name*='txtVochNetsumVatAmountBC']").val());
+
+                sum += isNaN(VochAmountFC1) ? 0 : VochAmountFC1;
+                sum1 += isNaN(VochAmountBC1) ? 0 : VochAmountBC1;
+                sum2 += isNaN(VouchVATAmountBC1) ? 0 : VouchVATAmountBC1;
+                sum3 += isNaN(VouchVATAmountFC1) ? 0 : VouchVATAmountFC1;
+                sum4 += isNaN(VochNetsumVatAmountFC1) ? 0 : VochNetsumVatAmountFC1;
+                sum5 += isNaN(VochNetsumVatAmountBC1) ? 0 : VochNetsumVatAmountBC1;
+            });
+            $("#VAT_CURRENCY_AMT").val('' + sum3);
+            $("#VAT_LOCAL_AMT").val('' + sum2);
+            $("#CURRENCY_AMT").val('' + sum);
+            $("#LOCAL_AMT").val('' + sum1);
+            $("#NET_CURRENCY_AMT").val('' + sum4);
+            $("#NET_LOCAL_AMT").val('' + sum5);
+        }
+
+
+        function EzMult2(m1, m2) {
+            return (parseFloat(m1) * parseFloat(m2)) + 0; //variation should be zero
+        }
+
+        function EzMult3(m1, m2,m3) {
+            return ((parseFloat(m1) * parseFloat(m2)) * parseFloat(m3)) + 0; //variation should be zero
+        }
+
+        function EzMultDiv100(d1, m1) {
+            return (parseFloat(d1) * (parseFloat(m1) / 100)) + 0; //variation should be zero
+        }
+
+        function EzDivide(d1, d2)
+        {
+            return (parseFloat(d1) / parseFloat(d2)) + 0; //variation should be zero
+        }
+
+        function EzSum(s1, s2) {
+            return (parseFloat(s1) + parseFloat(s2)) + 0; //variation should be zero
+        }
+
+
+        $('#SUBLEDGER_CODE').on("focusout", function () {
+            debugger;
+
+            var customercode = $("#SUBLEDGER_CODE").val();
+            if (customercode != "") {
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "POST",
+                    data: "{CustCode:'" + $("#hdnSUBLEDGER_CODE").val() + "'}",
+                    url: "/FNINV001/GETBLNO",
+                    dataType: 'Json',
+                    contentType: "Application/json",
+                    success: function (data) {
+                        $('#BL_CODE').empty();
+                        var ary = [];
+                        ary = data;
+                        for (var i = 0; i < ary.length; i++) {
+                            $('#BL_CODE').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                        }
+                        $('#BL_CODE').val(0);
+                        $('.selectpicker').selectpicker('refresh');
+                    }
+
+                });
+            }
+            else {
+                $('#BL_CODE').empty();
+                $('#BL_CODE').append('<option value="0" selected="">Select</option>');
+                $('.selectpicker').selectpicker('refresh');
+            }
+        });
+        //$('#BL_CODE').on('focus', function (e) {
+        //    debugger;
+        //    var SUBLEDGER_CODE = $("#hdnSUBLEDGER_CODE").val();
+        //    if (SUBLEDGER_CODE != '-1') {
+        //        $('#BL_CODE').autocomplete({
+        //            source: function (request, response) {
+        //                $.ajax({
+        //                    url: "/FNINV001/GETBLNO",
+        //                    type: "POST",
+        //                    dataType: "json",
+        //                    data: { Prefix: request.term, CustCode: SUBLEDGER_CODE },
+        //                    success: function (data) {
+        //                        if (data.length > 0) {
+        //                            response($.map(data, function (item) {
+        //                                return {
+        //                                    label: item.Text ,//item.Value + ' - ' + item.Text,
+        //                                    value: item.Value,
+        //                                    val1: item.Text
+        //                                };
+        //                            }))
+        //                        } else {
+        //                            $('#BL_CODE').val('');
+        //                            $("#hdnBL_CODE").val(-1);
+        //                            response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+        //                        }
+        //                    }
+        //                });
+        //            },
+
+        //            select: function (e, u) {
+        //                debugger
+        //                //If the No match found" item is selected, clear the TextBox.
+        //                if (u.item.value == -1) {
+        //                    //Clear the AutoComplete TextBox.
+        //                    $(this).val("");
+        //                    $("#hdnBL_CODE").val("-1");
+        //                    return false;
+        //                } else {
+        //                    $("#hdnBL_CODE").val(u.item.val1);
+        //                }
+
+        //            }
+        //        ,
+        //            minLength: 0
+        //        }).focus(function () {
+        //            $(this).autocomplete("search");
+
+        //        });
+
+        //    }
+        //});
+
+    });
+</script>
+<div class="row">
+    @Html.Hidden("hdnCounter2", (counter2))
+    <div class="col-md-12">
+        <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+            <div class="custom-form-wrapper">
+                <div id="POContainer">
+                    <div class="row">
+                        <div class="custom-form-wrapper">
+                            <!-- BEGIN FORM-->
+                            <div class="form-horizontal">
+                                <div class="form-body">
+                                    <div class="col-md-4">
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Invoice No</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.FNINV001_CODE, new { @class = "form-control", @readonly = "readonly" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Customer</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.SUBLEDGER_CODE, new { @class = "form-control", @readonly = "readonly" })
+                                                        <input id="hdnSUBLEDGER_CODE" type="hidden" class="form-control" name="hdnSUBLEDGER_CODE" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Narration</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.NARRATION, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Notes</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.NOTES, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Ex.Code</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.CURRENCY_CODE, new { @class = "form-control" })
+                                                        <input id="hdnCURRENCY_CODE" type="hidden" class="form-control" name="hdnCURRENCY_CODE" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Ex.Rate</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.CURRENCY_RATE, new { @class = "form-control", @Type = "number" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Entry Date</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @*@Html.TextBoxFor(m => m.INV_DATE, new { @class = "form-control" })*@
+                                                        <input id="INV_DATE1" class="form-control datepicker" name="INV_DATE1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Posted Date</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @*@Html.TextBoxFor(m => m.Post_Date, new { @class = "form-control" })*@
+                                                        <input id="Post_Date1" class="form-control datepicker" name="Post_Date1"  />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Sales Man</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.SalesMan, new { @class = "form-control", @readonly = "readonly" })
+                                                        <input id="hdnSalesMan" type="hidden" class="form-control" name="hdnSalesMan" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">BL Code</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @*@Html.DropDownListFor(m => m.BL_CODE, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" } }, new { @class = "form-control selectpicker", @data_live_search = "true", @readonly = "readonly" })*@
+
+                                                        @Html.TextBoxFor(m => m.BL_CODE, new { @class = "form-control", @readonly = "readonly" })
+                                                            @*<input id="hdnBL_CODE" type="hidden" class="form-control" name="hdnBL_CODE" value="-1" />*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Port of Load</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.POL, new { @class = "form-control", @readonly = "readonly" })
+                                                        <input id="hdnPOL" type="hidden" class="form-control" name="hdnPOL" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Vessel</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.vessel_code, new { @class = "form-control", @readonly = "readonly" })
+                                                        <input id="hdnvessel_code" type="hidden" class="form-control" name="hdnvessel_code" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Port of del</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.POD, new { @class = "form-control", @readonly = "readonly" })
+                                                        <input id="hdnPOD" type="hidden" class="form-control" name="hdnPOD" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Inv Status</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.INV_STATUS, new { @class = "form-control", @readonly = "readonly" })
+                                                       
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <br />
+
+                                        <div class="row">
+                                            <button class="btn btn-primary btn1 newbtn" id="btnInvoice" disabled><span class="glyphicon glyphicon-plus-sign" ></span>Generate</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active b1"><a data-toggle="tab" href="#home">Charges Detail</a></li>
+
+                                            </ul>
+
+                                            <br />
+                                            <div class="tab-content">
+                                                <div id="home" class="tab-pane fade in active">
+                                                    <br />
+                                                    <div class="col-md-12">
+                                                        <div class="alt-table-responsive" id="table-responsive-cliente">
+                                                            <table class="table table-bordered stripe display hover portal-drivers" id="tablePODetails5">
+                                                                <thead>
+                                                                    <tr class="tr gridtext">
+                                                                        <th>	S. no	</th>
+                                                                        <th style="padding: 0 17px;">	Charge Code	</th>
+                                                                        <th>	Charge Name	</th>
+
+                                                                        <th style="padding: 0 22px">	Unit	</th>
+                                                                        <th style="padding: 0 22px">	Qty	</th>
+                                                                        <th style="display:none;">	Ex.Code	</th>@*style="display:none;"*@
+                                                                        <th style="display:none;">	Ex.Rate	</th>
+                                                                        <th style="display:none;">	Rate	</th>
+                                                                        <th style="display:none;">	Amount (FC)	</th>
+                                                                        <th style="display:none;">	Amount (BC)	</th>
+                                                                        <th style="display:none;">	Vat %	</th>
+                                                                        <th style="display:none;">	Vat. Amount(BC)	</th>
+                                                                        <th>	Vouch. Vat Amount(FC)	</th>
+                                                                        <th style="padding: 0px 6px;">Vouch. Vat Amount(BC)	</th>
+
+                                                                        <th> Voch. Amount(FC)</th>
+                                                                        <th>	Voch. Amount(BC)	</th>
+                                                                        <th>	Voch. Net +Vat Amount(FC)	</th>
+                                                                        <th>	Voch. Net +Vat Amount(BC)	</th>
+
+
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach (var item in Model.FNINV002Detail)
+                                                                    {
+                                                                        <tr>
+                                                                            <td>
+                                                                                
+                                                                                    @Html.TextBox(string.Concat("txtsno", counter2),  item.LINE_NO, new { @class = "grid-control", @readonly = "readonly" })
+                                                                                    
+                                                                               
+                                                                                
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="grid-group">
+                                                                                    @Html.TextBox(string.Concat("txtCrg_code", counter2), item.ITEMCODE, new { @class = "grid-control", @readonly = "readonly" })
+                                                                                    @*@Html.Hidden(string.Concat("hdnCrg_code", counter2), item.ITEMCODE)*@
+                                                                                    @Html.Hidden(string.Concat("txtO_CHARGE_UID", counter2), item.O_CHARGE_UID)
+
+                                                                                    @Html.Hidden(string.Concat("txtVAT_CODE", counter2), item.VAT_CODE)
+                                                                                    @Html.Hidden(string.Concat("txtVAT_PER", counter2), item.VAT_PER)
+                                                                                    @Html.Hidden(string.Concat("txtVAT_GL_CODE", counter2), item.VAT_GL_CODE)
+                                                                                    @Html.Hidden(string.Concat("txtCOA_CODE", counter2), item.COA_CODE)
+                                                                                </div>
+                                                                            </td>
+
+
+
+                                                                            <td>
+                                                                                @Html.TextBox(string.Concat("txtCrg_name", counter2), item.Item_Description, new { @class = "grid-control", @disabled = "disabled" })
+                                                                               
+                                                                            </td>
+                                                                            <td>
+                                                                                
+                                                                                @Html.TextBox(string.Concat("txtUnit_code", counter2), item.UNIT_TYPE, new { @class = "grid-control", @disabled = "disabled" })
+                                                                              
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter2), item.NO_OF_QTY, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                               
+                                                                            </td>
+                                                                            <td style="display:none;">
+                                                                               
+                                                                                @Html.TextBox(string.Concat("txtEx_Curr_Code", counter2), item.O_CURR_CODE, new { @class = "grid-control", @disabled = "disabled" })
+                                                                                
+                                                                            </td>
+
+                                                                            <td style="display:none;">
+                                                                                @Html.TextBox(string.Concat("txtEx_Curr_Rate", counter2), item.RATE_PER_QTY, new { @class = "grid-control", @Type = "Number" })
+                                                                                
+                                                                            </td>
+                                                                            <td style="display:none;">
+
+                                                                                @Html.TextBox(string.Concat("txtRate", counter2), item.O_CURR_RATE, new { @class = "grid-control", @Type = "Number" })
+                                                                                @*@Html.Hidden(string.Concat("txtRate", counter2), item.O_CURR_RATE)*@
+                                                                            </td>
+
+                                                                            <td style="display:none;">
+
+
+                                                                                @Html.TextBox(string.Concat("txtAmountFC", counter2), item.O_CURR_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "Number" })
+                                                                               
+                                                                            </td>
+
+                                                                            <td style="display:none;">
+
+                                                                                @Html.TextBox(string.Concat("txtAmountBC", counter2), item.O_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                                
+
+                                                                            </td>
+                                                                            <td style="display:none;">
+                                                                                @Html.TextBox(string.Concat("txtVat_PER", counter2), item.VAT_PER, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                               
+                                                                            </td>
+                                                                            <td style="display:none;">
+                                                                                @Html.TextBox(string.Concat("txtVatAmountBC", counter2), item.V_VAT_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                               
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBox(string.Concat("txtVouchVATAmountFC", counter2), item.O_VAT_CURR_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                               
+                                                                            </td>
+
+
+                                                                            <td>
+
+
+                                                                                @Html.TextBox(string.Concat("txtVouchVATAmountBC", counter2), item.O_VAT_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                              
+
+                                                                            </td>
+
+                                                                            <td>
+                                                                                @Html.TextBox(string.Concat("txtVochAmountFC", counter2), item.V_CURR_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                                
+                                                                            </td>
+
+                                                                            <td>
+                                                                                @Html.TextBox(string.Concat("txtVochAmountBC", counter2), item.V_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                               
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBox(string.Concat("txtVochNetsumVatAmountFC", counter2), item.V_NET_CURR_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                            
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.TextBox(string.Concat("txtVochNetsumVatAmountBC", counter2), item.V_NET_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                                
+                                                                            </td>
+
+                                                                            </tr>
+                                                                        counter2++;
+                                                                    }
+
+                                                                    
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <td></td>
+                                                                        <td> </td>
+                                                                        <td></td>
+
+                                                                        <td></td>
+                                                                        <td>Total</td>
+
+
+
+                                                                        <td>@Html.TextBoxFor(m => m.VAT_CURRENCY_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
+                                                                        <td>@Html.TextBoxFor(m => m.VAT_LOCAL_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
+
+                                                                        <td>@Html.TextBoxFor(m => m.CURRENCY_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
+                                                                        <td>@Html.TextBoxFor(m => m.LOCAL_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
+
+                                                                        <td>@Html.TextBoxFor(m => m.NET_CURRENCY_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
+                                                                        <td>@Html.TextBoxFor(m => m.NET_LOCAL_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
+
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

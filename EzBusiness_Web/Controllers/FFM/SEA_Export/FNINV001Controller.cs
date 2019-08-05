@@ -100,8 +100,50 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             {
                 FQV.cmpycode = list[0].CmpyCode;
                 FQV.UserName = list[0].user_name;
+                FQV.BRANCHCODE = list[0].BraCode;
                 return Json(_INVService.SaveFNINV_VM(FQV), JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult GetCRG_002(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_INVService.GetCRG_002(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GETBLNO(string CustCode, string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_INVService.GETBLNO(list[0].CmpyCode, list[0].BraCode,CustCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GETBLNODetails(string CustCode, string BLNO)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_INVService.GETBLNODetails(list[0].CmpyCode, list[0].BraCode,BLNO), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        
     }
 }
