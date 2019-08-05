@@ -214,7 +214,7 @@ namespace EzBusiness_DL_Repository
         {
             return drop.GetDivCode(CmpyCode);
         }
-
+      
         public List<ProjectMaster> GetPrjCodeList(string CmpyCode)
         {
             return drop.GetProjects(CmpyCode);

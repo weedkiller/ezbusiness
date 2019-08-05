@@ -57,8 +57,8 @@ namespace EzBusiness_BL_Service
             {
                 // AccNoList = GetAccList(CmpyCode, "EXP"),
                 PRSPD001_CODE = _CodeRep.GetCode(CmpyCode, "SalryProcessDetail"),
-                DivisionList = GetDivCodeList(CmpyCode),
-                DIVISION = list[0].Divcode.ToString(),
+              //  DivisionList = GetDivCodeList(CmpyCode),
+               // DIVISION = list[0].Divcode.ToString(),
                // VisaLocationList = GetVisLocList(CmpyCode),
                // DepartmentList = GetDepartmentList(CmpyCode, list[0].Divcode)
 
@@ -71,6 +71,14 @@ namespace EzBusiness_BL_Service
                                      .ToList();
 
             return InsertFirstElementDDL(itemCodes);
+        }
+        public List<SelectListItem> GetDivCodeListLatest(string CmpyCode,string Prefix)
+        {
+            var itemCodes = _slpay.GetDivCodeListLatest(CmpyCode,Prefix)
+                                     .Select(m => new SelectListItem { Value = m.Code, Text = m.Code+" - "+m.CodeName })
+                                     .ToList();
+
+            return itemCodes;
         }
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
         {

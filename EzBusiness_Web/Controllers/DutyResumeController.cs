@@ -95,6 +95,31 @@ namespace EzBusiness_Web.Controllers
         //{
         //    return Json(_AirService.GetAirs(CmpyCode), JsonRequestBehavior.AllowGet);
         //}
+        public ActionResult  GetLsNo(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_DrService.GetLsNo(list[0].CmpyCode,Prefix));
+            }
+        }
+        public ActionResult GetLsNoEdit(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_DrService.GetLsNoEdit(list[0].CmpyCode, Prefix));
+            }
+        }
+
 
         [Route("EmpCN")]
         public ActionResult GetEmpCodes(string Cmpycode)

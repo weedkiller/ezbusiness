@@ -47,6 +47,31 @@ namespace EzBusiness_Web.Controllers
                 return PartialView(_EmpShiftService.NewEmpShift(list[0].CmpyCode));
             }
         }
+
+        public ActionResult GetShiftAllocCode(string Prefix, string PRSFT001_code)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_EmpShiftService.GetShiftAllocCode(list[0].CmpyCode, PRSFT001_code, Prefix));
+            }
+        }
+        public ActionResult GetShiftCodes(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_EmpShiftService.GetShiftCodes(list[0].CmpyCode, Prefix));
+            }
+        }
         [Route("EditEmpShiftMaster")]
         public ActionResult EditEmpShiftMaster(string PRSFT003_code)
         {
@@ -76,18 +101,7 @@ namespace EzBusiness_Web.Controllers
 
       
 
-        public ActionResult GetShiftAllocCode(string PRSFT001_code)
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(_EmpShiftService.GetShiftAllocCode(list[0].CmpyCode, PRSFT001_code), JsonRequestBehavior.AllowGet);
-            }
-        }
+   
 
         [HttpPost]
         [Route("SaveEmpShift")]

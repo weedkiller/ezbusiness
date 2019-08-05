@@ -77,7 +77,7 @@ namespace EzBusiness_BL_Service
         {
             var poEdit = _LeaveAppRepo.GetLeaveAppDetailsEdit(CmpyCode, Code);
             poEdit.EmpCodeList = GetEmpCodeList(CmpyCode,"A");
-            poEdit.LeaveTypeList = GetLeaveTypList(CmpyCode);
+           // poEdit.LeaveTypeList = GetLeaveTypList(CmpyCode);
            
             poEdit.LeaveDetail = new LeaveApplicationnews();
              poEdit.LeaveApplicationnews = GetLeaveAppDetailList(CmpyCode, Code);
@@ -93,8 +93,8 @@ namespace EzBusiness_BL_Service
             return new Leave_App_VW
             {
                 PRLR001_CODE=_CodeRep.GetCode(CmpyCode, "LeaveApplication"),
-                EmpCodeList = GetEmpCodeList(CmpyCode,"L"),
-                LeaveTypeList=GetLeaveTypList(CmpyCode),
+              //  EmpCodeList = GetEmpCodeList(CmpyCode,"L"),
+              //  LeaveTypeList=GetLeaveTypList(CmpyCode),
                 
                 LeaveApplicationnews = new List<LeaveApplicationDetail>(),
                 LeaveDetail = new LeaveApplicationnews(),
@@ -153,13 +153,13 @@ namespace EzBusiness_BL_Service
             }).ToList();
         }
 
-        public List<SelectListItem> GetLeaveTypList(string CmpyCode)
-        {
-            var itemCodes = _LeaveAppRepo.GetLeaveTypList(CmpyCode)
-                                       .Select(m => new SelectListItem { Value = m.Code, Text =string.Concat(m.Code,'-',m.LeaveName) })
+        public List<SelectListItem> GetLeaveTypList(string CmpyCode,string Prefix)
+      {
+            var itemCodes =_LeaveAppRepo.GetLeaveTypList(CmpyCode,Prefix)
+                                       .Select(m => new SelectListItem { Value = m.Code, Text =m.Code+'-'+m.CodeName })
                                        .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
+            return itemCodes;
         }
 
         public decimal GetBalanceLeave(string CmpyCode, string EmpCode, string LeaveType, DateTime joiningdte)

@@ -73,10 +73,10 @@ namespace EzBusiness_BL_Service
         public SalaryProcessDetailsVM GetSalaryProcessEdit(string CmpyCode, string PRSFT001_code)
         {
             var poedit = _salaryrepo.GetSalaryProcessEdit(CmpyCode, PRSFT001_code);
-            poedit.DivisionList = GetDivCodeList(CmpyCode);
+           // poedit.DivisionList = GetDivCodeList(CmpyCode);
             //poedit.VisaLocationList = GetVisLocList(CmpyCode);               
             //poedit.VisaLocationList = GetVisLocList(CmpyCode);
-            poedit.DepartmentList = GetDepartmentList(CmpyCode, poedit.DivisionCode);
+          //  poedit.DepartmentList = GetDepartmentList(CmpyCode, poedit.DivisionCode);
          //   poedit.salaryList = GetSalaryProcessGridEdit(poedit.year,poedit.Month,poedit.CmpyCode);
 
             return poedit;
@@ -103,10 +103,10 @@ namespace EzBusiness_BL_Service
             {
                 // AccNoList = GetAccList(CmpyCode, "EXP"),
                 PRSP001_Code = _CodeRep.GetCode(CmpyCode,"SalaryProcess"),
-                DivisionList = GetDivCodeList(CmpyCode),
-                DivisionCode = list[0].Divcode.ToString(),
+               // DivisionList = GetDivCodeList(CmpyCode),
+              //  DivisionCode = list[0].Divcode.ToString(),
                 //VisaLocationList =GetVisLocList(CmpyCode),
-               DepartmentList =GetDepartmentList(CmpyCode,list[0].Divcode)
+             //  DepartmentList =GetDepartmentList(CmpyCode,list[0].Divcode)
 
             };
         }
@@ -200,12 +200,12 @@ namespace EzBusiness_BL_Service
                                     .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
                                     .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
+            return itemCodes;
         }
-        public List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode)
+        public List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode,string Prefix)
         {
-            var itemCodes = _salaryrepo.GetDepartmentList(CmpyCode, divcode)
-                                      .Select(m => new SelectListItem { Value = m.DepartmentCode, Text = string.Concat(m.DepartmentCode, "-", m.DepartmentName) })
+            var itemCodes = _salaryrepo.GetDepartmentList1(CmpyCode, divcode, Prefix)
+                                      .Select(m => new SelectListItem { Value = m.Code, Text =m.CodeName })
                                       .ToList();
 
             return InsertFirstElementDDL(itemCodes);

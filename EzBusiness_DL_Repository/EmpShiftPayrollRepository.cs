@@ -158,8 +158,11 @@ namespace EzBusiness_DL_Repository
             return ObjList;
 
         }
-  
-       
+        public List<ComDropTbl> GetShiftCodes1(string CmpyCode,string Prefix)
+        {
+            return drop.GetCommonDrop("PRSFT001_code as [Code],ShiftName as [CodeName]", "PRSFT001", "CMPYCODE='" + CmpyCode + "' and Flag=0   and  (PRSFT001_code like '" + Prefix + "%' or ShiftName like '" + Prefix + "%')");
+        }
+
         public List<ShiftAlloc> GetShiftAllocCode(string CmpyCode, string PRSFT001_code)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("Select * from PRSFT002 where CmpyCode='" + CmpyCode + "' and PRSFT001_code= '" + PRSFT001_code +"'");
@@ -177,21 +180,21 @@ namespace EzBusiness_DL_Repository
                     ApprovalYN = dr["ApprovalYN"].ToString(),
                     PRSFT002_code = dr["PRSFT002_code"].ToString(),
                     division = dr["division"].ToString(),
-
                 });
-
             }
             return ObjList;
+        }
 
+        public List<ComDropTbl> GetShiftAllocCode1(string CmpyCode, string PRSFT001_code,string Prefix)
+        {
+            return drop.GetCommonDrop("PRSFT001_code as [Code],PRSFT002_code as [CodeName]", "PRSFT002", "CMPYCODE='" + CmpyCode + "' and Flag=0   and  (PRSFT001_code like '" + Prefix + "%' or PRSFT002_code like '" + Prefix + "%')");
         }
         public bool DeleteEmpShift(string CmpyCode, string PRSFT003_code, string username)
         {
             int ES = _EzBusinessHelper.ExecuteScalar("Select count(*) from PRSFT003 where CmpyCode='" + CmpyCode + "' and PRSFT003_code='" + PRSFT003_code + "'");
             if (ES != 0)
             {
-
                 _EzBusinessHelper.ActivityLog(CmpyCode, username, "Delete Emp Shift Master", PRSFT003_code, Environment.MachineName);
-
                 return  _EzBusinessHelper.ExecuteNonQuery1("update PRSFT003 set Flag=1 where CmpyCode='" + CmpyCode + "' and PRSFT003_code='" + PRSFT003_code + "'");
               //  return true;
             }

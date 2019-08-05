@@ -20,7 +20,9 @@ namespace EzBusiness_DL_Interface
 
         List<Employee> GetEmpCodes(string Cmpycode);
 
-        List<LeaveApplication> GetLsNo(string Cmpycode,string typ);
+        List<ComDropTbl> GetLsNo(string Cmpycode,string Prefix);
+        List<ComDropTbl> GetLsNoEdit(string Cmpycode, string Prefix);
+        List<LeaveApplication> GetLsNo11(string Cmpycode, string typ);
         List<Attendence> GetLeaveTypList(string CmpyCode);
         List<LeaveApplication> GetLeaveData(string cmpycode, string LanNo);
 

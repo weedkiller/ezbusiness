@@ -59,6 +59,21 @@ namespace EzBusiness_Web.Controllers
                 // return PartialView(); 
             }
         }
+
+        public ActionResult GetDivCodeListLatest(string Prefix)
+       {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_SalpaymntService.GetDivCodeListLatest(list[0].CmpyCode,Prefix));
+
+                // return PartialView(); 
+            }
+        }
         [Route("GetSalaryProcessDetails")]
         public ActionResult GetSalaryProcessDetails(SalaryProcessDVM slryVM)
         {

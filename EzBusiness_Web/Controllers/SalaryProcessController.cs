@@ -12,9 +12,7 @@ namespace EzBusiness_Web.Controllers
 {
     public class SalaryProcessController : Controller
     {
-
         ISalaryProcessDService _SalService;
-
         public SalaryProcessController()
         {
             _SalService = new SalaryProcessDServices();
@@ -33,6 +31,7 @@ namespace EzBusiness_Web.Controllers
                 return View();
             }
         }
+
         public ActionResult AddSalesProcess()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -357,7 +356,8 @@ namespace EzBusiness_Web.Controllers
                 return Json(_SalService.GetDivCodeList(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult GetDepartmentList(string divcode)
+
+        public ActionResult GetVisLocList(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -366,7 +366,19 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_SalService.GetDepartmentList(list[0].CmpyCode, divcode), JsonRequestBehavior.AllowGet);
+                return Json(_SalService.GetVisLocList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetDepartmentList(string Prefix,string divcode)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_SalService.GetDepartmentList(list[0].CmpyCode,divcode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
     }

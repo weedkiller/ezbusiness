@@ -22,8 +22,9 @@ namespace EzBusiness_BL_Interface
         DutyResumeVM GetDutyEdit(string Cmpycode,string lsno);
         List<SelectListItem> GetEmpCodes(string Cmpycode);
         List<LeaveApplication> GetLeaveData(string cmpycode, string LanNo);
-        List<SelectListItem> GetLsNo(string Cmpycode, string typ);
-
+        List<SelectListItem> GetLsNo(string Cmpycode, string Prefix);
+        List<SelectListItem> GetLsNoEdit(string Cmpycode, string Prefix);
+        List<SelectListItem> GetLsNo11(string Cmpycode, string type);
         List<SelectListItem> GetLeaveTypList(string CmpyCode);
 
         //bool DeleteDrs(string Cmpycode);

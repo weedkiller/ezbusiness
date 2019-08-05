@@ -8,6 +8,8 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     $(function () {
         arr1 = [];
@@ -22,10 +24,14 @@
 
         $('.selectpicker').selectpicker('refresh');
 
-        $("#PRLR001_CODE option:selected").val(0);
+        $("#PRLR001_CODE").val(0);
+        EzAutoCompTxtE("#PRLR001_CODE", "#hdnPRLR001_CODE","/DutyResume/GetLsNo", false, "");
+        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
+        EzAutoCompTxtE("#Duty_Rm_type", "#hdnDuty_Rm_type", "/LeaveApplication/GetLeaveTypList", false, "");
+        EzAutoCompTxtE("#Actual_Leave_Type", "#hdnActual_Leave_Type", "/LeaveApplication/GetLeaveTypList", false, "");
 
         $("#PRLR001_CODE").change(function () {
-            var lan = $('#PRLR001_CODE option:selected').val();
+            var lan = $('#PRLR001_CODE').val();
            
 
             $.get("/GetLANDET", {LanNo : lan }).done(function (response) {
@@ -60,10 +66,7 @@
                 }
                 $('#Excess_Days_plus_minus').val(days);
 
-                var Emp = $("#EmpCode option:selected").val();
-
-
-
+                var Emp = $("#EmpCode").val();
                 var leaveTyp = $("#Duty_Rm_type").val().trim();
                 var joiningdte = $("#JoiningDate").val();
 
@@ -74,22 +77,13 @@
                     $('input[name="BalanceLeave"]').val(response);
 
                 });
-               
-
             });
-
-       
-
-          
-
         });
 
-        $('#ResumeDate1').on('dp.change', function (event) {
-            
+        $('#ResumeDate1').on('dp.change', function (event) {            
             var start = new Date(Ezsetdtpkdate($('#ResumeDate1').val()));
             var end = new Date(Ezsetdtpkdate($('#EndDate1').val()));
             var diff = new Date(start - end);
-
             // get days
             var days = diff / 1000 / 60 / 60 / 24;
             if (days <= 0) {
@@ -101,17 +95,10 @@
         });
 
        
-
         $("#Duty_Rm_type").change(function () {
-
-            var Emp = $("#EmpCode option:selected").val();
-
-        
-
+            var Emp = $("#EmpCode").val();
             var leaveTyp = $("#Duty_Rm_type").val().trim();
             var joiningdte = $("#JoiningDate").val();
-
-
             $.get("/LeaveApplication/GetBalanceLeave", { EmpCode: Emp, LeaveType: leaveTyp, joiningdte: joiningdte }).done(function (response) {
                 arr1 = response;
 
@@ -129,13 +116,7 @@
         $('body').on('focus', ':input', function () {
             $(this).attr('autocomplete', 'off');
         });
-
     });
-        
-   
-
-           
-       
 </script>
 
 
@@ -164,7 +145,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Sanction Code<i class="star">*</i></label>
                                                         <div class="col-md-9 input-field">
-                                                            @Html.DropDownListFor(m => m.PRLR001_CODE, Model.LsNoList, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.PRLR001_CODE, Model.LsNoList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.PRLR001_CODE, new { @class = "form-control", @placeholder = "Select Sanction Code" })
+                                                            <input id="hdnPRLR001_CODE" type="hidden" class="form-control" name="hdnPRLR001_CODE" value="-1" />      
                                                         </div>
                                                     </div>
                                                 </div>
@@ -173,7 +156,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Employee Name</label>
                                                         <div class="col-md-9 input-field">
-                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @disabled = "disabled", @class = "form-control selectpicker", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @disabled = "disabled", @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @placeholder = "Select Emp Code" })
+                                                            <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />      
                                                         </div>
                                                     </div>
                                                 </div>
@@ -203,14 +188,14 @@
                                                 <!--/span-->
                                             </div>
 
-
-
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Actual Leave Type</label>
                                                         <div class="col-md-9 input-field">
-                                                            @Html.DropDownListFor(m => m.Actual_Leave_Type, Model.Rm_TypeList, new { @class = "selectpicker form-control", @disabled = "disabled", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.Actual_Leave_Type, Model.Rm_TypeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.Actual_Leave_Type, new { @class = "form-control", @placeholder = "Actual_Leave Type" })
+                                                            <input id="hdnActual_Leave_Type" type="hidden" class="form-control" name="hdnActual_Leave_Type" value="-1" />      
                                                         </div>
                                                     </div>
                                                 </div>
@@ -219,13 +204,12 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Duty Resume Type</label>
                                                         <div class="col-md-9 input-field">
-                                                            @Html.DropDownListFor(m => m.Duty_Rm_type, Model.Rm_TypeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.Duty_Rm_type, Model.Rm_TypeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.Duty_Rm_type, new { @class = "form-control", @placeholder = "Select Duty_Rm type" })
+                                                            <input id="hdnDuty_Rm_type" type="hidden" class="form-control" name="hdnDuty_Rm_type" value="-1" />      
                                                         </div>
                                                     </div>
                                                 </div>
-
-
-
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">

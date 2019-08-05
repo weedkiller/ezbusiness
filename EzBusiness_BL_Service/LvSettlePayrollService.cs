@@ -49,13 +49,13 @@ namespace EzBusiness_BL_Service
             return InsertFirstElementDDL(itemCodes);        
         }
 
-        public List<SelectListItem> GetLeaveCodes(string CmpyCode, string typ)
+        public List<SelectListItem> GetLeaveCodes(string CmpyCode, string Prefix)
         {
-            var itemCodes = _LvPayrollRepo.GetLeaveCodes(CmpyCode,typ)
-                                        .Select(m => new SelectListItem { Value = m.PRLR001_CODE, Text = m.PRLR001_CODE +"-" +m.EmpCode })
+            var itemCodes = _LvPayrollRepo.GetLeaveCodes(CmpyCode, Prefix)
+                                        .Select(m => new SelectListItem { Value = m.Code, Text = m.Code})
                                         .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
+            return itemCodes;
         }
 
         public List<LeaveSettlementnew> GetLeaveDetails(string CmpyCode, string PRLR001_CODE, DateTime lvsdte)
@@ -140,8 +140,8 @@ namespace EzBusiness_BL_Service
             return new LeaveSettlementVM
             {
                 PRLS001_CODE=_CodeRep.GetCode(CmpyCode, "LeaveSettlement"),
-                EmpCodeList = GetEmpCodes(CmpyCode),
-                LeaveList = GetLeaveCodes(CmpyCode, "Etyp1"),
+               // EmpCodeList = GetEmpCodes(CmpyCode),
+              // LeaveList = GetLeaveCodes(CmpyCode, "Etyp1"),
                 Ticket_Paid="Paid",
                 EditFlag = false
             };

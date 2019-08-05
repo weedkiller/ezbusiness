@@ -9,30 +9,65 @@
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/EzComNDW.js"></script>
-
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     $(function () {
        
         $('.selectpicker').selectpicker('refresh');
 
+        $('#PRSFT001_code').on("focusout", function () {
+            debugger;
+            var PRSFT001_code = $('#PRSFT001_code').val();
+            if (PRSFT001_code != '-1') {
+                $('#PRSFT002_code').autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "/EmpShift/GetShiftAllocCode",
+                            type: "POST",
+                            dataType: "json",
+                            data: { Prefix: request.term, PRSFT001_code: PRSFT001_code },
+                            success: function (data) {
+                                if (data.length > 0) {
+                                    response($.map(data, function (item) {
+                                        return {
+                                            label: item.Text,//item.Value + ' - ' + item.Text,
+                                            value: item.Value,
+                                            val1: item.Text
+                                        };
+                                    }))
+                                } else {
+                                    $('#PRSFT002_code').val('');
+                                    $("#hdnPRSFT002_code").val(-1);
+                                    response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+                                }
+                            }
+                        });
+                    },
 
-        $('#PRSFT001_code').change(function () {
-           
-            var PRSFT001_code = $('#PRSFT001_code option:selected').val();
-            $.get("EmpShift/GetShiftAllocCode", { PRSFT001_code: PRSFT001_code }).done(function (response) {
+                    select: function (e, u) {
+                        debugger
+                        //If the No match found" item is selected, clear the TextBox.
+                        if (u.item.value == -1) {
+                            //Clear the AutoComplete TextBox.
+                            $(this).val("");
+                            $("#hdnPRSFT002_code").val("-1");
+                            return false;
+                        } else {
+                            $("#hdnPRSFT002_code").val(u.item.val1);
+                        }
 
-                $('#PRSFT002_code').empty();
-                var ary = [];
-                ary = response;
-                for (var i = 0; i < ary.length; i++) {
-                    $('#PRSFT002_code').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                }
-               // $('#PRBM002_code').append('<option value="0" selected="">-Select-</option>');
-                $('#PRSFT002_code').val(0);
-
-                $('.selectpicker').selectpicker('refresh');
-            });
+                    }
+                    ,
+                    minLength: 0
+                }).focus(function () {
+                    $(this).autocomplete("search");
+                });
+            }
         });
+        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
+        EzAutoCompTxtE("#PRSFT001_code", "#hdnPRSFT001_code", "/EmpShift/GetShiftCodes", false, "");
+      //  EzAutoCompTxtE("#PRSFT002_code", "#hdnPRSFT002_code", "/MonthlyAddded/GetEmpList", false, "");
 
         EzTxttabEve('#PRSFT003_code', '#EmpCode', 'Please Enter Code',"T");
         EzDropTabEve("[name='EmpCode']", "[name='EmpCode'] option:selected", "[name='PRSFT001_code']", 'Select Emp Code');
@@ -63,17 +98,11 @@
             <div class="custom-form-wrapper">
                 <div id="POContainer">
                     <div class="row">
-
                         <div class="custom-form-wrapper">
                             <!-- BEGIN FORM-->
                             <div class="form-horizontal">
-
-
-
                                 <div class="form-body">
-
                                     <div class="row">
-
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Code</label>
@@ -87,9 +116,9 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Employee<i style="color:red;">*</i></label>
                                                 <div class="col-md-8 input-field">
-
-                                                    @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-
+                                                    @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                    @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @placeholder = "Select Emp Code" })
+                                                    <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />      
                                                 </div>
                                             </div>
                                         </div>
@@ -99,7 +128,9 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Shift Name<i style="color:red;">*</i></label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.DropDownListFor(m => m.PRSFT001_code, Model.ShiftCode, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                    @*@Html.DropDownListFor(m => m.PRSFT001_code, Model.ShiftCode, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                    @Html.TextBoxFor(m => m.PRSFT001_code, new { @class = "form-control", @placeholder = "Select Shift" })
+                                                    <input id="hdnPRSFT001_code" type="hidden" class="form-control" name="hdnPRSFT001_code" value="-1" />      
                                                 </div>
                                             </div>
                                         </div>
@@ -107,7 +138,9 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-4">Shift Allocation<i style="color:red;">*</i></label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.DropDownListFor(m => m.PRSFT002_code, Model.ShiftCodeAlloc, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                    @*@Html.DropDownListFor(m => m.PRSFT002_code, Model.ShiftCodeAlloc, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                    @Html.TextBoxFor(m => m.PRSFT002_code, new { @class = "form-control", @placeholder = "Select Shift" })
+                                                    <input id="hdnPRSFT002_code" type="hidden" class="form-control" name="hdnPRSFT002_code" value="-1" />      
                                                 </div>
                                             </div>
                                         </div>

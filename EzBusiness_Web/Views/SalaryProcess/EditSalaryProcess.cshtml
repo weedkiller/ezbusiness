@@ -10,6 +10,8 @@
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <style>
     td.details-control {
         background: url('') no-repeat center center;
@@ -33,7 +35,62 @@
         jq('.selectpicker').selectpicker('refresh');
         var Pdate = jq(this).find("#Process_Date").val();
         //var month = $(this).find("#hdnprscssMonth").val();
-      
+        $('#DivisionCode').on("focusout", function () {
+            debugger;
+            var divcode = $('#DivisionCode').val();
+            if (divcode != '-1') {
+                $('#Deptcode').autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "SalaryProcess/GetDepartmentList",
+                            type: "POST",
+                            dataType: "json",
+                            data: { Prefix: request.term, divcode: divcode },
+                            success: function (data) {
+                                if (data.length > 0) {
+                                    response($.map(data, function (item) {
+                                        return {
+                                            label: item.Text,//item.Value + ' - ' + item.Text,
+                                            value: item.Value,
+                                            val1: item.Text
+                                        };
+                                    }))
+                                } else {
+                                    $('#Deptcode').val('');
+                                    $("#hdnDeptcode").val(-1);
+                                    response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+                                }
+                            }
+                        });
+                    },
+
+                    select: function (e, u) {
+                        debugger
+                        //If the No match found" item is selected, clear the TextBox.
+                        if (u.item.value == -1) {
+                            //Clear the AutoComplete TextBox.
+                            $(this).val("");
+                            $("#hdnDeptcode").val("-1");
+                            return false;
+                        } else {
+                            $("#hdnDeptcode").val(u.item.val1);
+                        }
+
+                    }
+                    ,
+                    minLength: 0
+                }).focus(function () {
+                    $(this).autocomplete("search");
+                });
+            }
+        });
+
+        EzAutoCompTxtE("#DivisionCode", "#hdnDivisionCode", "/SalaryProcessPayment/GetDivCodeListLatest");
+        EzAutoCompTxtE("#VisaLocation1", "#hdnVisaLocation1", "/SalaryProcess/GetVisLocList");
+
+        EzAutoCompTxtE("#DivisionCode", "#hdnDivisionCode", "/SalaryProcessPayment/GetDivCodeListLatest", false, "");
+        EzAutoCompTxtE("#VisaLocation1", "#hdnVisaLocation1", "/SalaryProcess/GetVisLocList", false, "");
+
         jq.get("/SalaryProcess/GetSalaryProcessGridEdit", { SPDate: Pdate }).done(function (responce) {
             
             if(responce!=null)
@@ -214,7 +271,9 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Division<i style="color:red;">*</i></label>
                             <div class="col-md-8 input-field">
-                                @Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                @*@Html.DropDownListFor(m => m.DivisionCode, Model.DivisionList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                @Html.TextBoxFor(m => m.DivisionCode, new { @class = "form-control", @placeholder = "Select Division" })
+                                <input id="hdnDivisionCode" type="hidden" class="form-control" name="hdnDivisionCode" value="-1" />  
                             </div>
                         </div>
                     </div>
@@ -222,7 +281,9 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Department</label>
                             <div class="col-md-8 input-field">
-                                @Html.DropDownListFor(m => m.Deptcode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                @Html.TextBoxFor(m => m.Deptcode, new { @class = "form-control", @placeholder = "Select Department" })
+                                <input id="hdnDeptcode" type="hidden" class="form-control" name="hdnDeptcode" value="-1" />  
+                                @*@Html.DropDownListFor(m => m.Deptcode, Model.DepartmentList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
                             </div>
                         </div>
                     </div>
@@ -230,7 +291,9 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">VisaLocation</label>
                             <div class="col-md-8 input-field">
-                                @Html.DropDownListFor(m => m.VisaLocation1, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                @*@Html.DropDownListFor(m => m.VisaLocation1, Model.VisaLocationList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                @Html.TextBoxFor(m => m.VisaLocation1, new { @class = "form-control", @placeholder = "Select Visalocation" })
+                                <input id="hdnVisaLocation1" type="hidden" class="form-control" name="hdnVisaLocation1" value="-1" />  
                             </div>
                         </div>
                     </div>
@@ -256,9 +319,6 @@
                         <button class="btn btn-warning" id="btncalculate" type="button">Calculate Salary</button>
                         <button class="btn btn-danger" id="" data-toggle="modal" data-target="#myModal1" type="button">Actual Salary</button>
                         <button class="btn btn-info" id="" data-toggle="modal" data-target="#myModal2" type="button">OT Details</button>
-
-                        
-
                         <div class="modal fade" id="myModal1" role="dialog">
                             <div class="modal-content">
                                 <div class="modal-header">

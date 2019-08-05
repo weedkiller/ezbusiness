@@ -316,6 +316,65 @@ namespace EzBusiness_DL_Repository
             }
             return ObjList;
         }
+
+        public List<Employee> GetEmpCodesListLatest(string CmpyCode, string typ, string Prefix)
+        {
+            string qur = "";
+            if (typ == "L")
+            {
+                qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "'  And WorkingStatus = 'Y' and LeaveStatus='N' and Flag=0 Order By EmpCode";
+            }
+            else if (typ == "F")
+            {
+                qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "'  And WorkingStatus in('T','R') and Flag=0  Order By EmpCode";
+            }
+            else if (typ == "A")
+            {
+                qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "' and Flag=0  Order By EmpCode";
+            }
+            else if (typ == "UR")
+            {
+                qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode ='" + CmpyCode + "' and Flag=0 and EmpCode not in (Select EmpCode from Users where Cmpycode=MEM001.Cmpycode)";
+            }
+            else if (typ == "T")
+            {
+                qur = "SELECT  Empcode, EmpName,JoiningDate FROM Vw_GetReportIngEmployee WHERE CmpyCode = '" + CmpyCode + "' and Flag=0 And WorkingStatus = 'Y'  Order By ReportingEmp";
+            }
+            else if (typ == "SM")
+            {
+                qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "' and Flag=0 And WorkingStatus = 'Y'  Order By EmpCode";
+            }
+            else if (typ == "B")
+            {
+                qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode ='" + CmpyCode + "' and Flag=0 and EmpCode not in (Select EmpCode from PRBM003 where Cmpycode=MEM001.Cmpycode)";
+            }
+            else
+            {
+                qur = "SELECT EmpCode, EmpName,JoiningDate FROM MEM001 WHERE CmpyCode = '" + CmpyCode + "'  And WorkingStatus = 'Y' and Flag=0  Order By EmpCode";
+            }
+            ds = _EzBusinessHelper.ExecuteDataSet(qur);
+            List<Employee> ObjList = null;
+            if (ds.Tables.Count > 0)
+            {
+                dt = ds.Tables[0];
+                DataRowCollection drc = dt.Rows;
+                ObjList = new List<Employee>();
+                foreach (DataRow dr in drc)
+                {
+                    //DateTime dte;
+                    //string dtstr4;
+                    //dte = Convert.ToDateTime(dr["JoiningDate"].ToString());
+                    //dtstr4 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
+                    ObjList.Add(new Employee()
+                    {
+                        EmpCode = dr["EmpCode"].ToString(),
+                        Empname = dr["EmpName"].ToString(),
+                        //JoiningDate= dtstr4.ToString(),
+                    });
+                }
+            }
+            return ObjList;
+        }
         public List<Employee> GetEmpList1(string CmpyCode, string empcode)
         {
             ds = _EzBusinessHelper.ExecuteDataSet("SELECT '01' AS EmpCode, 'SELF' AS EmpName UNION ALL SELECT EmpCode,EmpName FROM MEM001 WHERE CmpyCode = N'" + CmpyCode + "' AND EmpCode <>'" + empcode + "'  and Flag=0 ORDER BY EmpCode");

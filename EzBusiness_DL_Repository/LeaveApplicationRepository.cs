@@ -115,7 +115,7 @@ namespace EzBusiness_DL_Repository
                           new SqlParameter("@LeaveDays",LeaveApp.LeaveDays),
                           //new SqlParameter("@Remarks",LeaveApp.Remarks),
                           new SqlParameter("@Remarks",! String.IsNullOrWhiteSpace(LeaveApp.Remarks) ? LeaveApp.Remarks : ""),
-                           new SqlParameter("@TotalBalance",LeaveApp.TotalBalance),
+                           new SqlParameter("@TotalBalance",! String.IsNullOrWhiteSpace(LeaveApp.TotalBalance) ? LeaveApp.TotalBalance :"0"),
                            new SqlParameter("@TotalApplied",LeaveApp.TotalApplied),
                           new SqlParameter("@TotalSanctioned",! String.IsNullOrWhiteSpace(LeaveApp.TotalSanctioned) ? LeaveApp.TotalSanctioned : "0"),
                           new SqlParameter("@ApprovalYN",LeaveApp.ApprovalYN),
@@ -263,11 +263,12 @@ namespace EzBusiness_DL_Repository
             return ObjList;
         }
 
-        public List<Attendence> GetLeaveTypList(string CmpyCode)
+        public List<ComDropTbl> GetLeaveTypList(string CmpyCode,string Prefix)
         {
-            return drop.GetAtens(CmpyCode);
-        }
+           // return drop.GetAtens(CmpyCode);
+            return drop.GetCommonDrop("Code as [Code],LeaveName as [CodeName]", "MLH033", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (Code like '" + Prefix + "%' or LeaveName like '" + Prefix + "%')");
 
+        }
 
         public decimal GetBalanceLeave(string CmpyCode, string EmpCode,string LeaveType,DateTime joiningdte)
         {

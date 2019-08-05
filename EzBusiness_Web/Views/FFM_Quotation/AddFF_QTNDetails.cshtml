@@ -54,14 +54,10 @@
         //EzAutoCompTxtE('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList", false, "");
         EzAutoCompTxtE("#JOB_TYPE", "#hdnJOB_TYPE", "/FF_BOK/GETJobTypList", false, "");
         EzAutoCompTxtEParV1('#CARRIER', '#hdnCARRIER', "/FF_BOK/GetSLNew", false, "", "CRR");
-
         EzAutoCompTxtEParV1('#notifypart2', '#hdnnotifypart2', "/FF_BOK/GetSLNew", false, "", "NTY");
         EzAutoCompTxtEParV1('#notifypart1', '#hdnnotifypart1', "/FF_BOK/GetSLNew", false, "", "NTY");
         EzAutoCompTxtEParV1('#AGENT', '#hdnAGENT', "/FF_BOK/GetSLNew", false, "", "AGT");
         EzAutoCompTxtE('#Salesman', '#hdnSalesman', "/FF_BOK/GetSalesman", false, "");
-
-
-
 
         var DG = [{ value: "Yes", label: "Yes-IMO", val1: "IMO" }, { value: "No", label: "No-Pack", val1: "Pack" }, ];
         EzAutotxtAutosatic("#DG", "#hdnDG", DG, false, "");
@@ -81,8 +77,7 @@
         arr1 = [];               
         EzdteformtDOB('#EFFECT_FROM1', 'DD/MM/YYYY');
         EzdteformtDOB('#EFFECT_UPTO1', 'DD/MM/YYYY');
-       
-        
+               
         var counter5 = parseInt($("#hdnCounter5").val());
         $("#tablePODetails5").on("click", "[name*='btnDelete']", function () {
             $(this).closest("tr").remove();
@@ -159,10 +154,6 @@
             } else {
                 tr.find("[name*='txt1Cust_code']").val('');
             }
-
-           
-             
-
         });
 
         //$("#tablePODetails4").on("focusout", "[name*='txtCLAUSE_CODE']", function () {
@@ -326,13 +317,8 @@
                     tr.find("[name*='txt1Crg_code']").val('');
                     tr.find("[name*='txtinpCrg_code']").val('')
                     return;
-
-
                 }
                 else {
-
-                   
-                  
                     debugger;
                     var array = JobCode.split("-");
                     if (array.length > 3) {
@@ -340,7 +326,6 @@
                         tr.find("[name*='txtIncome_GL_Code']").val(array[2].trim());
                         tr.find("[name*='txtExpense_GL_Code']").val(array[3].trim());
                         tr.find("[name*='txt1Crg_code']").val(array[0].trim());
-
                         $.ajax({
                             async: false,
                             cache: false,
@@ -381,8 +366,6 @@
 
                         //EzTbltxtdrpidchanged(droparry, counter5, "drp", trLast);
                         EzTbltxtdrpidchanged(txtarry, counter5, "txt", trLast);
-
-
                         trLast.find(":first").text(counter5);
                         //trLast.find('select[name^=txtCrg_code' + counter5 + ']').val(0);
                         //trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
@@ -402,16 +385,13 @@
                         trLast.find("[name*='txtIncome_GL_Code']").val('');
                         trLast.find("[name*='txtExpense_GL_Code']").val('');
                         trLast.find("[name*='txt1Crg_code']").val('');
-                        trLast.find("[name*='txtinpCrg_code']").val('')
-
+                        trLast.find("[name*='txtinpCrg_code']").val('');
                         counter5++;
-                    }
-                   
+                    }                   
                 }                                                                        
             }
-               
-            $("#tablePODetails5").css("height", "auto");
 
+           $("#tablePODetails5").css("height", "auto");
 
             //if (JobCode == "" || JobCode == "0") {
             //    $('#tablePODetails5 tr:last').remove();

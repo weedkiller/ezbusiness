@@ -24,7 +24,7 @@ namespace EzBusiness_BL_Interface
         bool DeleteSalaryProcess(string CmpyCode,string Code,DateTime CurrDate,string UserName);
         // int UseShiftAlloc(string CmpyCode, string PRSFT001_code, string PRSFT002_code);
         bool CheckslryDataCalculated(string CmpyCode, DateTime CurrDate,string Divcode,string DeptCode,string Visaloc);
-        List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode);
+        List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode,string Prefix);
         //  #endregion
         #region SalaryProcess Request
 

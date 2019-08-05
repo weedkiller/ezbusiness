@@ -21,7 +21,7 @@ namespace EzBusiness_DL_Interface
         //SalaryProcessDetailsVM GetSalaryProcessDetailList(string CmpyCode);
         bool CheckslryDataCalculated(string CmpyCode, DateTime CurrDate,string divcode,string deptcode,string visaloc);
         List<Department> GetDepartmentList(string CmpyCode, string divcode);
-
+        List<ComDropTbl> GetDepartmentList1(string CmpyCode, string divcode,string Prefix);
 
 
         #region SalaryProcess Request

@@ -17,7 +17,6 @@ namespace EzBusiness_Web.Controllers
         public LeaveSettlementController()
         {
             _LVService = new LvSettlePayrollService();
-
         }
 
         #region LeaveSettlement
@@ -77,6 +76,18 @@ namespace EzBusiness_Web.Controllers
                 return PartialView(_LVService.GetLeaveSettlementNew(list[0].CmpyCode));
             }
         }
+        public ActionResult GetLeaveCodes(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_LVService.GetLeaveCodes(list[0].CmpyCode,Prefix));
+            }
+        }
 
         [Route("EditLeaveSettal")]
         public ActionResult EditLeaveSettal(string PRSR001_CODE)
@@ -92,7 +103,6 @@ namespace EzBusiness_Web.Controllers
             }
         }
 
-
         public ActionResult GetLeaveDetails(string PRLR001_CODE,DateTime lvsdte)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -105,7 +115,6 @@ namespace EzBusiness_Web.Controllers
                 return Json(_LVService.GetLeaveDetails(list[0].CmpyCode, PRLR001_CODE, lvsdte), JsonRequestBehavior.AllowGet);
             }
         }
-
 
         public ActionResult GetLeaveSettalmentList()
         {

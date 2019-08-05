@@ -16,11 +16,10 @@ namespace EzBusiness_BL_Interface
         List<EmpBankVM> GetEmpBnkList(string CmpyCode);        
         EmpBankVM SaveEmpBnk(EmpBankVM EmpBnk);      
         List<SelectListItem> GetEmpCodes(string CmpyCode, string typ);
-        List<SelectListItem> GetPRBM001_code(string CmpyCode);
-        List<SelectListItem> GetPRBM002_code(string CmpyCode, string PRBM001_code);     
+        List<SelectListItem> GetPRBM001_code(string CmpyCode,string Prefix);
+        List<SelectListItem> GetPRBM002_code(string CmpyCode, string PRBM001_code,string Prefix);     
         bool DeleteEmpBnk(string CmpyCode, string PRBM003_CODE, string UserName);
         EmpBankVM GetEmpBankPayRollEdit(string CmpyCode, string PRBM003_CODE);
         EmpBankVM GetEmpBankPayRollNew(string CmpyCode);
-
     }
 }

@@ -25,6 +25,8 @@
 
         $('input[type=radio][name=optionsRadios]').change(function () {
             
+            EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
+            EzAutoCompTxtE("#DivCode", "#hdnDivCode", "/SalaryProcessPayment/GetDivCodeListLatest", false, "");
 
             if (this.value == "E") {
                 $('.selectpicker').selectpicker('refresh');
@@ -377,7 +379,9 @@
                 <div class="form-group">
                     <label class="control-label col-md-4">Reporting Employee<i class="star">*</i></label>
                     <div class="col-md-8">
-                        @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @placeholder = "Select Emp Code" })
+                        <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />      
                     </div>
                 </div>
             </div>
@@ -385,7 +389,9 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">Division<i class="star">*</i></label>
                     <div class="col-md-8">
-                        @Html.DropDownListFor(m => m.DivCode, Model.DivCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @*@Html.DropDownListFor(m => m.DivCode, Model.DivCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                        @Html.TextBoxFor(m => m.DivCode, new { @class = "form-control", @placeholder = "Select Division" })
+                        <input id="hdnDivCode" type="hidden" class="form-control" name="hdnDivCode" value="-1" />      
                     </div>
                 </div>
             </div>

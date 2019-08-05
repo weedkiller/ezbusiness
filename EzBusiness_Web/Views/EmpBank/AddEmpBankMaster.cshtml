@@ -10,37 +10,68 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     $(function () {
        
         $('.selectpicker').selectpicker('refresh');
        
         EzdtePk('#Entry_Date1');
-        $('#PRBM001_code').change(function () {
-           
-            var PRBM001_code = $('#PRBM001_code option:selected').val();
-            $.get("EmpBank/GetPRBM002_code", { PRBM001_code: PRBM001_code }).done(function (response) {               
-                $('#PRBM002_code').empty();
-                var ary = [];
-                ary = response;
-                for (var i = 0; i < ary.length; i++) {
-                    $('#PRBM002_code').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+        $('#PRBM001_code').on("focusout",function () {           
+            debugger;
+            var PRBM001_code = $('#PRBM001_code').val();
+            if (PRBM001_code != '-1') {
+                $('#PRBM002_code').autocomplete({
+                        source: function (request, response) {
+                            $.ajax({
+                                url: "/EmpBank/GetPRBM002_code",
+                                type: "POST",
+                                dataType: "json",
+                                data: { Prefix: request.term, PRBM001_code: PRBM001_code },
+                                success: function (data) {
+                                    if (data.length > 0) {
+                                        response($.map(data, function (item) {
+                                            return {
+                                                label: item.Text ,//item.Value + ' - ' + item.Text,
+                                                value: item.Value,
+                                                val1: item.Text
+                                            };
+                                        }))
+                                    } else {
+                                        $('#PRBM002_code').val('');
+                                        $("#hdnPRBM002_code").val(-1);
+                                        response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
+                                    }
+                                }
+                            });
+                        },
+
+                        select: function (e, u) {
+                            debugger
+                            //If the No match found" item is selected, clear the TextBox.
+                            if (u.item.value == -1) {
+                                //Clear the AutoComplete TextBox.
+                                $(this).val("");
+                                $("#hdnPRBM002_code").val("-1");
+                                return false;
+                            } else {
+                                $("#hdnPRBM002_code").val(u.item.val1);
+                            }
+
+                        }
+                    ,
+                        minLength: 0
+                    }).focus(function () {
+                        $(this).autocomplete("search");
+                    });
                 }
-               // $('#PRBM002_code').append('<option value="0" selected="">-Select-</option>');
-                $('#PRBM002_code').val(0);
-              
-                $('.selectpicker').selectpicker('refresh');
             });
-        });
-
-        //$('#Entry_Date').val(new Date().getToday());
+      
+        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
+        EzAutoCompTxtE("#PRBM001_code", "#hdnPRBM001_code", "/EmpBank/GetPRBM001_code",false,"");
+  
         EzsetDatetxt();
-
-        //$('.selectpicker').selectpicker({
-        //    style: 'btn-info',
-        //    size: 4,
-
-        //});
 
         $('body').on('focus', ':input', function () {
             $(this).attr('autocomplete', 'off');
@@ -61,46 +92,38 @@
             <div class="custom-form-wrapper">
                 <div id="POContainer">
                     <div class="row">
-
                         <div class="custom-form-wrapper">
                             <!-- BEGIN FORM-->
                             <div class="form-horizontal">
-                        
-
-
                                 <div class="form-body">
-
                                     <div class="row">
-
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Code</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.PRBM003_CODE, new { @style = "text-transform: uppercase;", @class = "form-control", @placeholder = "Code" })
+                                                   @Html.TextBoxFor(m => m.PRBM003_CODE, new { @class = "form-control", @placeholder = "Code" })
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Employee</label>
-                                                <div class="col-md-8 input-field">
-                                                    
-                                                      @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
-                                                   
+                                                <div class="col-md-8 input-field">                                                   
+                                                      @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                    @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @placeholder = "Select Emp Code" })
+                                                    <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />      
                                                 </div>
                                             </div>
-                                        </div>
-                                     
-
-
+                                        </div>                      
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Bank</label>
                                                 <div class="col-md-8 input-field">
-                                                    @Html.DropDownListFor(m => m.PRBM001_code, Model.PRBM001_codeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                    @*@Html.DropDownListFor(m => m.PRBM001_code, Model.PRBM001_codeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                    @Html.TextBoxFor(m => m.PRBM001_code, new { @class = "form-control", @placeholder = "Select Bank Name" })
+                                                    <input id="hdnPRBM001_code" type="hidden" class="form-control" name="hdnPRBM001_code" value="-1" />      
                                                 </div>
                                             </div>
                                         </div>
@@ -108,7 +131,9 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">Branch</label>
                                                 <div class="col-md-8 input-field">
-                                                   @Html.DropDownListFor(m => m.PRBM002_code, Model.PRBM002_codeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                   @*@Html.DropDownListFor(m => m.PRBM002_code, Model.PRBM002_codeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                    @Html.TextBoxFor(m => m.PRBM002_code, new { @class = "form-control", @placeholder = "Select Branch" })
+                                                    <input id="hdnPRBM002_code" type="hidden" class="form-control" name="hdnPRBM002_code" value="-1" />      
                                                 </div>
                                             </div>
                                         </div>
@@ -124,7 +149,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-md-3">EBAN No.</label>
@@ -156,16 +180,10 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                     <!--/row-->
                                     <!--/row-->
-
-
-
-
                                 </div>
-
                             </div><br />
                             <!-- END FORM-->
 

@@ -10,6 +10,8 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     $(function () {
        
@@ -48,7 +50,7 @@
         EzdateCond('#DeductionStartDate1', '#Entry_Date1', 'Deduction Date shold be greater than equal to Entry Date');
 
         Ezdatejoindate('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
-
+        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
         $("#EmpCode").change(function () {
             
             var e1 = $("#EmpCode option:selected").val();
@@ -105,7 +107,7 @@
                                                         <div class="col-md-8 input-field">
                                                             
                                                                 <input id="Entry_Date1" class="form-control datepicker" name="Entry_Date1" />                                                           
-                                                            
+                                                       
                                                             @*@Html.HiddenFor(m => m.Entry_Date, new { htmlAttributes = new { @class = "date1" } } )*@
                                                         </div>
                                                     </div>
@@ -116,7 +118,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-4">Employee<i style="color:red;">*</i></label>
                                                         <div class="col-md-8 input-field">
-                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @placeholder = "Select Emp Code" })
+                                                            <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />      
                                                         </div>
                                                     </div>
                                                 </div>

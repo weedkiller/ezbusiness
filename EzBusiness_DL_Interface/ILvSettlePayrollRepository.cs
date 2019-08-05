@@ -15,7 +15,7 @@ namespace EzBusiness_DL_Interface
         LeaveSettlementVM SaveLiv(LeaveSettlementVM Liv);
         LeaveSettlementVM GetLivlistEdit(string CmpyCode, string PRLS001_COD);        
         List<Employee> GetEmpCodes(string CmpyCode);
-        List<LeaveApplication> GetLeaveCodes(string CmpyCode, string typ);
+        List<ComDropTbl> GetLeaveCodes(string CmpyCode, string Prefix);
         List<LeaveSettlementnew> GetLeaveDetails(string CmpyCode, string PRLR001_CODE, DateTime lvsdte);
         bool DeleteLiv(string CmpyCode, string PRLS001_COD, string UserName);
 

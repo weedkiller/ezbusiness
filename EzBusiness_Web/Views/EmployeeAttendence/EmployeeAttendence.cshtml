@@ -7,6 +7,8 @@
 
 
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     var paydeductons = [];
     $(function () {
@@ -28,7 +30,7 @@
             $("#tablePODetails > tbody tr").empty();
             $("#tablePODetails > tbody tr").remove();
         });
-
+        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
         $('#Tdate').on('dp.change', function (event) {
             counter = 1;
             arr = [];
@@ -504,7 +506,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-5 ">Reporting Employee<i class="star">*</i></label>
                                                         <div class="col-md-7">
-                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @placeholder = "Select Emp Code" })
+                                                            <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />      
                                                         </div>
                                                     </div>
                                                 </div>

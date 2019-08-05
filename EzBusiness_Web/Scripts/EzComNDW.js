@@ -1981,24 +1981,15 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
             } else {
                 $(inphid).val(u.item.val1);
             }
-                    if (boolval == true) {
-                        $(inphid).val(u.item.val1);                      
-                        $(inpname).val(u.item.val1);
-                    }
+             if (boolval == true) {
+             $(inphid).val(u.item.val1);                      
+             $(inpname).val(u.item.val1);
+           }
         }       
         ,
         minLength: 0,
-  
-        
-       
-    })
-   
-    
-
+   })
 }
-
-
-
 
 function EzAutoCompTxt1(inpid, inphid, urls) {
     debugger;

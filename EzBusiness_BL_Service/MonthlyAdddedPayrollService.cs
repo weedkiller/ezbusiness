@@ -27,12 +27,12 @@ namespace EzBusiness_BL_Service
             return _MonthlyAdddedPayrollRepo.DeleteMonthlyAD(CmpyCode, PRADN001_CODE, UserName);
         }
 
-        public List<SelectListItem> GetEmpCodeList(string CmpyCode)
-        {
-            var EmpCodeList = _MonthlyAdddedPayrollRepo.GetEmpCodeList(CmpyCode)
-                                         .Select(m => new SelectListItem { Value = m.EmpCode, Text = string.Concat(m.EmpCode, " - ", m.Empname) })
+        public List<SelectListItem> GetEmpCodeList(string CmpyCode,string Prefix)
+      {
+            var EmpCodeList = _MonthlyAdddedPayrollRepo.GetEmpCodeList(CmpyCode,Prefix)
+                                         .Select(m => new SelectListItem { Value = m.Code, Text =m.CodeName})
                                          .ToList();
-            return InsertFirstElementDDL(EmpCodeList);
+            return EmpCodeList;
         }
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
         {
@@ -61,7 +61,7 @@ namespace EzBusiness_BL_Service
                 PRADN001_CODE=_CodeRep.GetCode(CmpyCode, "MonthlyAddded"),
                 MonthlyAddded = new List<MonthlyAdddeddet1>(),
                 MonthlyAdddedM = new MonthlyAdddeddet1(),
-                EmpNameList = GetEmpCodeList(CmpyCode),
+                //EmpNameList = GetEmpCodeList(CmpyCode),
                 EditFlag = false
             };
         }
@@ -70,7 +70,7 @@ namespace EzBusiness_BL_Service
             var MonthlyEdit = _MonthlyAdddedPayrollRepo.GetMonthlyADEdit(CmpyCode, PRADN001_CODE);
 
             MonthlyEdit.MonthlyAdddedM = new MonthlyAdddeddet1();
-            MonthlyEdit.EmpNameList = GetEmpCodeList(CmpyCode);
+          //  MonthlyEdit.EmpNameList = GetEmpCodeList(CmpyCode);
             MonthlyEdit.MonthlyAddded = GetMonthlyADGrid(CmpyCode, PRADN001_CODE);
             MonthlyEdit.EditFlag = true;
             return MonthlyEdit;

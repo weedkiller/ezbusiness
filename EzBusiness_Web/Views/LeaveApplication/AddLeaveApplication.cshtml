@@ -8,12 +8,16 @@
 
 <script src="~/Scripts/jquery-3.1.1.js"></script>
 <script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
-<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script src="~/Scripts/EzComNDW.js"></script>
+
 <script>    
-    $(function () {        
+    $(function () {
+        debugger;
         var arr1 = [];
         //EzsetDatetxt();
         $('.selectpicker').selectpicker('refresh');       
@@ -21,7 +25,7 @@
         halfday();
         Ezsetzerotxt();     
         var Ideary = [];
-        Ideary.push("#LeaveType");
+       // Ideary.push("#LeaveType");
         Ideary.push('input[name="JoiningDate1"]');
         //Ideary.push('input[name="Entry_Dates1"]');       
         EzDisabledT(Ideary);
@@ -48,7 +52,7 @@
 
         $("#LeaveType").change(function () {
             
-            var Emp = $("#EmpCode option:selected").val();
+            var Emp = $("#EmpCode").val();
             arr1 = Emp.split('$');             
             var leaveTyp = $("#LeaveType").val().trim();
             var joiningdte = Ezsetdtpkdate($("[name*='JoiningDate1']").val());
@@ -60,7 +64,7 @@
         });      
         $("#EmpCode").change(function () {
            
-            var Emp = $("#EmpCode option:selected").val();
+            var Emp = $("#EmpCode").val();
             $.get("/LeaveApplication/GetJoiningdate", { EmpCode: Emp }).done(function (response) {
                 //var date1 = new Date(parseInt(response.substr(6)));              
                 $('#JoiningDate1').val(EzdatefrmtRes(response));
@@ -107,8 +111,9 @@
         EzdateCond('#EndDate1', '#JoiningDate1', 'End Date shold be greater than equal to Joining Date');
         EzdateCond('#EndDate1', '#StartDate1', 'End Date shold be greater than equal to Start Date');
         EzdateCond('#Entry_Dates1', '#JoiningDate1', 'Entry Date shold be greater than equal to Joining Date');
+        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
+        EzAutoCompTxtE("#LeaveType", "#hdnLeaveType", "/LeaveApplication/GetLeaveTypList", false, "");
 
-              
         //$('#StartDate1').change(function () {
          
         //    halfday();
@@ -183,7 +188,6 @@
                                                         <label class="control-label col-md-3">Date</label>
                                                         <div class="col-md-8 input-field">
                                                             <input id="Entry_Dates1" class="form-control datepicker" name="Entry_Dates1" />
-
                                                             @*@Html.HiddenFor(m => m.Entry_Dates )*@
                                                         </div>
                                                     </div>
@@ -196,7 +200,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Employee<i style="color:red;">*</i></label>
                                                         <div class="col-md-8 input-field">
-                                                            @Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.EmpCode, Model.EmpCodeList, new { @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.EmpCode, new { @class = "form-control", @placeholder = "Select Emp Code" })
+                                                            <input id="hdnEmpCode" type="hidden" class="form-control" name="hdnEmpCode" value="-1" />      
                                                         </div>
                                                     </div>
                                                 </div>
@@ -239,7 +245,9 @@
                                                     <div class="form-group">
                                                         <label class="control-label col-md-3">Leave Type<i style="color:red;">*</i></label>
                                                         <div class="col-md-8 input-field">
-                                                            @Html.DropDownListFor(m => m.LeaveType, Model.LeaveTypeList, new {  @class = "selectpicker form-control", @data_live_search = "true" })
+                                                            @*@Html.DropDownListFor(m => m.LeaveType, Model.LeaveTypeList, new {  @class = "selectpicker form-control", @data_live_search = "true" })*@
+                                                            @Html.TextBoxFor(m => m.LeaveType, new { @class = "form-control", @placeholder = "Select Leave Type" })
+                                                            <input id="hdnLeaveType" type="hidden" class="form-control" name="hdnLeaveType" value="-1" />      
                                                         </div>
                                                     </div>
                                                 </div>
@@ -309,10 +317,6 @@
                                     <!-- END FORM-->
                                   
                                     <!-- <button>Hey, click me!</button> -->
-
-                                    
-
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -335,7 +339,6 @@
     <!-- Row end -->
 </div>
 
-
-
+  </div>
 
 

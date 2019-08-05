@@ -17,7 +17,6 @@ namespace EzBusiness_Web.Controllers
         public EmpBankController()
         {
             _bkService = new EmpBankPayRollService();
-
         }
 
         #region EmpBank Master
@@ -48,6 +47,20 @@ namespace EzBusiness_Web.Controllers
                 return PartialView(_bkService.GetEmpBankPayRollNew(list[0].CmpyCode));
            }
         }
+        public ActionResult GetPRBM001_code(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_bkService.GetPRBM001_code(list[0].CmpyCode,Prefix));
+            }
+        }
+    
+
         [Route("EditEmpBankMaster")]
         public ActionResult EditEmpBankMaster(string PRBM003_CODE)
         {
@@ -102,7 +115,7 @@ namespace EzBusiness_Web.Controllers
         //    }
         //}
        
-        public ActionResult GetPRBM002_code(string PRBM001_code)
+        public ActionResult GetPRBM002_code(string PRBM001_code,string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -111,7 +124,7 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_bkService.GetPRBM002_code(list[0].CmpyCode, PRBM001_code), JsonRequestBehavior.AllowGet);
+                return Json(_bkService.GetPRBM002_code(list[0].CmpyCode, PRBM001_code, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 

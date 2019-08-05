@@ -31,8 +31,8 @@ namespace EzBusiness_BL_Service
         {
          var poEdit = _bkRepo.GetEmpBnkEdit(CmpyCode, PRBM003_CODE);
             poEdit.EmpCodeList = GetEmpCodes(CmpyCode,"A");
-            poEdit.PRBM001_codeList = GetPRBM001_code(CmpyCode);
-            poEdit.PRBM002_codeList = GetPRBM002_code(CmpyCode, poEdit.PRBM001_code);
+         //   poEdit.PRBM001_codeList = GetPRBM001_code(CmpyCode);
+           // poEdit.PRBM002_codeList = GetPRBM002_code(CmpyCode, poEdit.PRBM001_code);
             poEdit.EditFlag = true;
             return poEdit;
         }
@@ -42,9 +42,9 @@ namespace EzBusiness_BL_Service
             return new EmpBankVM
             {
 
-                EmpCodeList = GetEmpCodes(CmpyCode,"B"),
-                PRBM001_codeList=GetPRBM001_code(CmpyCode),
-                PRBM002_codeList=GetPRBM002_code(CmpyCode,"0"),                
+               // EmpCodeList = GetEmpCodes(CmpyCode,"B"),
+              //  PRBM001_codeList=GetPRBM001_code(CmpyCode),
+               // PRBM002_codeList=GetPRBM002_code(CmpyCode,"0"),                
                 EditFlag = false
             };
         }
@@ -88,20 +88,20 @@ namespace EzBusiness_BL_Service
       
 
            
-        public List<SelectListItem> GetPRBM001_code(string CmpyCode)
+        public List<SelectListItem> GetPRBM001_code(string CmpyCode,string Prefix)
         {
-            var Cd = _bkRepo.GetPRBM001_code(CmpyCode)
-                                       .Select(m => new SelectListItem { Value = m.PRBM001_code,Text=string.Concat(m.PRBM001_code,"-",m.Bank_name) })
+            var Cd = _bkRepo.GetPRBM001_code(CmpyCode, Prefix)
+                                       .Select(m => new SelectListItem { Value = m.Code,Text=m.CodeName})
                                        .ToList();
-            return InsertFirstElementDDL(Cd);
+            return Cd;
         }
 
-        public List<SelectListItem> GetPRBM002_code(string CmpyCode,string PRBM001_code)
+        public List<SelectListItem> GetPRBM002_code(string CmpyCode,string PRBM001_code,string Prefix)
         {
-            var Cd1 = _bkRepo.GetPRBM002_code(CmpyCode, PRBM001_code)
-                                       .Select(m => new SelectListItem { Value = m.PRBM002_code, Text =string.Concat(m.PRBM002_code , "-" , m.Bank_branch_name) })
+            var Cd1 = _bkRepo.GetPRBM002_code(CmpyCode, PRBM001_code, Prefix)
+                                       .Select(m => new SelectListItem { Value = m.Code, Text=m.Code+"-"+m.CodeName})
                                        .ToList();
-            return InsertFirstElementDDL(Cd1);
+            return Cd1;
         }
 
         public EmpBankVM SaveEmpBnk(EmpBankVM EmpBnk)
