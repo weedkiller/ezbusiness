@@ -1988,7 +1988,14 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
         }       
         ,
         minLength: 0,
-   })
+    })
+
+    $(inpid).on('focusout', function () {
+        if ($(inpid).val().trim() == '') {
+            $(inphid).val('-1');
+        }
+    });
+
 }
 
 function EzAutoCompTxt1(inpid, inphid, urls) {

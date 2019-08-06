@@ -14,9 +14,9 @@ namespace EzBusiness_BL_Interface
     public interface IEmpShiftPayrollService
     {
 
-        List<SelectListItem> GetEmpCodes(string CmpyCode);
+        List<SelectListItem> GetEmpCodes(string CmpyCode, string Prefix);
         List<SelectListItem> GetShiftCodes(string CmpyCode,string Prefix);
-        List<SelectListItem> GetShiftAllocCode(string CmpyCode, string PRSFT002_code,string Prefix);
+        List<SelectListItem> GetShiftAllocCode(string CmpyCode, string PRSFT002_code);//,string Prefix
         EmpShiftVM NewEmpShift(string CmpyCode);
         EmpShiftVM SaveEmpShift(EmpShiftVM Sft);
 
