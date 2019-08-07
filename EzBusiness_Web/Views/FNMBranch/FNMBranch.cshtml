@@ -6,558 +6,77 @@
 }
 
 <script src="~/Scripts/EzComNDW.js"></script>
-
 <script>
- $(function () {
-        $("#dcm").hide();
-        EzAuthentication("/Branch_Master");
-        var n = EzAuthenticationBtn("/Branch_Master", "ViewIt");
-        if (n == 1) {
-            Ezsidetbl1("#tblUnits", "#tblUnits tfoot td",false, "#tblUnits thead");
-            $('#tblUnits').show();
+   // var $ = jQuery.noConflict();
+    $(function () {
+        EzAuthentication("/VoyaGEDataMaster");
+        EzdtePk('#JoiningDate1,#DOB1,#ContactDate1,#AbscondingDate1');//#LastRetDate1
+
+        var poHtml = $("#POContainer").html();
+        $("#POListContainer1").hide();
+        function GetPurchaseOrderList() {
+            $.get("/FNMBranch/GetFNM_BranchDetails", function (response) {
+                $("#POListContainer").html(response);
+            });
         }
-        else {
-            $('#tblUnits').hide();
-          } 
-    });
-</script>
 
-<script>
-    var Doks = [];   
-    var paydeductons = [];
-    $(function (){        
-        $("#tblUnits1").hide();      
-        $("#btnAdd").click(function () {          
-            var n = EzAuthenticationBtn("/Branch_Master", "NewIt");
-            if (n == 1) {
-                $("#tbldiv").hide();
-               // GetMasterCode();
-                var abk = [];
-                abk.push('#btnAdd', "[name*='Edit']", "[name *= 'Delete']");
-                Ezprop(abk, "disabled", true);
-                abk = [];
-                abk.push('#btnCancel', '#btnSave');
-                Ezprop(abk, "disabled", false);
-                $("#tblUnits1 tbody tr").css("background", "");
-                $("#tblUnits1").show();
-                $("#dcm").show();
-                var empdata=@Html.Raw(Json.Encode(HttpContext.Current.Session["SesDet"]));
-                $('#txtcmpycode').val(empdata[0].CmpyCode);
-            }
-        });
-        function GetMasterCode()
-        {
+        $("#btnNew").click(function () {
             debugger;
-            $.get("/FNMBranch/GetMasterCode").done(function (response)
+            var n = EzAuthenticationBtn("/VoyaGEDataMaster", "NewIt");
+            if (n == 1)
             {
-                var str= $("#tblUnits1 tbody tr").find("[name*='txtFNMBRANCH_CODE1']").val(response);
-                var str2 = parseInt(str)+1;
-            });
-        }
-        var counter2 = parseInt($("#Counter").val());
-
-     
-        /*Code Tab Event*/
-        EztableTabEve("#tblUnits1", "[name*='txtFNMBRANCH_CODE']", "[name *= 'ddlDIVISION']", "Please Enter FNMHEAD_CODE", 'T', "");
-
-        EztableTabEve("#tblUnits1", "[name*='ddlDIVISION']", "[name *= 'txtDESCRIPTION']", "Please Enter DIVISION", 'T', "");
-
-        EztableTabEve("#tblUnits1", "[name*='txtDESCRIPTION']", "[name *= 'txtPRINTNAME']", "Please Enter DESCRIPTION", 'T', "");
-
-        EztableTabEve("#tblUnits1", "[name*='txtPRINTNAME']", "[name *= 'txtADDRESS']", "Please Enter PRINTNAME", 'T', "");
-
-        EztableTabEve("#tblUnits1", "[name*='txtADDRESS']", "[name *= 'txtEMAIL']", "Please Enter EMAIL", 'T', "");
-
-
-        /*Enter Event*/
-        EztableLstEnt("#tblUnits1", "[name*='txtSTATE']", "[name *= 'txtSno']", "T", "");
-        //GetCountryCodes();
-        //GetCurrencyCodes();
-        /*Add Table Change Event*/
-        $("#tblUnits1").on("focus", "[name*='ddlDIVISION']", function () {  
-            debugger;
-         //   var getcode= $("#tblUnits1 tbody tr").find("[name*='txtFNMBRANCH_CODE"+counter+"']").val();
-            var tr = $(this).closest('tr');
-            var tcunt=$("#tblUnits1").find("tr").length;
-            drec = [];
-            $('#tblUnits1 tbody tr td:nth-child(1)').each(function () {
-                //add item to array
-                var ab = $(this).find("[name *= 'txtFNMBRANCH_CODE']").val();
-                drec.push(ab);
-            });
-
-            drec.splice($.inArray(tr.find("[name *= 'txtFNMBRANCH_CODE']").val(), drec), 1);
-
-            if ($.inArray(tr.find("[name *= 'txtFNMBRANCH_CODE']").val(), drec) >= 0) {
-                var dr = tr.find("[name *= 'txtFNMBRANCH_CODE']").val();
-                tr.css("background", "red");
-                tr.find("[name *= 'txtFNMBRANCH_CODE']").focus();
-                EzAlerterrtxt("Already Exist Code '" + dr + "'");
-                tr.find("[name *= 'txtFNMBRANCH_CODE']").val('');
-                tr.find("[name *= 'txtSNO']").val('');
-            }
-            else {
-                
-                tr.css("background", "");
-                if (tr.is(":last-child")) {
-                    $('#tblUnits1 tr:last').clone().insertAfter('#tblUnits1 tr:last');
-                    var trLast = $("#tblUnits1 tr:last");
-                   
-                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter2 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                               .appendTo("#tblUnits1 tbody tr:nth-last-child(2)");
-                    txtarry = [];
-
-                    txtarry.push('txtFNMBRANCH_CODE', 'txtDESCRIPTION', 'txtPRINTNAME', 'txtADDRESS', 'txtEMAIL', 'txtMOBILE', 'txtMOBILE');
-                    txtarry.push('txtSNO', 'txtWEBSITE', 'txtCOUNTRY', 'txtCURRENCY', 'txtSTATE', 'txtDIVISION');
-                    EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
-                    trLast.find(":first").text(counter2);
-                    counter2++;
-              }
-            }
-            //counter2++;
-        });
-     
-      
-        function GetCountryCodes() {            
-            var index = 1;
-            $.ajax({
-                url: "GetCountryCodes",
-                dataType: "json",
-                success: function (response) {
-                    $('#ddlCOUNTRY1').empty();
-                    var ary = [];
-                    ary = response;
-                    for (var i = 0; i < ary.length; i++) {
-                        $('#ddlCOUNTRY1').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                    }
-                
-                    $('#ddlCOUNTRY1').val(0);
-                 
-                    $('.selectpicker').selectpicker('refresh');
-                },
-                error: function () {
-                    EzAlerterrtxt('error occurred');
-                }
-            });
-        }
-        function GetCurrencyCodes() {
-            
-            var index = 1;
-            $.ajax({
-                url: "GetCurrencyCodes",
-                dataType: "json",
-                success: function (response) {
-                    $('#ddlCURRENCY1').empty();
-                    var ary = [];
-                    ary = response;
-                    for (var i = 0; i < ary.length; i++) {
-                        $('#ddlCURRENCY1').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                    }
-                
-                    $('#ddlCURRENCY1').val(0);
-                 
-                    $('.selectpicker').selectpicker('refresh');
-                },
-                error: function () {
-                    EzAlerterrtxt('error occurred');
-                }
-            });
-        }
-
-        //EzDropFillEventTbl1("#tblUnits1", "[name*='ddlCOUNTRY']", "click", "[name*='ddlCOUNTRY']", "GetCountryCodes", "", false);
-        //EzDropFillEventTbl1("#tblUnits1", "[name*='ddlCURRENCY']", "click", "[name*='ddlCURRENCY']", "GetCurrencyCodes", "", false);
-
-
-        EzAutotxtEventTbl12("#tblUnits1", "focus", "[name*='ddlCURRENCY']", "[name*='ddl1CURRENCY']", "GetCurrencyCodes", false, "");
-        EzAutotxtEventTbl12("#tblUnits1", "focus", "[name*='ddlCOUNTRY']", "[name*='ddl1COUNTRY']", "GetCountryCodes", false, "");
-        EzAutotxtEventTbl12("#tblUnits1", "focus", "[name*='ddlDIVISION']", "[name*='ddl1DIVISION']", "/FNMBranch/GetDivisionList", false, "");
-
-        EzAutotxtEventTbl12("#tblUnits", "focus", "[name*='txtDIVISION']", "[name*='txt1DIVISION']", "/FNMBranch/GetDivisionList", false, "");
-        EzAutotxtEventTbl12("#tblUnits", "focus", "[name*='txtCURRENCY']", "[name*='txt1CURRENCY']", "GetCurrencyCodes", false, "");
-        EzAutotxtEventTbl12("#tblUnits", "focus", "[name*='txtCOUNTRY']", "[name*='txt1COUNTRY']", "GetCountryCodes", false, "");
-
-
-        /*Refresh */
-        $("#btnCancel").click(function () {
-            location.reload();
-            $("#dcm").hide();
-            if ($("#tblUnits1 > tbody > tr").length > 1) {
-                $("#tblUnits1 tbody tr td:last-child").remove();
-            }
-            $("#tblUnits1 tbody").find("tr:gt(0)").remove();
-
-            var abk1 = [];
-            abk1.push("[name*='txtFNMBRANCH_CODE']", "[name*='txtDESCRIPTION']", "[name*='txtSNO']", "[name*='txtPRINTNAME']", "[name*='txtADDRESS']", "[name*='txtEMAIL']", "[name*='txtMOBILE']", "[name*='txtWEBSITE']", "[name*='txtCURRENCY']", "[name*='txtCOUNTRY']", "[name*='txtSTATE']");
-            Ezsettxtclr(abk1);
-            abk1 = [];
-            abk1.push("#btnCancel", "#btnSave");
-            Ezprop(abk1, "disabled", true);
-            abk1 = [];
-            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
-            Ezprop(abk1, "disabled", false);
-            $("#tblUnits1").hide();
-            $("#tbldiv").show();
-        });
-        /*Save Unit Table */
-        $("#btnSave").click(function () {
-
-            var brnch = {
-                FNMBranchDetailsnew: []
-            };
-            $("#tblUnits1 tbody tr").each(function (index, item) {
-                var FNMBRANCH_CODE = $(this).find("[name*='txtFNMBRANCH_CODE']").val();
-                var DESCRIPTION = $(this).find("[name*='txtDESCRIPTION']").val();
-                var SNO = $(this).find("[name*='txtSNO']").val();
-                var PRINTNAME = $(this).find("[name*='txtPRINTNAME']").val();
-                var ADDRESS = $(this).find("[name*='txtADDRESS']").val();
-                var EMAIL = $(this).find("[name*='txtEMAIL']").val();
-                var WEBSITE = $(this).find("[name*='txtWEBSITE']").val();
-                var MOBILE = $(this).find("[name*='txtMOBILE']").val();
-                var CURRENCY = $(this).find("[name*='ddl1CURRENCY']").val();
-                var COUNTRY = $(this).find("[name*='ddl1COUNTRY']").val();
-                var STATE = $(this).find("[name*='txtSTATE']").val();
-                var DIVISION= $(this).find("[name*='ddl1DIVISION']").val();
-
-                if ((FNMBRANCH_CODE != "") && (DESCRIPTION != "" && DIVISION!="-1")) {
-                    var FNMBranchDetails = {
-                        FNMBRANCH_CODE:FNMBRANCH_CODE,
-                    DESCRIPTION:DESCRIPTION,
-                    SNO:SNO,
-                    PRINTNAME:PRINTNAME,
-                    ADDRESS:ADDRESS,
-                    EMAIL:EMAIL,
-                    WEBSITE:WEBSITE,
-                    MOBILE:MOBILE,
-                    CURRENCY:CURRENCY,
-                    COUNTRY:COUNTRY,
-                    STATE:STATE,
-                    DIVISION:DIVISION
-                    };
-                    brnch.FNMBranchDetailsnew.push(FNMBranchDetails);
-                }
-            });
-            var validationResult = ValidateForm(brnch);
-            if (validationResult.formValid) {
-                $.post("/FNMBranch/SaveFNMBranch", brnch).done(function (response) {
-                    if (response.Drecord == null) {
-                        if(response.SaveFlag==true)
-                        {
-                            response.Drecord = 0;
-                            $("#tbldiv").show();
-                            $("#tblUnits1").hide();
-                            EzAlertSave();
-                           
-                        }
-                        location.reload();
-                    }
-                    $("#tblUnits1 tbody tr").each(function (index, item) {
-                        var tr = $(this).closest("tr");
-                        var FNMBRANCH_CODEAdd = $(tr).find("[name*='txtFNMBRANCH_CODE']").val().trim();
-                        var DESCRIPTIONAdd = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
-                        var SNOAdd = $(tr).find("[name*='txtSNO']").val().trim();
-                        var PRINTNAMEAdd = $(tr).find("[name*='txtPRINTNAME']").val().trim();
-                        var ADDRESSAdd = $(tr).find("[name*='txtADDRESS']").val().trim();
-                        var EMAILAdd = $(tr).find("[name*='txtEMAIL']").val().trim();
-                        var WEBSITEAdd = $(tr).find("[name*='txtWEBSITE']").val().trim();
-                        var MOBILEAdd = $(tr).find("[name*='txtMOBILE']").val().trim();
-                        var CURRENCYAdd = $(tr).find("[name*='txtCURRENCY']").val().trim();
-                        var COUNTRYAdd = $(tr).find("[name*='txtCOUNTRY']").val().trim();
-                        var STATEAdd = $(tr).find("[name*='txtSTATE']").val().trim();
-                        var DIVISIONAdd = $(tr).find("[name*='txtDIVISION']").val().trim();
-
-                        if (response.Drecord.length > 0) {
-                            var ary1 = [];
-                            ary1 = response.Drecord;
-                            if ($.inArray(FNMBRANCH_CODEAdd, ary1) < 0 && FNMBRANCH_CODEAdd != '' && DESCRIPTIONAdd != '') {
-                                $(this).closest('tr').remove();
-                                var counter = $("#Counter").val();
-                                var firstRow = $('#tblUnits tbody tr:first');
-
-                                var newRow = "<tr><td>" + SNOAdd + "</td><td>" + FNMBRANCH_CODEAdd + "</td><td>" +DIVISIONAdd + "</td><td>" + DESCRIPTIONAdd + "</td><td>" + PRINTNAMEAdd + "</td><td>" + ADDRESSAdd + "</td><td>" + EMAILAdd + "</td><td>" + WEBSITEAdd + "</td><td>" + MOBILEAdd + "</td><td>" + CURRENCYAdd + "</td><td>" + COUNTRYAdd + "</td><td>" + STATEAdd +
-                                    "</td> ";
-                                //newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled>Edit</button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                //    "' disabled>Delete</button><input type='hidden' name='EditMode" + counter + "'  value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                //    "'></td></tr>";
-                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                   "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                   "'></td></tr>";
-                                $(firstRow).after(newRow);
-                            }
-                            else if (codeAdd != '') {
-                                $(this).closest('tr').css("background", "red");
-                            }
-                            else {
-                                $(this).closest('tr').css("background", "");
-                            }
-                        }
-                        else {
-                            $("#tblUnits1 tbody").find("tr:not(:last)").remove();
-                            $("[name*='txtFNMBRANCH_CODE']").val();
-                            $("[name*='txtDESCRIPTION']").val();
-
-
-                            $("#tblUnits1").hide();
-
-                            if (FNMBRANCH_CODEAdd != '' && DESCRIPTIONAdd != '') {
-                                var counter = $("#Counter").val();
-                                var firstRow = $('#tblUnits tbody tr:first');
-                                var newRow = "<tr><td>" + SNOAdd + "</td><td>" + FNMBRANCH_CODEAdd + "</td><td>" + DESCRIPTIONAdd + "</td><td>" + PRINTNAMEAdd + "</td><td>" + ADDRESSAdd + "</td><td>" + EMAILAdd + "</td><td>" + WEBSITEAdd + "</td><td>" + MOBILEAdd + "</td><td>" + CURRENCYAdd + "</td><td>" + COUNTRYAdd + "</td><td>" + STATEAdd +
-                                   "</td> ";
-                                newRow += "</td><td><button class='btn btn-primary' name='Edit" + counter + "' disabled><span class='glyphicon glyphicon-pencil'></span></button>&nbsp;<button class='btn btn-danger' name='DeleteNew" + counter +
-                                    "' disabled><span class='glyphicon glyphicon-trash'></span></button><input type='hidden' name='EditMode" + counter + "' value='false'><input name='item.CmpyCode' type='hidden' value='" + response.CmpyCode +
-                                    "'></td></tr>";
-                                //newRow += "</tr>";
-                                $(firstRow).after(newRow);
-                            }
-                            abk1 = [];
-                            abk1.push("#btnCancel", "#btnSave");
-                            Ezprop(abk1, "disabled", true);
-                            abk1 = [];
-                            abk1.push('#btnAdd', "[name*='Edit']", "[name*='Delete']");
-                            Ezprop(abk1, "disabled", false);
-                            EzAlertSave();
-                            $(".dataTables_empty").replaceWith("");
-                        }
-                    });
+                $("#editshow").hide();
+                $.get("AddFNM_Branch", function (response) {
+                    $("#POContainer").html(response);
                 });
+                $(this).css("visibility", "hidden");
+                    EzbtnNewAcVis();
+                    $("#POContainer1").hide();
             }
-            else {
-                EzAlerterr();
-            }
+
         });
 
-        function ValidateForm(brnch) {
-            debugger;
-            var response = {
-                ErrorMessage: "",
-                formValid: false
-            };
+        $("#btnEdit").click(function () {
+            var n = EzAuthenticationBtn("/VoyaGEDataMaster", "ViewIt");
+             if (n == 1) {
+                 $(this).css("disabled", true);
+                 EzbtnEditAcVis();
+                 $("#POListContainer1").show();
+                 $("#SMAContainer").html();
+                 GetPurchaseOrderList();
 
-            if (brnch.FNMBranchDetailsnew.length == 0) {
-                response.ErrorMessage += "Please Enter atleast One Branch code Details";
-            }
-            
-            if (response.ErrorMessage.length == 0) {
-                response.formValid = true;
-            }
-
-            return response;
-        }
-
-        function ValidateFormE(brnch) {
-            debugger;
-            var response = {
-                ErrorMessage: "",
-                formValid: false
-            };
-
-          
-            if(brnch.DIVISION==''){
-                response.ErrorMessage += "Please Select Division code";
-            }
-            
-
-            if (response.ErrorMessage.length == 0) {
-                response.formValid = true;
-            }
-
-            return response;
-        }
-        $("#tblUnits1").on("click", "[name*='btnDelete']", function () {
-            
-            $(this).closest("tr").remove();
+                 $("#editshow").show();
+             }
+             e.defaultPrevented();
         });
 
-        
-        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-            console.log(thrownError);
+        $("#btnCancel").click(function () {
+
+            $("#editshow").hide();
+
+            $("#POContainer").html(poHtml);
+            //GetPurchaseOrderList();
+            // $('input[type=search]').addClass('form-control input-sm');
+            EzbtnCancelAcVis();
+           // EzdtePk('#JoiningDate1,#DOB1,#ContactDate,#AbscondingDate');//#LastRetDate1,
+           // EzdtePk('#StartDate1,#EndDate1,#NomineeDOB1');
+            // EzdtePkyyyy('#ObtainedYear1');
+            GetPurchaseOrderList();
+            $("#POListContainer1").hide();
+
         });
 
 
-        var DESCRIPTION,PRINTNAME ,ADDRESS,EMAIL ,WEBSITE ,MOBILE ,COUNTRY,CURRENCY,STATE = '';
-
-        $("#tblUnits").on("click", "[name^='Edit']", function () {
-            debugger;
-            var n = EzAuthenticationBtn("/FNMBranch", "EditIt");
+        $("#btnDelete").click(function () {
+            var n = EzAuthenticationBtn("/Branch_Master", "DeleteIt");
             if (n == 1) {
-                var counter = $("#Counter").val();
-                var hdnEditMode = $(this).parent().find('input:hidden:first');
-                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-                var tr = $(this).closest("tr");
-                var hdnDocCode = $(tr).find("td:eq(1)").text().trim();
-                var index = $(this).attr("name").substring(4);
-
-                var DIVISIONTd = $(tr).find("td:eq(2)");
-
-                var DESCRIPTIONTd = $(tr).find("td:eq(3)");
-                var PRINTNAMETd = $(tr).find("td:eq(4)");
-                var ADDRESSTd = $(tr).find("td:eq(5)");
-                var EMAILTd = $(tr).find("td:eq(6)");
-                var WEBSITETd = $(tr).find("td:eq(7)");
-                var MOBILETd = $(tr).find("td:eq(8)");
-                var  COUNTRYTd = $(tr).find("td:eq(9)");
-                var  CURRENCYTd= $(tr).find("td:eq(10)");
-                var STATETd = $(tr).find("td:eq(11)");
-
-                var editButton = $(this);
-
-                if (hdnEditMode.val() == "true") {
-                    var DESCRIPTIONEdit = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
-                 
-                    var PRINTNAMEEdit = $(tr).find("[name*='txtPRINTNAME']").val().trim();
-                    var ADDRESSEdit = $(tr).find("[name*='txtADDRESS']").val().trim();
-                    var EMAILEdit = $(tr).find("[name*='txtEMAIL']").val().trim();
-                    var WEBSITEEdit = $(tr).find("[name*='txtWEBSITE']").val().trim();
-                    var MOBILEEdit = $(tr).find("[name*='txtMOBILE']").val().trim();
-                    var CURRENCYEdit = $(tr).find("[name*='txtCURRENCY']").val().trim();
-                    var COUNTRYEdit = $(tr).find("[name*='txtCOUNTRY']").val().trim();
-                    var STATEEdit = $(tr).find("[name*='txtSTATE']").val().trim();
-                    var DIVISIONEdit = $(tr).find("[name*='txtDIVISION']").val().trim();
-
-                    var brnch = {
-                        CmpyCode: hdnCmpyCode,
-                        FNMBRANCH_CODE: hdnDocCode,
-                        DESCRIPTION: DESCRIPTIONEdit,
-                        //SNO: SNOEdit,
-                        PRINTNAME: PRINTNAMEEdit,
-                        ADDRESS: ADDRESSEdit,
-                        EMAIL: EMAILEdit,
-                        WEBSITE: WEBSITEEdit,
-                        MOBILE: MOBILEEdit,
-                        CURRENCY: CURRENCYEdit,
-                        COUNTRY: COUNTRYEdit,
-                        STATE: STATEEdit,
-                        DIVISION:DIVISIONEdit,
-                        EditFlag: true
-                    };
-
-                    var validationResult = ValidateFormE(brnch);
-                    if (validationResult.formValid) {
-                        $.post("/FNMBranch/SaveFNMBranch", brnch).done(function (response) {
-                            DESCRIPTIONTd.text(response.DESCRIPTION);
-                            PRINTNAMETd.text(response.PRINTNAME);
-                            ADDRESSTd.text(response.ADDRESS);
-                            EMAILTd.text(response.EMAIL);
-                            WEBSITETd.text(response.WEBSITE);
-                            MOBILETd.text(response.MOBILE);
-                            CURRENCYTd.text(response.CURRENCY);
-                            COUNTRYTd.text(response.COUNTRY);
-                            STATETd.text(response.STATE);
-                            DIVISIONTd.text(response.DIVISION);
-                            hdnEditMode.val("false");
-                            editButton.html('<span class="glyphicon glyphicon-pencil"></span>');
-                            editButton.attr('title', 'Edit');
-                            tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-trash"></span>');
-                            tr.find("[name^='Delete']").attr('title', 'Delete');
-
-                            tableDis("F");
-                            EzAlertUpd(hdnDocCode);
-                        });
-                        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
-                            console.log(thrownError);
-                        });
-                    }
-                    else {
-                        EzAlerterrtxt(validationResult.ErrorMessage);
-                    }
-                } else {
-                    debugger;
-                    DIVISION = $(tr).find("td:eq(2)").text();
-                     DESCRIPTION = $(tr).find("td:eq(3)").text();
-                     PRINTNAME = $(tr).find("td:eq(4)").text();
-                     ADDRESS = $(tr).find("td:eq(5)").text();
-                     EMAIL = $(tr).find("td:eq(6)").text();
-                     WEBSITE = $(tr).find("td:eq(7)").text();
-                     MOBILE = $(tr).find("td:eq(8)").text();
-                     COUNTRY = $(tr).find("td:eq(9)").text().trim();
-                     CURRENCY = $(tr).find("td:eq(10)").text();
-                     STATE = $(tr).find("td:eq(11)").text();
-
-                    $('#inpdocname').val(DESCRIPTION.trim());
-
-                    DESCRIPTIONTd.html("<input type='text' name='txtDESCRIPTION" + index + "' value='" + DESCRIPTION.trim() + "' />");
-                    PRINTNAMETd.html("<input type='text' name='txtPRINTNAME" + index + "' value='" + PRINTNAME.trim() + "' />");
-                    ADDRESSTd.html("<input type='text' name='txtADDRESS" + index + "' value='" + ADDRESS.trim() + "' />");
-                    EMAILTd.html("<input type='text' name='txtEMAIL" + index + "' value='" + EMAIL.trim() + "' />");
-                    WEBSITETd.html("<input type='text' name='txtWEBSITE" + index + "' value='" + WEBSITE.trim() + "' />");
-                    MOBILETd.html("<input type='text' name='txtMOBILE" + index + "' value='" + MOBILE.trim() + "' />");
-                   // CURRENCYTd.html("<input type='text' name='txtCURRENCY" + index + "' value='" + CURRENCY.trim() + "' />");
-                  //  COUNTRYTd.html("<input type='text' name='txtCOUNTRY" + index + "' value='" + COUNTRY.trim() + "' />");
-                    STATETd.html("<input type='text' name='txtSTATE" + index + "' value='" + STATE.trim() + "' />");
-
-                    CURRENCYTd.html("<input type='text' name='txtCURRENCY" + index + "' value='" + CURRENCY.trim() + "' /><input type='hidden' name='txt1CURRENCY" + index + "' value='" + CURRENCY.trim() + "' />");
-                    COUNTRYTd.html("<input type='text' name='txtCOUNTRY" + index + "' value='" + COUNTRY.trim() + "' /><input type='hidden' name='txt1COUNTRY" + index + "' value='" + COUNTRY.trim() + "' />");
-
-                    DIVISIONTd.html("<input type='text' name='txtDIVISION" + index + "' value='" + DIVISION.trim() + "' /><input type='hidden' name='txt1DIVISION" + index + "' value='" + DIVISION.trim() + "' />");
-
-                   
-
-                    //$("[name*='hdnCURRENCY']").val(CURRENCY.trim());
-                    //if(CURRENCY.trim()==''){
-                    //    CURRENCYTd.html("<select class='grid-control' name='txtCURRENCY" + index + "' id='txtCURRENCY" + index + "'><option value='-1'>-Select-</option</select>");
-                    //}else{
-                    //    CURRENCYTd.html("<select class='grid-control' name='txtCURRENCY" + index + "' id='txtCURRENCY" + index + "'><option value="+ CURRENCY.trim()  +">"+ CURRENCY.trim()  +"</option</select> <input id='hdnCURRENCY" + index + "'  name='hdnCURRENCY" + index + "' value="+CURRENCY.trim()+" type='hidden' />");
-                    //}
-                    
-   
-                    ////$("[name*='hdnCOUNTRY']").val(COUNTRY.trim());
-
-                    //if(COUNTRY.trim()==''){
-                    //    COUNTRYTd.html("<select class='grid-control' name='txtCOUNTRY" + index + "' id='txtCOUNTRY" + index + "'><option value='-1'>-Select-</option</select>");
-                    //}else{
-                    //    COUNTRYTd.html("<select class='grid-control' name='txtCOUNTRY" + index + "' id='txtCOUNTRY" + index + "'><option value="+ COUNTRY.trim()  +">"+ COUNTRY.trim()  +"</option</select><input id='hdnCOUNTRY" + index + "' name='hdnCOUNTRY" + index + "' value="+COUNTRY.trim()+" type='hidden' />");
-                    //}                                              
-                    $(this).html('<span class="glyphicon glyphicon-upload" ></span>');
-                    $(this).attr('title', 'Update');
-                    hdnEditMode.val("true");
-
-                    tableDis("T");
-                    $(this).attr("disabled", false);
-                    tr.find("[name^='Delete']").prop("disabled", false);
-
-                    tr.find("[name^='Delete']").html('<span class="glyphicon glyphicon-remove"></span>')
-                    tr.find("[name^='Delete']").attr('title', 'Cancel');
-
-                }
-            }
-        });
-
-
-        //EzDropFillEventTbl1("#tblUnits", "[name*='txtCURRENCY']", "click", "[name*='txtCURRENCY']", "/FFM_Quotation/GetCurcode", "hdnCURRENCY", true);
-
-        //EzDropFillEventTbl1("#tblUnits", "[name*='txtCOUNTRY']", "click", "[name*='txtCOUNTRY']", "GetCountryCodes", "hdnCOUNTRY", true);
-
-
-        function GetPayDeductOnDDL(index) {
-       
-            if (paydeductons.length > 0) {
-                var ddlPayDeductOn = "<select class='target grid-control'  name='ddlCOUNTRY" + index + "'>";
-                for (var i in paydeductons) {
-                    ddlPayDeductOn += "<option value='" + paydeductons[i].DivisionCode + "'>" + paydeductons[i].DivisionName + "</option>";
-                }
-                ddlPayDeductOn += "</select>";
-            }
-            return ddlPayDeductOn;
-        }
-
-
-        $("#tblUnits").on("click", "[name^='Delete']", function () {         
-            debugger;
-            var n = EzAuthenticationBtn("/FMHEAD", "DeleteIt");
-            if (n == 1) {
-                var tr = $(this).closest("tr");
-                var hdnCmpyCode = $(this).parent().find("[name='item.CmpyCode']").val();
-                var FMHEADCodeTd = $(tr).find("td:eq(1)");
-                var hdnMode = $(this).parent().find('input:hidden:first');
-                var doccode = "";
-                if (hdnMode.val() == "false") {
+                $("#editshow").hide();
 
                     const swalWithBootstrapButtons = Swal.mixin({
                         confirmButtonClass: 'btn btn-success',
                         cancelButtonClass: 'btn btn-danger',
                         buttonsStyling: false,
                     })
-
                     swalWithBootstrapButtons.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to revert this!",
@@ -568,20 +87,18 @@
                         reverseButtons: true
                     }).then((result) => {
                         if (result.value) {
-                            FMHEADCode = $(tr).find("td:eq(1)").text().trim();
-                            $.getJSON("/DeleteFNMBranch", { branchCode: FMHEADCode, CmpyCode: hdnCmpyCode }).done(function (data) {
-                                if (data.DeleteFlag) {
 
-                                    if ($('#tblUnits tbody tr').length == 2) {
-                                        var firstRow = $('#tblUnits tbody tr:first');
-                                        var newRow = "<tr><td valign='top' colspan='4' class='dataTables_empty'>No data available in table</td></tr>";
-                                        $(firstRow).after(newRow);
-                                        $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
+                            var branchCode = $("[name='FNMBRANCH_CODE']").val();
+                            $.getJSON("/DeleteFNMBranch", { branchCode: branchCode }).done(function (data) {
+                                    if (data.DeleteFlag) {
+                                        //$("#btnCancel").trigger("click");
+                                        //EzbtnsaveAcVis("#POContainer")
+                                        //$("#POContainer").html(poHtml);
+                                        //GetPurchaseOrderList();
+                                        window.location = '/Branch_Master'
+                                    } else {
+                                        EzAlertdele(branchCode);
                                     }
-                                    tr.remove();
-                                } else {
-                                    EzAlertdele(doccode);
-                                }
                             });
                             swalWithBootstrapButtons.fire(
                               'Deleted!',
@@ -600,381 +117,231 @@
                             )
                         }
                     })
+                }
 
+        });
+
+
+        $("#btnSave").click(function () {
+            debugger;
+            $("#editshow").hide();
+            var opMode = $("#hdnOperationMode").val();
+            var n = EzAuthenticationBtn("/Branch_Master", "EditIt");
+            if (opMode == "Add") {
+                var Fcur = {
+                    FNMBRANCH_CODE: $("[name='FNMBRANCH_CODE']").val().trim(),
+                    DIVISION: $("[name='hdnDIVISION']").val(),
+                    DESCRIPTION: $("[name='DESCRIPTION']").val(),
+                    ADDRESS: $("[name='ADDRESS']").val(),
+                    STATE: $("[name='STATE']").val(),
+                    COUNTRY: $("[name='hdnCOUNTRY']").val(),
+                    CURRENCY: $("[name='hdnCURRENCY']").val(),
+                    EMAIL: $("[name='EMAIL']").val(),
+                    MOBILE: $("[name='MOBILE']").val(),
+                    WEBSITE: $("[name='WEBSITE']").val(),
+                    PRINTNAME: $("[name='PRINTNAME']").val(),
+                };             
+                var validationResult = ValidateForm(Fcur);
+                if (validationResult.formValid) {
+                    $.post("/SaveFNMBranch", Fcur).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
+                            $("#POContainer").html(poHtml);
+                            GetPurchaseOrderList();
+
+                        } else {
+                            //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                            EzAlerterrtxt(response.ErrorMessage);
+                        }
+
+                    });
                 }
                 else {
-                    debugger;
-                    var nameTd = $(tr).find("td:eq(1)");
-                    var DIVISIONTd = $(tr).find("td:eq(2)");
-                    var DESCRIPTIONTd = $(tr).find("td:eq(3)");
-                    var PRINTNAMETd = $(tr).find("td:eq(4)");
-                    var ADDRESSTd = $(tr).find("td:eq(5)");
-                    var EMAILTd = $(tr).find("td:eq(6)");
-                    var WEBSITETd = $(tr).find("td:eq(7)");
-                    var MOBILETd = $(tr).find("td:eq(8)");
-                    var  COUNTRYTd = $(tr).find("td:eq(9)");
-                    var  CURRENCYTd= $(tr).find("td:eq(10)");
-                    var STATETd = $(tr).find("td:eq(11)");
-
-                    //var DESCRIPTIONEdit = $(tr).find("[name*='txtDESCRIPTION']").val().trim();
-                 
-                    //var PRINTNAMEEdit = $(tr).find("[name*='txtPRINTNAME']").val().trim();
-                    //var ADDRESSEdit = $(tr).find("[name*='txtADDRESS']").val().trim();
-                    //var EMAILEdit = $(tr).find("[name*='txtEMAIL']").val().trim();
-                    //var WEBSITEEdit = $(tr).find("[name*='txtWEBSITE']").val().trim();
-                    //var MOBILEEdit = $(tr).find("[name*='txtMOBILE']").val().trim();
-                    //var CURRENCYEdit = $(tr).find("[name*='txtCURRENCY']").val().trim();
-                    //var COUNTRYEdit = $(tr).find("[name*='txtCOUNTRY']").val().trim();
-                    //var STATEEdit = $(tr).find("[name*='txtSTATE']").val().trim();
-
-
-                    var nameEdit = $('#inpdocname').val();
-                    var hdnEditMode = $(this).parent().find('input:hidden:first');
-                  //  nameTd.html(nameEdit);
-                    DESCRIPTIONTd.html(DESCRIPTION);
-                    PRINTNAMETd.html(PRINTNAME);
-                    ADDRESSTd.html(ADDRESS);
-                    EMAILTd.html(EMAIL);
-                    WEBSITETd.html(WEBSITE);
-                    MOBILETd.html(MOBILE);
-                    COUNTRYTd.html(COUNTRY);
-                    CURRENCYTd.html(CURRENCY);
-                    STATETd.html(STATE);
-                    DIVISIONTd.html(DIVISION);
-
-                    tr.find("[name^='Edit']").html('<span class="glyphicon glyphicon-pencil"></span>');
-                    tr.find("[name^='Edit']").attr('title', 'Edit');
-                    $(this).html('<span class="glyphicon glyphicon-trash"></span>');
-                    $(this).attr('title', 'Delete');
-                    hdnEditMode.val("false");
-                    tableDis("F");
+                    EzAlerterrtxt(validationResult.ErrorMessage);
                 }
+            } else if (opMode == "Edit" && n==1) {
+                // Code for Adding Purchase order
+                debugger;
+                var Fcur = {
+                    FNMBRANCH_CODE: $("[name='FNMBRANCH_CODE']").val().trim(),
+                    DIVISION: $("[name='hdnDIVISION']").val(),
+                    DESCRIPTION: $("[name='DESCRIPTION']").val(),
+                    ADDRESS: $("[name='ADDRESS']").val(),
+                    STATE: $("[name='STATE']").val(),
+                    COUNTRY: $("[name='hdnCOUNTRY']").val(),
+                    CURRENCY: $("[name='hdnCURRENCY']").val(),
+                    EMAIL: $("[name='EMAIL']").val(),
+                    MOBILE: $("[name='MOBILE']").val(),
+                    WEBSITE: $("[name='WEBSITE']").val(),
+                    PRINTNAME: $("[name='PRINTNAME']").val(),
+                    EditFlag:true,
+                };
+        
+                var validationResult = ValidateForm(Fcur);
+                if (validationResult.formValid) {
+                    $.post("/SaveFNMBranch", Fcur).done(function (response) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                            EzbtnsaveAcVis("#POContainer");
+                            EzAlertSave();
+                            $("#POContainer").html(poHtml);
+                            GetPurchaseOrderList();
+                            } else {
+                                //  $("#ErrorMessage").show().find("strong").text(response.ErrorMessage);
+                                //Ezerrormsg("#ErrorMessage", response.ErrorMessage);
+                                EzAlerterrtxt(response.ErrorMessage);
+                            }
+                        });
+
+                    } else {
+                        //Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
+                        EzAlerterrtxt(validationResult.ErrorMessage);
+                    }
+            }
+
+        });
+
+        function ValidateForm(newdetails) {
+
+            var response = {
+                ErrorMessage: "",
+                formValid: false
+            };
+            //if (employeemaster.IsEditMode == false) {
+            if (newdetails.FNMBRANCH_CODE =="") {
+                response.ErrorMessage += " Select FNMBRANCH_CODE ,";
+                }
+            if (newdetails.DIVISION == "0") {
+                response.ErrorMessage += "Please Enter DIVISION,";
+            }
+            if (newdetails.CURRENCY == "0") {
+                response.ErrorMessage += "Please Enter CURRENCY,";
+            }
+            if (newdetails.COUNTRY == "0") {
+                response.ErrorMessage += "Please Enter COUNTRY,";
+            }
+            if (newdetails.EMAIL =="") {
+                response.ErrorMessage += "Please Enter EMAIL,";
+            }
+            if (newdetails.MOBILE =="") {
+                response.ErrorMessage += "Please Enter MOBILE,";
+            }
+            if (newdetails.ADDRESS =="") {
+                response.ErrorMessage += "Please Enter ADDRESS,";
+            } 
+            if (newdetails.STATE =="") {
+                response.ErrorMessage += "Please Enter STATE,";
+            }
+            if (newdetails.PRINTNAME =="") {
+                response.ErrorMessage += "Please Enter PRINTNAME,";
+            }
+        
+                if (response.ErrorMessage.length == 0) {
+                    response.formValid = true;
+                }
+           // }
+            return response;
+        }
+
+        function parseDate(s) {
+            var b = s.split(/\D/);
+            return new Date(b[0], --b[1], b[2]);
+        }
+
+        $(document).ajaxError(function (event,
+            xhr, settings, thrownError) {
+            console.log(thrownError);
+        });
+
+
+        $(document).on("click", "#POList tbody tr", function () {
+            debugger
+            EzbtnEditAcVis();
+            var operationMode = $("#hdnOperationMode").val();
+            if (operationMode == "Edit") {
+                $("#POList > tbody").children().removeClass("active");
+                $(this).addClass("active");
+                var BranchCode = $(this).find("#hdnFNMBRANCH_CODE").val();
+                // var DivisionCode = $(this).find("#hdnDivisionCode").val();
+                $.get("EditFNMBranch", { branchCode: BranchCode }).done(function (response) {
+                    $("#POContainer").html(response);
+                    //  $("#btnDelete").prop("disabled", false);
+                    $("#btnDelete").css("visibility", "");
+                });
             }
         });
+        $("#btnPrint").click(function () {
+
+            var n = EzAuthenticationBtn("/EmployeeMaster", "PrintIt");
+            if (n == 1) {
+                var code1 = $("[name='EmpCode']").val();
+                window.open("/EmployeeRPTReport/?code=" + code1 + "", '_blank');
+            }
+        });
+        $("#ObtainedYear1").on("dp.show", function (e) {
+            $(e.target).data("DateTimePicker").viewMode("years");
+        });
+
+        //alert("hiii");
+
+
     });
-
-    var k = 0;
-    function tableDis(k) {
-        if (k == "T") {
-            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", true);
-            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", true);
-            $("#btnAdd").prop('disabled', true);
-        }
-        else {
-            $("#tblUnits tbody tr").find("[name^='Edit']").prop("disabled", false);
-            $("#tblUnits tbody tr").find("[name^='Delete']").prop("disabled", false);
-            $("#btnAdd").prop('disabled', false);
-        }
-    }
 </script>
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-6 btngrp">
+        <div class="title-action">
+            @*<button type="submit" class="btn btn-success btn1" id="btnEdit" data-toggle="modal" data-target="#editshow" data-keyboard="true"><span class="glyphicon glyphicon-edit"></span>&nbsp; Edit</button>*@
 
-<script>
-$(document).ready(function(){
-    //$('[data-toggle="tooltip"]').tooltip();
-    $(".edit").attr('title', 'Edit');
-    $(".delete").attr('title', 'Delete');
-     
-});
-</script>
-<br />
-@*<input id="hdnCURRENCY"  name="hdnCURRENCY" type="hidden" />
-<input id="hdnCOUNTRY" name="hdnCOUNTRY" type="hidden" />*@
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
 
+            <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
-
-<div class="title-action">
-    <button class="btn btn-primary btn1" id="btnAdd"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Add</button>
-    <button type="submit" class="btn btn-primary btn1" id="btnSave" disabled><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
-    <button class="btn btn-warning btn1" id="btnCancel"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
-    <input type="hidden" id="hdnOperationMode" value="" />
-</div>
-<label class="row" id="ErrorMessage" style="color:red;">
-    <strong></strong>
-</label>
-
-<div class="panel panel-default panl">
-    <div class="panel-body">
-        <input id="inpdocname" type="hidden" />
-        <div class="row" id="dcm">
-            <div class="col-sm-2">
-              <label><b>Company Code :</b></label>
-            </div>
-            <div class="col-sm-2">
-                <input id="txtcmpycode" class="form-control" type="text" readonly="readonly" />
-            </div>
-         </div>
-        <br />
-        
-            <div class="table-responsive">
-                <table class="table table-bordered" id="tblUnits1">
-                    <thead>
-                        <tr class="tr">
-                            <th>
-                                @Html.DisplayNameFor(model => model.SNO)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.DIVISION)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.DESCRIPTION)
-                            </th>
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.PRINTNAME)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ADDRESS)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.EMAIL)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.MOBILE)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.WEBSITE)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.COUNTRY)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CURRENCY)
-                            </th>
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.STATE)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{int RowNo = 1;}
-                        <tr>
-                            <td>
-                                <div class="grid-group">
-
-                                    @Html.TextBox(string.Concat("txtSNO",counter), @RowNo, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-                                    @Html.TextBox(string.Concat("txtFNMBRANCH_CODE", counter), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-                                    @Html.TextBox(string.Concat("ddlDIVISION", counter), null, new { @class = "grid-control" })
-                                    @Html.Hidden(string.Concat("ddl1DIVISION", counter), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-                                    @Html.TextBox(string.Concat("txtDESCRIPTION", counter), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-                                    @Html.TextBox(string.Concat("txtPRINTNAME", counter), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-                                    @Html.TextBox(string.Concat("txtADDRESS", counter), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-                                    @Html.TextBox(string.Concat("txtEMAIL", counter), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-                                    @Html.TextBox(string.Concat("txtMOBILE", counter), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-                                    @Html.TextBox(string.Concat("txtWEBSITE", counter), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-                                    @*@Html.DropDownList(string.Concat("ddlCOUNTRY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "-1" }, }, new { @class = "grid-control", @data_live_search = "true" })*@
-                                    @Html.TextBox(string.Concat("ddlCOUNTRY", counter), null, new { @class = "grid-control" })
-                                    @Html.Hidden(string.Concat("ddl1COUNTRY", counter), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-
-                                    @*@Html.DropDownList(string.Concat("ddlCURRENCY", counter), new List<SelectListItem> { new SelectListItem { Text = "select", Value = "-1" }, }, new { @class = "grid-control", @data_live_search = "true" })*@
-                                    @Html.TextBox(string.Concat("ddlCURRENCY", counter), null, new { @class = "grid-control" })
-                                    @Html.Hidden(string.Concat("ddl1CURRENCY", counter), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                            <td>
-                                <div class="grid-group">
-                                    @Html.TextBox(string.Concat("txtSTATE", counter), null, new { @class = "grid-control" })
-                                </div>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-  
-            <div id="tbldiv">
-                <table class="table table-bordered stripe display hover table-responsive portal-drivers" id="tblUnits">
-                    <thead>
-                        <tr class="tr">
-                            <th>
-                                @Html.DisplayNameFor(model => model.SNO)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.DIVISION)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.DESCRIPTION)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.PRINTNAME)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ADDRESS)
-                            </th>
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.EMAIL)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.MOBILE)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.WEBSITE)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.COUNTRY)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CURRENCY)
-                            </th>
-                          
-                            <th>
-                                @Html.DisplayNameFor(model => model.STATE)
-                            </th>
-                            <th></th>
-
-                        </tr>
-
-                    </thead>
-                    <tfoot>
-                        <tr class="tr">
-                            <td>                               
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.FNMBRANCH_CODE)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.DIVISION)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.DESCRIPTION)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.PRINTNAME)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.ADDRESS)
-                            </td>
-
-                            <td>
-                                @Html.DisplayNameFor(model => model.EMAIL)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.MOBILE)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.WEBSITE)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.COUNTRY)
-                            </td>
-                            <td>
-                                @Html.DisplayNameFor(model => model.CURRENCY)
-                            </td>                       
-                            <td>
-                                @Html.DisplayNameFor(model => model.STATE)
-                            </td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                       @{int RowNoss = 0;}
-                       @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                 @{RowNoss++;} @RowNoss
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FNMBRANCH_CODE)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DIVISION)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DESCRIPTION)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.PRINTNAME)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ADDRESS)
-                                </td>
-
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.EMAIL)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MOBILE)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.WEBSITE)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.COUNTRY)
-                                </td>  
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CURRENCY)
-                                </td>
-                                                           
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.STATE)                                   
-                                </td>                               
-                                <td>
-                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit" name="@string.Concat("Edit",counter)">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </button>
-                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete" name="@string.Concat("Delete",counter)">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </button>
-                                    <input type="hidden" name="@string.Concat("EditMode",counter)" value="false" />
-                                    @Html.HiddenFor(m => item.CMPYCODE)
-                                </td>                               
-                            </tr>
-                           
-                        }
-                    </tbody>
-                </table>
-                @Html.Hidden("Counter", (++counter))
-            </div>      
-     
+            <button class="btn btn-warning btn1" id="btnCancel" style="visibility: hidden"><span class="glyphicon glyphicon-off"></span>&nbsp; Cancel</button>
+            <button class="btn btn-danger btn1" id="btnDelete" style="visibility: hidden"><span class="glyphicon glyphicon-remove"></span>&nbsp; Delete</button>
+            <button class="btn btn-info btn1" id="btnPrint" style="visibility: hidden"><span class="glyphicon glyphicon-print"></span>&nbsp; Print</button>
+            <input type="hidden" id="hdnOperationMode" value="" />
+        </div>
     </div>
+
+</div><hr />
+
+<div class="row">
+    <!--updated code-->
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel panel-primary panl">
+            <div class="panel-heading clearfix">
+                <i class="icon-calendar"></i>
+                <h3 class="panel-title">Ez Business System</h3>
+            </div>
+            <div class="panel-body" style="margin-left:10px;margin-top: -20px;">
+                <label class="row" id="ErrorMessage" style="color:red">
+                    <strong></strong>
+                </label>
+                <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
+                    <div class="custom-form-wrapper">
+                        <div id="POContainer">
+                            <div class="row">
+                                <div class="custom-form-wrapper">
+                                    <!-- BEGIN FORM-->
+                                    <div class="container" id="POListContainer">
+                                        @Html.Action("GetFNM_BranchDetails", "FNMBranch")
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="row">
+                                    <div class="col-md-12">
+                                        <div  id="POListContainer">
+                                  @Html.Action("GetEmployeeMasterList", "EmployeeMaster")
+                                 </div>
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Purchase Request List End -->
+    <!-- Row end -->
 </div>
 

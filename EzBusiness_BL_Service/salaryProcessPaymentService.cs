@@ -75,7 +75,7 @@ namespace EzBusiness_BL_Service
         public List<SelectListItem> GetDivCodeListLatest(string CmpyCode,string Prefix)
         {
             var itemCodes = _slpay.GetDivCodeListLatest(CmpyCode,Prefix)
-                                     .Select(m => new SelectListItem { Value = m.Code, Text = m.Code+" - "+m.CodeName })
+                                     .Select(m => new SelectListItem { Value = m.CodeName, Text =m.Code })
                                      .ToList();
 
             return itemCodes;

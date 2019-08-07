@@ -1,0 +1,194 @@
+﻿@model EzBusiness_ViewModels.Models.FreightManagement.FNMBranch_VM
+
+<script>
+    $(function () {
+        arr1 = [];
+        EzAutoCompTxtE("#COUNTRY", "#hdnCOUNTRY", "/GetCountryCodesList", false, "");
+        EzAutoCompTxtE("#DIVISION", "#hdnDIVISION", "/SalaryProcessPayment/GetDivCodeListLatest", false, "");
+        EzAutoCompTxtE("#CURRENCY", "#hdnCURRENCY", "/FNM_SL/GetCurrency", false, "");
+
+        //$('#COUNTRY').on("focusout", function () {
+        //    debugger;
+        //    var ptr = $('#COUNTRY').val();
+        //    if(ptr=="")
+        //    {
+        //        $('#hdnCOUNTRY').val('-1');
+        //    }
+        //});
+
+
+
+
+    });
+ </script>
+
+<div class="row">
+    @{
+    var TypeListdata1 = new SelectList(new[]
+    {
+      new SelectListItem { Text = "-Select-", Value = "-1" },
+      }, "Value", "Text");
+    }
+    <!--updated code-->
+    <div class="col-md-12 no-padding navbar-expand-lg">
+        <div class="panel-body" style="margin-left:10px;">
+            <div class="tabbable-line boxless tabbable-reversed" id="DRContainer">
+                <div class="custom-form-wrapper">
+                    <div id="DRContainer">
+                        <div class="row">
+                            <div class="custom-form-wrapper">
+                                <!-- BEGIN FORM-->
+                                <div class="form-horizontal">
+                                    <div class="form-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Branch Code<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @*@Html.DropDownListFor(m => m.FFM_CRG_GROUP_CODE, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+                                                        @Html.TextBoxFor(m => m.FNMBRANCH_CODE, new { @class = "form-control" })
+                                                        @*<input id="hdnFFM_CRG_GROUP_CODE" type="hidden" class="form-control" name="hdnFFM_CRG_GROUP_CODE" value="-1" />*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Division<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.DIVISION, new { @class = "form-control", @placeholder = "Select Division" })
+                                                        <input id="hdnDIVISION" type="hidden" class="form-control" name="hdnDIVISION" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!--/span-->
+                                            <!--/span-->
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Address<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.ADDRESS, new { @class = "form-control", @Type = "Text" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">State<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.STATE, new { @class = "form-control", @Type = "Text" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+                                        
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label class="control-label col-md-3">Country<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.COUNTRY, new { @class = "form-control", @placeholder = "Select COUNTRY" })
+                                                        <input id="hdnCOUNTRY" type="hidden" class="form-control" name="hdnCOUNTRY" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Currency<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.CURRENCY, new { @class = "form-control", @placeholder = "Select Currency" })
+                                                        <input id="hdnCURRENCY" type="hidden" class="form-control" name="hdnCURRENCY" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>                                                                        
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Email<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @*@Html.DropDownListFor(m => m.FFM_CRG_GROUP_CODE, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
+                                                        @Html.TextBoxFor(m => m.EMAIL, new { @class = "form-control" })
+                                                        @*<input id="hdnFFM_CRG_GROUP_CODE" type="hidden" class="form-control" name="hdnFFM_CRG_GROUP_CODE" value="-1" />*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Mobile<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.MOBILE, null, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>                                        
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Website</label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.WEBSITE, new { @class = "form-control", @Type = "Text" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <label class="control-label col-md-3">Print Name<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.PRINTNAME, new { @class = "form-control", @Type = "Text" })
+                                                        @*<input type="text" id="TXTNAME" />*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          
+                                        
+                                        </div><br />
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Description</label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.DESCRIPTION, new { @class = "form-control", @Type = "Text" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+                                            </div>
+                                            <!-- END FORM-->
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Purchase Request List Start-->
+
+        <script>
+            $(document).ready(function () {
+                $(".alert-close").click(function () {
+                    $("#editshow").hide();
+                });
+            });
+</script>
+        <script type="text/javascript">
+    $('.table-responsive').on('show.bs.dropdown', function () {
+        $('.table-responsive').css("overflow", "inherit");
+    });
+
+    //$('.table-responsive').on('hide.bs.dropdown', function () {
+    //    $('.table-responsive').css("overflow", "auto");
+    //})
+        </script>
+        <!-- Purchase Request List End -->
+        <!-- Row end -->
+    </div>
+</div>

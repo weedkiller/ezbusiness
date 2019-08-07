@@ -77,46 +77,24 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 if (!branch.EditFlag)
                 {
                     var Drecord = new List<string>();
-                    List<FNMBranchDetailsNew> ObjList = new List<FNMBranchDetailsNew>();
-                    ObjList.AddRange(branch.FNMBranchDetailsnew.Select(m => new FNMBranchDetailsNew
-                    {
-                        CMPYCODE = m.CMPYCODE,
-                        FNMBRANCH_CODE = m.FNMBRANCH_CODE,
-                        DESCRIPTION = m.DESCRIPTION,
-                         SNO=m.SNO,
-                        PRINTNAME = m.PRINTNAME,
-                        ADDRESS = m.ADDRESS,
-                        EMAIL = m.EMAIL,
-                        WEBSITE = m.WEBSITE,
-                        MOBILE = m.MOBILE,
-                        CURRENCY = m.CURRENCY,
-                        COUNTRY = m.COUNTRY,
-                        STATE = m.STATE,
-                        DIVISION=m.DIVISION,
-                    }).ToList());
-                    int n = 0;
-                    n = ObjList.Count;
-
-                    while (n > 0)
-                    {
                         int Stats1 = _EzBusinessHelper.ExecuteScalar("Select count(*) as [count1] from FNMBRANCH where CmpyCode='" + branch.CMPYCODE + "' and FNMBRANCH_CODE='" + branch.FNMBRANCH_CODE + "'");
                         if (Stats1 == 0)
                         {
                             StringBuilder sb = new StringBuilder();
 
-                            sb.Append("'" + ObjList[n - 1].FNMBRANCH_CODE + "',");
+                            sb.Append("'" + branch.FNMBRANCH_CODE + "',");
                             sb.Append("'" + branch.CMPYCODE + "',");
-                            sb.Append("'" + ObjList[n - 1].DESCRIPTION + "',");
-                            sb.Append("'" + ObjList[n - 1].SNO + "',");
-                            sb.Append("'" + ObjList[n - 1].PRINTNAME + "',");
-                            sb.Append("'" + ObjList[n - 1].ADDRESS + "',");
-                            sb.Append("'" + ObjList[n - 1].EMAIL + "',");
-                            sb.Append("'" + ObjList[n - 1].WEBSITE + "',");
-                            sb.Append("'" + ObjList[n - 1].MOBILE + "',");
-                            sb.Append("'" + ObjList[n - 1].CURRENCY + "',");
-                            sb.Append("'" + ObjList[n - 1].COUNTRY + "',");
-                            sb.Append("'" + ObjList[n - 1].DIVISION + "',");
-                            sb.Append("'" + ObjList[n - 1].STATE + "')");
+                            sb.Append("'" + branch.DESCRIPTION + "',");
+                            sb.Append("'" + branch.SNO + "',");
+                            sb.Append("'" + branch.PRINTNAME + "',");
+                            sb.Append("'" + branch.ADDRESS + "',");
+                            sb.Append("'" + branch.EMAIL + "',");
+                            sb.Append("'" + branch.WEBSITE + "',");
+                            sb.Append("'" + branch.MOBILE + "',");
+                            sb.Append("'" + branch.CURRENCY + "',");
+                            sb.Append("'" + branch.COUNTRY + "',");
+                            sb.Append("'" + branch.DIVISION + "',");
+                            sb.Append("'" + branch.STATE + "')");
 
                             _EzBusinessHelper.ExecuteNonQuery("insert into FNMBRANCH(FNMBRANCH_CODE,CMPYCODE,DESCRIPTION,SNO,PRINTNAME,ADDRESS,EMAIL,WEBSITE,MOBILE,CURRENCY,COUNTRY,DIVISION,STATE) values(" + sb.ToString() + "");
                             _EzBusinessHelper.ActivityLog(branch.CMPYCODE, branch.UserName, "Add FN Category", branch.FNMBRANCH_CODE, Environment.MachineName);
@@ -129,10 +107,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             //  branch.Drecord = Drecord;
                             branch.SaveFlag = false;
                             branch.ErrorMessage = "Duplicate Record";
-                        }
-                        n = n - 1;
-                    }
-                  
+                        }                      
                     return branch;
                 }
                 var StatsEdit = _EzBusinessHelper.ExecuteScalarDec("Select count(*) from FNMBRANCH where CmpyCode='" + branch.CMPYCODE + "' and FNMBRANCH_CODE='" + branch.FNMBRANCH_CODE + "'and Flag=0");

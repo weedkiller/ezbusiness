@@ -37,7 +37,21 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             else
             {
 
-                return View(_branchService.GetFNMBranch(list[0].CmpyCode));
+                return View();
+            }
+        }
+       
+        public ActionResult GetFNM_BranchDetails()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+
+                return PartialView(_branchService.GetFNMBranch(list[0].CmpyCode));
             }
         }
         [Route("GetCountryCodes")]
@@ -51,6 +65,20 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             else
             {
                 return Json(_branchService.GetCountryCodes(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Route("GetCountryCodesList")]
+        public ActionResult GetCountryCodesList(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_branchService.GetCountryCodesList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
         [Route("GetCurrencyCodes")]
@@ -81,7 +109,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
         }
         [HttpPost]
-        //[Route("SaveFNMBranch")]
+        [Route("SaveFNMBranch")]
         public ActionResult SaveFNMBranch(FNMBranch_VM brnch)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -121,7 +149,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             }
             else
             {
-                return Json(_branchService.EditFNMBranch(list[0].CmpyCode,branchCode), JsonRequestBehavior.AllowGet);
+                return PartialView(_branchService.EditFNMBranch(list[0].CmpyCode,branchCode));
             }
         }
     
@@ -135,6 +163,20 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             else
             {
                 return Json(_branchService.GetMasterCode(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [Route("AddFNM_Branch")]
+        public ActionResult AddFNM_Branch()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_branchService.AddNewFNM_Branch(list[0].CmpyCode));
             }
         }
     }
