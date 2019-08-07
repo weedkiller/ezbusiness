@@ -14,9 +14,7 @@
 <link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     $(function () {
-       
 
-        
         //Ezsetzerotxt();              
         $('.selectpicker').selectpicker('refresh');
         var ot = [];
@@ -45,12 +43,27 @@
         EzAutoCompTxt1("#EmpCode", "#hdnEmpCode", "/EmpShift/GetEmpCodes");
         EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/EmpShift/GetEmpCodes", false, "");
 
-        var e2 = $("#hdnEmpCode").val();
-        if (e2 != '-1') {
-            Ezjoindate(e2, '#joindate');
-            Ezdatejoindate('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
-        }
-        EzdateCond('#DeductionStartDate1', '#Entry_Date1', 'Deduction Date shold be greater than equal to Entry Date');
+        //var e2 = $("#EmpCode").val();
+        //if (e2 != '0') {
+        //    Ezjoindate(e2, '#joindate');
+        //    Ezdatejoindate('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
+        //}
+        //EzdateCond('#DeductionStartDate1', '#Entry_Date1', 'Deduction Date shold be greater than equal to Entry Date');
+
+        $('#EmpCode').on("focusout", function () {
+            debugger;
+            var e1 = $("#EmpCode").val();
+            var hempval = $("#hdnEmpCode").val();
+            if (e1 == '' || hempval == '-1') {
+                EzAlerterrtxt("Please Select Employee");
+            }
+            else {
+                Ezjoindate(e1, '#joindate');
+                EzdatejoindateEmp('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
+
+            }
+            EzdateCond('#DeductionStartDate1', '#Entry_Date1', 'Deduction Date shold be greater than equal to Entry Date');
+        });
 
         //$('.selectpicker').selectpicker({
         //    style: 'btn-info',
