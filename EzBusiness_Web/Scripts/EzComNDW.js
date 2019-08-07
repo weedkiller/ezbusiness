@@ -1968,7 +1968,7 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
                 }
             });
         },
-       // autoFocus: true,
+      //autoFocus: true,
         
         select: function (e, u) {
             debugger

@@ -66,6 +66,13 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                                         .ToList();
             return CountryList;
         }
+        public List<SelectListItem> GetCountryCodesList(string CmpyCode, string Prefix)
+        {
+            var CountryList = _FNMBranchRepo.GetNationList(CmpyCode, Prefix)
+                                        .Select(m => new SelectListItem { Value = m.CodeName, Text =m.Code })
+                                        .ToList();
+            return CountryList;
+        }
         public List<SelectListItem> GetCurrencyCodes(string Prefix)
         {
             var CurrencyList = _FNMBranchRepo.GetCurrencyList(Prefix)
@@ -95,6 +102,15 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
         {
            string code=_CodeRep.GetCode(CmpyCode,"FrightBranch");
             return code;
+        }
+
+        public FNMBranch_VM AddNewFNM_Branch(string CmpyCode)
+        {
+            return new FNMBranch_VM
+            {
+              
+                EditFlag = false
+            };
         }
     }
 }

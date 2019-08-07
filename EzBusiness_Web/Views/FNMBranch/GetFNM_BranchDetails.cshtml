@@ -1,0 +1,140 @@
+﻿@model IEnumerable<EzBusiness_ViewModels.Models.FreightManagement.FNMBranch_VM>
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+
+        //$(document).ready(function () {
+            Ezsidetbl("#POList", "#POList tfoot td", false, "#POList thead");
+            //$('#POList').Datatable.reload();
+            //a++;
+        //});
+
+</script>
+
+<div class="table-responsive">
+    <table id="POList" class="table table-bordered stripe display hover portal-drivers">
+        <thead>
+            <tr class="tr">
+                <th>
+                    Branch Code
+                </th>
+                <th>
+                    Division
+                </th>
+                <th>
+                   Description
+                </th>
+                <th>
+                   Print Name
+                </th>
+                <th>
+                   Address
+                </th>
+                <th>
+                   Email
+                </th>
+                <th>
+                   Mobile
+                </th>
+                <th>
+                   Website
+                </th>
+                <th>
+                    State
+                </th>
+                <th>
+                   Country
+                </th>
+                <th>
+                    Currency
+                </th>
+               
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td>
+                    Branch Code
+                </td>
+                <td>
+                    Division
+                </td>
+                <td>
+                    Description
+                </td>
+                <td>
+                    Print Name
+                </td>
+                <td>
+                    Address
+                </td>
+                <td>
+                    Email
+                </td>
+                <td>
+                    Mobile
+                </td>
+                <td>
+                    Website
+                </td>
+                <td>
+                    State
+                </td>
+                <td>
+                    Country
+                </td>
+                <td>
+                    Currency
+                </td>
+
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var po in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.Hidden("hdnFNMBRANCH_CODE", po.FNMBRANCH_CODE)
+                        @po.FNMBRANCH_CODE
+                    </td>
+                    <td>
+                        @po.DIVISION
+                    </td>
+                    <td>
+                        @po.DESCRIPTION
+                    </td>
+                    <td>
+                        @po.PRINTNAME
+                    </td>
+                    <td>
+                        @po.ADDRESS
+                    </td>
+                    <td>
+                        @po.EMAIL
+                    </td>
+                    <td>
+                        @po.MOBILE
+                    </td>
+                    <td>
+                        @po.WEBSITE
+                    </td>
+                    <td>
+                        @po.STATE
+                    </td>
+                    <td>
+                        @po.COUNTRY
+                    </td>
+                    <td>
+                        @po.CURRENCY
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+  //  $('#POList').DataTable().ajax.reload();
+</script>
