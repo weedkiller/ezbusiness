@@ -11,6 +11,8 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     $(function () {
        
@@ -41,11 +43,11 @@
 
         EzdtePkEdit('#Entry_Date1', "#Entry_Date", "DD/MM/YYYY");
         EzdtePkEdit('#DeductionStartDate1', "#DeductionStartDate", "DD/MM/YYYY");
-        EzAutoCompTxt1("#EmpCode","#hdnEmpCode","/MonthlyAddded/GetEmpList");
-        EzAutoCompTxtE("#EmpCode","#hdnEmpCode","/MonthlyAddded/GetEmpList",false, "");
+        EzAutoCompTxt1("#EmpCode", "#hdnEmpCode", "/EmpShift/GetEmpCodes");
+        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/EmpShift/GetEmpCodes", false, "");
 
-        var e2 = $("#EmpCode option:selected").val();
-        if (e2 != '0') {
+        var e2 = $("#hdnEmpCode").val();
+        if (e2 != '-1') {
             Ezjoindate(e2, '#joindate');
             Ezdatejoindate('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
         }

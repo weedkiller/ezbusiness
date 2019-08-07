@@ -41,12 +41,22 @@
             //drec.splice($.inArray(tr.find("[name *= 'EmpCode']").val(), drec), 2);
 
             var tf = true;
-            var dt = Ezjoindatetbl(tr.find("[name *= 'EmpCode']").val());
-            tr.find("[name *= 'joindate']").val(EzdatefrmtRes(dt));
-            if (new Date(Ezsetdtpkdate(tr.find("[name *= 'joindate']").val())) > new Date(Ezsetdtpkdate($('#Entry_Date1').val()))) {
-                tf = false;
-                EzAlerterrtxt("Entery Date shold be greater than equal to Joindate");
+            var empC = tr.find("[name *= 'EmpCode']").val();
+            if (empC != '') {
+                var dt = Ezjoindatetbl(empC);
+                tr.find("[name *= 'joindate']").val(EzdatefrmtRes(dt));
+                if (new Date(Ezsetdtpkdate(tr.find("[name *= 'joindate']").val())) > new Date(Ezsetdtpkdate($('#Entry_Date1').val()))) {
+                    tf = false;
+                    EzAlerterrtxt("Entery Date shold be greater than equal to Joindate");
+                }
             }
+            else {
+                tf = false;
+                EzAlerterrtxt("Select Employee");
+                return
+            }
+            
+            
 
 
             //if ($.inArray(tr.find("[name *= 'EmpCode']").val(), drec) >= 0) {

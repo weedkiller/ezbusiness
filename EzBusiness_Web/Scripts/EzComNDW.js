@@ -112,21 +112,23 @@ function Ezjoindate(EmpCode, hidte) {
     });
     
 }
-function Ezjoindatetbl(EmpCode) {    
-    var a=''
-    $.ajax({
-        async: false,
-        cache: false,
-        type: "POST",
-        data: "{Empcode:'" + EmpCode + "'}",
-        url: "/LeaveApplication/GetJoiningdate",
-        dataType: 'Json',
-        contentType: "Application/json",
-        success: function (data) {
-            a= data;
-        }
-    });
-    return a;
+function Ezjoindatetbl(EmpCode) {
+   
+        var a = ''
+        $.ajax({
+            async: false,
+            cache: false,
+            type: "POST",
+            data: "{Empcode:'" + EmpCode + "'}",
+            url: "/LeaveApplication/GetJoiningdate",
+            dataType: 'Json',
+            contentType: "Application/json",
+            success: function (data) {
+                a = data;
+            }
+        });
+        return a;
+   
 }
 
 /*Salary last*/
@@ -1943,8 +1945,10 @@ function log(message) {
 function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
     debugger;
     var cn = '';
+   
     var oldv = $(inphid).val();
     $(inpid).autocomplete({
+        
         source: function (request, response) {
             $.ajax({
                 url: urls,
@@ -1955,11 +1959,13 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
                     if (data.length > 0) {
                         response($.map(data, function (item) {
                             return {
-                                label: item.Text+'-'+item.Value,//item.Value + ' - ' + item.Text,
+                                label: item.Text + '-' + item.Value,//item.Value + ' - ' + item.Text,
                                 value: item.Value,
                                 val1: item.Text
                             };
-                        }))
+                          
+                        }))                       
+                       
                     } else {
                         $(inpid).val('');
                         $(inphid).val(-1);
@@ -1968,31 +1974,37 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
                 }
             });
         },
-       // autoFocus: true,
-        
+        autoFocus: true,
+
         select: function (e, u) {
             debugger
-                //If the No match found" item is selected, clear the TextBox.
+            //If the No match found" item is selected, clear the TextBox.
             if (u.item.value == -1) {
-                    //Clear the AutoComplete TextBox.
+                //Clear the AutoComplete TextBox.
                 $(this).val("");
                 $(inphid).val("-1");
-                    return false;
+                return false;
             } else {
                 $(inphid).val(u.item.val1);
             }
-             if (boolval == true) {
-             $(inphid).val(u.item.val1);                      
-             $(inpname).val(u.item.val1);
-           }
-        }       
+            if (boolval == true) {
+                $(inphid).val(u.item.val1);
+                $(inpname).val(u.item.val1);
+            }
+           
+        }
         ,
+        
         minLength: 0,
-    })
+    }).focus(function () {       
+        $(this).autocomplete("search", "");
+
+    });
 
     $(inpid).on('focusout', function () {
         if ($(inpid).val().trim() == '') {
             $(inphid).val('-1');
+          
         }
     });
 

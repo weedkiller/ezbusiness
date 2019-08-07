@@ -50,11 +50,11 @@
         EzdateCond('#DeductionStartDate1', '#Entry_Date1', 'Deduction Date shold be greater than equal to Entry Date');
 
         Ezdatejoindate('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
-        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
+        EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/EmpShift/GetEmpCodes", false, "");
         $("#EmpCode").change(function () {
             
-            var e1 = $("#EmpCode option:selected").val();
-            if (e1 != '0') {
+            var e1 = $("#hdnEmpCode").val();
+            if (e1 != '-1') {
                 Ezjoindate(e1, '#joindate');
                 EzdatejoindateEmp('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
             }

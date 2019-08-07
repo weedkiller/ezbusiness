@@ -1,18 +1,16 @@
 ﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FNINV001_VM
 
 @{
-    ViewBag.Title = "INVOICE";
+    ViewBag.Title = "FNINV001";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 
 
 <script src="~/Scripts/EzComNDW.js"></script>
 
 <script>
     $(function () {
-        EzAuthentication("/INVOICE");
+        EzAuthentication("/CUSTOMERINVOICE");
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
         function GetDrs() {
@@ -21,7 +19,7 @@
             });
         }
         $("#btnNew").click(function () {
-            var n = EzAuthenticationBtn("/INVOICE", "NewIt");
+            var n = EzAuthenticationBtn("/CUSTOMERINVOICE", "NewIt");
             if (n == 1) {
                 $("#editshow").hide();
                 $.get("AddINVOICEDetails", function (response) {
@@ -37,7 +35,7 @@
             $("#editshow").hide();
         });
         $("#btnEdit").click(function () {
-            var n = EzAuthenticationBtn("/INVOICE", "ViewIt");
+            var n = EzAuthenticationBtn("/CUSTOMERINVOICE", "ViewIt");
             if (n == 1) {
                 $(this).css("visibility", "hidden");
                 EzbtnEditAcVis();
@@ -55,7 +53,7 @@
         });
 
         $("#btnDelete").click(function () {
-            var n = EzAuthenticationBtn("/INVOICE", "DeleteIt");
+            var n = EzAuthenticationBtn("/CUSTOMERINVOICE", "DeleteIt");
             if (n == 1) {
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
@@ -78,7 +76,7 @@
                         $.getJSON("/DeleteINVOICE", { FNINV001_CODE: FNINV001_CODE }).done(function (data) {
                             debugger
                             if (data.DeleteFlag) {
-                                window.location = '/INVOICE'
+                                window.location = '/CUSTOMERINVOICE'
                             } else {
                                 EzAlertdele(FF_QTN001_CODE);
                             }
@@ -105,11 +103,11 @@
         });
 
 
-        
+
 
         $("#btnSave").click(function () {
             debugger
-            var n = EzAuthenticationBtn("/INVOICE", "EditIt");
+            var n = EzAuthenticationBtn("/CUSTOMERINVOICE", "EditIt");
             var k = 0;
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
@@ -118,19 +116,19 @@
                 // Code for Adding MainTable
                 var FQV = {
                     EditFlag: false,
-                    FNINV001_CODE: $("[name*='FNINV001_CODE']").val(),                                    
+                    FNINV001_CODE: $("[name*='FNINV001_CODE']").val(),
                     INV_DATE:  Ezsetdtpkdate($("[name*='INV_DATE1']").val()),
                     Post_Date:  Ezsetdtpkdate($("[name*='Post_Date1']").val()),
                     NOTES: $("[name*='NOTES']").val(),
-                    NARRATION: $("[name*='NARRATION']").val(),                                     
+                    NARRATION: $("[name*='NARRATION']").val(),
                     SUBLEDGER_CODE: $("[name*='hdnSUBLEDGER_CODE']").val(),
                     CURRENCY_CODE: $("[name*='hdnCURRENCY_CODE']").val(),
-                    CURRENCY_RATE: $("[name*='CURRENCY_RATE']").val(),                                                     
-                    SalesMan: $("[name*='hdnSalesMan']").val(),                   
+                    CURRENCY_RATE: $("[name*='CURRENCY_RATE']").val(),
+                    SalesMan: $("[name*='hdnSalesMan']").val(),
                     vessel_code: $("[name*='hdnvessel_code']").val(),
-                    BL_CODE: $("[name*='BL_CODE']").val(),                    
+                    BL_CODE: $("[name*='BL_CODE']").val(),
                     POL: $("[name*='hdnPOL']").val(),
-                    POD: $("[name*='hdnPOD']").val(),                  
+                    POD: $("[name*='hdnPOD']").val(),
                     VAT_CURRENCY_AMT: $("[name*='VAT_CURRENCY_AMT']").val(),
                     VAT_LOCAL_AMT: $("[name*='VAT_LOCAL_AMT']").val(),
                     CURRENCY_AMT: $("[name*='CURRENCY_AMT']").val(),
@@ -139,8 +137,8 @@
                     NET_LOCAL_AMT: $("[name*='NET_LOCAL_AMT']").val(),
                     INV_STATUS: 'POSTED',
                     INV_TYPE:'INVJ',
-                    FNINV002Detail: [],                                     
-                };               
+                    FNINV002Detail: [],
+                };
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
                     var Crg_code = $(this).find("[name*='txtCrg_code']").val();
                     var VAT_CODE = $(this).find("[name*='txtVAT_CODE']").val();
@@ -192,7 +190,7 @@
                         FQV.FNINV002Detail.push(FNINV002Details);
                     }
                 });
-              
+
                 var validationResult = ValidateForm(FQV);
                 if (validationResult.formValid) {
 
@@ -201,7 +199,7 @@
                             GetDrs();
                             EzAlertSave();
                             $("#DRContainer").html(drHtml);
-                          
+
                             EzbtnsaveAcVis("#DRContainer");
 
                         } else {
@@ -225,7 +223,7 @@
                     NARRATION: $("[name*='NARRATION']").val(),
                     SUBLEDGER_CODE: $("[name*='hdnSUBLEDGER_CODE']").val(),
                     CURRENCY_CODE: $("[name*='hdnCURRENCY_CODE']").val(),
-                    CURRENCY_RATE: $("[name*='CURRENCY_RATE']").val(),                   
+                    CURRENCY_RATE: $("[name*='CURRENCY_RATE']").val(),
                     SalesMan: $("[name*='hdnSalesMan']").val(),
                     vessel_code: $("[name*='hdnvessel_code']").val(),
                     BL_CODE: $("[name*='BL_CODE']").val(),
@@ -286,8 +284,8 @@
                             //V_VAT_LOCAL_AMT: VouchVATAmountBC,
                             V_CURR_AMT: VochAmountFC,
                             V_LOCAL_AMT: VochAmountBC,
-                            V_NET_CURR_AMT: VochNetsumVatAmountFC,                                                     
-                            V_NET_LOCAL_AMT: parseFloat(VatAmountBC) + parseFloat(VochAmountBC),                                                       
+                            V_NET_CURR_AMT: VochNetsumVatAmountFC,
+                            V_NET_LOCAL_AMT: parseFloat(VatAmountBC) + parseFloat(VochAmountBC),
                         };
                         FQV.FNINV002Detail.push(FNINV002Details);
                     }
@@ -337,7 +335,7 @@
                 response.ErrorMessage += "Port Of Load  ,";
             }
 
-            
+
 
 
 
@@ -445,7 +443,7 @@
 
             @*<button class="btn btn-info btn1" id="btnApprove" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Approve</button>
 
-            <button class="btn btn-danger btn1" id="btnReject" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Reject</button>*@
+                <button class="btn btn-danger btn1" id="btnReject" style="visibility: hidden"><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Reject</button>*@
 
             <input type="hidden" id="hdnOperationMode" value="" />
 
@@ -502,32 +500,4 @@
 
 
 </div>
-
-
-
-<div class="modal" id="NewModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">New Modal Heading</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                This is Dummy Text.This is Dummy Text.This is Dummy Text.This is Dummy Text.This is Dummy Text
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
 
