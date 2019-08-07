@@ -51,12 +51,18 @@
 
         Ezdatejoindate('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
         EzAutoCompTxtE("#EmpCode", "#hdnEmpCode", "/MonthlyAddded/GetEmpList", false, "");
-        $("#EmpCode").change(function () {
-            
-            var e1 = $("#EmpCode option:selected").val();
-            if (e1 != '0') {
+        $('#EmpCode').on("focusout", function () {
+            debugger;
+            var e1 = $("#EmpCode").val();
+            var hempval = $("#hdnEmpCode").val();
+            if (e1 == '' || hempval == '-1') {
+                EzAlerterrtxt("Please Select Employee");
+            }
+            else
+            {
                 Ezjoindate(e1, '#joindate');
                 EzdatejoindateEmp('#Entry_Date1', '#joindate', '#LoanAmount', 'Entery Date shold be greater than equal to Joindate');
+               
             }
         });
 
@@ -70,6 +76,14 @@
         //    style: 'btn-info',
         //    size: 4,
 
+        //});
+
+        //$('#EmpCode').on("focusout", function () {
+        //    var Empcode=$('#EmpCode').val();
+        //    if(Empcode=='')
+        //    {
+        //      ezte
+        //    }
         //});
 
         $('body').on('focus', ':input', function () {

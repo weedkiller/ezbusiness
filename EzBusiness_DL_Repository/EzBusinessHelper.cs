@@ -170,7 +170,7 @@ namespace EzBusiness_DL_Repository
 
         }
         public DateTime ExecuteScalarDte(string sqlCommandText)
-        {
+         {
             DateTime? numrows = null;
             using (SqlConnection cn = new SqlConnection(connStr))
             {

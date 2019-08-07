@@ -1943,6 +1943,7 @@ function log(message) {
 function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
     debugger;
     var cn = '';
+    var cv = '';
     var oldv = $(inphid).val();
     $(inpid).autocomplete({
         source: function (request, response) {
@@ -1969,10 +1970,11 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
             });
         },
       //autoFocus: true,
-        
+      
         select: function (e, u) {
             debugger
-                //If the No match found" item is selected, clear the TextBox.
+            //If the No match found" item is selected, clear the TextBox.
+            cv = u.item.value;
             if (u.item.value == -1) {
                     //Clear the AutoComplete TextBox.
                 $(this).val("");
@@ -1991,9 +1993,16 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
     })
 
     $(inpid).on('focusout', function () {
-        if ($(inpid).val().trim() == '') {
+        debugger;
+       // var cv=$(inpid).val();
+        var hv = $(inpid).val();
+        if (cv != hv)
+        {
             $(inphid).val('-1');
         }
+        if ($(inpid).val().trim() == '') {
+            $(inphid).val('-1');
+        } 
     });
 
 }
@@ -2114,7 +2123,7 @@ function EzAutoCompTxt1(inpid, inphid, urls) {
                          url: urls,
                          type: "POST",
                          dataType: "json",
-                         data: { Prefix: request.term, PVal1: $(inparr).val() },
+                         data: { Prefix: request.term, PVal1: $(inparr).val()},
                          success: function (data) {
                              if (data.length > 0) {
                                  response($.map(data, function (item) {
