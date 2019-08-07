@@ -63,9 +63,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     CURRENCY_CODE = dr["CURRENCY_CODE"].ToString(),
                     CURRENCY_RATE = Convert.ToDecimal(dr["CURRENCY_RATE"].ToString()),               
                     BILLING_ADDRESS = dr["BILLING_ADDRESS"].ToString(),
-                    SUPPLIER_JV_NO = dr["SUPPLIER_JV_NO"].ToString(),
-                    SUPPLIER_JV_DATE = Convert.ToDateTime(dr["SUPPLIER_JV_DATE"].ToString()),
-                    SUPPLIER_GRN_NO = dr["SUPPLIER_GRN_NO"].ToString(),
+                    //SUPPLIER_JV_NO = dr["SUPPLIER_JV_NO"].ToString(),
+                    //SUPPLIER_JV_DATE = Convert.ToDateTime(dr["SUPPLIER_JV_DATE"].ToString()),
+                    //SUPPLIER_GRN_NO = dr["SUPPLIER_GRN_NO"].ToString(),
                     RECEIVED_PAID_NAME = dr["RECEIVED_PAID_NAME"].ToString(),
                     UNPOSTED_NOTE = dr["UNPOSTED_NOTE"].ToString(),
                    
@@ -78,15 +78,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     BL_REF_NO = dr["BL_REF_NO"].ToString(),
                     POL = dr["POL"].ToString(),
                     POD = dr["POD"].ToString(),
-                    VAT_LOCAL_AMT=Convert.ToDecimal(dr["VAT_LOCAL_AMT"].ToString()),
+                    VAT_LOCAL_AMT = Convert.ToDecimal(dr["VAT_LOCAL_AMT"].ToString()),
                     VAT_CURRENCY_AMT = Convert.ToDecimal(dr["VAT_CURRENCY_AMT"].ToString()),
-                    INV_DATE= Convert.ToDateTime(dr["INV_DATE"].ToString()),
-                    INV_STATUS= dr["INV_STATUS"].ToString(),
+                    INV_DATE = Convert.ToDateTime(dr["INV_DATE"].ToString()),
+                    INV_STATUS = dr["INV_STATUS"].ToString(),
                     INV_TYPE = dr["INV_TYPE"].ToString(),
-                    CURRENCY_AMT= Convert.ToDecimal(dr["CURRENCY_AMT"].ToString()),
-                    LOCAL_AMT = Convert.ToDecimal(dr["LOCAL_AMT"].ToString()),
-                    NET_CURRENCY_AMT= Convert.ToDecimal(dr["NET_CURRENCY_AMT"].ToString()),
-                    NET_LOCAL_AMT = Convert.ToDecimal(dr["NET_LOCAL_AMT"].ToString()),
+                    //CURRENCY_AMT = Convert.ToDecimal(dr["CURRENCY_AMT"].ToString()),
+                    //LOCAL_AMT = Convert.ToDecimal(dr["LOCAL_AMT"].ToString()),
+                    //NET_CURRENCY_AMT = Convert.ToDecimal(dr["NET_CURRENCY_AMT"].ToString()),
+                    //NET_LOCAL_AMT = Convert.ToDecimal(dr["NET_LOCAL_AMT"].ToString()),
 
                 });
 
@@ -200,7 +200,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                
                 ObjList.BILLING_ADDRESS = dr["BILLING_ADDRESS"].ToString();
                 ObjList.SUPPLIER_JV_NO = dr["SUPPLIER_JV_NO"].ToString();
-                ObjList.SUPPLIER_JV_DATE =Convert.ToDateTime(dr["SUPPLIER_JV_DATE"].ToString());
+                //ObjList.SUPPLIER_JV_DATE =Convert.ToDateTime(dr["SUPPLIER_JV_DATE"].ToString());
                 ObjList.SUPPLIER_GRN_NO = dr["SUPPLIER_GRN_NO"].ToString();
                 ObjList.RECEIVED_PAID_NAME = dr["RECEIVED_PAID_NAME"].ToString();
                 ObjList.UNPOSTED_NOTE = dr["UNPOSTED_NOTE"].ToString();

@@ -1948,6 +1948,7 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
     var oldv = $(inphid).val();
     var newv = $(inpid).val()
     $(inpid).autocomplete({
+        
         source: function (request, response) {
             $.ajax({
                 url: urls,
@@ -1958,12 +1959,13 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
                     if (data.length > 0) {
                         response($.map(data, function (item) {
                             return {
-                                label: item.Text+'-'+item.Value,//item.Value + ' - ' + item.Text,
+                                label: item.Text + '-' + item.Value,//item.Value + ' - ' + item.Text,
                                 value: item.Value,
                                 val1: item.Text
                             };
-                         
-                        }))
+                          
+                        }))                       
+                       
                     } else {
                         $(inpid).val('');
                         $(inphid).val(-1);
@@ -1979,20 +1981,22 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
             //If the No match found" item is selected, clear the TextBox.
             cv = u.item.value;
             if (u.item.value == -1) {
-                    //Clear the AutoComplete TextBox.
+                //Clear the AutoComplete TextBox.
                 $(this).val("");
                 $(inphid).val("-1");
-                    return false;
+                return false;
             } else {
                 $(inphid).val(u.item.val1);
               
             }
-             if (boolval == true) {
-             $(inphid).val(u.item.val1);                      
-             $(inpname).val(u.item.val1);
-           }
-        }       
+            if (boolval == true) {
+                $(inphid).val(u.item.val1);
+                $(inpname).val(u.item.val1);
+            }
+           
+        }
         ,
+        
         minLength: 0,
     })
 

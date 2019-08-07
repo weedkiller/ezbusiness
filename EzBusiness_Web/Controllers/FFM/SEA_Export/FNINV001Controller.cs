@@ -19,7 +19,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
         {
             _INVService = new FNINV001Service();
         }
-        [Route("INVOICE")]
+        [Route("CUSTOMERINVOICE")]
         public ActionResult FNINV001()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
