@@ -57,7 +57,7 @@ namespace EzBusiness_Web.Controllers
             }
             else
             {
-                return Json(_EmpShiftService.GetShiftAllocCode(list[0].CmpyCode, PRSFT001_code, Prefix));
+                return Json(_EmpShiftService.GetShiftAllocCode(list[0].CmpyCode, PRSFT001_code));
             }
         }
         public ActionResult GetShiftCodes(string Prefix)
@@ -72,6 +72,20 @@ namespace EzBusiness_Web.Controllers
                 return Json(_EmpShiftService.GetShiftCodes(list[0].CmpyCode, Prefix));
             }
         }
+
+        public ActionResult GetEmpCodes(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_EmpShiftService.GetEmpCodes(list[0].CmpyCode, Prefix));
+            }
+        }
+
         [Route("EditEmpShiftMaster")]
         public ActionResult EditEmpShiftMaster(string PRSFT003_code)
         {

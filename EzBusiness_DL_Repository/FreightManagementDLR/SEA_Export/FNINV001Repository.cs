@@ -666,7 +666,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 
         public List<FNINV002> GETBLNODetails(string CmpyCode, string Branchcode, string BLNO)
         {
-            string qur = "SELECT d.FF_BL005_UID, D.Crg_code ,D.Crg_name, d.Unit_Code, d.No_of_Qty , d.Cust_Curr_Code, "+
+            string qur = "SELECT d.FF_BL005_UID, D.Crg_code ,D.crg_name + char(13)+'('+D.Cust_Curr_Code+ '@' + convert(varchar(18),Cust_Curr_Rate)+')'+" +
+            "' Qty ' + convert(varchar(18), D.no_of_qty) + 'X' + convert(varchar(18), D.Cust_Rate)" +
+            "+ '=' + convert(varchar(18), D.Cust_Net_Amt) as [Description], d.Unit_Code, d.No_of_Qty , d.Cust_Curr_Code, " +
            "d.Cust_Curr_Rate ,  D.Cust_Rate, d.Cust_Net_Amt, d.Cust_Local_amt,  d.Income_GL_Code,C.VAT_CODE,C.VAT_PER,C.VAT_GL_CODE "+
            "FROM FF_BL001 H inner join FF_BL005 D "+
            "on h.CMPYCODE = d.CMPYCODE and h.FF_BL001_CODE = d.FF_BL001_CODE "+
@@ -684,7 +686,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 {                                     
                     O_CHARGE_UID=Convert.ToInt32(dr["FF_BL005_UID"]),                
                     ITEMCODE = dr["Crg_code"].ToString(),
-                    Item_Description = dr["Crg_name"].ToString(),
+                    Item_Description = dr["Description"].ToString(),
                     UNIT_TYPE = dr["Unit_Code"].ToString(),
                     NO_OF_QTY =Convert.ToDecimal(dr["No_of_Qty"].ToString()),
                     O_CURR_CODE=dr["Cust_Curr_Code"].ToString(),

@@ -129,9 +129,12 @@ namespace EzBusiness_DL_Repository
             
         }
 
-        public List<Employee> GetEmpCodes(string CmpyCode)
+        public List<ComDropTbl> GetEmpCodes(string CmpyCode, string Prefix)
         {
-            return drop.GetEmpCodes(CmpyCode ,"S");
+            //return drop.GetEmpCodes(CmpyCode ,"S");
+
+            return drop.GetCommonDrop("EmpCode as [Code],EmpName as [CodeName]", "MEM001", "CmpyCode='" + CmpyCode + "' And WorkingStatus = 'Y' and Flag=0 and (EmpCode like '" + Prefix + "%' or EmpName like '" + Prefix + "%')  Order By EmpName ");
+
         }
         public List<ShiftMaster> GetShiftCodes(string CmpyCode)
         {
@@ -185,9 +188,9 @@ namespace EzBusiness_DL_Repository
             return ObjList;
         }
 
-        public List<ComDropTbl> GetShiftAllocCode1(string CmpyCode, string PRSFT001_code,string Prefix)
+        public List<ComDropTbl> GetShiftAllocCode1(string CmpyCode, string PRSFT001_code)
         {
-            return drop.GetCommonDrop("PRSFT001_code as [Code],PRSFT002_code as [CodeName]", "PRSFT002", "CMPYCODE='" + CmpyCode + "' and Flag=0   and  (PRSFT001_code like '" + Prefix + "%' or PRSFT002_code like '" + Prefix + "%')");
+            return drop.GetCommonDrop("PRSFT002_code as [Code],PRSFT001_code as [CodeName]", "PRSFT002", "CMPYCODE='" + CmpyCode + "' and PRSFT001_code= '" + PRSFT001_code + "' and Flag=0   ");//and  (PRSFT001_code like '" + Prefix + "%' or PRSFT002_code like '" + Prefix + "%')
         }
         public bool DeleteEmpShift(string CmpyCode, string PRSFT003_code, string username)
         {

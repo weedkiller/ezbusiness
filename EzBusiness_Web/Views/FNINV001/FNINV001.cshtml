@@ -5,6 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
+
 <script src="~/Scripts/EzComNDW.js"></script>
 
 <script>
@@ -195,10 +198,10 @@
 
                     $.post("/SaveINVOICE", FQV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-
+                            GetDrs();
                             EzAlertSave();
                             $("#DRContainer").html(drHtml);
-                            GetDrs();
+                          
                             EzbtnsaveAcVis("#DRContainer");
 
                         } else {
