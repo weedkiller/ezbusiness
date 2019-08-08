@@ -12,7 +12,7 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
 {
   public interface IFNINV001Repository
     {
-        List<FNINV001_VM> GetFNINV(string CmpyCode, string Branchcode);
+        List<FNINV001_VM> GetFNINV(string CmpyCode, string Branchcode, string Module_Type);
         FNINV001_VM GetFNINVDetailsEdit(string CmpyCode, string FNINV001_CODE, string Branchcode);
 
         FNINV001_VM GetFNINVDetailsBL(string CmpyCode, string FF_BL001_CODE, string Branchcode);

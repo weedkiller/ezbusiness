@@ -176,7 +176,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         {
             if (!FQV.EditFlag)
             {
-                string b = _CodeRep.GetCodeNew(FQV.CMPYCODE, FQV.FNMBRANCH_CODE, "FF_QTN001", "I");
+                string b = _CodeRep.GetCodeNew(FQV.CMPYCODE, FQV.FNMBRANCH_CODE, "FF_QTN001", "INVJV", "I");
                 if (b != "N")
                 {
                     FQV.FF_QTN001_CODE = b;
@@ -215,7 +215,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 ////Commodityist= GetCommodityistList(Cmpycode),
                 //FF_QTN001_CODE = _CodeRep.GetCode(Cmpycode, "SupplierQuotation"),
 
-                FF_QTN001_CODE = _CodeRep.GetCodeNew(Cmpycode, branchcode, "FF_QTN001","V"),                
+                FF_QTN001_CODE = _CodeRep.GetCodeNew(Cmpycode, branchcode, "FF_QTN001", "INVJV", "V"),                
                 FNMBRANCH_CODE = branchcode,
                 EditFlag = false
             };
@@ -254,7 +254,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 
         public List<SelectListItem> GetVendor(string CmpyCode, string Prefix)
         {
-            var VendorList = _FF_QTNRepo.GetCust(CmpyCode, Prefix)//.Where(m => m.CUSTOMER_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.CUSTOMER_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+            var VendorList = _FF_QTNRepo.GetVendor(CmpyCode, Prefix)//.Where(m => m.CUSTOMER_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.CUSTOMER_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                       .Select(m => new SelectListItem { Value = m.CUSTOMER_CODE, Text = string.Concat(m.CUSTOMER_CODE, " - ", m.CUSTOMER_NAME, " - ", m.CONTROL_ACT) })
                                                       .ToList();
             return VendorList;
@@ -369,7 +369,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
 
             //poEdit.FF_QTN001_CODEN =  _CodeRep.GetCode(CmpyCode, "SupplierQuotation");
 
-            poEdit.FF_QTN001_CODEN =  _CodeRep.GetCodeNew(CmpyCode, BranchCode, "FF_QTN001","V");
+            poEdit.FF_QTN001_CODEN =  _CodeRep.GetCodeNew(CmpyCode, BranchCode, "FF_QTN001", "INVJV", "V");
             // poEdit.PortList1 = GetPortListEdit(CmpyCode,poEdit.POL);
             // poEdit.PortList2 = GetPortListEdit(CmpyCode, poEdit.POD);
             // poEdit.PortList3 = GetPortListEdit(CmpyCode,poEdit.FND);

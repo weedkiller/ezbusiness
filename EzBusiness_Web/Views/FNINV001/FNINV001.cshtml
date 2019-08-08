@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <script src="~/Scripts/EzComNDW.js"></script>
 
 <script>
@@ -13,11 +12,27 @@
         EzAuthentication("/CUSTOMERINVOICE");
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
+        //function GetDrs() {
+        //    $.get("/FNINV001/GetINVOICEDetailList", function (response) {
+        //        $("#DRListContainer").html(response);
+        //    });
+        //}
+
+
         function GetDrs() {
-            $.get("/FNINV001/GetINVOICEDetailList", function (response) {
+            var path = $("#hdnpath").val();
+            var k = '';
+            if (path == "<li>Freight Management</li><li>Operation</li><li>SEA</li><li>Export</li><li>Customer Invoice</li>") {
+                k = 'INVJV';
+            } else {
+                k = 'PIVJV'
+            }
+            $.get("/FNINV001/GetINVOICEDetailList", { Module_Type: k }, function (response) {
                 $("#DRListContainer").html(response);
             });
         }
+
+
         $("#btnNew").click(function () {
             var n = EzAuthenticationBtn("/CUSTOMERINVOICE", "NewIt");
             if (n == 1) {
@@ -476,7 +491,7 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @Html.Action("GetINVOICEDetailList", "FNINV001")
+                                                @Html.Action("GetINVOICEDetailList", "FNINV001", new { Module_Type = "INVJV" })
                                             </div>
 
                                         </div>

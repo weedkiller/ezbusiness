@@ -36,7 +36,7 @@ namespace EzBusiness_Web.Controllers.FFM
         }
 
         [Route("DeleteCodeSettings")]
-        public ActionResult DeleteCodeSettings(string Tablename)
+        public ActionResult DeleteCodeSettings(string UTI0001_CODE)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -45,11 +45,11 @@ namespace EzBusiness_Web.Controllers.FFM
             }
             else
             {
-                return Json(new { DeleteFlag = _CodeService.DeleteCodeSettings(list[0].CmpyCode, list[0].BraCode,Tablename, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+                return Json(new { DeleteFlag = _CodeService.DeleteCodeSettings(list[0].CmpyCode, list[0].BraCode, UTI0001_CODE, list[0].user_name) }, JsonRequestBehavior.AllowGet);
             }
         }
         [Route("EditCodeSettings")]
-        public ActionResult CodeSettingsEdit(string Tablename)
+        public ActionResult CodeSettingsEdit(string UTI0001_CODE)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -58,7 +58,7 @@ namespace EzBusiness_Web.Controllers.FFM
             }
             else
             {
-                return PartialView(_CodeService.EditCodeSettings(list[0].CmpyCode, list[0].BraCode, Tablename));
+                return PartialView(_CodeService.EditCodeSettings(list[0].CmpyCode, list[0].BraCode, UTI0001_CODE));
             }
         }
 

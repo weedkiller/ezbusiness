@@ -75,7 +75,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
-        public ActionResult GetINVOICEDetailList()
+        public ActionResult GetINVOICEDetailList(string Module_Type)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -85,7 +85,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             else
             {
 
-                return PartialView(_INVService.GetFNINV(list[0].CmpyCode, list[0].BraCode));
+                return PartialView(_INVService.GetFNINV(list[0].CmpyCode, list[0].BraCode, Module_Type));
             }
         }
         [Route("SaveINVOICE")]

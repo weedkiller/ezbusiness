@@ -38,9 +38,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return false;
         }
 
-        public List<FNINV001_VM> GetFNINV(string CmpyCode, string Branchcode)
+        public List<FNINV001_VM> GetFNINV(string CmpyCode, string Branchcode,string Module_Type)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNINV001 where Flag=0  and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='" + Branchcode + "'");// CMPYCODE='" + CmpyCode + "' and 
+           
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNINV001 where Flag=0  and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='" + Branchcode + "' and INV_TYPE='" + Module_Type+"'");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List <FNINV001_VM> ObjList = new List<FNINV001_VM>();
@@ -69,7 +70,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     RECEIVED_PAID_NAME = dr["RECEIVED_PAID_NAME"].ToString(),
                     UNPOSTED_NOTE = dr["UNPOSTED_NOTE"].ToString(),
                    
-                    Customer_COA = dr["COA_CODE"].ToString(),
+                    //Customer_COA = dr["COA_CODE"].ToString(),
                     Received_By = dr["Received_By"].ToString(),
                     SalesMan = dr["SalesMan"].ToString(),
                     LOCATION_CODE = dr["LOCATION_CODE"].ToString(),
@@ -100,7 +101,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             string qur = "";
             
 
-                qur = "Select * from FNINV002 where Flag=0 and INV001_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='"+ BRANCHCODE + "'";
+                qur = "Select LINE_NO,O_CHARGE_UID,ITEMCODE,Item_Description,UNIT_TYPE,NO_OF_QTY,RATE_PER_QTY,COA_CODE,SUBLEDGER_CODE,Location_Code,O_CURR_CODE,O_CURR_RATE,O_CURR_AMT,O_LOCAL_AMT,O_VAT_LOCAL_AMT,O_VAT_CURR_AMT,VAT_CODE,VAT_PER,VAT_GL_CODE,V_CURR_AMT,V_LOCAL_AMT,V_VAT_CURR_AMT,V_VAT_LOCAL_AMT,V_NET_CURR_AMT,V_NET_LOCAL_AMT,Narration,NOTE,Ret_Qty,Cost_per_qty from FNINV002 where Flag=0 and INV001_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='"+ BRANCHCODE + "'";
       
 
             ds = _EzBusinessHelper.ExecuteDataSet(qur);// CMPYCODE='" + CmpyCode + "' and 
@@ -112,9 +113,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.Add(new FNINV002New()
                 {
 
-                    cmpycode = dr["cmpycode"].ToString(),
-                    BRANCHCODE = dr["BRANCHCODE"].ToString(),
-                    INV001_CODE = dr["INV001_CODE"].ToString(),
+                    //cmpycode = dr["cmpycode"].ToString(),
+                    //BRANCHCODE = dr["BRANCHCODE"].ToString(),
+                    //INV001_CODE = dr["INV001_CODE"].ToString(),
                     LINE_NO = Convert.ToDecimal(dr["LINE_NO"].ToString()),
                     ITEMCODE = dr["ITEMCODE"].ToString(),
                     O_CHARGE_UID = Convert.ToInt16(dr["O_CHARGE_UID"].ToString()),
@@ -136,14 +137,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     VAT_PER = Convert.ToDecimal(dr["VAT_PER"].ToString()),
                     V_CURR_AMT = Convert.ToDecimal(dr["V_CURR_AMT"].ToString()),
                     V_LOCAL_AMT = Convert.ToDecimal(dr["V_LOCAL_AMT"].ToString()),
-                        V_VAT_CURR_AMT = Convert.ToDecimal(dr["V_VAT_CURR_AMT"].ToString()),
-                    V_VAT_LOCAL_AMT = Convert.ToDecimal(dr["V_VAT_LOCAL_AMT"].ToString()),
+                    //    V_VAT_CURR_AMT = Convert.ToDecimal(dr["V_VAT_CURR_AMT"].ToString()),
+                    //V_VAT_LOCAL_AMT = Convert.ToDecimal(dr["V_VAT_LOCAL_AMT"].ToString()),
                     V_NET_CURR_AMT = Convert.ToDecimal(dr["V_NET_CURR_AMT"].ToString()),
                     V_NET_LOCAL_AMT = Convert.ToDecimal(dr["V_NET_LOCAL_AMT"].ToString()),
                     Narration= dr["Narration"].ToString(),
                     NOTE = dr["NOTE"].ToString(),
-                    Ret_Qty =Convert.ToDecimal(dr["Ret_Qty"].ToString()),
-                    Cost_per_qty=Convert.ToDecimal(dr["Cost_per_qty"].ToString()),
+                    //Ret_Qty =Convert.ToDecimal(dr["Ret_Qty"].ToString()),
+                    //Cost_per_qty=Convert.ToDecimal(dr["Cost_per_qty"].ToString()),
                      
 
                 });

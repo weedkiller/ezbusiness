@@ -15,6 +15,8 @@ namespace EzBusiness_EF_Entity
         public string Branchcode { get; set; }
         public string Tablename { get; set; }
         public string UTI0001_CODE { get; set; }
+
+        public string Module_Type { get; set; }
         public string PREFIX_CODE { get; set; }
 
         public string Page_Name { get; set; }

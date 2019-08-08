@@ -12,9 +12,9 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI
     {
         List<UTM0001_VM> GetCodeSettings(string Cmpycode, string Branchcode);
         UTM0001_VM SaveCodeSettings(UTM0001_VM UTM);
-        UTM0001_VM EditCodeSettings(string Cmpycode, string Branchcode, string Tablename);
-        bool DeleteCodeSettings(string Cmpycode, string Branchcode, string Tablename, string username);
-        List<UTI0002New> GetUTI0002DetailList(string Cmpycode, string Branchcode, string Tablename);
+        UTM0001_VM EditCodeSettings(string Cmpycode, string Branchcode, string UTI0001_CODE);
+        bool DeleteCodeSettings(string Cmpycode, string Branchcode, string UTI0001_CODE, string username);
+        List<UTI0002New> GetUTI0002DetailList(string Cmpycode, string Branchcode, string UTI0001_CODE);
         List<SelectListItem> GetTblname(string Prefix);
         List<SelectListItem> GetUsername(string CmpyCode, string Prefix);
 

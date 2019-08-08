@@ -47,11 +47,12 @@ namespace EzBusiness_DL_Repository
 
 
 
-        public string GetCodeNew(string Cmpycode, string BranchCode,string tableName,string typ)
+        public string GetCodeNew(string Cmpycode, string BranchCode,string tableName,string Module_Type, string typ)
         {
             SqlParameter[] param1 = {
                         new SqlParameter("@Cmpycode",Cmpycode),
                         new SqlParameter("@BranchCode",BranchCode),
+                        new SqlParameter("@Module_Type",@Module_Type),
                          new SqlParameter("@tableName",tableName),
                           new SqlParameter("@typ",typ)
                        };
