@@ -136,7 +136,7 @@
                     PRLA001_CODE: $("[name='PRLA001_CODE']").val(),
                     COUNTRY: 0,
                     CmpyCode: 0,
-                    EmpCode: $("[name='hdnEmpCode'] option:selected").val(),
+                    EmpCode: $("[name='EmpCode']").val(),
                     Entry_Date: Ezsetdtpkdate($("#Entry_Date1").val()),
                     LoanAmount: $("[name='LoanAmount']").val(),
                     NoOfInstalments: $("[name='NoOfInstalments']").val(),
@@ -157,9 +157,9 @@
 
                 var date1 = Ezsetdtpkdate($('#Entry_Date1').val());                             
                 if (validationResult.formValid) {
-                     k = EzSalrProcCondiont($("#EmpCode option:selected").val(), date1);
+                     k = EzSalrProcCondiont($("#EmpCode").val(), date1);
                     if (k == 1) {
-                         SA = EzSalrLast($("#EmpCode option:selected").val(), date1, $("[name='Instalment']").val(),'Salary amount not enough');
+                         SA = EzSalrLast($("#EmpCode").val(), date1, $("[name='Instalment']").val(),'Salary amount not enough');
                     }
                     if (k == 1 && SA == 1) {
                     $.post("/SaveLoanAppliation", LoanApp).done(function (response) {

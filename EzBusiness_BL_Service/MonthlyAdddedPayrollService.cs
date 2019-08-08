@@ -30,7 +30,7 @@ namespace EzBusiness_BL_Service
         public List<SelectListItem> GetEmpCodeList(string CmpyCode,string Prefix)
       {
             var EmpCodeList = _MonthlyAdddedPayrollRepo.GetEmpCodeList(CmpyCode,Prefix)
-                                         .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code + "-" + m.CodeName) })
+                                         .Select(m => new SelectListItem { Value = m.CodeName, Text =m.Code})
                                          .ToList();
             return EmpCodeList;
         }

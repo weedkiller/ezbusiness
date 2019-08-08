@@ -113,22 +113,21 @@ function Ezjoindate(EmpCode, hidte) {
     
 }
 function Ezjoindatetbl(EmpCode) {
-   
-        var a = ''
-        $.ajax({
-            async: false,
-            cache: false,
-            type: "POST",
-            data: "{Empcode:'" + EmpCode + "'}",
-            url: "/LeaveApplication/GetJoiningdate",
-            dataType: 'Json',
-            contentType: "Application/json",
-            success: function (data) {
-                a = data;
-            }
-        });
-        return a;
-   
+    debugger;
+    var a=''
+    $.ajax({
+        async: false,
+        cache: false,
+        type: "POST",
+        data: "{Empcode:'" + EmpCode + "'}",
+        url: "/LeaveApplication/GetJoiningdate",
+        dataType: 'Json',
+        contentType: "Application/json",
+        success: function (data) {
+            a= data;
+        }
+    });
+    return a;
 }
 
 /*Salary last*/
@@ -1947,6 +1946,7 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
     var cn = '';
     var cv = '';
     var oldv = $(inphid).val();
+    var newv = $(inpid).val()
     $(inpid).autocomplete({
         
         source: function (request, response) {
@@ -1987,6 +1987,7 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
                 return false;
             } else {
                 $(inphid).val(u.item.val1);
+              
             }
             if (boolval == true) {
                 $(inphid).val(u.item.val1);
@@ -2001,9 +2002,10 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
 
     $(inpid).on('focusout', function () {
         debugger;
-       // var cv=$(inpid).val();
+        // var cv=$(inpid).val();
+        var hiddnval = $(inphid).val();
         var hv = $(inpid).val();
-        if (cv != hv)
+        if (cv != hv && hv != newv)
         {
             $(inphid).val('-1');
         }
@@ -2420,7 +2422,8 @@ function EzAutoCompTxt1(inpid, inphid, urls) {
         
 
 
-         function EzAutotxtEventTbl12(tblid,EveNames, inpid, inphid, urls, boolval, inpname) {             
+         function EzAutotxtEventTbl12(tblid, EveNames, inpid, inphid, urls, boolval, inpname) {
+             debugger;
              $(tblid).on(EveNames, inpid, function () {                 
                  var tr = $(this).closest('tr');
                  $(inpid).autocomplete({
@@ -2450,7 +2453,7 @@ function EzAutoCompTxt1(inpid, inphid, urls) {
                      autoFocus: true,
                      select: function (event, u) {
                          debugger;
-                         var v = u.item.val1;
+                         var v = u.item.value;
                          if (u.item.val1 == -1 || u.item.val1 == '') {
                              tr.find(inphid).val(-1);
                              if (boolval == true) {
@@ -2463,6 +2466,7 @@ function EzAutoCompTxt1(inpid, inphid, urls) {
                                  tr.find(inpname).val(u.item.label);
                                  
                              }
+                             tr.find(inphid).val(v);
                              tr.find(inphid).val(v);
                          }
                      },
