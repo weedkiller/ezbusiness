@@ -38,16 +38,17 @@
         $('.selectpicker').selectpicker('refresh');
         EzdteformtDOB('#INV_DATE1', 'DD/MM/YYYY');
         EzdteformtDOB('#Post_Date1', 'DD/MM/YYYY');
+        EzdteformtDOB('#SUPPLIER_JV_DATE1', 'DD/MM/YYYY');
 
-
-        EzAutoCompTxt1("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FFM_Quotation/GetCust");
+        EzAutoCompTxt1("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FNINV001/GetSupplier");
         EzAutoCompTxt1("#CURRENCY_CODE", "#hdnCURRENCY_CODE", "/FNM_SL/GetCurrency")
         EzAutoCompTxt1("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList");
         EzAutoCompTxt1("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList")
         EzAutoCompTxt1("#vessel_code", "#hdnvessel_code", "/FFM_Quotation/GetVESSELList");
         EzAutoCompTxt1("#SalesMan", "#hdnSalesMan", "/FF_BOK/GetSalesman")
 
-        EzAutoCompTxtE("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FFM_Quotation/GetCust", false, "");
+        EzAutoCompTxtE("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FNINV001/GetSupplier", false, "");
+
         EzAutoCompTxtE("#CURRENCY_CODE", "#hdnCURRENCY_CODE", "/FNM_SL/GetCurrency", false, "");
         EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
@@ -230,7 +231,7 @@
                         VochAmountBC = isNaN(VochAmountBC) ? 0 : VochAmountBC;
 
                         $("[name*='txtVochNetsumVatAmountBC" + counter + "']").val(EzSum(VouchVATAmtBC, VochAmountBC));
-                      
+
                         counter++;
                         counter2++;
                     }
@@ -416,7 +417,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-4">Customer<i class="star">*</i></label>
+                                                    <label class="control-label col-md-4">Supplier<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
                                                         @Html.TextBoxFor(m => m.SUBLEDGER_CODE, new { @class = "form-control", @readonly = "readonly" })
                                                         <input id="hdnSUBLEDGER_CODE" type="hidden" class="form-control" name="hdnSUBLEDGER_CODE" value="-1" />
@@ -504,7 +505,7 @@
                                                     <label class="control-label col-md-4">Posted Date</label>
                                                     <div class="col-md-7 input-field">
                                                         @*@Html.TextBoxFor(m => m.Post_Date, new { @class = "form-control" })*@
-                                                        <input id="Post_Date1" class="form-control datepicker" name="Post_Date1"  />
+                                                        <input id="Post_Date1" class="form-control datepicker" name="Post_Date1" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -524,12 +525,12 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-4">BL Code<i class="star">*</i></label>
+                                                    <label class="control-label col-md-4">BL Code</label>
                                                     <div class="col-md-7 input-field">
                                                         @*@Html.DropDownListFor(m => m.BL_CODE, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" } }, new { @class = "form-control selectpicker", @data_live_search = "true", @readonly = "readonly" })*@
 
                                                         @Html.TextBoxFor(m => m.BL_CODE, new { @class = "form-control", @readonly = "readonly" })
-                                                            @*<input id="hdnBL_CODE" type="hidden" class="form-control" name="hdnBL_CODE" value="-1" />*@
+                                                        @*<input id="hdnBL_CODE" type="hidden" class="form-control" name="hdnBL_CODE" value="-1" />*@
                                                     </div>
                                                 </div>
                                             </div>
@@ -545,12 +546,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                    </div>
-                                    <div class="col-md-4">
-
-
-
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
@@ -562,6 +557,13 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+
+
+
+                                        
 
 
 
@@ -584,16 +586,47 @@
                                                     <label class="control-label col-md-4">Inv Status</label>
                                                     <div class="col-md-7 input-field">
                                                         @Html.TextBoxFor(m => m.INV_STATUS, new { @class = "form-control", @readonly = "readonly" })
-                                                       
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <br />
-                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Supplier No</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.SUPPLIER_JV_NO, new { @class = "form-control" })
+                                                        <input id="hdnPOD" type="hidden" class="form-control" name="hdnPOD" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div class="row">
-                                            <button class="btn btn-primary btn1 newbtn" id="btnInvoice" disabled><span class="glyphicon glyphicon-plus-sign" ></span>Generate</button>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Supplier Date</label>
+                                                    <div class="col-md-7 input-field">
+                                                        <input id="SUPPLIER_JV_DATE1" class="form-control datepicker" name="SUPPLIER_JV_DATE1" , />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Supplier GRN No</label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.SUPPLIER_GRN_NO, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <button class="btn btn-primary btn1 newbtn" id="btnInvoice" disabled><span class="glyphicon glyphicon-plus-sign"></span>Generate</button>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -625,8 +658,8 @@
                                                                         <th style="display:none;">	Amount (BC)	</th>
                                                                         <th style="display:none;">	Vat %	</th>
                                                                         <th style="display:none;">	Amount(BC)	</th>
-                                                                        <th>	Vouch. Amount(FC)	</th>
-                                                                        <th style="padding: 0px 6px;">Vouch. Amount(BC)	</th>
+                                                                        <th>	Vouch.  Amount(FC)	</th>
+                                                                        <th style="padding: 0px 6px;">Vouch.  Amount(BC)	</th>
 
                                                                         <th> Voch. Amount(FC)</th>
                                                                         <th>	Voch. Amount(BC)	</th>
@@ -642,11 +675,11 @@
                                                                     {
                                                                         <tr>
                                                                             <td>
-                                                                                
-                                                                                    @Html.TextBox(string.Concat("txtsno", counter2),  item.LINE_NO, new { @class = "grid-control", @readonly = "readonly" })
-                                                                                    
-                                                                               
-                                                                                
+
+                                                                                @Html.TextBox(string.Concat("txtsno", counter2), item.LINE_NO, new { @class = "grid-control", @readonly = "readonly" })
+
+
+
                                                                             </td>
                                                                             <td>
                                                                                 <div class="grid-group">
@@ -665,26 +698,26 @@
 
                                                                             <td>
                                                                                 @Html.TextBox(string.Concat("txtCrg_name", counter2), item.Item_Description, new { @class = "grid-control", @disabled = "disabled" })
-                                                                               
+
                                                                             </td>
                                                                             <td>
-                                                                                
+
                                                                                 @Html.TextBox(string.Concat("txtUnit_code", counter2), item.UNIT_TYPE, new { @class = "grid-control", @disabled = "disabled" })
-                                                                              
+
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBox(string.Concat("txtNo_of_qty", counter2), item.NO_OF_QTY, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-                                                                               
+
                                                                             </td>
                                                                             <td style="display:none;">
-                                                                               
+
                                                                                 @Html.TextBox(string.Concat("txtEx_Curr_Code", counter2), item.O_CURR_CODE, new { @class = "grid-control", @disabled = "disabled" })
-                                                                                
+
                                                                             </td>
 
                                                                             <td style="display:none;">
                                                                                 @Html.TextBox(string.Concat("txtEx_Curr_Rate", counter2), item.RATE_PER_QTY, new { @class = "grid-control", @Type = "Number" })
-                                                                                
+
                                                                             </td>
                                                                             <td style="display:none;">
 
@@ -696,26 +729,26 @@
 
 
                                                                                 @Html.TextBox(string.Concat("txtAmountFC", counter2), item.O_CURR_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "Number" })
-                                                                               
+
                                                                             </td>
 
                                                                             <td style="display:none;">
 
                                                                                 @Html.TextBox(string.Concat("txtAmountBC", counter2), item.O_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-                                                                                
+
 
                                                                             </td>
                                                                             <td style="display:none;">
                                                                                 @Html.TextBox(string.Concat("txtVat_PER", counter2), item.VAT_PER, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-                                                                               
+
                                                                             </td>
                                                                             <td style="display:none;">
                                                                                 @Html.TextBox(string.Concat("txtVatAmountBC", counter2), item.O_VAT_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-                                                                               
+
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBox(string.Concat("txtVouchVATAmountFC", counter2), item.V_VAT_CURR_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-                                                                               
+
                                                                             </td>
 
 
@@ -723,41 +756,41 @@
 
 
                                                                                 @Html.TextBox(string.Concat("txtVouchVATAmountBC", counter2), item.V_VAT_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-                                                                              
+
 
                                                                             </td>
 
                                                                             <td>
                                                                                 @Html.TextBox(string.Concat("txtVochAmountFC", counter2), item.V_CURR_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-                                                                                
+
                                                                             </td>
 
                                                                             <td>
                                                                                 @Html.TextBox(string.Concat("txtVochAmountBC", counter2), item.V_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-                                                                               
+
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBox(string.Concat("txtVochNetsumVatAmountFC", counter2), item.V_NET_CURR_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-                                                                            
+
                                                                             </td>
                                                                             <td>
                                                                                 @Html.TextBox(string.Concat("txtVochNetsumVatAmountBC", counter2), item.V_NET_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-                                                                                
+
                                                                             </td>
 
-                                                                            </tr>
+                                                                        </tr>
                                                                         counter2++;
                                                                     }
 
-                                                                    
+
                                                                 </tbody>
                                                                 <tfoot>
                                                                     <tr>
                                                                         @*<td></td>
-                                                                        <td> </td>
-                                                                        <td></td>
+            <td> </td>
+            <td></td>
 
-                                                                        <td></td>*@
+            <td></td>*@
                                                                         <th colspan="5" class="tr">Total</th>
 
 

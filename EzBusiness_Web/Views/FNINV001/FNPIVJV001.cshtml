@@ -1,7 +1,7 @@
 ﻿@model EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FNINV001_VM
 
 @{
-    ViewBag.Title = "FNINV001";
+    ViewBag.Title = "FNPIVJV001";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,11 +9,11 @@
 
 <script>
     $(function () {
-        EzAuthentication("/CUSTOMERINVOICE");
+        EzAuthentication("/SUPPLIERINVOICE");
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
         function GetDrs() {
-            $.get("/FNINV001/GetINVOICEDetailList", { Module_Type: 'INVJV' }, function (response) {
+            $.get("/FNINV001/GetINVOICEDetailList", { Module_Type: 'PIVJV' }, function (response) {
                 $("#DRListContainer").html(response);
             });
         }
@@ -35,10 +35,10 @@
 
 
         $("#btnNew").click(function () {
-            var n = EzAuthenticationBtn("/CUSTOMERINVOICE", "NewIt");
+            var n = EzAuthenticationBtn("/SUPPLIERINVOICE", "NewIt");
             if (n == 1) {
                 $("#editshow").hide();
-                $.get("AddINVOICEDetails", function (response) {
+                $.get("AddSupplierDetails", function (response) {
                     $("#DRContainer").html(response);
                 });
                 $(this).css("visibility", "hidden");
@@ -51,7 +51,7 @@
             $("#editshow").hide();
         });
         $("#btnEdit").click(function () {
-            var n = EzAuthenticationBtn("/CUSTOMERINVOICE", "ViewIt");
+            var n = EzAuthenticationBtn("/SUPPLIERINVOICE", "ViewIt");
             if (n == 1) {
                 $(this).css("visibility", "hidden");
                 EzbtnEditAcVis();
@@ -62,15 +62,15 @@
         });
 
         $("#btnCancel").click(function () {
+            window.location = '/SUPPLIERINVOICE'
             //$("#DRContainer").html(drHtml);
             //EzbtnCancelAcVis();
             //$("#DRListContainer1").hide();
             //$("#editshow").hide();
-            window.location = '/CUSTOMERINVOICE'
         });
 
         $("#btnDelete").click(function () {
-            var n = EzAuthenticationBtn("/CUSTOMERINVOICE", "DeleteIt");
+            var n = EzAuthenticationBtn("/SUPPLIERINVOICE", "DeleteIt");
             if (n == 1) {
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
@@ -93,7 +93,7 @@
                         $.getJSON("/DeleteINVOICE", { FNINV001_CODE: FNINV001_CODE }).done(function (data) {
                             debugger
                             if (data.DeleteFlag) {
-                                window.location = '/CUSTOMERINVOICE'
+                                window.location = '/SUPPLIERINVOICE'
                             } else {
                                 EzAlertdele(FF_QTN001_CODE);
                             }
@@ -124,7 +124,7 @@
 
         $("#btnSave").click(function () {
             debugger
-            var n = EzAuthenticationBtn("/CUSTOMERINVOICE", "EditIt");
+            var n = EzAuthenticationBtn("/SUPPLIERINVOICE", "EditIt");
             var k = 0;
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
@@ -153,7 +153,10 @@
                     NET_CURRENCY_AMT: $("[name*='NET_CURRENCY_AMT']").val(),
                     NET_LOCAL_AMT: $("[name*='NET_LOCAL_AMT']").val(),
                     INV_STATUS: 'POSTED',
-                    INV_TYPE: 'INVJV',
+                    INV_TYPE: 'PIVJV',
+                    SUPPLIER_JV_NO: $("[name*='SUPPLIER_JV_NO']").val(),
+                    SUPPLIER_JV_DATE: Ezsetdtpkdate($("[name*='SUPPLIER_JV_DATE1']").val()),
+                    SUPPLIER_GRN_NO: $("[name*='SUPPLIER_GRN_NO']").val(),
                     FNINV002Detail: [],
                 };
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
@@ -253,8 +256,10 @@
                     NET_CURRENCY_AMT: $("[name*='NET_CURRENCY_AMT']").val(),
                     NET_LOCAL_AMT: $("[name*='NET_LOCAL_AMT']").val(),
                     INV_STATUS: 'POSTED',
-                    INV_TYPE: 'INVJV',
-
+                    INV_TYPE: 'PIVJV',
+                    SUPPLIER_JV_NO:$("[name*='SUPPLIER_JV_NO']").val(),
+                    SUPPLIER_JV_DATE: Ezsetdtpkdate($("[name*='SUPPLIER_JV_DATE1']").val()),
+                    SUPPLIER_GRN_NO: $("[name*='SUPPLIER_GRN_NO']").val(),
                     FNINV002Detail: [],
                 };
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
@@ -386,7 +391,7 @@
                 var FNINV001_CODE = $(this).find("[name*='hdnFNINV001_CODE']").val();
 
 
-                $.get("EditINVOICEDetails", { FNINV001_CODE: FNINV001_CODE }).done(function (response) {
+                $.get("EditSupplierDetails", { FNINV001_CODE: FNINV001_CODE }).done(function (response) {
                     $("#DRContainer").html(response);
 
                     //$("#btnDelete").prop("disabled", false);
@@ -494,7 +499,7 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @Html.Action("GetINVOICEDetailList", "FNINV001", new { Module_Type = "INVJV" })
+                                                @Html.Action("GetINVOICEDetailList", "FNINV001", new { Module_Type = "PIVJV" })
                                             </div>
 
                                         </div>
@@ -518,4 +523,5 @@
 
 
 </div>
+
 

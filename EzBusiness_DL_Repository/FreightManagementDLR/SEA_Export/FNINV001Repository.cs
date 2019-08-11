@@ -10,6 +10,7 @@ using EzBusiness_ViewModels.Models.FreightManagement.SEA_Export;
 using System.Data;
 using EzBusiness_EF_Entity.FreightManagementEF.SEA_Export;
 using System.Transactions;
+using System.Data.SqlClient;
 
 namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 {
@@ -65,6 +66,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     CURRENCY_RATE = Convert.ToDecimal(dr["CURRENCY_RATE"].ToString()),               
                     BILLING_ADDRESS = dr["BILLING_ADDRESS"].ToString(),
                     //SUPPLIER_JV_NO = dr["SUPPLIER_JV_NO"].ToString(),
+
                     //SUPPLIER_JV_DATE = Convert.ToDateTime(dr["SUPPLIER_JV_DATE"].ToString()),
                     //SUPPLIER_GRN_NO = dr["SUPPLIER_GRN_NO"].ToString(),
                     RECEIVED_PAID_NAME = dr["RECEIVED_PAID_NAME"].ToString(),
@@ -137,8 +139,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                     VAT_PER = Convert.ToDecimal(dr["VAT_PER"].ToString()),
                     V_CURR_AMT = Convert.ToDecimal(dr["V_CURR_AMT"].ToString()),
                     V_LOCAL_AMT = Convert.ToDecimal(dr["V_LOCAL_AMT"].ToString()),
-                    //    V_VAT_CURR_AMT = Convert.ToDecimal(dr["V_VAT_CURR_AMT"].ToString()),
-                    //V_VAT_LOCAL_AMT = Convert.ToDecimal(dr["V_VAT_LOCAL_AMT"].ToString()),
+                    V_VAT_CURR_AMT = Convert.ToDecimal(dr["V_VAT_CURR_AMT"].ToString()),
+                    V_VAT_LOCAL_AMT = Convert.ToDecimal(dr["V_VAT_LOCAL_AMT"].ToString()),
                     V_NET_CURR_AMT = Convert.ToDecimal(dr["V_NET_CURR_AMT"].ToString()),
                     V_NET_LOCAL_AMT = Convert.ToDecimal(dr["V_NET_LOCAL_AMT"].ToString()),
                     Narration= dr["Narration"].ToString(),
@@ -202,6 +204,16 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
                 ObjList.BILLING_ADDRESS = dr["BILLING_ADDRESS"].ToString();
                 ObjList.SUPPLIER_JV_NO = dr["SUPPLIER_JV_NO"].ToString();
                 //ObjList.SUPPLIER_JV_DATE =Convert.ToDateTime(dr["SUPPLIER_JV_DATE"].ToString());
+
+                if (String.IsNullOrEmpty(dr["SUPPLIER_JV_DATE"].ToString()))
+                {
+                    ObjList.SUPPLIER_JV_DATE = System.DateTime.Today;
+                }
+                else
+                {
+                    ObjList.SUPPLIER_JV_DATE = Convert.ToDateTime(dr["SUPPLIER_JV_DATE"].ToString());
+                }
+
                 ObjList.SUPPLIER_GRN_NO = dr["SUPPLIER_GRN_NO"].ToString();
                 ObjList.RECEIVED_PAID_NAME = dr["RECEIVED_PAID_NAME"].ToString();
                 ObjList.UNPOSTED_NOTE = dr["UNPOSTED_NOTE"].ToString();
@@ -643,13 +655,15 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return ObjList;
         }
 
-        public List<ComDropTbl> GETBLNO(string CmpyCode, string Branchcode, string Customercode, string Prefix)
+        public List<ComDropTbl> GETBLNO(string CmpyCode, string Branchcode, string Customercode,string Module_Type)
         {
-            string qur = "select distinct H.FF_BL001_code as Code, H.REF_NO as CodeName from FF_BL001 H inner join  ff_bl005 D on h.ff_bl001_code = D.ff_bl001_code and h.CMPYCODE = D.CMPYCODE  AND H.Branchcode = D.BRANCH_CODE  " +
-                          "where d.Cust_code = '"+ Customercode + "' and h.CMPYCODE = '"+ CmpyCode + "' and h.Branchcode = '"+ Branchcode + "' "+
-                          "and d.FF_BL005_UID not in (select O_CHARGE_UID from FNINV002) "+
-                         "  and (H.FF_BL001_code like '" + Prefix + "%' or H.REF_NO like '" + Prefix + "%')";
-            ds = _EzBusinessHelper.ExecuteDataSet(qur);
+
+            SqlParameter[] param = { new SqlParameter("@CMPYCODE", CmpyCode),
+                                    new SqlParameter("@Branchcode", Branchcode),
+                                    new SqlParameter("@Customer_code", Customercode),
+                                    new SqlParameter("@Module_Type", Module_Type)
+                                    };
+            ds = _EzBusinessHelper.ExecuteDataSet("Sp_FillBLCode", CommandType.StoredProcedure, param);         
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<ComDropTbl> ObjList = new List<ComDropTbl>();
@@ -706,7 +720,73 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return ObjList;
         }
 
+        public List<ComDropTbl> GetSupli(string CmpyCode, string Prefix)
+        {
+            return drop.GetCommonDrop("A.FNM_SL1001_CODE as [Code],A.Name as [CodeName]", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='APP' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0 and (A.FNM_SL1001_CODE like '" + Prefix + "%' or A.Name like '" + Prefix + "%')");
+        }
 
-       
+        public bool Bl_InvoiceGenerateLates(string CmpyCode, string Branchcode, string BLCode, string Customer_code, string ExCode, string ExRate, string Table_Name, string Module_Type, string UserName)
+        {       
+            SqlParameter[] param = {    new SqlParameter("@Cmpycode", CmpyCode),
+                                        new SqlParameter("@BranchCode", Branchcode),
+                                        new SqlParameter("@BLCode", BLCode),
+                                        new SqlParameter("@Customer_code", Customer_code),
+                                        new SqlParameter("@ExCode", ExCode),
+                                        new SqlParameter("@ExRate", ExRate),
+                                        new SqlParameter("@Table_Name", Table_Name),
+                                        new SqlParameter("@Module_Type", Module_Type),
+                                        new SqlParameter("@loginid", UserName),
+                                    };
+            return _EzBusinessHelper.ExecuteNonQuery("Bl_InvoiceGenerateLates", param);
+
+        }
+
+        public FNINV001 GetHeaderDetail(string CmpyCode, string FNINV001_CODE, string BRANCHCODE)
+        {
+            ds = _EzBusinessHelper.ExecuteDataSet("Select SalesMan,vessel_code,POL,POD,SUPPLIER_JV_NO from FNINV001 where Flag=0 and FNINV001_CODE='" + FNINV001_CODE + "' and CMPYCODE='" + CmpyCode + "' and BRANCHCODE='" + BRANCHCODE + "'");// CMPYCODE='" + CmpyCode + "' and 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            FNINV001 ObjList = new FNINV001();
+            foreach (DataRow dr in drc)
+            {               
+                ObjList.SUPPLIER_JV_NO = dr["SUPPLIER_JV_NO"].ToString();               
+              
+                //ObjList.SUPPLIER_GRN_NO = dr["SUPPLIER_GRN_NO"].ToString();
+                
+                ObjList.SalesMan = dr["SalesMan"].ToString();
+                
+                ObjList.vessel_code = dr["vessel_code"].ToString();
+                
+                ObjList.POL = dr["POL"].ToString();
+                ObjList.POD = dr["POD"].ToString();
+                
+            }
+            return ObjList;
+        }
+
+        public List<ComDropTbl> GetCustSupp(string CmpyCode, string Branchcode, string Module_Type, string Prefix)
+        {
+
+          
+             SqlParameter[] param = { new SqlParameter("@CMPYCODE", CmpyCode),
+                                    new SqlParameter("@Branchcode", Branchcode),                                
+                                    new SqlParameter("@Module_Type", Module_Type),
+                                     new SqlParameter("@Prefix", Prefix),                                    
+                                    };
+            ds = _EzBusinessHelper.ExecuteDataSet("SP_FillCustCodeINV", CommandType.StoredProcedure, param);
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<ComDropTbl> ObjList = new List<ComDropTbl>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new ComDropTbl()
+                {
+                    CodeName = dr["CodeName"].ToString(),
+                    Code = dr["Code"].ToString(),
+
+                });
+            }
+            return ObjList;
+        }
     }
 }
