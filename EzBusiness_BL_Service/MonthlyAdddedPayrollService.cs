@@ -34,6 +34,13 @@ namespace EzBusiness_BL_Service
                                          .ToList();
             return EmpCodeList;
         }
+        public List<SelectListItem> GetEmpCodetblList(string CmpyCode, string Prefix)
+        {
+            var EmpCodeList = _MonthlyAdddedPayrollRepo.GetEmpCodeList(CmpyCode, Prefix)
+                                         .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code + "-" + m.CodeName) })
+                                         .ToList(); 
+            return EmpCodeList;
+        }
         private List<SelectListItem> InsertFirstElementDDL(List<SelectListItem> items)
         {
             items.Insert(0, new SelectListItem

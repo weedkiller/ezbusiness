@@ -75,6 +75,18 @@ namespace EzBusiness_Web.Controllers
                 return Json(_MonthlyAdddedService.GetEmpCodeList(list[0].CmpyCode,Prefix));
             }
         }
+        public ActionResult GetEmpListbl(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_MonthlyAdddedService.GetEmpCodetblList(list[0].CmpyCode, Prefix));
+            }
+        }
 
         [Route("GetMonthlyAdddedGrid")]
         public ActionResult GetMonthlyAdddedGrid(string CmpyCode, string PRADN001_CODE)

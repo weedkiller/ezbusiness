@@ -96,8 +96,7 @@ function EzSalrProcCondiont(Empcode, dtmonthyy) {
 }
 
 
-function Ezjoindate(EmpCode, hidte) {
-    
+function Ezjoindate(EmpCode, hidte) {   
     $.ajax({
         async: false,
         cache: false,
@@ -109,8 +108,7 @@ function Ezjoindate(EmpCode, hidte) {
         success: function (data) {
             $(hidte).val(EzdatefrmtRes(data));
         }
-    });
-    
+    });    
 }
 function Ezjoindatetbl(EmpCode) {
     debugger;
@@ -1947,8 +1945,7 @@ function EzAutoCompTxtE(inpid, inphid, urls, boolval, inpname) {
     var cv = '';
     var oldv = $(inphid).val();
     var newv = $(inpid).val()
-    $(inpid).autocomplete({
-        
+    $(inpid).autocomplete({        
         source: function (request, response) {
             $.ajax({
                 url: urls,
@@ -2583,4 +2580,32 @@ function EzAutoCompTxt1(inpid, inphid, urls) {
              } else {
                  tr.find(txtid).val('N');
              }
-         });}
+             });
+         }
+         function EZTextboxFocusout(txtid, txthid,msg,type) {
+             debugger;
+             $(txtid).on("focusout", function () {
+                 debugger;               
+                 var hidval =''
+                 if (type == 'drp') {
+                     hidval = $(txthid).val();
+                     if (hidval == '' || hidval == '-1') {
+                         EzAlerterrtxt(msg);
+                     }
+                 }
+                 if(type=='numtxt')
+                 {
+                     hidval = $(txtid).val();
+                     if (hidval == '' || hidval == '0') {
+                         EzAlerterrtxt(msg);
+                     }
+                 }
+                 if(type=='txt')
+                 {
+                     hidval = $(txtid).val();
+                     if (hidval == '') {
+                         EzAlerterrtxt(msg);
+                     }
+                 }
+             })
+         }

@@ -99,6 +99,7 @@
             }
         });
         $("#btnSave").click(function () {
+            debugger;
             var n = EzAuthenticationBtn("/FNM_CURR_RATE", "EditIt");
             var k = 0;
             $("#editshow").hide();
@@ -108,8 +109,8 @@
                 // Code for Adding MainTable
                 var FNMcurR = {
                     EditFlag: false,
-                    TO_CURRENCY_CODE: $("[name*='TO_CURRENCY_CODE'] option:selected").val(),
-                    FROM_CURRENCY_CODE: $("[name*='FROM_CURRENCY_CODE'] option:selected").val(),
+                    TO_CURRENCY_CODE: $("[name*='hdnTO_CURRENCY_CODE']").val(),
+                    FROM_CURRENCY_CODE: $("[name*='hdnFROM_CURRENCY_CODE']").val(),
                     SELL_RATE: $("[name*='SELL_RATE']").val(),
                     BUY_RATE: $("[name*='BUY_RATE']").val(),
                     group_code: $("[name*='MASTER_STATUS']").val(),
@@ -147,8 +148,8 @@
                 // Code for Adding Purchase order
                 var FNMcurR = {
                         EditFlag: true,
-                        TO_CURRENCY_CODE: $("[name*='TO_CURRENCY_CODE'] option:selected").val(),
-                        FROM_CURRENCY_CODE: $("[name*='FROM_CURRENCY_CODE'] option:selected").val(),
+                        TO_CURRENCY_CODE: $("[name*='hdnTO_CURRENCY_CODE']").val(),
+                        FROM_CURRENCY_CODE: $("[name*='hdnFROM_CURRENCY_CODE']").val(),
                         SELL_RATE: $("[name*='SELL_RATE']").val(),
                         BUY_RATE: $("[name*='BUY_RATE']").val(),
                         group_code: $("[name*='MASTER_STATUS']").val(),
@@ -182,22 +183,22 @@
         });
 
         function ValidateForm(FNMcurR) {
-            
+            debugger;
             var response = {
                 ErrorMessage: "",
                 formValid: false
             };
 
             if (FNMcurR.EditFlag == false) {
-                if (FNMcurR.FROM_CURRENCY_CODE == '0') {
+                if (FNMcurR.FROM_CURRENCY_CODE =="-1") {
                     response.ErrorMessage += "FROM CURRENCY CODE ,";
                 }
             } else if (FNMcurR.EditFlag == true) {
-                if (FNMcurR.FROM_CURRENCY_CODE == '0') {
+                if (FNMcurR.FROM_CURRENCY_CODE =="-1") {
                     response.ErrorMessage += "FROM CURRENCY CODE ,";
                 }
             }
-            if (FNMcurR.TO_CURRENCY_CODE == '0') {
+            if (FNMcurR.TO_CURRENCY_CODE =="-1") {
                 response.ErrorMessage += "TO CURRENCY CODE ,";
             }
             else if (FNMcurR.ENTRY_DATE == '') {

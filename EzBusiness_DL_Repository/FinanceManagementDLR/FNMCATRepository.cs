@@ -22,13 +22,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         public bool DeleteFNMCAT(string FNMCAT_CODE, string CmpyCode, string UserName)
         {
 
-            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNMSLCAT where CmpyCode='" + CmpyCode + "' and FNMCAT_CODE='" + FNMCAT_CODE + "'  and Flag=0");
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from FNMSLCAT where CmpyCode='" + CmpyCode + "' and FNMSLCAT_CODE='" + FNMCAT_CODE + "'  and Flag=0");
             if (Grs != 0)
             {
 
                 _EzBusinessHelper.ActivityLog(CmpyCode, UserName, "Delete FNMSLCAT", FNMCAT_CODE, Environment.MachineName);
 
-                return _EzBusinessHelper.ExecuteNonQuery1("update FNMSLCAT set Flag=1 where CmpyCode='" + CmpyCode + "' and FNMCAT_CODE='" + FNMCAT_CODE + "'  and Flag=0");
+                return _EzBusinessHelper.ExecuteNonQuery1("update FNMSLCAT set Flag=1 where CmpyCode='" + CmpyCode + "' and FNMSLCAT_CODE='" + FNMCAT_CODE + "'  and Flag=0");
 
             }
             return false;

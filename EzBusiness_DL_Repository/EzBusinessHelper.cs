@@ -248,15 +248,14 @@ namespace EzBusiness_DL_Repository
             return numrows;
         }
         public int ExecuteNonQuery(string SqlCommondText)
-        {
-          
+        {          
             int rowaffected = 0;
             using (SqlConnection cn = new SqlConnection(connStr))
             {
                 try
-                {
-                    //if (cn.State != ConnectionState.Open)
-                        cn.Open();
+                {   
+                   //if (cn.State != ConnectionState.Open)
+                    cn.Open();
                    // trans = cn.BeginTransaction();
                     cmd = new SqlCommand(SqlCommondText, cn, trans);
                     rowaffected = cmd.ExecuteNonQuery();
