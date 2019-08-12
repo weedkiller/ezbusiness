@@ -81,8 +81,8 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                        var Tablename = jq1(this).find("#hdnTablename").val();
-                        $.getJSON("/DeleteCodeSettings", { Tablename: Tablename }).done(function (data) {
+                        var UTI0001_CODE = $("#UTI0001_CODE").val();
+                        $.getJSON("/DeleteCodeSettings", { UTI0001_CODE: UTI0001_CODE }).done(function (data) {
                             if (data.DeleteFlag) {
                                 //GetLeaveList();
                                 ////$("#btnCancel").trigger("click");
@@ -138,6 +138,7 @@
                     Total_length: $('#Total_length').val(),
                     Last_No: $('#Last_No').val(),
                     Auto_increment: $('#Auto_increment option:selected').val(),
+                    Module_Type: $('#Module_Type option:selected').val(),
                     UTI0002Detail: [],
                 };
 
@@ -193,6 +194,7 @@
                     Total_length: $('#Total_length').val(),
                     Last_No: $('#Last_No').val(),
                     Auto_increment: $('#Auto_increment option:selected').val(),
+                    Module_Type: $('#Module_Type option:selected').val(),
                     UTI0002Detail: [],
                 };
 
@@ -282,8 +284,8 @@
             if (operationMode == "Edit") {
                 jq1("#POList > tbody").children().removeClass("active");
                 jq1(this).addClass("active");
-                var Tablename = jq1(this).find("#hdnTablename").val();
-                jq1.get("/EditCodeSettings", { Tablename: Tablename }).done(function (response) {
+                var UTI0001_CODE = jq1(this).find("#hdnUTI0001_CODE").val();
+                jq1.get("/EditCodeSettings", { UTI0001_CODE: UTI0001_CODE }).done(function (response) {
                     jq1("#POContainer").html(response);
                  //   jq1("#btnDelete").prop("disabled", false);
                     jq1("#btnDelete").css("visibility", "");

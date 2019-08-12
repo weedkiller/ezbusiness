@@ -11,7 +11,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
     public interface IFNINV001Service
     {
 
-        List<FNINV001_VM> GetFNINV(string CmpyCode, string BRANCHCODE);
+        List<FNINV001_VM> GetFNINV(string CmpyCode, string BRANCHCODE, string Module_Type);
         FNINV001_VM GetFNINVDetailsEdit(string CmpyCode, string FNINV001_CODE, string BRANCHCODE);
 
         FNINV001_VM GetFNINVDetailsBL(string CmpyCode, string FF_BL001_CODE, string BRANCHCODE);

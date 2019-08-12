@@ -25,15 +25,15 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             
         }
 
-        public bool DeleteCodeSettings(string Cmpycode, string Branchcode, string Tablename, string username)
+        public bool DeleteCodeSettings(string Cmpycode, string Branchcode, string UTI0001_CODE, string username)
         {
-            return _CodeSettingsRepo.DeleteCodeSettings(Cmpycode, Branchcode, Tablename, username);
+            return _CodeSettingsRepo.DeleteCodeSettings(Cmpycode, Branchcode, UTI0001_CODE, username);
         }
 
-        public UTM0001_VM EditCodeSettings(string Cmpycode, string Branchcode, string Tablename)
+        public UTM0001_VM EditCodeSettings(string Cmpycode, string Branchcode, string UTI0001_CODE)
         {
-            var poEdit = _CodeSettingsRepo.EditCodeSettings(Cmpycode, Branchcode, Tablename);
-            poEdit.UTI0002Detail = _CodeSettingsRepo.GetUTI0002DetailList(Cmpycode, Branchcode, Tablename);
+            var poEdit = _CodeSettingsRepo.EditCodeSettings(Cmpycode, Branchcode, UTI0001_CODE);
+            poEdit.UTI0002Detail = _CodeSettingsRepo.GetUTI0002DetailList(Cmpycode, Branchcode, UTI0001_CODE);
             poEdit.EditFlag = true;
             return poEdit;
         }
@@ -51,9 +51,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             return UserList;
         }
 
-        public List<UTI0002New> GetUTI0002DetailList(string Cmpycode, string Branchcode, string Tablename)
+        public List<UTI0002New> GetUTI0002DetailList(string Cmpycode, string Branchcode, string UTI0001_CODE)
         {
-            var FF_BL004DetailList = _CodeSettingsRepo.GetUTI0002DetailList(Cmpycode, Branchcode, Tablename);
+            var FF_BL004DetailList = _CodeSettingsRepo.GetUTI0002DetailList(Cmpycode, Branchcode, UTI0001_CODE);
             return FF_BL004DetailList.Select(m => new UTI0002New
             {
                 APPROVER_ID = m.APPROVER_ID,

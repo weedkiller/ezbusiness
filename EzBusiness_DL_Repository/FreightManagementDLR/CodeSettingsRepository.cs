@@ -21,23 +21,23 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
         EzBusinessHelper _EzBusinessHelper = new EzBusinessHelper();
 
         DropListFillFun drop = new DropListFillFun();
-        public bool DeleteCodeSettings(string Cmpycode, string Branchcode, string Tablename, string username)
+        public bool DeleteCodeSettings(string Cmpycode, string Branchcode, string UTI0001_CODE,  string username)
         {
-            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from UTM0001 where  UTM0001 where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "' and Tablename='" + Tablename + "'");// CMPYCODE='" + CmpyCode + "' and
+            int Grs = _EzBusinessHelper.ExecuteScalar("Select count(*) from UTM0001 where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "' and UTI0001_CODE='" + UTI0001_CODE + "'");// CMPYCODE='" + CmpyCode + "' and
             if (Grs != 0)
             {
-               _EzBusinessHelper.ActivityLog(Cmpycode, username, "Delete Code settings", Tablename, Environment.MachineName);
+               _EzBusinessHelper.ActivityLog(Cmpycode, username, "Delete Code settings", UTI0001_CODE, Environment.MachineName);
                 //_EzBusinessHelper.ExecuteNonQuery1("update FF_BOK002 set Flag=1 where  FF_BOK001_CODE='" + FF_BOK001_CODE + "'  and Flag=0");
-                _EzBusinessHelper.ExecuteNonQuery1("delete from UTI0002  where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "' and Tablename='" + Tablename + "'");
-                return _EzBusinessHelper.ExecuteNonQuery1("delete from UTM0001 where  UTM0001 where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "' and Tablename='" + Tablename + "'");//CMPYCODE='" + CmpyCode + "' and
+                _EzBusinessHelper.ExecuteNonQuery1("delete from UTI0002  where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "' and  UTI0001_CODE='"+ UTI0001_CODE + "' ");
+                return _EzBusinessHelper.ExecuteNonQuery1("delete from UTM0001  where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "' and UTI0001_CODE='" + UTI0001_CODE + "' ");//CMPYCODE='" + CmpyCode + "' and
 
             }
             return false;
         }
 
-        public UTM0001_VM EditCodeSettings(string Cmpycode, string Branchcode, string Tablename)
+        public UTM0001_VM EditCodeSettings(string Cmpycode, string Branchcode, string UTI0001_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from UTM0001 where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "' and Tablename='" + Tablename + "'");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from UTM0001 where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "'  and UTI0001_CODE='"+ UTI0001_CODE + "'");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             UTM0001_VM ObjList = new UTM0001_VM();
@@ -53,15 +53,16 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 ObjList.PREFIX_CODE = dr["PREFIX_CODE"].ToString();
                 ObjList.Starting_No = dr["Starting_No"].ToString();
                 ObjList.Total_length = dr["Total_length"].ToString();
+                ObjList.Module_Type = dr["Module_Type"].ToString();
 
-                
+
             }
             return ObjList;
         }
 
         public List<UTM0001_VM> GetCodeSettings(string Cmpycode, string Branchcode)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from UTM0001 where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "'");
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Tablename,case when Module_Type='INVJV' then 'Customer Invoice' else 'Purchase invoice'   end as [Module_Type] ,UTI0001_CODE,PREFIX_CODE,Page_Name,Starting_No,Total_length,Last_No,Auto_increment from UTM0001 where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "'");
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<UTM0001_VM> ObjList = new List<UTM0001_VM>();
@@ -72,14 +73,13 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     Auto_increment = dr["Auto_increment"].ToString(),
                     Last_No = dr["Last_No"].ToString(),
                     Page_Name = dr["Page_Name"].ToString(),
-                    Cmpycode = dr["Cmpycode"].ToString(),
-                    Branchcode = dr["Branchcode"].ToString(),
+                    
                     Tablename = dr["Tablename"].ToString(),
                     UTI0001_CODE = dr["UTI0001_CODE"].ToString(),
                     PREFIX_CODE = dr["PREFIX_CODE"].ToString(),
                     Starting_No = dr["Starting_No"].ToString(),
-                    Total_length = dr["Total_length"].ToString()
-
+                    Total_length = dr["Total_length"].ToString(),
+                    Module_Type=dr["Module_Type"].ToString()
                 });
             }
             return ObjList;
@@ -90,9 +90,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return drop.GetCommonDrop("name as [Code],'' as [Codename]", "sys.objects", "type='U' and name like '" + Prefix + "%'  or name like '" + Prefix + "%' order by create_date desc ");
         }
 
-        public List<UTI0002New> GetUTI0002DetailList(string Cmpycode, string Branchcode, string Tablename)
+        public List<UTI0002New> GetUTI0002DetailList(string Cmpycode, string Branchcode, string UTI0001_CODE)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from UTI0002 where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "' and Tablename='" + Tablename + "'"); 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from UTI0002 where Cmpycode='" + Cmpycode + "' and Branchcode='" + Branchcode + "'  and UTI0001_CODE='"+ UTI0001_CODE + "'"); 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<UTI0002New> ObjList = new List<UTI0002New>();
@@ -142,8 +142,19 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                                 APPROVE_ALLOW=m.APPROVE_ALLOW
                             }).ToList());
                         }
-                        #endregion                    
+                        #endregion
+
                         //---
+
+                        //checked  Code
+                        int c = 0;
+                        c = _EzBusinessHelper.ExecuteScalar("select count(*) from UTM0001 where Cmpycode='" + UTM.Cmpycode + "' and Branchcode='" + UTM.Branchcode + "' and UTI0001_CODE='" + UTM.UTI0001_CODE + "'");
+                        if (c > 0)
+                        {
+                            UTM.ErrorMessage = "Duplicate Code";
+                            UTM.SaveFlag = false;
+                            return UTM;
+                        }
                         int n, i = 0;
                         #region UTI0002 INSERT LOOP
                         n = ObjList1.Count;
@@ -173,6 +184,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb2.Append("'" + UTM.Cmpycode + "',");
                         sb2.Append("'" + UTM.Branchcode + "',");
                         sb2.Append("'" + UTM.Tablename + "',");
+                        sb2.Append("'" + UTM.Module_Type + "',");                        
                         sb2.Append("'" + UTM.UTI0001_CODE + "',");
                         sb2.Append("'" + UTM.PREFIX_CODE + "',");
                         sb2.Append("'" + UTM.Page_Name + "',");
@@ -180,7 +192,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb2.Append("'" + UTM.Total_length + "',");
                         sb2.Append("'" + UTM.Last_No + "',");
                         sb2.Append("'" + UTM.Auto_increment + "')");
-                        i = _EzBusinessHelper.ExecuteNonQuery("insert into UTM0001(Cmpycode,Branchcode,Tablename,UTI0001_CODE,PREFIX_CODE,Page_Name,Starting_No,Total_length,Last_No,Auto_increment) values(" + sb2.ToString() + "");
+                        i = _EzBusinessHelper.ExecuteNonQuery("insert into UTM0001(Cmpycode,Branchcode,Tablename,Module_Type,UTI0001_CODE,PREFIX_CODE,Page_Name,Starting_No,Total_length,Last_No,Auto_increment) values(" + sb2.ToString() + "");
                         #endregion
                         _EzBusinessHelper.ActivityLog(UTM.Cmpycode, UTM.UserName, "Update Code Settings", UTM.Tablename, Environment.MachineName);
                         UTM.SaveFlag = true;
@@ -192,6 +204,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 }
                 catch (Exception ex)
                 {
+                    UTM.ErrorMessage = "Error occur";
                     UTM.SaveFlag = false;
                 }
             }
@@ -199,7 +212,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             {
                 try
                 {
-                    ds = _EzBusinessHelper.ExecuteDataSet("Select * from UTM0001 where Cmpycode='" + UTM.Cmpycode + "' and Branchcode='" + UTM.Branchcode + "' and Tablename='" + UTM.Tablename + "'");
+                    ds = _EzBusinessHelper.ExecuteDataSet("Select * from UTM0001 where Cmpycode='" + UTM.Cmpycode + "' and Branchcode='" + UTM.Branchcode + "' and UTI0001_CODE='" + UTM.UTI0001_CODE + "'");
                     using (TransactionScope scope1 = new TransactionScope())
                     {
                         UTM0001 UTM1 = new UTM0001();
@@ -216,9 +229,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             UTM1.Starting_No = UTM.Starting_No;
                             UTM1.Tablename = UTM.Tablename;
                             UTM1.Total_length = UTM.Total_length;
-                            
-                            
-                            _EzBusinessHelper.ExecuteNonQuery("delete from UTI0002  where Cmpycode='" + UTM.Cmpycode + "' and Branchcode='" + UTM.Branchcode + "' and Tablename='" + UTM.Tablename + "'");
+                            UTM1.Module_Type = UTM.Module_Type;
+
+
+                            _EzBusinessHelper.ExecuteNonQuery("delete from UTI0002  where Cmpycode='" + UTM.Cmpycode + "' and Branchcode='" + UTM.Branchcode + "'  and UTI0001_CODE='"+  UTM.UTI0001_CODE +"'");
 
                             // #region ObjectList
 
@@ -270,10 +284,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             #region UTM0001 Update
                            
                             
-                            StringBuilder sb4 = new StringBuilder();
-                            sb4.Append("Cmpycode='" + UTM.Cmpycode + "',");
-                            sb4.Append("Branchcode='" + UTM.Branchcode + "',");
+                            StringBuilder sb4 = new StringBuilder();                           
                             sb4.Append("Tablename='" + UTM.Tablename + "',");
+                            sb4.Append("Module_Type='" + UTM.Module_Type + "',");                            
                             sb4.Append("UTI0001_CODE='" + UTM.UTI0001_CODE + "',");
                             sb4.Append("PREFIX_CODE='" + UTM.PREFIX_CODE + "',");
                              sb4.Append("Starting_No='" + UTM.Starting_No + "',");
@@ -281,9 +294,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb4.Append("Last_No='" + UTM.Last_No + "',");
                             sb4.Append("Auto_increment='" + UTM.Auto_increment + "'");
 
-
-
-                            _EzBusinessHelper.ExecuteNonQuery("update UTM0001 set  " + sb4 + " where  Cmpycode='" + UTM.Cmpycode + "' and Branchcode='" + UTM.Branchcode + "' and Tablename='" + UTM.Tablename + "'");
+                            _EzBusinessHelper.ExecuteNonQuery("update UTM0001 set  " + sb4 + " where  Cmpycode='" + UTM.Cmpycode + "' and Branchcode='" + UTM.Branchcode + "'  and UTI0001_CODE='"+  UTM.UTI0001_CODE +"'");
                             
                             #endregion
 

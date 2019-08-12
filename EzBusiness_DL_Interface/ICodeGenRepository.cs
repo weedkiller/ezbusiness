@@ -10,7 +10,7 @@ namespace EzBusiness_DL_Interface
     {
         string GetCode(string CmpyCode, string LocCode);
 
-        string GetCodeNew(string Cmpycode, string BranchCode, string tableName, string typ);
+        string GetCodeNew(string Cmpycode, string BranchCode, string tableName,string Module_Type, string typ);
         bool GetSalaryProcess(string CmpyCode, string Empcode,DateTime dtmonthyy);
 
         bool GetSalaryLast(string CmpyCode, string Empcode, DateTime dtmonthyy,string InpAmt);

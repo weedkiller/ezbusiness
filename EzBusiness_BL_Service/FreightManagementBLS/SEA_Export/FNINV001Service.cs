@@ -35,9 +35,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FNINVRepo.DeleteFNINV(CmpyCode, FNINV001_CODE, UserName, BRANCHCODE);
         }
 
-        public List<FNINV001_VM> GetFNINV(string CmpyCode, string Branchcode)
+        public List<FNINV001_VM> GetFNINV(string CmpyCode, string Branchcode,string Module_Type)
         {
-            return _FNINVRepo.GetFNINV(CmpyCode, Branchcode);
+            return _FNINVRepo.GetFNINV(CmpyCode, Branchcode, Module_Type);
         }
 
         public FNINV001_VM GetFNINVDetailsBL(string CmpyCode, string FF_BL001_CODE, string Branchcode)
