@@ -1,4 +1,5 @@
 ﻿using EzBusiness_BL_Service.FreightManagementBLS.SEA_Export;
+
 using EzBusiness_EF_Entity;
 using EzBusiness_ViewModels.Models.FreightManagement.SEA_Export;
 using System;
@@ -7,21 +8,20 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace EzBusiness_Web.Controllers.FFM.SEA_Export
+namespace EzBusiness_Web.Controllers.FFM.SEA_Import
 {
-    public class FF_BLController : Controller
+    public class FFBLIMPController : Controller
     {
-        // GET: FFM_BL
-
+        // GET: FFBLIMP
         FF_BLService _BLService;
-        FF_BOKService _bkservice;
-        public FF_BLController()
+
+        public FFBLIMPController()
         {
             _BLService = new FF_BLService();
         }
 
 
-        [Route("Aprrove_BLL")]
+        [Route("Aprrove_IMPBLL")]
         public ActionResult Aprrove_QTN(string FF_BL001_CODE, string Typ)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -35,7 +35,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
-        [Route("BILL")]
+        [Route("IMPBILL")]
         public ActionResult FF_BL()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -49,7 +49,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
-        [Route("DeleteBL")]
+        [Route("DeleteIMPBL")]
         public ActionResult DeleteFF_BL(string FF_BL001_CODE)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -62,7 +62,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return Json(new { DeleteFlag = _BLService.DeleteFF_BL(FF_BL001_CODE, list[0].CmpyCode, list[0].user_name, list[0].BraCode) }, JsonRequestBehavior.AllowGet);
             }
         }
-        [Route("EditFF_BLDetails")]
+        [Route("EditIMP_BLDetails")]
         public ActionResult FF_BLDetailsEdit(string FF_BL001_CODE)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -72,11 +72,11 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return PartialView(_BLService.GetFF_BLDetailsEdit(list[0].CmpyCode, FF_BL001_CODE,list[0].BraCode));
+                return PartialView(_BLService.GetFF_BLDetailsEdit(list[0].CmpyCode, FF_BL001_CODE, list[0].BraCode));
             }
         }
 
-        [Route("AddFF_BLDetails")]
+        [Route("AddIMP_BLDetails")]
         public ActionResult AddFF_BLDetails()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -89,20 +89,8 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return PartialView(_BLService.GetFF_BL_AddNew(list[0].CmpyCode, list[0].BraCode));
             }
         }
-        [Route("GetCustomerList")]
-        public ActionResult GetCustomerList(string Prefix)
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(_BLService.GetSL(list[0].CmpyCode,Prefix), JsonRequestBehavior.AllowGet);
-            }
-        }
-      
+
+
         public ActionResult GetFF_BLDetailList()
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -113,10 +101,10 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             else
             {
 
-                return PartialView(_BLService.GetFF_BL(list[0].CmpyCode,list[0].BraCode,"EXP"));
+                return PartialView(_BLService.GetFF_BL(list[0].CmpyCode, list[0].BraCode, "IMP"));
             }
         }
-        [Route("SaveFFM_BL")]
+        [Route("SaveIMP_BL")]
         public ActionResult saveFFM_BL(FF_BL_VM FBV)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
@@ -129,59 +117,6 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 FBV.CMPYCODE = list[0].CmpyCode;
                 FBV.UserName = list[0].user_name;
                 return Json(_BLService.SaveFF_BL_VM(FBV), JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public ActionResult GetVESSELCodeList(string VESSEL)
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(_BLService.GetVOYAGEList(list[0].CmpyCode, VESSEL), JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        public ActionResult GetCurRate(string CurCode)
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(_BLService.GetCurRate(list[0].CmpyCode, CurCode), JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [Route("BLFF_BOKDetails")]
-        public ActionResult FF_BOKDetailsBL(string FF_BOK001_CODE1)
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return PartialView(_BLService.GetFF_BLDetailsBk(list[0].CmpyCode, FF_BOK001_CODE1, list[0].BraCode));
-            }
-        }
-
-        public ActionResult GetBillCustomerData(string Custcode)
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(_BLService.GetBOOKCODEbycusto(list[0].CmpyCode, Custcode, System.DateTime.Now, list[0].BraCode), JsonRequestBehavior.AllowGet);
             }
         }
     }

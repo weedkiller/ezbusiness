@@ -10,7 +10,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 {
     public interface IFF_BLService
     {
-        List<FF_BL_VM> GetFF_BL(string CmpyCode,string branchcode);
+        List<FF_BL_VM> GetFF_BL(string CmpyCode,string branchcode, string IEtyp);
         FF_BL_VM GetFF_BLDetailsEdit(string CmpyCode, string FF_BL001_CODE,string branchcode);
 
         FF_BL_VM GetFF_BLDetailsBk(string CmpyCode, string FF_BOK001_CODE,string Branchcode);

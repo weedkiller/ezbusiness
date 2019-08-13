@@ -40,9 +40,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return false;
         }
 
-        public List<FF_BL_VM> GetFF_BL(string CmpyCode,string Branchcode)
+        public List<FF_BL_VM> GetFF_BL(string CmpyCode,string Branchcode, string IEtyp)
         {
-            ds = _EzBusinessHelper.ExecuteDataSet("Select Commodity_code,Branchcode,FORWARDER,SHIPPER,PLACE_OF_RCPT,FF_QTN001_CODE,FF_BL001_DATE,DELIVERY_AT,CARRIER,BILL_TO,DEPARTMENT,FF_BL001_CODE,ETD,ETA,FND,MOVE_TYPE,PICKUP_PLACE,POD,POL,REF_NO,Total_Billed,Total_Cost,Total_Profit,VESSEL,VOYAGE,CONSIGNEE,FF_BOK001_CODE,dg,AGENT,Salesman,notifypart1,notifypart2 from FF_BL001 where Flag=0 and CMPYCODE='" + CmpyCode + "' and Branchcode='"+ Branchcode + "' ");// CMPYCODE='" + CmpyCode + "' and 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select Commodity_code,Branchcode,FORWARDER,SHIPPER,PLACE_OF_RCPT,FF_QTN001_CODE,FF_BL001_DATE,DELIVERY_AT,CARRIER,BILL_TO,DEPARTMENT,FF_BL001_CODE,ETD,ETA,FND,MOVE_TYPE,PICKUP_PLACE,POD,POL,REF_NO,Total_Billed,Total_Cost,Total_Profit,VESSEL,VOYAGE,CONSIGNEE,FF_BOK001_CODE,dg,AGENT,Salesman,notifypart1,notifypart2 from FF_BL001 where Flag=0 and CMPYCODE='" + CmpyCode + "' and Branchcode='"+ Branchcode + "' and TRANS_TYPE='" + IEtyp + "' ");// CMPYCODE='" + CmpyCode + "' and 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             List<FF_BL_VM> ObjList = new List<FF_BL_VM>();
@@ -312,12 +312,19 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             dtstr3 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
             dte = Convert.ToDateTime(FQV.FF_BL001_DATE);
             dtstr4 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
+            int Refno = 0;
+            Refno = _EzBusinessHelper.ExecuteScalar("select count(*) from FF_BL001 where CMPYCODE ='" + FQV.CMPYCODE + "' and Branchcode='" + FQV.FNMBRANCH_CODE + "'  and REF_NO='" + FQV.REF_NO + "'");
 
             if (!FQV.EditFlag)
             {
                 try
-                {
-
+                {                                     
+                    if(Refno>0)
+                    {
+                        FQV.SaveFlag = false;
+                        FQV.ErrorMessage = "Referenc no will not repeat";
+                        return FQV;
+                    }
                     using (TransactionScope scope1 = new TransactionScope())
                     {
                         #region FF_BL002
@@ -626,6 +633,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             }
             else
             {
+                if (Refno > 1)
+                {
+                    FQV.SaveFlag = false;
+                    FQV.ErrorMessage = "Referenc no will not repeat";
+                    return FQV;
+                }
                 try
                 {
                     ds = _EzBusinessHelper.ExecuteDataSet("Select * from FF_BL001 where CmpyCode='" + FQV.CMPYCODE + "' and  Branchcode='" + FQV.FNMBRANCH_CODE + "' and FF_BL001_CODE='" + FQV.FF_BL001_CODE + "'");

@@ -122,6 +122,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 Vend_Net_Amt=m.Vend_Net_Amt,
                 Vend_Rate=m.Vend_Rate,
                 Vend_Total_amt=m.Vend_Total_amt,
+                No_of_qty=m.No_of_qty
                 //VendorList5=GetVendorEdit(CmpyCode,m.Vend_code),
                 //CVendorList5=GetVendorEdit(CmpyCode,m.Cust_code),
                 //VCurList5=GetCurcodeEdit(CmpyCode,m.Vend_Curr_Code),

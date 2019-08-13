@@ -32,9 +32,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_BLRepo.DeleteFF_BL(CmpyCode, FF_BL001_CODE, UserName, Branchcode);
         }
 
-        public List<FF_BL_VM> GetFF_BL(string CmpyCode,string branchcode)
+        public List<FF_BL_VM> GetFF_BL(string CmpyCode,string branchcode, string IEtyp)
         {
-            return _FF_BLRepo.GetFF_BL(CmpyCode, branchcode);
+            return _FF_BLRepo.GetFF_BL(CmpyCode, branchcode, IEtyp);
         }
 
         public List<FF_BL002New> GetFF_BL002DetailList(string CmpyCode, string FF_BL001_CODE,string typ,string Branchcode)
@@ -127,6 +127,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 Vend_Net_Amt = m.Vend_Net_Amt,
                 Vend_Rate = m.Vend_Rate,
                 Vend_Total_amt = m.Vend_Total_amt,
+                No_of_qty=m.No_of_qty,
                 //VendorList5 = GetVendorEdit(CmpyCode, m.Vend_code),
                 //CVendorList5 = GetVendorEdit(CmpyCode, m.Cust_code),
                 //VCurList5 = GetCurcodeEdit(CmpyCode, m.Vend_Curr_Code),

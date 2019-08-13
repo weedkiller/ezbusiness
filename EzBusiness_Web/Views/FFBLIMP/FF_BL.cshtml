@@ -8,11 +8,11 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
-        EzAuthentication("/BILL");
+        EzAuthentication("/IMPBILL");
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
         function GetDrs() {
-            $.get("/FF_BL/GetFF_BLDetailList", function (response) {
+            $.get("/FFBLIMP/GetFF_BLDetailList", function (response) {
                 $("#DRListContainer").html(response);
             });
         }
@@ -37,63 +37,27 @@
         });
 
         $("#btnNew").click(function () {
-            var n = EzAuthenticationBtn("/BILL", "NewIt");
+            var n = EzAuthenticationBtn("/IMPBILL", "NewIt");
             if (n == 1) {
-                //$("#editshow").hide();
-                //$.get("AddFF_BLDetails", function (response) {
-                //    $("#DRContainer").html(response);
-                //});
-                //$(this).css("visibility", "hidden");
-                //EzbtnNewAcVis();
-                //$("#btnEdit").prop("disabled", true);
-                //$("#DRListContainer1").hide();
-                var trf = $("#tranferFrom option:selected").val();
-                var QTN001_CODE = $("#NFF_BOK001_CODE option:selected").val();
-                var BILL_ToEmp = $("#BILL_TOEMP option:selected").val();
-                if (trf == '0') {
-                    EzAlerterrtxt('Select Transfer');
-                } else if (trf == 'QUOT') {
-                    if (BILL_ToEmp == '0') {
-                        EzAlerterrtxt('Select Quotation Code');
-                    }
-                    else {
-                        if (QTN001_CODE == '0') {
-                            EzAlerterrtxt('Select Quotation Code');
-                        } else {
-                            $("#editshow").hide();
-                            $(this).css("visibility", "hidden");
-                            EzbtnNewAcVis();
-                            $("#btnEdit").prop("disabled", true);
-                            $("#btnTrigger").css("visibility", "hidden");
-
-                            $("#DRListContainer1").hide();
-                            $.get("BLFF_BOKDetails", { FF_BOK001_CODE1: QTN001_CODE }).done(function (response) {
-                                $("#DRContainer").html(response);
-                            });
-                        }
-                    }
-                } else {
-                    //$('#myModal').modal('show');
-                    $("#editshow").hide();
-                    $.get("AddFF_BLDetails", function (response) {
-                        $("#DRContainer").html(response);
-                    });
-                    $(this).css("visibility", "hidden");
-                    $("#btnTrigger").css("visibility", "hidden");
-                    EzbtnNewAcVis();
-                    $("#btnEdit").prop("disabled", true);
-                    $("#DRListContainer1").hide();
-                }
+                $("#editshow").hide();
+                $.get("AddIMP_BLDetails", function (response) {
+                    $("#DRContainer").html(response);
+                });
+                $(this).css("visibility", "hidden");
+                $("#btnTrigger").css("visibility", "hidden");
+                EzbtnNewAcVis();
+                $("#btnEdit").prop("disabled", true);
+                $("#DRListContainer1").hide();
             }
         });
         $(".alert-close").click(function () {
             $("#editshow").hide();
         });
         $("#btnEdit").click(function () {
-            var n = EzAuthenticationBtn("/BILL", "ViewIt");
+            var n = EzAuthenticationBtn("/IMPBILL", "ViewIt");
             if (n == 1) {
                 $(this).css("visibility", "hidden");
-               
+
                 EzbtnEditAcVis();
                 $("#DRListContainer1").show();
                 GetDrs();
@@ -107,11 +71,11 @@
             //EzbtnCancelAcVis();
             //$("#DRListContainer1").hide();
             //$("#editshow").hide();
-            window.location = '/BILL';
+            window.location = '/IMPBILL';
         });
 
         $("#btnDelete").click(function () {
-            var n = EzAuthenticationBtn("/BILL", "DeleteIt");
+            var n = EzAuthenticationBtn("/IMPBILL", "DeleteIt");
             if (n == 1) {
                 const swalWithBootstrapButtons = Swal.mixin({
                     confirmButtonClass: 'btn btn-success',
@@ -131,10 +95,10 @@
 
                         var FF_BL001_CODE = $("[name*='FF_BL001_CODE']").val();
 
-                        $.getJSON("/DeleteBL", { FF_BL001_CODE: FF_BL001_CODE }).done(function (data) {
+                        $.getJSON("/DeleteIMPBL", { FF_BL001_CODE: FF_BL001_CODE }).done(function (data) {
                             debugger
                             if (data.DeleteFlag) {
-                                window.location = '/BILL'
+                                window.location = '/IMPBILL'
                             } else {
                                 EzAlertdele(FF_BL001_CODE);
                             }
@@ -161,7 +125,7 @@
         });
         $("#btnSave").click(function () {
             debugger
-            var n = EzAuthenticationBtn("/BILL", "EditIt");
+            var n = EzAuthenticationBtn("/IMPBILL", "EditIt");
             var k = 0;
             $("#editshow").hide();
             var opMode = $("#hdnOperationMode").val();
@@ -204,7 +168,7 @@
                     notifypart1: $("[name*='hdnnotifypart1']").val(),
                     notifypart2: $("[name*='hdnnotifypart2']").val(),
                     JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
-                    TRANS_TYPE: 'EXP',
+                    TRANS_TYPE: 'IMP',
                     FF_BL002Detail: [],
                     FF_BL003Detail: [],
                     FF_BL004Detail: [],
@@ -364,9 +328,9 @@
                 var validationResult = ValidateForm(FBV);
                 if (validationResult.formValid) {
 
-                    $.post("/SaveFFM_BL", FBV).done(function (response) {
+                    $.post("/SaveIMP_BL", FBV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                           
+
                             EzAlertSave();
                             $("#DRContainer").html(drHtml);
                             GetDrs();
@@ -419,7 +383,7 @@
                     notifypart1: $("[name*='hdnnotifypart1']").val(),
                     notifypart2: $("[name*='hdnnotifypart2']").val(),
                     JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
-                    TRANS_TYPE: 'EXP',
+                    TRANS_TYPE: 'IMP',
                     FF_BL002Detail: [],
                     FF_BL003Detail: [],
                     FF_BL004Detail: [],
@@ -574,7 +538,7 @@
 
                 var validationResult = ValidateForm(FBV);
                 if (validationResult.formValid) {
-                    $.post("/SaveFFM_BL", FBV).done(function (response) {
+                    $.post("/SaveIMP_BL", FBV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
                             EzAlertSave();
                             EzbtnsaveAcVis("#DRContainer");
@@ -639,10 +603,9 @@
                 response.ErrorMessage += "Expected Time of arraivel  ,";
             }
 
-            var trf = $("#tranferFrom option:selected").val();
+           
 
-            if (trf != 'QUOT')
-            {
+           
 
                 if (FBV.FF_BL005Detail.length == 0) {
                     response.ErrorMessage += "Container Details  ,";
@@ -651,7 +614,7 @@
                 if (FBV.FF_BL002Detail.length == 0) {
                     response.ErrorMessage += "Charge Detail  ,";
                 }
-            }
+         
 
 
             if (response.ErrorMessage.length == 0) {
@@ -683,7 +646,7 @@
                 var FF_BL001_CODE = $(this).find("[name*='hdnFF_BL001_CODE']").val();
 
 
-                $.get("EditFF_BLDetails", { FF_BL001_CODE: FF_BL001_CODE }).done(function (response) {
+                $.get("EditIMP_BLDetails", { FF_BL001_CODE: FF_BL001_CODE }).done(function (response) {
                     $("#DRContainer").html(response);
 
                     //$("#btnDelete").prop("disabled", false);
@@ -706,43 +669,10 @@
             }
         });
 
-        $('#tranferFrom').change(function () {
-            $('#tranferFrom').selectpicker('refresh');
-            var trf = $("#tranferFrom option:selected").val();
-            if (trf == 'DIRECT') {
-                $('#divcustom').hide();
-                $('#divqtn').hide();
-                $('#FF_BOK001_CODE').val('0').change();
-            } else {
-                $('#divcustom').show();
-            }
-        });
-        $('#BILL_TOEMP').change(function () {
-            debugger;
-            $('#BILL_TOEMP').selectpicker('refresh');
-            var customercode = $("#BILL_TOEMP option:selected").val();
-            $('#divqtn').show();
-            $.ajax({
-                async: false,
-                cache: false,
-                type: "POST",
-                data: "{Custcode:'" + customercode + "'}",
-                url: "/FF_BL/GetBillCustomerData",
-                dataType: 'Json',
-                contentType:"Application/json",
-                success: function (data) {
-                    $('#NFF_BOK001_CODE').empty();
-                       var ary = [];
-                       ary = data;
-                        for (var i = 0; i < ary.length; i++) {
-                        $('#NFF_BOK001_CODE').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-                        }
-                        $('#NFF_BOK001_CODE').val(0);
-                        $('.selectpicker').selectpicker('refresh');
-               }
-          });
+      
+        
           // }
-        });
+      
     });
 </script>
 
@@ -787,11 +717,8 @@
 
         <div class="title-action">
 
-            <button type="button" class="btn btn-primary btn-lg" id="btnTrigger" data-toggle="modal" data-target="#myModal">
-                New
-            </button>
 
-            @*<button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>*@
+            <button class="btn btn-primary btn1 newbtn" id="btnNew"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;New</button>
 
             <button type="submit" class="btn btn-primary btn1" id="btnSave" style="visibility: hidden"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Save</button>
 
@@ -812,57 +739,7 @@
 <!-- Row start -->
 <div class="row">
     <!--updated code-->
-    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Tranfer From</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        @{
-                            var TypeListdata1 = new SelectList(new[]
-                            {
-            new SelectListItem { Text = "-Select-", Value = "-1" },
-            }, "Value", "Text");
-                        }
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label col-xs-3 col-md-3">Tranfer From</label>
-                                <div class="col-xs-7 col-md-8 input-field">
-                                    @Html.DropDownListFor(m => m.tranferFrom, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" }, new SelectListItem { Text = "DIRECT", Value = "DIRECT" }, new SelectListItem { Text = "BOOKING", Value = "QUOT" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6" id="divcustom" style="display:none;">
-                            <div class="form-group">
-                                <label class="control-label col-xs-3 col-md-3">Customer List</label>
-                                <div class="col-xs-7 col-md-8 input-field">
-                                    @*@Html.TextBoxFor(m => m.BILL_TOEMP, new { @class = "form-control", @placeholder = "Select VESSEL" })
-                                    <input id="hdnBILL_TOEMP" type="hidden" class="form-control" name="hdnBILL_TOEMP" value="-1" />*@ 
-                                    @Html.DropDownListFor(m => m.BILL_TOEMP, Model.GetCustomerList, new { @class = "form-control selectpicker", @data_live_search = "true" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6" id="divqtn" style="display:none;">
-                            <div class="form-group">
-                                <label class="control-label col-xs-3 col-md-3">Booking<i class="star">*</i></label>
-                                <div class="col-xs-7 col-md-8 input-field">
-                                    @Html.DropDownListFor(m => m.NFF_BOK001_CODE, TypeListdata1, new { @class = "form-control selectpicker", @data_live_search = "true" })
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-
-                        <button class="btn btn-primary btn1 newbtn" id="btnNew" data-dismiss="modal"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;Next</button>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
 
 
@@ -884,7 +761,7 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @Html.Action("GetFF_BLDetailList", "FF_BL")
+                                                @Html.Action("GetFF_BLDetailList", "FFBLIMP")
                                             </div>
 
                                         </div>
@@ -908,3 +785,4 @@
 
 
 </div>
+

@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Quotation";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
 
@@ -73,6 +73,7 @@
 
        var index5 = 1;
        $("#tablePODetails5 tbody tr").each(function (index5, item) {
+           $("[name*='txtCHDNo_of_qty" + (index5 + 1) + "']").val($("[name*='hdnCHDNo_of_qty" + (index5 + 1) + "']").val());
            $("[name*='txtsno" + (index5 + 1) + "']").val($("[name*='hdnsno" + (index5 + 1) + "']").val());
            $("[name*='txtCrg_code" + (index5 + 1) + "']").val($("[name*='hdnCrg_code" + (index5 + 1) + "']").val());
            $("[name*='txt1Crg_code" + (index5 + 1) + "']").val($("[name*='hdnCrg_code" + (index5 + 1) + "']").val());
@@ -139,7 +140,7 @@
 
            $("[name*='txtsno" + (index3 + 1) + "']").val($("[name*='hdnsno" + (index3 + 1) + "']").val());
            $("[name*='txtPkg_No" + (index3 + 1) + "']").val($("[name*='hdnPkg_No" + (index3 + 1) + "']").val());
-           $("[name*='txtNo_of_qty" + (index3 + 1) + "']").val($("[name*='hdnNo_of_qty" + (index3 + 1) + "']").val());
+           $("[name*='txtCODNo_of_qty" + (index3 + 1) + "']").val($("[name*='hdnCODNo_of_qty" + (index3 + 1) + "']").val());
             $("[name*='txtunit_type" + (index3 + 1) + "']").val($("[name*='hdnunit_type"  + (index3 + 1) + "']").val());
         $("[name*='txtHeight" + (index3 + 1) + "']").val($("[name*='hdnHeight" + (index3 + 1) + "']").val());
         $("[name*='txtWidth" + (index3 + 1) + "']").val($("[name*='hdnWidth"+ (index3 + 1) + "']").val());
@@ -164,7 +165,7 @@
            $("[name*='txt1Cont_Type" + (index2 + 1) + "']").val($("[name*='hdnCont_Type" + (index2 + 1) + "']").val());
            $("[name*='txt1Commodity_code" + (index2 + 1) + "']").val($("[name*='hdnCommodity_code" + (index2 + 1) + "']").val());
            $("[name*='txtSeal1" + (index2 + 1) + "']").val($("[name*='hdnSeal1" + (index2 + 1) + "']").val());
-           $("[name*='txtNo_of_qty" + (index2 + 1) + "']").val($("[name*='hdnNo_of_qty" + (index2 + 1) + "']").val());
+           $("[name*='txtCODNo_of_qty" + (index2 + 1) + "']").val($("[name*='hdnCODNo_of_qty" + (index2 + 1) + "']").val());
            $("[name*='txtContents" + (index2 + 1) + "']").val($("[name*='hdnContents" + (index2 + 1) + "']").val());
            $("[name*='txtLBS" + (index2 + 1) + "']").val($("[name*='hdnLBS" + (index2 + 1) + "']").val());
            $("[name*='txtKG" + (index2 + 1) + "']").val($("[name*='hdnKG" + (index2 + 1) + "']").val());
@@ -218,8 +219,8 @@
                success: function (data) {
                    debugger;
                    if (data.length > 0) {
-                       $("#CARRIER").val(data[0].Text);
-                       $("#hdnCARRIER").val(data[0].Value);
+                       $("#CARRIER").val(data[0].Value);
+                       $("#hdnCARRIER").val(data[0].Text);
                    } else {
                        $("#CARRIER").val('');
                        $("#hdnCARRIER").val(-1);
@@ -227,9 +228,70 @@
                }
            });
        }
+       if ($("#notifypart2").val() != '') {
+           $.ajax({
+               async: false,
+               cache: false,
+               url: "/FF_BOK/GetSLNew",
+               type: "POST",
+               dataType: "json",
+               data: { Prefix: $("#notifypart2").val(), PVal1: 'NTY' },
+               success: function (data) {
+                   debugger;
+                   if (data.length > 0) {
+                       $("#notifypart2").val(data[0].Value);
+                       $("#hdnnotifypart2").val(data[0].Text);
+                   } else {
+                       $("#notifypart2").val('');
+                       $("#hdnnotifypart2").val(-1);
+                   }
+               }
+           });
+       }
+       if ($("#notifypart1").val() != '') {
+           $.ajax({
+               async: false,
+               cache: false,
+               url: "/FF_BOK/GetSLNew",
+               type: "POST",
+               dataType: "json",
+               data: { Prefix: $("#notifypart1").val(), PVal1: 'NTY' },
+               success: function (data) {
+                   debugger;
+                   if (data.length > 0) {
+                       $("#notifypart1").val(data[0].Value);
+                       $("#hdnnotifypart1").val(data[0].Text);
+                   } else {
+                       $("#notifypart1").val('');
+                       $("#hdnnotifypart1").val(-1);
+                   }
+               }
+           });
+       }
+
+       if ($("#AGENT").val() != '') {
+           $.ajax({
+               async: false,
+               cache: false,
+               url: "/FF_BOK/GetSLNew",
+               type: "POST",
+               dataType: "json",
+               data: { Prefix: $("#AGENT").val(), PVal1: 'AGT' },
+               success: function (data) {
+                   debugger;
+                   if (data.length > 0) {
+                       $("#AGENT").val(data[0].Value);
+                       $("#hdnAGENT1").val(data[0].Text);
+                   } else {
+                       $("#AGENT").val('');
+                       $("#hdnAGENT1").val(-1);
+                   }
+               }
+           });
+       }
 
      //  EzAutoCompTxtE('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList", false, "");
-       EzAutoCompTxtE('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust", true, "#hdnCustName");
+       EzAutoCompTxtE('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust", false, "");
        EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
        EzAutoCompTxtE("#FND", "#hdnFND", "/FFM_Quotation/GetPortList", false, "");
        EzAutoCompTxtE("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
@@ -296,7 +358,7 @@
                txtarry1 = [];
 
                txtarry1.push('txtCont_Type', 'txtCommodity_code');
-               txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
+               txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtCODNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
                txtarry1.push('txt1Cont_Type', 'txt1Commodity_code');
                EzTbltxtdrpidchanged(txtarry1, counter2, "txt", tr1);
                counter2++;
@@ -442,15 +504,16 @@
 
 
 
-        $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
+        $("#tablePODetails5").on("change", "[name*='txtCHDNo_of_qty']", function () {
             var tr = $(this).closest('tr');
             var rate = parseFloat(tr.find("[name*='txtCust_Rate']").val());
-            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            var qty = parseFloat(tr.find("[name*='txtCHDNo_of_qty']").val());
             var Vrate = parseFloat(tr.find("[name*='txtVend_Rate']").val());
             qty = isNaN(qty) ? 0 : qty;
             rate = isNaN(rate) ? 0 : rate;
             Vrate = isNaN(Vrate) ? 0 : Vrate;
             tr.find("[name*='txtCust_Total_amt']").val(productmul(qty, rate));
+            tr.find("[name*='txtCust_Net_Amt']").val(tr.find("[name*='txtCust_Total_amt']").val());
             tr.find("[name*='txtVend_Total_amt']").val(productmul(qty, Vrate));
             tr.find("[name*='txtVend_Net_Amt']").val(tr.find("[name*='txtVend_Total_amt']").val());
             sumOfColumns();
@@ -459,7 +522,7 @@
         $("#tablePODetails5").on("change", "[name*='txtCust_Rate']", function () {
             var tr = $(this).closest('tr');
             var rate = parseFloat(tr.find("[name*='txtCust_Rate']").val());
-            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            var qty = parseFloat(tr.find("[name*='txtCHDNo_of_qty']").val());
             qty = isNaN(qty) ? 0 : qty;
             rate = isNaN(rate) ? 0 : rate;
             tr.find("[name*='txtCust_Total_amt']").val(productmul(qty, rate));
@@ -474,7 +537,7 @@
         $("#tablePODetails5").on("change", "[name*='txtVend_Rate']", function () {
             var tr = $(this).closest('tr');
             var Vrate = parseFloat(tr.find("[name*='txtVend_Rate']").val());
-            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            var qty = parseFloat(tr.find("[name*='txtCHDNo_of_qty']").val());
             qty = isNaN(qty) ? 0 : qty;
             Vrate = isNaN(Vrate) ? 0 : Vrate;
             tr.find("[name*='txtVend_Total_amt']").val(productmul(qty, Vrate));
@@ -739,10 +802,10 @@
                                .appendTo("#tablePODetails3 tbody tr:nth-last-child(2)");
                     trLast.find("[name*='txtsno']").val(counter3);
                     trLast.find("[name*='txtPkg_No']").val('');
-                    trLast.find("[name*='txtNo_of_qty']").val('');
+                    trLast.find("[name*='txtDNo_of_qty']").val('');
 
                     var txtarry1 = [];
-                    txtarry1.push('txtNo_of_qty', 'txtunit_type', 'txtHeight', 'txtWidth', 'txtAct_LBS', 'txtinside_Unit');
+                    txtarry1.push('txtDNo_of_qty', 'txtunit_type', 'txtHeight', 'txtWidth', 'txtAct_LBS', 'txtinside_Unit');
                     txtarry1.push('txtVolume', 'txtDime_weight');
 
                     // EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
@@ -802,7 +865,7 @@
                     txtarry1 = [];
 
                     txtarry1.push('txtCont_Type', 'txtCommodity_code');
-                    txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
+                    txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtCODNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
                     txtarry1.push('txt1Cont_Type', 'txt1Commodity_code');
 
                     // EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
@@ -830,26 +893,26 @@
 
         );
 
-        var JobCode = $("#hdnCustName").val(); //$("[name*='CUST_CODE'] option:selected").text();
-        if (JobCode != '') {
-            var array = JobCode.split("-");
-            if (array.length > 1) {
-                $('#CustName').val(array[1].trim());
-            }
-        }
-        $('#CUST_CODE').on('focusout', function () {
-            //.preventdefault();
-            debugger;
-            var JobCode = $("#hdnCustName").val(); //$("[name*='CUST_CODE'] option:selected").text();
-            if (JobCode != '') {
-                var array = JobCode.split("-");
-                if (array.length > 1) {
-                    $('#CustName').val(array[1].trim());
-                }
-            }
+        //var JobCode = $("#hdnCustName").val(); //$("[name*='CUST_CODE'] option:selected").text();
+        //if (JobCode != '') {
+        //    var array = JobCode.split("-");
+        //    if (array.length > 1) {
+        //        $('#CustName').val(array[1].trim());
+        //    }
+        //}
+        //$('#CUST_CODE').on('focusout', function () {
+        //    //.preventdefault();
+        //    debugger;
+        //    var JobCode = $("#hdnCustName").val(); //$("[name*='CUST_CODE'] option:selected").text();
+        //    if (JobCode != '') {
+        //        var array = JobCode.split("-");
+        //        if (array.length > 1) {
+        //            $('#CustName').val(array[1].trim());
+        //        }
+        //    }
 
 
-        });
+        //});
 
 
 
@@ -983,15 +1046,15 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Customer<i class="star">*</i></label>
-                                                    <div class="col-md-4 input-field">
+                                                    <div class="col-md-8 input-field">
                                                         @*@Html.DropDownListFor(m => m.CUST_CODE, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
                                                         @Html.TextBoxFor(m => m.CUST_CODE, new { @class = "form-control", @placeholder = "Select Customer" })
                                                         <input id="hdnCUST_CODE" type="hidden" class="form-control" name="hdnCUST_CODE" value="-1" />
                                                     </div>
-                                                    <div class="col-md-4 input-field">
+                                                    @*<div class="col-md-4 input-field">
                                                         <input id="hdnCustName" type="hidden" class="form-control" name="hdnCustName" value="-1" />
                                                         <input type="text" class="form-control" name="CustName" id="CustName" readonly />
-                                                    </div>
+                                                    </div>*@
                                                 </div>
                                             </div>
                                         </div>
@@ -1418,8 +1481,8 @@
                                                                             </td>
                                                                             <td>
 
-                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter2), null, new { @class = "grid-control", @Type = "Number" })
-                                                                                @Html.Hidden(string.Concat("hdnNo_of_qty", counter2), item.No_of_qty)
+                                                                                @Html.TextBox(string.Concat("txtCODNo_of_qty", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnCODNo_of_qty", counter2), item.No_of_qty)
 
                                                                             </td>
                                                                             <td>
@@ -1503,7 +1566,7 @@
                                                                         </td>
                                                                         <td>
 
-                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                            @Html.TextBox(string.Concat("txtCODNo_of_qty", counter2), null, new { @class = "grid-control", @Type = "Number" })
 
                                                                         </td>
                                                                         <td>
@@ -1580,8 +1643,8 @@
                                                                             </td>
                                                                             <td>
 
-                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
-                                                                                @Html.Hidden(string.Concat("hdnNo_of_qty", counter3), item.No_of_qty)
+                                                                                @Html.TextBox(string.Concat("txtDNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnDNo_of_qty", counter3), item.No_of_qty)
 
                                                                             </td>
                                                                             <td>
@@ -1652,7 +1715,7 @@
                                                                         </td>
                                                                         <td>
 
-                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                            @Html.TextBox(string.Concat("txtDNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
 
                                                                         </td>
                                                                         <td>
@@ -1853,8 +1916,8 @@
                                                                             </td>
                                                                             <td>
 
-                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
-                                                                                @Html.Hidden(string.Concat("hdnNo_of_qty", counter5), item.No_of_qty)
+                                                                                @Html.TextBox(string.Concat("txtCHDNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.Hidden(string.Concat("hdnCHDNo_of_qty", counter5), item.No_of_qty)
 
                                                                             </td>
 
@@ -2028,7 +2091,7 @@
                                                                         </td>
                                                                         <td>
 
-                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                            @Html.TextBox(string.Concat("txtCHDNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
 
                                                                         </td>
                                                                         <td>
