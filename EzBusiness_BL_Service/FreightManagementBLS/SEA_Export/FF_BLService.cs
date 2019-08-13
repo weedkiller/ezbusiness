@@ -251,9 +251,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return InsertFirstElementDDL(VOYAGEList);
         }
 
-        public List<SelectListItem> GetSL(string CmpyCode, string typ1)
+        public List<SelectListItem> GetSL(string CmpyCode, string Branchcode)
         {
-            var SLList = _FF_BLRepo.GetSL(CmpyCode, typ1)
+            var SLList = _FF_BLRepo.GetSL(CmpyCode, Branchcode)
                                                   .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                   .ToList();
             return InsertFirstElementDDL(SLList);
@@ -309,13 +309,13 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 EditFlag = false
             };
         }
-        public List<SelectListItem> GetSL(string CmpyCode, string typ1, string Prefix)
-        {
-            var SLList = _BlRepo.GetSL(CmpyCode, typ1, Prefix)//.Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
-                                                  .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
-                                                  .ToList();
-            return SLList;
-        }
+        //public List<SelectListItem> GetSL(string CmpyCode, string typ1, string Prefix)
+        //{
+        //    var SLList = _BlRepo.GetSL(CmpyCode, typ1, Prefix)//.Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+        //                                          .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
+        //                                          .ToList();
+        //    return SLList;
+        //}
         public List<SelectListItem> GetPortList(string CmpyCode)
         {
             var PortList = _FF_BLRepo.GetPortList(CmpyCode)

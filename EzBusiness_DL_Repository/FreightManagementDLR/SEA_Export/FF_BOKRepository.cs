@@ -10,6 +10,7 @@ using EzBusiness_ViewModels.Models.FreightManagement.SEA_Export;
 using System.Data;
 using EzBusiness_EF_Entity.FreightManagementEF.SEA_Export;
 using System.Transactions;
+using System.Data.SqlClient;
 
 namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
 {
@@ -296,7 +297,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             FF_BOK_VM ObjList = new FF_BOK_VM();
             foreach (DataRow dr in drc)
             {
-
+                ObjList.BILL_TO= dr["CUST_CODE"].ToString();
                 ObjList.CARRIER = dr["CARRIER"].ToString();
               
                 ObjList.DEPARTMENT = dr["DEPARTMENT"].ToString();
@@ -1013,9 +1014,30 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
         //select a.FNM_SL1001_CODE,a.Name  from FNM_SL1001 a inner join FNM_SL1002 b
         //on a.CMPYCODE=b.CMPYCODE and a.FNM_SL1001_CODE= b.FNM_SL1001_CODE where
         //b.FNM_SL1002_CODE= 'AGT'
-        public List<ComDropTbl> GetSL(string CmpyCode,string typ1, string Prefix)
+        public List<ComDropTbl> GetSL(string CmpyCode,string Branchcode)
         {
-            return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "CMPYCODE='" + CmpyCode + "' and  SUBLEDGER_TYPE='" + typ1 + "' and SUBLEDGER_TYPE !='' and Flag=0 and (FNM_SL1001_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
+            // return drop.GetCommonDrop("FNM_SL1001_CODE as [Code],Name as [CodeName]", "FNM_SL1001", "CMPYCODE='" + CmpyCode + "' and  SUBLEDGER_TYPE='" + typ1 + "' and SUBLEDGER_TYPE !='' and Flag=0 and (FNM_SL1001_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
+
+
+            SqlParameter[] param = { new SqlParameter("@CMPYCODE", CmpyCode),
+                                    new SqlParameter("@Branchcode", Branchcode),
+                                     new SqlParameter("@date1", System.DateTime.Now),
+                                     
+                                    };
+            ds = _EzBusinessHelper.ExecuteDataSet("Sp_FillCustBook", CommandType.StoredProcedure, param);
+            dt = ds.Tables[0];                      
+            DataRowCollection drc = dt.Rows;
+            List<ComDropTbl> ObjList = new List<ComDropTbl>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new ComDropTbl()
+                {
+                    Code = dr["Code"].ToString(),
+                    CodeName = dr["CodeName"].ToString(),
+                   
+                });
+            }
+            return ObjList;
         }
 
         public List<ComDropTbl> GetSLNew(string CmpyCode, string typ1, string Prefix)
@@ -1133,7 +1155,10 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
         {
             string dtstr = vdate.ToString("yyyy-MM-dd");
             //return drop.GetCommonDrop("FF_QTN001_CODE as [Code],CUST_CODE as [CodeName]", "FF_QTN001", "CMPYCODE='" + CmpyCode + "' and CUST_CODE='"+Empcode+ "' and convert(varchar(25),EFFECT_UPTO,23)>='" + dtstr + "'");
-            return drop.GetCommonDrop2("select a.FF_QTN001_CODE as [Code],a.CUST_CODE as [CodeName] from FF_QTN001 a left outer join FF_BOK001 b on a.CMPYCODE=b.CMPYCODE and a.Branchcode=b.Branchcode and a.FF_QTN001_CODE != b.FF_QTN001_CODE  and b.FF_QTN001_CODE!='0' where a.CMPYCODE='" + CmpyCode + "' and a.CUST_CODE='" + Empcode + "' and convert(varchar(25),a.EFFECT_UPTO,23)>='" + dtstr + "' and a.Branchcode='" + BranchCode + "'");
+
+            string qur = "select a.FF_QTN001_CODE as [Code],a.CUST_CODE as [CodeName] from FF_QTN001 a where a.CMPYCODE='" + CmpyCode + "' and a.CUST_CODE='" + Empcode + "' and a.Branchcode='"+ BranchCode + "' and convert(varchar(25),a.EFFECT_UPTO,23)>='" + dtstr + "' and a.Flag=0 and a.FF_QTN001_CODE not in(select FF_QTN001_CODE from FF_BOK001 where  CMPYCODE=a.CMPYCODE and Branchcode=a.Branchcode and Flag=a.flag)";
+            return drop.GetCommonDrop2(qur);
+           // return drop.GetCommonDrop2("select a.FF_QTN001_CODE as [Code],a.CUST_CODE as [CodeName] from FF_QTN001 a left outer join FF_BOK001 b on a.CMPYCODE=b.CMPYCODE and a.Branchcode=b.Branchcode and a.FF_QTN001_CODE != b.FF_QTN001_CODE  and b.FF_QTN001_CODE!='0' where a.CMPYCODE='" + CmpyCode + "' and a.CUST_CODE='" + Empcode + "' and convert(varchar(25),a.EFFECT_UPTO,23)>='" + dtstr + "' and a.Branchcode='" + BranchCode + "'");
 
             //return drop.GetCommonDrop("select A.FNM_SL1001_CODE as [Code],A.Name as [CodeName]", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='ARP' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0");
         }

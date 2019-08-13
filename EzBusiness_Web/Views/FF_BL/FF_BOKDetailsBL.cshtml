@@ -39,6 +39,13 @@
     $(function () {
         arr1 = [];
 
+        if ($("#DG").val() == "IMO") {
+            $("#DG").val('Yes');
+            $("#hdnDG").val('IMO');
+        } else {
+            $("#DG").val('No');
+            $("#hdnDG").val('Pack');
+        }
         //EzTableRowDel("#tablePODetails", "[name*='btnDelete']");
         EzdtePkEdit('#ETA1', "#ETA", 'DD/MM/YYYY');
         EzdtePkEdit('#ETD1', "#ETD", 'DD/MM/YYYY');
@@ -775,11 +782,7 @@
         EzAutoCompTxt1("#PICKUP_PLACE", "#hdnPICKUP_PLACE", "/FFM_Quotation/GetPortList");
         EzAutoCompTxt1("#PLACE_OF_RCPT", "#hdnPLACE_OF_RCPT", "/FFM_Quotation/GetPortList");
         EzAutoCompTxt1("#JOB_TYPE", "#hdnJOB_TYPE", "/FF_BOK/GETJobTypList");
-        // EzAutoCompTxt1('#SHIPPER', '#hdnSHIPPER', "/FF_BOK/GetSLList2");
-        //EzAutoCompTxt1('#CONSIGNEE', '#hdnCONSIGNEE', "/FF_BOK/GetSLList2");
-        //EzAutoCompTxt1('#FORWARDER', '#hdnFORWARDER', "/FF_BOK/GetSLList2");
-        //EzAutoCompTxt1('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList");
-
+     
         EzAutoCompTxt1('#Salesman', '#hdnSalesman', "/FF_BOK/GetSalesman");
         $.ajax({
             async: false,
@@ -790,8 +793,8 @@
             data: { Prefix: $("#VOYAGE").val(), VESSEL: $("#hdnVESSEL").val() },
             success: function (data) {
                 if (data.length > 0) {
-                    $("#VOYAGE").val(data[0].Text);
-                    $("#hdnVOYAGE").val(data[0].Value);
+                    $("#VOYAGE").val(data[0].Value);
+                    $("#hdnVOYAGE").val(data[0].Text);
                 } else {
                     $("#VOYAGE").val('');
                     $("#hdnVOYAGE").val(-1);
@@ -954,10 +957,7 @@
         EzAutoCompTxtE("#PICKUP_PLACE", "#hdnPICKUP_PLACE", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#PLACE_OF_RCPT", "#hdnPLACE_OF_RCPT", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#JOB_TYPE", "#hdnJOB_TYPE", "/FF_BOK/GETJobTypList", false, "");
-        //EzAutoCompTxtE('#SHIPPER', '#hdnSHIPPER', "/FF_BOK/GetSLList2", false, "");
-        // EzAutoCompTxtE('#CONSIGNEE', '#hdnCONSIGNEE', "/FF_BOK/GetSLList2", false, "");
-        // EzAutoCompTxtE('#FORWARDER', '#hdnFORWARDER', "/FF_BOK/GetSLList2", false, "");
-
+       
 
         EzAutoCompTxtEParV1('#SHIPPER', '#hdnSHIPPER', "/FF_BOK/GetSLNew", false, "", "SHP");
         EzAutoCompTxtEParV1('#CONSIGNEE', '#hdnCONSIGNEE', "/FF_BOK/GetSLNew", false, "", "CNG");
@@ -984,8 +984,8 @@
             data: { Prefix: $("#VOYAGE").val(), VESSEL: $("#hdnVESSEL").val() },
             success: function (data) {
                 if (data.length > 0) {
-                    $("#VOYAGE").val(data[0].Text);
-                    $("#hdnVOYAGE").val(data[0].Value);
+                    $("#VOYAGE").val(data[0].Value);
+                    $("#hdnVOYAGE").val(data[0].Text);
                 } else {
                     $("#VOYAGE").val('');
                     $("#hdnVOYAGE").val(-1);
@@ -1215,9 +1215,11 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3 col-md-3">Ref No.</label>
+                                                <label class="control-label col-xs-3 col-md-3">Voy<i class="star">*</i></label>
                                                 <div class="col-xs-7 col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.REF_NO, new { @class = "form-control" })
+                                                    @*@Html.DropDownListFor(m => m.VOYAGE, TypeListdata1, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                                    @Html.TextBoxFor(m => m.VOYAGE, new { @class = "form-control", @placeholder = "Select VOYAGE" })
+                                                    <input id="hdnVOYAGE" type="hidden" class="form-control" name="hdnVOYAGE" value="-1" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1234,16 +1236,16 @@
                                     </div>
 
                                     <div class="row">
+
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-xs-3 col-md-3">Voy<i class="star">*</i></label>
+                                                <label class="control-label col-xs-3 col-md-3">Ref No.</label>
                                                 <div class="col-xs-7 col-md-8 input-field">
-                                                    @*@Html.DropDownListFor(m => m.VOYAGE, TypeListdata1, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
-                                                    @Html.TextBoxFor(m => m.VOYAGE, new { @class = "form-control", @placeholder = "Select VOYAGE" })
-                                                    <input id="hdnVOYAGE" type="hidden" class="form-control" name="hdnVOYAGE" value="-1" />
+                                                    @Html.TextBoxFor(m => m.REF_NO, new { @class = "form-control" })
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3 col-md-3">Carrier</label>

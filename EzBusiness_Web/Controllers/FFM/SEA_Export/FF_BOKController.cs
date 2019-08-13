@@ -186,31 +186,31 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return Json(_BOKService.GetQTNCODEbycusto(list[0].CmpyCode, Custcode, System.DateTime.Now, list[0].BraCode), JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult GetSLList1(string Prefix)
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(_BOKService.GetSL(list[0].CmpyCode,"FM", Prefix), JsonRequestBehavior.AllowGet);
-            }
-        }
+        //public ActionResult GetSLList1(string Prefix)
+        //{
+        //    List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+        //    if (list == null)
+        //    {
+        //        return Redirect("Login/InLogin");
+        //    }
+        //    else
+        //    {
+        //        return Json(_BOKService.GetSL(list[0].CmpyCode,"FM", Prefix), JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
-        public ActionResult GetSLList2(string Prefix)
-        {
-            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            if (list == null)
-            {
-                return Redirect("Login/InLogin");
-            }
-            else
-            {
-                return Json(_BOKService.GetSL(list[0].CmpyCode, "OP", Prefix), JsonRequestBehavior.AllowGet);
-            }
-        }
+        //public ActionResult GetSLList2(string Prefix)
+        //{
+        //    List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+        //    if (list == null)
+        //    {
+        //        return Redirect("Login/InLogin");
+        //    }
+        //    else
+        //    {
+        //        return Json(_BOKService.GetSL(list[0].CmpyCode, "OP", Prefix), JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         public ActionResult GetQTNCODE()
         {

@@ -713,7 +713,13 @@
 
         //});
 
-
+        if ($("#DG").val() == "IMO") {
+            $("#DG").val('Yes');
+            $("#hdnDG").val('IMO');
+        } else {
+            $("#DG").val('No');
+            $("#hdnDG").val('Pack');
+        }
         EzAutoCompTxt1('#BILL_TO', '#hdnBILL_TO', "/FFM_Quotation/GetCust");
        // EzAutoCompTxt1('#SHIPPER', '#hdnSHIPPER', "/FF_BOK/GetSLNew");
         EzAutoCompTxt1("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList");
@@ -727,11 +733,7 @@
         EzAutoCompTxt1("#PICKUP_PLACE", "#hdnPICKUP_PLACE", "/FFM_Quotation/GetPortList");
         EzAutoCompTxt1("#PLACE_OF_RCPT", "#hdnPLACE_OF_RCPT", "/FFM_Quotation/GetPortList");
         EzAutoCompTxt1("#JOB_TYPE", "#hdnJOB_TYPE", "/FF_BOK/GETJobTypList");
-        // EzAutoCompTxt1('#SHIPPER', '#hdnSHIPPER', "/FF_BOK/GetSLList2");
-        //EzAutoCompTxt1('#CONSIGNEE', '#hdnCONSIGNEE', "/FF_BOK/GetSLList2");
-        //EzAutoCompTxt1('#FORWARDER', '#hdnFORWARDER', "/FF_BOK/GetSLList2");
-        //EzAutoCompTxt1('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList");
-
+        
         EzAutoCompTxt1('#Salesman', '#hdnSalesman', "/FF_BOK/GetSalesman");
         $.ajax({
             async: false,
@@ -742,8 +744,8 @@
             data: { Prefix: $("#VOYAGE").val(), VESSEL: $("#hdnVESSEL").val() },
             success: function (data) {
                 if (data.length > 0) {
-                    $("#VOYAGE").val(data[0].Text);
-                    $("#hdnVOYAGE").val(data[0].Value);
+                    $("#VOYAGE").val(data[0].Value);
+                    $("#hdnVOYAGE").val(data[0].Text);
                 } else {
                     $("#VOYAGE").val('');
                     $("#hdnVOYAGE").val(-1);
@@ -896,7 +898,7 @@
 
 
        // EzAutoCompTxtE('#FNMBRANCH_CODE', '#hdnFNMBRANCH_CODE', "/FFM_Quotation/GetBranchList", false, "");
-        EzAutoCompTxtE('#BILL_TO', '#hdnBILL_TO', "/FF_BOK/GetSLList1", true, "#CustName");
+        EzAutoCompTxtE('#BILL_TO', '#hdnBILL_TO', "/FF_BOK/GetCust", true, "#CustName");
         EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#FND", "#hdnFND", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
@@ -908,10 +910,7 @@
         EzAutoCompTxtE("#PICKUP_PLACE", "#hdnPICKUP_PLACE", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#PLACE_OF_RCPT", "#hdnPLACE_OF_RCPT", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#JOB_TYPE", "#hdnJOB_TYPE", "/FF_BOK/GETJobTypList", false, "");
-        //EzAutoCompTxtE('#SHIPPER', '#hdnSHIPPER', "/FF_BOK/GetSLList2", false, "");
-        // EzAutoCompTxtE('#CONSIGNEE', '#hdnCONSIGNEE', "/FF_BOK/GetSLList2", false, "");
-        // EzAutoCompTxtE('#FORWARDER', '#hdnFORWARDER', "/FF_BOK/GetSLList2", false, "");
-
+        
 
         EzAutoCompTxtEParV1('#SHIPPER', '#hdnSHIPPER', "/FF_BOK/GetSLNew", false, "", "SHP");
         EzAutoCompTxtEParV1('#CONSIGNEE', '#hdnCONSIGNEE', "/FF_BOK/GetSLNew", false, "", "CNG");
@@ -937,8 +936,8 @@
             data: { Prefix: $("#VOYAGE").val(), VESSEL: $("#hdnVESSEL").val() },
             success: function (data) {
                 if (data.length > 0) {
-                    $("#VOYAGE").val(data[0].Text);
-                    $("#hdnVOYAGE").val(data[0].Value);
+                    $("#VOYAGE").val(data[0].Value);
+                    $("#hdnVOYAGE").val(data[0].Text);
                 } else {
                     $("#VOYAGE").val('');
                     $("#hdnVOYAGE").val(-1);
@@ -1206,14 +1205,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label col-xs-3 col-md-3">Ref No.</label>
-                                                <div class="col-xs-7 col-md-8 input-field">
-                                                    @Html.TextBoxFor(m => m.REF_NO, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-                                        </div>
+                                       
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3 col-md-3">Vessel<i class="star">*</i></label>
@@ -1224,9 +1216,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3 col-md-3">Voy<i class="star">*</i></label>
@@ -1237,6 +1226,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-xs-3 col-md-3">Ref No.</label>
+                                                <div class="col-xs-7 col-md-8 input-field">
+                                                    @Html.TextBoxFor(m => m.REF_NO, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="control-label col-xs-3 col-md-3">Carrier</label>

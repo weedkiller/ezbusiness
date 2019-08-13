@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "BILL";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }
 
 <script src="~/Scripts/EzComNDW.js"></script>
@@ -17,8 +17,7 @@
             });
         }
         debugger;
-        EzAutoCompTxtE("#BILL_TOEMP", "#hdnBILL_TOEMP", "/FF_BOK/GetSLList1", false, "");
-
+        
 
 
         $("#btnApprove").click(function () {
@@ -175,7 +174,7 @@
                     FF_BL001_DATE: Ezsetdtpkdate($("[name*='FF_BL001_DATE1']").val()),
                     FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
                     BILL_TO: $("[name*='hdnBILL_TO']").val(),
-                    SHIPPER: $("[name*='hdnSHIPPER']").val(),
+                    SHIPPER: $("[name*='hdnSHIPPER']").val()=='-1' ? $("[name*='hdnSHIPPER']").val('') :$("[name*='hdnSHIPPER']").val(),//$("[name*='hdnSHIPPER']").val(),
                     CONSIGNEE: $("[name*='hdnCONSIGNEE']").val(),
                     FORWARDER: $("[name*='hdnFORWARDER']").val(),
                     PICKUP_PLACE: $("[name*='PICKUP_PLACE']").val(),
@@ -365,12 +364,12 @@
                 if (validationResult.formValid) {
 
                     $.post("/SaveFFM_BL", FBV).done(function (response) {
-                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                           
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {                                                    
                             EzAlertSave();
+                            EzbtnsaveAcVis("#DRContainer");
                             $("#DRContainer").html(drHtml);
                             GetDrs();
-                            EzbtnsaveAcVis("#DRContainer");
+
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -644,11 +643,11 @@
             if (trf != 'QUOT')
             {
 
-                if (FBV.FF_BL005Detail.length == 0) {
+                if (FBV.FF_BL002Detail.length == 0) {
                     response.ErrorMessage += "Container Details  ,";
                 }
 
-                if (FBV.FF_BL002Detail.length == 0) {
+                if (FBV.FF_BL005Detail.length == 0) {
                     response.ErrorMessage += "Charge Detail  ,";
                 }
             }

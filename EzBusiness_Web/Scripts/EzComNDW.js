@@ -2491,6 +2491,8 @@ function EzAutoCompTxt1(inpid, inphid, urls) {
              
          }
 
+       
+
          function EzAutotxtAutosatic(inpid, inphid, data1, boolval, inpname) {
              $(inpid).autocomplete({
                  source: data1,
