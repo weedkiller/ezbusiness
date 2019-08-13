@@ -13,7 +13,7 @@ namespace EzBusiness_BL_Interface
     {
         #region MonthlyAddded
         List<SelectListItem> GetEmpCodeList(string CmpyCode,string Prefix);
-
+        List<SelectListItem> GetEmpCodetblList(string cmpycode, string Prefix);
         List<MonthlyAdddedVM> GetMonthlyAdddedList(string CmpyCode);
         List<MonthlyAdddeddet1> GetMonthlyADGrid(string CmpyCode, string PRADN001_CODE);
         MonthlyAdddedVM SaveMonthlyAD(MonthlyAdddedVM MonthlyAD);

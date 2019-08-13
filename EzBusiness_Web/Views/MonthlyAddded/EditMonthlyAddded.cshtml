@@ -10,6 +10,8 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     $(function () {
        
@@ -23,10 +25,10 @@
         var k = $("#tablePODetails tbody tr").length;
        // var n = 0;
         tablePODetails.each(function (index, item) {
-                       
+            debugger;
             if (k>1) {
-            $("[name*='EmpCode" + (index + 1) + "']").val($("[name*='hdnEmpCode" + (index + 1) + "']").val());
-            var dt = Ezjoindatetbl($("[name*='hdnEmpCode" + (index + 1) + "']").val());
+                $("[name*='EmpCode" + (index + 1) + "']").val($("[name*='Emp1Code" + (index + 1) + "']").val());
+            var dt = Ezjoindatetbl($("[name*='Emp1Code" + (index + 1) + "']").val());
             $("[name*='joindate" + (index + 1) + "']").val(EzdatefrmtRes(dt));
             $("[name*='ADN_Amount" + (index + 1) + "']").val($("[name*='hdnADN_Amount" + (index + 1) + "']").val());
             $("[name*='ADN_Act_code" + (index + 1) + "']").val($("[name*='hdnADN_Act_code" + (index + 1) + "']").val());
@@ -38,7 +40,8 @@
 
         EzGriddel("#tablePODetails", "[name*='btnDelete']");
         /* Add new row & find duplicate data in table  */
-        $("#tablePODetails").on("change", "[name*='EmpCode']", function () {
+        $("#tablePODetails").on("focusout", "[name*='EmpCode']", function () {
+            debugger;
             var PRADN001_CODE = $("[name *= 'PRADN001_CODE']").val();
             if (PRADN001_CODE == '') {
                 EzAlerterrtxt("Please Enter PRADN001_CODE")
@@ -56,14 +59,25 @@
             //    drec.push(ab);
             //});
             //drec.splice($.inArray(tr.find("[name *= 'EmpCode']").val(), drec), 2);
-
+            debugger;
             var tf = true;
-            var dt = Ezjoindatetbl(tr.find("[name *= 'EmpCode']").val());
-            tr.find("[name *= 'joindate']").val(EzdatefrmtRes(dt));
-            if (new Date(Ezsetdtpkdate(tr.find("[name *= 'joindate']").val())) > new Date(Ezsetdtpkdate($('#Entry_Date1').val()))) {
+            var empC = tr.find("[name *= 'EmpCode']").val();
+            if (empC == '' || empC=='0') {
                 tf = false;
-                EzAlerterrtxt("Entery Date shold be greater than equal to Joindate");
+                EzAlerterrtxt("Select Employee");
+                return
             }
+            else {
+                var dt = Ezjoindatetbl(empC);
+                tr.find("[name *= 'joindate']").val(EzdatefrmtRes(dt));
+                if (new Date(Ezsetdtpkdate(tr.find("[name *= 'joindate']").val())) > new Date(Ezsetdtpkdate($('#Entry_Date1').val()))) {
+                    tf = false;
+                    EzAlerterrtxt("Entery Date shold be greater than equal to Joindate");
+                }
+              
+            }
+
+
 
 
             //if ($.inArray(tr.find("[name *= 'EmpCode']").val(), drec) >= 0) {
@@ -72,52 +86,34 @@
             //    tr.find("[name *= 'EmpCode']").focus();
             //    EzAlerterrtxt("Already Exist Code '" + dr + "'");
             //    tr.find("[name *= 'EmpCode']").val('0');
-
-
             //}
-            //else
+            //else 
             if (tf == true) {
                 tr.css("background", "");
 
                 if (tr.is(":last-child")) {
-
-                    tr.clone(true, true).insertAfter(tr);
-                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
+                    debugger;
+                    $('#tablePODetails tr:last').clone().insertAfter('#tablePODetails tr:last');
+                    var trLast = $("#tablePODetails tr:last")
+                    $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter1 + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                         .appendTo("#tablePODetails tbody tr:nth-last-child(2)");
-                    var trLast = $("#tableMetaSettings tr:last");
 
-                    var trLast1 = $("#tablePODetails tbody tr:last");
+                    droparry = [];
+                    txtarry = [];
 
-                    trLast1.find("[name *= 'EmpCode']").val('0');
-                    trLast1.find("[name *= 'ADN_Amount']").val('');
-                    trLast1.find("[name *= 'ADN_Act_code']").val('');
-                    trLast1.find("[name *= 'Remarks']").val('');
-                    trLast1.find("[name *='joindate']").val('');
+                    txtarry.push('joindate', 'EmpCode', 'ADN_Amount', 'ADN_Act_code', 'T_type', 'Remarks');
+
+                    //EzTbltxtdrpidchanged(droparry, counter5, "drp", trLast);
+                    EzTbltxtdrpidchanged(txtarry, counter1, "txt", trLast);
+
+                    //trLast.find(":first").text(counter1);
+                    trLast.find('[name*=EmpCode' + counter1 + ']').val('');
+                    trLast.find('[name*=joindate' + counter1 + ']').val('');
+                    counter1++;
 
 
-                    trLast.find("[name *= 'joindate']").attr({
-                        "name": ("joindate" + counter)
-                    });
-                    trLast.find("[name *= 'EmpCode']").attr({
-                        "name": ("EmpCode" + counter)
-                    });
-                    trLast.find("[name *= 'ADN_Amount']").attr({
-                        "name": ("ADN_Amount" + counter)
-                    });
-
-                    trLast.find("[name *= 'ADN_Act_code']").attr({
-                        "name": ("ADN_Act_code" + counter)
-                    });
-                    trLast.find("[name *= 'T_type']").attr({
-                        "name": ("T_type" + counter)
-                    });
-                    trLast.find("[name *= 'Remarks']").attr({
-                        "name": ("Remarks" + counter)
-                    });
-
-                    trLast.find(":first").text(counter);
                 }
-                counter++;
+
             }
             else {
                 tr.find("[name *= 'EmpCode']").val('0');
@@ -128,7 +124,8 @@
         EztableLstTabBlk("#tablePODetails", "[name *= 'Remarks']", "[name *= 'EmpCode']", "T", "");
         EztableTabEve("#tablePODetails", "[name*='ADN_Amount']", "[name *= 'ADN_Act_code']", "Please Enter ADN_Amount", 'N',"0");
         EztableTabEve("#tablePODetails", "[name*='ADN_Act_code']", "[name *= 'T_type']", "Please Enter ADN_Act_code", 'T',"");
-       
+      //  EzAutoCompTxtE('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust", true, "#hdnCustName");
+        EzAutotxtEventTbl12("#tablePODetails", "focus", "[name*='EmpCode']", "[name*='Emp1Code']", "/MonthlyAddded/GetEmpListbl", false, "");
         EzGetMonthName("#TMonth", "#hdnTMonth", new Date(Ezsetdtpkdate($("#Entry_Date1").val())));
         EzGetYear("#TYear", "#hdnTYear", new Date(Ezsetdtpkdate($("#Entry_Date1").val())));
 
@@ -204,7 +201,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">T Year</label>
+                                                <label class="control-label col-md-4">Year</label>
                                                 <div class="col-md-8 input-field">
                                                     @Html.TextBoxFor(m => m.TYear, new { @class = "form-control", @disabled = "disabled" })
                                                     <input type="hidden" id="hdnTYear" value="" />
@@ -213,7 +210,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="control-label col-md-4">T Month</label>
+                                                <label class="control-label col-md-4">Month</label>
                                                 <div class="col-md-8 input-field">
                                                     @Html.TextBoxFor(m => m.TMonth, new { @class = "form-control", @disabled = "disabled" })
                                                     <input type="hidden" id="hdnTMonth" value="" />
@@ -242,8 +239,11 @@
                                                 <tr>
                                                     <td>
                                                         <div class="grid-group">
-                                                            @Html.DropDownList(string.Concat("EmpCode", counter), Model.EmpNameList, new { @class = "grid-control" })
-                                                            @Html.Hidden(string.Concat("hdnEmpCode", counter), item.EmpCode)
+                                                            @*@Html.DropDownList(string.Concat("EmpCode", counter), Model.EmpNameList, new { @class = "grid-control" })
+                                                            @Html.Hidden(string.Concat("hdnEmpCode", counter), item.EmpCode)*@
+                                                            @Html.Hidden(string.Concat("Emp1Code", counter),item.EmpCode)
+
+                                                            @Html.TextBox(string.Concat("EmpCode", counter), null, new { @class = "grid-control" })
                                                         </div>
                                                     </td>
                                                     <td>
@@ -254,7 +254,7 @@
                                                     <td>
                                                         <div class="grid-group">
                                                             @Html.TextBox(string.Concat("ADN_Amount", counter), null, new { @class = "grid-control" })
-                                                        </div>                                                      @Html.Hidden(string.Concat("hdnADN_Amount", counter), item.ADN_Amount)
+                                                          @Html.Hidden(string.Concat("hdnADN_Amount", counter), item.ADN_Amount)
                                                     </td>
                                                     <td>
                                                         <div class="grid-group">
@@ -286,7 +286,13 @@
                                             <tr>
                                                 <td>
                                                     <div class="grid-group">
-                                                        @Html.DropDownList(string.Concat("EmpCode", counter), Model.EmpNameList, new { @class = "grid-control" })
+                                                        @*@Html.DropDownList(string.Concat("EmpCode", counter), Model.EmpNameList, new { @class = "grid-control" })*@
+                                                        @Html.Hidden(string.Concat("Emp1Code", counter), null, new { @class = "grid-control" })
+
+                                                        @Html.TextBox(string.Concat("EmpCode", counter), null, new { @class = "grid-control" })
+
+
+
                                                     </div>
                                                 </td>
                                                 <td>

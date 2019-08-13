@@ -200,7 +200,18 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                 return Json(_QTNService.GetCurcode(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
-
+        public ActionResult GetCurcodeList(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_QTNService.GetCurcodeList(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult GetUnitcode(string Prefix)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;

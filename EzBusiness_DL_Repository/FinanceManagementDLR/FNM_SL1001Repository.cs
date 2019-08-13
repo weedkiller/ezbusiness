@@ -65,7 +65,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                 ObjList.Fax = dr["Fax"].ToString();
                 ObjList.SUBLEDGER_TYPE = dr["SUBLEDGER_TYPE"].ToString();
                 ObjList.Web_site = dr["Web_site"].ToString();
-                ObjList.Name_Arabic = dr["Name_Arabic"].ToString();
+                ObjList.Name_Arabic =Convert.ToString(dr["Name_Arabic"]);
                 ObjList.Branchcode = dr["Branchcode"].ToString();
 
             }
@@ -219,8 +219,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                             NAME =m.NAME
                         }).ToList());
                     }
-                    #endregion                 
-                   
+                    #endregion                     
                     using (TransactionScope scope = new TransactionScope())
                     {
                         StringBuilder sb = new StringBuilder();
@@ -247,8 +246,6 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                         sb.Append("Name_Arabic,");
                         sb.Append("Branchcode,");
                         sb.Append("CREATED_ON)");
-                       
-
                         sb.Append(" values(");
                         //'---
                         sb.Append("'" + FNSL.Address + "',");
@@ -274,11 +271,8 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                         sb.Append("'" + FNSL.Name_Arabic + "',");
                         sb.Append("'" + FNSL.Branchcode + "',");
                         sb.Append("'" + dtstr7 + "')");
-                        
 
                         bool resul = _EzBusinessHelper.ExecuteNonQuery1("insert into FNM_SL1001" + sb + "");
-
-
                         _EzBusinessHelper.ActivityLog(FNSL.CMPYCODE, FNSL.UserName, "Add FNM_SL1001", FNSL.FNM_SL1001_CODE, Environment.MachineName);
                         #endregion
                         if (resul == true)
@@ -297,7 +291,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                 sb.Append("COA_CODE)");
                                 sb.Append(" values(");
                                 sb.Append("'" + FNSL.CMPYCODE + "',");
-                                sb.Append("'0',");
+                                sb.Append("'" + FNSL.DIVISION + "',");
                                 sb.Append("'" + FNSL.FNM_SL1001_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].FNM_SL1002_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].NAME + "',");
@@ -309,12 +303,11 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                 _EzBusinessHelper.ActivityLog(FNSL.CMPYCODE, FNSL.UserName, "Update FNM_SL1001", FNSL.FNM_SL1001_CODE, Environment.MachineName);
                                 n = n - 1;
                             }
-                            #endregion
-
-                          
+                            #endregion                         
                             counter = 1;
                             FNSL.ErrorMessage = string.Empty;
                             FNSL.SaveFlag = true;
+                           // FNSL.ErrorMessage = string.Empty;
                         }
                         scope.Complete();
                     }
@@ -326,8 +319,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                 }
             }
             else
-            {
-               
+            {               
                 try
                 {
                     ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_SL1001 where CMPYCODE='" + FNSL.CMPYCODE + "' and FNM_SL1001_CODE='" + FNSL.FNM_SL1001_CODE + "' and Flag=0");
@@ -416,7 +408,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                 sb.Append("COA_CODE)");
                                 sb.Append(" values(");
                                 sb.Append("'" + FNMSL.CMPYCODE + "',");
-                                sb.Append("'0',");
+                                sb.Append("'" + FNSL.DIVISION + "',");
                                 sb.Append("'" + FNMSL.FNM_SL1001_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].FNM_SL1002_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].NAME + "',");

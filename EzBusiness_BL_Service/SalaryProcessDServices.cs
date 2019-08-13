@@ -205,10 +205,10 @@ namespace EzBusiness_BL_Service
         public List<SelectListItem> GetDepartmentList(string CmpyCode, string divcode,string Prefix)
         {
             var itemCodes = _salaryrepo.GetDepartmentList1(CmpyCode, divcode, Prefix)
-                                      .Select(m => new SelectListItem { Value = m.Code, Text =m.CodeName })
+                                      .Select(m => new SelectListItem { Value = m.CodeName, Text =m.Code })
                                       .ToList();
 
-            return InsertFirstElementDDL(itemCodes);
+            return itemCodes;
         }
 
     }

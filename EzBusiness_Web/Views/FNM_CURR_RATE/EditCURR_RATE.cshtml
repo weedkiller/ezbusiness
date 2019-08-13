@@ -10,6 +10,8 @@
 <link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
 <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
 <script src="~/Scripts/EzComNDW.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
     $(function () {
         arr1 = [];
@@ -24,10 +26,15 @@
         EzdtePkEdit('#ENTRY_DATE1', "#ENTRY_DATE", "DD/MM/YYYY");
 
 
-       
-        EzDropFillEvent("FROM_CURRENCY_CODE", "click", "FROM_CURRENCY_CODE", "/FFM_Quotation/GetCurcode");
-        EzDropFillEvent("TO_CURRENCY_CODE", "click", "TO_CURRENCY_CODE", "/FFM_Quotation/GetCurcode");
-
+        $('body').on('focus', ':input', function () {
+            $(this).attr('autocomplete', 'off');
+        });
+        EzAutoCompTxt1('#FROM_CURRENCY_CODE', '#hdnFROM_CURRENCY_CODE', "/FFM_Quotation/GetCurcodeList");
+        EzAutoCompTxt1('#TO_CURRENCY_CODE', '#hdnTO_CURRENCY_CODE', "/FFM_Quotation/GetCurcodeList");
+        //EzDropFillEvent("FROM_CURRENCY_CODE", "click", "FROM_CURRENCY_CODE", "/FFM_Quotation/GetCurcode");
+        //EzDropFillEvent("TO_CURRENCY_CODE", "click", "TO_CURRENCY_CODE", "/FFM_Quotation/GetCurcode");
+        EzAutoCompTxtE("#FROM_CURRENCY_CODE", "#hdnFROM_CURRENCY_CODE", "/FFM_Quotation/GetCurcodeList", false, "");
+        EzAutoCompTxtE("#TO_CURRENCY_CODE", "#hdnTO_CURRENCY_CODE", "/FFM_Quotation/GetCurcodeList", false, "");
         
     });
 
@@ -62,8 +69,10 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">From Currency Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.FROM_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control", @data_live_search = "true" })
-                                                        @Html.HiddenFor(m => m.FROM_CURRENCY_CODE)
+                                                        @*@Html.DropDownListFor(m => m.FROM_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control", @data_live_search = "true" })
+                                                        @Html.HiddenFor(m => m.FROM_CURRENCY_CODE)*@
+                                                        @Html.TextBoxFor(m => m.FROM_CURRENCY_CODE, new { @class = "form-control", @placeholder = "Select From currency Code" })
+                                                        <input id="hdnFROM_CURRENCY_CODE" type="hidden" class="form-control" name="hdnFROM_CURRENCY_CODE" value="-1" />  
                                                         @*@Html.DropDownListFor(m => m.FROM_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
                                                     </div>
                                                 </div>
@@ -76,8 +85,10 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3">To Currency Code<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.DropDownListFor(m => m.TO_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control", @data_live_search = "true" })
-                                                        @Html.HiddenFor(m => m.TO_CURRENCY_CODE)
+                                                        @*@Html.DropDownListFor(m => m.TO_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control", @data_live_search = "true" })
+                                                        @Html.HiddenFor(m => m.TO_CURRENCY_CODE)*@
+                                                        @Html.TextBoxFor(m => m.TO_CURRENCY_CODE, new { @class = "form-control", @placeholder = "Select To currency Code" })
+                                                        <input id="hdnTO_CURRENCY_CODE" type="hidden" class="form-control" name="hdnTO_CURRENCY_CODE" value="-1" />  
                                                         @*@Html.DropDownListFor(m => m.TO_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
 
                                                     </div>

@@ -154,7 +154,7 @@ namespace EzBusiness_Web.Controllers
             }
         }
         public ActionResult GetJoiningdate(string CmpyCode, string EmpCode)
-        {
+           {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {

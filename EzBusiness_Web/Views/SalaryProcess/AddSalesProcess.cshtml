@@ -15,8 +15,7 @@
 <link href="~/Styles/jquery-ui.css" rel="stylesheet" />
 <script>
 
-    $(function () {
-        
+    $(function () {        
             EzdtePkMMyy('#DateINMonth');
             var dt = $('#DateINMonth').val();
             var currdat = $('#DateINMonth').val();
@@ -48,7 +47,7 @@
             //});
             $('#DivisionCode').on("focusout", function () {
                 debugger;
-                var divcode = $('#DivisionCode').val();
+                var divcode = $('#hdnDivisionCode').val();
                 if (divcode != '-1') {
                     $('#Deptcode').autocomplete({
                         source: function (request, response) {
@@ -60,8 +59,9 @@
                                 success: function (data) {
                                     if (data.length > 0) {
                                         response($.map(data, function (item) {
-                                            return {
-                                                label: item.Text,//item.Value + ' - ' + item.Text,
+                                            debugger;
+                                            return {                                             
+                                                label:item.Text + '-' + item.Value,//item.Value + ' - ' + item.Text,
                                                 value: item.Value,
                                                 val1: item.Text
                                             };
@@ -101,13 +101,11 @@
             //calculate salary Process
             $.fn.dataTable.ext.errorMode = 'none';
             $("#btncalculate").click(function () {
-                
-               
                 var currmonthyear = dt;
                 var CurrentDate = currmonthyear;
-                var divcode = $('#DivisionCode option:selected').val();
-                var Deptcode = $('#Deptcode option:selected').val();
-                var VisaLocation1 = $('#VisaLocation1 option:selected').val();
+                var divcode = $('#hdnDivisionCode').val();
+                var Deptcode = $('#hdnDeptcode').val();
+                var VisaLocation1 = $('#hdnVisaLocation1').val();
                    // Code=$("#Code").val()
                 //}
                 $.get("GetTimeSheetDetailsByMonth", { CurrentDate: CurrentDate, divcode: divcode, Deptcode: Deptcode, VisaLocation1: VisaLocation1 }).done(function (obj) {
@@ -184,7 +182,7 @@
                                                   "data": null,
                                                   "defaultContent": ''
                                               },
-                                             { "data": "srno" },
+                                           { "data": "srno" },
                                            { "data": "Empcode" },
                                            { "data": "Empname" },
                                            //{ "data": "country" },
@@ -250,7 +248,7 @@
                                 $('#tableslryDetailsactual').DataTable().columns([0,3,4,5,6,7,8,9,30,31,32, 33, 34, 35, 36, 37, 38, 39,40,41,42,43,44]).visible(false);
                                 $('#tableslryOTDetails').DataTable().columns([0,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 44]).visible(false);
                                 if ($('#tableslryDetails tbody tr').length > 0) {
-                                    $("#btnactualsal,#btnotdetails").removeAttr("disabled", "disabled");
+                                   $("#btnactualsal,#btnotdetails").removeAttr("disabled", "disabled");
 
                                 }
                                 $('.dataTables_scrollHead').css('margin-bottom', '0px');
@@ -522,7 +520,7 @@
                     <div class="row"  >
                         <div class="col-md-12">
                             <div style="overflow-x:auto;">                 
-                                <table class="table display responsive nowrap table-bordered" id="tableslryDetails" width="100%">
+                                <table class="table table-bordered" id="tableslryDetails" width="100%">
                                     <thead>
                                         <tr>    
                                             <th>Details</th>                                         

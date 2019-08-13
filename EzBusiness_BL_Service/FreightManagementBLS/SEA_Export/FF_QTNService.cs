@@ -269,6 +269,14 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return CurList;
         }
 
+        public List<SelectListItem> GetCurcodeList(string CmpyCode, string Prefix)
+        {
+            var CurList = _FF_QTNRepo.GetCurcode(CmpyCode, Prefix)//.Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                                    .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
+                                                    .ToList();
+            return CurList;
+        }
+
         public List<SelectListItem> GetUnitcode(string CmpyCode, string Prefix)
         {
             var UnitcodeList = _FF_QTNRepo.GetUnitcode(CmpyCode, Prefix)//.Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
