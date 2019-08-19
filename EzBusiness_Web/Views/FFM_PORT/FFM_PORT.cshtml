@@ -13,6 +13,7 @@
         EzAuthentication("/PORTMASTER")
         Ezsetzerotxt();
         GetDatatable();
+       
         //EzsetDatetxt();
         var lvHtml = $("#POContainer").html();
         $("#POListContainer1").hide();
@@ -253,7 +254,7 @@
             if (operationMode == "Edit") {
                 $("#POList > tbody").children().removeClass("active");
                 $(this).addClass("active");
-                var FFM_PORT_CODE = $(this).find("td:eq(0)").text();;
+                var FFM_PORT_CODE = $(this).find("td:eq(0)").text();
                 $.get("EditFFM_PORT", { FFM_PORT_CODE: FFM_PORT_CODE }).done(function (response) {
                     $("#POContainer").html(response);
                     //$("#btnDelete").prop("disabled", false);
@@ -269,11 +270,25 @@
             $.fn.dataTable.ext.errorMode = 'none';
             $("#divsrly").show();
          
-            var t = $('#POList').DataTable({
-                "ColumnDefs": [{ "searchable": false, "orderable": true }],
+
+            $("#POList tfoot th").each(function () {
+
+
+                var title = $('#POList tfoot th').eq($(this).index()).text();
+                if (title) {
+
+                    $(this).html('<input type="text" class="grid-control"  placeholder="Search"  />');
+
+                }
+
+
+            });
+            var table = $('#POList').DataTable({
+                "ColumnDefs": [{ "searchable": false, "orderable": true, "targets": [0]}],
                "order": [[0, 'asc']],
                 //"scrollY": true, 
                 //  "scrollX": true,
+               "filter": true,
                "paging": true,
                "ordering": true,
                "info": true,
@@ -286,12 +301,7 @@
                 "buttons": [
                           'excel',
                           'pdf'
-                ],
-                //"fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                //    var oSettings = this.fnSettings();
-                //    $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
-                //    return nRow;
-                //},
+                ],               
                 "processing": true,
                 "serverSide": true,
                 "destroy": true,
@@ -301,25 +311,64 @@
                     "cache": false,
                     "type": "POST",
                     "url": '/FFM_PORT/GetPortList',
-                    "dataType": "json",
-                   // "data": newrow,
+                    "dataType": "json",                   
                 },
               
-                "columns": [                              
+                "aoColumns": [
                               {
-                              "data": "FFM_PORT_CODE",                                
+                                  "mDataProp": "FFM_PORT_CODE"
                               },
-                              { "data": "NAME" },
-                              { "data": "COUNTRY" },
-                              { "data": "TERMINAL" },
-                              { "data": "LATITUDE" },
-                              { "data": "LANGITUDE" },
-                             // { "data": "PortType" },
-                              { "data": "DISPLY_STATUS" },                                                                  
+                              { "mDataProp": "NAME" },
+                              { "mDataProp": "COUNTRY" },
+                              { "mDataProp": "TERMINAL" },
+                              { "mDataProp": "LATITUDE" },
+                              { "mDataProp": "LANGITUDE" },                            
+                              { "mDataProp": "DISPLY_STATUS" },
                 ]
             });
+                  
+            var delay = (function () {
+                var timer = 0;
+                return function (callback, ms) {
+                    clearTimeout(timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
+           
+            table.columns().eq(0).each(function (colIdx) {
+                $('input', $('#POList tfoot th')[colIdx]).bind('keyup', function () {
+                    debugger;
+                    var coltext = this.value; // typed value in the search column  
+                    var colindex = colIdx; // column index  
+                    delay(function () {
+                        table
+                            .column(colindex)
+                            .search(coltext)
+                            .draw();
+                    }, 500);
+                });
+            });
+
+            var r = $("#POList tfoot th");
+            r.find('th').each(function () {
+                jq(this).css('padding', 8);
+            });
+            $("#POList thead").append(r);
+            $('#search_0').css('text-align', 'center');
+
+            $('div.dataTables_filter input').addClass('form-control input-sm');
+
+            $('#POList_length').hide();
+
+            $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+
+
+
            // Ezsidetbl1112("#POList", "#POList tfoot td", true, "#POList thead","t");
-        }       
+        }
+
+
+        
     });
 </script>
 <br />
@@ -358,7 +407,7 @@
                                         <div class="table-responsive">
                                             <table id="POList" class="table table-bordered table-hover">
                                                 <thead>
-                                                    <tr class="tr">                                                       
+                                                    <tr class="tr">
                                                         <th>Port Code</th>
                                                         <th>Name</th>
                                                         <th>Country</th>
@@ -369,19 +418,18 @@
                                                     </tr>
                                                 </thead>
                                                 <tfoot>
-                                                    <tr>                                                        
-                                                        <td>Port Code</td>
-                                                        <td>Name</td>
-                                                        <td>Country</td>
-                                                        <td>Terminal</td>
-                                                        <td>Latitude</td>
-                                                        <td>Langitude</td>                                                       
-                                                        <td>Display Status</td>
+                                                    <tr>
+                                                        <th>Port Code</th>
+                                                        <th>Name</th>
+                                                        <th>Country</th>
+                                                        <th>Terminal</th>
+                                                        <th>Latitude</th>
+                                                        <th>Langitude</th>
+                                                        <th>Display Status</th>
                                                     </tr>
                                                 </tfoot>
-                                                <tbody>                                                   
-                                                     <tr>                                                           
-                                                     </tr>                                                    
+                                                <tbody>
+                                                    <tr></tr>
                                                 </tbody>
                                             </table>
                                         </div>
