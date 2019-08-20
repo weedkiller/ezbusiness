@@ -33,6 +33,20 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
+        [Route("SUPPLIERINVOICE")]
+        public ActionResult FNPIVJV001()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return View();
+            }
+        }
+
         [Route("DeleteINVOICE")]
         public ActionResult DeleteFNINV(string FNINV001_CODE)
         {
@@ -72,6 +86,36 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             else
             {
                 return PartialView(_INVService.GetFNINV_AddNew(list[0].CmpyCode, list[0].BraCode));
+            }
+        }
+
+
+        [Route("AddSupplierDetails")]
+        public ActionResult AddSupplierDetails()
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_INVService.GetSUPINV_AddNew(list[0].CmpyCode, list[0].BraCode));
+            }
+        }
+
+
+        [Route("EditSupplierDetails")]
+        public ActionResult SupplierDetailsEdit(string FNINV001_CODE)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return PartialView(_INVService.GetFNINVDetailsEdit(list[0].CmpyCode, FNINV001_CODE, list[0].BraCode));
             }
         }
 
@@ -118,7 +162,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
-        public ActionResult GETBLNO(string CustCode, string Prefix)
+        public ActionResult GETBLNO(string CustCode, string Module_Type)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -127,7 +171,20 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_INVService.GETBLNO(list[0].CmpyCode, list[0].BraCode,CustCode, Prefix), JsonRequestBehavior.AllowGet);
+                return Json(_INVService.GETBLNO(list[0].CmpyCode, list[0].BraCode,CustCode, Module_Type), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetSupplier(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_INVService.GetSupli(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
         public ActionResult GETBLNODetails(string CustCode, string BLNO)
@@ -143,7 +200,76 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
         }
 
+        public ActionResult GetCustSupp2(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_INVService.GetCustSupp(list[0].CmpyCode, list[0].BraCode, "PIVJV", Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
 
+        public ActionResult GetCustSupp1(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_INVService.GetCustSupp(list[0].CmpyCode, list[0].BraCode, "INVJV", Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+
+
+        public ActionResult GetFNINV002DetailList(string BLNO)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_INVService.GetFNINV002DetailList(list[0].CmpyCode, BLNO, list[0].BraCode), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        [Route("BLInvoiceGE")]
+        public ActionResult Bl_InvoiceGenerateLates(string BLCode, string Customer_code, string ExCode, string ExRate, string Table_Name, string Module_Type)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(new { BLGENFlag = _INVService.Bl_InvoiceGenerateLates(list[0].CmpyCode, list[0].BraCode, BLCode, Customer_code, ExCode, ExRate, Table_Name,Module_Type, list[0].user_name) }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public ActionResult GetHeaderDetail(string BLNO)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_INVService.GetHeaderDetail(list[0].CmpyCode, BLNO, list[0].BraCode), JsonRequestBehavior.AllowGet);
+            }
+        }
         
     }
 }

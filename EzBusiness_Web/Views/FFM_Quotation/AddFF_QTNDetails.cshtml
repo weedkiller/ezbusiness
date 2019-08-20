@@ -42,7 +42,7 @@
             $('#FF_QTN001_CODE').prop('readonly', false);
         }
        
-        EzAutoCompTxtE('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust", true, "#CustName");
+        EzAutoCompTxtE('#CUST_CODE', '#hdnCUST_CODE', "/FFM_Quotation/GetCust", false, "");
         EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#FND", "#hdnFND", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
@@ -133,7 +133,7 @@
                 txtarry1 = [];
 
                 txtarry1.push('txtCont_Type', 'txtCommodity_code');
-                txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
+                txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtCODNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
                 txtarry1.push('txt1Cont_Type', 'txt1Commodity_code');               
                 EzTbltxtdrpidchanged(txtarry1, counter2, "txt", tr1);
 
@@ -210,15 +210,16 @@
           
         });
 
-        $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
+        $("#tablePODetails5").on("change", "[name*='txtCHDNo_of_qty']", function () {
             var tr = $(this).closest('tr');
             var rate = parseFloat(tr.find("[name*='txtCust_Rate']").val());
-            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            var qty = parseFloat(tr.find("[name*='txtCHDNo_of_qty']").val());
             var Vrate = parseFloat(tr.find("[name*='txtVend_Rate']").val());
             qty = isNaN(qty) ? 0 : qty;
             rate = isNaN(rate) ? 0 : rate;
             Vrate = isNaN(Vrate) ? 0 : Vrate;
             tr.find("[name*='txtCust_Total_amt']").val(productmul(qty, rate));
+            tr.find("[name*='txtCust_Net_Amt']").val(tr.find("[name*='txtCust_Total_amt']").val());
             tr.find("[name*='txtVend_Total_amt']").val(productmul(qty, Vrate));
             tr.find("[name*='txtVend_Net_Amt']").val(tr.find("[name*='txtVend_Total_amt']").val());
             sumOfColumns();
@@ -227,7 +228,7 @@
         $("#tablePODetails5").on("change", "[name*='txtCust_Rate']", function () {
             var tr = $(this).closest('tr');
             var rate = parseFloat(tr.find("[name*='txtCust_Rate']").val());
-            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());          
+            var qty = parseFloat(tr.find("[name*='txtCHDNo_of_qty']").val());
             qty = isNaN(qty) ? 0 : qty;
             rate = isNaN(rate) ? 0 : rate;         
             tr.find("[name*='txtCust_Total_amt']").val(productmul(qty, rate));
@@ -239,7 +240,7 @@
         $("#tablePODetails5").on("change", "[name*='txtVend_Rate']", function () {
             var tr = $(this).closest('tr');
             var Vrate = parseFloat(tr.find("[name*='txtVend_Rate']").val());
-            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            var qty = parseFloat(tr.find("[name*='txtCHDNo_of_qty']").val());
             qty = isNaN(qty) ? 0 : qty;
             Vrate = isNaN(Vrate) ? 0 : Vrate;
             tr.find("[name*='txtVend_Total_amt']").val(productmul(qty, Vrate));
@@ -492,10 +493,10 @@
                                .appendTo("#tablePODetails3 tbody tr:nth-last-child(2)");
                     //trLast.find("[name*='txtsno']").val(tcunt);
                     trLast.find("[name*='txtPkg_No']").val('');
-                    trLast.find("[name*='txtNo_of_qty']").val('');
+                    trLast.find("[name*='txtDNo_of_qty']").val('');
 
                     var txtarry1 = [];
-                    txtarry1.push('txtNo_of_qty', 'txtunit_type', 'txtHeight', 'txtWidth', 'txtAct_LBS', 'txtinside_Unit');
+                    txtarry1.push('txtDNo_of_qty', 'txtunit_type', 'txtHeight', 'txtWidth', 'txtAct_LBS', 'txtinside_Unit');
                     txtarry1.push('txtVolume', 'txtDime_weight');
 
                     // EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
@@ -551,7 +552,7 @@
                     txtarry1 = [];
 
                     txtarry1.push('txtCont_Type', 'txtCommodity_code');
-                    txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
+                    txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtCODNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
                     txtarry1.push('txt1Cont_Type', 'txt1Commodity_code');
 
                     // EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
@@ -707,15 +708,15 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Customer<i class="star">*</i></label>
-                                                    <div class="col-md-4 input-field">
+                                                    <div class="col-md-8 input-field">
                                                         @*@Html.DropDownListFor(m => m.CUST_CODE, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
                                                         @Html.TextBoxFor(m => m.CUST_CODE, new { @class = "form-control", @placeholder = "Select Customer" })
                                                         <input id="hdnCUST_CODE" type="hidden" class="form-control" name="hdnCUST_CODE" value="-1" />      
                                                     </div>
-                                                    <div class="col-md-4 input-field">
+                                                    @*<div class="col-md-4 input-field">
                                                         <input id="hdnCustName" type="hidden" class="form-control" name="hdnCustName" value="-1" />      
                                                         <input type="text" class="form-control" name="CustName" id="CustName" readonly />
-                                                    </div>
+                                                    </div>*@
                                                 </div>
                                             </div>
                                         </div>
@@ -875,15 +876,26 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label col-xs-3 col-md-3">Ref No.</label>
+                                                    <label class="control-label col-xs-3 col-md-3">Voy <span class="star">*</span></label>
                                                     <div class="col-xs-7 col-md-8 input-field">
-                                                        @Html.TextBoxFor(m => m.REF_NO, new { @class = "form-control" })
+                                                        @*@Html.DropDownListFor(m => m.VOYAGE, TypeListdata1, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
+                                                        @Html.TextBoxFor(m => m.VOYAGE, new { @class = "form-control", @placeholder = "Select VOYAGE" })
+                                                        <input id="hdnVOYAGE" type="hidden" class="form-control" name="hdnVOYAGE" value="-1" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Ref No.</label>
+                                                    <div class="col-xs-7 col-md-8 input-field">
+                                                        @Html.TextBoxFor(m => m.REF_NO, new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Commodity</label>
@@ -894,16 +906,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label col-xs-3 col-md-3">Voy <span class="star">*</span></label>
-                                                    <div class="col-xs-7 col-md-8 input-field">
-                                                        @*@Html.DropDownListFor(m => m.VOYAGE, TypeListdata1, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
-                                                        @Html.TextBoxFor(m => m.VOYAGE, new { @class = "form-control", @placeholder = "Select VOYAGE" })
-                                                        <input id="hdnVOYAGE" type="hidden" class="form-control" name="hdnVOYAGE" value="-1" /> 
-                                                    </div>
-                                                </div>
-                                            </div>
+                                           
 
                                         </div>
 
@@ -1154,7 +1157,7 @@
                                                                         </td>
                                                                         <td>
                                                                            
-                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.TextBox(string.Concat("txtCODNo_of_qty", counter2), null, new { @class = "grid-control", @Type = "Number" })
                                                                             
                                                                         </td>
                                                                         <td>
@@ -1224,7 +1227,7 @@
                                                                         </td>
                                                                         <td>
                                                                            
-                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.TextBox(string.Concat("txtDNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
                                                                            
                                                                         </td>
                                                                         <td>
@@ -1398,7 +1401,7 @@
                                                                         </td>
                                                                         <td>
                                                                            
-                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                                @Html.TextBox(string.Concat("txtCHDNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
                                                                             
                                                                         </td>
                                                                         <td>

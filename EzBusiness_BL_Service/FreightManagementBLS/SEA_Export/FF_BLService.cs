@@ -32,9 +32,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return _FF_BLRepo.DeleteFF_BL(CmpyCode, FF_BL001_CODE, UserName, Branchcode);
         }
 
-        public List<FF_BL_VM> GetFF_BL(string CmpyCode,string branchcode)
+        public List<FF_BL_VM> GetFF_BL(string CmpyCode,string branchcode, string IEtyp)
         {
-            return _FF_BLRepo.GetFF_BL(CmpyCode, branchcode);
+            return _FF_BLRepo.GetFF_BL(CmpyCode, branchcode, IEtyp);
         }
 
         public List<FF_BL002New> GetFF_BL002DetailList(string CmpyCode, string FF_BL001_CODE,string typ,string Branchcode)
@@ -127,6 +127,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 Vend_Net_Amt = m.Vend_Net_Amt,
                 Vend_Rate = m.Vend_Rate,
                 Vend_Total_amt = m.Vend_Total_amt,
+                No_of_qty=m.No_of_qty,
                 //VendorList5 = GetVendorEdit(CmpyCode, m.Vend_code),
                 //CVendorList5 = GetVendorEdit(CmpyCode, m.Cust_code),
                 //VCurList5 = GetCurcodeEdit(CmpyCode, m.Vend_Curr_Code),
@@ -250,9 +251,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return InsertFirstElementDDL(VOYAGEList);
         }
 
-        public List<SelectListItem> GetSL(string CmpyCode, string typ1)
+        public List<SelectListItem> GetSL(string CmpyCode, string Branchcode)
         {
-            var SLList = _FF_BLRepo.GetSL(CmpyCode, typ1)
+            var SLList = _FF_BLRepo.GetSL(CmpyCode, Branchcode)
                                                   .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                   .ToList();
             return InsertFirstElementDDL(SLList);
@@ -308,13 +309,13 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 EditFlag = false
             };
         }
-        public List<SelectListItem> GetSL(string CmpyCode, string typ1, string Prefix)
-        {
-            var SLList = _BlRepo.GetSL(CmpyCode, typ1, Prefix)//.Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
-                                                  .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
-                                                  .ToList();
-            return SLList;
-        }
+        //public List<SelectListItem> GetSL(string CmpyCode, string typ1, string Prefix)
+        //{
+        //    var SLList = _BlRepo.GetSL(CmpyCode, typ1, Prefix)//.Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+        //                                          .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
+        //                                          .ToList();
+        //    return SLList;
+        //}
         public List<SelectListItem> GetPortList(string CmpyCode)
         {
             var PortList = _FF_BLRepo.GetPortList(CmpyCode)

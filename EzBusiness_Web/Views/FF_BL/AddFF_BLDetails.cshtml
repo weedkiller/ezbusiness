@@ -35,11 +35,34 @@
 <script>
     $(function () {
         arr1 = [];
+       
         //  GetBillDataList();
 
         EzdteformtDOB('#ETA1', 'DD/MM/YYYY');
         EzdteformtDOB('#ETD1', 'DD/MM/YYYY');
+        var today = new Date();
+        today.setDate(today.getDate() - 1);
+
+        $('#ETD1').val(EzdteTblPkEdit(today));
         EzdteformtDOB('#FF_BL001_DATE1', 'DD/MM/YYYY');
+
+        $('#ETA1').on('dp.change', function (event) {
+            if (new Date(Ezsetdtpkdate($("#ETA1").val())) < new Date(Ezsetdtpkdate($("#ETD1").val()))) {
+                EzAlerterrtxt("ETD is always Less than ETA");
+                $('#ETA1').focus();
+                $('#ETA1').val(EzdteTblPkEdit(today));
+            }
+        });
+        $('#ETD1').on('dp.change', function (event) {
+            if (new Date(Ezsetdtpkdate($("#ETA1").val())) < new Date(Ezsetdtpkdate($("#ETD1").val()))) {
+                EzAlerterrtxt("ETD is always Less than ETA");
+                $('#ETD1').focus();
+                $('#ETD1').val(EzdteTblPkEdit(today));
+            }
+        });
+       
+        
+
       
         EzAutoCompTxtE('#BILL_TO', '#hdnBILL_TO', "/FFM_Quotation/GetCust", true, "#CustName");
         EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
@@ -97,7 +120,7 @@
 
                 txtarry.push('txtCust_Curr_Code', 'txtCrg_code', 'txtUnit_Code', 'txtCust_code', 'txtPAY_MODE', 'txtVend_code', 'txtVend_Curr_Code');
                 txtarry.push('txtsno', 'txtCrg_name', 'txtIncome_GL_Code', 'txtExpense_GL_Code', 'txtCust_name', 'txtCust_Ctrl_Act', 'txtCust_Curr_Rate', 'txtCust_Total_amt', 'txtCust_Var_Amt', 'txtCust_Net_Amt', 'txtCust_Local_amt', 'txtVend_name', 'txtVend_Ctrl_Act', 'txtVend_Curr_Rate', 'txtVend_Total_amt', 'txtVendVar_Amt', 'txtVend_Net_Amt', 'txtVend_Local_amt', 'txt1Crg_code');
-                txtarry.push('txt1Cust_Curr_Code', 'txt1Unit_Code', 'txt1Cust_code', 'txt1Vend_code', 'txt1Vend_Curr_Code', 'txt1PAY_MODE');
+                txtarry.push('txt1Cust_Curr_Code', 'txt1Unit_Code', 'txt1Cust_code', 'txt1Vend_code', 'txt1Vend_Curr_Code', 'txt1PAY_MODE', 'txtCHDNo_of_qty');
 
                 //EzTbltxtdrpidchanged(droparry, counter5, "drp", trLast);
                 EzTbltxtdrpidchanged(txtarry, counter5, "txt", tr1);
@@ -140,7 +163,7 @@
                 txtarry1 = [];
 
                 txtarry1.push('txtCont_Type', 'txtCommodity_code');
-                txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
+                txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtDNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
                 txtarry1.push('txt1Cont_Type', 'txt1Commodity_code');
                 EzTbltxtdrpidchanged(txtarry1, counter2, "txt", tr1);
 
@@ -219,15 +242,16 @@
 
         });
 
-        $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
+        $("#tablePODetails5").on("change", "[name*='txtCHDNo_of_qty']", function () {
             var tr = $(this).closest('tr');
             var rate = parseFloat(tr.find("[name*='txtCust_Rate']").val());
-            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            var qty = parseFloat(tr.find("[name*='txtCHDNo_of_qty']").val());
             var Vrate = parseFloat(tr.find("[name*='txtVend_Rate']").val());
             qty = isNaN(qty) ? 0 : qty;
             rate = isNaN(rate) ? 0 : rate;
             Vrate = isNaN(Vrate) ? 0 : Vrate;
             tr.find("[name*='txtCust_Total_amt']").val(productmul(qty, rate));
+            tr.find("[name*='txtCust_Net_Amt']").val(tr.find("[name*='txtCust_Total_amt']").val());
             tr.find("[name*='txtVend_Total_amt']").val(productmul(qty, Vrate));
             tr.find("[name*='txtVend_Net_Amt']").val(tr.find("[name*='txtVend_Total_amt']").val());
             sumOfColumns();
@@ -236,7 +260,7 @@
         $("#tablePODetails5").on("change", "[name*='txtCust_Rate']", function () {
             var tr = $(this).closest('tr');
             var rate = parseFloat(tr.find("[name*='txtCust_Rate']").val());
-            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            var qty = parseFloat(tr.find("[name*='txtCHDNo_of_qty']").val());
             qty = isNaN(qty) ? 0 : qty;
             rate = isNaN(rate) ? 0 : rate;
             tr.find("[name*='txtCust_Total_amt']").val(productmul(qty, rate));
@@ -248,7 +272,7 @@
         $("#tablePODetails5").on("change", "[name*='txtVend_Rate']", function () {
             var tr = $(this).closest('tr');
             var Vrate = parseFloat(tr.find("[name*='txtVend_Rate']").val());
-            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            var qty = parseFloat(tr.find("[name*='txtCHDNo_of_qty']").val());
             qty = isNaN(qty) ? 0 : qty;
             Vrate = isNaN(Vrate) ? 0 : Vrate;
             tr.find("[name*='txtVend_Total_amt']").val(productmul(qty, Vrate));
@@ -377,7 +401,7 @@
 
                         txtarry.push('txtCust_Curr_Code', 'txtCrg_code', 'txtUnit_Code', 'txtCust_code', 'txtPAY_MODE', 'txtVend_code', 'txtVend_Curr_Code');
                         txtarry.push('txtsno', 'txtCrg_name', 'txtIncome_GL_Code', 'txtExpense_GL_Code', 'txtCust_name', 'txtCust_Ctrl_Act', 'txtCust_Curr_Rate', 'txtCust_Total_amt', 'txtCust_Var_Amt', 'txtCust_Net_Amt', 'txtCust_Local_amt', 'txtVend_name', 'txtVend_Ctrl_Act', 'txtVend_Curr_Rate', 'txtVend_Total_amt', 'txtVendVar_Amt', 'txtVend_Net_Amt', 'txtVend_Local_amt', 'txt1Crg_code');
-                        txtarry.push('txt1Cust_Curr_Code', 'txt1Unit_Code', 'txt1Cust_code', 'txt1Vend_code', 'txt1Vend_Curr_Code', 'txt1PAY_MODE');
+                        txtarry.push('txt1Cust_Curr_Code', 'txt1Unit_Code', 'txt1Cust_code', 'txt1Vend_code', 'txt1Vend_Curr_Code', 'txt1PAY_MODE', 'txtCHDNo_of_qty');
 
                         //EzTbltxtdrpidchanged(droparry, counter5, "drp", trLast);
                         EzTbltxtdrpidchanged(txtarry, counter5, "txt", trLast);
@@ -517,10 +541,10 @@
                                .appendTo("#tablePODetails3 tbody tr:nth-last-child(2)");
                     //trLast.find("[name*='txtsno']").val(tcunt);
                     trLast.find("[name*='txtPkg_No']").val('');
-                    trLast.find("[name*='txtNo_of_qty']").val('');
+                    trLast.find("[name*='txtDNo_of_qty']").val('');
 
                     var txtarry1 = [];
-                    txtarry1.push('txtNo_of_qty', 'txtunit_type', 'txtHeight', 'txtWidth', 'txtAct_LBS', 'txtinside_Unit');
+                    txtarry1.push('txtDNo_of_qty', 'txtunit_type', 'txtHeight', 'txtWidth', 'txtAct_LBS', 'txtinside_Unit');
                     txtarry1.push('txtVolume', 'txtDime_weight');
 
                     // EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
@@ -576,7 +600,7 @@
                     txtarry1 = [];
 
                     txtarry1.push('txtCont_Type', 'txtCommodity_code');
-                    txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
+                    txtarry1.push('txtContainer', 'txtsno', 'txtSeal1', 'txtCODNo_of_qty', 'txtContents', 'txtLBS', 'txtKG', 'txtCFT', 'txtCBM');
                     txtarry1.push('txt1Cont_Type', 'txt1Commodity_code');
                     txtarry1.push('txtTemp_Range_min', 'txtTemp_Range_max', 'txtDimension', 'txtVolume', 'txtGrossWeight');
 
@@ -677,6 +701,9 @@
 
         var DG = [{ value: "Yes", label: "Yes-IMO", val1: "IMO" }, { value: "No", label: "No-Pack", val1: "Pack" }, ];
         EzAutotxtAutosatic("#DG", "#hdnDG", DG, false, "");
+
+
+        
     });
 </script>
 
@@ -715,40 +742,20 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-4">QTN Code<i class="star">*</i></label>
-                                                    <div class="col-md-4 input-field">
-                                                        @Html.TextBoxFor(m => m.FF_QTN001_CODE, new { @class = "form-control"})
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-4">Book Code<i class="star">*</i></label>
-                                                    <div class="col-md-4 input-field">
-                                                        @Html.TextBoxFor(m => m.FF_BOK001_CODE, new { @class = "form-control"})
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                       
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Bill To<i class="star">*</i></label>
-                                                    <div class="col-md-4 input-field">
+                                                    <div class="col-md-8 input-field">
                                                         @*@Html.DropDownListFor(m => m.BILL_TO, TypeListdata1, new { @class = "form-control", @data_live_search = "true" })*@
                                                         @Html.TextBoxFor(m => m.BILL_TO, new { @class = "form-control", @placeholder = "Select BILL_TO" })
                                                         <input id="hdnBILL_TO" type="hidden" class="form-control" name="hdnBILL_TO" value="-1" />      
                                                     </div>
-                                                    <div class="col-md-4 input-field">
+                                                    @*<div class="col-md-4 input-field">
                                                         <input type="text" class="form-control" name="CustName" id="CustName" readonly/>
                                                         <input id="hdnCustName" type="hidden" class="form-control" name="hdnCustName" value="-1" />      
-                                                    </div>
+                                                    </div>*@
                                                 </div>
                                             </div>
                                         </div>
@@ -879,14 +886,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label col-xs-3 col-md-3">Ref No.</label>
-                                                    <div class="col-xs-7 col-md-8 input-field">
-                                                        @Html.TextBoxFor(m => m.REF_NO, new { @class = "form-control" })
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Vessel<i class="star">*</i></label>
@@ -897,9 +897,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label col-xs-3 col-md-3">Voy<i class="star">*</i></label>
@@ -907,6 +905,19 @@
                                                         @*@Html.DropDownListFor(m => m.VOYAGE, TypeListdata1, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
                                                         @Html.TextBoxFor(m => m.VOYAGE, new { @class = "form-control", @placeholder = "Select VOYAGE" })
                                                         <input id="hdnVOYAGE" type="hidden" class="form-control" name="hdnVOYAGE" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                           
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-xs-3 col-md-3">Ref No.</label>
+                                                    <div class="col-xs-7 col-md-8 input-field">
+                                                        @Html.TextBoxFor(m => m.REF_NO, new { @class = "form-control" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -1139,7 +1150,7 @@
                                                                         </td>
                                                                         <td>
 
-                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter2), null, new { @class = "grid-control", @Type = "Number" })
+                                                                            @Html.TextBox(string.Concat("txtCODNo_of_qty", counter2), null, new { @class = "grid-control", @Type = "Number" })
 
                                                                         </td>
                                                                         <td>
@@ -1224,7 +1235,7 @@
                                                                         </td>
                                                                         <td>
 
-                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
+                                                                            @Html.TextBox(string.Concat("txtDNo_of_qty", counter3), null, new { @class = "grid-control", @Type = "Number" })
 
                                                                         </td>
                                                                         <td>
@@ -1400,7 +1411,7 @@
                                                                         </td>
                                                                         <td>
 
-                                                                            @Html.TextBox(string.Concat("txtNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
+                                                                            @Html.TextBox(string.Concat("txtCHDNo_of_qty", counter5), null, new { @class = "grid-control", @Type = "Number" })
 
                                                                         </td>
                                                                         <td>

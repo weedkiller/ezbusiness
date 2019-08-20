@@ -78,6 +78,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
         public string UserName { get; set; }
+
+        public string Type_Choose { get; set; }
     }
     public class FNINV002New
     {

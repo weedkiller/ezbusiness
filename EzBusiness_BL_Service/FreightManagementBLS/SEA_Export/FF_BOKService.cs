@@ -122,6 +122,7 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 Vend_Net_Amt = m.Vend_Net_Amt,
                 Vend_Rate = m.Vend_Rate,
                 Vend_Total_amt = m.Vend_Total_amt,
+                No_of_qty=m.No_of_qty,
                 //VendorList5 = GetVendorEdit(CmpyCode, m.Vend_code),
                 //CVendorList5 = GetVendorEdit(CmpyCode, m.Cust_code),
                 //VCurList5 = GetCurcodeEdit(CmpyCode, m.Vend_Curr_Code),
@@ -250,9 +251,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return InsertFirstElementDDL(VOYAGEList);
         }
 
-        public List<SelectListItem> GetSL(string CmpyCode, string typ1,string Prefix)
+        public List<SelectListItem> GetSL(string CmpyCode, string Branchcode)
         {
-            var SLList = _FF_BOKRepo.GetSL(CmpyCode, typ1, Prefix)//.Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+            var SLList = _FF_BOKRepo.GetSL(CmpyCode, Branchcode)//.Where(m => m.CodeName.ToString().ToLower().Contains(Prefix.ToLower()) || m.Code.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                   .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
                                                   .ToList();
             return SLList;
@@ -308,13 +309,13 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 FF_BOK001_CODE = _CodeRep.GetCodeNew(Cmpycode, branchcode, "FF_BOK001", "INVJV", "V"),
 
            // GetBOKCODEList = GetQTNCODE(Cmpycode,System.DateTime.Now),
-                GetCustomerList = GetSL1(Cmpycode,"FM"),
+                GetCustomerList = GetSL1(Cmpycode, branchcode),
             EditFlag = false
             };
         }
-        public List<SelectListItem> GetSL1(string CmpyCode, string typ1)
+        public List<SelectListItem> GetSL1(string CmpyCode, string branchcode)
         {
-            var SLList = __FF_BLRepo.GetSL(CmpyCode, typ1)
+            var SLList = _FF_BOKRepo.GetSL(CmpyCode, branchcode)
                                                   .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                                   .ToList();
             return InsertFirstElementDDL(SLList);

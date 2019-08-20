@@ -10,7 +10,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 {
     public interface IFF_BLService
     {
-        List<FF_BL_VM> GetFF_BL(string CmpyCode,string branchcode);
+        List<FF_BL_VM> GetFF_BL(string CmpyCode,string branchcode, string IEtyp);
         FF_BL_VM GetFF_BLDetailsEdit(string CmpyCode, string FF_BL001_CODE,string branchcode);
 
         FF_BL_VM GetFF_BLDetailsBk(string CmpyCode, string FF_BOK001_CODE,string Branchcode);
@@ -28,7 +28,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<SelectListItem> GetPortList(string CmpyCode);
         List<SelectListItem> GetVESSELList(string CmpyCode);
         List<SelectListItem> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE);
-        List<SelectListItem> GetSL(string CmpyCode, string typ1);        
+        List<SelectListItem> GetSL(string CmpyCode, string Branchcode);        
         List<SelectListItem> GetCommodityistList(string CmpyCode);
         List<SelectListItem> GetCLAUSE(string CmpyCode);
 

@@ -2,23 +2,24 @@
 
 @{
     ViewBag.Title = "BILL";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+   
 }
 
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(function () {
         EzAuthentication("/BILL");
+        GetDatatable();
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
-        function GetDrs() {
-            $.get("/FF_BL/GetFF_BLDetailList", function (response) {
-                $("#DRListContainer").html(response);
-            });
-        }
+      
+        //function GetDrs() {
+        //    $.get("/FF_BL/GetFF_BLDetailList", function (response) {
+        //        $("#DRListContainer").html(response);
+        //    });
+        //}
         debugger;
-        EzAutoCompTxtE("#BILL_TOEMP", "#hdnBILL_TOEMP", "/FF_BOK/GetSLList1", false, "");
-
+        
 
 
         $("#btnApprove").click(function () {
@@ -103,11 +104,12 @@
         });
 
         $("#btnCancel").click(function () {
-            //$("#DRContainer").html(drHtml);
-            //EzbtnCancelAcVis();
-            //$("#DRListContainer1").hide();
-            //$("#editshow").hide();
-            window.location = '/BILL';
+            $("#DRContainer").html(drHtml);
+            EzbtnCancelAcVis();
+            $("#DRListContainer1").hide();
+            $("#editshow").hide();
+            //setTimeout(function () { GetDatatable(); }, 30);
+           window.location = '/BILL'
         });
 
         $("#btnDelete").click(function () {
@@ -171,11 +173,11 @@
                 var FBV = {
                     EditFlag: false,
                     FF_BL001_CODE: $("[name*='FF_BL001_CODE']").val(),
-                    FF_BOK001_CODE: $("[name*='FF_BOK001_CODE']").val(),
-                    FF_BL001_DATE: Ezsetdtpkdate($("[name*='FF_BL001_DATE']").val()),
+                    FF_BOK001_CODE: $("[name='FF_BOK001_CODE']").val(),
+                    FF_BL001_DATE: Ezsetdtpkdate($("[name*='FF_BL001_DATE1']").val()),
                     FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
                     BILL_TO: $("[name*='hdnBILL_TO']").val(),
-                    SHIPPER: $("[name*='hdnSHIPPER']").val(),
+                    SHIPPER: $("[name*='hdnSHIPPER']").val()=='-1' ? $("[name*='hdnSHIPPER']").val('') :$("[name*='hdnSHIPPER']").val(),//$("[name*='hdnSHIPPER']").val(),
                     CONSIGNEE: $("[name*='hdnCONSIGNEE']").val(),
                     FORWARDER: $("[name*='hdnFORWARDER']").val(),
                     PICKUP_PLACE: $("[name*='PICKUP_PLACE']").val(),
@@ -189,8 +191,8 @@
                     VESSEL: $("[name*='hdnVESSEL']").val(),
                     VOYAGE: $("[name*='hdnVOYAGE']").val(),
                     JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
-                    ETD: Ezsetdtpkdate($("[name*='ETD']").val()),
-                    ETA: Ezsetdtpkdate($("[name*='ETA']").val()),
+                    ETD: Ezsetdtpkdate($("[name*='ETD1']").val()),
+                    ETA: Ezsetdtpkdate($("[name*='ETA1']").val()),
                     CARRIER: $("[name*='hdnCARRIER']").val(),
                     DEPARTMENT: $("[name*='hdnDEPARTMENT']").val(),
                     Total_Cost: $("[name*='Total_Cost']").val(),
@@ -216,7 +218,7 @@
                     var Cont_Type = $(this).find("[name*='txtCont_Type']").val();
                     var Commodity_code = $(this).find("[name*='txtCommodity_code']").val();
                     var Seal1 = $(this).find("[name*='txtSeal1']").val();
-                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+                    var No_of_qty = $(this).find("[name*='txtDNo_of_qty']").val();
                     var Contents = $(this).find("[name*='txtContents']").val();
                     var LBS = $(this).find("[name*='txtLBS']").val();
                     var KG = $(this).find("[name*='txtKG']").val();
@@ -255,7 +257,7 @@
                 $("#tablePODetails3 tbody tr").each(function (index, item) {
                     var sno = $(this).find("[name*='txtsno']").val();
                     var Pkg_No = $(this).find("[name*='txtPkg_No']").val();
-                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+                    var No_of_qty = $(this).find("[name*='txtCODNo_of_qty']").val();
                     var unit_type = $(this).find("[name*='txtunit_type']").val();
                     var Height = $(this).find("[name*='txtHeight']").val();
                     var Width = $(this).find("[name*='txtWidth']").val();
@@ -302,7 +304,7 @@
                     var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
                     var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
                     var Unit_Code = $(this).find("[name*='txtUnit_code']").val();
-                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+                    var No_of_qty = $(this).find("[name*='txtCHDNo_of_qty']").val();
 
                     var Cust_code = $(this).find("[name*='txtCust_code']").val();
                     var Cust_name = $(this).find("[name*='txtCust_name']").val();
@@ -365,12 +367,16 @@
                 if (validationResult.formValid) {
 
                     $.post("/SaveFFM_BL", FBV).done(function (response) {
-                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                           
-                            EzAlertSave();
-                            $("#DRContainer").html(drHtml);
-                            GetDrs();
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {                                                    
+                            //EzAlertSave();
+                            //EzbtnsaveAcVis("#DRContainer");
+                            //$("#DRContainer").html(drHtml);
+                            //GetDrs();
                             EzbtnsaveAcVis("#DRContainer");
+                            EzAlertSave();
+                            $("#tbldiv").show();
+                            $("#DRContainer").html(drHtml);
+
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -386,7 +392,7 @@
                 var FBV = {
                     EditFlag: true,
                     FF_BL001_CODE: $("[name*='FF_BL001_CODE']").val(),
-                    FF_BOK001_CODE: $("[name*='FF_BOK001_CODE']").val(),
+                    FF_BOK001_CODE: $("[name='FF_BOK001_CODE']").val(),
                     FF_BL001_DATE: Ezsetdtpkdate($("[name*='FF_BL001_DATE1']").val()),
                     FF_QTN001_CODE: $("[name*='FF_QTN001_CODE']").val(),
                     BILL_TO: $("[name*='hdnBILL_TO']").val(),
@@ -404,8 +410,8 @@
                     VESSEL: $("[name*='hdnVESSEL']").val(),
                     VOYAGE: $("[name*='hdnVOYAGE']").val(),
                     JOB_TYPE: $("[name*='hdnJOB_TYPE']").val(),
-                    ETD: Ezsetdtpkdate($("[name*='ETD']").val()),
-                    ETA: Ezsetdtpkdate($("[name*='ETA']").val()),
+                    ETD: Ezsetdtpkdate($("[name*='ETD1']").val()),
+                    ETA: Ezsetdtpkdate($("[name*='ETA1']").val()),
                     CARRIER: $("[name*='hdnCARRIER']").val(),
                     DEPARTMENT: $("[name*='hdnDEPARTMENT']").val(),
                     Total_Cost: $("[name*='Total_Cost']").val(),
@@ -431,7 +437,7 @@
                     var Cont_Type = $(this).find("[name*='txtCont_Type']").val();
                     var Commodity_code = $(this).find("[name*='txtCommodity_code']").val();
                     var Seal1 = $(this).find("[name*='txtSeal1']").val();
-                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+                    var No_of_qty = $(this).find("[name*='txtCODNo_of_qty']").val();
                     var Contents = $(this).find("[name*='txtContents']").val();
                     var LBS = $(this).find("[name*='txtLBS']").val();
                     var KG = $(this).find("[name*='txtKG']").val();
@@ -469,7 +475,7 @@
                 $("#tablePODetails3 tbody tr").each(function (index, item) {
                     var sno = $(this).find("[name*='txtsno']").val();
                     var Pkg_No = $(this).find("[name*='txtPkg_No']").val();
-                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+                    var No_of_qty = $(this).find("[name*='txtDNo_of_qty']").val();
                     var unit_type = $(this).find("[name*='txtunit_type']").val();
                     var Height = $(this).find("[name*='txtHeight']").val();
                     var Width = $(this).find("[name*='txtWidth']").val();
@@ -513,7 +519,7 @@
                     var Income_GL_Code = $(this).find("[name*='txtIncome_GL_Code']").val();
                     var Expense_GL_Code = $(this).find("[name*='txtExpense_GL_Code']").val();
                     var Unit_Code = $(this).find("[name*='txtUnit_code']").val();
-                    var No_of_qty = $(this).find("[name*='txtNo_of_qty']").val();
+                    var No_of_qty = $(this).find("[name*='txtCHDNo_of_qty']").val();
 
                     var Cust_code = $(this).find("[name*='txtCust_code']").val();
                     var Cust_name = $(this).find("[name*='txtCust_name']").val();
@@ -576,10 +582,14 @@
                 if (validationResult.formValid) {
                     $.post("/SaveFFM_BL", FBV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            EzAlertSave();
+                            //EzAlertSave();
+                            //EzbtnsaveAcVis("#DRContainer");
+                            //$("#DRContainer").html(drHtml);
+                            //GetDrs();
                             EzbtnsaveAcVis("#DRContainer");
+                            EzAlertSave();
+                            $("#tbldiv").show();
                             $("#DRContainer").html(drHtml);
-                            GetDrs();
                         } else {
                             EzAlerterrtxt(response.ErrorMessage);
                         }
@@ -608,27 +618,27 @@
                     response.ErrorMessage += "Code ,";
                 }
             }
-            if (FBV.BILL_TO == "0") {
+            if (FBV.BILL_TO == "-1") {
                 response.ErrorMessage += "Customer Code  ,";
             }
-            if (FBV.POL == "0") {
+            if (FBV.POL == "-1") {
                 response.ErrorMessage += "Port Of Load  ,";
             }
 
-            if (FBV.POD == "0") {
+            if (FBV.POD == "-1") {
                 response.ErrorMessage += "Port Of Dsch  ,";
             }
 
-            if (FBV.FND == "0") {
+            if (FBV.FND == "-1") {
                 response.ErrorMessage += "Final Destination  ,";
             }
-            if (FBV.MOVE_TYPE == "0") {
+            if (FBV.MOVE_TYPE == "-1") {
                 response.ErrorMessage += "Move Type  ,";
             }
-            if (FBV.VESSEL == "0") {
+            if (FBV.VESSEL == "-1") {
                 response.ErrorMessage += "VESSEL  ,";
             }
-            if (FBV.VOYAGE == "0") {
+            if (FBV.VOYAGE == "-1") {
                 response.ErrorMessage += "VOYAGE  ,";
             }
 
@@ -639,7 +649,19 @@
                 response.ErrorMessage += "Expected Time of arraivel  ,";
             }
 
+            var trf = $("#tranferFrom option:selected").val();
 
+            if (trf != 'QUOT')
+            {
+
+                if (FBV.FF_BL002Detail.length == 0) {
+                    response.ErrorMessage += "Container Details  ,";
+                }
+
+                if (FBV.FF_BL005Detail.length == 0) {
+                    response.ErrorMessage += "Charge Detail  ,";
+                }
+            }
 
 
             if (response.ErrorMessage.length == 0) {
@@ -668,7 +690,7 @@
                 $("#POList > tbody").children().removeClass("active");
                 $(this).addClass("active");
 
-                var FF_BL001_CODE = $(this).find("[name*='hdnFF_BL001_CODE']").val();
+                var FF_BL001_CODE  = $(this).find("td:eq(0)").text();// $(this).find("[name*='hdnFF_BL001_CODE']").val();
 
 
                 $.get("EditFF_BLDetails", { FF_BL001_CODE: FF_BL001_CODE }).done(function (response) {
@@ -700,7 +722,7 @@
             if (trf == 'DIRECT') {
                 $('#divcustom').hide();
                 $('#divqtn').hide();
-                $('#FF_BOK001_CODE').val('0').change();
+                $('#NFF_BOK001_CODE').val('0').change();
             } else {
                 $('#divcustom').show();
             }
@@ -731,6 +753,145 @@
           });
           // }
         });
+
+        function GetDatatable() {
+
+            //$('#POList').empty();
+            $.fn.dataTable.ext.errorMode = 'none';
+            $("#divsrly").show();
+
+
+            $("#POList tfoot th").each(function () {
+
+
+                var title = $('#POList tfoot th').eq($(this).index()).text();
+                if (title) {
+
+                    $(this).html('<input type="text" class="grid-control"  placeholder="Search"  />');
+
+                }
+
+
+            });
+            var table = $('#POList').DataTable({
+                "ColumnDefs": [{ "searchable": false, "orderable": true, "targets": [0] }],
+                "order": [[0, 'asc']],
+                //"scrollY": true, 
+                //  "scrollX": true,
+                "filter": true,
+                "paging": true,
+                "ordering": true,
+                "info": true,
+                "language":
+                {
+                    "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
+                },
+                "dom": 'lBfrtip',
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "buttons": [
+                          'excel',
+                          'pdf'
+                ],
+                "processing": true,
+                "serverSide": true,
+                "destroy": true,
+                "ajax":
+                {
+                    "async": false,
+                    "cache": false,
+                    "type": "POST",
+                    "url": '/FF_BL/GetFF_BLDetailList',
+                    "dataType": "json",
+                },
+
+                "aoColumns": [
+                              { "mDataProp": "FF_BL001_CODE" },
+                              {
+                                  "mDataProp": "FF_BL001_DATE",
+                                  "render": function (data) {
+                                     return (EzdatefrmtRes1(data));
+                                 }
+                              },
+                              { "mDataProp": "FF_QTN001_CODE" },
+                                { "mDataProp": "FF_BOK001_CODE" },
+                                { "mDataProp": "BILL_TO" },
+                                { "mDataProp": "SHIPPER" },
+                                { "mDataProp": "CONSIGNEE" },
+                                { "mDataProp": "FORWARDER" },
+                                { "mDataProp": "PICKUP_PLACE" },
+                                { "mDataProp": "POL" },
+                                { "mDataProp": "POD" },
+                                { "mDataProp": "FND" },
+                                { "mDataProp": "PLACE_OF_RCPT" },
+                                { "mDataProp": "MOVE_TYPE" },
+                                { "mDataProp": "DELIVERY_AT" },
+                                { "mDataProp": "REF_NO" },
+                                { "mDataProp": "VESSEL" },
+                                { "mDataProp": "VOYAGE" },
+                                {
+                                    "mDataProp": "ETD",
+                                    "render": function (data) {
+                                        return (EzdatefrmtRes1(data));
+                                    }
+                                },
+                                {
+                                    "mDataProp": "ETA",
+                                    "render": function (data) {
+                                        return (EzdatefrmtRes1(data));
+                                    }
+                                },
+                                { "mDataProp": "CARRIER" },
+                                { "mDataProp": "DEPARTMENT" },
+                                { "mDataProp": "Total_Cost" },
+                                { "mDataProp": "Total_Billed" },
+                                { "mDataProp": "Total_Profit" },
+                                                ]
+            });
+
+            var delay = (function () {
+                var timer = 0;
+                return function (callback, ms) {
+                    clearTimeout(timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
+
+            table.columns().eq(0).each(function (colIdx) {
+                $('input', $('#POList tfoot th')[colIdx]).bind('keyup', function () {
+                    debugger;
+                    var coltext = this.value; // typed value in the search column  
+                    var colindex = colIdx; // column index  
+                    delay(function () {
+                        table
+                            .column(colindex)
+                            .search(coltext)
+                            .draw();
+                    }, 500);
+                });
+            });
+
+            setInterval(function () {
+                table.ajax.reload();
+            }, 30000);
+
+            var r = $("#POList tfoot th");
+            r.find('th').each(function () {
+                jq(this).css('padding', 8);
+            });
+            $("#POList thead").append(r);
+            $('#search_0').css('text-align', 'center');
+
+            $('div.dataTables_filter input').addClass('form-control input-sm');
+
+            $('#POList_length').hide();
+
+            $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+
+
+
+            // Ezsidetbl1112("#POList", "#POList tfoot td", true, "#POList thead","t");
+        }
+
     });
 </script>
 
@@ -872,9 +1033,76 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @Html.Action("GetFF_BLDetailList", "FF_BL")
-                                            </div>
+                                                @*@Html.Action("GetFF_BLDetailList", "FF_BL")*@
+                                                @*<div style="overflow-x:auto;">*@
+                                                    <div class="table-responsive">
+                                                        <table id="POList" width="100%" class="table table-bordered stripe display hover portal-drivers">
 
+                                                            <thead>
+                                                                <tr class="tr">
+                                                                    <th>BILL Code</th>
+                                                                    <th>BILL Date</th>
+                                                                    <th>QTN Code</th>
+                                                                    <th>Book Code</th>
+                                                                    <th>BILL TO</th>
+                                                                    <th>SHIPPER</th>
+                                                                    <th>CONSIGNEE</th>
+                                                                    <th>FORWARDER</th>
+                                                                    <th>PICKUP PLACE</th>
+                                                                    <th>POL</th>
+                                                                    <th>POD</th>
+                                                                    <th>FND</th>
+                                                                    <th>PLACE OF RCPT</th>
+                                                                    <th>MOVE TYPE</th>
+                                                                    <th>DELIVERY AT</th>
+                                                                    <th>REF No</th>
+                                                                    <th>Vessal</th>
+                                                                    <th>Voyage</th>
+                                                                    <th>ETD</th>
+                                                                    <th>ETA</th>
+                                                                    <th>CARRIER</th>
+                                                                    <th>DEPARTMENT</th>
+                                                                    <th>Total Cost</th>
+                                                                    <th>Total Billed</th>
+                                                                    <th>Total Profit</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <th>BILL Code</th>
+                                                                    <th>BILL Date</th>
+                                                                    <th>QTN Code</th>
+                                                                    <th>Book Code</th>
+                                                                    <th>BILL TO</th>
+                                                                    <th>SHIPPER</th>
+                                                                    <th>CONSIGNEE</th>
+                                                                    <th>FORWARDER</th>
+                                                                    <th>PICKUP PLACE</th>
+                                                                    <th>POL</th>
+                                                                    <th>POD</th>
+                                                                    <th>FND</th>
+                                                                    <th>PLACE OF RCPT</th>
+                                                                    <th>MOVE TYPE</th>
+                                                                    <th>DELIVERY AT</th>
+                                                                    <th>REF No</th>
+                                                                    <th>Vessal</th>
+                                                                    <th>Voyage</th>
+                                                                    <th>ETD</th>
+                                                                    <th>ETA</th>
+                                                                    <th>CARRIER</th>
+                                                                    <th>DEPARTMENT</th>
+                                                                    <th>Total Cost</th>
+                                                                    <th>Total Billed</th>
+                                                                    <th>Total Profit</th>
+                                                                </tr>
+                                                            </tfoot>
+                                                            <tbody>
+                                                                <tr></tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                @*</div>*@
+                                            </div>
                                         </div>
                                     </div><br />
                                     <!-- END FORM-->

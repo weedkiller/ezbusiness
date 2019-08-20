@@ -32,7 +32,7 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
         List<SelectListItem> GetPortList(string CmpyCode);
         List<SelectListItem> GetVESSELList(string CmpyCode);
         List<SelectListItem> GetVOYAGEList(string CmpyCode, string FFM_VESSEL_CODE);
-        List<SelectListItem> GetSL(string CmpyCode, string typ1, string Prefix);
+        List<SelectListItem> GetSL(string CmpyCode, string Branchcode);
 
         List<SelectListItem> GetCLAUSE(string CmpyCode);
 

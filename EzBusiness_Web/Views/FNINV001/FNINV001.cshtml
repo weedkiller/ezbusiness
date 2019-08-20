@@ -12,25 +12,26 @@
         EzAuthentication("/CUSTOMERINVOICE");
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
-        //function GetDrs() {
-        //    $.get("/FNINV001/GetINVOICEDetailList", function (response) {
-        //        $("#DRListContainer").html(response);
-        //    });
-        //}
-
-
         function GetDrs() {
-            var path = $("#hdnpath").val();
-            var k = '';
-            if (path == "<li>Freight Management</li><li>Operation</li><li>SEA</li><li>Export</li><li>Customer Invoice</li>") {
-                k = 'INVJV';
-            } else {
-                k = 'PIVJV'
-            }
-            $.get("/FNINV001/GetINVOICEDetailList", { Module_Type: k }, function (response) {
+            $.get("/FNINV001/GetINVOICEDetailList", { Module_Type: 'INVJV' }, function (response) {
                 $("#DRListContainer").html(response);
             });
         }
+
+
+        //function GetDrs() {
+        //    debugger;
+        //    var path = $("#hdnpath").val();
+        //    var k = '';
+        //    if (path == "<li>Freight Management</li><li>Operation</li><li>SEA</li><li>Export</li><li>Customer Invoice</li>") {
+        //        k = 'INVJV';
+        //    } else {
+        //        k = 'PIVJV'
+        //    }
+        //    $.get("/FNINV001/GetINVOICEDetailList", { Module_Type: k }, function (response) {
+        //        $("#DRListContainer").html(response);
+        //    });
+        //}
 
 
         $("#btnNew").click(function () {
@@ -61,10 +62,11 @@
         });
 
         $("#btnCancel").click(function () {
-            $("#DRContainer").html(drHtml);
-            EzbtnCancelAcVis();
-            $("#DRListContainer1").hide();
-            $("#editshow").hide();
+            //$("#DRContainer").html(drHtml);
+            //EzbtnCancelAcVis();
+            //$("#DRListContainer1").hide();
+            //$("#editshow").hide();
+            window.location = '/CUSTOMERINVOICE'
         });
 
         $("#btnDelete").click(function () {
@@ -151,7 +153,7 @@
                     NET_CURRENCY_AMT: $("[name*='NET_CURRENCY_AMT']").val(),
                     NET_LOCAL_AMT: $("[name*='NET_LOCAL_AMT']").val(),
                     INV_STATUS: 'POSTED',
-                    INV_TYPE:'INVJ',
+                    INV_TYPE: 'INVJV',
                     FNINV002Detail: [],
                 };
                 $("#tablePODetails5 tbody tr").each(function (index, item) {
@@ -251,7 +253,8 @@
                     NET_CURRENCY_AMT: $("[name*='NET_CURRENCY_AMT']").val(),
                     NET_LOCAL_AMT: $("[name*='NET_LOCAL_AMT']").val(),
                     INV_STATUS: 'POSTED',
-                    INV_TYPE: 'INVJ',
+                    INV_TYPE: 'INVJV',
+
                     FNINV002Detail: [],
                 };
                 $("#tablePODetails5 tbody tr").each(function (index, item) {

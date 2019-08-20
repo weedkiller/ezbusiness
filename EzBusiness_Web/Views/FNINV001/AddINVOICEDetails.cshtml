@@ -39,9 +39,12 @@ var counter2=1;
         EzdteformtDOB('#INV_DATE1', 'DD/MM/YYYY');
         EzdteformtDOB('#Post_Date1', 'DD/MM/YYYY');
        
+       
+        EzAutoCompTxtE("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FNINV001/GetCustSupp1", false, "");
+       
+       
 
-     
-        EzAutoCompTxtE("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FFM_Quotation/GetCust", false, "");
+
         EzAutoCompTxtE("#CURRENCY_CODE", "#hdnCURRENCY_CODE", "/FNM_SL/GetCurrency", false, "");
         EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
         EzAutoCompTxtE("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
@@ -146,97 +149,235 @@ var counter2=1;
         });
         }
        
-
-
         $("#btnInvoice").click(function () {
-            var BLNO = $('#BL_CODE').val();
-            var counter2 = parseInt($("#hdnCounter2").val()) + 1;
+            var BLCode = $('#BL_CODE option:selected').val();               
+            var Customer_code = $('#hdnSUBLEDGER_CODE').val();
+            var ExCode = $('#hdnCURRENCY_CODE').val();
+            var ExRate = $('#CURRENCY_RATE').val();
+            var ErrorMessage = '';
+            if (Customer_code == '-1') 
+                ErrorMessage += "Customer Code  ,";            
+            if (BLCode == "0")
+                ErrorMessage += "Bill Code  ,";             
+            if (ExCode == '-1')
+                ErrorMessage += "Ex Code  ,";
+            if (parseInt(ExCode) == 0) 
+                ErrorMessage += "Ex Rate  ,";
+            if (ErrorMessage != '') {
+                EzAlerterrtxt(ErrorMessage);
+                return;
+            }           
+            const swalWithBootstrapButtons = Swal.mixin({
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+            })
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    //text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Generate it!',
+                    cancelButtonText: 'cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {                                                                
+                        $.getJSON("/BLInvoiceGE", { BLCode: BLCode, Customer_code: Customer_code, ExCode: ExCode, ExRate: ExRate, Table_Name: 'FNINV001', Module_Type: 'INVJV' }).done(function (data) {
+                            debugger
+                            if (data.BLGENFlag) {
+                                var FNINV001_CODE = $('#FNINV001_CODE').val();                             
+                                var counter2 = parseInt($("#hdnCounter2").val()) + 1;
+                                //window.location = '/CUSTOMERINVOICE'                            
+                                $.get("/FNINV001/GetFNINV002DetailList", { BLNO: FNINV001_CODE }).done(function (response) {
+                                        var ary = [];
+                                        debugger;
+                                        ary = response;                                      
+                                        if (ary.length == 0) {
+                                            Swal.queue([{
+                                                type: 'error',
+                                                title: 'Oops...',
+                                                text: 'Bl Detail Not Exist  !',
+                                                allowOutsideClick: false,
+                                                showLoaderOnConfirm: true,
+                                            }])
+                                            return;
+                                        }
+                                        
+                                        $.get("/FNINV001/GetHeaderDetail", { BLNO: FNINV001_CODE }).done(function (response) {
+                                            ary = response;
+                                            debugger;
+                                            $('#POD').val(POD);
+                                            $('#SalesMan').val(SalesMan);
+                                            $('#vessel_code').val(vessel_code);
+                                            $('#POL').val(POL);                                            
+                                            EzAutoCompTxt1("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList");
+                                            EzAutoCompTxt1("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList");
+                                            EzAutoCompTxt1("#vessel_code", "#hdnvessel_code", "/FFM_Quotation/GetVESSELList");
+                                            EzAutoCompTxt1("#SalesMan", "#hdnSalesMan", "/FF_BOK/GetSalesman");
+                                            $('BL_CODE').attr('readonly', true);
+                                            $('btnInvoice').attr('disabled', true);
+                                            $("#hdnOperationMode").val('Edit');
+                                        });
 
-            if (BLNO != '') {
-                $.get("/FNINV001/GETBLNODetails", {  BLNO: BLNO }).done(function (response) {
-                    var ary = [];
-                    debugger;
-                    ary = response;
+
+                                        $("#tablePODetails5 tbody").find("tr:not(:first)").remove();
+
+                                        var counter = 1;
+                                        for (var i = 0; i < ary.length; i++) {
+                                            $('#tablePODetails5 tbody tr:last').clone().insertAfter('#tablePODetails5 tbody tr:last');
+                                            var trLast = $("#tablePODetails5 tbody tr:last");
+                                            txtarry = [];
+                                            txtarry.push('txtVochNetsumVatAmountBC','txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC');
+                                            EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
+                                            trLast.find("[name*='txtsno" + counter2 + "']").val(counter2);
+                                            $("[name*='txtCrg_name" + counter + "']").val(ary[i].Item_Description.trim());
+                                            $("[name*='txtCrg_code" + counter + "']").val(ary[i].ITEMCODE.trim());
+                                            $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
+                                            $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE.trim());
+                                            $("[name*='txtVAT_GL_CODE" + counter + "']").val(ary[i].VAT_GL_CODE.trim());
+                                            $("[name*='txtCOA_CODE" + counter + "']").val(ary[i].COA_CODE.trim());
+                                            $("[name*='txtUnit_code" + counter + "']").val(ary[i].UNIT_TYPE.trim());
+                                            $("[name*='txtNo_of_qty" + counter + "']").val(ary[i].NO_OF_QTY);
+                                            $("[name*='txtEx_Curr_Rate" + counter + "']").val(ary[i].RATE_PER_QTY);
+                                            $("[name*='txtEx_Curr_Code" + counter + "']").val(ary[i].O_CURR_CODE.trim());
+                                            $("[name*='txtRate" + counter + "']").val(ary[i].O_CURR_RATE);
+                                            $("[name*='txtAmountFC" + counter + "']").val(ary[i].O_CURR_AMT);
+                                            $("[name*='txtAmountBC" + counter + "']").val(ary[i].O_LOCAL_AMT);
+                                            $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
+                                            $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE);                    
+                                            $("[name*='txtVatAmountBC" + counter + "']").val(ary[i].O_VAT_LOCAL_AMT);
+                                            $("[name*='txtO_CHARGE_UID" + counter + "']").val(ary[i].O_CHARGE_UID);                                          
+                                            $("[name*='txtVouchVATAmountFC" + counter + "']").val(ary[i].V_VAT_CURR_AMT);
+                                            $("[name*='txtVouchVATAmountBC" + counter + "']").val(ary[i].V_VAT_LOCAL_AMT);
+                                            $("[name*='txtVochAmountFC" + counter + "']").val(ary[i].V_CURR_AMT);
+                                            $("[name*='txtVochAmountBC" + counter + "']").val(ary[i].V_LOCAL_AMT);
+                                            $("[name*='txtVochNetsumVatAmountFC" + counter + "']").val(ary[i].V_NET_CURR_AMT);
+                                            $("[name*='txtVochNetsumVatAmountBC" + counter + "']").val(ary[i].V_NET_LOCAL_AMT);
+                                            counter++;
+                                            counter2++;
+                                        }
+
+                                        $('#tablePODetails5 tbody tr:last').remove();
+                                        sumOfColumns();
+
+
+
+
+                                    });
+                            } else {
+                                EzAlertdele(BLCode);
+                            }
+
+                        });
+                        swalWithBootstrapButtons.fire(
+                          'Generated!',
+                          'Your Customer Invoice has been Generated.',
+                          'success'
+                        )
+
+                    } else if (
+                        // Read more about handling dismissals
+                      result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                          'Cancelled',
+                          'Your Bill Code is safe :)',
+                          'error'
+                        )
+                    }
+                })
+                $("#editshow").hide();
+        });
+
+        //$("#btnInvoice").click(function () {
+        //    var BLNO = $('#BL_CODE').val();
+        //    var counter2 = parseInt($("#hdnCounter2").val()) + 1;
+
+        //    if (BLNO != '') {
+        //        $.get("/FNINV001/GETBLNODetails", {  BLNO: BLNO }).done(function (response) {
+        //            var ary = [];
+        //            debugger;
+        //            ary = response;
                    
-                    if (ary.length == 0) {
-                        Swal.queue([{
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'Bl Detail Not Exist  !',
-                            allowOutsideClick: false,
-                            showLoaderOnConfirm: true,
-                        }])
-                        return;
-                    }                  
-                    $("#tablePODetails5 tbody").find("tr:not(:first)").remove();
+        //            if (ary.length == 0) {
+        //                Swal.queue([{
+        //                    type: 'error',
+        //                    title: 'Oops...',
+        //                    text: 'Bl Detail Not Exist  !',
+        //                    allowOutsideClick: false,
+        //                    showLoaderOnConfirm: true,
+        //                }])
+        //                return;
+        //            }                  
+        //            $("#tablePODetails5 tbody").find("tr:not(:first)").remove();
 
-                    var counter = 1;
-                    for (var i = 0; i < ary.length; i++) {
-                        $('#tablePODetails5 tbody tr:last').clone().insertAfter('#tablePODetails5 tbody tr:last');
-                        var trLast = $("#tablePODetails5 tbody tr:last");
+        //            var counter = 1;
+        //            for (var i = 0; i < ary.length; i++) {
+        //                $('#tablePODetails5 tbody tr:last').clone().insertAfter('#tablePODetails5 tbody tr:last');
+        //                var trLast = $("#tablePODetails5 tbody tr:last");
 
-                        txtarry = [];
-                        txtarry.push('txtVochNetsumVatAmountBC','txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC');
-                        EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
+        //                txtarry = [];
+        //                txtarry.push('txtVochNetsumVatAmountBC','txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC');
+        //                EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
 
-                        trLast.find("[name*='txtsno" + counter2 + "']").val(counter2);
+        //                trLast.find("[name*='txtsno" + counter2 + "']").val(counter2);
                       
 
-                        $("[name*='txtCrg_name" + counter + "']").val(ary[i].Item_Description.trim());
-                        $("[name*='txtCrg_code" + counter + "']").val(ary[i].ITEMCODE.trim());
-                        $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
-                        $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE.trim());
-                        $("[name*='txtVAT_GL_CODE" + counter + "']").val(ary[i].VAT_GL_CODE.trim());
-                        $("[name*='txtCOA_CODE" + counter + "']").val(ary[i].COA_CODE.trim());
-                        $("[name*='txtUnit_code" + counter + "']").val(ary[i].UNIT_TYPE.trim());
-                        $("[name*='txtNo_of_qty" + counter + "']").val(ary[i].NO_OF_QTY);
-                        $("[name*='txtEx_Curr_Rate" + counter + "']").val(ary[i].RATE_PER_QTY);
-                        $("[name*='txtEx_Curr_Code" + counter + "']").val(ary[i].O_CURR_CODE.trim());
-                        $("[name*='txtRate" + counter + "']").val(ary[i].O_CURR_RATE);
-                        $("[name*='txtAmountFC" + counter + "']").val(ary[i].O_CURR_AMT);
-                        $("[name*='txtAmountBC" + counter + "']").val(ary[i].O_LOCAL_AMT);
-                        $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
-                        $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE);                    
-                        $("[name*='txtVatAmountBC" + counter + "']").val(ary[i].O_VAT_LOCAL_AMT);
-                        $("[name*='txtO_CHARGE_UID" + counter + "']").val(ary[i].O_CHARGE_UID);
+        //                $("[name*='txtCrg_name" + counter + "']").val(ary[i].Item_Description.trim());
+        //                $("[name*='txtCrg_code" + counter + "']").val(ary[i].ITEMCODE.trim());
+        //                $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
+        //                $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE.trim());
+        //                $("[name*='txtVAT_GL_CODE" + counter + "']").val(ary[i].VAT_GL_CODE.trim());
+        //                $("[name*='txtCOA_CODE" + counter + "']").val(ary[i].COA_CODE.trim());
+        //                $("[name*='txtUnit_code" + counter + "']").val(ary[i].UNIT_TYPE.trim());
+        //                $("[name*='txtNo_of_qty" + counter + "']").val(ary[i].NO_OF_QTY);
+        //                $("[name*='txtEx_Curr_Rate" + counter + "']").val(ary[i].RATE_PER_QTY);
+        //                $("[name*='txtEx_Curr_Code" + counter + "']").val(ary[i].O_CURR_CODE.trim());
+        //                $("[name*='txtRate" + counter + "']").val(ary[i].O_CURR_RATE);
+        //                $("[name*='txtAmountFC" + counter + "']").val(ary[i].O_CURR_AMT);
+        //                $("[name*='txtAmountBC" + counter + "']").val(ary[i].O_LOCAL_AMT);
+        //                $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
+        //                $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE);                    
+        //                $("[name*='txtVatAmountBC" + counter + "']").val(ary[i].O_VAT_LOCAL_AMT);
+        //                $("[name*='txtO_CHARGE_UID" + counter + "']").val(ary[i].O_CHARGE_UID);
 
-                        var HExRate = parseFloat($("[name*='CURRENCY_RATE']").val());
-                        HExRate = isNaN(HExRate) ? 0 : HExRate;
-                        var AmountBC = parseFloat($("[name*='txtAmountBC" + counter + "']").val());
-                        AmountBC = isNaN(AmountBC) ? 0 : AmountBC;
-                        var VatAmountBC = parseFloat($("[name*='txtVatAmountBC" + counter + "']").val());
-                        VatAmountBC = isNaN(VatAmountBC) ? 0 : VatAmountBC;
-                        $("[name*='txtVouchVATAmountFC" + counter + "']").val(EzDivide(VatAmountBC, HExRate));
-                        var VouchVATAmtFC = parseFloat($("[name*='txtVouchVATAmountFC" + counter + "']").val());
-                        VouchVATAmtFC = isNaN(VouchVATAmtFC) ? 0 : VouchVATAmtFC;
-                        $("[name*='txtVouchVATAmountBC" + counter + "']").val(EzMult2(VouchVATAmtFC, HExRate));
-                        $("[name*='txtVochAmountFC" + counter + "']").val(EzDivide(AmountBC, HExRate));
-                        var VochAmountFC = parseFloat($("[name*='txtVochAmountFC" + counter + "']").val());
-                        VochAmountFC = isNaN(VochAmountFC) ? 0 : VochAmountFC;
-                        $("[name*='txtVochAmountBC" + counter + "']").val(EzMult2(VochAmountFC, HExRate));
-                        $("[name*='txtVochNetsumVatAmountFC" + counter + "']").val(EzSum(VouchVATAmtFC, VochAmountFC));
+        //                var HExRate = parseFloat($("[name*='CURRENCY_RATE']").val());
+        //                HExRate = isNaN(HExRate) ? 0 : HExRate;
+        //                var AmountBC = parseFloat($("[name*='txtAmountBC" + counter + "']").val());
+        //                AmountBC = isNaN(AmountBC) ? 0 : AmountBC;
+        //                var VatAmountBC = parseFloat($("[name*='txtVatAmountBC" + counter + "']").val());
+        //                VatAmountBC = isNaN(VatAmountBC) ? 0 : VatAmountBC;
+        //                $("[name*='txtVouchVATAmountFC" + counter + "']").val(EzDivide(VatAmountBC, HExRate));
+        //                var VouchVATAmtFC = parseFloat($("[name*='txtVouchVATAmountFC" + counter + "']").val());
+        //                VouchVATAmtFC = isNaN(VouchVATAmtFC) ? 0 : VouchVATAmtFC;
+        //                $("[name*='txtVouchVATAmountBC" + counter + "']").val(EzMult2(VouchVATAmtFC, HExRate));
+        //                $("[name*='txtVochAmountFC" + counter + "']").val(EzDivide(AmountBC, HExRate));
+        //                var VochAmountFC = parseFloat($("[name*='txtVochAmountFC" + counter + "']").val());
+        //                VochAmountFC = isNaN(VochAmountFC) ? 0 : VochAmountFC;
+        //                $("[name*='txtVochAmountBC" + counter + "']").val(EzMult2(VochAmountFC, HExRate));
+        //                $("[name*='txtVochNetsumVatAmountFC" + counter + "']").val(EzSum(VouchVATAmtFC, VochAmountFC));
 
-                        var VouchVATAmtBC = parseFloat($("[name*='txtVouchVATAmountBC" + counter + "']").val());
-                        VouchVATAmtBC = isNaN(VouchVATAmtBC) ? 0 : VouchVATAmtBC;
+        //                var VouchVATAmtBC = parseFloat($("[name*='txtVouchVATAmountBC" + counter + "']").val());
+        //                VouchVATAmtBC = isNaN(VouchVATAmtBC) ? 0 : VouchVATAmtBC;
 
-                        var VochAmountBC = parseFloat($("[name*='txtVochAmountBC" + counter + "']").val());
-                        VochAmountBC = isNaN(VochAmountBC) ? 0 : VochAmountBC;
+        //                var VochAmountBC = parseFloat($("[name*='txtVochAmountBC" + counter + "']").val());
+        //                VochAmountBC = isNaN(VochAmountBC) ? 0 : VochAmountBC;
 
-                        $("[name*='txtVochNetsumVatAmountBC" + counter + "']").val(EzSum(VouchVATAmtBC, VochAmountBC));
+        //                $("[name*='txtVochNetsumVatAmountBC" + counter + "']").val(EzSum(VouchVATAmtBC, VochAmountBC));
                                              
-                        counter++;
-                        counter2++;
-                    }
+        //                counter++;
+        //                counter2++;
+        //            }
 
-                    $('#tablePODetails5 tbody tr:last').remove();
-                    sumOfColumns();
+        //            $('#tablePODetails5 tbody tr:last').remove();
+        //            sumOfColumns();
                    
                    
 
                    
-                });
-            }
-        });
+        //        });
+        //    }
+        //});
            
 
        
@@ -304,7 +445,7 @@ var counter2=1;
                     async: false,
                     cache: false,
                     type: "POST",
-                    data: "{CustCode:'" + $("#hdnSUBLEDGER_CODE").val() + "'}",
+                    data: "{CustCode:'" + $("#hdnSUBLEDGER_CODE").val() + "',Module_Type:'INVJV'}",
                     url: "/FNINV001/GETBLNO",
                     dataType: 'Json',
                     contentType: "Application/json",
@@ -398,7 +539,7 @@ var counter2=1;
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-4">Invoice No</label>
+                                                    <label class="control-label col-md-4">Invoice No<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
                                                         @Html.TextBoxFor(m => m.FNINV001_CODE, new { @style = "text-transform: uppercase;", @class = "form-control" })                                                        
                                                     </div>
@@ -409,7 +550,7 @@ var counter2=1;
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-4">Customer</label>
+                                                    <label class="control-label col-md-4">Customer<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
                                                         @Html.TextBoxFor(m => m.SUBLEDGER_CODE, new { @class = "form-control" })
                                                         <input id="hdnSUBLEDGER_CODE" type="hidden" class="form-control" name="hdnSUBLEDGER_CODE" value="-1" />
@@ -446,7 +587,7 @@ var counter2=1;
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-4">Ex.Code</label>
+                                                    <label class="control-label col-md-4">Ex.Code<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
                                                         @Html.TextBoxFor(m => m.CURRENCY_CODE, new { @class = "form-control" })
                                                         <input id="hdnCURRENCY_CODE" type="hidden" class="form-control" name="hdnCURRENCY_CODE" value="-1" />
@@ -467,7 +608,7 @@ var counter2=1;
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-4">Ex.Rate</label>
+                                                    <label class="control-label col-md-4">Ex.Rate<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
                                                         @Html.TextBoxFor(m => m.CURRENCY_RATE, new { @class = "form-control", @Type = "number" })
                                                     </div>
@@ -508,7 +649,7 @@ var counter2=1;
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Sales Man</label>
                                                     <div class="col-md-7 input-field">
-                                                        @Html.TextBoxFor(m => m.SalesMan, new { @class = "form-control" })
+                                                        @Html.TextBoxFor(m => m.SalesMan, new { @class = "form-control", @readonly = "readonly" })
                                                         <input id="hdnSalesMan" type="hidden" class="form-control" name="hdnSalesMan" value="-1" />
                                                     </div>
                                                 </div>
@@ -517,7 +658,7 @@ var counter2=1;
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-4">BL Code</label>
+                                                    <label class="control-label col-md-4">BL Code<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
                                                         @Html.DropDownListFor(m => m.BL_CODE, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
 
@@ -532,7 +673,7 @@ var counter2=1;
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Port of Load</label>
                                                     <div class="col-md-7 input-field">
-                                                        @Html.TextBoxFor(m => m.POL, new { @class = "form-control" })
+                                                        @Html.TextBoxFor(m => m.POL, new { @class = "form-control", @readonly = "readonly" })
                                                         <input id="hdnPOL" type="hidden" class="form-control" name="hdnPOL" value="-1" />
                                                     </div>
                                                 </div>
@@ -549,7 +690,7 @@ var counter2=1;
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Vessel</label>
                                                     <div class="col-md-7 input-field">
-                                                        @Html.TextBoxFor(m => m.vessel_code, new { @class = "form-control" })
+                                                        @Html.TextBoxFor(m => m.vessel_code, new { @class = "form-control", @readonly = "readonly" })
                                                         <input id="hdnvessel_code" type="hidden" class="form-control" name="hdnvessel_code" value="-1" /> 
                                                     </div>
                                                 </div>
@@ -564,7 +705,7 @@ var counter2=1;
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Port of del</label>
                                                     <div class="col-md-7 input-field">
-                                                        @Html.TextBoxFor(m => m.POD, new { @class = "form-control" })
+                                                        @Html.TextBoxFor(m => m.POD, new { @class = "form-control", @readonly = "readonly" })
                                                         <input id="hdnPOD" type="hidden" class="form-control" name="hdnPOD" value="-1" /> 
                                                     </div>
                                                 </div>
@@ -605,14 +746,14 @@ var counter2=1;
                                                                                 <th style="display:none;">	Amount (FC)	</th>
                                                                                 <th style="display:none;">	Amount (BC)	</th>
                                                                                 <th style="display:none;">	Vat %	</th>
-                                                                                <th style="display:none;">	Vat. Amount(BC)	</th>
-                                                                                <th>	Vouch. Vat Amount(FC)	</th>
-                                                                                <th style="padding: 0px 6px;">Vouch. Vat Amount(BC)	</th>
+                                                                                <th style="display:none;">	Amount(BC)	</th>
+                                                                                <th>Vat Amount(FC)	</th>
+                                                                                <th style="padding: 0px 6px;">Vat Amount(BC)	</th>
 
-                                                                                <th> Voch. Amount(FC)</th>
-                                                                                <th>	Voch. Amount(BC)	</th>
-                                                                                <th>	Voch. Net +Vat Amount(FC)	</th>
-                                                                                <th>	Voch. Net +Vat Amount(BC)	</th>
+                                                                                <th>Amount(FC)</th>
+                                                                                <th>Amount(BC)	</th>
+                                                                                <th>Net +Vat Amount(FC)	</th>
+                                                                                <th>Net +Vat Amount(BC)	</th>
 
 
 
@@ -720,24 +861,24 @@ var counter2=1;
                                                                         </tbody>
                                                                         <tfoot>
                                                                             <tr>
-                                                                                <td></td>
-                                                                                <td> </td>
-                                                                                <td></td>
+                                                                                @*<td></td>
+                <td> </td>
+                <td></td>
 
-                                                                                <td></td>
-                                                                                <td>Total</td>
-                                                                             
-                                                                              
-                                                                               
-                                                                                <td>@Html.TextBoxFor(m => m.VAT_CURRENCY_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
-                                                                                <td>@Html.TextBoxFor(m => m.VAT_LOCAL_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
+                <td></td>*@
+                                                                                <th colspan="5" class="tr">Total</th>
 
-                                                                                <td>@Html.TextBoxFor(m => m.CURRENCY_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
-                                                                                <td>@Html.TextBoxFor(m => m.LOCAL_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
-                                                                                
-                                                                                <td>@Html.TextBoxFor(m => m.NET_CURRENCY_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
-                                                                                <td>@Html.TextBoxFor(m => m.NET_LOCAL_AMT, new { @class = "grid-control", @disabled = "disabled", @Type = "number" })</td>
-                                                                                
+
+
+                                                                                <th>@Html.TextBoxFor(m => m.VAT_CURRENCY_AMT, new { @class = "grid-controlFoter", @disabled = "disabled", @Type = "number" })</th>
+                                                                                <th>@Html.TextBoxFor(m => m.VAT_LOCAL_AMT, new { @class = "grid-controlFoter", @disabled = "disabled", @Type = "number" })</th>
+
+                                                                                <th>@Html.TextBoxFor(m => m.CURRENCY_AMT, new { @class = "grid-controlFoter", @disabled = "disabled", @Type = "number" })</th>
+                                                                                <th>@Html.TextBoxFor(m => m.LOCAL_AMT, new { @class = "grid-controlFoter", @disabled = "disabled", @Type = "number" })</th>
+
+                                                                                <th>@Html.TextBoxFor(m => m.NET_CURRENCY_AMT, new { @class = "grid-controlFoter", @disabled = "disabled", @Type = "number" })</th>
+                                                                                <th>@Html.TextBoxFor(m => m.NET_LOCAL_AMT, new { @class = "grid-controlFoter", @disabled = "disabled", @Type = "number" })</th>
+
                                                                             </tr>
                                                                         </tfoot>
                                                                     </table>

@@ -1,0 +1,124 @@
+﻿@model IEnumerable < EzBusiness_ViewModels.Models.FreightManagement.SEA_Export.FNINV001_VM>
+
+<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/Scripts/EzComNDW.js"></script>
+<script>
+    $(document).ready(function () {
+        Ezsidetbl1("#POList", "#POList tfoot td", false, "#POList thead");
+    });
+
+</script>
+
+
+<table id="POList" class="table table-bordered stripe display hover portal-drivers">
+    <thead>
+        <tr class="tr">
+            <th>
+                @Html.DisplayNameFor(model => model.FNINV001_CODE)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.BL_CODE)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BL_REF_NO)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.BL_CODE)
+            </th>
+            <th>
+
+                @Html.DisplayNameFor(model => model.vessel_code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SUBLEDGER_CODE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.POD)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.POL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.INV_DATE)
+            </th>
+
+
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.FNINV001_CODE)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.BL_CODE)
+            </td>
+            @*<td>
+                    @Html.DisplayNameFor(model => model.BL_REF_NO)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.COA_CODE)
+                </td>*@
+            <td>
+
+                @Html.DisplayNameFor(model => model.vessel_code)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.SUBLEDGER_CODE)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.POD)
+            </td>
+            <td>
+                @Html.DisplayNameFor(model => model.POL)
+            </td>
+            <td>
+
+                @Html.DisplayNameFor(model => model.INV_DATE)
+            </td>
+
+        </tr>
+    </tfoot>
+    <tbody>
+        @foreach (var po in Model)
+            {
+
+
+            <tr>
+                <td>
+                    @Html.Hidden("hdnFNINV001_CODE", po.FNINV001_CODE)
+                    @po.FNINV001_CODE
+                </td>
+                <td>
+                    @po.BL_CODE
+                </td>
+                @*<td>
+                        @po.BL_REF_NO
+                    </td>
+                    <td>
+                        @po.COA_CODE
+                    </td>*@
+                <td>
+
+                    @po.vessel_code
+                </td>
+                <td>
+                    @po.SUBLEDGER_CODE
+                </td>
+                <td>
+                    @po.POD
+                </td>
+                <td>
+                    @po.POL
+                </td>
+                <td>
+                    @Convert.ToDateTime(@po.INV_DATE).ToString("dd/MM/yyyy")
+
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

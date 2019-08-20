@@ -91,7 +91,8 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
         {
             return new FNINV001_VM
             {
-                
+                FNINV001_CODE = _CodeRep.GetCodeNew(Cmpycode, BRANCHCODE, "FNINV001", "INVJV", "V"),
+
                 EditFlag = false
             };
         }
@@ -109,9 +110,17 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return CRG_002List;
         }
 
-        public List<SelectListItem> GETBLNO(string CmpyCode, string Branchcode, string Customercode, string Prefix)
+        public List<SelectListItem> GetSupli(string CmpyCode, string Prefix)
         {
-            var CRG_002List = _FNINVRepo.GETBLNO(CmpyCode,Branchcode,Customercode, Prefix)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+            var CRG_002List = _FNINVRepo.GetSupli(CmpyCode, Prefix)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                           .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
+                                           .ToList();
+            return CRG_002List;
+        }
+
+        public List<SelectListItem> GETBLNO(string CmpyCode, string Branchcode, string Customercode, string Module_Type)
+        {
+            var CRG_002List = _FNINVRepo.GETBLNO(CmpyCode,Branchcode,Customercode, Module_Type)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                            .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
                                            .ToList();
             return InsertFirstElementDDL(CRG_002List);
@@ -150,6 +159,34 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
                 O_VAT_CURR_AMT =m.O_VAT_CURR_AMT,
                 
             }).ToList();
+        }
+
+        public bool Bl_InvoiceGenerateLates(string CmpyCode, string Branchcode, string BLCode, string Customer_code, string ExCode, string ExRate, string Table_Name, string Module_Type, string UserName)
+        {
+            return _FNINVRepo.Bl_InvoiceGenerateLates(CmpyCode, Branchcode, BLCode, Customer_code, ExCode, ExRate, Table_Name, Module_Type, UserName);
+        }
+
+        public FNINV001_VM GetSUPINV_AddNew(string Cmpycode, string BRANCHCODE)
+        {
+            return new FNINV001_VM
+            {
+                FNINV001_CODE = _CodeRep.GetCodeNew(Cmpycode, BRANCHCODE, "FNINV001", "PIVJV", "V"),
+
+                EditFlag = false
+            };
+        }
+
+        public FNINV001 GetHeaderDetail(string CmpyCode, string FNINV001_CODE, string BRANCHCODE)
+        {
+            return _FNINVRepo.GetHeaderDetail(CmpyCode, FNINV001_CODE, BRANCHCODE);
+        }
+
+        public List<SelectListItem> GetCustSupp(string CmpyCode, string BRANCHCODE,string Module_Type, string Prefix)
+        {
+            var CRG_002List = _FNINVRepo.GetCustSupp(CmpyCode, BRANCHCODE, Module_Type, Prefix)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+                                           .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
+                                           .ToList();
+            return CRG_002List;
         }
     }
 }

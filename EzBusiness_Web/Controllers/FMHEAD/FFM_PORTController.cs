@@ -62,6 +62,15 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                     string orderDir = Request.Form.GetValues("order[0][dir]")[0];
                     int startRec = Convert.ToInt32(Request.Form.GetValues("start")[0]);
                     int pageSize = Convert.ToInt32(Request.Form.GetValues("length")[0]);
+
+                    string FFM_PORT_CODE1= Request.Form.GetValues("columns[0][search][value]").FirstOrDefault();
+                    string NAME1 = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+                    string COUNTRY1 = Request.Form.GetValues("columns[2][search][value]").FirstOrDefault();
+                    string TERMINAL1 = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+                    string LATITUDE1 = Request.Form.GetValues("columns[4][search][value]").FirstOrDefault();
+                    string LANGITUDE1 = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+                    string DISPLY_STATUS1 = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+
                     if (pageSize == -1)
                     {
                         draw = "2";
@@ -87,8 +96,54 @@ namespace EzBusiness_Web.Controllers.FMHEAD
                                                p.TERMINAL.ToString().ToLower().Contains(search.ToLower()) ||
                                                p.LATITUDE.ToString().ToLower().Contains(search.ToLower()) ||
                                                p.LANGITUDE.ToString().ToLower().Contains(search.ToLower()) ||
-                                               p.DISPLY_STATUS.ToString().ToLower().Contains(search.ToLower())).ToList();
+                                               p.DISPLY_STATUS.ToString().ToLower().Contains(search.ToLower())
+                                              ).ToList();
                       
+                    }
+
+                    if (!string.IsNullOrEmpty(FFM_PORT_CODE1) &&
+                        !string.IsNullOrWhiteSpace(FFM_PORT_CODE1))
+                    {
+                        data = data.Where(p => p.FFM_PORT_CODE.ToString().ToLower().Contains(FFM_PORT_CODE1.ToLower())                                             
+                                              ).ToList();
+                    }
+
+                    if (!string.IsNullOrEmpty(NAME1) &&
+                       !string.IsNullOrWhiteSpace(NAME1))
+                    {
+                        data = data.Where(p => p.NAME.ToString().ToLower().Contains(NAME1.ToLower())
+                                              ).ToList();
+                    }
+
+                    if (!string.IsNullOrEmpty(COUNTRY1) &&
+                       !string.IsNullOrWhiteSpace(COUNTRY1))
+                    {
+                        data = data.Where(p => p.COUNTRY.ToString().ToLower().Contains(COUNTRY1.ToLower())
+                                              ).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(TERMINAL1) &&
+                      !string.IsNullOrWhiteSpace(TERMINAL1))
+                    {
+                        data = data.Where(p => p.TERMINAL.ToString().ToLower().Contains(TERMINAL1.ToLower())
+                                              ).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(LATITUDE1) &&
+                     !string.IsNullOrWhiteSpace(LATITUDE1))
+                    {
+                        data = data.Where(p => p.LATITUDE.ToString().ToLower().Contains(LATITUDE1.ToLower())
+                                              ).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(LANGITUDE1) &&
+                     !string.IsNullOrWhiteSpace(LANGITUDE1))
+                    {
+                        data = data.Where(p => p.LANGITUDE.ToString().ToLower().Contains(LANGITUDE1.ToLower())
+                                              ).ToList();
+                    }
+                    if (!string.IsNullOrEmpty(DISPLY_STATUS1) &&
+                   !string.IsNullOrWhiteSpace(DISPLY_STATUS1))
+                    {
+                        data = data.Where(p => p.DISPLY_STATUS.ToString().ToLower().Contains(DISPLY_STATUS1.ToLower())
+                                              ).ToList();
                     }
 
                     // Sorting.

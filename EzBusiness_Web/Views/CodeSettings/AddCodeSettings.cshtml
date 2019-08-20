@@ -137,9 +137,7 @@
         
 
 
-        $('body').on('focus', ':input', function () {
-            $(this).attr('autocomplete', 'off');
-        });
+       
     });
 
 </script>
@@ -177,7 +175,13 @@
                     <label class="control-label col-md-3">Module Type</label>
                     <div class="col-md-9 input-field">
                         
-                        @Html.DropDownListFor(m => m.Module_Type, new List<SelectListItem> { new SelectListItem { Text = "Customer Invoice", Value = "INVJV" }, new SelectListItem { Text = "Purchase Invoice", Value = "PIVJV" }, }, new { @class = "selectpicker form-control", @data_live_search = "true" })
+                        @Html.DropDownListFor(m => m.Module_Type,
+                            new List<SelectListItem>
+                            { new SelectListItem{ Text = "Customer Invoice", Value = "INVJV" },
+                              new SelectListItem { Text = "Purchase Invoice", Value = "PIVJV" },
+                                new SelectListItem { Text = "Credit Note", Value = "CRNTJ" },
+                                new SelectListItem { Text = "Debit Note", Value = "DBNTJ" } }, 
+                            new { @class = "selectpicker form-control", @data_live_search = "true" })
                     </div>
                 </div>
             </div>
