@@ -260,109 +260,109 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
                     }
 
                     if (!string.IsNullOrEmpty(FORWARDER) &&
-                  !string.IsNullOrWhiteSpace(FORWARDER))
+                    !string.IsNullOrWhiteSpace(FORWARDER))
                     {
                         data = data.Where(p => p.FORWARDER.ToString().ToLower().Contains(FORWARDER.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(PICKUP_PLACE) &&
-                 !string.IsNullOrWhiteSpace(PICKUP_PLACE))
+                     !string.IsNullOrWhiteSpace(PICKUP_PLACE))
                     {
                         data = data.Where(p => p.PICKUP_PLACE.ToString().ToLower().Contains(PICKUP_PLACE.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(POL) &&
-                !string.IsNullOrWhiteSpace(POL))
+                    !string.IsNullOrWhiteSpace(POL))
                     {
                         data = data.Where(p => p.POL.ToString().ToLower().Contains(POL.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(POD) &&
-                !string.IsNullOrWhiteSpace(POD))
+                    !string.IsNullOrWhiteSpace(POD))
                     {
                         data = data.Where(p => p.POD.ToString().ToLower().Contains(POD.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(FND) &&
-               !string.IsNullOrWhiteSpace(FND))
+                    !string.IsNullOrWhiteSpace(FND))
                     {
                         data = data.Where(p => p.FND.ToString().ToLower().Contains(FND.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(PLACEOFRCPT) &&
-             !string.IsNullOrWhiteSpace(PLACEOFRCPT))
+                    !string.IsNullOrWhiteSpace(PLACEOFRCPT))
                     {
                         data = data.Where(p => p.PLACE_OF_RCPT.ToString().ToLower().Contains(PLACEOFRCPT.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(MOVETYPE) &&
-           !string.IsNullOrWhiteSpace(MOVETYPE))
+                    !string.IsNullOrWhiteSpace(MOVETYPE))
                     {
                         data = data.Where(p => p.MOVE_TYPE.ToString().ToLower().Contains(MOVETYPE.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(DELIVERYAT) &&
-           !string.IsNullOrWhiteSpace(DELIVERYAT))
+                    !string.IsNullOrWhiteSpace(DELIVERYAT))
                     {
                         data = data.Where(p => p.DELIVERY_AT.ToString().ToLower().Contains(DELIVERYAT.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(REFNo) &&
-          !string.IsNullOrWhiteSpace(REFNo))
+                    !string.IsNullOrWhiteSpace(REFNo))
                     {
                         data = data.Where(p => p.REF_NO.ToString().ToLower().Contains(REFNo.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(Vessal) &&
-          !string.IsNullOrWhiteSpace(Vessal))
+                    !string.IsNullOrWhiteSpace(Vessal))
                     {
                         data = data.Where(p => p.VESSEL.ToString().ToLower().Contains(Vessal.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(Voyage) &&
-         !string.IsNullOrWhiteSpace(Voyage))
+                    !string.IsNullOrWhiteSpace(Voyage))
                     {
                         data = data.Where(p => p.VOYAGE.ToString().ToLower().Contains(Voyage.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(ETD) &&
-       !string.IsNullOrWhiteSpace(ETD))
+                    !string.IsNullOrWhiteSpace(ETD))
                     {
                         data = data.Where(p => Convert.ToDateTime(p.ETD).ToString("dd-MM-yyyy").ToLower().Contains(ETD.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(ETA) &&
-       !string.IsNullOrWhiteSpace(ETA))
+                    !string.IsNullOrWhiteSpace(ETA))
                     {
                         data = data.Where(p => Convert.ToDateTime(p.ETA).ToString("dd-MM-yyyy").ToLower().Contains(ETA.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(CARRIER) &&
-     !string.IsNullOrWhiteSpace(CARRIER))
+                    !string.IsNullOrWhiteSpace(CARRIER))
                     {
                         data = data.Where(p => p.CARRIER.ToString().ToLower().Contains(CARRIER.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(DEPARTMENT) &&
-   !string.IsNullOrWhiteSpace(DEPARTMENT))
+                    !string.IsNullOrWhiteSpace(DEPARTMENT))
                     {
                         data = data.Where(p => p.DEPARTMENT.ToString().ToLower().Contains(DEPARTMENT.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(TotalCost) &&
-  !string.IsNullOrWhiteSpace(TotalCost))
+                    !string.IsNullOrWhiteSpace(TotalCost))
                     {
                         data = data.Where(p => p.Total_Cost.ToString().ToLower().Contains(TotalCost.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(TotalBilled) &&
- !string.IsNullOrWhiteSpace(TotalBilled))
+                    !string.IsNullOrWhiteSpace(TotalBilled))
                     {
                         data = data.Where(p => p.Total_Billed.ToString().ToLower().Contains(TotalBilled.ToLower())
                                               ).ToList();
                     }
                     if (!string.IsNullOrEmpty(TotalProfit) &&
- !string.IsNullOrWhiteSpace(TotalProfit))
+                    !string.IsNullOrWhiteSpace(TotalProfit))
                     {
                         data = data.Where(p => p.Total_Profit.ToString().ToLower().Contains(TotalProfit.ToLower())
                                               ).ToList();

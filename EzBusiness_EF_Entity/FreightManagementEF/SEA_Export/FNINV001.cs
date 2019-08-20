@@ -56,5 +56,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public string BL_REF_NO { get; set; }
         public string POL { get; set; }
         public string POD { get; set; }
+
+        public string Type_Choose { get; set; }
     }
 }
