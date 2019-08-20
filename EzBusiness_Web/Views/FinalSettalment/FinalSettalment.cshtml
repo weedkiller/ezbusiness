@@ -14,12 +14,11 @@
         Ezsetzerotxt();
         //EzsetDatetxt();
        
-        EzdtePk('#Dates1,#JoiningDate1,#DateofRelease1,#LLSDate1,#DutyResume1');
-       
+        EzdtePk('#Dates1,#JoiningDate1,#DateofRelease1,#LLSDate1,#DutyResume1');       
         var lvHtml = $("#LVContainer").html();
         $("#LVListContainer1").hide();
         function GetLeaveList() {
-           
+
             $.get("/FinalSettalment/GetFinalSettalmentList", function (response) {
                 $("#LVListContainer").html(response);
             });
@@ -39,6 +38,15 @@
         $(".alert-close").click(function () {
             $("#editshow").hide();
         });
+        //$("#btncancel").click(function () {
+        //    debugger;
+        //    EzdtePk('#fdatetxt,#tdatetxt');
+        //    //$("#fdatetxt").val("");
+        //    //$("#tdatetxt").val("");
+        //    $("#empcodetxt").val("");
+        //    $("#empnametxt").val("");
+        //    location.reload();
+        //})
         $("#btnEdit").click(function () {
             var n = EzAuthenticationBtn("/FinalSettalment", "ViewIt");
             if (n == 1) {
@@ -50,18 +58,19 @@
                 $("#editshow").show();
             }
         });
-        $("#btnCancel").click(function () {
-            $("#editshow").hide();
-            $("#LVContainer").html(lvHtml);          
-            EzbtnCancelAcVis();
-            $("#LVListContainer1").hide();
-            Ezsetzerotxt();
-            //EzsetDatetxt();
-            EzdtePk('#Dates1,#JoiningDate1,#DateofRelease1,#LLSDate1,#DutyResume1');
+        $("#fnlbtncancel").click(function () {
+            debugger;
+            //$("#editshow").hide();
+            //$("#LVContainer").html(lvHtml);          
+            //EzbtnCancelAcVis();
+            //$("#LVListContainer1").hide();
+            //Ezsetzerotxt();
+            ////EzsetDatetxt();
+            //EzdtePk('#Dates1,#JoiningDate1,#DateofRelease1,#LLSDate1,#DutyResume1');
+            location.Reload();
         });
         $("#btnDelete").click(function () {
             var n = EzAuthenticationBtn("/FinalSettalment", "DeleteIt");
-
             var date1 = Ezsetdtpkdate($('#Dates1').val());
             var k = 0;
             if (n == 1 ) {
@@ -84,8 +93,7 @@
                 }).then((result) => {
                     if (result.value) {
                         var PRSR001_CODE = $("[name*='PRFSET001_code']").val();
-                        $.getJSON("/DeleteFinalSettalment", { PRFSET001_code: PRSR001_CODE }).done(function (data) {
-                           
+                        $.getJSON("/DeleteFinalSettalment", { PRFSET001_code: PRSR001_CODE }).done(function (data) {                           
                                 if (data.DeleteFlag) {
                                     //EzbtnsaveAcVis("#LVContainer");                                   
                                     //$("#LVContainer").html(lvHtml);
@@ -101,7 +109,6 @@
                           'Your Code has been deleted.',
                           'success'
                         )
-
                     } else if (
                         // Read more about handling dismissals
                       result.dismiss === Swal.DismissReason.cancel

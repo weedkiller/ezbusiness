@@ -15,12 +15,15 @@
             monthadddect.MonthlyAddDeductReportDetails();
  $('.dataTables_scrollHead').css('margin-bottom', '0px');
         })
-          $("#btncancel").click(function () {
-          //$("#fdatetxt").val("");
-          //$("#tdatetxt").val("");
-           EzdtePk('#fdatetxt,#tdatetxt');
-           $("#empcodetxt").val("");
-           $("#empnametxt").val("");
+      
+        $("#btncancel").click(function () {
+            debugger;
+            EzdtePk('#fdatetxt,#tdatetxt');
+            //$("#fdatetxt").val("");
+            //$("#tdatetxt").val("");
+            $("#empcodetxt").val("");
+            $("#empnametxt").val("");
+            location.reload();
         })
     },
    
@@ -57,7 +60,6 @@
                                extend: 'pdfHtml5',
                                orientation: 'landscape',
                                pageSize: 'LEGAL'
-
                            },
                            {
                 extend: 'print',                                        

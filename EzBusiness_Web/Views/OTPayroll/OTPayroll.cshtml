@@ -6,15 +6,11 @@
 
     var counter = 1;
 }
-
 <script src="~/Scripts/EzComNDW.js"></script>
 
 <script>
     $(function () {
-
-
         EzAuthentication("/OTPayroll");
-
         $('.selectpicker').selectpicker('refresh');
         // EzsetDatetxt();
         EzdtePk('#Att_Date,#Tdate');
@@ -66,7 +62,7 @@
         });
         var err = '';
         $("#btnadd").click(function () {
-            
+            debugger;
             err = '';
             var n = EzAuthenticationBtn("/OTPayroll", "NewIt");      
             if (n == 1 ) {
@@ -79,7 +75,7 @@
                 if (typ1 == 'E')
                 {
                     err = 'Employee';
-                    e1 = $("#EmpCode option:selected").val();
+                    e1 = $("#hdnEmpCode").val();
                     typ1 = 'Emp';
                     Emp = e1;
                     Prj = '-1';
@@ -248,7 +244,7 @@
         $("#btnSave").click(function () {
             var OTPayroll = {
 
-               EmpCode: $("#EmpCode option:selected").val(),
+               EmpCode: $("#hdnEmpCode").val(),
                 OTExtraDetailnews: [],
             };
             
@@ -290,12 +286,11 @@
                         
                         $('#EmpCode').val(0);
                         $('.selectpicker').selectpicker('refresh');
-                       
+
                         counter = 1;
                         arr = [];
                         
-                    } else {
-                        
+                    } else {                        
                         EzAlerterrtxt(response.ErrorMessage);
                     }
                 });
@@ -338,9 +333,7 @@
         $('#Hdiv').hide();
         $('#HPrj').hide();
 
-        $('input[type=radio][name=optionsRadios]').change(function () {
-            
-           
+        $('input[type=radio][name=optionsRadios]').change(function () {                       
             if (this.value == "E") {
                 $("#EmpCode").val(0);
                 $('#Hemp').show();
@@ -504,7 +497,6 @@
                                     <div class="">
                                         <ul class="nav nav-tabs">
                                             <li class="active"><a data-toggle="tab" href="#home">Detail</a></li>
-
                                         </ul>
                                         <div class="tab-content">
                                             <div id="home" class="tab-pane fade in active">
@@ -591,17 +583,5 @@
             </div>
         </div>
     </div>
-
-
-   
-
-    
-
-
-
-
-
-
-   
 </div>
 

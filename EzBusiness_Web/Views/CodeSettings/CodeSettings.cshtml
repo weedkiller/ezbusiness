@@ -166,13 +166,12 @@
                 if (validationResult.formValid) {
                     $.post("/SaveCodeSettings", UTM).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-
                             EzbtnsaveAcVis("#POContainer");
                             EzAlertSave();
-                            GetLeaveList();
+                            //GetLeaveList();
                             $("#POContainer").html(lvHtml);
+                            GetLeaveList();
                         } else {
-
                             EzAlerterrtxt(response.ErrorMessage);
                         }
                     });
@@ -222,11 +221,12 @@
                 var validationResult = ValidateForm(UTM);
                 if (validationResult.formValid) {
                     $.post("/SaveCodeSettings", UTM).done(function (response) {
-                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {                             
                             EzbtnsaveAcVis("#POContainer");
-                            EzAlertSave();
+                            EzAlertSave();                         
                             //GetLeaveList();
                             $("#POContainer").html(lvHtml);
+                            GetLeaveList();
                            // window.location = '/ShiftMaster'
                         } else {
                             EzAlerterrtxt(response.ErrorMessage);

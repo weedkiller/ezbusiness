@@ -60,7 +60,6 @@ namespace EzBusiness_Web.Controllers.FFM
             else
             {
 
-
                 return PartialView(_FFM_CRG_GroupService.EditFFM_CRG_Group(list[0].CmpyCode, FFM_CRG_GROUP_CODE));
             }
         }

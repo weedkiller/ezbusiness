@@ -14,7 +14,6 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
 {
     public class FNM_SL1001Repository : IFNM_SL1001Repository
     {
-
       
         DataSet ds = null;
         DataTable dt = null;

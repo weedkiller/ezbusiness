@@ -10,10 +10,18 @@
     Attachevent: function () {
         $("#btnSearchData").click(function () {
             // alert("");
-            
+            debugger;
             DutyResume.DutyResumeDetails();
-
             $('.dataTables_scrollHead').css('margin-bottom', '0px');
+        })
+        $("#btncancel").click(function () {
+            debugger;
+            EzdtePk('#fdatetxt,#tdatetxt');
+            //$("#fdatetxt").val("");
+            //$("#tdatetxt").val("");
+            $("#empcodetxt").val("");
+            $("#empnametxt").val("");
+            location.reload();
         })
     },
     DutyResumeDetails: function () {

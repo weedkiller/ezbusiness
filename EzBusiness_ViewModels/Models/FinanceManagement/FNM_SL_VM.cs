@@ -45,12 +45,8 @@ namespace EzBusiness_ViewModels.Models.FinaceMgmt
 
         public List<SelectListItem> SUBLEDGER_TYPEList { get; set; }
 
-
- 
-
         [DisplayName("SubLedger Type")]
         public string SUBLEDGER_TYPE { get; set; }
-
         public bool SaveFlag { get; set; }
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }

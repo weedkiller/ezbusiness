@@ -15,12 +15,14 @@
             loandata.LoanApplicationReportDetails();
              $('.dataTables_scrollHead').css('margin-bottom', '0px');
         })
-          $("#btncancel").click(function () {
+        $("#btncancel").click(function () {
+            debugger;
               EzdtePk('#fdatetxt,#tdatetxt');
           //$("#fdatetxt").val("");
           //$("#tdatetxt").val("");
           $("#empcodetxt").val("");
           $("#empnametxt").val("");
+          location.reload();
         })
     },
 
@@ -174,5 +176,7 @@
         }
         return msg;
     }
+
+
 }
 
