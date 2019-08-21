@@ -646,7 +646,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                 ds = _EzBusinessHelper.ExecuteDataSet("Sp_FillInvoiceCode", CommandType.StoredProcedure, param);
             }else
             {
-                ds = _EzBusinessHelper.ExecuteDataSet("Sp_FillBLCodeCrDr", CommandType.StoredProcedure, param);
+                ds = _EzBusinessHelper.ExecuteDataSet("Sp_FillBLCode", CommandType.StoredProcedure, param);
             }
                        
             dt = ds.Tables[0];
@@ -720,7 +720,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                 ds = _EzBusinessHelper.ExecuteDataSet("SP_FillCustCodeCrDrInv", CommandType.StoredProcedure, param);
             }else
             {
-                ds = _EzBusinessHelper.ExecuteDataSet("SP_FillCustCodeCrDr", CommandType.StoredProcedure, param);
+                ds = _EzBusinessHelper.ExecuteDataSet("SP_FillCustCodeINV", CommandType.StoredProcedure, param);
             }
                
             dt = ds.Tables[0];
