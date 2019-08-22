@@ -39,108 +39,12 @@
         EzdteformtDOB('#INV_DATE1', 'DD/MM/YYYY');
         EzdteformtDOB('#Post_Date1', 'DD/MM/YYYY');
 
-
-       EzAutoCompTxt1("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FFM_Quotation/GetCust");
-
-        EzAutoCompTxt1("#CURRENCY_CODE", "#hdnCURRENCY_CODE", "/FNM_SL/GetCurrency")
+        EzAutoCompTxt1("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FFM_Quotation/GetCust");
+        EzAutoCompTxt1("#CURRENCY_CODE", "#hdnCURRENCY_CODE", "/FNM_SL/GetCurrency");
         EzAutoCompTxt1("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList");
-        EzAutoCompTxt1("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList")
+        EzAutoCompTxt1("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList");
         EzAutoCompTxt1("#vessel_code", "#hdnvessel_code", "/FFM_Quotation/GetVESSELList");
-        EzAutoCompTxt1("#SalesMan", "#hdnSalesMan", "/FF_BOK/GetSalesman")
-
-        //  EzAutoCompTxtE("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FFM_Quotation/GetCust", false, "");
-
-        EzAutoCompTxtE("#CURRENCY_CODE", "#hdnCURRENCY_CODE", "/FNM_SL/GetCurrency", false, "");
-        //EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
-        //EzAutoCompTxtE("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
-        //EzAutoCompTxtE("#vessel_code", "#hdnvessel_code", "/FFM_Quotation/GetVESSELList", false, "");
-        //EzAutoCompTxtE("#SalesMan", "#hdnSalesMan", "/FF_BOK/GetSalesman", false, "");
-
-
-
-
-
-       
-
-        $('#CURRENCY_CODE').on("focusout", function () {
-            var CurCode = $("[name*='hdnCURRENCY_CODE']").val();
-            //var array = CurCode.split("-");
-            if (CurCode != '-1') {
-                $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
-                    var ary = [];
-                    ary = response;
-                    $("[name*='CURRENCY_RATE']").val(ary);
-                    debugger;
-                    if ($("#tablePODetails5 tbody tr").length > 0) {
-                        tblcla(ary);
-                        sumOfColumns();
-                    }
-                });
-
-            } else {
-                $("[name*='CURRENCY_RATE']").val(0);
-            }
-        });
-
-
-        $('#CURRENCY_RATE').on("change", function () {
-            debugger;
-            var CurRate = parseFloat($("#CURRENCY_RATE").val());
-            CurRate = isNaN(CurRate) ? 0 : CurRate;
-            if ($("#tablePODetails5 tbody tr").length > 0) {
-                tblcla(CurRate);
-                sumOfColumns();
-            }
-        });
-
-        function tblcla(HCurRate) {
-            debugger;
-        var index2 = 1;
-        $("#tablePODetails5 tbody tr").each(function (index2, item) {
-
-            var HExRate = HCurRate;
-            HExRate = isNaN(HExRate) ? 0 : HExRate;
-            var Vrate = parseFloat($("[name*='txtRate" + (index2 + 1) + "']").val());
-            var qty = parseFloat($("[name*='txtNo_of_qty" + (index2 + 1) + "']").val());
-            var CurRate = parseFloat($("[name*='txtEx_Curr_Rate" + (index2 + 1) + "']").val());
-            var VAT = parseFloat($("[name*='txtVat_PER" + (index2 + 1) + "']").val());
-            VAT = isNaN(VAT) ? 0 : VAT;
-            CurRate = isNaN(CurRate) ? 0 : CurRate;
-            qty = isNaN(qty) ? 0 : qty;
-            Vrate = isNaN(Vrate) ? 0 : Vrate;
-            $("[name*='txtAmountFC" + (index2 + 1) + "']").val(EzMult2(qty, Vrate));
-            $("[name*='txtAmountBC" + (index2 + 1) + "']").val(EzMult3(qty, Vrate, CurRate));
-            var AmountBC = parseFloat($("[name*='txtAmountBC" + (index2 + 1) + "']").val());
-            AmountBC = isNaN(AmountBC) ? 0 : AmountBC;
-            $("[name*='txtVatAmountBC" + (index2 + 1) + "']").val(EzMultDiv100(AmountBC, VAT));
-            var VatAmountBC = parseFloat($("[name*='txtVatAmountBC" + (index2 + 1) + "']").val());
-            VatAmountBC = isNaN(VatAmountBC) ? 0 : VatAmountBC;
-            $("[name*='txtVouchVATAmountFC" + (index2 + 1) + "']").val(EzDivide(VatAmountBC, HExRate));
-            var VouchVATAmtFC = parseFloat($("[name*='txtVouchVATAmountFC" + (index2 + 1) + "']").val());
-            VouchVATAmtFC = isNaN(VouchVATAmtFC) ? 0 : VouchVATAmtFC;
-            $("[name*='txtVouchVATAmountBC" + (index2 + 1) + "']").val(EzMult2(VouchVATAmtFC, HExRate));
-            $("[name*='txtVochAmountFC" + (index2 + 1) + "']").val(EzDivide(AmountBC, HExRate));
-            var VochAmountFC = parseFloat($("[name*='txtVochAmountFC" + (index2 + 1) + "']").val());
-            VochAmountFC = isNaN(VochAmountFC) ? 0 : VochAmountFC;
-            $("[name*='txtVochAmountBC" + (index2 + 1) + "']").val(EzMult2(VochAmountFC, HExRate));
-            $("[name*='txtVochNetsumVatAmountFC" + (index2 + 1) + "']").val(EzSum(VouchVATAmtFC, VochAmountFC));
-            var VouchVATAmtBC = parseFloat($("[name*='txtVouchVATAmountBC" + (index2 + 1) + "']").val());
-            VouchVATAmtBC = isNaN(VouchVATAmtBC) ? 0 : VouchVATAmtBC;
-
-            var VochAmountBC = parseFloat($("[name*='txtVochAmountBC" + (index2 + 1) + "']").val());
-            VochAmountBC = isNaN(VochAmountBC) ? 0 : VochAmountBC;
-
-            $("[name*='txtVochNetsumVatAmountBC" + (index2 + 1) + "']").val(EzSum(VouchVATAmtBC, VochAmountBC));
-
-
-        });
-        }
-
-
-
-       
-
-
+        EzAutoCompTxt1("#SalesMan", "#hdnSalesMan", "/FF_BOK/GetSalesman");
         $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
             var tr = $(this).closest('tr');
             var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
@@ -326,7 +230,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Ex.Code<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
-                                                        @Html.TextBoxFor(m => m.CURRENCY_CODE, new { @class = "form-control" })
+                                                        @Html.TextBoxFor(m => m.CURRENCY_CODE, new { @class = "form-control" ,@readOnly= "readOnly" })
                                                         <input id="hdnCURRENCY_CODE" type="hidden" class="form-control" name="hdnCURRENCY_CODE" value="-1" />
                                                     </div>
                                                 </div>
@@ -347,7 +251,7 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-4">Ex.Rate<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
-                                                        @Html.TextBoxFor(m => m.CURRENCY_RATE, new { @class = "form-control", @Type = "number" })
+                                                        @Html.TextBoxFor(m => m.CURRENCY_RATE, new { @class = "form-control", @Type = "number", @readOnly = "readOnly" })
                                                     </div>
                                                 </div>
                                             </div>
