@@ -93,55 +93,74 @@
             }
         });
 
-        function tblcla(HCurRate) {
-            debugger;
-        var index2 = 1;
-        $("#tablePODetails5 tbody tr").each(function (index2, item) {
+      
 
-            var HExRate = HCurRate;
+
+
+
+
+
+        $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
+            var tr = $(this).closest('tr');
+            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            var HExRate = $('#CURRENCY_RATE').val();
             HExRate = isNaN(HExRate) ? 0 : HExRate;
-            var Vrate = parseFloat($("[name*='txtRate" + (index2 + 1) + "']").val());
-            var qty = parseFloat($("[name*='txtNo_of_qty" + (index2 + 1) + "']").val());
-            var CurRate = parseFloat($("[name*='txtEx_Curr_Rate" + (index2 + 1) + "']").val());
-            var VAT = parseFloat($("[name*='txtVat_PER" + (index2 + 1) + "']").val());
+            var Vrate = parseFloat(tr.find("[name*='txtRate']").val());
+            var CurRate = parseFloat(tr.find("[name*='txtEx_Curr_Rate']").val());
+            var VAT = parseFloat(tr.find("[name*='txtVat_PER']").val());
             VAT = isNaN(VAT) ? 0 : VAT;
             CurRate = isNaN(CurRate) ? 0 : CurRate;
             qty = isNaN(qty) ? 0 : qty;
             Vrate = isNaN(Vrate) ? 0 : Vrate;
-            $("[name*='txtAmountFC" + (index2 + 1) + "']").val(EzMult2(qty, Vrate));
-            $("[name*='txtAmountBC" + (index2 + 1) + "']").val(EzMult3(qty, Vrate, CurRate));
-            var AmountBC = parseFloat($("[name*='txtAmountBC" + (index2 + 1) + "']").val());
+            tr.find("[name*='txtAmountFC']").val(EzMult2(qty, Vrate));
+            tr.find("[name*='txtAmountBC']").val(EzMult3(qty, Vrate, CurRate));
+            var AmountBC = parseFloat(tr.find("[name*='txtAmountBC']").val());
             AmountBC = isNaN(AmountBC) ? 0 : AmountBC;
-            $("[name*='txtVatAmountBC" + (index2 + 1) + "']").val(EzMultDiv100(AmountBC, VAT));
-            var VatAmountBC = parseFloat($("[name*='txtVatAmountBC" + (index2 + 1) + "']").val());
+            tr.find("[name*='txtVatAmountBC']").val(EzMultDiv100(AmountBC, VAT));
+
+            var AmountFC = parseFloat($("[name*='txtAmountFC" + (index2 + 1) + "']").val());
+            AmountFC = isNaN(AmountFC) ? 0 : AmountFC;
+
+            $("[name*='txtVatAmountFC" + (index2 + 1) + "']").val(EzMultDiv100(AmountFC, VAT));
+
+            var VatAmountBC = parseFloat(tr.find("[name*='txtVatAmountBC']").val());
             VatAmountBC = isNaN(VatAmountBC) ? 0 : VatAmountBC;
-            $("[name*='txtVouchVATAmountFC" + (index2 + 1) + "']").val(EzDivide(VatAmountBC, HExRate));
-            var VouchVATAmtFC = parseFloat($("[name*='txtVouchVATAmountFC" + (index2 + 1) + "']").val());
+            tr.find("[name*='txtVouchVATAmountFC']").val(EzDivide(VatAmountBC, HExRate));
+            var VouchVATAmtFC = parseFloat(tr.find("[name*='txtVouchVATAmountFC']").val());
             VouchVATAmtFC = isNaN(VouchVATAmtFC) ? 0 : VouchVATAmtFC;
-            $("[name*='txtVouchVATAmountBC" + (index2 + 1) + "']").val(EzMult2(VouchVATAmtFC, HExRate));
-            $("[name*='txtVochAmountFC" + (index2 + 1) + "']").val(EzDivide(AmountBC, HExRate));
-            var VochAmountFC = parseFloat($("[name*='txtVochAmountFC" + (index2 + 1) + "']").val());
+            tr.find("[name*='txtVouchVATAmountBC']").val(EzMult2(VouchVATAmtFC, HExRate));
+            tr.find("[name*='txtVochAmountFC']").val(EzDivide(AmountBC, HExRate));
+            var VochAmountFC = parseFloat(tr.find("[name*='txtVochAmountFC']").val());
             VochAmountFC = isNaN(VochAmountFC) ? 0 : VochAmountFC;
-            $("[name*='txtVochAmountBC" + (index2 + 1) + "']").val(EzMult2(VochAmountFC, HExRate));
-            $("[name*='txtVochNetsumVatAmountFC" + (index2 + 1) + "']").val(EzSum(VouchVATAmtFC, VochAmountFC));
-            var VouchVATAmtBC = parseFloat($("[name*='txtVouchVATAmountBC" + (index2 + 1) + "']").val());
+            tr.find("[name*='txtVochAmountBC']").val(EzMult2(VochAmountFC, HExRate));
+            tr.find("[name*='txtVochNetsumVatAmountFC']").val(EzSum(VouchVATAmtFC, VochAmountFC));
+            var VouchVATAmtBC = parseFloat(tr.find("[name*='txtVouchVATAmountBC']").val());
             VouchVATAmtBC = isNaN(VouchVATAmtBC) ? 0 : VouchVATAmtBC;
 
-            var VochAmountBC = parseFloat($("[name*='txtVochAmountBC" + (index2 + 1) + "']").val());
+            var VochAmountBC = parseFloat(tr.find("[name*='txtVochAmountBC']").val());
             VochAmountBC = isNaN(VochAmountBC) ? 0 : VochAmountBC;
 
-            $("[name*='txtVochNetsumVatAmountBC" + (index2 + 1) + "']").val(EzSum(VouchVATAmtBC, VochAmountBC));
+            tr.find("[name*='txtVochNetsumVatAmountBC']").val(EzSum(VouchVATAmtBC, VochAmountBC));
 
-
+            sumOfColumns();
         });
-        }
 
 
 
-
-
-
-
+        var counter2 = parseInt($("#hdnCounter2").val());
+        $("#tablePODetails5").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+            counter2 = 1;
+            $('#tablePODetails5 tbody tr td:nth-child(1)').each(function () {
+                var tr1 = $(this).closest("tr");
+                tr1.find(":first").text(counter2);
+                txtarry1 = [];
+                txtarry.push('txtVochNetsumVatAmountBC', 'txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC');
+                EzTbltxtdrpidchanged(txtarry1, counter2, "txt", tr1);
+                counter2++;
+                sumOfColumns();
+            });
+        });
 
         function sumOfColumns() {
             debugger;
@@ -216,26 +235,12 @@
 
                                    
                                     <div class="col-md-4">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-4">Choose Type<i class="star">*</i></label>
-                                                    <div class="col-md-7 input-field">
-                                                        <label class="radio-inline">
-                                                            @Html.RadioButtonFor(m => m.Type_Choose, "Bill", new { @checked = "checked" }) Bill
-                                                        </label>
-                                                        <label class="radio-inline">
-                                                            @Html.RadioButtonFor(m => m.Type_Choose, "Invoice") Invoice
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
 
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-4">Invoice No<i class="star">*</i></label>
+                                                    <label class="control-label col-md-4">Code<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
                                                         @Html.TextBoxFor(m => m.FNINV001_CODE, new { @class = "form-control", @readonly = "readonly" })
                                                     </div>
@@ -354,6 +359,18 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
+                                                    <label class="control-label col-md-4">Invoice No<i class="star">*</i></label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.Invoice_No, new { @class = "form-control", @readonly = "readonly" })
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
                                                     <label class="control-label col-md-4">BL Code<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
                                                         @*@Html.DropDownListFor(m => m.BL_CODE, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" } }, new { @class = "form-control selectpicker", @data_live_search = "true", @readonly = "readonly" })*@
@@ -423,7 +440,7 @@
                                         <br />
 
                                         <div class="row">
-                                            <button class="btn btn-primary btn1 newbtn" id="btnInvoice" disabled><span class="glyphicon glyphicon-plus-sign"></span>Generate</button>
+                                            <button class="btn btn-primary btn1 newbtn" id="btnInvoice2" disabled>Fill Invoice</button>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -503,7 +520,7 @@
 
                                                                             </td>
                                                                             <td>
-                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter2), item.NO_OF_QTY, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                                @Html.TextBox(string.Concat("txtNo_of_qty", counter2), item.NO_OF_QTY, new { @class = "grid-control", @Type = "Number" })
 
                                                                             </td>
                                                                             <td style="display:none;">
@@ -543,6 +560,12 @@
                                                                                 @Html.TextBox(string.Concat("txtVatAmountBC", counter2), item.O_VAT_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
 
                                                                             </td>
+                                                                            <td style="display:none;">
+
+
+                                                                                @Html.TextBox(string.Concat("txtVatAmountFC", counter2), null, new { @class = "grid-control", @disabled = "disabled", @Type = "Number" })
+
+                                                                            </td>
                                                                             <td>
                                                                                 @Html.TextBox(string.Concat("txtVouchVATAmountFC", counter2), item.V_VAT_CURR_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
 
@@ -574,7 +597,9 @@
                                                                                 @Html.TextBox(string.Concat("txtVochNetsumVatAmountBC", counter2), item.V_NET_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
 
                                                                             </td>
-
+                                                                            <td>
+                                                                                <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter2)"><span class="glyphicon glyphicon-remove"></span></button>
+                                                                            </td>
                                                                         </tr>
                                                                         counter2++;
                                                                     }

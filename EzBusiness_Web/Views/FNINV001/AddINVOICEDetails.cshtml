@@ -126,6 +126,13 @@ var counter2=1;
             var AmountBC = parseFloat($("[name*='txtAmountBC" + (index2 + 1) + "']").val());
             AmountBC = isNaN(AmountBC) ? 0 : AmountBC;
             $("[name*='txtVatAmountBC" + (index2 + 1) + "']").val(EzMultDiv100(AmountBC, VAT));
+
+            var AmountFC = parseFloat($("[name*='txtAmountFC" + (index2 + 1) + "']").val());
+            AmountFC = isNaN(AmountFC) ? 0 : AmountFC;
+
+            $("[name*='txtVatAmountFC" + (index2 + 1) + "']").val(EzMultDiv100(AmountFC, VAT));
+
+
             var VatAmountBC = parseFloat($("[name*='txtVatAmountBC" + (index2 + 1) + "']").val());
             VatAmountBC = isNaN(VatAmountBC) ? 0 : VatAmountBC;
             $("[name*='txtVouchVATAmountFC" + (index2 + 1) + "']").val(EzDivide(VatAmountBC, HExRate));
@@ -227,7 +234,7 @@ var counter2=1;
                                             $('#tablePODetails5 tbody tr:last').clone().insertAfter('#tablePODetails5 tbody tr:last');
                                             var trLast = $("#tablePODetails5 tbody tr:last");
                                             txtarry = [];
-                                            txtarry.push('txtVochNetsumVatAmountBC','txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC');
+                                            txtarry.push('txtVochNetsumVatAmountBC','txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC','txtVatAmountFC');
                                             EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
                                             trLast.find("[name*='txtsno" + counter2 + "']").val(counter2);
                                             $("[name*='txtCrg_name" + counter + "']").val(ary[i].Item_Description.trim());
@@ -246,6 +253,7 @@ var counter2=1;
                                             $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
                                             $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE);                    
                                             $("[name*='txtVatAmountBC" + counter + "']").val(ary[i].O_VAT_LOCAL_AMT);
+                                            $("[name*='txtVatAmountFC" + counter + "']").val(ary[i].O_VAT_CURR_AMT);
                                             $("[name*='txtO_CHARGE_UID" + counter + "']").val(ary[i].O_CHARGE_UID);                                          
                                             $("[name*='txtVouchVATAmountFC" + counter + "']").val(ary[i].V_VAT_CURR_AMT);
                                             $("[name*='txtVouchVATAmountBC" + counter + "']").val(ary[i].V_VAT_LOCAL_AMT);
@@ -379,6 +387,50 @@ var counter2=1;
         //    }
         //});
            
+        $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
+            var tr = $(this).closest('tr');
+            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            var HExRate = $('#CURRENCY_RATE').val();
+            HExRate = isNaN(HExRate) ? 0 : HExRate;
+            var Vrate = parseFloat(tr.find("[name*='txtRate']").val());
+            var CurRate = parseFloat(tr.find("[name*='txtEx_Curr_Rate']").val());
+            var VAT = parseFloat(tr.find("[name*='txtVat_PER']").val());
+            VAT = isNaN(VAT) ? 0 : VAT;
+            CurRate = isNaN(CurRate) ? 0 : CurRate;
+            qty = isNaN(qty) ? 0 : qty;
+            Vrate = isNaN(Vrate) ? 0 : Vrate;
+            tr.find("[name*='txtAmountFC']").val(EzMult2(qty, Vrate));
+            tr.find("[name*='txtAmountBC']").val(EzMult3(qty, Vrate, CurRate));
+            var AmountBC = parseFloat(tr.find("[name*='txtAmountBC']").val());
+            AmountBC = isNaN(AmountBC) ? 0 : AmountBC;           
+            tr.find("[name*='txtVatAmountBC']").val(EzMultDiv100(AmountBC, VAT));
+
+            var AmountFC = parseFloat(tr.find("[name*='txtAmountFC']").val());
+            AmountFC = isNaN(AmountFC) ? 0 : AmountFC;
+
+            tr.find("[name*='txtVatAmountFC']").val(EzMultDiv100(AmountFC, VAT));
+
+            var VatAmountBC = parseFloat(tr.find("[name*='txtVatAmountBC']").val());
+            VatAmountBC = isNaN(VatAmountBC) ? 0 : VatAmountBC;
+            tr.find("[name*='txtVouchVATAmountFC']").val(EzDivide(VatAmountBC, HExRate));
+            var VouchVATAmtFC = parseFloat(tr.find("[name*='txtVouchVATAmountFC']").val());
+            VouchVATAmtFC = isNaN(VouchVATAmtFC) ? 0 : VouchVATAmtFC;
+            tr.find("[name*='txtVouchVATAmountBC']").val(EzMult2(VouchVATAmtFC, HExRate));
+            tr.find("[name*='txtVochAmountFC']").val(EzDivide(AmountBC, HExRate));
+            var VochAmountFC = parseFloat(tr.find("[name*='txtVochAmountFC']").val());
+            VochAmountFC = isNaN(VochAmountFC) ? 0 : VochAmountFC;
+            tr.find("[name*='txtVochAmountBC']").val(EzMult2(VochAmountFC, HExRate));
+            tr.find("[name*='txtVochNetsumVatAmountFC']").val(EzSum(VouchVATAmtFC, VochAmountFC));
+            var VouchVATAmtBC = parseFloat(tr.find("[name*='txtVouchVATAmountBC']").val());
+            VouchVATAmtBC = isNaN(VouchVATAmtBC) ? 0 : VouchVATAmtBC;
+
+            var VochAmountBC = parseFloat(tr.find("[name*='txtVochAmountBC']").val());
+            VochAmountBC = isNaN(VochAmountBC) ? 0 : VochAmountBC;
+
+            tr.find("[name*='txtVochNetsumVatAmountBC']").val(EzSum(VouchVATAmtBC, VochAmountBC));
+
+            sumOfColumns();
+        });
 
        
 
@@ -747,6 +799,7 @@ var counter2=1;
                                                                                 <th style="display:none;">	Amount (BC)	</th>
                                                                                 <th style="display:none;">	Vat %	</th>
                                                                                 <th style="display:none;">	Amount(BC)	</th>
+                                                                                <th style="display:none;">	Amount(FC)	</th>
                                                                                 <th>Vat Amount(FC)	</th>
                                                                                 <th style="padding: 0px 6px;">Vat Amount(BC)	</th>
 
@@ -813,12 +866,22 @@ var counter2=1;
 
                                                                                 </td>
 
+                                                                                
+
+                                                                                <td style="display:none;">
+
+
+                                                                                    @Html.TextBox(string.Concat("txtVatAmountFC", counter2), null, new { @class = "grid-control", @disabled = "disabled", @Type = "Number" })
+
+                                                                                </td>
+
                                                                                 <td style="display:none;">
 
 
                                                                                     @Html.TextBox(string.Concat("txtAmountFC", counter2), null, new { @class = "grid-control", @disabled = "disabled", @Type = "Number" })
 
                                                                                 </td>
+
 
                                                                                 <td style="display:none;">
 

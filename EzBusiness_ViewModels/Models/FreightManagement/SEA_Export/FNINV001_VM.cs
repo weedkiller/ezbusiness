@@ -80,6 +80,8 @@ namespace EzBusiness_ViewModels.Models.FreightManagement.SEA_Export
         public string UserName { get; set; }
 
         public string Type_Choose { get; set; }
+        [Display(Name = "Invoice No")]
+        public string Invoice_No { get; set; }
     }
     public class FNINV002New
     {

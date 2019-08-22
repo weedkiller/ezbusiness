@@ -58,5 +58,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public string POD { get; set; }
 
         public string Type_Choose { get; set; }
+
+        public string Invoice_No { get; set; }
     }
 }

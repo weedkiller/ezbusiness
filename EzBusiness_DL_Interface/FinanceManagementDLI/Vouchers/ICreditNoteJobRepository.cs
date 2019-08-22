@@ -26,7 +26,9 @@ namespace EzBusiness_DL_Interface.FinanceManagementDLI.Vouchers
 
         List<ComDropTbl> GETBLNO(string CmpyCode, string Branchcode, string Customercode, string Module_Type,string Type_Choose);
 
-   
+
+        FNINV001_VM Credit_Debit_NoteForJob(string CmpyCode, string Branchcode, string InvCode,string Module_Type);
+        //List<FNINV002New> GetFNINV002DetailListN(string CmpyCode, string Branchcode, string InvCode, string Module_Type);
 
 
         List<ComDropTbl> GetCustSupp(string CmpyCode, string Branchcode, string Module_Type,string Type_Choose, string Prefix);

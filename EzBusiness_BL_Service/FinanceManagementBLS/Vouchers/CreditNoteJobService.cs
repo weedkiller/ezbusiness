@@ -39,7 +39,7 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS.Vouchers
             return _CrDrRepo.DeleteFNINV(CmpyCode, FNINV001_CODE, UserName, BRANCHCODE);
         }
 
-        public List<SelectListItem> GETBLNO(string CmpyCode, string Branchcode, string Customercode, string Module_Type,string Type_Choose)
+        public List<SelectListItem> GETBLNO(string CmpyCode, string Branchcode, string Customercode, string Module_Type, string Type_Choose)
         {
             var CRG_002List = _CrDrRepo.GETBLNO(CmpyCode, Branchcode, Customercode, Module_Type, Type_Choose)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                             .Select(m => new SelectListItem { Value = m.Code, Text = string.Concat(m.Code, " - ", m.CodeName) })
@@ -67,11 +67,11 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS.Vouchers
             };
         }
 
-      
+
 
         public List<SelectListItem> GetCustSupp(string CmpyCode, string BRANCHCODE, string Module_Type, string Type_Choose, string Prefix)
         {
-            var CRG_002List = _CrDrRepo.GetCustSupp(CmpyCode, BRANCHCODE, Module_Type,Type_Choose, Prefix)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+            var CRG_002List = _CrDrRepo.GetCustSupp(CmpyCode, BRANCHCODE, Module_Type, Type_Choose, Prefix)//.Where(m => m.FFM_CRG_JOB_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.FFM_CRG_JOB_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                            .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
                                            .ToList();
             return CRG_002List;
@@ -146,12 +146,26 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS.Vouchers
 
         public FNINV001_VM SaveFNINV_VM(FNINV001_VM FNINV)
         {
+            if (!FNINV.EditFlag)
+            {              
+                FNINV.FNINV001_CODE = _CodeRep.GetCodeNew(FNINV.cmpycode, FNINV.BRANCHCODE, "FNINV001", FNINV.INV_TYPE, "I");
+            }
             return _CrDrRepo.SaveFNINV_VM(FNINV);
         }
 
-        public bool BlCrdr_InvoiceGenerateLates(string CmpyCode, string Branchcode, string InvCode, string Table_Name, string Module_Type,string InvModule_Type, string UserName)
+        public bool BlCrdr_InvoiceGenerateLates(string CmpyCode, string Branchcode, string InvCode, string Table_Name, string Module_Type, string InvModule_Type, string UserName)
         {
             return _CrDrRepo.BlCrdr_InvoiceGenerateLates(CmpyCode, Branchcode, InvCode, Table_Name, Module_Type, InvModule_Type, UserName);
         }
+
+        public FNINV001_VM Credit_Debit_NoteForJob(string CmpyCode, string Branchcode, string InvCode, string Module_Type)
+        {
+            var poEdit = _CrDrRepo.Credit_Debit_NoteForJob(CmpyCode, Branchcode, InvCode, Module_Type);
+
+            return poEdit;
+
+        }
     }
+
+    
 }

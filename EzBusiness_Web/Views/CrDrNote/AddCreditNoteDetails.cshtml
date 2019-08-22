@@ -41,8 +41,8 @@
 
         $('input:radio[name="Type_Choose"]').change(function () {
             $('#SUBLEDGER_CODE').val('');
-            $('#BL_CODE').empty();
-            $('#BL_CODE').append('<option value="0" selected="">Select</option>');
+            $('#Invoice_No').empty();
+            $('#Invoice_No').append('<option value="0" selected="">Select</option>');
             $('.selectpicker').selectpicker('refresh');
 
         });
@@ -54,7 +54,7 @@
                             url: "/CrDrNote/GetCustSupp1",
                             type: "POST",
                             dataType: "json",
-                            data: { Prefix: request.term, Choose_Type: $("input:radio[name=Type_Choose]:checked").val() },
+                            data: { Prefix: request.term, Choose_Type: 'Invoice' },
                             success: function (data) {
                                 if (data.length > 0) {
                                     response($.map(data, function (item) {
@@ -96,112 +96,23 @@
        
 
 
-        EzAutoCompTxtE("#CURRENCY_CODE", "#hdnCURRENCY_CODE", "/FNM_SL/GetCurrency", false, "");
-        EzAutoCompTxtE("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList", false, "");
-        EzAutoCompTxtE("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList", false, "");
-        EzAutoCompTxtE("#vessel_code", "#hdnvessel_code", "/FFM_Quotation/GetVESSELList", false, "");
-        EzAutoCompTxtE("#SalesMan", "#hdnSalesMan", "/FF_BOK/GetSalesman", false, "");
+      
 
 
+        $("#btnInvoice2").click(function () {
 
-        
+            $("#tablePODetails5 tbody").find("tr:not(:first)").remove();
+            $("#tablePODetails5 tbody tr").find("input").val("");
+            $("#tablePODetails5 tbody tr").find("[name*='txtsno1']").val(1);
+            $('#POD').val('');
+            $('#SalesMan').val('');
+            $('#vessel_code').val('');
+            $('#POL').val('');
+            $('#CURRENCY_CODE').val('');
+            $('#CURRENCY_RATE').val('');
+            $('#BL_CODE').val('');
 
-        $.ajax({
-            async: false,
-            cache: false,
-            url: "/FFM_Quotation/GetCurCodebranch",
-            type: "POST",
-            dataType: "json",
-            success: function (data) {
-                debugger;
-                if (data.length > 0) {
-                    $("#CURRENCY_CODE").val(data[0].Text);
-                    $("#CURRENCY_RATE").val(data[0].Value);
-                    EzAutoCompTxt1('#CURRENCY_CODE', '#hdnCURRENCY_CODE', "/FNM_SL/GetCurrency");
-                } else {
-                    $("#hdnCURRENCY_CODE").val('-1');
-                    $("#CURRENCY_CODE").val('');
-                    $("#CURRENCY_RATE").val('');
-
-                }
-            }
-        });
-
-        $('#CURRENCY_CODE').on("focusout", function () {
-            var CurCode = $("[name*='hdnCURRENCY_CODE']").val();
-            //var array = CurCode.split("-");
-            if (CurCode != '-1') {
-                $.get("FFM_Quotation/GetCurRate", { CurCode: CurCode }).done(function (response) {
-                    var ary = [];
-                    ary = response;
-                    $("[name*='CURRENCY_RATE']").val(ary);
-                    debugger;
-                    if ($("#tablePODetails5 tbody tr").length > 0) {
-                        tblcla(ary);
-                        sumOfColumns();
-                    }
-                });
-
-            } else {
-                $("[name*='CURRENCY_RATE']").val(0);
-            }
-        });
-
-
-        $('#CURRENCY_RATE').on("change", function () {
-            var CurRate = parseFloat($("#CURRENCY_RATE").val());
-            CurRate = isNaN(CurRate) ? 0 : CurRate;
-                    if ($("#tablePODetails5 tbody tr").length > 0) {
-                        tblcla(CurRate);
-                        sumOfColumns();
-                    }
-        });
-
-
-        function tblcla(HCurRate){
-        var index2 = 1;
-        $("#tablePODetails5 tbody tr").each(function (index2, item) {
-
-            var HExRate = HCurRate;
-            HExRate = isNaN(HExRate) ? 0 : HExRate;
-            var Vrate = parseFloat($("[name*='txtRate" + (index2 + 1) + "']").val());
-            var qty = parseFloat($("[name*='txtNo_of_qty" + (index2 + 1) + "']").val());
-            var CurRate = parseFloat($("[name*='txtEx_Curr_Rate" + (index2 + 1) + "']").val());
-            var VAT = parseFloat($("[name*='txtVat_PER" + (index2 + 1) + "']").val());
-            VAT = isNaN(VAT) ? 0 : VAT;
-            CurRate = isNaN(CurRate) ? 0 : CurRate;
-            qty = isNaN(qty) ? 0 : qty;
-            Vrate = isNaN(Vrate) ? 0 : Vrate;
-            $("[name*='txtAmountFC" + (index2 + 1) + "']").val(EzMult2(qty, Vrate));
-            $("[name*='txtAmountBC" + (index2 + 1) + "']").val(EzMult3(qty, Vrate, CurRate));
-            var AmountBC = parseFloat($("[name*='txtAmountBC" + (index2 + 1) + "']").val());
-            AmountBC = isNaN(AmountBC) ? 0 : AmountBC;
-            $("[name*='txtVatAmountBC" + (index2 + 1) + "']").val(EzMultDiv100(AmountBC, VAT));
-            var VatAmountBC = parseFloat($("[name*='txtVatAmountBC" + (index2 + 1) + "']").val());
-            VatAmountBC = isNaN(VatAmountBC) ? 0 : VatAmountBC;
-            $("[name*='txtVouchVATAmountFC" + (index2 + 1) + "']").val(EzDivide(VatAmountBC, HExRate));
-            var VouchVATAmtFC = parseFloat($("[name*='txtVouchVATAmountFC" + (index2 + 1) + "']").val());
-            VouchVATAmtFC = isNaN(VouchVATAmtFC) ? 0 : VouchVATAmtFC;
-            $("[name*='txtVouchVATAmountBC" + (index2 + 1) + "']").val(EzMult2(VouchVATAmtFC, HExRate));
-            $("[name*='txtVochAmountFC" + (index2 + 1) + "']").val(EzDivide(AmountBC, HExRate));
-            var VochAmountFC = parseFloat($("[name*='txtVochAmountFC" + (index2 + 1) + "']").val());
-            VochAmountFC = isNaN(VochAmountFC) ? 0 : VochAmountFC;
-            $("[name*='txtVochAmountBC" + (index2 + 1) + "']").val(EzMult2(VochAmountFC, HExRate));
-            $("[name*='txtVochNetsumVatAmountFC" + (index2 + 1) + "']").val(EzSum(VouchVATAmtFC, VochAmountFC));
-            var VouchVATAmtBC = parseFloat($("[name*='txtVouchVATAmountBC" + (index2 + 1) + "']").val());
-            VouchVATAmtBC = isNaN(VouchVATAmtBC) ? 0 : VouchVATAmtBC;
-
-            var VochAmountBC = parseFloat($("[name*='txtVochAmountBC" + (index2 + 1) + "']").val());
-            VochAmountBC = isNaN(VochAmountBC) ? 0 : VochAmountBC;
-
-            $("[name*='txtVochNetsumVatAmountBC" + (index2 + 1) + "']").val(EzSum(VouchVATAmtBC, VochAmountBC));
-
-
-        });
-        }
-
-        $("#btnInvoice").click(function () {
-            var BLCode = $('#BL_CODE option:selected').val();
+            var BLCode = $('#Invoice_No option:selected').val();
             var Customer_code = $('#hdnSUBLEDGER_CODE').val();
             var ExCode = $('#hdnCURRENCY_CODE').val();
             var ExRate = $('#CURRENCY_RATE').val();
@@ -209,11 +120,8 @@
             if (Customer_code == '-1')
                 ErrorMessage += "Customer Code  ,";
             if (BLCode == "0")
-                ErrorMessage += "Bill Code  ,";
-            if (ExCode == '-1')
-                ErrorMessage += "Ex Code  ,";
-            if (parseInt(ExCode) == 0)
-                ErrorMessage += "Ex Rate  ,";
+                ErrorMessage += "Invoice No  ,";
+           
             if (ErrorMessage != '') {
                 EzAlerterrtxt(ErrorMessage);
                 return;
@@ -223,135 +131,183 @@
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false,
             })
-                swalWithBootstrapButtons.fire({
-                    title: 'Are you sure?',
-                    //text: "You won't be able to revert this!",
-                    type: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, Generate it!',
-                    cancelButtonText: 'cancel!',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-                        if ($("input:radio[name=Type_Choose]:checked").val() == "Bill") {                                                                              
-                            $.getJSON("/BLInvoiceGE", { BLCode: BLCode, Customer_code: Customer_code, ExCode: ExCode, ExRate: ExRate, Table_Name: 'FNINV001', Module_Type: 'CRNTJ' }).done(function (data) {
-                                datadisplay(data.BLGENFlag, BLCode);
-                            });
-                        }
-                        else {
-                            $.getJSON("/InvoiceCrdrGE", { InvCode: BLCode, Table_Name: 'FNINV001', Module_Type: 'DBNTJ', InvModule_Type: 'INVJV' }).done(function (data) {
-                                datadisplay(data.BLGENFlag, BLCode);
-                            });
-                        }
-                      
-                        swalWithBootstrapButtons.fire(
-                          'Generated!',
-                          'Your Customer Invoice has been Generated.',
-                          'success'
-                        )
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                //text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Fill it!',
+                cancelButtonText: 'cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
 
-                    } else if (
-                        // Read more about handling dismissals
-                      result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                          'Cancelled',
-                          'Your Bill Code is safe :)',
-                          'error'
-                        )
-                    }
-                })
-                $("#editshow").hide();
+            var counter2 = parseInt($("#hdnCounter2").val()) + 1;
+            var InvCode = $('#Invoice_No option:selected').val();
+            $.getJSON("/CrDrNote/Credit_Debit_NoteForJob", { InvCode: InvCode, Module_Type: 'CRNTJ' }).done(function (response) {
+                var ary = [];
+                debugger;
+                ary = response;
+                if (ary.FNINV002Detail.length == 0) {
+                    Swal.queue([{
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Invoice Detail Not Exist  !',
+                        allowOutsideClick: false,
+                        showLoaderOnConfirm: true,
+                    }])
+                    return;
+                }
+                $('#POD').val(ary.POD);
+                $('#SalesMan').val(ary.SalesMan);
+                $('#vessel_code').val(ary.vessel_code);
+                $('#POL').val(ary.POL);
+                $('#CURRENCY_CODE').val(ary.CURRENCY_CODE);
+                $('#CURRENCY_RATE').val(ary.CURRENCY_RATE);
+                $('#BL_CODE').val(ary.BL_CODE);
+                
+                EzAutoCompTxt1("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList");
+                EzAutoCompTxt1("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList");
+                EzAutoCompTxt1("#vessel_code", "#hdnvessel_code", "/FFM_Quotation/GetVESSELList");
+                EzAutoCompTxt1("#SalesMan", "#hdnSalesMan", "/FF_BOK/GetSalesman");
+
+                $('#BL_CODE').attr('readonly', true);
+                $('#CURRENCY_CODE').attr('readonly', true);
+                $('#CURRENCY_RATE').attr('readonly', true);
+             
+                $("#tablePODetails5 tbody").find("tr:not(:first)").remove();
+
+                var counter = 1;
+                for (var i = 0; i < ary.FNINV002Detail.length; i++) {
+                    $('#tablePODetails5 tbody tr:last').clone().insertAfter('#tablePODetails5 tbody tr:last');
+                    var trLast = $("#tablePODetails5 tbody tr:last");
+                    txtarry = [];
+                    txtarry.push('txtVochNetsumVatAmountBC', 'txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC', 'txtVatAmountFC');
+                    EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
+                    trLast.find("[name*='txtsno" + counter2 + "']").val(counter2);
+                    $("[name*='txtCrg_name" + counter + "']").val(ary.FNINV002Detail[i].Item_Description.trim());
+                    $("[name*='txtCrg_code" + counter + "']").val(ary.FNINV002Detail[i].ITEMCODE.trim());
+                    $("[name*='txtVat_PER" + counter + "']").val(ary.FNINV002Detail[i].VAT_PER);
+                    $("[name*='txtVAT_CODE" + counter + "']").val(ary.FNINV002Detail[i].VAT_CODE.trim());
+                    $("[name*='txtVAT_GL_CODE" + counter + "']").val(ary.FNINV002Detail[i].VAT_GL_CODE.trim());
+                    $("[name*='txtCOA_CODE" + counter + "']").val(ary.FNINV002Detail[i].COA_CODE.trim());
+                    $("[name*='txtUnit_code" + counter + "']").val(ary.FNINV002Detail[i].UNIT_TYPE.trim());
+                    $("[name*='txtNo_of_qty" + counter + "']").val(ary.FNINV002Detail[i].NO_OF_QTY);
+                    $("[name*='txtEx_Curr_Rate" + counter + "']").val(ary.FNINV002Detail[i].RATE_PER_QTY);
+                    $("[name*='txtEx_Curr_Code" + counter + "']").val(ary.FNINV002Detail[i].O_CURR_CODE.trim());
+                    $("[name*='txtRate" + counter + "']").val(ary.FNINV002Detail[i].O_CURR_RATE);
+                    $("[name*='txtAmountFC" + counter + "']").val(ary.FNINV002Detail[i].O_CURR_AMT);
+                    $("[name*='txtAmountBC" + counter + "']").val(ary.FNINV002Detail[i].O_LOCAL_AMT);
+                    $("[name*='txtVat_PER" + counter + "']").val(ary.FNINV002Detail[i].VAT_PER);
+                    $("[name*='txtVAT_CODE" + counter + "']").val(ary.FNINV002Detail[i].VAT_CODE);
+                    $("[name*='txtVatAmountBC" + counter + "']").val(ary.FNINV002Detail[i].O_VAT_LOCAL_AMT);
+                    $("[name*='txtVatAmountFC" + counter + "']").val(ary.FNINV002Detail[i].O_VAT_CURR_AMT);
+                    $("[name*='txtO_CHARGE_UID" + counter + "']").val(ary.FNINV002Detail[i].O_CHARGE_UID);
+                    $("[name*='txtVouchVATAmountFC" + counter + "']").val(ary.FNINV002Detail[i].V_VAT_CURR_AMT);
+                    $("[name*='txtVouchVATAmountBC" + counter + "']").val(ary.FNINV002Detail[i].V_VAT_LOCAL_AMT);
+                    $("[name*='txtVochAmountFC" + counter + "']").val(ary.FNINV002Detail[i].V_CURR_AMT);
+                    $("[name*='txtVochAmountBC" + counter + "']").val(ary.FNINV002Detail[i].V_LOCAL_AMT);
+                    $("[name*='txtVochNetsumVatAmountFC" + counter + "']").val(ary.FNINV002Detail[i].V_NET_CURR_AMT);
+                    $("[name*='txtVochNetsumVatAmountBC" + counter + "']").val(ary.FNINV002Detail[i].V_NET_LOCAL_AMT);
+                    counter++;
+                    counter2++;
+                }
+
+                $('#tablePODetails5 tbody tr:last').remove();
+                sumOfColumns();
+
+            });
+            swalWithBootstrapButtons.fire(
+                 'Filled!',
+                 'Your Credit Note has been Filled.',
+                 'success'
+               )
+
+        } else if (
+            // Read more about handling dismissals
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire(
+              'Cancelled',
+              'Your Invoice Code is safe :)',
+              'error'
+            )
+        }
+            })
+            $("#editshow").hide();
+
         });
+
+
+
+        $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
+            var tr = $(this).closest('tr');           
+            var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());            
+            var HExRate = $('#CURRENCY_RATE').val();
+            HExRate = isNaN(HExRate) ? 0 : HExRate;
+            var Vrate = parseFloat(tr.find("[name*='txtRate']").val());          
+            var CurRate = parseFloat(tr.find("[name*='txtEx_Curr_Rate']").val());
+            var VAT = parseFloat(tr.find("[name*='txtVat_PER']").val());
+            VAT = isNaN(VAT) ? 0 : VAT;
+            CurRate = isNaN(CurRate) ? 0 : CurRate;
+            qty = isNaN(qty) ? 0 : qty;
+            Vrate = isNaN(Vrate) ? 0 : Vrate;
+            tr.find("[name*='txtAmountFC']").val(EzMult2(qty, Vrate));
+            tr.find("[name*='txtAmountBC']").val(EzMult3(qty, Vrate, CurRate));
+
+            var AmountFC = parseFloat(tr.find("[name*='txtAmountFC']").val());
+            AmountFC = isNaN(AmountFC) ? 0 : AmountFC;
+
+            tr.find("[name*='txtVatAmountFC']").val(EzMultDiv100(AmountFC, VAT));
+
+            var AmountBC = parseFloat(tr.find("[name*='txtAmountBC']").val());
+            AmountBC = isNaN(AmountBC) ? 0 : AmountBC;
+            tr.find("[name*='txtVatAmountBC']").val(EzMultDiv100(AmountBC, VAT));
+            var VatAmountBC = parseFloat(tr.find("[name*='txtVatAmountBC']").val());
+            VatAmountBC = isNaN(VatAmountBC) ? 0 : VatAmountBC;
+            tr.find("[name*='txtVouchVATAmountFC']").val(EzDivide(VatAmountBC, HExRate));
+            var VouchVATAmtFC = parseFloat(tr.find("[name*='txtVouchVATAmountFC']").val());
+            VouchVATAmtFC = isNaN(VouchVATAmtFC) ? 0 : VouchVATAmtFC;
+            tr.find("[name*='txtVouchVATAmountBC']").val(EzMult2(VouchVATAmtFC, HExRate));
+            tr.find("[name*='txtVochAmountFC']").val(EzDivide(AmountBC, HExRate));
+            var VochAmountFC = parseFloat(tr.find("[name*='txtVochAmountFC']").val());
+            VochAmountFC = isNaN(VochAmountFC) ? 0 : VochAmountFC;
+            tr.find("[name*='txtVochAmountBC']").val(EzMult2(VochAmountFC, HExRate));
+            tr.find("[name*='txtVochNetsumVatAmountFC']").val(EzSum(VouchVATAmtFC, VochAmountFC));
+            var VouchVATAmtBC = parseFloat(tr.find("[name*='txtVouchVATAmountBC']").val());
+            VouchVATAmtBC = isNaN(VouchVATAmtBC) ? 0 : VouchVATAmtBC;
+
+            var VochAmountBC = parseFloat(tr.find("[name*='txtVochAmountBC']").val());
+            VochAmountBC = isNaN(VochAmountBC) ? 0 : VochAmountBC;
+
+            tr.find("[name*='txtVochNetsumVatAmountBC']").val(EzSum(VouchVATAmtBC, VochAmountBC));
+
+            sumOfColumns();
+        });
+
+       
+
+        var counter2 = parseInt($("#hdnCounter2").val());
+        $("#tablePODetails5").on("click", "[name*='btnDelete']", function () {
+            $(this).closest("tr").remove();
+            counter2 = 1;
+            $('#tablePODetails5 tbody tr td:nth-child(1)').each(function () {
+                var tr1 = $(this).closest("tr");
+                tr1.find(":first").text(counter2);                
+                txtarry1 = [];
+                txtarry.push('txtVochNetsumVatAmountBC', 'txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC');
+                EzTbltxtdrpidchanged(txtarry1, counter2, "txt", tr1);             
+                counter2++;
+                sumOfColumns();
+            });
+        });
+
+       
 
         
 
 
-        function datadisplay(BLGENFlag, BLCode) {
-            if (BLGENFlag) {
-                var FNINV001_CODE = $('#FNINV001_CODE').val();
-                var counter2 = parseInt($("#hdnCounter2").val()) + 1;
-                //window.location = '/CUSTOMERINVOICE'
-                $.get("/CrDrNote/GetFNINV002DetailList", { BLNO: FNINV001_CODE }).done(function (response) {
-                    var ary = [];
-                    debugger;
-                    ary = response;
-                    if (ary.length == 0) {
-                        Swal.queue([{
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'Bl Detail Not Exist  !',
-                            allowOutsideClick: false,
-                            showLoaderOnConfirm: true,
-                        }])
-                        return;
-                    }
-
-                    $.get("/CrDrNote/GetHeaderDetail", { BLNO: FNINV001_CODE }).done(function (response) {
-                        ary = response;
-                        debugger;
-                        $('#POD').val(POD);
-                        $('#SalesMan').val(SalesMan);
-                        $('#vessel_code').val(vessel_code);
-                        $('#POL').val(POL);
-                        EzAutoCompTxt1("#POD", "#hdnPOD", "/FFM_Quotation/GetPortList");
-                        EzAutoCompTxt1("#POL", "#hdnPOL", "/FFM_Quotation/GetPortList");
-                        EzAutoCompTxt1("#vessel_code", "#hdnvessel_code", "/FFM_Quotation/GetVESSELList");
-                        EzAutoCompTxt1("#SalesMan", "#hdnSalesMan", "/FF_BOK/GetSalesman");
-                        $('BL_CODE').attr('readonly', true);
-                        $('btnInvoice').attr('disabled', true);
-                        $("#hdnOperationMode").val('Edit');
-                    });
-
-
-                    $("#tablePODetails5 tbody").find("tr:not(:first)").remove();
-
-                    var counter = 1;
-                    for (var i = 0; i < ary.length; i++) {
-                        $('#tablePODetails5 tbody tr:last').clone().insertAfter('#tablePODetails5 tbody tr:last');
-                        var trLast = $("#tablePODetails5 tbody tr:last");
-                        txtarry = [];
-                        txtarry.push('txtVochNetsumVatAmountBC', 'txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC');
-                        EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
-                        trLast.find("[name*='txtsno" + counter2 + "']").val(counter2);
-                        $("[name*='txtCrg_name" + counter + "']").val(ary[i].Item_Description.trim());
-                        $("[name*='txtCrg_code" + counter + "']").val(ary[i].ITEMCODE.trim());
-                        $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
-                        $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE.trim());
-                        $("[name*='txtVAT_GL_CODE" + counter + "']").val(ary[i].VAT_GL_CODE.trim());
-                        $("[name*='txtCOA_CODE" + counter + "']").val(ary[i].COA_CODE.trim());
-                        $("[name*='txtUnit_code" + counter + "']").val(ary[i].UNIT_TYPE.trim());
-                        $("[name*='txtNo_of_qty" + counter + "']").val(ary[i].NO_OF_QTY);
-                        $("[name*='txtEx_Curr_Rate" + counter + "']").val(ary[i].RATE_PER_QTY);
-                        $("[name*='txtEx_Curr_Code" + counter + "']").val(ary[i].O_CURR_CODE.trim());
-                        $("[name*='txtRate" + counter + "']").val(ary[i].O_CURR_RATE);
-                        $("[name*='txtAmountFC" + counter + "']").val(ary[i].O_CURR_AMT);
-                        $("[name*='txtAmountBC" + counter + "']").val(ary[i].O_LOCAL_AMT);
-                        $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
-                        $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE);
-                        $("[name*='txtVatAmountBC" + counter + "']").val(ary[i].O_VAT_LOCAL_AMT);
-                        $("[name*='txtO_CHARGE_UID" + counter + "']").val(ary[i].O_CHARGE_UID);
-                        $("[name*='txtVouchVATAmountFC" + counter + "']").val(ary[i].V_VAT_CURR_AMT);
-                        $("[name*='txtVouchVATAmountBC" + counter + "']").val(ary[i].V_VAT_LOCAL_AMT);
-                        $("[name*='txtVochAmountFC" + counter + "']").val(ary[i].V_CURR_AMT);
-                        $("[name*='txtVochAmountBC" + counter + "']").val(ary[i].V_LOCAL_AMT);
-                        $("[name*='txtVochNetsumVatAmountFC" + counter + "']").val(ary[i].V_NET_CURR_AMT);
-                        $("[name*='txtVochNetsumVatAmountBC" + counter + "']").val(ary[i].V_NET_LOCAL_AMT);
-                        counter++;
-                        counter2++;
-                    }
-
-                    $('#tablePODetails5 tbody tr:last').remove();
-                    sumOfColumns();
-
-
-
-
-                });
-            } else {
-                EzAlertdele(BLCode);
-            }
-        }
+       
 
         function sumOfColumns() {
             debugger;
@@ -411,7 +367,7 @@
             debugger;
 
             var customercode = $("#SUBLEDGER_CODE").val();
-            var Type_Choose = $("input:radio[name=Type_Choose]:checked").val();
+            var Type_Choose = 'Invoice';
             if (customercode != "") {
                 $.ajax({
                     async: false,
@@ -422,21 +378,21 @@
                     dataType: 'Json',
                     contentType: "Application/json",
                     success: function (data) {
-                        $('#BL_CODE').empty();
+                        $('#Invoice_No').empty();
                         var ary = [];
                         ary = data;
                         for (var i = 0; i < ary.length; i++) {
-                            $('#BL_CODE').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
+                            $('#Invoice_No').append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
                         }
-                        $('#BL_CODE').val(0);
+                        $('#Invoice_No').val(0);
                         $('.selectpicker').selectpicker('refresh');
                     }
 
                 });
             }
             else {
-                $('#BL_CODE').empty();
-                $('#BL_CODE').append('<option value="0" selected="">Select</option>');
+                $('#Invoice_No').empty();
+                $('#Invoice_No').append('<option value="0" selected="">Select</option>');
                 $('.selectpicker').selectpicker('refresh');
             }
         });
@@ -458,26 +414,11 @@
 
 
                                     <div class="col-md-4">
+                                       
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-4">Choose Type<i class="star">*</i></label>
-                                                    <div class="col-md-7 input-field">
-                                                        <label class="radio-inline">
-                                                            @Html.RadioButtonFor(m => m.Type_Choose, "Bill", new { @checked = "checked" }) Bill
-                                                        </label>
-                                                        <label class="radio-inline">
-                                                            @Html.RadioButtonFor(m => m.Type_Choose, "Invoice") Invoice
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-4">Invoice No<i class="star">*</i></label>
+                                                    <label class="control-label col-md-4">Code<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
                                                         @Html.TextBoxFor(m => m.FNINV001_CODE, new { @style = "text-transform: uppercase;", @class = "form-control" })
                                                     </div>
@@ -596,9 +537,9 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-md-4">BL Code<i class="star">*</i></label>
+                                                    <label class="control-label col-md-4">Invoice No<i class="star">*</i></label>
                                                     <div class="col-md-7 input-field">
-                                                        @Html.DropDownListFor(m => m.BL_CODE, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                        @Html.DropDownListFor(m => m.Invoice_No, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
 
                                                         @*@Html.TextBoxFor(m => m.BL_CODE, new { @class = "form-control" })
                                                             <input id="hdnBL_CODE" type="hidden" class="form-control" name="hdnBL_CODE" value="-1" />*@
@@ -606,6 +547,20 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4">Bl Code<i class="star">*</i></label>
+                                                    <div class="col-md-7 input-field">
+                                                        @Html.TextBoxFor(m => m.BL_CODE, new { @class = "form-control", @readonly = "readonly" })
+
+                                                        @*@Html.DropDownListFor(m => m.BL_CODE, new List<SelectListItem> { new SelectListItem { Text = "-Select-", Value = "0" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })*@                                                       
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
@@ -653,7 +608,9 @@
                                         <br />
 
                                         <div class="row">
-                                            <button class="btn btn-primary btn1 newbtn" id="btnInvoice"><span class="glyphicon glyphicon-plus-sign"></span>Generate</button>
+                                            <div class="col-md-12">
+                                                <button class="btn btn-primary btn1 newbtn" id="btnInvoice2">Fill Invoice</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -769,6 +726,12 @@
                                                                         <td style="display:none;">
                                                                             @Html.TextBox(string.Concat("txtVatAmountBC", counter2), null, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
                                                                         </td>
+                                                                        <td style="display:none;">
+
+
+                                                                            @Html.TextBox(string.Concat("txtVatAmountFC", counter2), null, new { @class = "grid-control", @disabled = "disabled", @Type = "Number" })
+
+                                                                        </td>
                                                                         <td>
                                                                             @Html.TextBox(string.Concat("txtVouchVATAmountFC", counter2), null, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
                                                                         </td>
@@ -793,6 +756,9 @@
                                                                         </td>
                                                                         <td>
                                                                             @Html.TextBox(string.Concat("txtVochNetsumVatAmountBC", counter2), null, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+                                                                        </td>
+                                                                        <td>
+                                                                            <button type="button" class="btn btn-danger" name="@string.Concat("btnDelete",counter2)"><span class="glyphicon glyphicon-remove"></span></button>
                                                                         </td>
 
                                                                     </tr>

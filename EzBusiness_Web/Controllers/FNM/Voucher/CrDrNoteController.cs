@@ -161,6 +161,7 @@ namespace EzBusiness_Web.Controllers.FNM.Voucher
             }
             else
             {
+               
                 return Json(_CrDrService.GETBLNO(list[0].CmpyCode, list[0].BraCode, CustCode, Module_Type, Type_Choose), JsonRequestBehavior.AllowGet);
             }
         }
@@ -248,6 +249,21 @@ namespace EzBusiness_Web.Controllers.FNM.Voucher
                 return Json(_CrDrService.GetFNINV002DetailList(list[0].CmpyCode, BLNO, list[0].BraCode), JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult Credit_Debit_NoteForJob(string InvCode,string Module_Type)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_CrDrService.Credit_Debit_NoteForJob(list[0].CmpyCode, list[0].BraCode, InvCode,Module_Type), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        
 
     }
 }

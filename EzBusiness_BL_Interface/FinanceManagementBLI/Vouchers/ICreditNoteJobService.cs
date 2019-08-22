@@ -22,7 +22,8 @@ namespace EzBusiness_BL_Interface.FinanceManagementBLI.Vouchers
 
         FNINV001_VM GetDebit_AddNew(string Cmpycode, string BRANCHCODE);
 
-       
+        FNINV001_VM  Credit_Debit_NoteForJob(string CmpyCode, string Branchcode, string InvCode, string Module_Type);
+
         List<SelectListItem> GETBLNO(string CmpyCode, string Branchcode, string Customercode, string Module_Type,string Type_Choose);
 
        
