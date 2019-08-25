@@ -36,8 +36,11 @@
         $("#INV_DATE1").datepicker({ minDate: -1, maxDate: -2 }).attr('readonly', 'readonly');
 
         $('.selectpicker').selectpicker('refresh');
-        EzdteformtDOB('#INV_DATE1', 'DD/MM/YYYY');
-        EzdteformtDOB('#Post_Date1', 'DD/MM/YYYY');
+        
+
+
+        EzdtePkEdit('#INV_DATE1', "#INV_DATE", 'DD/MM/YYYY');
+        EzdtePkEdit('#Post_Date1', "#Post_Date", 'DD/MM/YYYY');
 
         EzAutoCompTxt1("#SUBLEDGER_CODE", "#hdnSUBLEDGER_CODE", "/FFM_Quotation/GetCust");
         EzAutoCompTxt1("#CURRENCY_CODE", "#hdnCURRENCY_CODE", "/FNM_SL/GetCurrency");
@@ -46,8 +49,14 @@
         EzAutoCompTxt1("#vessel_code", "#hdnvessel_code", "/FFM_Quotation/GetVESSELList");
         EzAutoCompTxt1("#SalesMan", "#hdnSalesMan", "/FF_BOK/GetSalesman");
         $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
-            var tr = $(this).closest('tr');
+            var tr = $(this).closest('tr');           
+            var oldqty = parseFloat(tr.find("[name*='txt1No_of_qty']").val());
             var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+            if (parseFloat(parseFloat(oldqty).toFixed(2)) < parseFloat(parseFloat(qty).toFixed(2)) || (parseFloat(parseFloat(qty).toFixed(2)) == 0)) {
+                EzAlerterrtxt('Less Than Or Equal to');
+                tr.find("[name*='txtNo_of_qty']").val(parseFloat(oldqty).toFixed(2));
+                return
+            }
             var HExRate = $('#CURRENCY_RATE').val();
             HExRate = isNaN(HExRate) ? 0 : HExRate;
             var Vrate = parseFloat(tr.find("[name*='txtRate']").val());
@@ -86,19 +95,29 @@
 
 
 
-        var counter2 = parseInt($("#hdnCounter2").val());
+        //var counter2 = parseInt($("#hdnCounter2").val());
         $("#tablePODetails5").on("click", "[name*='btnDelete']", function () {
-            $(this).closest("tr").remove();
-            counter2 = 1;
-            $('#tablePODetails5 tbody tr td:nth-child(1)').each(function () {
-                var tr1 = $(this).closest("tr");
-                tr1.find(":first").text(counter2);
-                txtarry1 = [];
-                txtarry.push('txtVochNetsumVatAmountBC', 'txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC');
-                EzTbltxtdrpidchanged(txtarry1, counter2, "txt", tr1);
-                counter2++;
-                sumOfColumns();
-            });
+            if ($("#tablePODetails5 tbody tr").length > 1) {
+                $(this).closest("tr").remove();
+                counter2 = 1;
+                debugger;
+                $('#tablePODetails5 tbody tr td:nth-child(1)').each(function () {
+                    debugger;
+                    var tr1 = $(this).closest("tr");
+                    // tr1.find(":first").text(counter2);                    
+
+                    txtarry1 = [];
+                    txtarry1.push('txtVochNetsumVatAmountBC', 'txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC', 'txtVatAmountFC', 'txt1No_of_qty');
+                    EzTbltxtdrpidchanged(txtarry1, counter2, "txt", tr1);
+                    tr1.find("[name*='txtsno" + counter2 + "']").val(counter2);
+                    counter2++;
+                });
+                $("#hdnCounter2").val(counter2 - 1);
+            } else {
+                $("#tablePODetails5 tbody tr").find("input").val("");
+            }
+            sumOfColumns();
+
         });
 
 
@@ -125,36 +144,34 @@
                 sum4 += isNaN(VochNetsumVatAmountFC1) ? 0 : VochNetsumVatAmountFC1;
                 sum5 += isNaN(VochNetsumVatAmountBC1) ? 0 : VochNetsumVatAmountBC1;
             });
-            $("#VAT_CURRENCY_AMT").val('' + sum3);
-            $("#VAT_LOCAL_AMT").val('' + sum2);
-            $("#CURRENCY_AMT").val('' + sum);
-            $("#LOCAL_AMT").val('' + sum1);
-            $("#NET_CURRENCY_AMT").val('' + sum4);
-            $("#NET_LOCAL_AMT").val('' + sum5);
+            $("#VAT_CURRENCY_AMT").val('' + parseFloat(sum3).toFixed(2));
+            $("#VAT_LOCAL_AMT").val('' + parseFloat(sum2).toFixed(2));
+            $("#CURRENCY_AMT").val('' + parseFloat(sum).toFixed(2));
+            $("#LOCAL_AMT").val('' + parseFloat(sum1).toFixed(2));
+            $("#NET_CURRENCY_AMT").val('' + parseFloat(sum4).toFixed(2));
+            $("#NET_LOCAL_AMT").val('' + parseFloat(sum5).toFixed(2));
         }
 
 
         function EzMult2(m1, m2) {
-            return (parseFloat(m1) * parseFloat(m2)) + 0; //variation should be zero
+            return parseFloat((parseFloat(m1) * parseFloat(m2)) + 0).toFixed(2); //variation should be zero
         }
 
-        function EzMult3(m1, m2,m3) {
-            return ((parseFloat(m1) * parseFloat(m2)) * parseFloat(m3)) + 0; //variation should be zero
+        function EzMult3(m1, m2, m3) {
+            return parseFloat(((parseFloat(m1) * parseFloat(m2)) * parseFloat(m3)) + 0).toFixed(2); //variation should be zero
         }
 
         function EzMultDiv100(d1, m1) {
-            return (parseFloat(d1) * (parseFloat(m1) / 100)) + 0; //variation should be zero
+            return parseFloat((parseFloat(d1) * (parseFloat(m1) / 100)) + 0).toFixed(2); //variation should be zero
         }
 
-        function EzDivide(d1, d2)
-        {
-            return (parseFloat(d1) / parseFloat(d2)) + 0; //variation should be zero
+        function EzDivide(d1, d2) {
+            return parseFloat((parseFloat(d1) / parseFloat(d2)) + 0).toFixed(2); //variation should be zero
         }
 
         function EzSum(s1, s2) {
-            return (parseFloat(s1) + parseFloat(s2)) + 0; //variation should be zero
+            return parseFloat((parseFloat(s1) + parseFloat(s2)) + 0).toFixed(2); //variation should be zero
         }
-
 
        
       
@@ -162,6 +179,8 @@
     });
 </script>
 <div class="row">
+    @Html.HiddenFor(m => m.INV_DATE)
+    @Html.HiddenFor(m => m.Post_Date)
     @Html.Hidden("hdnCounter2", (counter2))
     <div class="col-md-12">
         <div class="tabbable-line boxless tabbable-reversed" id="POContainer">
@@ -414,11 +433,12 @@
                                                                         <th style="display:none;">	Amount (BC)	</th>
                                                                         <th style="display:none;">	Vat %	</th>
                                                                         <th style="display:none;">	Amount(BC)	</th>
+                                                                        <th>Amount(FC)</th>
+                                                                        <th>Amount(BC)	</th>
                                                                         <th>Vat Amount(FC)	</th>
                                                                         <th style="padding: 0px 6px;">Vat Amount(BC)	</th>
 
-                                                                        <th>Amount(FC)</th>
-                                                                        <th>Amount(BC)	</th>
+                                                                       
                                                                         <th>Net +Vat Amount(FC)	</th>
                                                                         <th>Net +Vat Amount(BC)	</th>
 
@@ -462,6 +482,7 @@
 
                                                                             </td>
                                                                             <td>
+                                                                                @Html.Hidden(string.Concat("txt1No_of_qty", counter2), item.NO_OF_QTY)
                                                                                 @Html.TextBox(string.Concat("txtNo_of_qty", counter2), item.NO_OF_QTY, new { @class = "grid-control", @Type = "Number" })
 
                                                                             </td>
@@ -503,6 +524,15 @@
 
                                                                             </td>
                                                                             <td>
+                                                                                @Html.TextBox(string.Concat("txtVochAmountFC", counter2), item.V_CURR_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+
+                                                                            </td>
+
+                                                                            <td>
+                                                                                @Html.TextBox(string.Concat("txtVochAmountBC", counter2), item.V_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
+
+                                                                            </td>
+                                                                            <td>
                                                                                 @Html.TextBox(string.Concat("txtVouchVATAmountFC", counter2), item.V_VAT_CURR_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
 
                                                                             </td>
@@ -516,15 +546,7 @@
 
                                                                             </td>
 
-                                                                            <td>
-                                                                                @Html.TextBox(string.Concat("txtVochAmountFC", counter2), item.V_CURR_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-
-                                                                            </td>
-
-                                                                            <td>
-                                                                                @Html.TextBox(string.Concat("txtVochAmountBC", counter2), item.V_LOCAL_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
-
-                                                                            </td>
+                                                                          
                                                                             <td>
                                                                                 @Html.TextBox(string.Concat("txtVochNetsumVatAmountFC", counter2), item.V_NET_CURR_AMT, new { @class = "grid-control", @Type = "Number", @disabled = "disabled" })
 

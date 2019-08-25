@@ -1,4 +1,8 @@
 ﻿
+function ezdecimal(ids){
+    parseFloat(ids).toFixed(2)
+}
+
 function ezValidateNumbers(tableid, ids) {
     $(tableid).on("keydown", ids, function (e) {
         var keycode = event.which;

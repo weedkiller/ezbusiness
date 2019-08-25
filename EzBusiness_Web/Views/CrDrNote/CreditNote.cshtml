@@ -9,14 +9,18 @@
 <script>
     $(function () {
         EzAuthentication("/CreditNote");
+        GetDatatable();
         var drHtml = $("#DRContainer").html();
-        $("#DRListContainer1").hide();
-        function GetDrs() {
-            $.get("/CrDrNote/GetCrDrDetailList", { Module_Type: 'CRNTJ' }, function (response) {
-                $("#DRListContainer").html(response);
-            });
-        }
+       
+       
 
+        $("#DRListContainer1").hide();
+        //function GetDrs() {
+        //    $.get("/CrDrNote/GetCrDrDetailList", { Module_Type: 'CRNTJ' }, function (response) {
+        //        $("#DRListContainer").html(response);
+        //    });
+        //}
+        
 
       
 
@@ -26,12 +30,13 @@
             if (n == 1) {
                 $("#editshow").hide();
                 $.get("AddCreditNoteDetails", function (response) {
-                    $("#DRContainer").html(response);
+                 $("#DRContainer").html(response);
                 });
                 $(this).css("visibility", "hidden");
                 EzbtnNewAcVis();
                 $("#btnEdit").prop("disabled", true);
                 $("#DRListContainer1").hide();
+                $('#tbldiv').hide();
             }
         });
         $(".alert-close").click(function () {
@@ -48,12 +53,14 @@
             }
         });
 
-        $("#btnCancel").click(function () {
-            //$("#DRContainer").html(drHtml);
-            //EzbtnCancelAcVis();
-            //$("#DRListContainer1").hide();
-            //$("#editshow").hide();
-            window.location = '/CreditNote'
+        $("#btnCancel").click(function () {          
+            $("#editshow").hide();
+            $("#DRContainer").html(drHtml);
+            EzbtnCancelAcVis();           
+            $("#DRListContainer1").hide();
+            $('#btnrelod').trigger('click');
+            $('#tbldiv').show();
+            //window.location = '/CreditNote'
         });
 
         $("#btnDelete").click(function () {
@@ -80,7 +87,13 @@
                         $.getJSON("/DeleteCrDrNote", { FNINV001_CODE: FNINV001_CODE }).done(function (data) {
                             debugger
                             if (data.DeleteFlag) {
-                                window.location = '/CreditNote'
+                                // window.location = '/CreditNote'
+                                //$("#DRContainer").html(drHtml);
+                                $('#tbldiv').hide();
+                                EzbtnCancelAcVis();
+                                $("#DRListContainer1").hide();
+                                $("#editshow").hide();
+                                $('#btnrelod').trigger('click');
                             } else {
                                 EzAlertdele(FF_QTN001_CODE);
                             }
@@ -202,12 +215,12 @@
                 if (validationResult.formValid) {
 
                     $.post("/SaveCrDrNote", FQV).done(function (response) {
-                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            GetDrs();
+                        if (response.SaveFlag && !response.ErrorMessage.length > 0) {                                                      
                             EzAlertSave();
-                            $("#DRContainer").html(drHtml);
-
+                             $("#DRContainer").html(drHtml);
+                            $('#tbldiv').show();
                             EzbtnsaveAcVis("#DRContainer");
+                            $('#btnrelod').trigger('click');
 
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
@@ -308,9 +321,10 @@
                     $.post("/SaveCrDrNote", FQV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
                             EzAlertSave();
+                             $("#DRContainer").html(drHtml);
+                             $('#tbldiv').show();
                             EzbtnsaveAcVis("#DRContainer");
-                            $("#DRContainer").html(drHtml);
-                            GetDrs();
+                            $('#btnrelod').trigger('click');
                         } else {
                             EzAlerterrtxt(response.ErrorMessage);
                         }
@@ -376,7 +390,7 @@
                 $("#POList > tbody").children().removeClass("active");
                 $(this).addClass("active");
 
-                var FNINV001_CODE = $(this).find("[name*='hdnFNINV001_CODE']").val();
+                var FNINV001_CODE = $(this).find("td:eq(0)").text();//$(this).find("[name*='hdnFNINV001_CODE']").val();
 
 
                 $.get("EditCreditNoteDetails", { FNINV001_CODE: FNINV001_CODE }).done(function (response) {
@@ -386,6 +400,7 @@
                     $("#btnDelete").css("visibility", "");
 
                     $("#btnPrint").css("visibility", "hidden");
+                    $('#tbldiv').hide();
                 });
             }
         });
@@ -400,6 +415,133 @@
                 window.open("/AccountTypeReportForm/?code=" + code1 + "", '_blank');
             }
         });
+
+
+        function GetDatatable() {
+            debugger;
+            //$('#POList').empty();
+            //$.fn.dataTable.ext.errorMode = 'none';
+            $("#divsrly").show();
+
+
+            $("#POList tfoot th").each(function () {
+
+
+                var title = $('#POList tfoot th').eq($(this).index()).text();
+                if (title) {
+
+                    $(this).html('<input type="text" class="grid-control"  placeholder="Search"  />');
+
+                }
+
+
+            });
+
+            var newrow = {
+                Module_Type: 'CRNTJ'
+            }
+
+            var table = $('#POList').DataTable({
+                "ColumnDefs": [{ "searchable": false, "orderable": true, "targets": [0] }],
+                "order": [[0, 'asc']],
+                //"scrollY": true, 
+                //  "scrollX": true,
+                "filter": true,
+                "paging": true,
+                "ordering": true,
+                "info": true,
+                "language":
+                {
+                    "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
+                },
+                "dom": 'lBfrtip',
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "buttons": [
+                          'excel',
+                          'pdf',
+                           {
+                               text: 'Reload table',
+                               attr: {
+                                   id: 'btnrelod'
+                               },
+                               action: function () {
+                                   table.ajax.reload();
+                               },
+                               
+                           }
+
+                ],
+                "processing": true,
+                "serverSide": true,
+                "destroy": true,
+                "ajax":
+                {
+                    "async": false,
+                    "cache": false,
+                    "type": "POST",                                        
+                    "url": '/CrDrNote/GetCrDrDetailList',
+                    "data": newrow,
+                    "dataType": "json",
+                },
+
+                "aoColumns": [
+                              {
+                                  "mDataProp": "FNINV001_CODE"
+                              },
+                              { "mDataProp": "BL_CODE" },
+                              { "mDataProp": "Invoice_No" },
+                              { "mDataProp": "vessel_code" },
+                              { "mDataProp": "SUBLEDGER_CODE" },
+                              { "mDataProp": "POD" },
+                              { "mDataProp": "POL" },                              
+                              {
+                                  "mDataProp": "INV_DATE",
+                                  "render": function (data) {
+                                      return (EzdatefrmtRes1(data));
+                                  }
+                              },
+                ]
+            });
+
+            var delay = (function () {
+                var timer = 0;
+                return function (callback, ms) {
+                    clearTimeout(timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
+
+            table.columns().eq(0).each(function (colIdx) {
+                $('input', $('#POList tfoot th')[colIdx]).bind('keyup', function () {
+                    debugger;
+                    var coltext = this.value; // typed value in the search column  
+                    var colindex = colIdx; // column index  
+                    delay(function () {
+                        table
+                            .column(colindex)
+                            .search(coltext)
+                            .draw();
+                    }, 500);
+                });
+            });
+
+            var r = $("#POList tfoot th");
+            r.find('th').each(function () {
+                jq(this).css('padding', 8);
+            });
+            $("#POList thead").append(r);
+            $('#search_0').css('text-align', 'center');
+
+            $('div.dataTables_filter input').addClass('form-control input-sm');
+
+            $('#POList_length').hide();
+
+            $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+
+
+
+            // Ezsidetbl1112("#POList", "#POList tfoot td", true, "#POList thead","t");
+        }
     });
 </script>
 
@@ -487,9 +629,8 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @Html.Action("GetCrDrDetailList", "CrDrNote", new { Module_Type = "CRNTJ" })
-                                            </div>
-
+                                                @*@Html.Action("GetCrDrDetailList", "CrDrNote", new { Module_Type = "CRNTJ" })*@                                                
+                                                </div>
                                         </div>
                                     </div><br />
                                     <!-- END FORM-->
@@ -498,6 +639,72 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="table-responsive" id="tbldiv">
+                    <table id="POList" width="100%" class="table table-bordered stripe display hover portal-drivers">
+                        <thead>
+                            <tr class="tr">
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FNINV001_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BL_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Invoice_No)
+                                </th>
+                                <th>
+
+                                    @Html.DisplayNameFor(model => model.vessel_code)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SUBLEDGER_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.POD)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.POL)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.INV_DATE)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FNINV001_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BL_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Invoice_No)
+                                </th>
+                                <th>
+
+                                    @Html.DisplayNameFor(model => model.vessel_code)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SUBLEDGER_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.POD)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.POL)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.INV_DATE)
+                                </th>
+
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <tr></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
