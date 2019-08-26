@@ -283,7 +283,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                             {                               
                                 sb.Clear();
                                 sb.Append("(CMPYCODE,");
-                                sb.Append("DIVISION,");
+                                sb.Append("BRANCHCODE,");
                                 sb.Append("FNM_SL1001_CODE,");
                                 sb.Append("FNM_SL1002_CODE,");
                                 sb.Append("NAME,");
@@ -291,7 +291,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                 sb.Append("COA_CODE)");
                                 sb.Append(" values(");
                                 sb.Append("'" + FNSL.CMPYCODE + "',");
-                                sb.Append("'" + FNSL.DIVISION + "',");
+                                sb.Append("'" + FNSL.Branch_code + "',");
                                 sb.Append("'" + FNSL.FNM_SL1001_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].FNM_SL1002_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].NAME + "',");
@@ -375,7 +375,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                             sb.Append("Contact1='" + FNSL.Contact1 + "',");
                             sb.Append("Contact2='" + FNSL.Contact2 + "',");
                             sb.Append("Contact3='" + FNSL.Contact3 + "',");
-                            sb.Append("DIVISION='" + FNSL.DIVISION + "',");
+                            sb.Append("BRANCHCODE='" + FNSL.Branch_code + "',");
                             sb.Append("CREATED_BY='" + FNSL.CREATED_BY + "',");
                             sb.Append("credit_limit='" + FNSL.credit_limit + "',");
                             sb.Append("Currency_code='" + FNSL.Currency_code + "',");                            
@@ -388,7 +388,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                             sb.Append("UPDATED_BY='" + FNSL.UserName + "',");
                             sb.Append("Web_site='" + FNSL.Web_site + "',");
                             sb.Append("UPDATED_ON='" + dtstr7 + "',");
-                            sb.Append("Branchcode='" + FNSL.Branchcode + "',");                            
+                                                   
                             sb.Append("Name_Arabic='" + FNSL.Name_Arabic + "',");
                             sb.Append("CREATED_ON='" + dtstr7 + "'");
                         _EzBusinessHelper.ExecuteNonQuery("update FNM_SL1001 set " + sb + " where Cmpycode='" + FNSL.CMPYCODE + "' and FNM_SL1001_CODE='" + FNSL.FNM_SL1001_CODE + "'");
@@ -400,7 +400,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                             {                               
                                 sb.Clear();
                                 sb.Append("(CMPYCODE,");
-                                sb.Append("DIVISION,");
+                                sb.Append("BRANCHCODE,");
                                 sb.Append("FNM_SL1001_CODE,");
                                 sb.Append("FNM_SL1002_CODE,");
                                 sb.Append("NAME,");
@@ -408,7 +408,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                                 sb.Append("COA_CODE)");
                                 sb.Append(" values(");
                                 sb.Append("'" + FNMSL.CMPYCODE + "',");
-                                sb.Append("'" + FNSL.DIVISION + "',");
+                                sb.Append("'" + FNSL.Branch_code + "',");
                                 sb.Append("'" + FNMSL.FNM_SL1001_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].FNM_SL1002_CODE + "',");
                                 sb.Append("'" + ObjList[n - 1].NAME + "',");

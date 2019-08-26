@@ -11,20 +11,9 @@
         EzAuthentication("/CreditNote");
         GetDatatable();
         var drHtml = $("#DRContainer").html();
-       
-       
-
+             
         $("#DRListContainer1").hide();
-        //function GetDrs() {
-        //    $.get("/CrDrNote/GetCrDrDetailList", { Module_Type: 'CRNTJ' }, function (response) {
-        //        $("#DRListContainer").html(response);
-        //    });
-        //}
-        
-
-      
-
-
+                 
         $("#btnNew").click(function () {
             var n = EzAuthenticationBtn("/CreditNote", "NewIt");
             if (n == 1) {
@@ -53,7 +42,8 @@
             }
         });
 
-        $("#btnCancel").click(function () {          
+        $("#btnCancel").click(function () {
+            $("#POList thead tr").find("input").val("");
             $("#editshow").hide();
             $("#DRContainer").html(drHtml);
             EzbtnCancelAcVis();           
@@ -420,27 +410,16 @@
         function GetDatatable() {
             debugger;
             //$('#POList').empty();
-            //$.fn.dataTable.ext.errorMode = 'none';
-            $("#divsrly").show();
-
-
+            //$.fn.dataTable.ext.errorMode = 'none';            
             $("#POList tfoot th").each(function () {
-
-
                 var title = $('#POList tfoot th').eq($(this).index()).text();
                 if (title) {
-
                     $(this).html('<input type="text" class="grid-control"  placeholder="Search"  />');
-
                 }
-
-
             });
-
             var newrow = {
                 Module_Type: 'CRNTJ'
             }
-
             var table = $('#POList').DataTable({
                 "ColumnDefs": [{ "searchable": false, "orderable": true, "targets": [0] }],
                 "order": [[0, 'asc']],
@@ -460,16 +439,14 @@
                           'excel',
                           'pdf',
                            {
-                               text: 'Reload table',
+                               text: 'Reload Data',
                                attr: {
                                    id: 'btnrelod'
                                },
                                action: function () {
                                    table.ajax.reload();
-                               },
-                               
+                               },                               
                            }
-
                 ],
                 "processing": true,
                 "serverSide": true,
@@ -485,9 +462,7 @@
                 },
 
                 "aoColumns": [
-                              {
-                                  "mDataProp": "FNINV001_CODE"
-                              },
+                              {"mDataProp": "FNINV001_CODE"},
                               { "mDataProp": "BL_CODE" },
                               { "mDataProp": "Invoice_No" },
                               { "mDataProp": "vessel_code" },
@@ -537,10 +512,6 @@
             $('#POList_length').hide();
 
             $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
-
-
-
-            // Ezsidetbl1112("#POList", "#POList tfoot td", true, "#POList thead","t");
         }
     });
 </script>

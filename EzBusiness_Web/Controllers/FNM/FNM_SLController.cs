@@ -131,6 +131,7 @@ namespace EzBusiness_Web.Controllers.FNM
                 FNM.CMPYCODE = list[0].CmpyCode;
                 FNM.UserName = list[0].user_name;
                 FNM.DIVISION = list[0].Divcode;
+                FNM.Branch_code = list[0].BraCode;
                 return Json(_FNM_SLService.SaveFNM_SL(FNM), JsonRequestBehavior.AllowGet);
             }
         }

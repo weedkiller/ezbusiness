@@ -101,7 +101,7 @@
                 tr.css("background", "red");
                 tr.find("[name*='txtFNM_SL1002_CODE']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
-                tr.find("[name*='txtFNM_SL1002_CODE']").val('0');
+                tr.find("[name*='txtFNM_SL1002_CODE']").val('');
 
             }
             else {
@@ -111,7 +111,9 @@
 
                 var SUBLEDGER_TYPE = $(this).val();
 
+                if (SUBLEDGER_TYPE != '') {
 
+               
                 $.get("FNM_SL/GetCatDropDetailList", { SUBLEDGER_TYPE: SUBLEDGER_TYPE }).done(function (response) {
                     //var ary = [];
                     //ary = response;
@@ -177,6 +179,8 @@
 
                     //trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
                     //trLast.find("[name *= 'FNM_SL1002_CODE']").selectpicker('refresh');
+                }
+
                 }
                 counter++;
             }
@@ -453,10 +457,10 @@
                                                         <thead>
                                                             <tr class="tr">
                                                                 <th>
-                                                                    SubLedger Code
+                                                                    Subledger category
                                                                 </th>
                                                                 <th>
-                                                                    SubLedger Name
+                                                                    Category name
                                                                 </th>
                                                                 <th>
                                                                     COA Code

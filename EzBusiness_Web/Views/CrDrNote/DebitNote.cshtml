@@ -62,7 +62,7 @@
                           'excel',
                           'pdf',
                            {
-                               text: 'Reload table',
+                               text: 'Reload Data',
                                attr: {
                                    id: 'btnrelod'
                                },
@@ -509,12 +509,12 @@
                 $("#POList > tbody").children().removeClass("active");
                 $(this).addClass("active");
 
-                var FNINV001_CODE = $(this).find("[name*='hdnFNINV001_CODE']").val();
+                var FNINV001_CODE = $(this).find("td:eq(0)").text();// $(this).find("[name*='hdnFNINV001_CODE']").val();
 
 
                 $.get("EditDebitNoteDetails", { FNINV001_CODE: FNINV001_CODE }).done(function (response) {
                     $("#DRContainer").html(response);
-
+                    $('#tbldiv').hide();
                     //$("#btnDelete").prop("disabled", false);
                     $("#btnDelete").css("visibility", "");
 

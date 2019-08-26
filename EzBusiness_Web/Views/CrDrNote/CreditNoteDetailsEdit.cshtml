@@ -52,11 +52,12 @@
             var tr = $(this).closest('tr');           
             var oldqty = parseFloat(tr.find("[name*='txt1No_of_qty']").val());
             var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
-            if (parseFloat(parseFloat(oldqty).toFixed(2)) < parseFloat(parseFloat(qty).toFixed(2)) || (parseFloat(parseFloat(qty).toFixed(2)) == 0)) {
+            if (parseFloat(parseFloat(oldqty).toFixed(2)) < parseFloat(parseFloat(qty).toFixed(2)) || (parseFloat(parseFloat(qty).toFixed(2)) <= 0)) {
                 EzAlerterrtxt('Less Than Or Equal to');
                 tr.find("[name*='txtNo_of_qty']").val(parseFloat(oldqty).toFixed(2));
                 return
             }
+            tr.find("[name*='txtNo_of_qty']").val(parseFloat(qty).toFixed(2));
             var HExRate = $('#CURRENCY_RATE').val();
             HExRate = isNaN(HExRate) ? 0 : HExRate;
             var Vrate = parseFloat(tr.find("[name*='txtRate']").val());
