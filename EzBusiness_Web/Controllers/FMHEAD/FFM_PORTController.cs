@@ -26,25 +26,16 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {
-                return Redirect("Login/InLogin");
+              return Redirect("Login/InLogin");
             }
             else
             {                
-                return View();
+              return View();
             }
         }
-        public ActionResult GetPortList(string CmpyCode)
+        //[OutputCache(Duration =5)]
+        public ActionResult GetPortList()
         {
-            //List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
-            //if (list == null)
-            //{
-            //    return Redirect("Login/InLogin");
-            //}
-            //else
-            //{
-            //    return Json(_fpService.GetFFM_PORT(list[0].CmpyCode), JsonRequestBehavior.AllowGet);
-            //    //  return PartialView(_fpService.GetFFM_PORT(list[0].CmpyCode));
-            //}
             JsonResult result = new JsonResult();
             try
             {

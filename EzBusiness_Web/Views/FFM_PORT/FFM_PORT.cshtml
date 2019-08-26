@@ -264,24 +264,15 @@
         });
         EzdtePk('#Entry_Date1');
        
-        function GetDatatable() {
-            
+        function GetDatatable() {            
             //$('#POList').empty();
             $.fn.dataTable.ext.errorMode = 'none';
             $("#divsrly").show();
-         
-
             $("#POList tfoot th").each(function () {
-
-
                 var title = $('#POList tfoot th').eq($(this).index()).text();
                 if (title) {
-
                     $(this).html('<input type="text" class="grid-control"  placeholder="Search"  />');
-
                 }
-
-
             });
             var table = $('#POList').DataTable({
                 "ColumnDefs": [{ "searchable": false, "orderable": true, "targets": [0]}],
@@ -312,8 +303,7 @@
                     "type": "POST",
                     "url": '/FFM_PORT/GetPortList',
                     "dataType": "json",                   
-                },
-              
+                },              
                 "aoColumns": [
                               {
                                   "mDataProp": "FFM_PORT_CODE"
@@ -333,8 +323,7 @@
                     clearTimeout(timer);
                     timer = setTimeout(callback, ms);
                 };
-            })();
-           
+            })();           
             table.columns().eq(0).each(function (colIdx) {
                 $('input', $('#POList tfoot th')[colIdx]).bind('keyup', function () {
                     debugger;
@@ -348,7 +337,6 @@
                     }, 500);
                 });
             });
-
             var r = $("#POList tfoot th");
             r.find('th').each(function () {
                 jq(this).css('padding', 8);
@@ -361,14 +349,9 @@
             $('#POList_length').hide();
 
             $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
-
-
-
            // Ezsidetbl1112("#POList", "#POList tfoot td", true, "#POList thead","t");
         }
 
-
-        
     });
 </script>
 <br />
@@ -405,7 +388,7 @@
                                     <!-- BEGIN FORM-->
                                     <div class="container" id="POListContainer">
                                         <div class="table-responsive">
-                                            <table id="POList" class="table table-bordered table-hover">
+                                            <table id="POList" class="table table-bordered table-hover portal-drivers">
                                                 <thead>
                                                     <tr class="tr">
                                                         <th>Port Code</th>

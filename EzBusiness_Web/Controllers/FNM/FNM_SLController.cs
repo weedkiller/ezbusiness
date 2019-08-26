@@ -176,7 +176,7 @@ namespace EzBusiness_Web.Controllers.FNM
             }
         }
         public ActionResult SUBLEDGER_TYPEList2(string Prefix)
-        {
+       {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
             {
