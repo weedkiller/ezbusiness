@@ -31,13 +31,13 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public string COA_CODE { get; set; }
         public string SUBLEDGER_CODE { get; set; }
         public string CURRENCY_CODE { get; set; }
-        public Decimal CURRENCY_RATE { get; set; }
-        public Decimal VAT_CURRENCY_AMT { get; set; }
-        public Decimal VAT_LOCAL_AMT { get; set; }
-        public Decimal CURRENCY_AMT { get; set; }
-        public Decimal LOCAL_AMT { get; set; }
-        public Decimal NET_CURRENCY_AMT { get; set; }
-        public Decimal NET_LOCAL_AMT { get; set; }
+        public decimal CURRENCY_RATE { get; set; }
+        public decimal VAT_CURRENCY_AMT { get; set; }
+        public decimal VAT_LOCAL_AMT { get; set; }
+        public decimal CURRENCY_AMT { get; set; }
+        public decimal LOCAL_AMT { get; set; }
+        public decimal NET_CURRENCY_AMT { get; set; }
+        public decimal NET_LOCAL_AMT { get; set; }
         public string BILLING_ADDRESS { get; set; }
         public string SUPPLIER_JV_NO { get; set; }
 
@@ -58,5 +58,7 @@ namespace EzBusiness_EF_Entity.FreightManagementEF.SEA_Export
         public string POD { get; set; }
 
         public string Type_Choose { get; set; }
+
+        public string Invoice_No { get; set; }
     }
 }

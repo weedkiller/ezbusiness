@@ -79,7 +79,7 @@
                 tr.css("background", "red");
                 tr.find("[name*='txtFNM_SL1002_CODE']").focus();
                 EzAlerterrtxt("Already Exist Code '" + dr + "'");
-                tr.find("[name*='txtFNM_SL1002_CODE']").val('0');
+                tr.find("[name*='txtFNM_SL1002_CODE']").val('');
 
             }
             else {
@@ -89,7 +89,9 @@
 
                 var SUBLEDGER_TYPE = $(this).val();
 
+                if (SUBLEDGER_TYPE != '') {
 
+               
                 $.get("FNM_SL/GetCatDropDetailList", { SUBLEDGER_TYPE: SUBLEDGER_TYPE }).done(function (response) {
                     //var ary = [];
                     //ary = response;
@@ -121,6 +123,8 @@
                     EzTbltxtdrpidchanged(txtarry1, counter, "txt", trLast);
                     trLast.find("[name *= 'txtFNM_SL1002_CODE']").val('');
                  
+                }
+
                 }
                 counter++;
             }
@@ -359,11 +363,11 @@
                                                     <table class="table table-bordered table-hover" id="tblFNMCURRATE">
                                                         <thead>
                                                             <tr class="tr">
-                                                                <th width="30%">
-                                                                    SubLedger Code
+                                                                <th>
+                                                                    Subledger category
                                                                 </th>
                                                                 <th>
-                                                                    SubLedger Name
+                                                                    Category name
                                                                 </th>
                                                                 <th>
                                                                     COA Code

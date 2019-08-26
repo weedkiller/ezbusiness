@@ -85,7 +85,8 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                     INV_DATE = Convert.ToDateTime(dr["INV_DATE"].ToString()),
                     INV_STATUS = dr["INV_STATUS"].ToString(),
                     INV_TYPE = dr["INV_TYPE"].ToString(),
-                    Type_Choose=dr["Type_Choose"].ToString()
+                    Type_Choose=dr["Type_Choose"].ToString(),
+                    Invoice_No=dr["Invoice_No"].ToString()
                     //CURRENCY_AMT = Convert.ToDecimal(dr["CURRENCY_AMT"].ToString()),
                     //LOCAL_AMT = Convert.ToDecimal(dr["LOCAL_AMT"].ToString()),
                     //NET_CURRENCY_AMT = Convert.ToDecimal(dr["NET_CURRENCY_AMT"].ToString()),
@@ -236,7 +237,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                 ObjList.LOCAL_AMT = Convert.ToDecimal(dr["LOCAL_AMT"].ToString());
                 ObjList.NET_CURRENCY_AMT = Convert.ToDecimal(dr["NET_CURRENCY_AMT"].ToString());
                 ObjList.NET_LOCAL_AMT = Convert.ToDecimal(dr["NET_LOCAL_AMT"].ToString());
-
+                ObjList.Invoice_No = dr["Invoice_No"].ToString();
                 ObjList.Type_Choose = dr["Type_Choose"].ToString();
             }
             return ObjList;
@@ -349,7 +350,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                                 sb5.Append("'" + ObjList[n - 1].V_NET_LOCAL_AMT + "',");
                                 sb5.Append("'" + ObjList[n - 1].Narration + "',");
                                 sb5.Append("'" + ObjList[n - 1].NOTE + "',");
-                                sb5.Append("'" + ObjList[n - 1].Ret_Qty + "',");
+                                sb5.Append("'" + ObjList[n - 1].Ret_Qty + "',");                                
                                 sb5.Append("'" + ObjList[n - 1].Cost_per_qty + "')");
 
 
@@ -404,12 +405,13 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                         sb4.Append("'" + FNINV.BL_REF_NO + "',");
                         sb4.Append("'" + FNINV.POL + "',");
                         sb4.Append("'" + FNINV.Type_Choose + "',");
+                        sb4.Append("'" + FNINV.Invoice_No + "',");
                         sb4.Append("'" + FNINV.POD + "')");
-                        i = _EzBusinessHelper.ExecuteNonQuery("insert into FNINV001(FNINV001_CODE,cmpycode,BRANCHCODE,INV_TYPE,INV_STATUS,INV_DATE,Post_Date,NOTES,NARRATION,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_CODE,SUBLEDGER_CODE,CURRENCY_CODE,CURRENCY_RATE,VAT_CURRENCY_AMT,VAT_LOCAL_AMT,CURRENCY_AMT,LOCAL_AMT,NET_CURRENCY_AMT,NET_LOCAL_AMT,BILLING_ADDRESS,SUPPLIER_JV_NO,SUPPLIER_JV_DATE,SUPPLIER_GRN_NO,RECEIVED_PAID_NAME,UNPOSTED_NOTE,Received_By,SalesMan,LOCATION_CODE,vessel_code,BL_CODE,BL_REF_NO,POL,Type_Choose,POD) values(" + sb4.ToString() + "");
+                        i = _EzBusinessHelper.ExecuteNonQuery("insert into FNINV001(FNINV001_CODE,cmpycode,BRANCHCODE,INV_TYPE,INV_STATUS,INV_DATE,Post_Date,NOTES,NARRATION,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,COA_CODE,SUBLEDGER_CODE,CURRENCY_CODE,CURRENCY_RATE,VAT_CURRENCY_AMT,VAT_LOCAL_AMT,CURRENCY_AMT,LOCAL_AMT,NET_CURRENCY_AMT,NET_LOCAL_AMT,BILLING_ADDRESS,SUPPLIER_JV_NO,SUPPLIER_JV_DATE,SUPPLIER_GRN_NO,RECEIVED_PAID_NAME,UNPOSTED_NOTE,Received_By,SalesMan,LOCATION_CODE,vessel_code,BL_CODE,BL_REF_NO,POL,Type_Choose,Invoice_No,POD) values(" + sb4.ToString() + "");
 
                         #endregion
 
-                        _EzBusinessHelper.ActivityLog(FNINV.cmpycode, FNINV.UserName, "Update FF BL", FNINV.FNINV001_CODE, Environment.MachineName);
+                        _EzBusinessHelper.ActivityLog(FNINV.cmpycode, FNINV.UserName, "Update "+FNINV.INV_TYPE+"", FNINV.FNINV001_CODE, Environment.MachineName);
                         FNINV.SaveFlag = true;
                         FNINV.ErrorMessage = string.Empty;
                         scope1.Complete();
@@ -459,7 +461,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                             FQT1.BILLING_ADDRESS = FNINV.BILLING_ADDRESS;
                             FQT1.SUPPLIER_JV_NO = FNINV.SUPPLIER_JV_NO;
                             FQT1.Type_Choose = FNINV.Type_Choose;
-
+                            FQT1.Invoice_No = FNINV.Invoice_No;
 
                             _EzBusinessHelper.ExecuteNonQuery("delete from FNINV002 where CmpyCode='" + FNINV.cmpycode + "' and INV001_CODE='" + FNINV.FNINV001_CODE + "' AND BRANCHCODE ='" + FNINV.BRANCHCODE + "'");
 
@@ -490,6 +492,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                                     O_CURR_RATE = m.O_CURR_RATE,
                                     O_LOCAL_AMT = m.O_LOCAL_AMT,
                                     O_VAT_LOCAL_AMT = m.O_VAT_LOCAL_AMT,
+                                    
                                     RATE_PER_QTY = m.RATE_PER_QTY,
                                     Ret_Qty = m.Ret_Qty,
                                     SUBLEDGER_CODE = m.SUBLEDGER_CODE,
@@ -604,7 +607,8 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                             sb9.Append("BL_CODE='" + FNINV.BL_CODE + "',");
                             sb9.Append("BL_REF_NO='" + FNINV.BL_REF_NO + "',");
                             sb9.Append("POL='" + FNINV.POL + "',");
-                            sb9.Append("POD='" + FNINV.POD + "'");
+                            sb9.Append("POD='" + FNINV.POD + "',");
+                            sb9.Append("Invoice_No='" + FNINV.Invoice_No + "',");
                             sb9.Append("Type_Choose='" + FNINV.Type_Choose + "'");
 
                             _EzBusinessHelper.ExecuteNonQuery("update FNINV001 set  " + sb9 + " where  FNINV001_CODE='" + FNINV.FNINV001_CODE + "' and  BRANCHCODE='" + FNINV.BRANCHCODE + "' and  cmpycode='" + FNINV.cmpycode + "' and Flag=0");//CmpyCode='" + FQV.CMPYCODE + "' and                         
@@ -635,10 +639,17 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
         public List<ComDropTbl> GETBLNO(string CmpyCode, string Branchcode, string Customercode, string Module_Type,string Type_Choose)
         {
 
+            var InvModule_Type = "PIVJV";
+            if (Module_Type == "CRNTJ")
+            {
+                InvModule_Type = "INVJV";
+            }
+
             SqlParameter[] param = { new SqlParameter("@CMPYCODE", CmpyCode),
                                     new SqlParameter("@Branchcode", Branchcode),
                                     new SqlParameter("@Customer_code", Customercode),
-                                    new SqlParameter("@Module_Type", Module_Type)
+                                    new SqlParameter("@Module_Type", Module_Type),
+                                    new SqlParameter("@InvModule_Type",InvModule_Type)
                                     };
 
             if (Type_Choose == "Invoice")
@@ -646,7 +657,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                 ds = _EzBusinessHelper.ExecuteDataSet("Sp_FillInvoiceCode", CommandType.StoredProcedure, param);
             }else
             {
-                ds = _EzBusinessHelper.ExecuteDataSet("Sp_FillBLCodeCrDr", CommandType.StoredProcedure, param);
+                ds = _EzBusinessHelper.ExecuteDataSet("Sp_FillBLCode", CommandType.StoredProcedure, param);
             }
                        
             dt = ds.Tables[0];
@@ -701,6 +712,8 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                 ObjList.POL = dr["POL"].ToString();
                 ObjList.POD = dr["POD"].ToString();
 
+                
+
             }
             return ObjList;
         }
@@ -720,7 +733,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                 ds = _EzBusinessHelper.ExecuteDataSet("SP_FillCustCodeCrDrInv", CommandType.StoredProcedure, param);
             }else
             {
-                ds = _EzBusinessHelper.ExecuteDataSet("SP_FillCustCodeCrDr", CommandType.StoredProcedure, param);
+                ds = _EzBusinessHelper.ExecuteDataSet("SP_FillCustCodeINV", CommandType.StoredProcedure, param);
             }
                
             dt = ds.Tables[0];
@@ -749,6 +762,65 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR.Vouchers
                                         new SqlParameter("@loginid", UserName),                                                                               
                                     };
             return _EzBusinessHelper.ExecuteNonQuery("Invoice_CrDrGenerateLates", param);
+        }
+
+        public FNINV001_VM Credit_Debit_NoteForJob(string CmpyCode, string Branchcode, string InvCode, string Module_Type)
+        {
+            FNINV001_VM ObjList = new FNINV001_VM();
+            SqlParameter[] param = { new SqlParameter("@CMPYCODE", CmpyCode),
+                                    new SqlParameter("@Branchcode", Branchcode),
+                                    new SqlParameter("@Module_Type", Module_Type),
+                                     new SqlParameter("@InvCode",InvCode )
+                                    };
+          
+                ds = _EzBusinessHelper.ExecuteDataSet("Credit_Debit_NoteForJob", CommandType.StoredProcedure, param);           
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;          
+            List<FNINV002New> ObjList1 = new List<FNINV002New>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList1.Add(new FNINV002New()
+                {                  
+                    LINE_NO = Convert.ToDecimal(dr["LINE_NO"].ToString()),
+                    ITEMCODE = dr["ITEMCODE"].ToString(),
+                    O_CHARGE_UID = Convert.ToInt16(dr["O_CHARGE_UID"].ToString()),
+                    UNIT_TYPE = dr["UNIT_TYPE"].ToString(),
+                    Item_Description = dr["Item_Description"].ToString(),
+                    O_VAT_CURR_AMT = Convert.ToDecimal(dr["O_VAT_CURR_AMT"].ToString()),
+                    VAT_GL_CODE = dr["VAT_GL_CODE"].ToString(),
+                    NO_OF_QTY = Convert.ToDecimal(dr["NO_OF_QTY"].ToString()),
+                    RATE_PER_QTY = Convert.ToDecimal(dr["RATE_PER_QTY"].ToString()),                                     
+                    O_CURR_CODE = dr["O_CURR_CODE"].ToString(),
+                    O_CURR_RATE = Convert.ToDecimal(dr["O_CURR_RATE"].ToString()),
+                    O_CURR_AMT = Convert.ToDecimal(dr["O_CURR_AMT"].ToString()),
+                    O_LOCAL_AMT = Convert.ToDecimal(dr["O_LOCAL_AMT"].ToString()),
+                    O_VAT_LOCAL_AMT = Convert.ToDecimal(dr["O_VAT_LOCAL_AMT"].ToString()),
+                    VAT_CODE = dr["VAT_CODE"].ToString(),
+                    VAT_PER = Convert.ToDecimal(dr["VAT_PER"].ToString()),
+                    V_CURR_AMT = Convert.ToDecimal(dr["V_CURR_AMT"].ToString()),
+                    V_LOCAL_AMT = Convert.ToDecimal(dr["V_LOCAL_AMT"].ToString()),
+                    V_VAT_CURR_AMT = Convert.ToDecimal(dr["V_VAT_CURR_AMT"].ToString()),
+                    V_VAT_LOCAL_AMT = Convert.ToDecimal(dr["V_VAT_LOCAL_AMT"].ToString()),
+                    V_NET_CURR_AMT = Convert.ToDecimal(dr["V_NET_CURR_AMT"].ToString()),
+                    V_NET_LOCAL_AMT = Convert.ToDecimal(dr["V_NET_LOCAL_AMT"].ToString()),
+                    COA_CODE=dr["COA_CODE"].ToString()
+                });
+            }
+            dt = ds.Tables[1];
+            drc = dt.Rows;
+            foreach (DataRow dr in drc)
+            {
+                ObjList.SalesMan = dr["SalesMan"].ToString();
+                ObjList.vessel_code = dr["vessel_code"].ToString();
+                ObjList.POL = dr["POL"].ToString();
+                ObjList.POD = dr["POD"].ToString();
+                ObjList.CURRENCY_CODE = dr["CURRENCY_CODE"].ToString();
+                ObjList.CURRENCY_RATE = Convert.ToDecimal(dr["CURRENCY_RATE"].ToString());
+                ObjList.BL_REF_NO = dr["BL_REF_NO"].ToString();
+                ObjList.BL_CODE = dr["BL_CODE"].ToString();
+                ObjList.FNINV002Detail = ObjList1;
+            }
+            return ObjList;
         }
     }
 }

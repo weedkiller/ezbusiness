@@ -6,9 +6,122 @@
 <script src="~/Scripts/EzComNDW.js"></script>
 <script>
     $(document).ready(function () {
-        Ezsidetbl1("#POList", "#POList tfoot td", false, "#POList thead");
+        //Ezsidetbl1("#POList", "#POList tfoot td", false, "#POList thead");
+
+        GetDatatable();
     });
 
+
+    function GetDatatable() {
+
+        //$('#POList').empty();
+        $.fn.dataTable.ext.errorMode = 'none';
+        $("#divsrly").show();
+
+
+        $("#POList tfoot th").each(function () {
+
+
+            var title = $('#POList tfoot th').eq($(this).index()).text();
+            if (title) {
+
+                $(this).html('<input type="text" class="grid-control"  placeholder="Search"  />');
+
+            }
+
+
+        });
+        var table = $('#POList').DataTable({
+            "ColumnDefs": [{ "searchable": false, "orderable": true, "targets": [0] }],
+            "order": [[0, 'asc']],
+            //"scrollY": true, 
+            //  "scrollX": true,
+            "filter": true,
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "language":
+            {
+                "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
+            },
+            "dom": 'lBfrtip',
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            "buttons": [
+                      'excel',
+                      'pdf'
+            ],
+            "processing": true,
+            "serverSide": true,
+            "destroy": true,
+            "ajax":
+            {
+                "async": false,
+                "cache": false,
+                "type": "POST",
+                data: "{Module_Type:'CRNTJ'}",                 
+                "url": '/CrDrNote/GetCrDrDetailList',
+                "dataType": "json",
+            },
+
+            "aoColumns": [
+                          {
+                              "mDataProp": "FNINV001_CODE"
+                          },
+                          { "mDataProp": "BL_CODE" },
+                          { "mDataProp": "Invoice_No" },
+                          { "mDataProp": "vessel_code" },
+                          { "mDataProp": "SUBLEDGER_CODE" },
+                          { "mDataProp": "POD" },
+                          { "mDataProp": "POL" },
+                            { "mDataProp": "POD" },
+                          {
+                              "mDataProp": "INV_DATE",
+                              "render": function (data) {
+                                  return (EzdatefrmtRes1(data));
+                              }
+                          },
+            ]
+        });
+
+        var delay = (function () {
+            var timer = 0;
+            return function (callback, ms) {
+                clearTimeout(timer);
+                timer = setTimeout(callback, ms);
+            };
+        })();
+
+        table.columns().eq(0).each(function (colIdx) {
+            $('input', $('#POList tfoot th')[colIdx]).bind('keyup', function () {
+                debugger;
+                var coltext = this.value; // typed value in the search column  
+                var colindex = colIdx; // column index  
+                delay(function () {
+                    table
+                        .column(colindex)
+                        .search(coltext)
+                        .draw();
+                }, 500);
+            });
+        });
+
+        var r = $("#POList tfoot th");
+        r.find('th').each(function () {
+            jq(this).css('padding', 8);
+        });
+        $("#POList thead").append(r);
+        $('#search_0').css('text-align', 'center');
+
+        $('div.dataTables_filter input').addClass('form-control input-sm');
+
+        $('#POList_length').hide();
+
+        $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+
+
+
+        // Ezsidetbl1112("#POList", "#POList tfoot td", true, "#POList thead","t");
+    }
 </script>
 
 
@@ -26,6 +139,9 @@
                 </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.BL_CODE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Invoice_No)
             </th>
             <th>
 
@@ -61,6 +177,10 @@
                 <td>
                     @Html.DisplayNameFor(model => model.COA_CODE)
                 </td>*@
+
+            <td>
+                @Html.DisplayNameFor(model => model.Invoice_No)
+            </td>
             <td>
 
                 @Html.DisplayNameFor(model => model.vessel_code)
@@ -82,7 +202,7 @@
         </tr>
     </tfoot>
     <tbody>
-        @foreach (var po in Model)
+        @*@foreach (var po in Model)
             {
 
 
@@ -94,12 +214,10 @@
                 <td>
                     @po.BL_CODE
                 </td>
-                @*<td>
-                        @po.BL_REF_NO
-                    </td>
-                    <td>
-                        @po.COA_CODE
-                    </td>*@
+                <td>
+                    @po.Invoice_No
+                </td>
+               
                 <td>
 
                     @po.vessel_code
@@ -119,6 +237,6 @@
                 </td>
 
             </tr>
-        }
+        }*@
     </tbody>
 </table>

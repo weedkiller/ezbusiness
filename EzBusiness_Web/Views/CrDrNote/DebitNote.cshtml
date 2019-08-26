@@ -10,15 +10,140 @@
 <script>
     $(function () {
         EzAuthentication("/DebitNote");
+        GetDatatable();
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
-        function GetDrs() {
-            $.get("/CrDrNote/GetCrDrDetailList", { Module_Type: 'DBNTJ' }, function (response) {
-                $("#DRListContainer").html(response);
+        //function GetDrs() {
+        //    $.get("/CrDrNote/GetCrDrDetailList", { Module_Type: 'DBNTJ' }, function (response) {
+        //        $("#DRListContainer").html(response);
+        //    });
+        //}
+
+        function GetDatatable() {
+            debugger;
+            //$('#POList').empty();
+            //$.fn.dataTable.ext.errorMode = 'none';
+            $("#divsrly").show();
+
+
+            $("#POList tfoot th").each(function () {
+
+
+                var title = $('#POList tfoot th').eq($(this).index()).text();
+                if (title) {
+
+                    $(this).html('<input type="text" class="grid-control"  placeholder="Search"  />');
+
+                }
+
+
             });
+
+            var newrow = {
+                Module_Type: 'DBNTJ'
+            }
+
+            var table = $('#POList').DataTable({
+                "ColumnDefs": [{ "searchable": false, "orderable": true, "targets": [0] }],
+                "order": [[0, 'asc']],
+                //"scrollY": true, 
+                //  "scrollX": true,
+                "filter": true,
+                "paging": true,
+                "ordering": true,
+                "info": true,
+                "language":
+                {
+                    "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
+                },
+                "dom": 'lBfrtip',
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "buttons": [
+                          'excel',
+                          'pdf',
+                           {
+                               text: 'Reload Data',
+                               attr: {
+                                   id: 'btnrelod'
+                               },
+                               action: function () {
+                                   table.ajax.reload();
+                               },
+
+                           }
+
+                ],
+                "processing": true,
+                "serverSide": true,
+                "destroy": true,
+                "ajax":
+                {
+                    "async": false,
+                    "cache": false,
+                    "type": "POST",
+                    "url": '/CrDrNote/GetCrDrDetailList',
+                    "data": newrow,
+                    "dataType": "json",
+                },
+
+                "aoColumns": [
+                              {
+                                  "mDataProp": "FNINV001_CODE"
+                              },
+                              { "mDataProp": "BL_CODE" },
+                              { "mDataProp": "Invoice_No" },
+                              { "mDataProp": "vessel_code" },
+                              { "mDataProp": "SUBLEDGER_CODE" },
+                              { "mDataProp": "POD" },
+                              { "mDataProp": "POL" },
+                              {
+                                  "mDataProp": "INV_DATE",
+                                  "render": function (data) {
+                                      return (EzdatefrmtRes1(data));
+                                  }
+                              },
+                ]
+            });
+
+            var delay = (function () {
+                var timer = 0;
+                return function (callback, ms) {
+                    clearTimeout(timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
+
+            table.columns().eq(0).each(function (colIdx) {
+                $('input', $('#POList tfoot th')[colIdx]).bind('keyup', function () {
+                    debugger;
+                    var coltext = this.value; // typed value in the search column  
+                    var colindex = colIdx; // column index  
+                    delay(function () {
+                        table
+                            .column(colindex)
+                            .search(coltext)
+                            .draw();
+                    }, 500);
+                });
+            });
+
+            var r = $("#POList tfoot th");
+            r.find('th').each(function () {
+                jq(this).css('padding', 8);
+            });
+            $("#POList thead").append(r);
+            $('#search_0').css('text-align', 'center');
+
+            $('div.dataTables_filter input').addClass('form-control input-sm');
+
+            $('#POList_length').hide();
+
+            $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
+
+
+
+            // Ezsidetbl1112("#POList", "#POList tfoot td", true, "#POList thead","t");
         }
-
-
 
 
 
@@ -33,6 +158,7 @@
                 EzbtnNewAcVis();
                 $("#btnEdit").prop("disabled", true);
                 $("#DRListContainer1").hide();
+                $('#tbldiv').hide();
             }
         });
         $(".alert-close").click(function () {
@@ -44,17 +170,17 @@
                 $(this).css("visibility", "hidden");
                 EzbtnEditAcVis();
                 $("#DRListContainer1").show();
-                GetDrs();
+               // GetDrs();
                 $("#editshow").show();
             }
         });
 
         $("#btnCancel").click(function () {
-            //$("#DRContainer").html(drHtml);
-            //EzbtnCancelAcVis();
-            //$("#DRListContainer1").hide();
-            //$("#editshow").hide();
-            window.location = '/DebitNote'
+            $("#DRContainer").html(drHtml);
+            EzbtnCancelAcVis();
+            $("#DRListContainer1").hide();
+            $("#editshow").hide();
+            $('#tbldiv').show();
         });
 
         $("#btnDelete").click(function () {
@@ -81,7 +207,12 @@
                         $.getJSON("/DeleteCrDrNote", { FNINV001_CODE: FNINV001_CODE }).done(function (data) {
                             debugger
                             if (data.DeleteFlag) {
-                                window.location = '/DebitNote'
+                                //window.location = '/DebitNote'
+                                $("#DRContainer").html(drHtml);
+                                EzbtnCancelAcVis();
+                                $("#DRListContainer1").hide();
+                                $("#editshow").hide();
+                                $('#tbldiv').show();
                             } else {
                                 EzAlertdele(FF_QTN001_CODE);
                             }
@@ -132,6 +263,7 @@
                     SalesMan: $("[name*='hdnSalesMan']").val(),
                     vessel_code: $("[name*='hdnvessel_code']").val(),
                     BL_CODE: $("[name*='BL_CODE']").val(),
+                    Invoice_No: $("[name*='Invoice_No']").val(),
                     POL: $("[name*='hdnPOL']").val(),
                     POD: $("[name*='hdnPOD']").val(),
                     VAT_CURRENCY_AMT: $("[name*='VAT_CURRENCY_AMT']").val(),
@@ -160,6 +292,7 @@
                     var AmountBC = $(this).find("[name*='txtAmountBC']").val();
                     var Vat_PER = $(this).find("[name*='txtVat_PER']").val();
                     var VatAmountBC = $(this).find("[name*='txtVatAmountBC']").val();
+                    var VatAmountFC = $(this).find("[name*='txtVatAmountFC']").val();
                     var VouchVATAmountFC = $(this).find("[name*='txtVouchVATAmountFC']").val();
                     var VochAmountFC = $(this).find("[name*='txtVochAmountFC']").val();
                     var VochAmountBC = $(this).find("[name*='txtVochAmountBC']").val();
@@ -183,10 +316,11 @@
                             VAT_GL_CODE: VAT_GL_CODE,
                             O_CURR_AMT: AmountFC,
                             O_LOCAL_AMT: AmountBC,
-                            O_VAT_CURR_AMT: VouchVATAmountFC,
-                            O_VAT_LOCAL_AMT: VouchVATAmountBC,
-                            //V_VAT_CURR_AMT:VouchVATAmountFC,
-                            //V_VAT_LOCAL_AMT: VouchVATAmountBC,
+                            O_VAT_CURR_AMT: VatAmountFC,
+                            O_VAT_LOCAL_AMT: VatAmountBC,
+
+                            V_VAT_CURR_AMT: VouchVATAmountFC,
+                            V_VAT_LOCAL_AMT: VouchVATAmountBC,
                             V_CURR_AMT: VochAmountFC,
                             V_LOCAL_AMT: VochAmountBC,
                             V_NET_CURR_AMT: VochNetsumVatAmountFC,
@@ -201,10 +335,10 @@
 
                     $.post("/SaveCrDrNote", FQV).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-                            GetDrs();
+                            //GetDrs();
                             EzAlertSave();
                             $("#DRContainer").html(drHtml);
-
+                            $('#tbldiv').show();
                             EzbtnsaveAcVis("#DRContainer");
 
                         } else {
@@ -232,6 +366,7 @@
                     SalesMan: $("[name*='hdnSalesMan']").val(),
                     vessel_code: $("[name*='hdnvessel_code']").val(),
                     BL_CODE: $("[name*='BL_CODE']").val(),
+                    Invoice_No: $("[name*='Invoice_No']").val(),
                     POL: $("[name*='hdnPOL']").val(),
                     POD: $("[name*='hdnPOD']").val(),
                     VAT_CURRENCY_AMT: $("[name*='VAT_CURRENCY_AMT']").val(),
@@ -261,6 +396,7 @@
                     var AmountBC = $(this).find("[name*='txtAmountBC']").val();
                     var Vat_PER = $(this).find("[name*='txtVat_PER']").val();
                     var VatAmountBC = $(this).find("[name*='txtVatAmountBC']").val();
+                    var VatAmountFC = $(this).find("[name*='txtVatAmountFC']").val();
                     var VouchVATAmountFC = $(this).find("[name*='txtVouchVATAmountFC']").val();
                     var VochAmountFC = $(this).find("[name*='txtVochAmountFC']").val();
                     var VochAmountBC = $(this).find("[name*='txtVochAmountBC']").val();
@@ -284,10 +420,11 @@
                             VAT_GL_CODE: VAT_GL_CODE,
                             O_CURR_AMT: AmountFC,
                             O_LOCAL_AMT: AmountBC,
-                            O_VAT_CURR_AMT: VouchVATAmountFC,
-                            O_VAT_LOCAL_AMT: VouchVATAmountBC,
-                            //V_VAT_CURR_AMT: VouchVATAmountFC,
-                            //V_VAT_LOCAL_AMT: VouchVATAmountBC,
+                            O_VAT_CURR_AMT: VatAmountFC,
+                            O_VAT_LOCAL_AMT: VatAmountBC,
+
+                            V_VAT_CURR_AMT: VouchVATAmountFC,
+                            V_VAT_LOCAL_AMT: VouchVATAmountBC,
                             V_CURR_AMT: VochAmountFC,
                             V_LOCAL_AMT: VochAmountBC,
                             V_NET_CURR_AMT: VochNetsumVatAmountFC,
@@ -305,7 +442,8 @@
                             EzAlertSave();
                             EzbtnsaveAcVis("#DRContainer");
                             $("#DRContainer").html(drHtml);
-                            GetDrs();
+                            //GetDrs();
+                            $('#tbldiv').show();
                         } else {
                             EzAlerterrtxt(response.ErrorMessage);
                         }
@@ -371,12 +509,12 @@
                 $("#POList > tbody").children().removeClass("active");
                 $(this).addClass("active");
 
-                var FNINV001_CODE = $(this).find("[name*='hdnFNINV001_CODE']").val();
+                var FNINV001_CODE = $(this).find("td:eq(0)").text();// $(this).find("[name*='hdnFNINV001_CODE']").val();
 
 
                 $.get("EditDebitNoteDetails", { FNINV001_CODE: FNINV001_CODE }).done(function (response) {
                     $("#DRContainer").html(response);
-
+                    $('#tbldiv').hide();
                     //$("#btnDelete").prop("disabled", false);
                     $("#btnDelete").css("visibility", "");
 
@@ -482,7 +620,9 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @Html.Action("GetCrDrDetailList", "CrDrNote", new { Module_Type = "DBNTJ" })
+                                                @*@Html.Action("GetCrDrDetailList", "CrDrNote", new { Module_Type = "DBNTJ" })*@
+
+                                                
                                             </div>
 
                                         </div>
@@ -493,6 +633,72 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="table-responsive" id="tbldiv">
+                    <table id="POList" width="100%" class="table table-bordered stripe display hover portal-drivers">
+                        <thead>
+                            <tr class="tr">
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FNINV001_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BL_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Invoice_No)
+                                </th>
+                                <th>
+
+                                    @Html.DisplayNameFor(model => model.vessel_code)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SUBLEDGER_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.POD)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.POL)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.INV_DATE)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FNINV001_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BL_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Invoice_No)
+                                </th>
+                                <th>
+
+                                    @Html.DisplayNameFor(model => model.vessel_code)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SUBLEDGER_CODE)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.POD)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.POL)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.INV_DATE)
+                                </th>
+
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <tr></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
