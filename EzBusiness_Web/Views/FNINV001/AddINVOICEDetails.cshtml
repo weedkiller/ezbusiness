@@ -239,28 +239,28 @@ var counter2=1;
                                             trLast.find("[name*='txtsno" + counter2 + "']").val(counter2);
                                             $("[name*='txtCrg_name" + counter + "']").val(ary[i].Item_Description.trim());
                                             $("[name*='txtCrg_code" + counter + "']").val(ary[i].ITEMCODE.trim());
-                                            $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
+                                            $("[name*='txtVat_PER" + counter + "']").val(parseFloat(ary[i].VAT_PER).toFixed(2));
                                             $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE.trim());
                                             $("[name*='txtVAT_GL_CODE" + counter + "']").val(ary[i].VAT_GL_CODE.trim());
                                             $("[name*='txtCOA_CODE" + counter + "']").val(ary[i].COA_CODE.trim());
                                             $("[name*='txtUnit_code" + counter + "']").val(ary[i].UNIT_TYPE.trim());
-                                            $("[name*='txtNo_of_qty" + counter + "']").val(ary[i].NO_OF_QTY);
-                                            $("[name*='txtEx_Curr_Rate" + counter + "']").val(ary[i].RATE_PER_QTY);
+                                            $("[name*='txtNo_of_qty" + counter + "']").val(parseFloat(ary[i].NO_OF_QTY).toFixed(2));
+                                            $("[name*='txtEx_Curr_Rate" + counter + "']").val(parseFloat(ary[i].RATE_PER_QTY).toFixed(2));
                                             $("[name*='txtEx_Curr_Code" + counter + "']").val(ary[i].O_CURR_CODE.trim());
-                                            $("[name*='txtRate" + counter + "']").val(ary[i].O_CURR_RATE);
-                                            $("[name*='txtAmountFC" + counter + "']").val(ary[i].O_CURR_AMT);
-                                            $("[name*='txtAmountBC" + counter + "']").val(ary[i].O_LOCAL_AMT);
-                                            $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
+                                            $("[name*='txtRate" + counter + "']").val(parseFloat(ary[i].O_CURR_RATE).toFixed(2));
+                                            $("[name*='txtAmountFC" + counter + "']").val(parseFloat(ary[i].O_CURR_AMT).toFixed(2));
+                                            $("[name*='txtAmountBC" + counter + "']").val(parseFloat(ary[i].O_LOCAL_AMT).toFixed(2));
+                                            $("[name*='txtVat_PER" + counter + "']").val(parseFloat(ary[i].VAT_PER).toFixed(2));
                                             $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE);                    
-                                            $("[name*='txtVatAmountBC" + counter + "']").val(ary[i].O_VAT_LOCAL_AMT);
-                                            $("[name*='txtVatAmountFC" + counter + "']").val(ary[i].O_VAT_CURR_AMT);
+                                            $("[name*='txtVatAmountBC" + counter + "']").val(parseFloat(ary[i].O_VAT_LOCAL_AMT).toFixed(2));
+                                            $("[name*='txtVatAmountFC" + counter + "']").val(parseFloat(ary[i].O_VAT_CURR_AMT).toFixed(2));
                                             $("[name*='txtO_CHARGE_UID" + counter + "']").val(ary[i].O_CHARGE_UID);                                          
-                                            $("[name*='txtVouchVATAmountFC" + counter + "']").val(ary[i].V_VAT_CURR_AMT);
-                                            $("[name*='txtVouchVATAmountBC" + counter + "']").val(ary[i].V_VAT_LOCAL_AMT);
-                                            $("[name*='txtVochAmountFC" + counter + "']").val(ary[i].V_CURR_AMT);
-                                            $("[name*='txtVochAmountBC" + counter + "']").val(ary[i].V_LOCAL_AMT);
-                                            $("[name*='txtVochNetsumVatAmountFC" + counter + "']").val(ary[i].V_NET_CURR_AMT);
-                                            $("[name*='txtVochNetsumVatAmountBC" + counter + "']").val(ary[i].V_NET_LOCAL_AMT);
+                                            $("[name*='txtVouchVATAmountFC" + counter + "']").val(parseFloat(ary[i].V_VAT_CURR_AMT).toFixed(2));
+                                            $("[name*='txtVouchVATAmountBC" + counter + "']").val(parseFloat(ary[i].V_VAT_LOCAL_AMT).toFixed(2));
+                                            $("[name*='txtVochAmountFC" + counter + "']").val(parseFloat(ary[i].V_CURR_AMT).toFixed(2));
+                                            $("[name*='txtVochAmountBC" + counter + "']").val(parseFloat(ary[i].V_LOCAL_AMT).toFixed(2));
+                                            $("[name*='txtVochNetsumVatAmountFC" + counter + "']").val(parseFloat(ary[i].V_NET_CURR_AMT).toFixed(2));
+                                            $("[name*='txtVochNetsumVatAmountBC" + counter + "']").val(parseFloat(ary[i].V_NET_LOCAL_AMT).toFixed(2));
                                             counter++;
                                             counter2++;
                                         }
@@ -297,99 +297,13 @@ var counter2=1;
                 $("#editshow").hide();
         });
 
-        //$("#btnInvoice").click(function () {
-        //    var BLNO = $('#BL_CODE').val();
-        //    var counter2 = parseInt($("#hdnCounter2").val()) + 1;
-
-        //    if (BLNO != '') {
-        //        $.get("/FNINV001/GETBLNODetails", {  BLNO: BLNO }).done(function (response) {
-        //            var ary = [];
-        //            debugger;
-        //            ary = response;
-                   
-        //            if (ary.length == 0) {
-        //                Swal.queue([{
-        //                    type: 'error',
-        //                    title: 'Oops...',
-        //                    text: 'Bl Detail Not Exist  !',
-        //                    allowOutsideClick: false,
-        //                    showLoaderOnConfirm: true,
-        //                }])
-        //                return;
-        //            }                  
-        //            $("#tablePODetails5 tbody").find("tr:not(:first)").remove();
-
-        //            var counter = 1;
-        //            for (var i = 0; i < ary.length; i++) {
-        //                $('#tablePODetails5 tbody tr:last').clone().insertAfter('#tablePODetails5 tbody tr:last');
-        //                var trLast = $("#tablePODetails5 tbody tr:last");
-
-        //                txtarry = [];
-        //                txtarry.push('txtVochNetsumVatAmountBC','txtsno', 'txtO_CHARGE_UID', 'txt1Crg_code', 'txtinpCrg_code', 'txtCrg_code', 'txtVAT_CODE', 'txtVAT_PER', 'txtVAT_GL_CODE', 'txtCOA_CODE', 'txtCrg_name', 'txt1Unit_code', 'txtUnit_code', 'txtNo_of_qty', 'txtEx_Curr_Code', 'txtEx_Curr_Rate', 'txtRate', 'txtAmountFC', 'txtAmountBC', 'txtVat_PER', 'txtVatAmountBC', 'txtVouchVATAmountFC', 'txtVouchVATAmountBC', 'txtVochAmountFC', 'txtVochAmountBC', 'txtVochNetsumVatAmountFC');
-        //                EzTbltxtdrpidchanged(txtarry, counter2, "txt", trLast);
-
-        //                trLast.find("[name*='txtsno" + counter2 + "']").val(counter2);
-                      
-
-        //                $("[name*='txtCrg_name" + counter + "']").val(ary[i].Item_Description.trim());
-        //                $("[name*='txtCrg_code" + counter + "']").val(ary[i].ITEMCODE.trim());
-        //                $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
-        //                $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE.trim());
-        //                $("[name*='txtVAT_GL_CODE" + counter + "']").val(ary[i].VAT_GL_CODE.trim());
-        //                $("[name*='txtCOA_CODE" + counter + "']").val(ary[i].COA_CODE.trim());
-        //                $("[name*='txtUnit_code" + counter + "']").val(ary[i].UNIT_TYPE.trim());
-        //                $("[name*='txtNo_of_qty" + counter + "']").val(ary[i].NO_OF_QTY);
-        //                $("[name*='txtEx_Curr_Rate" + counter + "']").val(ary[i].RATE_PER_QTY);
-        //                $("[name*='txtEx_Curr_Code" + counter + "']").val(ary[i].O_CURR_CODE.trim());
-        //                $("[name*='txtRate" + counter + "']").val(ary[i].O_CURR_RATE);
-        //                $("[name*='txtAmountFC" + counter + "']").val(ary[i].O_CURR_AMT);
-        //                $("[name*='txtAmountBC" + counter + "']").val(ary[i].O_LOCAL_AMT);
-        //                $("[name*='txtVat_PER" + counter + "']").val(ary[i].VAT_PER);
-        //                $("[name*='txtVAT_CODE" + counter + "']").val(ary[i].VAT_CODE);                    
-        //                $("[name*='txtVatAmountBC" + counter + "']").val(ary[i].O_VAT_LOCAL_AMT);
-        //                $("[name*='txtO_CHARGE_UID" + counter + "']").val(ary[i].O_CHARGE_UID);
-
-        //                var HExRate = parseFloat($("[name*='CURRENCY_RATE']").val());
-        //                HExRate = isNaN(HExRate) ? 0 : HExRate;
-        //                var AmountBC = parseFloat($("[name*='txtAmountBC" + counter + "']").val());
-        //                AmountBC = isNaN(AmountBC) ? 0 : AmountBC;
-        //                var VatAmountBC = parseFloat($("[name*='txtVatAmountBC" + counter + "']").val());
-        //                VatAmountBC = isNaN(VatAmountBC) ? 0 : VatAmountBC;
-        //                $("[name*='txtVouchVATAmountFC" + counter + "']").val(EzDivide(VatAmountBC, HExRate));
-        //                var VouchVATAmtFC = parseFloat($("[name*='txtVouchVATAmountFC" + counter + "']").val());
-        //                VouchVATAmtFC = isNaN(VouchVATAmtFC) ? 0 : VouchVATAmtFC;
-        //                $("[name*='txtVouchVATAmountBC" + counter + "']").val(EzMult2(VouchVATAmtFC, HExRate));
-        //                $("[name*='txtVochAmountFC" + counter + "']").val(EzDivide(AmountBC, HExRate));
-        //                var VochAmountFC = parseFloat($("[name*='txtVochAmountFC" + counter + "']").val());
-        //                VochAmountFC = isNaN(VochAmountFC) ? 0 : VochAmountFC;
-        //                $("[name*='txtVochAmountBC" + counter + "']").val(EzMult2(VochAmountFC, HExRate));
-        //                $("[name*='txtVochNetsumVatAmountFC" + counter + "']").val(EzSum(VouchVATAmtFC, VochAmountFC));
-
-        //                var VouchVATAmtBC = parseFloat($("[name*='txtVouchVATAmountBC" + counter + "']").val());
-        //                VouchVATAmtBC = isNaN(VouchVATAmtBC) ? 0 : VouchVATAmtBC;
-
-        //                var VochAmountBC = parseFloat($("[name*='txtVochAmountBC" + counter + "']").val());
-        //                VochAmountBC = isNaN(VochAmountBC) ? 0 : VochAmountBC;
-
-        //                $("[name*='txtVochNetsumVatAmountBC" + counter + "']").val(EzSum(VouchVATAmtBC, VochAmountBC));
-                                             
-        //                counter++;
-        //                counter2++;
-        //            }
-
-        //            $('#tablePODetails5 tbody tr:last').remove();
-        //            sumOfColumns();
-                   
-                   
-
-                   
-        //        });
-        //    }
-        //});
+       
            
         $("#tablePODetails5").on("change", "[name*='txtNo_of_qty']", function () {
             var tr = $(this).closest('tr');
             var qty = parseFloat(tr.find("[name*='txtNo_of_qty']").val());
+           // tr.find("[name*='txtNo_of_qty']").val(parseFloat(qty).toFixed(2));
+
             var HExRate = $('#CURRENCY_RATE').val();
             HExRate = isNaN(HExRate) ? 0 : HExRate;
             var Vrate = parseFloat(tr.find("[name*='txtRate']").val());
@@ -457,34 +371,33 @@ var counter2=1;
                 sum4 += isNaN(VochNetsumVatAmountFC1) ? 0 : VochNetsumVatAmountFC1;
                 sum5 += isNaN(VochNetsumVatAmountBC1) ? 0 : VochNetsumVatAmountBC1;               
             });          
-            $("#VAT_CURRENCY_AMT").val('' + sum3);
-            $("#VAT_LOCAL_AMT").val('' + sum2);
-            $("#CURRENCY_AMT").val('' + sum);
-            $("#LOCAL_AMT").val('' + sum1);
-            $("#NET_CURRENCY_AMT").val('' + sum4);
-            $("#NET_LOCAL_AMT").val('' + sum5);           
+            $("#VAT_CURRENCY_AMT").val('' + parseFloat(sum3).toFixed(2));
+            $("#VAT_LOCAL_AMT").val('' + parseFloat(sum2).toFixed(2));
+            $("#CURRENCY_AMT").val('' + parseFloat(sum).toFixed(2));
+            $("#LOCAL_AMT").val('' + parseFloat(sum1).toFixed(2));
+            $("#NET_CURRENCY_AMT").val('' + parseFloat(sum4).toFixed(2));
+            $("#NET_LOCAL_AMT").val('' + parseFloat(sum5).toFixed(2));
         }
 
 
         function EzMult2(m1, m2) {
-            return (parseFloat(m1) * parseFloat(m2)) + 0; //variation should be zero
+            return parseFloat((parseFloat(m1) * parseFloat(m2)) + 0).toFixed(2); //variation should be zero
         }
 
-        function EzMult3(m1, m2,m3) {
-            return ((parseFloat(m1) * parseFloat(m2)) * parseFloat(m3)) + 0; //variation should be zero
+        function EzMult3(m1, m2, m3) {
+            return parseFloat(((parseFloat(m1) * parseFloat(m2)) * parseFloat(m3)) + 0).toFixed(2); //variation should be zero
         }
 
         function EzMultDiv100(d1, m1) {
-            return (parseFloat(d1) * (parseFloat(m1) / 100)) + 0; //variation should be zero
+            return parseFloat((parseFloat(d1) * (parseFloat(m1) / 100)) + 0).toFixed(2); //variation should be zero
         }
 
-        function EzDivide(d1, d2)
-        {
-            return (parseFloat(d1) / parseFloat(d2)) + 0; //variation should be zero
+        function EzDivide(d1, d2) {
+            return parseFloat((parseFloat(d1) / parseFloat(d2)) + 0).toFixed(2); //variation should be zero
         }
 
         function EzSum(s1, s2) {
-            return (parseFloat(s1) + parseFloat(s2)) + 0; //variation should be zero
+            return parseFloat((parseFloat(s1) + parseFloat(s2)) + 0).toFixed(2); //variation should be zero
         }
 
 
@@ -520,57 +433,7 @@ var counter2=1;
                 $('.selectpicker').selectpicker('refresh');
             }
         });
-        //$('#BL_CODE').on('focus', function (e) {
-        //    debugger;
-        //    var SUBLEDGER_CODE = $("#hdnSUBLEDGER_CODE").val();
-        //    if (SUBLEDGER_CODE != '-1') {
-        //        $('#BL_CODE').autocomplete({
-        //            source: function (request, response) {
-        //                $.ajax({
-        //                    url: "/FNINV001/GETBLNO",
-        //                    type: "POST",
-        //                    dataType: "json",
-        //                    data: { Prefix: request.term, CustCode: SUBLEDGER_CODE },
-        //                    success: function (data) {
-        //                        if (data.length > 0) {
-        //                            response($.map(data, function (item) {
-        //                                return {
-        //                                    label: item.Text ,//item.Value + ' - ' + item.Text,
-        //                                    value: item.Value,
-        //                                    val1: item.Text
-        //                                };
-        //                            }))
-        //                        } else {
-        //                            $('#BL_CODE').val('');
-        //                            $("#hdnBL_CODE").val(-1);
-        //                            response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
-        //                        }
-        //                    }
-        //                });
-        //            },
-
-        //            select: function (e, u) {
-        //                debugger
-        //                //If the No match found" item is selected, clear the TextBox.
-        //                if (u.item.value == -1) {
-        //                    //Clear the AutoComplete TextBox.
-        //                    $(this).val("");
-        //                    $("#hdnBL_CODE").val("-1");
-        //                    return false;
-        //                } else {
-        //                    $("#hdnBL_CODE").val(u.item.val1);
-        //                }
-
-        //            }
-        //        ,
-        //            minLength: 0
-        //        }).focus(function () {
-        //            $(this).autocomplete("search");
-
-        //        });
-              
-        //    }
-        //});
+       
 
     });
     </script>

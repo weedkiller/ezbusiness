@@ -87,6 +87,7 @@
                             <div class="col-md-4 col-md-offset-3" id="DivisionCode1">
                                 <div class="id3">
                                     @Html.TextBoxFor(model => model.DivCode, new { @class = "inpt anStyle", @type = "text", @data_animation = "up", @data_label = "Division", @autocomplete = "off",@readonly= "readonly" })
+                                    @Html.HiddenFor(Model=>Model.CURRENCY)
                                     @*@Html.DropDownList("DivisionCode", new SelectList(Enumerable.Empty<SelectListItem>(), "Code", "Name"), "Select Branch Code", htmlAttributes: new { @class = "selct", id = "BranchCode", @placeholder = "Branch Code" })*@
 
                                 </div>
@@ -286,7 +287,7 @@
             {
 
 
-                $.get("/DivisioncodeN", { CmpyCode: $("#CmpyCode").val(), BranchCode: $("#BranchCode").val() }).done(function (response) {
+                $.get("/DivisionCurrency", { CmpyCode: $("#CmpyCode").val(), BranchCode: $("#BranchCode").val() }).done(function (response) {
                     $('#DivCode').empty();
                     debugger;
                    // $("[name*='DepartmentCode']").append('<option value="0" selected="">Select Department Code</option>');
@@ -296,7 +297,8 @@
                     if (ary.length >=1)
                     {
                         $('#DivisionCode1').show();
-                        $("[name*='DivCode']").val(response);
+                        $("[name*='DivCode']").val(response[0].Value);
+                        $("[name*='CURRENCY']").val(response[0].Text);
                     }
                     //for (var i = 0; i < ary.length; i++) {
                     //    $("[name*='DepartmentCode']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');

@@ -126,5 +126,12 @@ namespace EzBusiness_Web.Controllers
             return View(rptInfo);
         }
 
+
+        [Route("DivisionCurrency")]
+        public ActionResult GetDivisionCurrency(string CmpyCode, string BranchCode)
+        {
+            return Json(_loginService.GetDivisionCurrency(CmpyCode, BranchCode), JsonRequestBehavior.AllowGet);
+        }
+        
     }
 }

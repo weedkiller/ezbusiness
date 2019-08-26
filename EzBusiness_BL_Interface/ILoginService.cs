@@ -25,5 +25,7 @@ namespace EzBusiness_BL_Interface
 
 
         string Divisioncode(string CmpyCode, string BranchCode);
+
+        List<SelectListItem> GetDivisionCurrency(string CmpyCode, string BranchCode);
     }
 }

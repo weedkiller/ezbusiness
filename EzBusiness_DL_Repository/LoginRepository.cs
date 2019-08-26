@@ -49,9 +49,7 @@ namespace EzBusiness_DL_Repository
                     Login1 = dr["user_name"].ToString();
                     Utype = dr["Utype"].ToString();
 
-                    List<SessionListnew> ObjList = new List<SessionListnew>();
-                    
-
+                    List<SessionListnew> ObjList = new List<SessionListnew>();                   
                     SessionListnew data = new SessionListnew();
                     data.user_name = Login1;
                     data.Utype = Utype;
@@ -83,6 +81,16 @@ namespace EzBusiness_DL_Repository
                     else
                     {
                         data.DepCode = "0";
+                    }
+
+
+                    if (LoginMaster.CURRENCY != null)
+                    {
+                        data.CURRENCY = LoginMaster.CURRENCY.ToString();
+                    }
+                    else
+                    {
+                        data.CURRENCY = "0";
                     }
 
                     ObjList.Add(data);
@@ -153,5 +161,13 @@ namespace EzBusiness_DL_Repository
             string Divisioncode = _EzBusinessHelper.ExecuteScalarS(qur);
             return Divisioncode;
         }
+
+        
+        public List<ComDropTbl> GetDivisionCurrency(string CmpyCode, string BranchCode)
+        {
+            return DropListFill.GetCommonDrop("DIVISION as [Code],CURRENCY as [CodeName]", "FNMBRANCH", "CMPYCODE='" + CmpyCode + "' and Flag=0 and FNMBRANCH_CODE = '" + BranchCode + "'");
+        }
+
+
     }
 }

@@ -16,5 +16,6 @@ namespace EzBusiness_EF_Entity
         public string PhotoPath { get; set; }
         public string EmpName { get; set; }
         public string DepCode { get; set; }
+        public string CURRENCY { get; set; }
     }
 }

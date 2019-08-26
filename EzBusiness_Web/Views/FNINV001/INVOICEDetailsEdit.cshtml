@@ -58,27 +58,7 @@
 
 
 
-        //$.ajax({
-        //    async: false,
-        //    cache: false,
-        //    url: "/FFM_Quotation/GetCurCodebranch",
-        //    type: "POST",
-        //    dataType: "json",
-        //    success: function (data) {
-        //        debugger;
-        //        if (data.length > 0) {
-        //            $("#CURRENCY_CODE").val(data[0].Text);
-        //            $("#CURRENCY_RATE").val(data[0].Value);
-        //            EzAutoCompTxt1('#CURRENCY_CODE', '#hdnCURRENCY_CODE', "/FNM_SL/GetCurrency");
-        //        } else {
-        //            $("#hdnCURRENCY_CODE").val('-1');
-        //            $("#CURRENCY_CODE").val('');
-        //            $("#CURRENCY_RATE").val('');
-
-        //        }
-        //    }
-        //});
-
+        
         $('#CURRENCY_CODE').on("focusout", function () {
             var CurCode = $("[name*='hdnCURRENCY_CODE']").val();
             //var array = CurCode.split("-");
@@ -234,36 +214,34 @@
                 sum4 += isNaN(VochNetsumVatAmountFC1) ? 0 : VochNetsumVatAmountFC1;
                 sum5 += isNaN(VochNetsumVatAmountBC1) ? 0 : VochNetsumVatAmountBC1;
             });
-            $("#VAT_CURRENCY_AMT").val('' + sum3);
-            $("#VAT_LOCAL_AMT").val('' + sum2);
-            $("#CURRENCY_AMT").val('' + sum);
-            $("#LOCAL_AMT").val('' + sum1);
-            $("#NET_CURRENCY_AMT").val('' + sum4);
-            $("#NET_LOCAL_AMT").val('' + sum5);
+            $("#VAT_CURRENCY_AMT").val('' + parseFloat(sum3).toFixed(2));
+            $("#VAT_LOCAL_AMT").val('' + parseFloat(sum2).toFixed(2));
+            $("#CURRENCY_AMT").val('' + parseFloat(sum).toFixed(2));
+            $("#LOCAL_AMT").val('' + parseFloat(sum1).toFixed(2));
+            $("#NET_CURRENCY_AMT").val('' + parseFloat(sum4).toFixed(2));
+            $("#NET_LOCAL_AMT").val('' + parseFloat(sum5).toFixed(2));
         }
 
 
         function EzMult2(m1, m2) {
-            return (parseFloat(m1) * parseFloat(m2)) + 0; //variation should be zero
+            return parseFloat((parseFloat(m1) * parseFloat(m2)) + 0).toFixed(2); //variation should be zero
         }
 
-        function EzMult3(m1, m2,m3) {
-            return ((parseFloat(m1) * parseFloat(m2)) * parseFloat(m3)) + 0; //variation should be zero
+        function EzMult3(m1, m2, m3) {
+            return parseFloat(((parseFloat(m1) * parseFloat(m2)) * parseFloat(m3)) + 0).toFixed(2); //variation should be zero
         }
 
         function EzMultDiv100(d1, m1) {
-            return (parseFloat(d1) * (parseFloat(m1) / 100)) + 0; //variation should be zero
+            return parseFloat((parseFloat(d1) * (parseFloat(m1) / 100)) + 0).toFixed(2); //variation should be zero
         }
 
-        function EzDivide(d1, d2)
-        {
-            return (parseFloat(d1) / parseFloat(d2)) + 0; //variation should be zero
+        function EzDivide(d1, d2) {
+            return parseFloat((parseFloat(d1) / parseFloat(d2)) + 0).toFixed(2); //variation should be zero
         }
 
         function EzSum(s1, s2) {
-            return (parseFloat(s1) + parseFloat(s2)) + 0; //variation should be zero
+            return parseFloat((parseFloat(s1) + parseFloat(s2)) + 0).toFixed(2); //variation should be zero
         }
-
 
         $('#SUBLEDGER_CODE').on("focusout", function () {
             debugger;
@@ -297,57 +275,7 @@
                 $('.selectpicker').selectpicker('refresh');
             }
         });
-        //$('#BL_CODE').on('focus', function (e) {
-        //    debugger;
-        //    var SUBLEDGER_CODE = $("#hdnSUBLEDGER_CODE").val();
-        //    if (SUBLEDGER_CODE != '-1') {
-        //        $('#BL_CODE').autocomplete({
-        //            source: function (request, response) {
-        //                $.ajax({
-        //                    url: "/FNINV001/GETBLNO",
-        //                    type: "POST",
-        //                    dataType: "json",
-        //                    data: { Prefix: request.term, CustCode: SUBLEDGER_CODE },
-        //                    success: function (data) {
-        //                        if (data.length > 0) {
-        //                            response($.map(data, function (item) {
-        //                                return {
-        //                                    label: item.Text ,//item.Value + ' - ' + item.Text,
-        //                                    value: item.Value,
-        //                                    val1: item.Text
-        //                                };
-        //                            }))
-        //                        } else {
-        //                            $('#BL_CODE').val('');
-        //                            $("#hdnBL_CODE").val(-1);
-        //                            response([{ label: 'No results found.', value: 'No results found.', val1: -1 }]);
-        //                        }
-        //                    }
-        //                });
-        //            },
-
-        //            select: function (e, u) {
-        //                debugger
-        //                //If the No match found" item is selected, clear the TextBox.
-        //                if (u.item.value == -1) {
-        //                    //Clear the AutoComplete TextBox.
-        //                    $(this).val("");
-        //                    $("#hdnBL_CODE").val("-1");
-        //                    return false;
-        //                } else {
-        //                    $("#hdnBL_CODE").val(u.item.val1);
-        //                }
-
-        //            }
-        //        ,
-        //            minLength: 0
-        //        }).focus(function () {
-        //            $(this).autocomplete("search");
-
-        //        });
-
-        //    }
-        //});
+       
 
     });
 </script>
