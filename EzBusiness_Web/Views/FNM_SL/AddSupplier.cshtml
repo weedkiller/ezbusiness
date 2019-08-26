@@ -27,7 +27,7 @@
         debugger;
         var SUBLEDGER_TYPE = '';
         var path = $("#hdnpath").val();
-        if (path == "<li>Freight Management</li><li>Master</li><li>Operational Customers</li>") {
+        if (path =="<li>Finance Management</li><li>Master</li><li>SubLedger</li>") {
             SUBLEDGER_TYPE = "/FNM_SL/SUBLEDGER_TYPEList1";
 
             EzAutotxtEventTbl12("#tblFNMCURRATE", "focus", "[name*='txtFNM_SL1002_CODE']", "[name*='txt1FNM_SL1002_CODE']", "/FNM_SL/SUBLEDGER_TYPEList1", true, "[name*='txtinpFNM_SL1002_CODE']");
@@ -40,20 +40,13 @@
         }
         //EzDropFillEventTbl1("#tblFNMCURRATE", "[name*='FNM_SL1002_CODE']", "click", "[name*='FNM_SL1002_CODE']", SUBLEDGER_TYPE, "", false);
 
-      
-
         $('.selectpicker').selectpicker('refresh');
 
       //  EzdtePk('#ENTRY_DATE1');
 
-       
-
-        //----------------------
-
-        $("input:radio[name=SUBLEDGER_TYPE]").click(function () {
-            
+     //----------------------
+        $("input:radio[name=SUBLEDGER_TYPE]").click(function () {            
             var rowCount = $('#tblFNMCURRATE tbody tr').length;
-
             while (rowCount > 1)
             {
                 var $tbody = $("#tblFNMCURRATE tbody")
@@ -64,28 +57,13 @@
             }
         if ($(this).is(':checked'))
             
-            var SUBLEDGER_TYPE = $("input:radio[name=SUBLEDGER_TYPE]:checked").val();
-        //$.get("FNM_SL/GetCatDropDetailListFilter", { SUBLEDGER_TYPE: SUBLEDGER_TYPE }).done(function (response) {
-        //    $('#tblFNMCURRATE tr').each(function (data) {
-        //        $("[name*='FNM_SL1002_CODE']").empty();
-        //        var ary = [];
-        //        ary = response;
-        //        for (var i = 0; i < ary.length; i++) {                    
-        //            $("[name*='FNM_SL1002_CODE']").append('<option value="' + ary[i].Value + '" selected="">' + ary[i].Text + '</option>');
-        //        }
-
-        //        $("[name*='FNM_SL1002_CODE']").val(0);
-             
-        //    });
-        //});
+            var SUBLEDGER_TYPE = $("input:radio[name=SUBLEDGER_TYPE]:checked").val();    
         });
 
 
-       
-
         var counter = parseInt($("#hdnCounter").val());
         $("#tblFNMCURRATE").on("focusout", "[name*='txtFNM_SL1002_CODE']", function () {
-            
+            debugger;
             var tr = $(this).closest("tr");
             var drec = [];
             $('#tblFNMCURRATE tbody tr td:nth-child(1)').each(function (e) {
@@ -133,52 +111,18 @@
 
                 if (tr.is(":last-child")) {
 
-                    //tr.clone(true, true).insertAfter(tr);
-                    //$("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
-                    //    .appendTo("#tblFNMCURRATE tbody tr:nth-last-child(2)");
-
-
                     $('#tblFNMCURRATE tr:last').clone().insertAfter('#tblFNMCURRATE tr:last');
 
                     var trLast = $("#tblFNMCURRATE tr:last");
                     $("<td><button type='button' class='btn btn-danger' name='btnDelete" + counter + "')'><span class='glyphicon glyphicon-remove'></span></button></td>")
                                .appendTo("#tblFNMCURRATE tbody tr:nth-last-child(2)");
-
-
                     var txtarry1 = [];
                     txtarry1.push('txtFNM_SL1002_CODE', 'txtNAME', 'txtCOA_NAME', 'txtCOA_CODE','txtinpFNM_SL1002_CODE');
                     txtarry1.push('txt1FNM_SL1002_CODE');
-
                     // EzTbltxtdrpidchanged(droparry1, counter2, "drp", trLast);
                     EzTbltxtdrpidchanged(txtarry1, counter, "txt", trLast);
                     trLast.find("[name *= 'txtFNM_SL1002_CODE']").val('');
-                    //var trLast = $("#tableMetaSettings tr:last");
-                    //var cloned = $("#tblFNMCURRATE tbody tr:last").clone(true); // clone last row
-                    //// looping over last row's inputs
-                    //$("#tblFNMCURRATE tbody tr:last").find('select').each(function () {
-                    //    cloned.find('select[name^=' + this.name.replace('[]', '') + ']').val(0);
-                    //});
-                    //$("#tblFNMCURRATE > tbody").append(cloned);
-                    //$("#tblFNMCURRATE > tbody tr:last").prev().remove();
-
-                    //trLast.find("[name *= 'FNM_SL1002_CODE']").attr({
-                    //    "name": ("FNM_SL1002_CODE" + counter)
-                    //});
-                    //trLast.find("[name *= 'NAME']").attr({
-                    //    "name": ("NAME" + counter)
-                    //});
-                    //trLast.find("[name *= 'COA_CODE']").attr({
-                    //    "name": ("COA_CODE" + counter)
-                    //});
-                    //trLast.find("[name *= 'COA_NAME']").attr({
-                    //    "name": ("COA_NAME" + counter)
-                    //});                
-                    //trLast.find('select[name^=FNM_SL1002_CODE' + counter + ']').val(0);
-
-                    //trLast.find(":first").text(counter);
-
-                    //trLast.find('.bootstrap-select').replaceWith(function () { return $('select', this); });
-                    //trLast.find("[name *= 'FNM_SL1002_CODE']").selectpicker('refresh');
+                 
                 }
 
                 }
@@ -188,44 +132,7 @@
 
         EzGriddel("#tblFNMCURRATE", "[name*='btnDelete']");
         //-------------------
-
-
-        //$("#SUBLEDGER_TYPE").change(function () {
-        //    
-        //    $("#tblFNMCURRATE > tbody tr").empty();
-        //    $("#tblFNMCURRATE > tbody tr").remove();
-        //    var SUBLEDGER_TYPE = $("#SUBLEDGER_TYPE option:selected").val();
-
-        //    $.get("FNM_SL/GetCatDropDetailList", { SUBLEDGER_TYPE: SUBLEDGER_TYPE }).done(function (response) {
-        //        var ary = [];
-        //        ary = response;
-        //        counter = 1;
-
-        //        for (var i = 0; i < ary.length; i++) {
-        //            var tr1 = "<tr>";
-
-        //            var td1 = "<td><div class='grid-group'><input type='Text' Readonly='true' class='grid-control' name='FNM_SL1002_CODE" + counter + "'></div></td>";
-        //            var td2 = "<td><div class='grid-group'><input type='Text' Readonly='true' class='grid-control' name='NAME" + counter + "'></div></td>";
-        //            var td3 = "<td><div class='grid-group'><input type='Text' Readonly='true' class='grid-control' name='Description1" + counter + "'></div></td>";
-        //            var td4 = "<td><div class='grid-group'><input type='Text' Readonly='true' class='grid-control' name='COA_CODE" + counter + "'></div></td></tr>";
-
-        //            $("#tblFNMCURRATE").append(tr1 + td1 + td2 + td3+td4);
-        //            var tr = $("#tblFNMCURRATE tbody tr");
-
-        //            tr.find("[name='FNM_SL1002_CODE" + counter + "']").val(ary[i].FNM_SL1002_CODE);
-        //            tr.find("[name='NAME" + counter + "']").val(ary[i].NAME);
-        //            tr.find("[name='COA_CODE" + counter + "']").val(ary[i].COA_CODE);
-        //            tr.find("[name='Description1" + counter + "']").val(ary[i].Description1);
-
-                    
-
-        //            counter++;
-        //        }
-        //    });
-
-
-       
-    });
+  });
 
 
 
@@ -473,7 +380,7 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td>
+                                                                <td width="30%">
                                                                     <div class="form-group">
                                                                         @Html.Hidden(string.Concat("txt1FNM_SL1002_CODE", counter), null, new { @class = "grid-control" })
                                                                         @Html.Hidden(string.Concat("txtinpFNM_SL1002_CODE", counter), null, new { @class = "grid-control" })

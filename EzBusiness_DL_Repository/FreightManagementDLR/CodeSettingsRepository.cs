@@ -289,10 +289,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                             sb4.Append("Module_Type='" + UTM.Module_Type + "',");                            
                             sb4.Append("UTI0001_CODE='" + UTM.UTI0001_CODE + "',");
                             sb4.Append("PREFIX_CODE='" + UTM.PREFIX_CODE + "',");
-                             sb4.Append("Starting_No='" + UTM.Starting_No + "',");
+                            sb4.Append("Starting_No='" + UTM.Starting_No + "',");
                             sb4.Append("Total_length='" + UTM.Total_length + "',");
                             sb4.Append("Last_No='" + UTM.Last_No + "',");
-                            sb4.Append("Auto_increment='" + UTM.Auto_increment + "'");
+                            sb4.Append("Page_Name='" + UTM.Page_Name + "',");
+                            sb4.Append("Auto_increment='"+ UTM.Auto_increment+"'");
 
                             _EzBusinessHelper.ExecuteNonQuery("update UTM0001 set  " + sb4 + " where  Cmpycode='" + UTM.Cmpycode + "' and Branchcode='" + UTM.Branchcode + "'  and UTI0001_CODE='"+  UTM.UTI0001_CODE +"'");
                             

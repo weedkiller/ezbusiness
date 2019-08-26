@@ -7,6 +7,7 @@
 
 <script>
     $(function () {
+       
         EzAuthentication("/Profession");
         var n = EzAuthenticationBtn("/Profession", "ViewIt");
         if (n == 1) {
@@ -24,8 +25,7 @@
     var drec = new Array();
   
     $(function () {
-        $("#tblUnits1").hide();
-     
+        $("#tblUnits1").hide();     
         $("#btnAdd").click(function () {
             var n = EzAuthenticationBtn("/Profession", "NewIt");
             if(n==1){
@@ -38,8 +38,8 @@
                 Ezprop(abk, "disabled", false);           
             $("#tblUnits1 tbody tr").css("background", "");
             $("#tblUnits1").show();
-            }
-        });
+          }
+      });
 
         var counter = $("#Counter").val();
         /*Add Table Change Event*/
@@ -139,6 +139,7 @@
                     if (response.Drecord == null) {
                         response.Drecord = 0;
                         $("#tbldiv").show();
+                        Location.Reload;
                     }
                     $("#tblUnits1 tbody tr").each(function (index, item) {
                         var tr = $(this).closest("tr");
@@ -325,9 +326,10 @@
                                         $(firstRow).append(newRow);
                                         $('.dataTables_info').replaceWith('Showing 0 to 0 of 0 entries');
                                     }
+                                    location.reload();
 
                                 } else {
-                                    EzAlertdele(code);
+                                    EzAlertdele(profcode);
                                 }
                             });
                             swalWithBootstrapButtons.fire(
