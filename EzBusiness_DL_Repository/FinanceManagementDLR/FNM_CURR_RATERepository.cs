@@ -36,12 +36,12 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
             return false;
         }
 
-        public FNM_CURR_RATE_VM EditFNM_CURR_RATE(string CmpyCode, string FROM_CURRENCY_CODE, DateTime ENTRY_DATE)
+        public FNM_CURR_RATE_VM EditFNM_CURR_RATE(string CmpyCode, string FROM_CURRENCY_CODE, DateTime ENTRY_DATE,string Tocurrdate)
         {
 
             dte1 = Convert.ToDateTime(ENTRY_DATE);
             dtstr2 = dte1.ToString("yyyy-MM-dd");
-            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_CURR_RATE where CMPYCODE='" + CmpyCode + "' and FROM_CURRENCY_CODE='" + FROM_CURRENCY_CODE + "' and format(ENTRY_DATE,'yyyy-MM-dd')='" + dtstr2 + "' and Flag=0");// 
+            ds = _EzBusinessHelper.ExecuteDataSet("Select * from FNM_CURR_RATE where CMPYCODE='" + CmpyCode + "' and FROM_CURRENCY_CODE='" + FROM_CURRENCY_CODE + "' and TO_CURRENCY_CODE='" + Tocurrdate + "' and format(ENTRY_DATE,'yyyy-MM-dd')='" + dtstr2 + "' and Flag=0");// 
             dt = ds.Tables[0];
             DataRowCollection drc = dt.Rows;
             FNM_CURR_RATE_VM ObjList = new FNM_CURR_RATE_VM();

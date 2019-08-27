@@ -28,9 +28,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
             return _FNM_CURR_RATERep.DeleteFNM_CURR_RATE(CmpyCode,FROM_CURRENCY_CODE, ENTRY_DATE, UserName);
         }
 
-        public FNM_CURR_RATE_VM EditFNM_CURR_RATE(string CmpyCode, string FROM_CURRENCY_CODE, DateTime ENTRY_DATE)
+        public FNM_CURR_RATE_VM EditFNM_CURR_RATE(string CmpyCode, string FROM_CURRENCY_CODE, DateTime ENTRY_DATE, string tocurrdate)
         {
-            var FNM_AC_COAEdit = _FNM_CURR_RATERep.EditFNM_CURR_RATE(CmpyCode, FROM_CURRENCY_CODE,ENTRY_DATE);
+            var FNM_AC_COAEdit = _FNM_CURR_RATERep.EditFNM_CURR_RATE(CmpyCode, FROM_CURRENCY_CODE,ENTRY_DATE,tocurrdate);
             //FNM_AC_COAEdit.FROM_CURRENCY_CODEList   = GetFNMCURRENCY();
             FNM_AC_COAEdit.FROM_CURRENCY_CODEList = GetFNMCURRENCYEDIT(FNM_AC_COAEdit.FROM_CURRENCY_CODE);
             FNM_AC_COAEdit.TO_CURRENCY_CODEList = GetFNMCURRENCYEDIT(FNM_AC_COAEdit.TO_CURRENCY_CODE);
