@@ -29,6 +29,8 @@ namespace EzBusiness_DL_Interface
 
         LoginVM Login(LoginVM LoginMaster);
 
+        List<ComDropTbl> GetDivisionCurrency(string CmpyCode, string BranchCode);
+
         #endregion
     }
 }

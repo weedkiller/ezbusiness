@@ -20,6 +20,7 @@ namespace EzBusiness_ViewModels.Models.Login
         public string ErrorMessage { get; set; }
         public string PhotoPath { get; set; }
         public string EmpName { get; set; }
+        public string CURRENCY { get; set; }
 
         //public List<SessionListnew> SessionListnew { get; set; }
         //public SessionListnew SessionDet { get; set; }

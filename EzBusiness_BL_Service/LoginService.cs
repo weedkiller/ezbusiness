@@ -84,5 +84,13 @@ namespace EzBusiness_BL_Service
                                       
             
         }
+
+        public List<SelectListItem> GetDivisionCurrency(string CmpyCode, string BranchCode)
+        {
+            var BranchList = _LoginRepo.GetDivisionCurrency(CmpyCode,BranchCode)
+                                      .Select(m => new SelectListItem { Value = m.Code, Text = m.CodeName })
+                                      .ToList();
+            return BranchList;
+        }
     }
 }
