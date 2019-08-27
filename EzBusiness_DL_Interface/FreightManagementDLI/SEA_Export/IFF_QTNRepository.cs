@@ -33,9 +33,9 @@ namespace EzBusiness_DL_Interface.FreightManagementDLI.SEA_Export
         List<FFM_CRG> GetCRG_002(string CmpyCode, string Prefix);
 
 
-        List<ComDropTbl1> GetCust(string CmpyCode, string Prefix);
+        List<ComDropTbl1> GetCust(string CmpyCode, string BRANCHCODE, string Prefix);
 
-        List<ComDropTbl1> GetVendor(string CmpyCode, string Prefix);
+        List<ComDropTbl1> GetVendor(string CmpyCode, string BRANCHCODE, string Prefix);
 
 
         List<ComDropTbl> GetCurcode(string CmpyCode, string Prefix);

@@ -248,7 +248,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_BOKService.GetSLNew(list[0].CmpyCode, PVal1, Prefix), JsonRequestBehavior.AllowGet);
+                return Json(_BOKService.GetSLNew(list[0].CmpyCode,list[0].BraCode, PVal1, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 

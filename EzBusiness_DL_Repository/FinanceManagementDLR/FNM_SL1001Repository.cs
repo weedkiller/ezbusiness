@@ -111,7 +111,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
             }
             else
             {
-                qur = "Select FNMSLCAT_CODE as [Code],DESCRIPTION as [CodeName] from FNMSLCAT where FNMSLCAT_CODE  in('APP','ARP') and trans_type='OP' and CmpyCode='" + CmpyCode + "' and Flag=0 and (FNMSLCAT_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')";
+                qur = "Select FNMSLCAT_CODE as [Code],DESCRIPTION as [CodeName] from FNMSLCAT where  trans_type='OP' and CmpyCode='" + CmpyCode + "' and Flag=0 and (FNMSLCAT_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')";
             }
 
             return drop.GetCommonDrop2(qur);

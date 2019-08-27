@@ -26,16 +26,19 @@
         
         debugger;
         var SUBLEDGER_TYPE = '';
+        var typ = '';
         var path = $("#hdnpath").val();
         if (path =="<li>Finance Management</li><li>Master</li><li>SubLedger</li>") {
             SUBLEDGER_TYPE = "/FNM_SL/SUBLEDGER_TYPEList1";
-
+            typ = 'FM';
             EzAutotxtEventTbl12("#tblFNMCURRATE", "focus", "[name*='txtFNM_SL1002_CODE']", "[name*='txt1FNM_SL1002_CODE']", "/FNM_SL/GetFNMCATSubLed", true, "[name*='txtinpFNM_SL1002_CODE']");
         } else
         {
             EzAutotxtEventTbl12("#tblFNMCURRATE", "focus", "[name*='txtFNM_SL1002_CODE']", "[name*='txt1FNM_SL1002_CODE']", "/FNM_SL/SUBLEDGER_TYPEList2", true, "[name*='txtinpFNM_SL1002_CODE']");
-
+            typ = 'OP';
             SUBLEDGER_TYPE = "/FNM_SL/SUBLEDGER_TYPEList2";
+
+            $(".trhideclass1").hide();
         }
         //EzDropFillEventTbl1("#tblFNMCURRATE", "[name*='FNM_SL1002_CODE']", "click", "[name*='FNM_SL1002_CODE']", SUBLEDGER_TYPE, "", false);
 
@@ -86,21 +89,30 @@
 
                // var tr = $(this).closest("tr");
 
-                var SUBLEDGER_TYPE = $(this).val();
+                var SUBLEDGER_TYPE1 = $(this).val();
 
-                if (SUBLEDGER_TYPE != '') {
+                if (SUBLEDGER_TYPE1 != '') {
 
 
                     var JobCode = tr.find("[name*='txtinpFNM_SL1002_CODE']").val();
                     var array = JobCode.split("-");
-                    if (array.length > 2) {
-                        tr.find("[name*='txtNAME']").val(array[1].trim());
-                        tr.find("[name*='txtCOA_CODE']").val(array[2].trim());
-                        tr.find("[name*='txtCOA_NAME']").val(array[3].trim());
+                    if (typ == 'FM') {
+                        if (array.length > 2) {
+                            tr.find("[name*='txtNAME']").val(array[1].trim());
+                            tr.find("[name*='txtCOA_CODE']").val(array[2].trim());
+                            tr.find("[name*='txtCOA_NAME']").val(array[3].trim());
+                        } else {
+                            tr.find("[name*='txt1FNM_SL1002_CODE']").val('');
+                        }
                     } else {
-                        tr.find("[name*='txt1FNM_SL1002_CODE']").val('');
+                        if (array.length > 1) {
+                            tr.find("[name*='txtNAME']").val(array[1].trim());
+                            tr.find("[name*='txtCOA_CODE']").val('');
+                            tr.find("[name*='txtCOA_NAME']").val('');
+                        } else {
+                            tr.find("[name*='txt1FNM_SL1002_CODE']").val('');
+                        }
                     }
-
                
                 //$.get("FNM_SL/GetCatDropDetailList", { SUBLEDGER_TYPE: SUBLEDGER_TYPE }).done(function (response) {
                 //    //var ary = [];
@@ -382,10 +394,10 @@
                                                                 <th>
                                                                     Category name
                                                                 </th>
-                                                                <th>
+                                                                <th class="trhideclass1">
                                                                     COA Code
                                                                 </th>
-                                                                <th>
+                                                                <th class="trhideclass1">
                                                                     COA Name
                                                                 </th>
                                                                 <th></th>
@@ -405,14 +417,14 @@
                                                                   
                                                                 </td>
                                                                 <td>
-                                                                    @Html.TextBox(string.Concat("txtNAME", counter), null, new { @class = "grid-control" })
+                                                                    @Html.TextBox(string.Concat("txtNAME", counter), null, new { @class = "grid-control",@readonly= "readonly" })
                                                                 </td>
                                                                 
-                                                                <td>
-                                                                    @Html.TextBox(string.Concat("txtCOA_CODE", counter), null, new { @class = "grid-control" })
+                                                                <td class="trhideclass1">
+                                                                    @Html.TextBox(string.Concat("txtCOA_CODE", counter), null, new { @class = "grid-control", @readonly = "readonly" })
                                                                 </td>
-                                                                <td>
-                                                                    @Html.TextBox(string.Concat("txtCOA_NAME", counter), null, new { @class = "grid-control" })
+                                                                <td class="trhideclass1">
+                                                                    @Html.TextBox(string.Concat("txtCOA_NAME", counter), null, new { @class = "grid-control", @readonly = "readonly" })
                                                                 </td>
 
                                                             </tr>

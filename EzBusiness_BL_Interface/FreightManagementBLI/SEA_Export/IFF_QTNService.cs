@@ -39,10 +39,10 @@ namespace EzBusiness_BL_Interface.FreightManagementBLI.SEA_Export
 
         List<SelectListItem> GetCRG_002(string CmpyCode, string Prefix);
 
-        List<SelectListItem> GetCust(string CmpyCode, string Prefix);
-        List<SelectListItem> GetCustT(string CmpyCode, string Prefix);
+        List<SelectListItem> GetCust(string CmpyCode, string BRANCHCODE, string Prefix);
+        List<SelectListItem> GetCustT(string CmpyCode, string BRANCHCODE, string Prefix);
 
-        List<SelectListItem> GetVendor(string CmpyCode, string Prefix);
+        List<SelectListItem> GetVendor(string CmpyCode, string BRANCHCODE, string Prefix);
 
         List<SelectListItem> GetCurcode(string CmpyCode, string Prefix);
 

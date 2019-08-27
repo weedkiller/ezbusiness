@@ -171,7 +171,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_QTNService.GetCust(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+                return Json(_QTNService.GetCust(list[0].CmpyCode, list[0].BraCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -184,7 +184,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_QTNService.GetCustT(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+                return Json(_QTNService.GetCustT(list[0].CmpyCode, list[0].BraCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -233,7 +233,7 @@ namespace EzBusiness_Web.Controllers.FFM.SEA_Export
             }
             else
             {
-                return Json(_QTNService.GetVendor(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+                return Json(_QTNService.GetVendor(list[0].CmpyCode, list[0].BraCode, Prefix), JsonRequestBehavior.AllowGet);
             }
         }
 

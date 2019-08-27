@@ -12,7 +12,14 @@
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
         function GetDrs() {
-            $.get("/FNM_SL/GetSupplier", function (response) {
+            var path = $("#hdnpath").val();
+            var k = '';
+            if (path == "<li>Freight Management</li><li>Master</li><li>Operational Customers</li>") {
+                k = 'OP';
+            } else {
+                k = 'FM'
+            }
+            $.get("/FNM_SL/GetSupplier", { Sublesertype: k }, function (response) {
                 $("#DRListContainer").html(response);
             });
         }
@@ -152,7 +159,7 @@
                     var COA_CODE = $(this).find("[name*='txtCOA_CODE']").val();
                     var COA_NAME = $(this).find("[name*='txtCOA_NAME']").val();
 
-                    if ((FNM_SL1002_CODE != "-1") && (COA_CODE !='')) {
+                    if (FNM_SL1002_CODE != "") {
                         var FNM_SL1002Detail = {
                             FNM_SL1002_CODE: FNM_SL1002_CODE,
                             NAME: NAME,
@@ -173,7 +180,7 @@
                             EzbtnsaveAcVis("#DRContainer");
                             EzAlertSave();
                             $("#DRContainer").html(drHtml);
-                            GetDrs();
+                           // GetDrs();
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -212,7 +219,7 @@
                     var NAME = $(this).find("[name*='txtNAME']").val();
                     var COA_CODE = $(this).find("[name*='txtCOA_CODE']").val();
                     var COA_NAME = $(this).find("[name*='txtCOA_NAME']").val();
-                    if ((FNM_SL1002_CODE != "-1") && (COA_CODE != '')) {
+                    if (FNM_SL1002_CODE != "") {
                         var FNM_SL1002Detail = {
                             FNM_SL1002_CODE: FNM_SL1002_CODE,
                             NAME: NAME,
@@ -229,7 +236,7 @@
                                    EzAlertSave();
                                    EzbtnsaveAcVis("#DRContainer");
                                    $("#DRContainer").html(drHtml);
-                                   GetDrs();
+                                   //GetDrs();
                                 }else {
                                    EzAlerterrtxt(response.ErrorMessage);
                                 }

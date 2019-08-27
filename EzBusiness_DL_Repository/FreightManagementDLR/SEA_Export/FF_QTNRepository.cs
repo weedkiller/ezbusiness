@@ -982,14 +982,14 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return drop.GetCommonDrop("FFM_PORT_CODE as [Code],NAME as [CodeName]", "FFM_PORT", "CMPYCODE='" + CmpyCode + "' and Flag=0 and (FFM_PORT_CODE like '" + Prefix + "%' or NAME like '" + Prefix + "%')");
         }
 
-        public List<ComDropTbl1> GetCust(string CmpyCode, string Prefix)
+        public List<ComDropTbl1> GetCust(string CmpyCode,string BRANCHCODE, string Prefix)
         {
-            return drop.GetCommonDrop1("A.FNM_SL1001_CODE CUSTOMER_CODE,A.Name CUSTOMER_NAME,B.COA_CODE CONTROL_ACT", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='ARP' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0 and (A.FNM_SL1001_CODE like '" + Prefix + "%' or A.Name like '" + Prefix + "%')");
+            return drop.GetCommonDrop1("A.FNM_SL1001_CODE CUSTOMER_CODE,A.Name CUSTOMER_NAME,B.COA_CODE CONTROL_ACT", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='ARP' and B.BRANCHCODE='"+ BRANCHCODE + "' and A.SUBLEDGER_TYPE='FM' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0 and (A.FNM_SL1001_CODE like '" + Prefix + "%' or A.Name like '" + Prefix + "%')");
         }
 
-        public List<ComDropTbl1> GetVendor(string CmpyCode, string Prefix)
+        public List<ComDropTbl1> GetVendor(string CmpyCode, string BRANCHCODE, string Prefix)
         {
-            return drop.GetCommonDrop1("A.FNM_SL1001_CODE CUSTOMER_CODE,A.Name CUSTOMER_NAME,B.COA_CODE CONTROL_ACT", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='APP' and B.CMPYCODE='" + CmpyCode + "' and A.Flag=0 and (A.FNM_SL1001_CODE like '" + Prefix + "%' or A.Name like '" + Prefix + "%')");
+            return drop.GetCommonDrop1("A.FNM_SL1001_CODE CUSTOMER_CODE,A.Name CUSTOMER_NAME,B.COA_CODE CONTROL_ACT", "FNM_SL1001 A INNER JOIN  FNM_SL1002 B ON A.FNM_SL1001_CODE = B.FNM_SL1001_CODE and  b.CMPYCODE=a.CMPYCODE and A.Flag=B.Flag", "B.FNM_SL1002_CODE='APP' and B.CMPYCODE='" + CmpyCode + "' and B.BRANCHCODE='" + BRANCHCODE + "' and A.SUBLEDGER_TYPE='FM' and A.Flag=0 and (A.FNM_SL1001_CODE like '" + Prefix + "%' or A.Name like '" + Prefix + "%')");
         }
 
         public List<ComDropTbl> GetCurcode(string CmpyCode, string Prefix)

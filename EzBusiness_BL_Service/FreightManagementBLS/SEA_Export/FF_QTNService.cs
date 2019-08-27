@@ -238,24 +238,24 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return PortList;
         }
 
-        public List<SelectListItem> GetCust(string CmpyCode, string Prefix)
+        public List<SelectListItem> GetCust(string CmpyCode, string BRANCHCODE, string Prefix)
         {
-            var CustList = _FF_QTNRepo.GetCust(CmpyCode, Prefix)//.Where(m => m.CUSTOMER_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.CUSTOMER_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+            var CustList = _FF_QTNRepo.GetCust(CmpyCode, BRANCHCODE, Prefix)//.Where(m => m.CUSTOMER_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.CUSTOMER_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                      .Select(m => new SelectListItem { Value = m.CUSTOMER_NAME, Text = m.CUSTOMER_CODE })
                                                      .ToList();
             return CustList;
         }
-        public List<SelectListItem> GetCustT(string CmpyCode, string Prefix)
+        public List<SelectListItem> GetCustT(string CmpyCode, string BRANCHCODE, string Prefix)
         {
-            var CustList = _FF_QTNRepo.GetCust(CmpyCode, Prefix)//.Where(m => m.CUSTOMER_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.CUSTOMER_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+            var CustList = _FF_QTNRepo.GetCust(CmpyCode, BRANCHCODE, Prefix)//.Where(m => m.CUSTOMER_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.CUSTOMER_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                      .Select(m => new SelectListItem { Value = m.CUSTOMER_CODE, Text = string.Concat(m.CUSTOMER_CODE, " - ", m.CUSTOMER_NAME, " - ", m.CONTROL_ACT) })
                                                      .ToList();
             return CustList;
         }
 
-        public List<SelectListItem> GetVendor(string CmpyCode, string Prefix)
+        public List<SelectListItem> GetVendor(string CmpyCode, string BRANCHCODE, string Prefix)
         {
-            var VendorList = _FF_QTNRepo.GetVendor(CmpyCode, Prefix)//.Where(m => m.CUSTOMER_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.CUSTOMER_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
+            var VendorList = _FF_QTNRepo.GetVendor(CmpyCode, BRANCHCODE, Prefix)//.Where(m => m.CUSTOMER_CODE.ToString().ToLower().Contains(Prefix.ToLower()) || m.CUSTOMER_NAME.ToString().ToLower().Contains(Prefix.ToLower())).ToList()
                                                       .Select(m => new SelectListItem { Value = m.CUSTOMER_CODE, Text = string.Concat(m.CUSTOMER_CODE, " - ", m.CUSTOMER_NAME, " - ", m.CONTROL_ACT) })
                                                       .ToList();
             return VendorList;

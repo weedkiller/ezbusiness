@@ -556,9 +556,9 @@ namespace EzBusiness_BL_Service.FreightManagementBLS.SEA_Export
             return poEdit;
         }
 
-        public List<SelectListItem> GetSLNew(string CmpyCode, string Typ1, string Prefix)
+        public List<SelectListItem> GetSLNew(string CmpyCode, string BRANCHCODE, string Typ1, string Prefix)
         {
-            var SLNewList = _FF_BOKRepo.GetSLNew(CmpyCode, Typ1,Prefix)
+            var SLNewList = _FF_BOKRepo.GetSLNew(CmpyCode, BRANCHCODE, Typ1,Prefix)
                                                 .Select(m => new SelectListItem { Value = m.CodeName, Text = m.Code })
                                                 .ToList();
             return SLNewList;

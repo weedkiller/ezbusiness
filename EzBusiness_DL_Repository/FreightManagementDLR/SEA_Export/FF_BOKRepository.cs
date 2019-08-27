@@ -1040,11 +1040,11 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR.SEA_Export
             return ObjList;
         }
 
-        public List<ComDropTbl> GetSLNew(string CmpyCode, string typ1, string Prefix)
+        public List<ComDropTbl> GetSLNew(string CmpyCode,string BRANCHCODE, string typ1, string Prefix)
         {
             return drop.GetCommonDrop2("select a.FNM_SL1001_CODE as [Code],a.Name as [CodeName]  from FNM_SL1001 a inner join FNM_SL1002 b "
                                         + " on a.CMPYCODE=b.CMPYCODE and a.FNM_SL1001_CODE= b.FNM_SL1001_CODE and a.flag=b.flag where "
-                                        +" b.FNM_SL1002_CODE= '"+ typ1 + "'  and a.CMPYCODE='"+ CmpyCode + "' and a.flag=0 and (a.FNM_SL1001_CODE like '" + Prefix + "%' or a.NAME like '" + Prefix + "%') order by a.FNM_SL1001_CODE");
+                                        +" b.FNM_SL1002_CODE= '"+ typ1 + "' and a.SUBLEDGER_TYPE='OP' and b.BRANCHCODE='"+ BRANCHCODE + "'  and a.CMPYCODE='" + CmpyCode + "' and a.flag=0 and (a.FNM_SL1001_CODE like '" + Prefix + "%' or a.NAME like '" + Prefix + "%') order by a.FNM_SL1001_CODE");
         }
 
 
