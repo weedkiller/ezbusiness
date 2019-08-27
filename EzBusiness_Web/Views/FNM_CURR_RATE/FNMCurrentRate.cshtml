@@ -243,9 +243,10 @@
                         $(this).addClass("active");
 
                         var Code = $(this).find("[name*='hdnFROMCURRCode']").val();
+                        var tocode = $(this).find("[name*='hdnTO_CURRENCY_CODE']").val();
                         var ENTRY_DATE = Ezsetdtpkdate($(this).find("[name*='hdnENTRY_DATE']").val());
 
-                        $.get("EditCURR_RATE", { FROM_CURRENCY_CODE: Code, ENTRY_DATE: ENTRY_DATE }).done(function (response)
+                        $.get("EditCURR_RATE", { FROM_CURRENCY_CODE: Code, ENTRY_DATE: ENTRY_DATE,Tocurrdate:tocode }).done(function (response)
                         {
                             $("#DRContainer").html(response);
 

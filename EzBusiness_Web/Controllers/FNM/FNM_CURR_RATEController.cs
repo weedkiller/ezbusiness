@@ -52,7 +52,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
         }
 
         [Route("EditCURR_RATE")]
-        public ActionResult EditCURR_RATE(string FROM_CURRENCY_CODE, string ENTRY_DATE)
+        public ActionResult EditCURR_RATE(string FROM_CURRENCY_CODE, string ENTRY_DATE,string Tocurrdate)
         {
             List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
             if (list == null)
@@ -63,7 +63,7 @@ namespace EzBusiness_Web.Controllers.FMHEAD
             {
                 
                 
-                return PartialView(_FNM_CURR_RATEService.EditFNM_CURR_RATE(list[0].CmpyCode, FROM_CURRENCY_CODE,Convert.ToDateTime(ENTRY_DATE)));
+                return PartialView(_FNM_CURR_RATEService.EditFNM_CURR_RATE(list[0].CmpyCode, FROM_CURRENCY_CODE,Convert.ToDateTime(ENTRY_DATE), Tocurrdate));
             }
         }
 
