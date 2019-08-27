@@ -19,10 +19,17 @@
 
 
         $('.selectpicker').selectpicker('refresh');
+        EzAutoCompTxt1("#Branch_code", "#hdnBranch_code", "/FFM_Quotation/GetBranchList");
 
+        EzAutoCompTxtE("#Branch_code", "#hdnBranch_code", "/FFM_Quotation/GetBranchList", false, "");
         $('#FROM_CURRENCY_CODE').attr("disabled", true);
+        debugger;
+        if ($("#MASTER_STATUS").val() == 'B')
+        {
 
-        
+            $("#FROM_CURRENCY_CODE,#TO_CURRENCY_CODE,#SELL_RATE,#BUY_RATE,#Note,#ENTRY_DATE1").attr("disabled", "disabled");
+            $("#MASTER_STATUS").prop("disabled",true);
+        }
         EzdtePkEdit('#ENTRY_DATE1', "#ENTRY_DATE", "DD/MM/YYYY");
 
 
@@ -88,11 +95,22 @@
                                                         @Html.TextBoxFor(m => m.TO_CURRENCY_CODE, new { @class = "form-control", @placeholder = "Select To currency Code" })
                                                         <input id="hdnTO_CURRENCY_CODE" type="hidden" class="form-control" name="hdnTO_CURRENCY_CODE" value="-1" />  
                                                         @*@Html.DropDownListFor(m => m.TO_CURRENCY_CODE, Model.FROM_CURRENCY_CODEList, new { @class = "form-control selectpicker", @data_live_search = "true" })*@
-
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Branch Code<i class="star">*</i></label>
+                                                    <div class="col-md-9 input-field">
+                                                        @Html.TextBoxFor(m => m.Branch_code, new { @class = "form-control", @placeholder = "Select Branchc code" })
+                                                        <input id="hdnBranch_code" type="hidden" class="form-control" name="hdnBranch_code" value="-1" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      
                                         <div class="row">
                                             <!--/span-->
                                             <div class="col-md-6">
@@ -115,7 +133,7 @@
 
                                                     <label class="control-label col-md-3">Sell Rate<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.TextBoxFor(m => m.SELL_RATE, new { @class = "form-control", @Type = "Number" })
+                                                        @Html.TextBoxFor(m => m.SELL_RATE, new { @class = "form-control", @Type = "Number", @style = "text-align:Left" })
                                                     </div>
                                                 </div>
                                             </div>
@@ -125,21 +143,25 @@
                                                 <div class="form-group">
                                                     <label class="control-label col-md-3"> Buy Rate<i class="star">*</i></label>
                                                     <div class="col-md-9 input-field">
-                                                        @Html.TextBoxFor(m => m.BUY_RATE, new { @class = "form-control", @Type = "Number" })
+                                                        @Html.TextBoxFor(m => m.BUY_RATE, new { @class = "form-control", @Type = "Number", @style = "text-align:Left" })
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-3">Master Status<i class="star">*</i></label>
-                                                    <div class="col-md-9 input-field">
-                                                        @Html.TextBoxFor(m => m.MASTER_STATUS, new { @class = "form-control" })
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                                <div class="form-group">                                                                                                      
+                                                  <label class="control-label col-md-3">Master Status</label>
+                                                     <div class="col-md-8 input-field">   
+                                                         @Html.HiddenFor(m => m.MASTER_STATUS)                                                     
+                                                             @*<select id="ddlstatus" name="ddlstatus" class="form-control">
+                                                                 <option value="B">Block</option>
+                                                                 <option value="D">Display</option>
+                                                             </select>*@                                                   
+                                                         @Html.DropDownListFor(m => m.MASTER_STATUS, new List<SelectListItem> { new SelectListItem { Text = "Blocked", Value = "B" }, new SelectListItem { Text = "Display", Value = "D" } }, new { @class = "form-control selectpicker", @data_live_search = "true" })
+                                                     </div>                                             
+                                                 </div>
+                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
