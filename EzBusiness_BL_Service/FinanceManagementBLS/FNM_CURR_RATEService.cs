@@ -75,7 +75,8 @@ namespace EzBusiness_BL_Service.FreightManagementBLS
                 Note = m.Note,
                 SELL_RATE = m.SELL_RATE,
                 MASTER_STATUS = m.MASTER_STATUS,
-                ENTRY_DATE=m.ENTRY_DATE
+                ENTRY_DATE=m.ENTRY_DATE,
+                Branch_code = m.Branch_code
                
             }).ToList();
         }

@@ -103,9 +103,9 @@
             var n = EzAuthenticationBtn("/FNM_CURR_RATE", "EditIt");
             var k = 0;
             $("#editshow").hide();
-            var opMode = $("#hdnOperationMode").val();
-             
+            var opMode = $("#hdnOperationMode").val();             
             if (opMode == "Add") {
+                debugger;
                 // Code for Adding MainTable
                 var FNMcurR = {
                     EditFlag: false,
@@ -113,27 +113,22 @@
                     FROM_CURRENCY_CODE: $("[name*='hdnFROM_CURRENCY_CODE']").val(),
                     SELL_RATE: $("[name*='SELL_RATE']").val(),
                     BUY_RATE: $("[name*='BUY_RATE']").val(),
-                    group_code: $("[name*='MASTER_STATUS']").val(),
+                    group_code: $("[name*='MASTER_STATUS'] ").val(),
                     SUBGROUP_code: $("[name*='Note']").val(),                   
                     ENTRY_DATE: Ezsetdtpkdate($("[name*='ENTRY_DATE1']").val()),
-                    MASTER_STATUS: $("[name*='MASTER_STATUS']").val(),
-                    Note: $("[name*='Note']").val()
+                    MASTER_STATUS: $("[name*='MASTER_STATUS']  option:selected").val(),
+                    Note: $("[name*='Note']").val(),
+                    Branch_code: $("[name*='hdnBranchcode']").val()
                 };
-
-
 
                 var validationResult = ValidateForm(FNMcurR);
                 if (validationResult.formValid) {
-
                     $.post("/SaveFNM_CURR_RATE", FNMcurR).done(function (response) {
                         if (response.SaveFlag && !response.ErrorMessage.length > 0) {
-
-
                             EzbtnsaveAcVis("#DRContainer");
                             EzAlertSave();
                             $("#DRContainer").html(drHtml);
                             GetDrs();
-
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
                             EzAlerterrtxt(response.ErrorMessage);
@@ -155,9 +150,9 @@
                         group_code: $("[name*='MASTER_STATUS']").val(),
                         SUBGROUP_code: $("[name*='Note']").val(),
                         ENTRY_DATE: Ezsetdtpkdate($("[name*='ENTRY_DATE1']").val()),
-                        MASTER_STATUS: $("[name*='MASTER_STATUS']").val(),
-                        Note: $("[name*='Note']").val()
-
+                        MASTER_STATUS: $("[name*='MASTER_STATUS']  option:selected").val(),
+                        Note: $("[name*='Note']").val(),
+                        Branch_code: $("[name*='hdnBranch_code']").val()
                 };
 
 
@@ -170,6 +165,7 @@
                                     EzAlertSave();
                                     EzbtnsaveAcVis("#DRContainer");
                                     $("#DRContainer").html(drHtml);
+                                    GetDrs();
                                 } else {
                                     EzAlerterrtxt(response.ErrorMessage);
                                 }

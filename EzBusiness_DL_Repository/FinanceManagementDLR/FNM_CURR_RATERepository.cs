@@ -56,7 +56,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 ObjList.ENTRY_DATE = Convert.ToDateTime(dr["ENTRY_DATE"].ToString());
                 ObjList.BUY_RATE= Convert.ToDecimal(dr["BUY_RATE"].ToString());
                 ObjList.SELL_RATE = Convert.ToDecimal(dr["SELL_RATE"].ToString());
-               
+                ObjList.Branch_code =Convert.ToString(dr["Branchcode"].ToString());
+
             }
             return ObjList;
         }
@@ -97,8 +98,8 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     BUY_RATE = Convert.ToDecimal(dr["BUY_RATE"].ToString()),
                     ENTRY_DATE = Convert.ToDateTime(dr["ENTRY_DATE"].ToString()),
                     Note = dr["Note"].ToString(),
-                    MASTER_STATUS=dr["MASTER_STATUS"].ToString()
-                   
+                    MASTER_STATUS=dr["MASTER_STATUS"].ToString(),
+                    Branch_code = dr["Branchcode"].ToString()
                 });
             }
             return ObjList;
@@ -114,7 +115,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                 dtstr1 = dte.ToString("yyyy-MM-dd hh:mm:ss tt");
 
                 dte1 = Convert.ToDateTime(FnCurRate.ENTRY_DATE);
-                dtstr2 = dte.ToString("yyyy-MM-dd");
+                dtstr2 = dte1.ToString("yyyy-MM-dd");
 
                 if (!FnCurRate.EditFlag)
                 {
@@ -134,8 +135,9 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                         sb.Append("'" + dtstr1 + "',");
                         sb.Append("'" + dtstr2 + "',");
                         sb.Append("'" + FnCurRate.MASTER_STATUS + "',");
+                        sb.Append("'" + FnCurRate.Branch_code + "'");
                         sb.Append("'" + FnCurRate.Note + "')");
-                        _EzBusinessHelper.ExecuteNonQuery("insert into FNM_CURR_RATE(CMPYCODE,TO_CURRENCY_CODE,FROM_CURRENCY_CODE,SELL_RATE,BUY_RATE,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,ENTRY_DATE,MASTER_STATUS,NOTE) values(" + sb.ToString() + "");
+                      int i=_EzBusinessHelper.ExecuteNonQuery("insert into FNM_CURR_RATE(CMPYCODE,TO_CURRENCY_CODE,FROM_CURRENCY_CODE,SELL_RATE,BUY_RATE,CREATED_BY,CREATED_ON,UPDATED_BY,UPDATED_ON,ENTRY_DATE,MASTER_STATUS,Branchcode,NOTE) values(" + sb.ToString() + "");
                         _EzBusinessHelper.ActivityLog(FnCurRate.CMPYCODE, FnCurRate.UserName, "Add FNM_CURR_RATE", FnCurRate.FROM_CURRENCY_CODE, Environment.MachineName);
                         FnCurRate.SaveFlag = true;
                         FnCurRate.ErrorMessage = string.Empty;
@@ -157,6 +159,7 @@ namespace EzBusiness_DL_Repository.FreightManagementDLR
                     sb.Append("MASTER_STATUS='" + FnCurRate.MASTER_STATUS + "',");
                     sb.Append("Note='" + FnCurRate.Note + "',");
                     sb.Append("TO_CURRENCY_CODE='" + FnCurRate.TO_CURRENCY_CODE + "',");
+                    sb.Append("Branchcode='" + FnCurRate.Branch_code + "',");
                     sb.Append("SELL_RATE='" + FnCurRate.SELL_RATE + "',");
                     sb.Append("UPDATED_BY='" + FnCurRate.UserName + "',");
                     sb.Append("UPDATED_ON='" + dtstr1 + "'");

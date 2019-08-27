@@ -39,7 +39,7 @@ namespace EzBusiness_ViewModels.Models.FreightManagement
         public bool EditFlag { get; set; }
         public string ErrorMessage { get; set; }
         public string UserName { get; set; }
-
+        public string Branch_code { get; set; }
         public List<FNM_CURRENCYRateDetailNew> FNM_CURRENCYRateDetailNew { get; set; }
         public FNM_CURRENCYRateDetailNew FNM_CURRENCYRateDetail { get; set; }
 
