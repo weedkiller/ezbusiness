@@ -111,7 +111,7 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
             }
             else
             {
-                qur = "Select FNMSLCAT_CODE as [Code],DESCRIPTION as [CodeName] from FNMSLCAT where FNMSLCAT_CODE  in('APP','ARP') and  CmpyCode='" + CmpyCode + "' and Flag=0 and (FNMSLCAT_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')";
+                qur = "Select FNMSLCAT_CODE as [Code],DESCRIPTION as [CodeName] from FNMSLCAT where FNMSLCAT_CODE  in('APP','ARP') and trans_type='OP' and CmpyCode='" + CmpyCode + "' and Flag=0 and (FNMSLCAT_CODE like '" + Prefix + "%' or DESCRIPTION like '" + Prefix + "%')";
             }
 
             return drop.GetCommonDrop2(qur);
@@ -449,6 +449,34 @@ namespace EzBusiness_DL_Repository.FinanceManagementDLR
                     FNM_SL1002_CODE = dr["FNM SL Code"].ToString(),
                     NAME = dr["Description"].ToString(),
                     COA_NAME=dr["COA NAME"].ToString()
+                });
+            }
+            return ObjList;
+        }
+
+        public List<FNM_SL1002> GetFNMCATSubLed(string CmpyCode, string Prefix)
+        {
+            string qur = "";                       
+                qur = "select d.fnmslcat_code as [FNMSLCAT_CODE],d.description as [Description],h.FNM_AC_COA_CODE as [CODE], " +
+    "h.name as [COA NAME]  from FNM_AC_COA h inner " +
+                          "join FNMSLCAT d " +
+    "on h.SUBLEDGER_CAT = d.FNMSLCAT_CODE and h.Flag = d.Flag " +
+     "where  trans_type='FN' and  D.Flag = 0  and d.CMPYCODE = h.CMPYCODE and d.CMPYCODE = '" + CmpyCode + "' and (D.FNMSLCAT_CODE like '" + Prefix + "%' or D.DESCRIPTION like '" + Prefix + "%')";
+
+            ds = _EzBusinessHelper.ExecuteDataSet(qur);// 
+            dt = ds.Tables[0];
+            DataRowCollection drc = dt.Rows;
+            List<FNM_SL1002> ObjList = new List<FNM_SL1002>();
+            foreach (DataRow dr in drc)
+            {
+                ObjList.Add(new FNM_SL1002()
+                {
+                    FNM_SL1002_CODE = dr["FNMSLCAT_CODE"].ToString(),
+                    NAME = dr["DESCRIPTION"].ToString(),
+                    COA_CODE = dr["CODE"].ToString(),
+                    COA_NAME = dr["COA NAME"].ToString()
+
+
                 });
             }
             return ObjList;

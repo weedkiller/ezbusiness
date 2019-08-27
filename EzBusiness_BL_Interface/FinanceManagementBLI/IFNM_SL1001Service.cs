@@ -1,4 +1,5 @@
-﻿using EzBusiness_ViewModels.Models.FinaceMgmt;
+﻿using EzBusiness_EF_Entity.FreightManagementEF;
+using EzBusiness_ViewModels.Models.FinaceMgmt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,10 @@ namespace EzBusiness_BL_Interface.FinanceManagementBLI
 
         List<SelectListItem> GetFNMCAT(string CmpyCode,string type1,string Prefix);
 
-     
+
+        List<SelectListItem> GetFNMCATSubLed(string CmpyCode, string Prefix);
+
+
 
         List<FNM_SL1002DetailNew> GetFNM_SL1002Add(string CmpyCode, string FNMCAT_CODE);
 

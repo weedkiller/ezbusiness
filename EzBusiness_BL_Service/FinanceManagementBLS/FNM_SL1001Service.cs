@@ -11,6 +11,7 @@ using EzBusiness_DL_Repository.FinanceManagementDLR;
 using EzBusiness_ViewModels;
 using EzBusiness_DL_Interface;
 using EzBusiness_DL_Repository;
+using EzBusiness_EF_Entity.FreightManagementEF;
 
 namespace EzBusiness_BL_Service.FinanceManagementBLS
 {
@@ -157,7 +158,25 @@ namespace EzBusiness_BL_Service.FinanceManagementBLS
             }).ToList();
         }
 
-       
+        public List<SelectListItem> GetFNMCATSubLed(string CmpyCode, string Prefix)
+        {
+
+            var itemCodes = _FNM_SL1001Rep.GetFNMCATSubLed(CmpyCode, Prefix)
+                                         .Select(m => new SelectListItem { Value = m.FNM_SL1002_CODE, Text = string.Concat(m.FNM_SL1002_CODE + "-" + m.NAME + "-" + m.COA_CODE + "-" + m.COA_NAME) })
+                                         .ToList();
+
+            return itemCodes;
+
+            //return _FNM_SL1001Rep.GetFNMCATSubLed(CmpyCode, Prefix).Select(m => new FNM_SL1002
+            //{
+            //    FNM_SL1002_CODE = m.FNM_SL1002_CODE,
+            //    NAME = m.NAME,
+            //    COA_CODE = m.COA_CODE,                                
+            //    COA_NAME = m.COA_NAME,              
+            //}).ToList();
+        }
+
+
 
         //public List<FNM_SL1002DetailNew> GetCatDropDetailListFilter(string CmpyCode, string FNMCAT_CODE)
         //{

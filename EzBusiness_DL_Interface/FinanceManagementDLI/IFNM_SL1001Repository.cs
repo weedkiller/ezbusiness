@@ -18,7 +18,11 @@ namespace EzBusiness_DL_Interface.FinanceManagementDLI
         List<ComDropTbl> GetFNMCURRENCY(string Prefix);
         List<ComDropTbl> GetFNMCAT(string CmpyCode,string type1, string Prefix);
 
-        
+
+
+        List<FNM_SL1002> GetFNMCATSubLed(string CmpyCode, string Prefix);
+
+
         List<FNM_SL1002> GetFNM_SL1002( string CmpyCode,string FNM_SL1001_CODE);
 
         List<FNM_SL1002> GetFNM_SL1002Add(string CmpyCode, string FNMCAT_CODE);

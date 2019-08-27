@@ -189,6 +189,20 @@ namespace EzBusiness_Web.Controllers.FNM
             }
         }
 
+
+        public ActionResult GetFNMCATSubLed(string Prefix)
+        {
+            List<SessionListnew> list = Session["SesDet"] as List<SessionListnew>;
+            if (list == null)
+            {
+                return Redirect("Login/InLogin");
+            }
+            else
+            {
+                return Json(_FNM_SLService.GetFNMCATSubLed(list[0].CmpyCode, Prefix), JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #endregion
     }
 }
