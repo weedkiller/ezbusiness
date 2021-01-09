@@ -13,10 +13,116 @@
         EzAuthentication("/Quotation");
         var drHtml = $("#DRContainer").html();
         $("#DRListContainer1").hide();
-        function GetDrs() {
-            $.get("/FFM_Quotation/GetFF_QTN002DetailList", function (response) {
-                $("#DRListContainer").html(response);
+        //function GetDrs() {
+        //    $.get("/FFM_Quotation/GetFF_QTN002DetailList", function (response) {
+        //        $("#DRListContainer").html(response);
+        //    });
+        //}
+
+        GetDatatable();
+
+        function GetDatatable() {
+            debugger;
+            //$('#POList').empty();
+            //$.fn.dataTable.ext.errorMode = 'none';            
+            $("#POList tfoot th").each(function () {
+                var title = $('#POList tfoot th').eq($(this).index()).text();
+                if (title) {
+                    $(this).html('<input type="text" class="grid-control"  placeholder="Search"  />');
+                }
+            });            
+            var table = $('#POList').DataTable({
+                "ColumnDefs": [{ "searchable": false, "orderable": true, "targets": [0] }],
+                "order": [[0, 'asc']],
+                //"scrollY": true, 
+                //  "scrollX": true,
+                "filter": true,
+                "paging": true,
+                "ordering": true,
+                "info": true,
+                "language":
+                {
+                    "processing": "<div class='overlay custom-loader-background'><i class='fa fa-cog fa-spin custom-loader-color'></i></div>"
+                },
+                "dom": 'lBfrtip',
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "buttons": [
+                          'excel',
+                         // 'pdf',
+                           {
+                               text: 'Reload Data',
+                               attr: {
+                                   id: 'btnrelod'
+                               },
+                               action: function () {
+                                   table.ajax.reload();
+                               },
+                           }
+                ],
+                "processing": true,
+                "serverSide": true,
+                "destroy": true,
+                "ajax":
+                {
+                    "async": false,
+                    "cache": false,
+                    "type": "POST",
+                    "url": '/FFM_Quotation/GetFF_QTN002DetailList',
+                    "dataType": "json",
+                },
+
+                "aoColumns": [
+                              { "mDataProp": "FF_QTN001_CODE" },
+                              { "mDataProp": "CUST_CODE" },
+                              { "mDataProp": "CONTACT" },
+                              { "mDataProp": "TELEPHONE" },
+                              { "mDataProp": "EMAIL" },
+                              { "mDataProp": "CUSTOMER_REF" },
+                              { "mDataProp": "PICKUP_PLACE" },
+                              { "mDataProp": "POL" },
+                               { "mDataProp": "POD" },
+                               { "mDataProp": "FND" },
+                               { "mDataProp": "MOVE_TYPE" },
+                                { "mDataProp": "REF_NO" },
+                                 { "mDataProp": "VESSEL" },
+                                { "mDataProp": "VOYAGE" },
+                ]
             });
+
+            var delay = (function () {
+                var timer = 0;
+                return function (callback, ms) {
+                    clearTimeout(timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
+
+            table.columns().eq(0).each(function (colIdx) {
+                $('input', $('#POList tfoot th')[colIdx]).bind('keyup', function () {
+                    debugger;
+                    var coltext = this.value; // typed value in the search column  
+                    var colindex = colIdx; // column index  
+                    delay(function () {
+                        table
+                            .column(colindex)
+                            .search(coltext)
+                            .draw();
+                    }, 500);
+                });
+            });
+
+            var r = $("#POList tfoot th");
+            r.find('th').each(function () {
+                jq(this).css('padding', 8);
+            });
+            $("#POList thead").append(r);
+            $('#search_0').css('text-align', 'center');
+
+            $('div.dataTables_filter input').addClass('form-control input-sm');
+
+            $('#POList_length').hide();
+
+            $("div.dataTables_filter").append($("<button  id='capture' value='true' class='hb2Smf'><i style='font-size:20px;color:#4285F4' class='fa fa-microphone'></i></button>"));
         }
         $("#btnNew").click(function () {
             var n = EzAuthenticationBtn("/Quotation", "NewIt");
@@ -29,6 +135,7 @@
                 EzbtnNewAcVis();
                 $("#btnEdit").prop("disabled", true);
                 $("#DRListContainer1").hide();
+                $('#tbldiv').hide();
             }
         });
         $(".alert-close").click(function () {
@@ -50,6 +157,8 @@
             EzbtnCancelAcVis();
             $("#DRListContainer1").hide();
             $("#editshow").hide();
+            $('#btnrelod').trigger('click');
+            $('#tbldiv').show();
         });
 
         $("#btnDelete").click(function () {
@@ -76,7 +185,13 @@
                         $.getJSON("/DeleteQuotation", { FF_QTN001_CODE: FF_QTN001_CODE }).done(function (data) {
                             debugger
                             if (data.DeleteFlag) {
-                                window.location = '/Quotation'
+                                //window.location = '/Quotation'
+                                $("#DRContainer").html(drHtml);
+                                EzbtnCancelAcVis();
+                                $("#DRListContainer1").hide();
+                                $("#editshow").hide();
+                                $('#btnrelod').trigger('click');
+                                $('#tbldiv').show();
                             } else {
                                 EzAlertdele(FF_QTN001_CODE);
                             }
@@ -318,8 +433,9 @@
 
                             EzAlertSave();
                             $("#DRContainer").html(drHtml);
-                            GetDrs();
+                            $('#tbldiv').show();
                             EzbtnsaveAcVis("#DRContainer");
+                            $('#btnrelod').trigger('click');
 
                         } else {
                             // Ezerrormsg("#ErrorMessage", validationResult.ErrorMessage);
@@ -518,7 +634,9 @@
                             EzAlertSave();
                             EzbtnsaveAcVis("#DRContainer");
                             $("#DRContainer").html(drHtml);
-                            GetDrs();
+                            // GetDrs();
+                            $('#tbldiv').show();
+                            $('#btnrelod').trigger('click');
                         } else {
                             EzAlerterrtxt(response.ErrorMessage);
                         }
@@ -607,7 +725,7 @@
                 $("#POList > tbody").children().removeClass("active");
                 $(this).addClass("active");
 
-                var FF_QTN001_CODE = $(this).find("[name*='hdnFF_QTN001_CODE']").val();
+                var FF_QTN001_CODE = $(this).find("td:eq(0)").text();//$(this).find("[name*='hdnFF_QTN001_CODE']").val();
 
 
                 $.get("EditFF_QTNDetails", { FF_QTN001_CODE: FF_QTN001_CODE }).done(function (response) {
@@ -617,6 +735,7 @@
                     $("#btnDelete").css("visibility", "");
 
                     $("#btnPrint").css("visibility", "hidden");
+                    $('#tbldiv').hide();
                 });
             }
         });
@@ -715,7 +834,7 @@
                                     <div class="form-horizontal">
                                         <div class="form-body">
                                             <div class="container" id="DRListContainer">
-                                                @Html.Action("GetFF_QTN002DetailList", "FFM_Quotation")
+                                                @*@Html.Action("GetFF_QTN002DetailList", "FFM_Quotation")*@
                                             </div>
 
                                         </div>
@@ -726,6 +845,51 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="table-responsive" id="tbldiv">
+                    <table id="POList" width="100%" class="table table-bordered stripe display hover portal-drivers">
+
+                        <thead>
+                            <tr class="tr">
+                                <th>QTN Code</th>
+                                <th>Cust Code</th>
+                                <th>Contact</th>
+                                <th>Telephone</th>
+                                <th>Email</th>
+                                <th>Customer Ref</th>
+                                <th>Pickup Place</th>
+                                <th>POL</th>
+                                <th>POD</th>
+                                <th>FND</th>
+                                <th>Move Type</th>
+                                <th>Ref No</th>
+                                <th>Vessal</th>
+                                <th>Voyage</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>QTN Code</th>
+                                <th>Cust Code</th>
+                                <th>Contact</th>
+                                <th>Telephone</th>
+                                <th>Email</th>
+                                <th>Customer_Ref</th>
+                                <th>Pickup Place</th>
+                                <th>POL</th>
+                                <th>POD</th>
+                                <th>FND</th>
+                                <th>MOVE_TYPE</th>
+                                <th>REF No</th>
+                                <th>Vessal</th>
+                                <th>Voyage</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <tr></tr>
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
